@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 /**
  * Hello world!
- *
+ * This is a comment
  */
 public class App 
 {
