@@ -5,12 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>it.polimi.ingsw</groupId>
-  <artifactId>AM00</artifactId>
+  <artifactId>AM29</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>AM00</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>AM29</name>
+  <url>http://www.polimi.it</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
