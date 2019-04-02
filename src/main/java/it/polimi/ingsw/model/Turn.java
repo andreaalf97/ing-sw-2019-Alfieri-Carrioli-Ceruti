@@ -31,4 +31,6 @@ public class Turn {
     public void freePlayerBoard(){}
 
     public void updateJML(){}
+
+    public void run(){}
 }

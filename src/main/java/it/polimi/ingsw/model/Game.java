@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
-public class Partita {
+public class Game {
     private String vincitore;
     private String firstPlayer;
     private String currentPlayer;
