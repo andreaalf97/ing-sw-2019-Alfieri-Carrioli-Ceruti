@@ -3021,35 +3021,6 @@
 							"points": "319:1160;188:1118"
 						},
 						{
-							"_type": "UMLNoteView",
-							"_id": "AAAAAAFptBOMpc4GUSs=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"left": 72,
-							"top": 1272,
-							"width": 100,
-							"height": 103,
-							"text": "Hp: Usare RMI per far chiamare direttamente al client il costruttore di Turno"
-						},
-						{
-							"_type": "UMLNoteLinkView",
-							"_id": "AAAAAAFptBONBc45qoo=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAFptBOMpc4GUSs="
-							},
-							"tail": {
-								"$ref": "AAAAAAFptBE/TckFNo8="
-							},
-							"lineStyle": 1,
-							"points": "326:1197;172:1292"
-						},
-						{
 							"_type": "UMLClassView",
 							"_id": "AAAAAAFptGFu5gEtnl4=",
 							"_parent": {
@@ -3521,35 +3492,6 @@
 							"templateParameterCompartment": {
 								"$ref": "AAAAAAFptRkaiIa6FJw="
 							}
-						},
-						{
-							"_type": "UMLNoteView",
-							"_id": "AAAAAAFptU/ziIMrQwA=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"left": 624,
-							"top": 200,
-							"width": 118.998046875,
-							"height": 168,
-							"text": "in dubbio se considerare player con anche gli attrinuti della plancia (n munizioni e danni) oppure fare un'altra classe PlanciaGiocatore con i suoi attributi "
-						},
-						{
-							"_type": "UMLNoteLinkView",
-							"_id": "AAAAAAFptU/z34OC8II=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAFptU/ziIMrQwA="
-							},
-							"tail": {
-								"$ref": "AAAAAAFpsVZrPKzUbIk="
-							},
-							"lineStyle": 1,
-							"points": "694:399;691:368"
 						},
 						{
 							"_type": "UMLAssociationView",
@@ -12779,7 +12721,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp18EwaN1fMWs="
 									},
-									"name": "String"
+									"name": "String",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -12787,7 +12730,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp18EwaN1fMWs="
 									},
-									"name": "int"
+									"name": "int",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -12795,7 +12739,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp18EwaN1fMWs="
 									},
-									"name": "Direction"
+									"name": "Direction",
+									"type": ""
 								}
 							]
 						}

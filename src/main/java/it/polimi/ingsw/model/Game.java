@@ -3,16 +3,18 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 
 public class Game {
-    private String vincitore;
+    private String winner;
     private String firstPlayer;
     private String currentPlayer;
-    private ArrayList<Turn> turns;
+    private Turn currentTurn;
     private Board board;
     private ArrayList<Player> players;
 
-    public boolean addPlayer(){}
+    public boolean addPlayer(){return true;}
 
-    public void pickFirstPlayer(){}
+    public void pickFirstPlayer(){return;}
 
-    public void calcFinalScores(){}
+    public void calcFinalScores(){return;}
+
+    public void givePointsToPlayer(String player, int nPoints){return;}
 }

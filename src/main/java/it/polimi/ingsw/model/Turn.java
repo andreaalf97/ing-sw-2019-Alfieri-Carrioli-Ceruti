@@ -6,31 +6,55 @@ public class Turn {
     private int nTurn;
     private int nMovesDone;
 
-    public void respawn(){}
+    public Turn(String owner, int nTurn, int nMovesDone){
+        this.owner = owner;
+        this.nTurn = nTurn;
+        this.nMovesDone = nMovesDone;
+    }
 
-    public void movePlayer(Spot spot){}
+    public Turn(String owner, int nTurn){
+        this(owner, nTurn, 0);
+    }
 
-    public boolean[][] whereCanShoot(){}
+    public void respawn(){return;}
 
-    public boolean[][] whereCanMove(){}
+    public void movePlayer(Spot spot){return;}
 
-    public boolean[][] whereCanGrab(){}
+    public boolean[][] whereCanShoot(){
+        boolean[][] temp = new boolean[1][1];
+        temp[0][0] = true;
+        return temp;
+    }
 
-    public void attack(Weapon weapon, String otherPlayer){}
+    public boolean[][] whereCanMove(){
+        boolean[][] temp = new boolean[1][1];
+        temp[0][0] = true;
+        return temp;
+    }
 
-    public void reload(Weapon myWeapon){}
+    public boolean[][] whereCanGrab(){
+        boolean[][] temp = new boolean[1][1];
+        temp[0][0] = true;
+        return temp;
+    }
 
-    public void grabWeapon(){}
+    public void attack(Weapon weapon, String otherPlayer){return;}
 
-    public void moveAndGrab(){}
+    public void reload(Weapon myWeapon){return;}
 
-    public void startTurn(){}
+    public void grabWeapon(){return;}
 
-    public void endTurn(){}
+    public void moveAndGrab(){return;}
 
-    public void freePlayerBoard(){}
+    public void startTurn(){return;}
 
-    public void updateJML(){}
+    public void endTurn(){return;}
 
-    public void run(){}
+    public void freePlayerBoard(){return;}
+
+    public void updateJML(){return;}
+
+    public void run(){return;}
+
+    public void givePointsToPlayer(String player, int nPoints){return;}
 }
