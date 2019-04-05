@@ -8,6 +8,14 @@ public class Weapon {
     private int blueCost;
     private Color firstCostColor;
 
-    public void attack(String player){return;}
-    public void reload(){return;}
+    public void attack(String player){
+
+        return;
+    }
+
+
+    public void reload(){
+        isLoaded = true;
+        return;
+    }
 }

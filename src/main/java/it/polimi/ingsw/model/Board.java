@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 public class Board {
     private KillShotTrack kst;
-    private Deck weaponDeck;
-    private Deck powerUpDeck;
+    private WeaponDeck weaponDeck;
+    private PowerupDeck powerUpDeck;
     private Mappa mappa;
 
 
