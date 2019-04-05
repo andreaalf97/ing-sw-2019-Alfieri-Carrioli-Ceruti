@@ -88,6 +88,21 @@ class PlayerTest {
 
     @Test
     void giveMarks() {
+        Player testPlayer = new Player("andreaalf");
+
+        testPlayer.giveMarks("player1", 1);
+        testPlayer.giveMarks("player2", 1);
+        testPlayer.giveMarks("player3", 1);
+        testPlayer.giveMarks("player1", 2);
+
+        ArrayList<String> results = new ArrayList<>();
+        results.add("player1");
+        results.add("player2");
+        results.add("player3");
+        results.add("player1");
+        results.add("player1");
+
+        assertTrue(testPlayer.getMarks().equals(results));
     }
 
     @Test

@@ -5,15 +5,17 @@ public class Turn {
     private String owner;
     private int nTurn;
     private int nMovesDone;
+    Game myGame;
 
-    public Turn(String owner, int nTurn, int nMovesDone){
+    public Turn(String owner, int nTurn, int nMovesDone, Game myGame){
         this.owner = owner;
         this.nTurn = nTurn;
         this.nMovesDone = nMovesDone;
+        this.myGame = myGame;
     }
 
-    public Turn(String owner, int nTurn){
-        this(owner, nTurn, 0);
+    public Turn(String owner, int nTurn, Game myGame){
+        this(owner, nTurn, 0, myGame);
     }
 
     public void respawn(){return;}

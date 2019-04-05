@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Player {
@@ -173,13 +171,24 @@ public class Player {
 
     public boolean canAttack(Player p,Weapon w){return true;}           /* return true if this.player can attack player p*/
 
-    public void giveDamage(String s,int i) {                    /*assign damage to this.player*/
-        damages.add(s);
+    public void giveDamage(String s,int i){                    /*assign damage to this.player*/
+        for(int j = 0; j < i; j++){
+            damages.add(s);
+        }
     }
 
-    public void giveMarks(String s,int i){}                  /*assign marks to this.player*/
+    public void giveMarks(String s,int i) throws IllegalArgumentException {
+        /*assign marks to this player*/
+        if(i <= 0 || i > 12) {
+            throw new IllegalArgumentException("i can only be > 0 && < 12");
+        }
 
-    public void givePoints(int n){return;}                         /*give points to this.player at the end of turn if the player dead has at least one damage from this.player*/
+        marks.add(s);
+    }
 
-
+    public void givePoints(int n) throws IllegalArgumentException {
+        if(n < 0)
+            throw new IllegalArgumentException("n can't be negative");
+        points += n;
+    }                         /*give points to this player*/
 }
