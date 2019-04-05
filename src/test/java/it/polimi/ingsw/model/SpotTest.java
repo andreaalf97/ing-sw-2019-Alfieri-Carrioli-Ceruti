@@ -1,16 +1,15 @@
 package it.polimi.ingsw.model;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SpotTest {
 
     @Test
     void sees() {
-        assertTrue(true);
+        Assert.assertTrue(true);
     }
 
     @Test
@@ -21,7 +20,7 @@ class SpotTest {
 
         doorsTest.set(0,true);
 
-        assertTrue(doorsTest.get(0) == true);
+        Assert.assertTrue(doorsTest.get(0) == true);
 
     }
 

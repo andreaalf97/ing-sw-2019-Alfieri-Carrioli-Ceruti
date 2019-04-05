@@ -1,10 +1,9 @@
 package it.polimi.ingsw.model;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
@@ -31,7 +30,7 @@ class PlayerTest {
         results.add("player1");
         results.add("player2");
 
-        assertTrue(playerTest.getOffendersRanking().equals(results));
+        Assert.assertTrue(playerTest.getOffendersRanking().equals(results));
 
         offenders = new ArrayList<String>();
         results = new ArrayList<String>();
@@ -45,13 +44,13 @@ class PlayerTest {
 
         results.add("player1");
 
-        assertTrue(playerTest.getOffendersRanking().equals(results));
+        Assert.assertTrue(playerTest.getOffendersRanking().equals(results));
 
         offenders = new ArrayList<String>();
 
         playerTest.setDamages(offenders);
 
-        assertTrue(playerTest.getOffendersRanking().isEmpty());
+        Assert.assertTrue(playerTest.getOffendersRanking().isEmpty());
     }
 
     @Test
@@ -73,7 +72,7 @@ class PlayerTest {
         results.add("player2");
         results.add("player1");
 
-        assertTrue(testPlayer.getDamages().equals(results));
+        Assert.assertTrue(testPlayer.getDamages().equals(results));
 
         testPlayer.setDamages(new ArrayList<String>());
         testPlayer.giveDamage("player1", 2);
@@ -82,7 +81,7 @@ class PlayerTest {
         results.add("player1");
         results.add("player1");
 
-        assertTrue(testPlayer.getDamages().equals(results));
+        Assert.assertTrue(testPlayer.getDamages().equals(results));
 
     }
 
@@ -102,7 +101,7 @@ class PlayerTest {
         results.add("player1");
         results.add("player1");
 
-        assertTrue(testPlayer.getMarks().equals(results));
+        Assert.assertTrue(testPlayer.getMarks().equals(results));
     }
 
     @Test
