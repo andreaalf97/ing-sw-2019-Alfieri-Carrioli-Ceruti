@@ -101,7 +101,7 @@ class PlayerTest {
         results.add("player1");
         results.add("player1");
 
-        Assert.assertTrue(testPlayer.getMarks().equals(results));
+        Assert.assertEquals(testPlayer.getMarks(), results);
     }
 
     @Test

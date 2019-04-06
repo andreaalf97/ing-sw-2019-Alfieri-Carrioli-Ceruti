@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Assert;
 
 
@@ -77,7 +76,7 @@ class TurnTest {
     @Test
     void givePointsToPlayer() {
         Player testPlayer = new Player("andreaalf");
-
-
+        testPlayer.givePoints(5);
+        Assert.assertEquals(5, testPlayer.getPoints());
     }
 }

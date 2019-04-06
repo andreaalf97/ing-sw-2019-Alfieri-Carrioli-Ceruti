@@ -182,8 +182,8 @@ public class Player {
         if(i <= 0 || i > 12) {
             throw new IllegalArgumentException("i can only be > 0 && < 12");
         }
-
-        marks.add(s);
+        for(int j = 0; j < i; j++)
+            marks.add(s);
     }
 
     public void givePoints(int n) throws IllegalArgumentException {
