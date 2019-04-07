@@ -1,16 +1,22 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class GamesHandler {
-    private Collection<Game> list;
+    private ArrayList<Game> games;
+    private ArrayList<WaitingRoom> waitingRooms;
 
     public GamesHandler(){
-        this.list = new ArrayList<Game>();
+        this.games = new ArrayList<>();
+        this.waitingRooms = new ArrayList<>();
     }
 
-    public void startGame(){return;}
+    public void startGame(WaitingRoom room){
+        this.games.add(new Game(room.getPlayers(), room.getFirstPlayer()));
+        this.games.get(this.games.size() - 1).run();
+    }
 
-    public void createRoom(){return;}
+    public void createWaitingRoom(){
+        this.waitingRooms.add(new WaitingRoom());
+    }
 }

@@ -1,69 +1,79 @@
 package it.polimi.ingsw.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Game {
-    private String winner;
-    private String firstPlayer;
-    private String currentPlayer;
-    private Turn currentTurn;
-    private Board board;
+public class Game implements Runnable{
     private ArrayList<Player> players;
-
-    public String getWinner() {
-        return winner;
-    }
-
-    public void setWinner(String winner) {
-        this.winner = winner;
-    }
-
-    public String getFirstPlayer() {
-        return firstPlayer;
-    }
-
-    public void setFirstPlayer(String firstPlayer) {
-        this.firstPlayer = firstPlayer;
-    }
-
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void setCurrentPlayer(String currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
-    public Turn getCurrentTurn() {
-        return currentTurn;
-    }
-
-    public void setCurrentTurn(Turn currentTurn) {
-        this.currentTurn = currentTurn;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
+    private ArrayList<String> playerNames;
+    private PowerupDeck powerupDeck;
+    private WeaponDeck weaponDeck;
+    private Board board;
+    private String firstPlayer;
+    private int numOfPlayers;
 
     //#####################################################################
 
+    public Game(ArrayList<String> playerNames, String firstPlayer){
+        this.players = new ArrayList<>(playerNames.size());
+        this.playerNames = playerNames;
+        this.powerupDeck = new PowerupDeck();
+        this.weaponDeck = new WeaponDeck();
+        this.board = new Board();
+        this.firstPlayer = firstPlayer;
+        this.numOfPlayers = playerNames.size();
+
+        Iterator i = playerNames.iterator();
+
+        while(i.hasNext()){
+            String temp = (String)i.next();
+            this.players.add(new Player(temp));
+        }
+
+    }
+
+    public void run(){}
+
+    public void chooseMap(int nMap){}
+
+    public void setupKST(int nSkulls){}
+
+    public void setupSpawnSpots(){}
+
+    public void setupAmmoSpots(){}
+
+    public void chooseFirstPlayer(String player){ this.firstPlayer = player; }
+
+    public void runTurn(String currentPlayer){}
+
+    public void drawPowerupToPlayer(String player){}
+
+    public void resartFromSpawnPoint(int indexToDiscard) {}
+
+    public void giveWeaponToPlayer(Weapon weapon, String player){}
+
+    public boolean[][] wherePlayerCanMove(String player){return new boolean[1][1];}
+
+    public boolean[][] wherePlayerCanMoveAndGrab(String player){return new boolean[1][1];}
+
+    public boolean p1CanShootp2(String p1, String p2, Weapon weapon){return true;}
+
+    public void respawn(String player){}
+
+    public void refillAmmos(){}
+
+    public void refillSpawns(){}
+
+    public void movePlayer(Player player, int x, int y){}
+
+    public void reload(Weapon weapon){}
+
+    public void moveAndGrab(Player player, int x, int y){}
+
+    public void shootPlayer(Player offender, Player defender, Weapon weapon){}
+
     public boolean addPlayer(String newPlayer){
-        if(playerNames().contains(newPlayer)){
+        if(playerNames.contains(newPlayer)){
             return false;
         }
 
@@ -71,32 +81,6 @@ public class Game {
         return true;
     }
 
-    public ArrayList<String> playerNames(){
-        Iterator i = this.players.iterator();
-        ArrayList<String> names = new ArrayList<>();
+    public void giveKSTpoints(){}
 
-        while(i.hasNext()){
-            Player temp = (Player)i.next();
-            names.add(temp.getNickname());
-        }
-
-        return names;
-    }
-
-    public void pickFirstPlayer(){ firstPlayer = players.get(0).getNickname(); }
-
-    public void calcFinalScores(){return;}
-
-    public void givePointsToPlayer(String player, int nPoints){
-        Iterator i = players.iterator();
-
-        while(i.hasNext()){
-            Player temp = (Player)i.next();
-
-            if(temp.getNickname() == player)
-                temp.givePoints(nPoints);
-        }
-    }
-
-    public void runTurn(){}
 }

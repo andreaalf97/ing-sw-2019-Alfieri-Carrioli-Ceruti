@@ -107,4 +107,8 @@ class PlayerTest {
     @Test
     void givePoints() {
     }
+
+    @Test
+    void canGiveMarks() {
+    }
 }
