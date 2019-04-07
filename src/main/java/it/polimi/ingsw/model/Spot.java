@@ -4,45 +4,22 @@ import java.util.ArrayList;
 
 public class Spot {
 
-
+    private ArrayList<String> playersHere;
+    private ArrayList<Boolean> doors; //North-> 0, East->1, South->2, West ->3
     private Room room;
+
+    //TODO might not need these 3 attributes below --> Spot is already referenced by the Map Matrix
     private int idSpot;    /*a spot in the map is identified by <room, idSpot>  */
     private int positionX;
     private int positionY;
 
-    private ArrayList<String> playersHere;
-    private ArrayList<Boolean> doors; //North-> 0, East->1, South->2, West ->3
-
-    public Spot(Room room,int idSpot,int positionX,int positionY){
+    public Spot(Room room, int idSpot, int positionX, int positionY){
+        this.playersHere = new ArrayList<>();
+        this.doors = new ArrayList<>(4);
         this.room = room;
         this.idSpot = idSpot;
         this.positionX = positionX;
         this.positionY = positionY;
-
-        this.playersHere = new ArrayList<>();
-        this.doors = new ArrayList<>(4);
-    }
-
-
-
-    public boolean sees(Spot spot){
-        if(this.getRoom() == spot.getRoom())
-            return true;
-        else {
-            if ((this.getPositionX() == spot.getPositionX() + 1) && this.getDoors().get(1))
-                return true;
-
-            if ((this.getPositionX() == spot.getPositionX() - 1) && this.getDoors().get(3))
-                return true;
-
-            if ((this.getPositionY() == spot.getPositionY() + 1) && this.getDoors().get(0))
-                return true;
-
-            if ((this.getPositionY() == spot.getPositionY() - 1) && this.getDoors().get(2))
-                return true;
-        }
-
-        return false;
     }
 
     public boolean hasNordDoor(){ return doors.get(0);}

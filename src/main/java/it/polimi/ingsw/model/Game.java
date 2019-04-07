@@ -32,7 +32,25 @@ public class Game implements Runnable{
 
     }
 
-    public void run(){}
+    public void run(){
+        System.out.println("Game starting: ...");
+        chooseMap(1); //TODO let someone decide which map to play on
+        setupKST(5); //TODO let someone decide the # of skulls on the KST
+        setupSpawnSpots();
+        setupAmmoSpots();
+
+        boolean endOfTurns = false;
+        String currentPlayer = this.firstPlayer;
+
+        while(endOfTurns == false){ //TODO decide how to handle the turn
+
+        }
+
+        giveKSTpoints();
+        endGame();
+    }
+
+    private void endGame() { return; }
 
     public void chooseMap(int nMap){}
 
@@ -42,7 +60,8 @@ public class Game implements Runnable{
 
     public void setupAmmoSpots(){}
 
-    public void chooseFirstPlayer(String player){ this.firstPlayer = player; }
+    //Might not need the method below
+    //public void chooseFirstPlayer(String player){ this.firstPlayer = player; }
 
     public void runTurn(String currentPlayer){}
 
@@ -72,14 +91,7 @@ public class Game implements Runnable{
 
     public void shootPlayer(Player offender, Player defender, Weapon weapon){}
 
-    public boolean addPlayer(String newPlayer){
-        if(playerNames.contains(newPlayer)){
-            return false;
-        }
-
-        players.add(new Player(newPlayer));
-        return true;
-    }
+    //TODO remove +addPlayer(String player): void from UML Game
 
     public void giveKSTpoints(){}
 

@@ -13,7 +13,7 @@ class PlayerTest {
 
 
     @Test
-    void getOffendersRanking() {
+    void getOffendersRankingOneOfEach() {
         Player playerTest = new Player("andreaalf");
         ArrayList<String> offenders = new ArrayList<>();
 
@@ -33,20 +33,6 @@ class PlayerTest {
         Assert.assertTrue(playerTest.getOffendersRanking().equals(results));
 
         offenders = new ArrayList<String>();
-        results = new ArrayList<String>();
-
-        //I'm now testing when only one player gives damages
-        offenders.add("player1");
-        offenders.add("player1");
-        offenders.add("player1");
-
-        playerTest.setDamages(offenders);
-
-        results.add("player1");
-
-        Assert.assertTrue(playerTest.getOffendersRanking().equals(results));
-
-        offenders = new ArrayList<String>();
 
         playerTest.setDamages(offenders);
 
@@ -54,11 +40,39 @@ class PlayerTest {
     }
 
     @Test
+    void getOffendersRankingOnlyOnePlayer(){
+        Player playerTest = new Player("andreaalf");
+        ArrayList<String> offenders = new ArrayList<>();
+
+        offenders.add("player1");
+        offenders.add("player1");
+        offenders.add("player1");
+
+        playerTest.setDamages(offenders);
+
+        ArrayList<String> results = new ArrayList<>();
+        results.add("player1");
+
+        Assert.assertEquals(playerTest.getOffendersRanking(), results);
+    }
+
+    @Test
+    void getOffendersRankingNoDamages(){
+        Player playerTest = new Player("andreaalf");
+        ArrayList<String> offenders = new ArrayList<>();
+
+        playerTest.setDamages(offenders);
+
+        Assert.assertTrue(playerTest.getOffendersRanking().isEmpty());
+    }
+
+
+    @Test
     void canAttack() {
     }
 
     @Test
-    void giveDamage() {
+    void giveDamageHalfFull() {
         Player testPlayer = new Player("andreaalf");
 
         testPlayer.giveDamage("player1", 2);
@@ -72,16 +86,20 @@ class PlayerTest {
         results.add("player2");
         results.add("player1");
 
-        Assert.assertTrue(testPlayer.getDamages().equals(results));
+        Assert.assertEquals(testPlayer.getDamages(), results);
+    }
 
-        testPlayer.setDamages(new ArrayList<String>());
+    @Test
+    void giveDamageOneOffender(){
+        Player testPlayer = new Player("andreaalf");
+
         testPlayer.giveDamage("player1", 2);
 
-        results = new ArrayList<String>();
+        ArrayList<String> results = new ArrayList<String>();
         results.add("player1");
         results.add("player1");
 
-        Assert.assertTrue(testPlayer.getDamages().equals(results));
+        Assert.assertEquals(testPlayer.getDamages(), results);
 
     }
 
@@ -105,10 +123,78 @@ class PlayerTest {
     }
 
     @Test
-    void givePoints() {
+    void givePointsRegular() {
+        Player testPlayer = new Player("andreaalf");
+        testPlayer.setPoints(5);
+
+        testPlayer.givePoints(3);
+
+        Assert.assertEquals(8, testPlayer.getPoints());
     }
 
     @Test
-    void canGiveMarks() {
+    void givePointsFromZero() {
+        Player testPlayer = new Player("andreaalf");
+        testPlayer.setPoints(0);
+
+        testPlayer.givePoints(3);
+
+        Assert.assertEquals(3, testPlayer.getPoints());
+    }
+
+    @Test
+    void canGiveMarksNO() {
+        Player testPlayer = new Player("andreaalf");
+
+        ArrayList<String> markers = new ArrayList<>();
+        markers.add("Player1");
+        markers.add("Player1");
+        markers.add("Player1");
+        testPlayer.setMarks(markers);
+
+        Assert.assertTrue(
+                !testPlayer.canGiveMarks("Player1", 2) //asserting that player1 CAN'T give marks to andreaalf
+        );
+    }
+
+    @Test
+    void canGiveMarksYES() {
+        Player testPlayer = new Player("andreaalf");
+
+        ArrayList<String> markers = new ArrayList<>();
+        markers.add("Player1");
+        markers.add("Player1");
+        testPlayer.setMarks(markers);
+
+        Assert.assertEquals(
+                true,
+                testPlayer.canGiveMarks("Player1", 1) //asserting that player1 CAN'T give marks to andreaalf
+        );
+    }
+
+    @Test
+    void canGiveMarksYESempty() {
+        Player testPlayer = new Player("andreaalf");
+
+        ArrayList<String> markers = new ArrayList<>();
+        testPlayer.setMarks(markers);
+
+        Assert.assertEquals(
+                true,
+                testPlayer.canGiveMarks("Player1", 1) //asserting that player1 CAN'T give marks to andreaalf
+        );
+    }
+
+    @Test
+    void canGiveMarksNOempty() {
+        Player testPlayer = new Player("andreaalf");
+
+        ArrayList<String> markers = new ArrayList<>();
+        testPlayer.setMarks(markers);
+
+        Assert.assertEquals(
+                false,
+                testPlayer.canGiveMarks("Player1", 4) //asserting that player1 CAN'T give marks to andreaalf
+        );
     }
 }

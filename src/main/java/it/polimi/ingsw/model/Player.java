@@ -48,6 +48,10 @@ public class Player {
     public void setMarks(ArrayList<String> marks){ this.marks = marks; }
     public ArrayList<String> getMarks(){ return this.marks; }
 
+    public void setPoints(int points){ this.points = points; }
+    public int getPoints(){ return this.points; }
+
+    //TESTED
     public ArrayList<String> getOffendersRanking(){
         if(damages.isEmpty())
             return new ArrayList<>();
@@ -73,12 +77,14 @@ public class Player {
         return tempNames;
     }        /*return players who gave damages to this.player in order(in 0 highest damage)*/
 
+    //TESTED
     public void giveDamage(String s,int i){                    /*assign damage to this.player*/
         for(int j = 0; j < i; j++){
             damages.add(s);
         }
     }
 
+    //TESTED
     public boolean canGiveMarks(String player, int nMarks){
         Iterator i = this.marks.iterator();
         String temp;
@@ -93,6 +99,8 @@ public class Player {
         return (counter + nMarks <= 3);
     }
 
+    //TESTED
+    //TODO test the exception
     public void giveMarks(String s,int i) throws IllegalArgumentException {
         /*assign marks to this player*/
         if(i <= 0 || i > 12) {
@@ -102,6 +110,7 @@ public class Player {
             marks.add(s);
     }
 
+    //TESTED
     public void givePoints(int n) throws IllegalArgumentException {
         if(n < 0)
             throw new IllegalArgumentException("n can't be negative");
