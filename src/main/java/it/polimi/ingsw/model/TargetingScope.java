@@ -1,18 +1,27 @@
 package it.polimi.ingsw.model;
 
 public class TargetingScope implements Powerup {
+
+
     private Color color;
 
 
-    public void giveDamage(Player playerToHit, String playerWhoHits, Color color){          //this.player gives to player String 1 damage (this.player has to pay 1 of any color)
+    public void giveOneDamage(String playerToHit, Color color){          //this.player gives to player playerToHit 1 damage (this.player has to pay 1 of any color)
 
+        Player player = new Player(playerToHit);
 
+        player.giveDamage(playerToHit,1);
+
+        return;
+    }
+
+    public void giveDamage(String playerToHit, Powerup powerup){
+
+        Player player = new Player(playerToHit);
+
+        player.giveDamage(playerToHit,1);
 
         return;
     }
 
-    public void giveDamage(Player playerToHit, Powerup powerup){
-
-        return;
-    }
 }
