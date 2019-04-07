@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SpawnSpot extends Spot {
     private ArrayList<Weapon> weaponList;
 
-    public SpawnSpot(String room,int idSpot,int positionX, int positionY ){
+    public SpawnSpot(Room room,int idSpot,int positionX, int positionY ){
         super(room,idSpot,positionX,positionY);
 
         ArrayList<Weapon> weaponList = new ArrayList<>(3);
