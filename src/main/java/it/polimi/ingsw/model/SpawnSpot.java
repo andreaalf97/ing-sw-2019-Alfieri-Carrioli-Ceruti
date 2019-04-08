@@ -8,7 +8,7 @@ public class SpawnSpot extends Spot {
     public SpawnSpot(Room room,int idSpot,int positionX, int positionY ){
         super(room,idSpot,positionX,positionY);
 
-        ArrayList<Weapon> weaponList = new ArrayList<>(3);
+        this.weaponList = new ArrayList<>(3);
     }
     public boolean addWeapon(Weapon weaponToAdd){
         if (weaponList.size() >= 3)

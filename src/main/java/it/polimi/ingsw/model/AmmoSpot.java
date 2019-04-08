@@ -12,25 +12,22 @@ public class AmmoSpot extends Spot {
     public AmmoSpot(Room room, int idSpot, int positionX, int positionY) {
         super(room, idSpot, positionX, positionY);
 
-        ArrayList<Color> ammoColorList = new ArrayList<>();
+        this.ammoColorList = new ArrayList<>();
         this.hasPowerup = false;
     }
 
     public void removeAmmo() {
         if (getAmmoColorList().isEmpty())
             System.out.println("no ammo in the spot,reload this spot at the end of the turn");
-        else {
-            this.getAmmoColorList().remove(2);
-            this.getAmmoColorList().remove(1);
-            this.getAmmoColorList().remove(0);
-        }
+        else
+            getAmmoColorList().removeAll(this.getAmmoColorList());
     }
 
     public void addAmmo() {
         if (getAmmoColorList().isEmpty())
-            System.out.println("no ammo in the spot,reload this spot at the end of the turn");
-        else
             generateAmmo();
+        else
+            System.out.println("no ammo in the spot,reload this spot at the end of the turn");
     }
 
     public boolean hasPowerup(){return hasPowerup;}
@@ -45,10 +42,10 @@ public class AmmoSpot extends Spot {
                 hasPowerup = true;
         else {
             hasPowerup = false;
-            ammoColorList.set(2, Color.randomColor());
+            ammoColorList.add(Color.randomColor());
         }
-        ammoColorList.set(0, Color.randomColor());
-        ammoColorList.set(1, Color.randomColor());
+        ammoColorList.add(Color.randomColor());
+        ammoColorList.add(Color.randomColor());
 
     }
 
