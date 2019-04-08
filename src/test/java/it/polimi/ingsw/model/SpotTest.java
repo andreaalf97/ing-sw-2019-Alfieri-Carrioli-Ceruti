@@ -8,12 +8,47 @@ import java.util.ArrayList;
 class SpotTest {
 
     @Test
-    void sees() {
-        Assert.assertTrue(true);
+    void seesInTheSameRoomTrue() {
+        Spot spotTest1 = new Spot(Room.SAPPHIRE,0,0,0);
+        Spot spotTest2 = new Spot(Room.SAPPHIRE,0,1,1);
+
+        Assert.assertTrue(spotTest1.sees(spotTest2));
     }
 
     @Test
-    void hasNordDoorTrue() {
+    void seesInTheSameRoomFalse() {
+        Spot spotTest1 = new Spot(Room.SAPPHIRE,0,0,0);
+        Spot spotTest2 = new Spot(Room.TOPAZ,0,2,2);
+
+        Assert.assertFalse(spotTest1.sees(spotTest2));
+    }
+
+    @Test
+    void seesInAnotherRoomNorthTrue() {
+        Spot spotTest1 = new Spot(Room.SAPPHIRE,0,  0,  0);
+        ArrayList<Boolean> doorsTest = new ArrayList<>();
+        doorsTest.add(true);
+        spotTest1.setDoors(doorsTest);
+
+        Spot spotTest2 = new Spot(Room.TOPAZ,0,0,1);
+
+        Assert.assertTrue(spotTest1.sees(spotTest2));
+    }
+
+    @Test
+    void seesInAnotherRoomNorthFalse() {
+        Spot spotTest1 = new Spot(Room.SAPPHIRE,0,  0,  0);
+        ArrayList<Boolean> doorsTest = new ArrayList<>();
+        doorsTest.add(false);
+        spotTest1.setDoors(doorsTest);
+
+        Spot spotTest2 = new Spot(Room.TOPAZ,0,0,1);
+
+        Assert.assertFalse(spotTest1.sees(spotTest2));
+    }
+
+    @Test
+    void hasNorthDoorTrue() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         spotTest.setDoors(doorsTest);
@@ -22,7 +57,7 @@ class SpotTest {
     }
 
     @Test
-    void hasNordDoorFalse() {
+    void hasNorthDoorFalse() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         spotTest.setDoors(doorsTest);

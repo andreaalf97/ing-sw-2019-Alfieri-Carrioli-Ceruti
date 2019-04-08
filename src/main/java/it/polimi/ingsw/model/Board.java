@@ -4,7 +4,10 @@ public class Board {
     private KillShotTrack kst;
     private WeaponDeck weaponDeck;
     private PowerupDeck powerUpDeck;
-    private Mappa mappa;
+
+    private GetMapFactory mapFactory = new GetMapFactory();
+
+    //private Map map = mapFactory.getMap(N);
 
 
     public void chooseMap(int nMappa){
