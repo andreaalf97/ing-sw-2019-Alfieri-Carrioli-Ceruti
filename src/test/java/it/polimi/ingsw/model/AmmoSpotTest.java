@@ -14,8 +14,8 @@ class AmmoSpotTest {
     void addAmmoWhenSpotIsUnloaded() {
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ,0,0,0);
 
-        ammoSpotTest.addAmmo();
-        Assert.assertTrue(!ammoSpotTest.getAmmoColorList().isEmpty());
+        ammoSpotTest.addAmmos();
+        Assert.assertFalse(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 
     @Test
@@ -24,7 +24,7 @@ class AmmoSpotTest {
         ammoSpotTest.getAmmoColorList().add(Color.RED);
         ammoSpotTest.getAmmoColorList().add(Color.RED);
 
-        ammoSpotTest.addAmmo();
+        ammoSpotTest.addAmmos();
         Assert.assertEquals(2,ammoSpotTest.getAmmoColorList().size());
     }
 
@@ -35,7 +35,7 @@ class AmmoSpotTest {
         ammoSpotTest.getAmmoColorList().add(Color.RED);
         ammoSpotTest.getAmmoColorList().add(Color.RED);
 
-        ammoSpotTest.addAmmo();
+        ammoSpotTest.addAmmos();
         Assert.assertEquals(3,ammoSpotTest.getAmmoColorList().size());
     }
 
@@ -47,7 +47,7 @@ class AmmoSpotTest {
         ammoSpotTest.getAmmoColorList().add(Color.RED);
         ammoSpotTest.getAmmoColorList().add(Color.BLUE);
 
-        ammoSpotTest.removeAmmo();
+        ammoSpotTest.removeAmmos();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 
@@ -55,7 +55,7 @@ class AmmoSpotTest {
     void removeAmmoFalse(){
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ,0,0,0);
 
-        ammoSpotTest.removeAmmo();
+        ammoSpotTest.removeAmmos();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 }
