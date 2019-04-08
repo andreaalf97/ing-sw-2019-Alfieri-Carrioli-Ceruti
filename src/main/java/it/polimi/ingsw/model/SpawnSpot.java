@@ -20,23 +20,18 @@ public class SpawnSpot extends Spot {
 
     }
     public boolean removeWeapon(Weapon weaponToRemove){
-        if (weaponList.isEmpty())
+        if (weaponList.isEmpty() || !(weaponList.contains(weaponToRemove)))
             return false;
         else{
             weaponList.remove(weaponToRemove);
             return true;
         }
 
-
     }
 
-    //might not need these
-    /*public ArrayList<Weapon> getWeaponList() {
+    public ArrayList<Weapon> getWeaponList() {
         return weaponList;
     }
 
-    public void setWeaponList(ArrayList<Weapon> weaponList) {
-        this.weaponList = weaponList;
-    }
-     */
+
 }

@@ -1,27 +1,21 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-
 public class Weapon {
-
-    private String weaponName;
-    private ArrayList<Color> cost;
-    private ArrayList<Effect> effects;
+    private int id;
     private boolean isLoaded;
-    private int order_1[];
-    private int order_2[];
-    private int oreder_3[];
+    private int redCost;
+    private int yellowCost;
+    private int blueCost;
+    private Color firstCostColor;
 
+    public void attack(String player){
 
-    public Weapon(String weaponName){
-
+        return;
     }
-    public boolean isLoaded(){
-        return this.isLoaded;
-    }
+
 
     public void reload(){
-        this.isLoaded = true;
+        isLoaded = true;
         return;
     }
 }

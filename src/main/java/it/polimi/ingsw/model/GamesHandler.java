@@ -12,7 +12,6 @@ public class GamesHandler {
     }
 
     public void startGame(WaitingRoom room){
-        //TODO waitingRoom should tell which map was chosen
         this.games.add(new Game(room.getPlayers(), room.getFirstPlayer()));
         this.games.get(this.games.size() - 1).run();
     }

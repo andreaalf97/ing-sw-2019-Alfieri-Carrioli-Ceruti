@@ -14,7 +14,7 @@ public class Spot {
     private int positionY;
 
     public Spot(Room room, int idSpot, int positionX, int positionY){
-        this.playersHere = new ArrayList<>();
+        this.playersHere = new ArrayList<>(5);
         this.doors = new ArrayList<>(4);
         this.room = room;
         this.idSpot = idSpot;
@@ -22,7 +22,7 @@ public class Spot {
         this.positionY = positionY;
     }
 
-    public boolean hasNordDoor(){ return doors.get(0);}
+    public boolean hasNorthDoor(){ return doors.get(0);}
 
     public boolean hasEastDoor(){ return doors.get(1); }
 

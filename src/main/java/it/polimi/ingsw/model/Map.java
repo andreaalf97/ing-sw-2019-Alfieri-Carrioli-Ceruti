@@ -14,7 +14,7 @@ public abstract class Map {
             return true;
         }
         else{
-            if(spotX.hasNordDoor()){
+            if(spotX.hasNorthDoor()){
                 tempSpot = getSpotByIndex(spot1X, spot1Y - 1);
                 if(tempSpot.getRoom() == spotY.getRoom())
                     return true;

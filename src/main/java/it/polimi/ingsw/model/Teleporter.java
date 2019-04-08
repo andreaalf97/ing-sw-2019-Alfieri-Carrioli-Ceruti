@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.awt.*;
 
-public class Teleporter{
+public class Teleporter implements Powerup {
 
     private Color color;
 

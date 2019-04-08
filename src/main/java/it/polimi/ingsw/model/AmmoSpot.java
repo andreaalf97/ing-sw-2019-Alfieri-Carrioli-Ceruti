@@ -5,45 +5,51 @@ import java.lang.Math;
 import java.util.Random;
 
 public class AmmoSpot extends Spot {
+
     private ArrayList<Color> ammoColorList;
-    private boolean containsPowerup;
+    private boolean hasPowerup;
 
     public AmmoSpot(Room room, int idSpot, int positionX, int positionY) {
         super(room, idSpot, positionX, positionY);
 
         ArrayList<Color> ammoColorList = new ArrayList<>();
-        this.containsPowerup = false;
+        this.hasPowerup = false;
     }
 
-    public void pickAmmos() {
-        if (ammoColorList.isEmpty())
+    public void removeAmmo() {
+        if (getAmmoColorList().isEmpty())
+            System.out.println("no ammo in the spot,reload this spot at the end of the turn");
+        else {
+            this.getAmmoColorList().remove(2);
+            this.getAmmoColorList().remove(1);
+            this.getAmmoColorList().remove(0);
+        }
+    }
+
+    public void addAmmo() {
+        if (getAmmoColorList().isEmpty())
             System.out.println("no ammo in the spot,reload this spot at the end of the turn");
         else
-            ammoColorList.removeAll(ammoColorList);
-        //player needed as a parameter to add the picked ammo in his hands
-
+            generateAmmo();
     }
 
-    public void addAmmos() {
-        if (ammoColorList.isEmpty())
-            System.out.println("no ammo in the spot,reload this spot at the end of the turn");
-        else
-            generateAmmos();
-    }
+    public boolean hasPowerup(){return hasPowerup;}
 
+    public ArrayList<Color> getAmmoColorList() { return ammoColorList; }
 
-    public void generateAmmos() {
+    private void generateAmmo() {
 
         double rand = Math.random();
 
         if (rand < 0.4722222) //probability to pick an ammo card with a powerup
-                containsPowerup = true;
+                hasPowerup = true;
         else {
-            containsPowerup = false;
+            hasPowerup = false;
             ammoColorList.set(2, Color.randomColor());
         }
         ammoColorList.set(0, Color.randomColor());
         ammoColorList.set(1, Color.randomColor());
 
     }
+
 }

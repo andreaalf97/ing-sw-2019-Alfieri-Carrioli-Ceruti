@@ -95,10 +95,4 @@ public class Game implements Runnable{
 
     public void giveKSTpoints(){}
 
-    public void usePowerup(Powerup powerup){
-
-
-
-    }
-
 }
