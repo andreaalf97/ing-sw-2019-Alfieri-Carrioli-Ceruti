@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public class TargetingScope implements Powerup {
+public class TargetingScope{
 
 
     private Color color;

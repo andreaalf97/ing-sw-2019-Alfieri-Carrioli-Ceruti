@@ -2,13 +2,13 @@ package it.polimi.ingsw.model;
 
 import java.awt.*;
 
-public class Newton implements Powerup {
+public class Newton{
 
     private Color color;
 
-
+/*
     public int[] movePlayer(Player playerToMove, int n_spot, Direction dir){         //choose player string on the board and move it a int <= 2 number of spots in one direction
-                                                                                    //è meglio passare a questo metodo l'oggetto giocatore oppure la stringa cel nome del giocatore?
+        //è meglio passare a questo metodo l'oggetto giocatore oppure la stringa cel nome del giocatore?
         int[] newPosition = new int[2];
 
         int x = playerToMove.getxPosition();
@@ -25,4 +25,5 @@ public class Newton implements Powerup {
 
         return newPosition;
     }
+*/
 }
