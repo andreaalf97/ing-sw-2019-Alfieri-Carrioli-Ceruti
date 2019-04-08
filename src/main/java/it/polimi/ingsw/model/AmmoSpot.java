@@ -16,14 +16,14 @@ public class AmmoSpot extends Spot {
         this.hasPowerup = false;
     }
 
-    public void removeAmmo() {
+    public void removeAmmos() {
         if (getAmmoColorList().isEmpty())
             System.out.println("no ammo in the spot,reload this spot at the end of the turn");
         else
             getAmmoColorList().removeAll(this.getAmmoColorList());
     }
 
-    public void addAmmo() {
+    public void addAmmos() {
         if (getAmmoColorList().isEmpty())
             generateAmmo();
         else

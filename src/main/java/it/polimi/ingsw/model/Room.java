@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public enum Room {
     RUBY,
     SAPPHIRE,
-    SMERALD,
+    EMERALD,
     TOPAZ,
     AMETIST,
     DIAMOND

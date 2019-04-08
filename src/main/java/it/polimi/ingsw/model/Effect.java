@@ -13,10 +13,10 @@ public class Effect {
     private int minDistance;
     private int maxDistance;
     private boolean mustBeOtherRoom;
-    private boolean isMustBeDifferentSpots;
+    private boolean mustBeDifferentSpots;
     private boolean isLinear;
     private Visibility visibleByWho;
-    private boolean teleporterMove;     //TODO add teleporterMove to Uml.
+    private boolean teleporterMove;     //add teleporterMove to Uml.
 
     //get and set methods for every  effect attribute
 
@@ -117,11 +117,11 @@ public class Effect {
     }
 
     public boolean isMustBeDifferentSpots() {
-        return isMustBeDifferentSpots;
+        return mustBeDifferentSpots;
     }
 
     public void setMustBeDifferentSpots(boolean mustBeDifferentSpots) {
-        isMustBeDifferentSpots = mustBeDifferentSpots;
+        mustBeDifferentSpots = mustBeDifferentSpots;
     }
 
     public boolean isLinear() {

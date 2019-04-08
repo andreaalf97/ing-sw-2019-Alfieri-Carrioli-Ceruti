@@ -78,9 +78,9 @@ public class Player {
     }        /*return players who gave damages to this.player in order(in 0 highest damage)*/
 
     //TESTED
-    public void giveDamage(String s,int i){                    /*assign damage to this.player*/
-        for(int j = 0; j < i; j++){
-            damages.add(s);
+    public void giveDamage(String player,int nDamages){                    /*assign damage to this.player*/
+        for(int j = 0; j < nDamages; j++){
+            damages.add(player);
         }
     }
 
@@ -101,13 +101,13 @@ public class Player {
 
     //TESTED
     //TODO test the exception
-    public void giveMarks(String s,int i) throws IllegalArgumentException {
+    public void giveMarks(String player,int nMarks) throws IllegalArgumentException {
         /*assign marks to this player*/
-        if(i <= 0 || i > 12) {
+        if(nMarks <= 0 || nMarks > 12) {
             throw new IllegalArgumentException("i can only be > 0 && < 12");
         }
-        for(int j = 0; j < i; j++)
-            marks.add(s);
+        for(int j = 0; j < nMarks; j++)
+            marks.add(player);
     }
 
     //TESTED

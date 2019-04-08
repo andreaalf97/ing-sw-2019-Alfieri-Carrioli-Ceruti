@@ -28,10 +28,8 @@ public class SpawnSpot extends Spot {
         }
 
     }
-
     public ArrayList<Weapon> getWeaponList() {
         return weaponList;
     }
-
 
 }

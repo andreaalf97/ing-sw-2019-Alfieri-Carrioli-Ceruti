@@ -17,4 +17,5 @@ public class WaitingRoom {
         this.players.add(nickname);
         return true;
     }
+    public void voteMap(){}
 }

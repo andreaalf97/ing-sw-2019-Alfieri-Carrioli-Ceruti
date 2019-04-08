@@ -6,13 +6,10 @@ public class WeaponDeck{
 
     private ArrayList<Weapon> weaponList;
 
-
-
     public void shuffle(){
 
         return;
     }
-
 
     public Weapon pickCard(){
         Weapon weaponToPick = weaponList.get(weaponList.size()-1);

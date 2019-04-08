@@ -40,11 +40,11 @@ public abstract class Map {
 
     public Spot getSpotByIndex(int x, int y){ return map[x][y]; }
 
-    public void movePlayer(String player,int newX, int newY){ return; }
+    public void movePlayer(String player, int newX, int newY){ return; }
 
-    public void refillSpawnSpot(int x,int y,Weapon newWeapon){return ;}
+    public void refillSpawnSpot(int x,int y, Weapon newWeapon){return ;}
 
-    public void refillAmmoSpot(int x,int y){return ;}
+    public void refillAmmoSpot(int x, int y){return ;}
 
 
 }

@@ -8,7 +8,6 @@ public class Game implements Runnable{
     private ArrayList<String> playerNames;
     private PowerupDeck powerupDeck;
     private WeaponDeck weaponDeck;
-    private Board board;
     private String firstPlayer;
     private int numOfPlayers;
 
@@ -19,7 +18,6 @@ public class Game implements Runnable{
         this.playerNames = playerNames;
         this.powerupDeck = new PowerupDeck();
         this.weaponDeck = new WeaponDeck();
-        this.board = new Board();
         this.firstPlayer = firstPlayer;
         this.numOfPlayers = playerNames.size();
 
@@ -67,7 +65,7 @@ public class Game implements Runnable{
 
     public void drawPowerupToPlayer(String player){}
 
-    public void resartFromSpawnPoint(int indexToDiscard) {}
+    public void restartFromSpawnPoint(int indexToDiscard) {}
 
     public void giveWeaponToPlayer(Weapon weapon, String player){}
 
@@ -87,6 +85,10 @@ public class Game implements Runnable{
 
     public void reload(Weapon weapon){}
 
+    public boolean canReload(Weapon weapon){
+        return true;
+    }
+
     public void moveAndGrab(Player player, int x, int y){}
 
     public void shootPlayer(Player offender, Player defender, Weapon weapon){}
@@ -95,7 +97,7 @@ public class Game implements Runnable{
 
     public void giveKSTpoints(){}
 
-    public void usePowerup(Powerup powerup, Player playerWhoUses, Player playerWhoReceiveEffect) {
+    /* public void usePowerup(Powerup powerup, Player playerWhoUses, Player playerWhoReceiveEffect) {
 
         if(powerup.getEffect().getCost() == 1){
             //ask how the player want to pay this cost and decrement number of ammo or powerups. For example he wants to pay with yellow ammo
@@ -111,7 +113,7 @@ public class Game implements Runnable{
         }
 
         else if(powerup.getEffect().isTeleporterMove()){     //is the teleporter case
-            /* then ask where player wants to move and modify his x and y position. */
+            // then ask where player wants to move and modify his x and y position.
         }
 
         else if(powerup.getEffect().getnMoves() == 1 || powerup.getEffect().getnMoves() == 2){  //is the Newton case
@@ -119,7 +121,7 @@ public class Game implements Runnable{
         }
         else System.out.println("Some powerup effect were set wrong!!");
 
-        playerWhoUses.getPowerupList().remove(powerup); //TODO check if it's right
-    }
+        playerWhoUses.getPowerupList().remove(powerup); //check if it's right
+    }   */
 
 }

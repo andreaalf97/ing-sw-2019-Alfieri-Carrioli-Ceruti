@@ -6,6 +6,11 @@ public class Powerup {
     private Color color;
     private Effect effect;
 
+
+    public Powerup(String powerupName){
+        //here we have to read from Json file and set the right effects
+    }
+
     public Effect getEffect() {
         return effect;
     }
@@ -14,8 +19,5 @@ public class Powerup {
         return this.powerupName;
     }
 
-    public Powerup(String powerupName){
-        //here we have to read from Json file and set the right effects
-    }
 }
 
