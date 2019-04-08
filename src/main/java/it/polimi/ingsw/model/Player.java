@@ -118,4 +118,98 @@ public class Player {
     }
 
     public boolean isDead(){return this.isDead;}
+
+    //get and set:
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getnRedAmmo() {
+        return nRedAmmo;
+    }
+
+    public void setnRedAmmo(int nRedAmmo) {
+        this.nRedAmmo = nRedAmmo;
+    }
+
+    public int getnBlueAmmo() {
+        return nBlueAmmo;
+    }
+
+    public void setnBlueAmmo(int nBlueAmmo) {
+        this.nBlueAmmo = nBlueAmmo;
+    }
+
+    public int getnYellowAmmo() {
+        return nYellowAmmo;
+    }
+
+    public void setnYellowAmmo(int nYellowAmmo) {
+        this.nYellowAmmo = nYellowAmmo;
+    }
+
+    public ArrayList<Weapon> getWeaponList() {
+        return weaponList;
+    }
+
+    public void setWeaponList(ArrayList<Weapon> weaponList) {
+        this.weaponList = weaponList;
+    }
+
+    public ArrayList<Powerup> getPowerupList() {
+        return powerupList;
+    }
+
+    public void setPowerupList(ArrayList<Powerup> powerupList) {
+        this.powerupList = powerupList;
+    }
+
+    public int getnDeaths() {
+        return nDeaths;
+    }
+
+    public void setnDeaths(int nDeaths) {
+        this.nDeaths = nDeaths;
+    }
+
+    public int getxPosition() {
+        return xPosition;
+    }
+
+    public void setxPosition(int xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public int getyPosition() {
+        return yPosition;
+    }
+
+    public void setyPosition(int yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
+    public int getnMovesBeforeGrabbing() {
+        return nMovesBeforeGrabbing;
+    }
+
+    public void setnMovesBeforeGrabbing(int nMovesBeforeGrabbing) {
+        this.nMovesBeforeGrabbing = nMovesBeforeGrabbing;
+    }
+
+    public int getnMovesBeforeShooting() {
+        return nMovesBeforeShooting;
+    }
+
+    public void setnMovesBeforeShooting(int nMovesBeforeShooting) {
+        this.nMovesBeforeShooting = nMovesBeforeShooting;
+    }
 }

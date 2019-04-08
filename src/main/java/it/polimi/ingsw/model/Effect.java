@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class Effect {
     private int nDamages;
     private int nMarks;
-    private int nPlayerMarable;
+    private int nPlayerMarkable;
     private int nPlayerAttacable;
     private int nMarksOtherPlayer;
     private boolean mustShootOtherPlayers;
@@ -16,6 +16,7 @@ public class Effect {
     private boolean isMustBeDifferentSpots;
     private boolean isLinear;
     private Visibility visibleByWho;
+    private boolean teleporterMove;     //TODO add teleporterMove to Uml.
 
     //get and set methods for every  effect attribute
 
@@ -35,12 +36,12 @@ public class Effect {
         this.nMarks = nMarks;
     }
 
-    public int getnPlayerMarable() {
-        return nPlayerMarable;
+    public int getnPlayerMarkable() {
+        return nPlayerMarkable;
     }
 
-    public void setnPlayerMarable(int nPlayerMarable) {
-        this.nPlayerMarable = nPlayerMarable;
+    public void setnPlayerMarkable(int nPlayerMarable) {
+        this.nPlayerMarkable = nPlayerMarable;
     }
 
     public int getnPlayerAttacable() {
@@ -137,5 +138,9 @@ public class Effect {
 
     public void setVisibleByWho(Visibility visibleByWho) {
         this.visibleByWho = visibleByWho;
+    }
+
+    public boolean isTeleporterMove() {
+        return teleporterMove;
     }
 }

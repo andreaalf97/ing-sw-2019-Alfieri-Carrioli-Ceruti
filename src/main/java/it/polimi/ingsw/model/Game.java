@@ -95,4 +95,31 @@ public class Game implements Runnable{
 
     public void giveKSTpoints(){}
 
+    public void usePowerup(Powerup powerup, Player playerWhoUses, Player playerWhoReceiveEffect) {
+
+        if(powerup.getEffect().getCost() == 1){
+            //ask how the player want to pay this cost and decrement number of ammo or powerups. For example he wants to pay with yellow ammo
+            playerWhoUses.setnYellowAmmo(playerWhoUses.getnYellowAmmo()-1);
+        }
+
+        else if(powerup.getEffect().getnDamages() == 1){  //is the targetingscope case, we have to give one damage to playerWhoReceiveEffect
+            playerWhoReceiveEffect.giveDamage(playerWhoReceiveEffect.getNickname(),1);
+        }
+
+        else if(powerup.getEffect().getnMarks() == 1){       //is the TagBackGranade, we have to give one mark to playerWhoReceiveEffect
+            playerWhoReceiveEffect.giveMarks(playerWhoReceiveEffect.getNickname(),1);
+        }
+
+        else if(powerup.getEffect().isTeleporterMove()){     //is the teleporter case
+            /* then ask where player wants to move and modify his x and y position. */
+        }
+
+        else if(powerup.getEffect().getnMoves() == 1 || powerup.getEffect().getnMoves() == 2){  //is the Newton case
+            // then ask player in which direction he wants to move and change his x and y posotion.
+        }
+        else System.out.println("Some powerup effect were set wrong!!");
+
+        playerWhoUses.getPowerupList().remove(powerup); //TODO check if it's right
+    }
+
 }
