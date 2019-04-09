@@ -11,6 +11,11 @@ public class Game implements Runnable{
     private String firstPlayer;
     private int numOfPlayers;
 
+    private String currentPlayer;
+    private boolean isFirstTurn;
+
+    //TODO: might not need attribute --> private boolean isFrenzy;
+
     //#####################################################################
 
     public Game(ArrayList<String> playerNames, String firstPlayer){
@@ -19,6 +24,9 @@ public class Game implements Runnable{
         this.powerupDeck = new PowerupDeck();
         this.weaponDeck = new WeaponDeck();
         this.firstPlayer = firstPlayer;
+        this.currentPlayer = firstPlayer;
+        this.isFirstTurn = true;
+        //this.isFrenzy = false;
         this.numOfPlayers = playerNames.size();
 
         Iterator i = playerNames.iterator();
@@ -38,14 +46,42 @@ public class Game implements Runnable{
         setupAmmoSpots();
 
         boolean endOfTurns = false;
-        String currentPlayer = this.firstPlayer;
 
         while(endOfTurns == false){ //TODO decide how to handle the turn
+            System.out.println("Do you want to use a powerup?");
 
+            System.out.println("Move / Move&Grab / Attack");
+
+            System.out.println("Do you want to use a powerup?");
+
+            System.out.println("Move / Move&Grab / Attack");
+
+            System.out.println("Do you want to use a powerup?");
+
+            System.out.println("Do you want to reload?");
+
+            checkDeaths();
+            refillAmmos();
+            refillSpawns();
+
+
+            if(this.isFirstTurn && currentPlayer == playerNames.get(playerNames.size() - 1))
+                this.isFirstTurn = false;
+            currentPlayer = nextPlayer(currentPlayer);
         }
 
         giveKSTpoints();
         endGame();
+    }
+
+    private void checkDeaths() {
+        System.out.println("Checking deaths...");
+        System.out.println("Done checking deaths");
+    }
+
+    private String nextPlayer(String currentPlayer) {
+        int indexOfCurrent = playerNames.indexOf(currentPlayer);
+        return playerNames.get((indexOfCurrent + 1) % playerNames.size());
     }
 
     private void endGame() { return; }
