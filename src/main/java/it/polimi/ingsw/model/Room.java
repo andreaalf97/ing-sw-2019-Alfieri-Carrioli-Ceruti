@@ -5,6 +5,6 @@ public enum Room {
     SAPPHIRE,
     EMERALD,
     TOPAZ,
-    AMETIST,
+    AMETHYST,
     DIAMOND
 }

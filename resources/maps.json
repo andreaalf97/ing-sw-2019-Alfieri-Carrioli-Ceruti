@@ -1,0 +1,610 @@
+{
+  "map0": {
+    "row0": {
+      "col0": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 0,
+        "y": 0
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "x": 1,
+        "y": 0
+      },
+      "col2": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 2,
+        "y": 0
+      },
+      "col3": {}
+    },
+    "row1": {
+      "col0": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "RUBY",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 0,
+        "y": 1
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "RUBY",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 1,
+        "y": 1
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "RUBY",
+        "doors": [
+          true,
+          true,
+          false,
+          false
+        ],
+        "x": 2,
+        "y": 1
+      },
+      "col3": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "x": 3,
+        "y": 1
+      }
+    },
+    "row2": {
+      "col0": {},
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 1,
+        "y": 2
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "x": 2,
+        "y": 2
+      },
+      "col3": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "x": 3,
+        "y": 2
+      }
+    }
+  },
+  "map1": {
+    "row0": {
+      "col0": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 0,
+        "y": 0
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "x": 1,
+        "y": 0
+      },
+      "col2": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          true,
+          true,
+          false
+        ],
+        "x": 2,
+        "y": 0
+      },
+      "col3": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "EMERALD",
+        "doors": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "x": 3,
+        "y": 0
+      }
+    },
+    "row1": {
+      "col0": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "RUBY",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 0,
+        "y": 1
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "RUBY",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 1,
+        "y": 1
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 2,
+        "y": 1
+      },
+      "col3": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 3,
+        "y": 1
+      }
+    },
+    "row2": {
+      "col0": {},
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          true,
+          true,
+          false,
+          false
+        ],
+        "x": 1,
+        "y": 2
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "x": 2,
+        "y": 2
+      },
+      "col3": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "x": 3,
+        "y": 2
+      }
+    }
+  },
+  "map2": {
+    "row0": {
+      "col0": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "RUBY",
+        "doors": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "x": 0,
+        "y": 0
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "x": 1,
+        "y": 0
+      },
+      "col2": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          true,
+          true,
+          false
+        ],
+        "x": 2,
+        "y": 0
+      },
+      "col3": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "EMERALD",
+        "doors": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "x": 3,
+        "y": 0
+      }
+    },
+    "row1": {
+      "col0": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "RUBY",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 0,
+        "y": 1
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "AMETHYST",
+        "doors": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "x": 1,
+        "y": 1
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 2,
+        "y": 1
+      },
+      "col3": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 3,
+        "y": 1
+      }
+    },
+    "row2": {
+      "col0": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 0,
+        "y": 2
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          true,
+          true,
+          false,
+          false
+        ],
+        "x": 1,
+        "y": 2
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "x": 2,
+        "y": 2
+      },
+      "col3": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "x": 3,
+        "y": 2
+      }
+    }
+  },
+  "map3": {
+    "row0": {
+      "col0": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "RUBY",
+        "doors": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "x": 0,
+        "y": 0
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "x": 1,
+        "y": 0
+      },
+      "col2": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "SAPPHIRE",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 2,
+        "y": 0
+      },
+      "col3": {}
+    },
+    "row1": {
+      "col0": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "RUBY",
+        "doors": [
+          false,
+          false,
+          true,
+          false
+        ],
+        "x": 0,
+        "y": 1
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "AMETHYST",
+        "doors": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "x": 1,
+        "y": 1
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          true,
+          true,
+          false,
+          false
+        ],
+        "x": 2,
+        "y": 1
+      },
+      "col3": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "x": 3,
+        "y": 1
+      }
+    },
+    "row2": {
+      "col0": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 0,
+        "y": 2
+      },
+      "col1": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          true,
+          false,
+          false,
+          false
+        ],
+        "x": 1,
+        "y": 2
+      },
+      "col2": {
+        "isSpawnSpot": false,
+        "isAmmoSpot": true,
+        "room": "DIAMOND",
+        "doors": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "x": 2,
+        "y": 2
+      },
+      "col3": {
+        "isSpawnSpot": true,
+        "isAmmoSpot": false,
+        "room": "TOPAZ",
+        "doors": [
+          false,
+          false,
+          false,
+          true
+        ],
+        "x": 3,
+        "y": 2
+      }
+    }
+  }
+}
