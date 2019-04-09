@@ -1,15 +1,13 @@
 package it.polimi.ingsw.model;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import java.util.ArrayList;
-
-class SpotTest {
+public class SpotTest {
 
 
     @Test
-    void hasNorthDoorTrue() {
+    public void hasNorthDoorTrue() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(true);
 
@@ -17,7 +15,7 @@ class SpotTest {
     }
 
     @Test
-    void hasNorthDoorFalse() {
+    public void hasNorthDoorFalse() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(false);
 
@@ -25,7 +23,7 @@ class SpotTest {
     }
 
     @Test
-    void hasSouthDoorTrue() {
+    public void hasSouthDoorTrue() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(false);
         spotTest.getDoors().add(false);
@@ -35,7 +33,7 @@ class SpotTest {
     }
 
     @Test
-    void hasSouthDoorFalse() {
+    public void hasSouthDoorFalse() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(false);
         spotTest.getDoors().add(false);
@@ -45,7 +43,7 @@ class SpotTest {
     }
 
     @Test
-    void hasEastDoorTrue() {
+    public void hasEastDoorTrue() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(false);
         spotTest.getDoors().add(true);
@@ -53,7 +51,7 @@ class SpotTest {
     }
 
     @Test
-    void hasEastDoorFalse() {
+    public void hasEastDoorFalse() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(false);
         spotTest.getDoors().add(false);
@@ -61,7 +59,7 @@ class SpotTest {
     }
 
     @Test
-    void hasWestDoorTrue() {
+    public void hasWestDoorTrue() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(false);
         spotTest.getDoors().add(false);
@@ -72,7 +70,7 @@ class SpotTest {
     }
 
     @Test
-    void hasWestDoorFalse() {
+    public void hasWestDoorFalse() {
         Spot spotTest = new Spot(Room.RUBY,0,0,0);
         spotTest.getDoors().add(false);
         spotTest.getDoors().add(false);

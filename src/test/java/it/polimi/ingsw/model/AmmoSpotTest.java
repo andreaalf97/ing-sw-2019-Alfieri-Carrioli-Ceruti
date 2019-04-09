@@ -1,17 +1,13 @@
 package it.polimi.ingsw.model;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class AmmoSpotTest {
+public class AmmoSpotTest {
 
 
     @Test
-    void addAmmoWhenSpotIsUnloaded() {
+    public void addAmmoWhenSpotIsUnloaded() {
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ,0,0,0);
 
         ammoSpotTest.addAmmos();
@@ -19,7 +15,7 @@ class AmmoSpotTest {
     }
 
     @Test
-    void addAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
+    public void addAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0);
         ammoSpotTest.getAmmoColorList().add(Color.RED);
         ammoSpotTest.getAmmoColorList().add(Color.RED);
@@ -29,7 +25,7 @@ class AmmoSpotTest {
     }
 
     @Test
-    void addAmmoWhenSpotIsAlreadyLoaded(){
+    public void addAmmoWhenSpotIsAlreadyLoaded(){
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0);
         ammoSpotTest.getAmmoColorList().add(Color.RED);
         ammoSpotTest.getAmmoColorList().add(Color.RED);
@@ -41,7 +37,7 @@ class AmmoSpotTest {
 
 
     @Test
-    void removeAmmoTrue() {
+    public  void removeAmmoTrue() {
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0);
 
         ammoSpotTest.getAmmoColorList().add(Color.RED);
@@ -52,7 +48,7 @@ class AmmoSpotTest {
     }
 
     @Test
-    void removeAmmoFalse(){
+    public void removeAmmoFalse(){
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ,0,0,0);
 
         ammoSpotTest.removeAmmos();

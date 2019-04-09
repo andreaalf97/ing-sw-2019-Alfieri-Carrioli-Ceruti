@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class SpawnSpotTest {
+public class SpawnSpotTest {
 
     @Test
-    void addWeaponCheckFalse() {
+    public  void addWeaponCheckFalse() {
         SpawnSpot spawnSpotTest = new SpawnSpot(Room.TOPAZ,0,0,0);
 
         Weapon w1 = new Weapon("a");
@@ -22,7 +20,7 @@ class SpawnSpotTest {
         Assert.assertFalse(spawnSpotTest.addWeapon(w4));
     }
     @Test
-    void addWeaponCheckTrue() {
+    public void addWeaponCheckTrue() {
         SpawnSpot spawnSpotTest = new SpawnSpot(Room.TOPAZ,0,0,0);
 
         Weapon w1 = new Weapon("a");
@@ -36,7 +34,7 @@ class SpawnSpotTest {
     }
 
     @Test
-    void removeWeaponCheckEmptyWeaponListCondition() {
+    public void removeWeaponCheckEmptyWeaponListCondition() {
         SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY,0,0,0);
         Weapon w = new Weapon("a");
 
@@ -45,7 +43,7 @@ class SpawnSpotTest {
     }
 
     @Test
-    void removeWeaponCheckNotInWeaponListCondition(){
+    public void removeWeaponCheckNotInWeaponListCondition(){
         SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY,0,0,0);
         Weapon w = new Weapon("a");
         Weapon wToRemove = new Weapon("b");
@@ -54,7 +52,7 @@ class SpawnSpotTest {
         Assert.assertFalse(spawnSpotTest.removeWeapon(wToRemove));
     }
     @Test
-    void removeWeaponCheckTrueCondition(){
+    public void removeWeaponCheckTrueCondition(){
         SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY,0,0,0);
         Weapon w1 = new Weapon("a");
         Weapon w2 = new Weapon("b");

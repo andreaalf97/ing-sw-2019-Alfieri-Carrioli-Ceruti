@@ -3,6 +3,6 @@
 !.gitignore
 !README.md
 !pom.xml
-!resources/
+!resources/effects.json
 !src/
-!deliverables/
+

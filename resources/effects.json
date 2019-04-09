@@ -2,14 +2,14 @@
   "Weapons": {
     "LockRifle": {
       "Effects": {
-        "Effect1": {
+        "Effect0": {
           "nDamages": 2,
           "nMarks": 1,
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 1,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 100,
@@ -19,7 +19,7 @@
           "isLinear": 0,
           "visibleByWho": 1
         },
-        "Effect2": {
+        "Effect1": {
           "nDamages": 0,
           "nMarks": 1,
           "nPlayersAttackable": 0,
@@ -41,10 +41,7 @@
       },
       "Orders": {
         "Order1": [
-          1,
-          2
-        ],
-        "Order2": [
+          0,
           1
         ]
       },
@@ -55,134 +52,166 @@
     },
     "MachineGun": {
       "Effects": {
-        "Effect1": {
-          "nDamages": 0,
+        "Effect0": {
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
+        },
+        "Effect1": {
+          "nDamages": 1,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": [
+            "Yellow"
+          ],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 1
         },
         "Effect2": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Blue"
+          ],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
         },
         "Effect3": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
+          "mustShootOtherPlayers": 1,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
         }
       },
       "Orders": {
         "Order1": [
+          0,
           1,
           2,
           3
+        ],
+        "Order2": [
+          0,
+          2,
+          3,
+          1
         ]
       },
       "Cost": [
         "Blue",
-        "Blue"
+        "Red"
       ]
     },
     "Thor": {
       "Effects": {
-        "Effect1": {
-          "nDamages": 0,
+        "Effect0": {
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
+        },
+        "Effect1": {
+          "nDamages": 1,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 1,
+          "canShootAnyPlayer": 0,
+          "cost": [
+            "Blue"
+          ],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 2
         },
         "Effect2": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
+          "mustShootOtherPlayers": 1,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Blue"
+          ],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect3": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
       "Orders": {
         "Order1": [
+          0,
           1,
-          2,
-          3
+          2
         ]
       },
       "Cost": [
         "Blue",
-        "Blue"
+        "Red"
       ]
     },
     "PlasmaGun": {
