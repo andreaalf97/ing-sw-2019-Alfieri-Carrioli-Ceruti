@@ -3,11 +3,14 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 
 public class WaitingRoom {
+
     private ArrayList<String> players;
     private String firstPlayer;
 
+    //COSTRUTTORE
     public WaitingRoom(){ this.players = new ArrayList<>(); }
 
+    //GETS
     public ArrayList<String> getPlayers() { return this.players; }
     public String getFirstPlayer() { return this.firstPlayer; }
 

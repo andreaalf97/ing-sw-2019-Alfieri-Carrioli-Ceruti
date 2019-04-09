@@ -6,9 +6,16 @@ public class PowerupDeck{
 
     private ArrayList<Powerup> powerupList;
 
-    public void shuffle(){
-        return;
+    //COSTRUTTORE
+    public PowerupDeck(){
+        this.powerupList = new ArrayList<>();
     }
+
+    //GET
+    public ArrayList<Powerup> getPowerupList() {
+        return powerupList;
+    }
+
 
     public Powerup pickCard(){
         Powerup powerupToPick = powerupList.get(powerupList.size()-1);

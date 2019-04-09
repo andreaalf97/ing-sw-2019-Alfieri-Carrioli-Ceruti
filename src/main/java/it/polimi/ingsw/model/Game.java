@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Game implements Runnable{
+
     private ArrayList<Player> players;
     private ArrayList<String> playerNames;
     private PowerupDeck powerupDeck;
     private WeaponDeck weaponDeck;
     private String firstPlayer;
     private int numOfPlayers;
-
     private String currentPlayer;
     private boolean isFirstTurn;
 

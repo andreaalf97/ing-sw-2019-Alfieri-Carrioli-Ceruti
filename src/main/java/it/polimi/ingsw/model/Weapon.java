@@ -13,7 +13,7 @@ public class Weapon {
     private ArrayList<Integer> order_2;
     private ArrayList<Integer> order_3;
 
-
+    //COSTRUTTORE
     public Weapon(String weaponName){
         this.weaponName = weaponName;
         isLoaded = false;
@@ -24,26 +24,25 @@ public class Weapon {
         this.order_3 = new ArrayList<>();
 
     }
-    public boolean isLoaded(){
-        return this.isLoaded;
-    }
 
-    public void reload(){
-        this.isLoaded = true;
-        return;
-    }
-
+    //GETS
     public ArrayList<Effect> getEffects(){
         return this.effects;
     }
-
     public ArrayList<Integer> getOrder_1(){
         return this.order_1;
     }
-
     public ArrayList<Integer> getOrder_2(){ return this.order_2; }
-
     public ArrayList<Integer> getOrder_3(){
         return this.order_3;
+    }
+
+
+    public boolean isLoaded(){
+        return this.isLoaded;
+    }
+    public void reload(){
+        this.isLoaded = true;
+        return;
     }
 }
