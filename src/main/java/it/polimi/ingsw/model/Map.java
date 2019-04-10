@@ -8,6 +8,8 @@ public class Map {
         this.map = map;
     }
 
+
+
     public boolean see(int spot1X, int spot1Y, int spot2X, int spot2Y){
         Spot spotX = getSpotByIndex(spot1X, spot1Y);
         Spot spotY = getSpotByIndex(spot2X, spot2Y);

@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.*;
+import netscape.javascript.JSObject;
+
+import java.io.FileReader;
+
 public class MapBuilder {
 
     //TODO is this necessary??
@@ -10,7 +15,24 @@ public class MapBuilder {
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static Map generateMap(MapName mapName){
-        return new Map(new Spot[1][1]);
+    public static Map generateMap(String mapName)
+    {
+        JsonParser jsonParser = new JsonParser();
+        try{
+            Object obj = jsonParser.parse(new FileReader("maps.json"));
+            JsonObject jsonObject = (JsonObject) obj;
+
+            //jsonObject.get(mapName);
+
+
+
+
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return new Map();
     }
 }

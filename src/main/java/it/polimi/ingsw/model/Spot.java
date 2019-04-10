@@ -33,16 +33,25 @@ public class Spot {
     public int getIdSpot() {return idSpot;}
     public int getPositionX() {return positionX;}
     public int getPositionY() { return positionY;}
-    public ArrayList<Boolean> getDoors() { return doors;}
+    public ArrayList<Boolean> getDoors() { return new ArrayList<Boolean>(doors);}
     public void setRoom(Room room) { this.room = room;}
     public void setIdSpot(int idSpot) { this.idSpot = idSpot;}
     public void setPositionX(int positionX) { this.positionX = positionX;}
     public void setPositionY(int positionY) { this.positionY = positionY;}
-    public void setDoors(ArrayList<Boolean> doors) { this.doors = doors;}
-    public ArrayList<String> getPlayersHere() { return playersHere; }
-    public void setPlayersHere(ArrayList<String> playersHere) { this.playersHere = playersHere; }
-
+    public void setDoors(ArrayList<Boolean> doors) {
+        if (doors == null)
+            throw new NullPointerException("doors should not be null");
+        else
+            this.doors = doors;}
+    public ArrayList<String> getPlayersHere() { return new ArrayList<String>(playersHere); }
+    public void setPlayersHere(ArrayList<String> playersHere) {
+        if (playersHere == null)
+            throw new NullPointerException("playersHere should not be null");
+        else
+            this.playersHere = playersHere; }
     /*------------------------------------------------------------------------------------------------------------------*/
+
+    //TODO generate method to avoid kill kitties
 
     public void refill(Object objToAdd) {
     }

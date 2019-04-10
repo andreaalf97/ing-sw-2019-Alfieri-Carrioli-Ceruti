@@ -16,6 +16,9 @@ public class AmmoSpot extends Spot {
         this.hasPowerup = false;
     }
 
+    public ArrayList<Color> getAmmoColorList(){ return new ArrayList<Color>(ammoColorList);}
+
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public void removeAmmos() {
         if (getAmmoColorList().isEmpty())
             System.out.println("no ammo in the spot,reload this spot at the end of the turn");
@@ -31,8 +34,6 @@ public class AmmoSpot extends Spot {
     }
 
     public boolean hasPowerup(){return hasPowerup;}
-
-    public ArrayList<Color> getAmmoColorList() { return ammoColorList; }
 
     private void generateAmmo() {
 
