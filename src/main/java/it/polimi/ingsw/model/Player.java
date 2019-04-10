@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.Cards.Powerup;
+import it.polimi.ingsw.model.Cards.Weapon;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 

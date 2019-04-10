@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.Map;
+
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Cards.Weapon;
 
 import java.util.ArrayList;
 

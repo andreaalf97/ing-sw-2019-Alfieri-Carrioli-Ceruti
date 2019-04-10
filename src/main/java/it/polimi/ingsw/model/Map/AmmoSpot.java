@@ -1,8 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.Map;
+
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Cards.Powerup;
 
 import java.util.ArrayList;
 import java.lang.Math;
-import java.util.Random;
 
 public class AmmoSpot extends Spot {
 
