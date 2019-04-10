@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class AmmoSpotTest {
 
 
@@ -17,31 +19,38 @@ public class AmmoSpotTest {
     @Test
     public void addAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0);
-        ammoSpotTest.getAmmoColorList().add(Color.RED);
-        ammoSpotTest.getAmmoColorList().add(Color.RED);
+        ArrayList<Color> ammoColorListTest = new ArrayList<>();
+
+        ammoColorListTest.add(Color.RED);
+        ammoColorListTest.add(Color.RED);
+        ammoSpotTest.setAmmoColorList(ammoColorListTest);
 
         ammoSpotTest.addAmmos();
-        Assert.assertEquals(2,ammoSpotTest.getAmmoColorList().size());
+        Assert.assertEquals(ammoColorListTest,ammoSpotTest.getAmmoColorList());
     }
 
     @Test
     public void addAmmoWhenSpotIsAlreadyLoaded(){
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0);
-        ammoSpotTest.getAmmoColorList().add(Color.RED);
-        ammoSpotTest.getAmmoColorList().add(Color.RED);
-        ammoSpotTest.getAmmoColorList().add(Color.RED);
+        ArrayList<Color> ammoColoListTest = new ArrayList<>();
+
+        ammoColoListTest.add(Color.RED);
+        ammoColoListTest.add(Color.RED);
+        ammoColoListTest.add(Color.RED);
+        ammoSpotTest.setAmmoColorList(ammoColoListTest);
 
         ammoSpotTest.addAmmos();
-        Assert.assertEquals(3,ammoSpotTest.getAmmoColorList().size());
+        Assert.assertEquals(ammoColoListTest,ammoSpotTest.getAmmoColorList());
     }
 
 
     @Test
     public  void removeAmmoTrue() {
         AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0);
+        ArrayList<Color> ammoColorListTest = new ArrayList<>();
 
-        ammoSpotTest.getAmmoColorList().add(Color.RED);
-        ammoSpotTest.getAmmoColorList().add(Color.BLUE);
+        ammoColorListTest.add(Color.RED);
+        ammoColorListTest.add(Color.BLUE);
 
         ammoSpotTest.removeAmmos();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());

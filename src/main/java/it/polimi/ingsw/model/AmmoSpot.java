@@ -16,6 +16,13 @@ public class AmmoSpot extends Spot {
         this.powerup = powerup;
     }
 
+    public void setAmmoColorList (ArrayList<Color> ammoColorList) throws NullPointerException{
+        if (ammoColorList == null)
+            throw new NullPointerException("ammoColoList should not be null");
+        else
+            this.ammoColorList = ammoColorList;
+    }
+
     public ArrayList<Color> getAmmoColorList(){ return new ArrayList<Color>(ammoColorList);}
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

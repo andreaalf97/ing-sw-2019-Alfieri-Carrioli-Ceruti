@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class SpawnSpotTest {
 
     @Test
@@ -13,9 +15,12 @@ public class SpawnSpotTest {
         Weapon w2 = new Weapon("b");
         Weapon w3 = new Weapon("c");
         Weapon w4 = new Weapon("d");
-        spawnSpotTest.getWeaponList().add(w1);
-        spawnSpotTest.getWeaponList().add(w2);
-        spawnSpotTest.getWeaponList().add(w3);
+        ArrayList<Weapon> weaponListTest = new ArrayList<>();
+        weaponListTest.add(w1);
+        weaponListTest.add(w2);
+        weaponListTest.add(w3);
+
+        spawnSpotTest.setWeaponList(weaponListTest);
 
         Assert.assertFalse(spawnSpotTest.addWeapon(w4));
     }
@@ -26,9 +31,10 @@ public class SpawnSpotTest {
         Weapon w1 = new Weapon("a");
         Weapon w2 = new Weapon("b");
         Weapon w3 = new Weapon("c");
+        ArrayList<Weapon> weaponListTest = new ArrayList<>();
 
-        spawnSpotTest.getWeaponList().add(w1);
-        spawnSpotTest.getWeaponList().add(w2);
+        weaponListTest.add(w1);
+        weaponListTest.add(w2);
 
         Assert.assertTrue(spawnSpotTest.addWeapon(w3));
     }
