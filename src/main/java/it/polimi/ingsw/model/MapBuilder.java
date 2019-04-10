@@ -11,6 +11,6 @@ public class MapBuilder {
      * @return the map
      */
     public static Map generateMap(MapName mapName){
-        return new Map();
+        return new Map(new Spot[1][1]);
     }
 }

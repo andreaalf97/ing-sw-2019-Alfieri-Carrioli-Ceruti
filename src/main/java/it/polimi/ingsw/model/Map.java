@@ -4,6 +4,10 @@ public class Map {
 
     private Spot[][] map;
 
+    public Map(Spot[][] map){
+        this.map = map;
+    }
+
     public boolean see(int spot1X, int spot1Y, int spot2X, int spot2Y){
         Spot spotX = getSpotByIndex(spot1X, spot1Y);
         Spot spotY = getSpotByIndex(spot2X, spot2Y);
@@ -42,9 +46,21 @@ public class Map {
 
     public void movePlayer(String player, int newX, int newY){ return; }
 
-    public void refillSpawnSpot(int x,int y, Weapon newWeapon){return ;}
+    public void refill(int x,int y, Object objToAdd){
+        map[x][y].refill(objToAdd);
+    }
 
-    public void refillAmmoSpot(int x, int y){return ;}
+    public void grabSomething(int x, int y, Player p) {
+        map[x][y].grabSomething(p);
+    }
+
+    public boolean isAmmoSpot(int x, int y){
+        return map[x][y].isAmmoSpot();
+    }
+
+    public boolean isSpawnSpot(int x, int y){
+        return map[x][y].isSpawnSpot();
+    }
 
 
 }

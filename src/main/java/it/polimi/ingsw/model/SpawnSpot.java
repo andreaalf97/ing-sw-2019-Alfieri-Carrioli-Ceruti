@@ -35,4 +35,24 @@ public class SpawnSpot extends Spot {
         }
 
     }
+
+    @Override
+    public void refill(Object objToAdd) {
+        super.refill(objToAdd);
+    }
+
+    @Override
+    public void grabSomething(Player p) {
+        super.grabSomething(p);
+    }
+
+    @Override
+    public boolean isAmmoSpot() {
+        return super.isAmmoSpot();
+    }
+
+    @Override
+    public boolean isSpawnSpot() {
+        return super.isSpawnSpot();
+    }
 }

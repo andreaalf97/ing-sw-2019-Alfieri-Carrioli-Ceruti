@@ -41,5 +41,21 @@ public class Spot {
     public void setDoors(ArrayList<Boolean> doors) { this.doors = doors;}
     public ArrayList<String> getPlayersHere() { return playersHere; }
     public void setPlayersHere(ArrayList<String> playersHere) { this.playersHere = playersHere; }
+
     /*------------------------------------------------------------------------------------------------------------------*/
+
+    public void refill(Object objToAdd) {
+    }
+
+
+    public void grabSomething(Player p) {
+    }
+
+    public boolean isAmmoSpot() {
+        return true;
+    }
+
+    public boolean isSpawnSpot() {
+        return true;
+    }
 }
