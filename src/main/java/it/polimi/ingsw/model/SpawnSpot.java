@@ -39,13 +39,19 @@ public class SpawnSpot extends Spot {
     }
 
     @Override
-    public void refill(Object objToAdd) {
-        super.refill(objToAdd);
+    public void refill(Object objToAdd) throws IllegalArgumentException, IndexOutOfBoundsException{
+        if(!(objToAdd instanceof Weapon))
+            throw new IllegalArgumentException("objToAdd should be a Weapon object");
+
+        if(weaponList.size() > 2)
+            throw new IndexOutOfBoundsException("There is no room for a weapon");
+
+        weaponList.add((Weapon)objToAdd);
     }
 
     @Override
     public void grabSomething(Player p) {
-        super.grabSomething(p);
+
     }
 
     @Override

@@ -7,13 +7,13 @@ import java.util.Random;
 public class AmmoSpot extends Spot {
 
     private ArrayList<Color> ammoColorList;
-    private boolean hasPowerup;
+    private Powerup powerup;
 
-    public AmmoSpot(Room room, int idSpot, int positionX, int positionY) {
+    public AmmoSpot(Room room, int idSpot, int positionX, int positionY, Powerup powerup) {
         super(room, idSpot, positionX, positionY);
 
         this.ammoColorList = new ArrayList<>();
-        this.hasPowerup = false;
+        this.powerup = powerup;
     }
 
     public ArrayList<Color> getAmmoColorList(){ return new ArrayList<Color>(ammoColorList);}
@@ -33,16 +33,15 @@ public class AmmoSpot extends Spot {
             System.out.println("no ammo in the spot,reload this spot at the end of the turn");
     }
 
-    public boolean hasPowerup(){return hasPowerup;}
-
     private void generateAmmo() {
 
         double rand = Math.random();
 
-        if (rand < 0.4722222) //probability to pick an ammo card with a powerup
-                hasPowerup = true;
+        if (rand < 0.4722222) { //probability to pick an ammo card with a powerup
+            //TODO hasPowerup = true;
+        }
         else {
-            hasPowerup = false;
+            //TODO hasPowerup = false;
             ammoColorList.add(Color.randomColor());
         }
         ammoColorList.add(Color.randomColor());
@@ -56,8 +55,9 @@ public class AmmoSpot extends Spot {
     }
 
     @Override
-    public void grabSomething(Player p) {
-        super.grabSomething(p);
+    public void grabSomething(Player player) {
+         if(this.powerup != null) player.givePowerup(powerup);
+         player.giveAmmos(ammoColorList);
     }
 
     @Override
