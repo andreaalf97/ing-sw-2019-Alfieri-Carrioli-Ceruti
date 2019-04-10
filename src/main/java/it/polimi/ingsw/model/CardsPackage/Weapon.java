@@ -1,10 +1,9 @@
-package it.polimi.ingsw.model.Cards;
+package it.polimi.ingsw.model.CardsPackage;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Effect;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Weapon {
 

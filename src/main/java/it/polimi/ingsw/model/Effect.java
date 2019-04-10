@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Map.Visibility;
+import it.polimi.ingsw.model.MapPackage.Visibility;
 
 public class Effect {
     private int nDamages;

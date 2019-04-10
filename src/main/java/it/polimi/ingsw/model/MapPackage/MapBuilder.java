@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.Map;
+package it.polimi.ingsw.model.MapPackage;
 
 import com.google.gson.*;
 

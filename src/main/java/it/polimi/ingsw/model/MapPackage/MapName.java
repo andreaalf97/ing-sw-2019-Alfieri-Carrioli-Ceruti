@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.Map;
+package it.polimi.ingsw.model.MapPackage;
 
 public enum MapName {
     FIRE,

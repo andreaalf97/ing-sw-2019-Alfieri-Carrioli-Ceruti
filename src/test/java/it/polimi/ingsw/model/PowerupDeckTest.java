@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Cards.Powerup;
-import it.polimi.ingsw.model.Cards.PowerupDeck;
+import it.polimi.ingsw.model.CardsPackage.Powerup;
+import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.Map;
+package it.polimi.ingsw.model.MapPackage;
 
 import it.polimi.ingsw.model.Player;
 
@@ -9,7 +9,7 @@ public class Spot {
     private ArrayList<String> playersHere;
     private ArrayList<Boolean> doors; //North-> 0, East->1, South->2, West ->3
     private Room room;
-    //TODO might not need these 3 attributes below --> Spot is already referenced by the Map Matrix
+    //TODO might not need these 3 attributes below --> Spot is already referenced by the MapPackage Matrix
     private int idSpot;    /*a spot in the map is identified by <room, idSpot>  */
     private int positionX;
     private int positionY;

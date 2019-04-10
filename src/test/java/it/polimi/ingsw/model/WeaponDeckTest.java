@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Cards.Weapon;
-import it.polimi.ingsw.model.Cards.WeaponDeck;
+import it.polimi.ingsw.model.CardsPackage.Weapon;
+import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

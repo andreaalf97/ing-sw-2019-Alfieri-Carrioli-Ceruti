@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Cards.PowerupDeck;
-import it.polimi.ingsw.model.Cards.Weapon;
-import it.polimi.ingsw.model.Cards.WeaponDeck;
-import it.polimi.ingsw.model.Map.MapName;
+import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
+import it.polimi.ingsw.model.CardsPackage.Weapon;
+import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
+import it.polimi.ingsw.model.MapPackage.MapName;
 
 import java.util.ArrayList;
 import java.util.Iterator;

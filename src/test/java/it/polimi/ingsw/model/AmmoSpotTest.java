@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Map.AmmoSpot;
-import it.polimi.ingsw.model.Map.Room;
+import it.polimi.ingsw.model.MapPackage.AmmoSpot;
+import it.polimi.ingsw.model.MapPackage.Room;
 import org.junit.Assert;
 import org.junit.Test;
 

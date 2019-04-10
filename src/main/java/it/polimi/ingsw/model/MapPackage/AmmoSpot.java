@@ -1,8 +1,8 @@
-package it.polimi.ingsw.model.Map;
+package it.polimi.ingsw.model.MapPackage;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Cards.Powerup;
+import it.polimi.ingsw.model.CardsPackage.Powerup;
 
 import java.util.ArrayList;
 import java.lang.Math;
