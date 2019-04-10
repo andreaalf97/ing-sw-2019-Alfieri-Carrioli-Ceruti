@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.MapPackage;
 
 import com.google.gson.*;
-
 import java.io.FileReader;
 
 public class MapBuilder {
@@ -16,22 +15,20 @@ public class MapBuilder {
      */
     public static Map generateMap(String mapName)
     {
+        Map tempMap = new Map(new Spot [3][4]);
+
         JsonParser jsonParser = new JsonParser();
+
+
         try{
-            Object obj = jsonParser.parse(new FileReader("maps.json"));
+            Object obj = jsonParser.parse(new FileReader("resources/maps.json"));
             JsonObject jsonObject = (JsonObject) obj;
-
             //jsonObject.get(mapName);
-
-
-
-
-
         }
         catch(Exception e){
             e.printStackTrace();
         }
 
-        return new Map(new Spot[1][1]);
+        return tempMap;
     }
 }

@@ -20,7 +20,7 @@ public class SpawnSpot extends Spot {
         return new ArrayList<Weapon>(weaponList);
     }
 
-    public void setWeaponList(ArrayList<Weapon> weaponList){
+    public void setWeaponList(ArrayList<Weapon> weaponList) throws NullPointerException{
         if (weaponList == null)
             throw new NullPointerException("weaponList should not be null");
         else
