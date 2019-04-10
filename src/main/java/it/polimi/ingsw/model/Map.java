@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public abstract class Map {
+public class Map {
 
     private Spot[][] map;
 
