@@ -1,5 +1,5 @@
 {
-  "map0": {
+  "FIRE": {
     "row0": {
       "col0": {
         "isSpawnSpot": false,
@@ -139,7 +139,7 @@
       }
     }
   },
-  "map1": {
+  "EARTH": {
     "row0": {
       "col0": {
         "isSpawnSpot": false,
@@ -291,7 +291,7 @@
       }
     }
   },
-  "map2": {
+  "WIND": {
     "row0": {
       "col0": {
         "isSpawnSpot": false,
@@ -455,7 +455,7 @@
       }
     }
   },
-  "map3": {
+  "WATER": {
     "row0": {
       "col0": {
         "isSpawnSpot": false,

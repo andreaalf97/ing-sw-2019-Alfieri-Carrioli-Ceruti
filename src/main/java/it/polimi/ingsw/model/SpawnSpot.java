@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SpawnSpot extends Spot {
     private ArrayList<Weapon> weaponList;
 
-    //COSTRUTTPRE
+    //COSTRUTTORE
     public SpawnSpot(Room room,int idSpot,int positionX, int positionY ){
         super(room,idSpot,positionX,positionY);
 
@@ -14,8 +14,10 @@ public class SpawnSpot extends Spot {
 
     //GET
     public ArrayList<Weapon> getWeaponList() {
-        return weaponList;
+        return new ArrayList<Weapon>(weaponList);
     }
+
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     public boolean addWeapon(Weapon weaponToAdd){
         if (weaponList.size() >= 3)
