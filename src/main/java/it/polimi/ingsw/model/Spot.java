@@ -38,13 +38,13 @@ public class Spot {
     public void setIdSpot(int idSpot) { this.idSpot = idSpot;}
     public void setPositionX(int positionX) { this.positionX = positionX;}
     public void setPositionY(int positionY) { this.positionY = positionY;}
-    public void setDoors(ArrayList<Boolean> doors) {
+    public void setDoors (ArrayList<Boolean> doors) throws NullPointerException{
         if (doors == null)
             throw new NullPointerException("doors should not be null");
         else
             this.doors = doors;}
     public ArrayList<String> getPlayersHere() { return new ArrayList<String>(playersHere); }
-    public void setPlayersHere(ArrayList<String> playersHere) {
+    public void setPlayersHere(ArrayList<String> playersHere) throws NullPointerException {
         if (playersHere == null)
             throw new NullPointerException("playersHere should not be null");
         else
