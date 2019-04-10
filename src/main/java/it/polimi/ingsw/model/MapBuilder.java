@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
-import netscape.javascript.JSObject;
 
 import java.io.FileReader;
 
