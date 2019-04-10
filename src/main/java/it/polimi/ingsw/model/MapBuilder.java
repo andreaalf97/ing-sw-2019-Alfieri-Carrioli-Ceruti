@@ -33,6 +33,6 @@ public class MapBuilder {
             e.printStackTrace();
         }
 
-        return new Map();
+        return new Map(new Spot[1][1]);
     }
 }
