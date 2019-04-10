@@ -1,19 +1,22 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.Map;
+
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Cards.Powerup;
 
 import java.util.ArrayList;
 import java.lang.Math;
-import java.util.Random;
 
 public class AmmoSpot extends Spot {
 
     private ArrayList<Color> ammoColorList;
-    private boolean hasPowerup;
+    private Powerup powerup;
 
-    public AmmoSpot(Room room, int idSpot, int positionX, int positionY) {
+    public AmmoSpot(Room room, int idSpot, int positionX, int positionY, Powerup powerup) {
         super(room, idSpot, positionX, positionY);
 
         this.ammoColorList = new ArrayList<>();
-        this.hasPowerup = false;
+        this.powerup = powerup;
     }
 
     public void setAmmoColorList (ArrayList<Color> ammoColorList) throws NullPointerException{
@@ -40,16 +43,15 @@ public class AmmoSpot extends Spot {
             System.out.println("no ammo in the spot,reload this spot at the end of the turn");
     }
 
-    public boolean hasPowerup(){return hasPowerup;}
-
     private void generateAmmo() {
 
         double rand = Math.random();
 
-        if (rand < 0.4722222) //probability to pick an ammo card with a powerup
-                hasPowerup = true;
+        if (rand < 0.4722222) { //probability to pick an ammo card with a powerup
+            //TODO hasPowerup = true;
+        }
         else {
-            hasPowerup = false;
+            //TODO hasPowerup = false;
             ammoColorList.add(Color.randomColor());
         }
         ammoColorList.add(Color.randomColor());
@@ -63,8 +65,9 @@ public class AmmoSpot extends Spot {
     }
 
     @Override
-    public void grabSomething(Player p) {
-        super.grabSomething(p);
+    public void grabSomething(Player player) {
+         if(this.powerup != null) player.givePowerup(powerup);
+         player.giveAmmos(ammoColorList);
     }
 
     @Override

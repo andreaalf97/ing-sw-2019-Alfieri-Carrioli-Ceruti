@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.Cards;
+
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Effect;
 
 public class Powerup {
 

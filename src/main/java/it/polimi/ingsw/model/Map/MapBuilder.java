@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.Map;
 
 import com.google.gson.*;
 import java.io.FileReader;

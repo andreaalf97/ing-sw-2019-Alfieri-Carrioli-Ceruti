@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.Cards.PowerupDeck;
+import it.polimi.ingsw.model.Cards.Weapon;
+import it.polimi.ingsw.model.Cards.WeaponDeck;
+import it.polimi.ingsw.model.Map.MapName;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 

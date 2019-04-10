@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.Map;
+
+import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 
@@ -60,11 +62,12 @@ public class Spot {
     public void grabSomething(Player p) {
     }
 
-    public boolean isAmmoSpot() {
-        return true;
+    public boolean isAmmoSpot() throws ClassCastException{
+        throw new ClassCastException("There should not exists any Spot objects");
     }
 
-    public boolean isSpawnSpot() {
-        return true;
+    public boolean isSpawnSpot() throws ClassCastException{
+        throw new ClassCastException("There should not exists any Spot objects");
     }
+
 }

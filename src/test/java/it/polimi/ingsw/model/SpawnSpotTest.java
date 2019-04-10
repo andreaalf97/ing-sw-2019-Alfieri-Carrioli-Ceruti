@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.Cards.Weapon;
+import it.polimi.ingsw.model.Map.Room;
+import it.polimi.ingsw.model.Map.SpawnSpot;
 import org.junit.Assert;
 import org.junit.Test;
 
