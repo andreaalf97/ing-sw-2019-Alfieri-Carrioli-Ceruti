@@ -4,9 +4,14 @@ import java.util.ArrayList;
 
 public class PowerupDeck{
 
+    /**
+     * The list of powerups in this deck
+     */
     private ArrayList<Powerup> powerupList;
 
-    //COSTRUTTORE
+    /**
+     * Basic constructor
+     */
     public PowerupDeck(){
         this.powerupList = new ArrayList<>();
     }
@@ -16,7 +21,10 @@ public class PowerupDeck{
         return powerupList;
     }
 
-
+    /**
+     * Draws a card from the deck
+     * @return the card picked
+     */
     public Powerup pickCard(){
         Powerup powerupToPick = powerupList.get(powerupList.size()-1);
         powerupList.remove(powerupList.size()-1);

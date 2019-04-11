@@ -7,42 +7,62 @@ import java.util.ArrayList;
 
 public class Weapon {
 
+    /**
+     * The name of the weapon as addressed on the JSON file
+     */
     private String weaponName;
-    private ArrayList<Color> cost;
-    private ArrayList<Effect> effects;
-    private boolean isLoaded;
-    private ArrayList<Integer> order_1;
-    private ArrayList<Integer> order_2;
-    private ArrayList<Integer> order_3;
 
-    //COSTRUTTORE
+    /**
+     * The cost of this weapon
+     */
+    private ArrayList<Color> cost;
+
+    /**
+     * The list of the weapon's effects
+     */
+    private ArrayList<Effect> effects;
+
+    /**
+     * True if the weapon is able to shoot
+     */
+    private boolean isLoaded;
+
+    /**
+     * The list of possible order effects
+     */
+    private ArrayList<Integer[]> order;
+
+    /**
+     * A basic constructor
+     * @param weaponName The name of the weapon to read from the JSON file
+     */
     public Weapon(String weaponName){
         this.weaponName = weaponName;
         isLoaded = false;
         this.cost = new ArrayList<>();
         this.effects = new ArrayList<>();
-        this.order_1 = new ArrayList<>();
-        this.order_2 = new ArrayList<>();
-        this.order_3 = new ArrayList<>();
-
+        this.order = new ArrayList<>();
     }
 
-    //GETS
+
     public ArrayList<Effect> getEffects(){
         return this.effects;
     }
-    public ArrayList<Integer> getOrder_1(){
-        return this.order_1;
-    }
-    public ArrayList<Integer> getOrder_2(){ return this.order_2; }
-    public ArrayList<Integer> getOrder_3(){
-        return this.order_3;
+    public ArrayList<Integer[]> getOrder(){
+        return this.order;
     }
 
-
+    /**
+     * Return true if the weapon can shoot
+     * @return if the weapon is loaded
+     */
     public boolean isLoaded(){
         return this.isLoaded;
     }
+
+    /**
+     * Reloads this weapon
+     */
     public void reload(){
         this.isLoaded = true;
         return;

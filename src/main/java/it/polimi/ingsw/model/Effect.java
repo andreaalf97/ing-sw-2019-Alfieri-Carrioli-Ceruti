@@ -2,23 +2,93 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.MapPackage.Visibility;
 
+import java.util.ArrayList;
+
 public class Effect {
+    /**
+     * Damages to give to the defender
+     */
     private int nDamages;
+
+    /**
+     * Marks to give to the defender
+     */
     private int nMarks;
+
+    /**
+     * Players receiving damages by this single effect
+     */
     private int nPlayerMarkable;       //can be 0 to 4
-    private int nPlayerAttacable;       //can be 0 to 4
+
+    /**
+     * Players receiving mark by this single effect
+     */
+    private int nPlayerAttackable;       //can be 0 to 4
+
+    /**
+     * TODO
+     */
     private int nMarksOtherPlayer;
+
+    /**
+     * Refers to the player the offender attacked in the last effect.
+     * True if the offender must attack an other player
+     */
     private boolean mustShootOtherPlayers;
+
+    /**
+     * Refers to the player the offender attacked in the last effect.
+     * True if the offender can attack the last defender and any other player
+     */
     private boolean canShootAnyPlayer;
-    private int cost;
+
+    /**
+     * The cost of this effect.
+     * Null if cost == 0
+     */
+    private ArrayList<Color> cost;
+
+    /**
+     * Moves the offender can do
+     */
     private int nMoves;
-    private int minDistance;
-    private int maxDistance;    //100 = inf
-    private boolean mustBeOtherRoom;
-    private boolean mustBeDifferentSpots;
-    private boolean isLinear;
-    private Visibility visibleByWho;
+
+    /**
+     * Moves the defender can do
+     */
     private int nMovesOtherPlayer;
+
+    /**
+     * Minimum distance between the offender and the defender
+     */
+    private int minDistance;
+
+    /**
+     * Maximum distance between the offender and the defender
+     * 100 is considered INF
+     */
+    private int maxDistance;
+
+    /**
+     * True if the defender must be in a different room
+     */
+    private boolean mustBeOtherRoom;
+
+    /**
+     * True if nPlayerAttackable > 1 && all the defenders must be in different spots
+     */
+    private boolean mustBeDifferentSpots;
+
+    /**
+     * True if the effect is only applicable in one direction
+     */
+    private boolean isLinear;
+
+    /**
+     * Defines who the defender must be visible by
+     * Refer to the Visibility class for clarification
+     */
+    private Visibility visibleByWho;
 
     //NMOVES HAS TO BE CHECKED FOR FIRST (IF NMOVES != 0 IT HAS TO BE A MOVEMENT ONLY EFFECT SO WE DON'T HAVE TO CHECK THE OTHERS)
     // ALSO NMOVESOTHERPLAYER HAS TO BE CHECKED FOR SECOND (IF NMOVERSOTHERPLAYER != 0 IT HAS TO BE A MOVEMENT ONLY EFFECT)
@@ -49,11 +119,11 @@ public class Effect {
     public void setnPlayerMarkable(int nPlayerMarable) {
         this.nPlayerMarkable = nPlayerMarable;
     }
-    public int getnPlayerAttacable() {
-        return nPlayerAttacable;
+    public int getnPlayerAttackable() {
+        return nPlayerAttackable;
     }
-    public void setnPlayerAttacable(int nPlayerAttacable) {
-        this.nPlayerAttacable = nPlayerAttacable;
+    public void setnPlayerAttackable(int nPlayerAttackable) {
+        this.nPlayerAttackable = nPlayerAttackable;
     }
     public int getnMarksOtherPlayer() {
         return nMarksOtherPlayer;
@@ -72,10 +142,10 @@ public class Effect {
     public void setCanShootAnyPlayer(boolean canShootAnyPlayer) {
         this.canShootAnyPlayer = canShootAnyPlayer;
     }
-    public int getCost() {
+    public ArrayList<Color> getCost() {
         return cost;
     }
-    public void setCost(int cost) {
+    public void setCost(ArrayList<Color> cost) {
         this.cost = cost;
     }
     public int getnMoves() {

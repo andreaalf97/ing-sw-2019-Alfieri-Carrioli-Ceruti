@@ -6,16 +6,25 @@ import it.polimi.ingsw.model.CardsPackage.Weapon;
 import java.util.ArrayList;
 
 public class SpawnSpot extends Spot {
+    /**
+     * The list of weapons on this spot
+     */
     private ArrayList<Weapon> weaponList;
 
-    //COSTRUTTORE
+    /**
+     * A basic constructor
+     * @param room the room of this spot
+     * @param idSpot the id of this spot
+     * @param positionX the x coord
+     * @param positionY the y coord
+     */
     public SpawnSpot(Room room,int idSpot,int positionX, int positionY ){
         super(room,idSpot,positionX,positionY);
 
         this.weaponList = new ArrayList<>(3);
     }
 
-    //GET
+
     public ArrayList<Weapon> getWeaponList() {
         return new ArrayList<Weapon>(weaponList);
     }
@@ -30,6 +39,11 @@ public class SpawnSpot extends Spot {
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+    /**
+     * Adds a weapon to this spot
+     * @param weaponToAdd the weapon to add
+     * @return true if the weapon was added
+     */
     public boolean addWeapon(Weapon weaponToAdd){
         if (weaponList.size() >= 3)
                 return false;
@@ -39,6 +53,12 @@ public class SpawnSpot extends Spot {
         }
 
     }
+
+    /**
+     * Removes a weapon from this spot
+     * @param weaponToRemove the weapon to remove
+     * @return true if the weapon was correctly removed
+     */
     public boolean removeWeapon(Weapon weaponToRemove){
         if (weaponList.isEmpty() || !(weaponList.contains(weaponToRemove)))
             return false;
@@ -49,6 +69,12 @@ public class SpawnSpot extends Spot {
 
     }
 
+    /**
+     * Refills this spot with a weapon
+     * @param objToAdd the weapon to add
+     * @throws IllegalArgumentException if the object is not a weapon
+     * @throws IndexOutOfBoundsException if there is no room for a new weapon
+     */
     @Override
     public void refill(Object objToAdd) throws IllegalArgumentException, IndexOutOfBoundsException{
         if(!(objToAdd instanceof Weapon))
@@ -60,18 +86,30 @@ public class SpawnSpot extends Spot {
         weaponList.add((Weapon)objToAdd);
     }
 
+    /**
+     * Gives a weapon to the player
+     * @param p the player who's receiving the weapon
+     */
     @Override
     public void grabSomething(Player p) {
 
     }
 
+    /**
+     * Is this an ammo spot?
+     * @return always false
+     */
     @Override
     public boolean isAmmoSpot() {
-        return super.isAmmoSpot();
+        return false;
     }
 
+    /**
+     * Is this a spawn spot?
+     * @return always true
+     */
     @Override
     public boolean isSpawnSpot() {
-        return super.isSpawnSpot();
+        return true;
     }
 }

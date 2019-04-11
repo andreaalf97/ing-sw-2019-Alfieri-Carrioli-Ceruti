@@ -6,15 +6,38 @@ import java.util.ArrayList;
 
 public class Spot {
 
+    /**
+     * The list of players' nicknames on this spot
+     */
     private ArrayList<String> playersHere;
-    private ArrayList<Boolean> doors; //North-> 0, East->1, South->2, West ->3
+
+    /**
+     * A list of boolean that are true only if the is a door
+     * North --> 0
+     * East --> 1
+     * South --> 2
+     * West --> 3
+     */
+    private ArrayList<Boolean> doors;
+
+    /**
+     * The room of this spot
+     */
     private Room room;
+
+
     //TODO might not need these 3 attributes below --> Spot is already referenced by the MapPackage Matrix
     private int idSpot;    /*a spot in the map is identified by <room, idSpot>  */
     private int positionX;
     private int positionY;
 
-    //COSTRUTTPER
+    /**
+     * The constructor
+     * @param room the room of this spot
+     * @param idSpot the id of this spot MIGHT NOT NEED THIS
+     * @param positionX the x coord MIGHT NOT NEED THIS
+     * @param positionY the y coord MIGHT NOT NEED THIS
+     */
     public Spot(Room room, int idSpot, int positionX, int positionY){
         this.playersHere = new ArrayList<>(5);
         this.doors = new ArrayList<>(4);
@@ -53,21 +76,44 @@ public class Spot {
             this.playersHere = playersHere; }
     /*------------------------------------------------------------------------------------------------------------------*/
 
-    //TODO generate method to avoid kill kitties
-
-    public void refill(Object objToAdd) {
+    /**
+     * Refills this spot.
+     * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
+     * @param objToAdd the object to add
+     * @throws ClassCastException always
+     */
+    public void refill(Object objToAdd) throws ClassCastException{
+        throw new ClassCastException("This object should not exist!");
     }
 
-
-    public void grabSomething(Player p) {
+    /**
+     * Gives whatever's on this spot to the player.
+     * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
+     * @param p the player
+     * @throws ClassCastException always
+     */
+    public void grabSomething(Player p) throws ClassCastException{
+        throw new ClassCastException("This object should not exist!");
     }
 
+    /**
+     * Is this an ammo spot?
+     * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
+     * @return should never return anything
+     * @throws ClassCastException always
+     */
     public boolean isAmmoSpot() throws ClassCastException{
-        throw new ClassCastException("There should not exists any Spot objects");
+        throw new ClassCastException("There should not exists any Spot objects!");
     }
 
+    /**
+     * Is this a spawn spot?
+     * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
+     * @return should never return anything
+     * @throws ClassCastException always
+     */
     public boolean isSpawnSpot() throws ClassCastException{
-        throw new ClassCastException("There should not exists any Spot objects");
+        throw new ClassCastException("There should not exists any Spot objects!");
     }
 
 }
