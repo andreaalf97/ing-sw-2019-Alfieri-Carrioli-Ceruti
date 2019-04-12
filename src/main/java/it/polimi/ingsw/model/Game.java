@@ -280,7 +280,7 @@ public class Game implements Runnable{
      * @param defender Attacked player
      * @param weapon Shooting weapon
      */
-    public void shootPlayer(Player offender, Player defender, Weapon weapop){}
+    public void shootPlayer(Player offender, Player defender, Weapon weapon){}
 
     /**
      * Clears the Kill Shot Track and gives points to all players involved

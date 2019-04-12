@@ -47,9 +47,9 @@ public class Spot {
     public Room getRoom() { return room;}
 
     public ArrayList<Boolean> getDoors() { return new ArrayList<>(doors);}
-    private void setRoom(Room room) { this.room = room;}
+    public void setRoom(Room room) { this.room = room;}
 
-    private void setDoors (ArrayList<Boolean> doors) throws NullPointerException{
+    public void setDoors (ArrayList<Boolean> doors) throws NullPointerException{
         if (doors == null)
             throw new NullPointerException("doors should not be null");
         else
