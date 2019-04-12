@@ -31,6 +31,11 @@ public class Game implements Runnable{
     private WeaponDeck weaponDeck;
 
     /**
+     * The Kill shot track of this game
+     */
+    private KillShotTrack kst;
+
+    /**
      * This references the player that ran the first Turn
      */
     private String firstPlayer;
@@ -275,12 +280,32 @@ public class Game implements Runnable{
      * @param defender Attacked player
      * @param weapon Shooting weapon
      */
-    public void shootPlayer(Player offender, Player defender, Weapon weapon){}
+    public void shootPlayer(Player offender, Player defender, Weapon weapop){}
 
     /**
      * Clears the Kill Shot Track and gives points to all players involved
      */
-    public void giveKSTpoints(){}
+    public void giveKSTpoints(){
+        int[] pointValues = {8, 6, 4, 2, 1, 1};
+
+        ArrayList<String> ranking = kst.getRanking();
+
+        try {
+            for (int i = 0; i < ranking.size(); i++)
+                getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+        }
+        catch (NoSuchPlayerException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Player getPlayerByNickname(String nickname) throws NoSuchPlayerException{
+        if(!playerNames.contains(nickname))
+            throw new NoSuchPlayerException("This player does not exist");
+
+        return players.get(playerNames.indexOf(nickname));
+    }
 
     //TODO Think about this method
     /* public void usePowerup(Powerup powerup, Player playerWhoUses, Player playerWhoReceiveEffect) {

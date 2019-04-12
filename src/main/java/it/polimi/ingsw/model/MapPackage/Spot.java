@@ -47,9 +47,9 @@ public class Spot {
     public Room getRoom() { return room;}
 
     public ArrayList<Boolean> getDoors() { return new ArrayList<>(doors);}
-    public void setRoom(Room room) { this.room = room;}
+    private void setRoom(Room room) { this.room = room;}
 
-    public void setDoors (ArrayList<Boolean> doors) throws NullPointerException{
+    private void setDoors (ArrayList<Boolean> doors) throws NullPointerException{
         if (doors == null)
             throw new NullPointerException("doors should not be null");
         else
@@ -64,6 +64,15 @@ public class Spot {
         else
             this.playersHere = playersHere; }*/
     /*------------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Tell you if the selected player is on this spot
+     * @param player the asked player
+     * @return true only if the player is on this spot
+     */
+    public boolean playerHere(String player){
+        return playersHere.contains(player);
+    }
 
     /**
      * Adds a player to this spot if the player is not already on the spot

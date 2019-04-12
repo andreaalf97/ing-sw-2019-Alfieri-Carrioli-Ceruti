@@ -10,4 +10,9 @@ class MapTest {
     void movePlayer() {
         assertEquals(0, 0);
     }
+
+    @Test
+    void see(){
+        //TODO
+    }
 }
