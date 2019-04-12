@@ -11,9 +11,9 @@ class PowerupDeckTest {
     void pickCard() {
         PowerupDeck powerupDeckTest = new PowerupDeck();
 
-        powerupDeckTest.getPowerupList().add(new Powerup("TargetingScope"));
-        powerupDeckTest.getPowerupList().add(new Powerup("Teleporter"));
-        powerupDeckTest.getPowerupList().add(new Powerup("Newton"));
+        powerupDeckTest.getPowerupList().add(new Powerup());
+        powerupDeckTest.getPowerupList().add(new Powerup());
+        powerupDeckTest.getPowerupList().add(new Powerup());
 
 
         Powerup powerupToPick = powerupDeckTest.pickCard();

@@ -1,10 +1,18 @@
 package it.polimi.ingsw.model.MapPackage;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest {
+
+    @Test
+    void verifyJsonMapReading(){
+        MapBuilder.generateMap("FIRE");
+
+        Assert.assertTrue(true);
+    }
 
     @Test
     void movePlayer() {

@@ -7,4 +7,6 @@ public enum Room {
     TOPAZ,
     AMETHYST,
     DIAMOND;
+
+
 }

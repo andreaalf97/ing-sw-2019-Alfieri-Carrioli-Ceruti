@@ -15,10 +15,15 @@ public class SpawnSpot extends Spot {
      * A basic constructor
      * @param room the room of this spot
      */
-    public SpawnSpot(Room room){
-        super(room);
+
+    public SpawnSpot(ArrayList<Boolean> doors,Room room){
+        super(doors,room);
 
         this.weaponList = new ArrayList<>(3);
+    }
+
+    public SpawnSpot(){
+        super();
     }
 
 

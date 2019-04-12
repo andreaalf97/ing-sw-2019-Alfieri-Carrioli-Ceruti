@@ -20,12 +20,10 @@ public class Powerup {
      */
     private Effect effect;
 
-    /**
-     * Basic constructor
-     * @param powerupName The name of the powerup, used to access the JSON file
-     */
-    public Powerup(String powerupName){
-        //here we have to read from Json file and set the right effects
+    //TODO finish this + Javadocs
+    public Powerup(){
+        powerupName = null;
+        color = null;
     }
 
     //SETS AND GETS

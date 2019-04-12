@@ -22,13 +22,16 @@ public class AmmoSpot extends Spot {
     /**
      * Basic constructor
      * @param room the room where the spot is
-     * @param powerup the eventual powerup on this spot
+     * @param doors the doors of the spot
      */
-    public AmmoSpot(Room room, Powerup powerup) {
-        super(room);
+    public AmmoSpot(ArrayList<Boolean> doors, Room room) {
+        super(doors, room);
 
         this.ammoColorList = new ArrayList<>();
-        this.powerup = powerup;
+        this.powerup = new Powerup();
+    }
+    public AmmoSpot(){
+        super();
     }
 
 
@@ -50,7 +53,7 @@ public class AmmoSpot extends Spot {
         if (getAmmoColorList().isEmpty())
             System.out.println("no ammo in the spot,reload this spot at the end of the turn");
         else
-            getAmmoColorList().removeAll(this.getAmmoColorList());
+            ammoColorList = new ArrayList<>();
     }
 
     /**

@@ -12,7 +12,7 @@ public class SpotTest {
 
     @Test
     public void hasNorthDoorTrue() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(true);
         spotTest.setDoors(doorsTest);
@@ -21,7 +21,7 @@ public class SpotTest {
 
     @Test
     public void hasNorthDoorFalse() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
         spotTest.setDoors(doorsTest);
@@ -30,7 +30,7 @@ public class SpotTest {
 
     @Test
     public void hasSouthDoorTrue() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
         doorsTest.add(false);
@@ -41,7 +41,7 @@ public class SpotTest {
 
     @Test
     public void hasSouthDoorFalse() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorstest = new ArrayList<>();
         doorstest.add(false);
         doorstest.add(false);
@@ -52,7 +52,7 @@ public class SpotTest {
 
     @Test
     public void hasEastDoorTrue() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorstest = new ArrayList<>();
         doorstest.add(false);
         doorstest.add(true);
@@ -62,7 +62,7 @@ public class SpotTest {
 
     @Test
     public void hasEastDoorFalse() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorstest = new ArrayList<>();
         doorstest.add(false);
         doorstest.add(false);
@@ -72,7 +72,7 @@ public class SpotTest {
 
     @Test
     public void hasWestDoorTrue() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
         doorsTest.add(false);
@@ -84,7 +84,7 @@ public class SpotTest {
 
     @Test
     public void hasWestDoorFalse() {
-        Spot spotTest = new Spot(Room.RUBY);
+        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
         doorsTest.add(false);

@@ -7,14 +7,11 @@ public class Map {
     /**
      * The matrix representing the map
      */
-    private Spot[][] map;
+    public Spot[][] map;
 
-    /**
-     * A basic constructor
-     * @param map the map
-     */
-    public Map(Spot[][] map){
-        this.map = map;
+
+    public void setSpot(int x,int y,Spot spot){
+
     }
 
 

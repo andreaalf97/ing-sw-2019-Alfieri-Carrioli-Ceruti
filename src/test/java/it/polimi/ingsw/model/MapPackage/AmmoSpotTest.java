@@ -13,7 +13,9 @@ public class AmmoSpotTest {
 
     @Test
     public void addAmmoWhenSpotIsUnloaded() {
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot();
+        ArrayList<Color> ammoColorListTest = new ArrayList<>();
+        ammoSpotTest.setAmmoColorList(ammoColorListTest);
 
         ammoSpotTest.addAmmos();
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().isEmpty());
@@ -21,7 +23,7 @@ public class AmmoSpotTest {
 
     @Test
     public void addAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot();
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
 
         ammoColorListTest.add(Color.RED);
@@ -34,7 +36,7 @@ public class AmmoSpotTest {
 
     @Test
     public void addAmmoWhenSpotIsAlreadyLoaded(){
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot();
         ArrayList<Color> ammoColoListTest = new ArrayList<>();
 
         ammoColoListTest.add(Color.RED);
@@ -49,19 +51,22 @@ public class AmmoSpotTest {
 
     @Test
     public  void removeAmmoTrue() {
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot();
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
 
         ammoColorListTest.add(Color.RED);
         ammoColorListTest.add(Color.BLUE);
 
+        ammoSpotTest.setAmmoColorList(ammoColorListTest);
         ammoSpotTest.removeAmmos();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 
     @Test
     public void removeAmmoFalse(){
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot();
+        ArrayList<Color> ammoColorListTest = new ArrayList<>();
+        ammoSpotTest.setAmmoColorList(ammoColorListTest);
 
         ammoSpotTest.removeAmmos();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
