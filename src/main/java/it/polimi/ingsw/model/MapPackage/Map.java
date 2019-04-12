@@ -68,6 +68,22 @@ public class Map {
      */
     public Spot getSpotByIndex(int x, int y){ return map[x][y]; }
 
+    /**
+     * Return the spot where the selected player is
+     * @param player the player to find
+     */
+    private int[] getPlayerSpot(String player){
+        for(int i = 0; i < map.length; i++)
+            for(int j = 0; j < map[i].length; j++)
+                if(map[i][j].playerHere(player)){
+                    int[] returnValue = new int[2];
+                    returnValue[0] = i;
+                    returnValue[1] = j;
+                    return returnValue;
+                }
+        return null;
+    }
+
 
     /**
      * Moves the given player to the new spot
@@ -129,6 +145,71 @@ public class Map {
     public boolean isSpawnSpot(int x, int y){
         return map[x][y].isSpawnSpot();
     }
+
+    /**
+     * Return all the spots where the player can move with nMoves
+     * @param player the player's nickname
+     * @param nMoves The amount of moves available
+     * @return a matrix[3][4] of boolean
+     */
+    public boolean[][] wherePlayerCanMove(String player, int nMoves){
+        int[] playerSpot = getPlayerSpot(player);
+
+        int playerSpotX = playerSpot[0];
+        int playerSpotY = playerSpot[1];
+
+        boolean[][] temp = new boolean[4][3];
+
+        for(int i = 0; i < temp.length; i++)    //for every row
+            for(int j = 0; j < temp[i].length; j++) //for every column in the row
+                temp[i][j] = false; //initialize to false
+
+        for(int i = 0; i < temp.length; i++) //for every row
+            for(int j = 0; j < temp[i].length; j++) //for every column
+                if(canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves)) //if the player can move from his spot to the <i, j> spot
+                    temp[i][j] = true; //temp<i, j> is true --> the player can move there
+
+        return temp;
+    }
+
+    /**
+     * Tells you if a player in spot1 can move to spot2 with a certain amount of moves
+     * @param spot1X spot 1 X coord
+     * @param spot1Y spot 1 Y coord
+     * @param spot2X spot 2 X coord
+     * @param spot2Y spot 2 Y coord
+     * @param nMoves How many moves the player can use
+     * @return true if the player can move from spot1 to spot2 in nMoves
+     */
+    private boolean canMoveFromTo(int spot1X, int spot1Y, int spot2X, int spot2Y, int nMoves) throws IllegalArgumentException{
+        if(spot1X < 0 || spot1X > 4 || spot1Y < 0 || spot1Y > 3 || spot2X < 0 || spot2X > 4 || spot2Y < 0 || spot2Y > 3)
+            throw new IllegalArgumentException("This is not a valid spot");
+
+        if(spot1X == spot2X && spot1Y == spot2Y)
+            return true;
+
+        if(nMoves == 0)
+            return false;
+
+        Spot spot1 = getSpotByIndex(spot1X, spot1Y);
+
+        boolean north = false, east = false, west = false, south = false;
+
+        if(spot1.hasNorthDoor())
+            north = canMoveFromTo(spot1X, spot1Y - 1, spot2X, spot2Y, nMoves - 1);
+
+        if(spot1.hasEastDoor())
+            east = canMoveFromTo(spot1X + 1, spot1Y, spot2X, spot2Y, nMoves - 1);
+
+        if(spot1.hasSouthDoor())
+            south = canMoveFromTo(spot1X, spot1Y + 1, spot2X, spot2Y, nMoves - 1);
+
+        if(spot1.hasWestDoor())
+            west = canMoveFromTo(spot1X - 1, spot1Y, spot2X, spot2Y, nMoves - 1);
+
+        return north || east || south || west;
+    }
+
 
 
 }

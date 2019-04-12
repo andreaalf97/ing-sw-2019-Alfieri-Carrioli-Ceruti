@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.MapPackage;
 
 import it.polimi.ingsw.model.MapPackage.Room;
 import it.polimi.ingsw.model.MapPackage.Spot;

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.MapPackage;
 
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.MapPackage.AmmoSpot;
 import it.polimi.ingsw.model.MapPackage.Room;
 import org.junit.Assert;

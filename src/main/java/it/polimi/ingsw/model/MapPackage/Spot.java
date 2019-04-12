@@ -66,6 +66,15 @@ public class Spot {
     /*------------------------------------------------------------------------------------------------------------------*/
 
     /**
+     * Tell you if the selected player is on this spot
+     * @param player the asked player
+     * @return true only if the player is on this spot
+     */
+    public boolean playerHere(String player){
+        return playersHere.contains(player);
+    }
+
+    /**
      * Adds a player to this spot if the player is not already on the spot
      * @param nickname the name of the player
      */
