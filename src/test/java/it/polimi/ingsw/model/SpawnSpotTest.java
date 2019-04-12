@@ -12,7 +12,7 @@ public class SpawnSpotTest {
 
     @Test
     public  void addWeaponCheckFalse() {
-        SpawnSpot spawnSpotTest = new SpawnSpot(Room.TOPAZ,0,0,0);
+        SpawnSpot spawnSpotTest = new SpawnSpot(Room.TOPAZ);
 
         Weapon w1 = new Weapon("a");
         Weapon w2 = new Weapon("b");
@@ -29,7 +29,7 @@ public class SpawnSpotTest {
     }
     @Test
     public void addWeaponCheckTrue() {
-        SpawnSpot spawnSpotTest = new SpawnSpot(Room.TOPAZ,0,0,0);
+        SpawnSpot spawnSpotTest = new SpawnSpot(Room.TOPAZ);
 
         Weapon w1 = new Weapon("a");
         Weapon w2 = new Weapon("b");
@@ -44,7 +44,7 @@ public class SpawnSpotTest {
 
     @Test
     public void removeWeaponCheckEmptyWeaponListCondition() {
-        SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY,0,0,0);
+        SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY);
         Weapon w = new Weapon("a");
 
         Assert.assertFalse(spawnSpotTest.removeWeapon(w));
@@ -53,7 +53,7 @@ public class SpawnSpotTest {
 
     @Test
     public void removeWeaponCheckNotInWeaponListCondition(){
-        SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY,0,0,0);
+        SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY);
         Weapon w = new Weapon("a");
         Weapon wToRemove = new Weapon("b");
 
@@ -62,7 +62,7 @@ public class SpawnSpotTest {
     }
     @Test
     public void removeWeaponCheckTrueCondition(){
-        SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY,0,0,0);
+        SpawnSpot spawnSpotTest = new SpawnSpot(Room.RUBY);
         Weapon w1 = new Weapon("a");
         Weapon w2 = new Weapon("b");
         Weapon w3 = new Weapon("c");

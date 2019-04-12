@@ -14,12 +14,9 @@ public class SpawnSpot extends Spot {
     /**
      * A basic constructor
      * @param room the room of this spot
-     * @param idSpot the id of this spot
-     * @param positionX the x coord
-     * @param positionY the y coord
      */
-    public SpawnSpot(Room room,int idSpot,int positionX, int positionY ){
-        super(room,idSpot,positionX,positionY);
+    public SpawnSpot(Room room){
+        super(room);
 
         this.weaponList = new ArrayList<>(3);
     }

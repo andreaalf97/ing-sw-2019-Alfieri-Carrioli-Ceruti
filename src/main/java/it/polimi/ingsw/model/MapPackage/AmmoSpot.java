@@ -22,13 +22,10 @@ public class AmmoSpot extends Spot {
     /**
      * Basic constructor
      * @param room the room where the spot is
-     * @param idSpot the id of this spot
-     * @param positionX the x coordinate
-     * @param positionY the y coordinate
      * @param powerup the eventual powerup on this spot
      */
-    public AmmoSpot(Room room, int idSpot, int positionX, int positionY, Powerup powerup) {
-        super(room, idSpot, positionX, positionY);
+    public AmmoSpot(Room room, Powerup powerup) {
+        super(room);
 
         this.ammoColorList = new ArrayList<>();
         this.powerup = powerup;

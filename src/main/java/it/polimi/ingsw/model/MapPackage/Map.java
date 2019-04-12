@@ -75,7 +75,20 @@ public class Map {
      * @param newX the new x coord
      * @param newY the new y coord
      */
-    public void movePlayer(String player, int newX, int newY){ return; }
+    public void movePlayer(String player, int newX, int newY){
+        removePlayerFromMap(player);
+        map[newX][newY].addPlayer(player);
+    }
+
+    /**
+     * Removes the player from the map by removing their name from the spot
+     * @param player The player to remove
+     */
+    private void removePlayerFromMap(String player){
+        for(int i = 0; i < map.length; i++)
+            for(int j = 0; j < map[i].length; j++)
+                map[i][j].removePlayer(player);
+    }
 
     /**
      * Refills this spot

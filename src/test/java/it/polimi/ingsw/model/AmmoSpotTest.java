@@ -12,7 +12,7 @@ public class AmmoSpotTest {
 
     @Test
     public void addAmmoWhenSpotIsUnloaded() {
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ,0,0,0, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ, null);
 
         ammoSpotTest.addAmmos();
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().isEmpty());
@@ -20,7 +20,7 @@ public class AmmoSpotTest {
 
     @Test
     public void addAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE, null);
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
 
         ammoColorListTest.add(Color.RED);
@@ -33,7 +33,7 @@ public class AmmoSpotTest {
 
     @Test
     public void addAmmoWhenSpotIsAlreadyLoaded(){
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE, null);
         ArrayList<Color> ammoColoListTest = new ArrayList<>();
 
         ammoColoListTest.add(Color.RED);
@@ -48,7 +48,7 @@ public class AmmoSpotTest {
 
     @Test
     public  void removeAmmoTrue() {
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE,0,0,0, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot(Room.SAPPHIRE, null);
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
 
         ammoColorListTest.add(Color.RED);
@@ -60,7 +60,7 @@ public class AmmoSpotTest {
 
     @Test
     public void removeAmmoFalse(){
-        AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ,0,0,0, null);
+        AmmoSpot ammoSpotTest = new AmmoSpot(Room.TOPAZ, null);
 
         ammoSpotTest.removeAmmos();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());

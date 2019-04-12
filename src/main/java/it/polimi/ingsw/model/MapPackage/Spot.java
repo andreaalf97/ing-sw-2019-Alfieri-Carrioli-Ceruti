@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.MapPackage;
 
+import it.polimi.ingsw.model.NoSuchPlayerException;
 import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
@@ -26,25 +27,14 @@ public class Spot {
     private Room room;
 
 
-    //TODO might not need these 3 attributes below --> Spot is already referenced by the MapPackage Matrix
-    private int idSpot;    /*a spot in the map is identified by <room, idSpot>  */
-    private int positionX;
-    private int positionY;
-
     /**
      * The constructor
      * @param room the room of this spot
-     * @param idSpot the id of this spot MIGHT NOT NEED THIS
-     * @param positionX the x coord MIGHT NOT NEED THIS
-     * @param positionY the y coord MIGHT NOT NEED THIS
      */
-    public Spot(Room room, int idSpot, int positionX, int positionY){
+    public Spot(Room room){
         this.playersHere = new ArrayList<>(5);
         this.doors = new ArrayList<>(4);
         this.room = room;
-        this.idSpot = idSpot;
-        this.positionX = positionX;
-        this.positionY = positionY;
     }
 
 
@@ -55,26 +45,44 @@ public class Spot {
     public boolean hasSouthDoor(){ return doors.get(2);}
     public boolean hasWestDoor(){ return doors.get(3);}
     public Room getRoom() { return room;}
-    public int getIdSpot() {return idSpot;}
-    public int getPositionX() {return positionX;}
-    public int getPositionY() { return positionY;}
-    public ArrayList<Boolean> getDoors() { return new ArrayList<Boolean>(doors);}
+
+    public ArrayList<Boolean> getDoors() { return new ArrayList<>(doors);}
     public void setRoom(Room room) { this.room = room;}
-    public void setIdSpot(int idSpot) { this.idSpot = idSpot;}
-    public void setPositionX(int positionX) { this.positionX = positionX;}
-    public void setPositionY(int positionY) { this.positionY = positionY;}
+
     public void setDoors (ArrayList<Boolean> doors) throws NullPointerException{
         if (doors == null)
             throw new NullPointerException("doors should not be null");
         else
             this.doors = doors;}
+
     public ArrayList<String> getPlayersHere() { return new ArrayList<String>(playersHere); }
-    public void setPlayersHere(ArrayList<String> playersHere) throws NullPointerException {
+
+    //TODO remove this method
+    /*public void setPlayersHere(ArrayList<String> playersHere) throws NullPointerException {
         if (playersHere == null)
             throw new NullPointerException("playersHere should not be null");
         else
-            this.playersHere = playersHere; }
+            this.playersHere = playersHere; }*/
     /*------------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Adds a player to this spot if the player is not already on the spot
+     * @param nickname the name of the player
+     */
+    public void addPlayer(String nickname){
+        if(!playersHere.contains(nickname))
+            playersHere.add(nickname);
+    }
+
+    /**
+     * Removes the player from this spot
+     * @param nickname the nickname of the player
+     * @throws NoSuchPlayerException if the player is not on this spot
+     */
+    public void removePlayer(String nickname){
+        if(playersHere.contains(nickname))
+            playersHere.remove(nickname);
+    }
 
     /**
      * Refills this spot.
