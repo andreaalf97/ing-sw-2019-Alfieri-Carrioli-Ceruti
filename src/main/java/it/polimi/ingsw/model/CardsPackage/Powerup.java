@@ -20,7 +20,9 @@ public class Powerup {
      */
     private Effect effect;
 
-    //TODO finish this + Javadocs
+    /**
+     * simple constructor for the Powerup
+     */
     public Powerup(){
         powerupName = null;
         color = null;

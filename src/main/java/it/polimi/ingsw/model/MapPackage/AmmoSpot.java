@@ -30,11 +30,19 @@ public class AmmoSpot extends Spot {
         this.ammoColorList = new ArrayList<>();
         this.powerup = new Powerup();
     }
+
+    /**
+     * basic constructor without parameters
+     */
     public AmmoSpot(){
         super();
     }
 
-
+    /**
+     * setter for ammoColorList
+     * @param ammoColorList the arrayList that represent the color type of the ammo
+     * @throws NullPointerException
+     */
     public void setAmmoColorList (ArrayList<Color> ammoColorList) throws NullPointerException{
         if (ammoColorList == null)
             throw new NullPointerException("ammoColoList should not be null");
@@ -42,6 +50,10 @@ public class AmmoSpot extends Spot {
             this.ammoColorList = ammoColorList;
     }
 
+    /**
+     * getter for ammoColorList
+     * @return a new copy of ammoColorList
+     */
     public ArrayList<Color> getAmmoColorList(){ return new ArrayList<Color>(ammoColorList);}
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

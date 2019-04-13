@@ -5,17 +5,23 @@ import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 class WeaponDeckTest {
 
     @Test
     void pickCard() {
 
+        ArrayList<Weapon> weaponListTest = new ArrayList<Weapon>();
+        Weapon w1 = new Weapon("SledgeHammer");
+        Weapon w2 = new Weapon ("Shockwave");
+        weaponListTest.add(w1);
+        weaponListTest.add(w2);
+
         WeaponDeck weaponDeckTest = new WeaponDeck();
+        weaponDeckTest.setWeaponDeck(weaponListTest);
 
-        weaponDeckTest.getWeaponList().add(new Weapon("SledgeHammer"));
-        weaponDeckTest.getWeaponList().add(new Weapon("Shockwave"));
-
-        Weapon weaponToPick = weaponDeckTest.pickCard();
+        Weapon weaponPicked = weaponDeckTest.pickCard();
 
         Assert.assertEquals(1, weaponDeckTest.getWeaponList().size());
 

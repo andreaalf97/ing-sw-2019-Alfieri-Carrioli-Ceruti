@@ -44,12 +44,19 @@ public class Weapon {
         this.order = new ArrayList<>();
     }
 
-
+    /**
+     *  getter for effects arraylist
+     * @return a new copy of effects
+     */
     public ArrayList<Effect> getEffects(){
-        return this.effects;
+        return new ArrayList<>(effects);
     }
-    public ArrayList<Integer[]> getOrder(){
-        return this.order;
+
+    /**
+     * getter for order arraylist
+     * @return a new copy of order
+     */
+    public ArrayList<Integer[]> getOrder(){ return new ArrayList<>(order);
     }
 
     /**

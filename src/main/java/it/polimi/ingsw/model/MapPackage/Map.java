@@ -9,9 +9,13 @@ public class Map {
      */
     public Spot[][] map;
 
-
+    /**
+     * set an existing spot in the map with the param spot
+     * @param x is the x of the spot to replace
+     * @param y is the y of the spot to replace
+     * @param spot is the spot that replace the one corresponding to x and y
+     */
     public void setSpot(int x,int y,Spot spot){
-
     }
 
 

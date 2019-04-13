@@ -26,7 +26,7 @@ public class Effect {
     private int nPlayerAttackable;       //can be 0 to 4
 
     /**
-     * TODO
+     * marks that i can give to other players
      */
     private int nMarksOtherPlayer;
 

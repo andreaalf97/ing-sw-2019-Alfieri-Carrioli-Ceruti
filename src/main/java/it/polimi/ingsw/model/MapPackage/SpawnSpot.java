@@ -13,6 +13,7 @@ public class SpawnSpot extends Spot {
 
     /**
      * A basic constructor
+     * @param doors the doors of this spot
      * @param room the room of this spot
      */
 
@@ -22,15 +23,26 @@ public class SpawnSpot extends Spot {
         this.weaponList = new ArrayList<>(3);
     }
 
+    /**
+     * basic constructor
+     */
     public SpawnSpot(){
         super();
     }
 
-
+    /**
+     * getter for weaPonList
+     * @return a copy of this.weaponList
+     */
     public ArrayList<Weapon> getWeaponList() {
         return new ArrayList<Weapon>(weaponList);
     }
 
+    /**
+     * replace this.weaponList with the param weaponList
+     * @param weaponList the weaponList that replace this.weaponList
+     * @throws NullPointerException if weaponlist is null
+     */
     public void setWeaponList(ArrayList<Weapon> weaponList) throws NullPointerException{
         if (weaponList == null)
             throw new NullPointerException("weaponList should not be null");

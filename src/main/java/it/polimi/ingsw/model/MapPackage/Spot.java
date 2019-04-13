@@ -28,16 +28,29 @@ public class Spot {
 
 
     /**
-     * The constructor
-     * @param room the room of this spot
+     * basic constructor
      */
     public Spot(){
     }
+
+
+    /**
+     * spot constructor
+     * @param doors is the doors to set at the new spot
+     * @param room is the room to set at the new spot
+     */
     public Spot(ArrayList<Boolean> doors, Room room)
     {
         this.doors = doors;
         this.room = room;
     }
+
+    /**
+     * spot constructor
+     * @param playersHere the players in the spot
+     * @param doors the doors of the spot
+     * @param room the room of the spot
+     */
     public Spot(ArrayList<String> playersHere,ArrayList<Boolean> doors, Room room){
         this.playersHere = playersHere;
         this.doors = doors;

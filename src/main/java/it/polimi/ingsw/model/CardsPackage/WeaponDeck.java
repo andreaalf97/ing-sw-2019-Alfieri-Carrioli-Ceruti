@@ -16,8 +16,19 @@ public class WeaponDeck{
         this.weaponList = new ArrayList<>();
     }
 
+    /**
+     * getter for weaponList
+     * @return a new copy of weaponList
+     */
     public ArrayList<Weapon> getWeaponList() {
-        return weaponList;
+        return new ArrayList<>(weaponList);
+    }
+
+    public void setWeaponDeck(ArrayList<Weapon> weaponListToSet) throws NullPointerException{
+        if (weaponListToSet == null)
+            throw new NullPointerException();
+        else
+            this.weaponList = weaponListToSet;
     }
 
     /**
@@ -25,7 +36,7 @@ public class WeaponDeck{
      * @return the picked card
      */
     public Weapon pickCard(){
-        Weapon weaponToPick = weaponList.get(weaponList.size()-1);
+        Weapon weaponToPick = weaponList.get(weaponList.size() - 1);
         weaponList.remove(weaponList.size()-1);
         return weaponToPick;
     }
