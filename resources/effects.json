@@ -2,23 +2,6 @@
   "Weapons": {
     "LockRifle": {
       "Effects": {
-        "Effect0": {
-          "nDamages": 2,
-          "nMarks": 1,
-          "nPlayersAttackable": 1,
-          "nPlayersMarkable": 1,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": [],
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 100,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 1
-        },
         "Effect1": {
           "nDamages": 0,
           "nMarks": 1,
@@ -36,7 +19,24 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 1
+          "visibleByWho": 2
+        },
+        "Effect0": {
+          "nDamages": 2,
+          "nMarks": 1,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 1,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": [],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 2
         }
       },
       "Orders": {
@@ -52,23 +52,6 @@
     },
     "MachineGun": {
       "Effects": {
-        "Effect0": {
-          "nDamages": 1,
-          "nMarks": 0,
-          "nPlayersAttackable": 2,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": [],
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 100,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 1
-        },
         "Effect1": {
           "nDamages": 1,
           "nMarks": 0,
@@ -86,7 +69,7 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 1
+          "visibleByWho": 2
         },
         "Effect2": {
           "nDamages": 1,
@@ -105,7 +88,7 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 1
+          "visibleByWho": 2
         },
         "Effect3": {
           "nDamages": 1,
@@ -122,34 +105,12 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 1
-        }
-      },
-      "Orders": {
-        "Order1": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "Order2": [
-          0,
-          2,
-          3,
-          1
-        ]
-      },
-      "Cost": [
-        "Blue",
-        "Red"
-      ]
-    },
-    "Thor": {
-      "Effects": {
+          "visibleByWho": 2
+        },
         "Effect0": {
-          "nDamages": 2,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 1,
+          "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -161,8 +122,40 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 1
-        },
+          "visibleByWho": 2
+        }
+      },
+      "Orders": {
+        "Order0": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "Order1": [
+          0,
+          2,
+          3,
+          1
+        ],
+        "Order2": [
+          0,
+          2,
+          1
+        ],
+        "Order3": [
+          0,
+          3,
+          1
+        ]
+      },
+      "Cost": [
+        "Blue",
+        "Red"
+      ]
+    },
+    "Thor": {
+      "Effects": {
         "Effect1": {
           "nDamages": 1,
           "nMarks": 0,
@@ -170,7 +163,9 @@
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 1,
           "canShootAnyPlayer": 0,
-          "cost": ["Blue"],
+          "cost": [
+            "Blue"
+          ],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 100,
@@ -178,7 +173,7 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 2
+          "visibleByWho": 3
         },
         "Effect2": {
           "nDamages": 2,
@@ -187,7 +182,26 @@
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 1,
           "canShootAnyPlayer": 0,
-          "cost": ["Blue"],
+          "cost": [
+            "Blue"
+          ],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 3
+        },
+        "Effect0": {
+          "nDamages": 2,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": [],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 100,
@@ -212,6 +226,23 @@
     },
     "PlasmaGun": {
       "Effects": {
+        "Effect0": {
+          "nDamages": 2,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": 0,
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 2
+        },
         "Effect1": {
           "nDamages": 0,
           "nMarks": 0,
@@ -220,7 +251,7 @@
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
-          "nMoves": 0,
+          "nMoves": 2,
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
@@ -230,13 +261,15 @@
           "visibleByWho": 0
         },
         "Effect2": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Blue"
+          ],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
@@ -244,110 +277,68 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect3": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
       "Orders": {
+        "Order0": [
+          0,
+          1,
+          2
+        ],
         "Order1": [
           1,
+          0,
+          2
+        ],
+        "Order2": [
+          0,
           2,
-          3
+          1
         ]
       },
       "Cost": [
         "Blue",
-        "Blue"
+        "Yellow"
       ]
     },
     "Whisper": {
       "Effects": {
-        "Effect1": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
+        "Effect0": {
+          "nDamages": 3,
+          "nMarks": 1,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 1,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 2,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect2": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect3": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
       "Orders": {
         "Order1": [
-          1,
-          2,
-          3
+          0
         ]
       },
       "Cost": [
         "Blue",
-        "Blue"
+        "Blue",
+        "Yellow"
       ]
     },
     "Electroscythe": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -359,16 +350,19 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
-        "Effect2": {
-          "nDamages": 0,
+        "Effect1": {
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Blue",
+            "Red"
+          ],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
@@ -376,35 +370,18 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect3": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
       "Orders": {
+        "Order0": [
+          0
+        ],
         "Order1": [
-          1,
-          2,
-          3
+          1
         ]
       },
       "Cost": [
-        "Blue",
         "Blue"
       ]
     },
@@ -421,28 +398,28 @@
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect2": {
           "nDamages": 0,
@@ -451,19 +428,50 @@
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
+          "cost": [
+            "Red",
+            "Yellow"
+          ],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 2,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 1
+        },
+        "Effect3": {
+          "nDamages": 3,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0,
+          1
+        ],
+        "Order1": [
+          2,
+          3
+        ]
+      },
+      "Cost": [
+        "Blue"
+      ]
     },
     "VortexCannon": {
       "Effects": {
@@ -478,154 +486,142 @@
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect2": {
           "nDamages": 0,
           "nMarks": 0,
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 1,
+          "canShootAnyPlayer": 0,
+          "cost": [
+            "Red"
+          ],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 1,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 1
+        },
+        "Effect3": {
+          "nDamages": 1,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": [
+        0,
+        1,
+        2,
+        3,
+        2,
+        3
+      ],
+      "Cost": [
+        "Red",
+        "Blue"
+      ]
     },
     "Furnace": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
+          "mustBeOtherRoom": 1,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect1": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
+          "nDamages": 1,
+          "nMarks": 1,
+          "nPlayersAttackable": 4,
+          "nPlayersMarkable": 4,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 1,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect2": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0
+        ],
+        "Order1": [
+          1
+        ]
+      },
+      "Cost": [
+        "Red",
+        "Blue"
+      ]
     },
     "Heatseeker": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 3,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect1": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect2": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
@@ -633,122 +629,138 @@
           "visibleByWho": 0
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0
+        ]
+      },
+      "Cost": [
+        "Red",
+        "Red",
+        "Yellow"
+      ]
     },
     "Hellion": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
+          "nDamages": 1,
+          "nMarks": 1,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 4,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect1": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
+          "nDamages": 1,
+          "nMarks": 2,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 4,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Red"
+          ],
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect2": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0
+        ],
+        "Order1": [
+          1
+        ]
+      },
+      "Cost": [
+        "Red",
+        "Yellow"
+      ]
     },
     "Flamethrower": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeDifferentSpots": 1,
+          "isLinear": 1,
+          "visibleByWho": 1
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Yellow",
+            "Yellow"
+          ],
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect2": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
+          "mustShootOtherPlayers": 1,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 2,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "isLinear": 1,
+          "visibleByWho": 1
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0
+        ],
+        "Order1": [
+          1,
+          2
+        ]
+      },
+      "Cost": [
+        "Red"
+      ]
     },
     "GrenadeLauncher": {
       "Effects": {
@@ -763,49 +775,69 @@
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
         },
         "Effect2": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
+          "canShootAnyPlayer": 1,
+          "cost": [
+            "Red"
+          ],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0,
+          1,
+          2
+        ],
+        "Order1": [
+          1,
+          0,
+          2
+        ],
+        "Order2": [
+          1,
+          2,
+          0
+        ]
+      },
+      "Cost": [
+        "Red"
+      ]
     },
     "RocketLauncher": {
       "Effects": {
@@ -820,16 +852,16 @@
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 1
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -841,7 +873,7 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect2": {
           "nDamages": 0,
@@ -850,7 +882,28 @@
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Blue"
+          ],
+          "nMoves": 2,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 0
+        },
+        "Effect3": {
+          "nDamages": 0,
+          "nMarks": 0,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": [
+            "Yellow"
+          ],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
@@ -861,65 +914,78 @@
           "visibleByWho": 0
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0,
+          1,
+          2
+        ],
+        "Order1": [
+          1,
+          0,
+          2
+        ],
+        "Order2": [
+          0,
+          2,
+          1
+        ]
+      },
+      "Cost": [
+        "Red",
+        "Red"
+      ]
     },
     "Railgun": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 3,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "isLinear": 1,
+          "visibleByWho": 1
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect2": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "isLinear": 1,
+          "visibleByWho": 1
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0
+        ],
+        "Order1": [
+          1
+        ]
+      },
+      "Cost": [
+        "Yellow",
+        "Yellow",
+        "Blue"
+      ]
     },
     "Cyberblade": {
       "Effects": {
@@ -931,7 +997,7 @@
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
-          "nMoves": 0,
+          "nMoves": 1,
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
@@ -941,9 +1007,9 @@
           "visibleByWho": 0
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -955,16 +1021,18 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect2": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
+          "mustShootOtherPlayers": 1,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Yellow"
+          ],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
@@ -972,75 +1040,105 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0,
+          1,
+          2
+        ],
+        "Order1": [
+          1,
+          2,
+          0
+        ],
+        "Order2": [
+          1,
+          0,
+          2
+        ]
+      },
+      "Cost": [
+        "Yellow",
+        "Red"
+      ]
     },
     "ZX-2": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect1": {
           "nDamages": 0,
-          "nMarks": 0,
+          "nMarks": 2,
           "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
+          "nPlayersMarkable": 1,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect2": {
           "nDamages": 0,
-          "nMarks": 0,
+          "nMarks": 1,
           "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
+          "nPlayersMarkable": 3,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0,
+          1
+        ],
+        "Order1": [
+          2
+        ]
+      },
+      "Cost": [
+        "Yellow",
+        "Red"
+      ]
     },
     "Shotgun": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 3,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -1052,7 +1150,7 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect1": {
           "nDamages": 0,
@@ -1065,32 +1163,47 @@
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 0
         },
         "Effect2": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 1,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0,
+          1
+        ],
+        "Order1": [
+          1,
+          0
+        ],
+        "Order2": [
+          2
+        ]
+      },
+      "Cost": [
+        "Yellow",
+        "Yellow"
+      ]
     },
     "PowerGlove": {
       "Effects": {
@@ -1102,7 +1215,7 @@
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
-          "nMoves": 0,
+          "nMoves": 1,
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
@@ -1112,10 +1225,27 @@
           "visibleByWho": 0
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": 0,
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 2
+        },
+        "Effect2": {
+          "nDamages": 0,
+          "nMarks": 2,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable": 1,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
@@ -1128,10 +1258,29 @@
           "isLinear": 0,
           "visibleByWho": 0
         },
-        "Effect2": {
+        "Effect3": {
           "nDamages": 0,
           "nMarks": 0,
           "nPlayersAttackable": 0,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": [
+            "Blue"
+          ],
+          "nMoves": 1,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 0
+        },
+        "Effect4": {
+          "nDamages": 2,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -1143,75 +1292,106 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
+          "visibleByWho": 2
+        },
+        "Effect5": {
+          "nDamages": 0,
+          "nMarks": 0,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": 0,
+          "nMoves": 1,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 1,
           "visibleByWho": 0
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0,
+          1,
+          2
+        ],
+        "Order1": [
+          3,
+          4,
+          5,
+          4
+        ],
+        "Order2": [
+          3,
+          5,
+          4
+        ]
+      },
+      "Cost": [
+        "Yellow",
+        "Blue"
+      ]
     },
     "Shockwave": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 3,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
           "cost": 0,
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 1,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
+          "mustBeDifferentSpots": 1,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Yellow"
+          ],
           "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
+          "minDistance": 1,
+          "maxDistance": 1,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
-        },
-        "Effect2": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0
+        ],
+        "Order1": [
+          1
+        ]
+      },
+      "Cost": [
+        "Yellow"
+      ]
     },
     "Sledgehammer": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
+          "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -1223,16 +1403,18 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect1": {
-          "nDamages": 0,
+          "nDamages": 3,
           "nMarks": 0,
-          "nPlayersAttackable": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [
+            "Red"
+          ],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
@@ -1240,7 +1422,7 @@
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
-          "visibleByWho": 0
+          "visibleByWho": 2
         },
         "Effect2": {
           "nDamages": 0,
@@ -1253,21 +1435,36 @@
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 0
         }
       },
-      "Orders": {},
-      "Cost": {}
+      "Orders": {
+        "Order0": [
+          0
+        ],
+        "Order1": [
+          1,
+          2
+        ],
+        "Order2": [
+          0,
+          2,
+          1
+        ]
+      },
+      "Cost": [
+        "Yellow"
+      ]
     }
   },
   "Powerups": {
     "Teleporter": {
       "Effects": {
-        "Effect0" :{
+        "Effect0": {
           "nDamages": 0,
           "nMarks": 0,
           "nPlayersAttackable": 0,
@@ -1278,7 +1475,7 @@
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
+          "nMovesOtherPlayer": 100,
           "mustBeOtherRoom": 0,
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
@@ -1287,66 +1484,62 @@
       }
     },
     "TargetingScope": {
-      "Effects": {
-        "Effect0" :{
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
-        }
-      }
-    },
-    "TagbackGrenade": {
-      "Effects": {
-        "Effect0" :{
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
-        }
+      "Effect": {
+        "nDamages": 1,
+        "nMarks": 0,
+        "nPlayersAttackable": 1,
+        "nPlayersMarkable": 0,
+        "mustShootOtherPlayers": 0,
+        "canShootAnyPlayer": 0,
+        "cost": [
+          "Color"
+        ],
+        "nMoves": 0,
+        "minDistance": 0,
+        "maxDistance": 100,
+        "nMovesOtherPlayer": 0,
+        "mustBeOtherRoom": 0,
+        "mustBeDifferentSpots": 0,
+        "isLinear": 0,
+        "visibleByWho": 1
       }
     },
     "Newton": {
-      "Effects": {
-        "Effect0" :{
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": 0,
-          "canShootAnyPlayer": 0,
-          "cost": 0,
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": 0,
-          "mustBeDifferentSpots": 0,
-          "isLinear": 0,
-          "visibleByWho": 0
-        }
+      "Effect": {
+        "nDamages": 0,
+        "nMarks": 0,
+        "nPlayersAttackable": 0,
+        "nPlayersMarkable": 0,
+        "mustShootOtherPlayers": 0,
+        "canShootAnyPlayer": 0,
+        "cost": 0,
+        "nMoves": 0,
+        "minDistance": 0,
+        "maxDistance": 0,
+        "nMovesOtherPlayer": 2,
+        "mustBeOtherRoom": 0,
+        "mustBeDifferentSpots": 0,
+        "isLinear": 1,
+        "visibleByWho": 0
+      }
+    },
+    "TagbackGrenade": {
+      "Effect": {
+        "nDamages": 0,
+        "nMarks": 1,
+        "nPlayersAttackable": 0,
+        "nPlayersMarkable": 1,
+        "mustShootOtherPlayers": 0,
+        "canShootAnyPlayer": 0,
+        "cost": 0,
+        "nMoves": 0,
+        "minDistance": 0,
+        "maxDistance": 100,
+        "nMovesOtherPlayer": 0,
+        "mustBeOtherRoom": 0,
+        "mustBeDifferentSpots": 0,
+        "isLinear": 0,
+        "visibleByWho": 1
       }
     }
   }
