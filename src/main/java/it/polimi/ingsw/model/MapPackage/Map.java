@@ -9,13 +9,30 @@ public class Map {
      */
     public Spot[][] map;
 
+    public Map(){
+        map = new Spot[3][4];
+    }
+
+
+
     /**
      * set an existing spot in the map with the param spot
      * @param x is the x of the spot to replace
      * @param y is the y of the spot to replace
-     * @param spot is the spot that replace the one corresponding to x and y
+     * @param spot is the SpawnSpot that replace the one corresponding to x and y
      */
-    public void setSpot(int x,int y,Spot spot){
+    public void setSpot(int x,int y,SpawnSpot spot){
+        this.map[x][y] = new SpawnSpot(spot.getDoors(),spot.getRoom());
+    }
+
+    /**
+     * set an existing spot in the map with the param spot
+     * @param x is the x of the spot to replace
+     * @param y is the y of the spot to replace
+     * @param spot is the AmmoSpot that replace the one corresponding to x and y
+     */
+    public void setSpot(int x,int y, AmmoSpot spot){
+        this.map[x][y] = new AmmoSpot(spot.getDoors(),spot.getRoom());
     }
 
 

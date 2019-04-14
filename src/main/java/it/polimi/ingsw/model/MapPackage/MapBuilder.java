@@ -2,8 +2,6 @@ package it.polimi.ingsw.model.MapPackage;
 
 import com.google.gson.*;
 
-import javax.print.DocFlavor;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -45,7 +43,6 @@ public class MapBuilder {
                 JsonObject jsonRow = jsonObjectMyMap.get("row"+ i).getAsJsonObject();
                 for (int j = 0; j <= 3; j++){
                     JsonObject jsonCol = jsonRow.get("col" + j).getAsJsonObject();
-
                     if (!jsonCol.toString().equals("{}")) {
 
                         isSpawnSpot = jsonCol.get("isSpawnSpot").getAsBoolean();
@@ -53,11 +50,11 @@ public class MapBuilder {
 
                         doors = new ArrayList<>();
                         jsonDoors = jsonCol.get("doors").getAsJsonArray();
-                        for (int k = 0; k <= 3; k++) {
+
+                        for (int k = 0; k <= 3 ; k++) {
                             doors.add(jsonDoors.get(k).getAsBoolean());
                         }
 
-                        //TODO method setSpot isn't implemented
                         if (isSpawnSpot)
                             tempMap.setSpot(i, j, new SpawnSpot(doors, room));
                         else

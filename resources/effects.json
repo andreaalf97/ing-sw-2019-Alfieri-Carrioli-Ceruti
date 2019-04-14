@@ -10,7 +10,7 @@
           "mustShootOtherPlayers": 1,
           "canShootAnyPlayer": 0,
           "cost": [
-            "Red"
+            "RED"
           ],
           "nMoves": 0,
           "minDistance": 0,
@@ -37,22 +37,13 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect2": {
-
-        },
-        "Effect3" : {
-
         }
       },
       "Orders": {
         "Order0": [
           0,
           1
-        ],
-        "Order1": [],
-        "Order2" : [],
-        "Order3" : []
+        ]
       },
       "Cost": [
         "Blue",
@@ -219,18 +210,14 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect3" : {}
+        }
       },
       "Orders": {
         "Order0": [
           0,
           1,
           2
-        ],
-        "Order1":[],
-        "Order2" : [],
-        "Order3" : []
+        ]
       },
       "Cost": [
         "Blue",
@@ -291,8 +278,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -309,8 +295,7 @@
           0,
           2,
           1
-        ],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Blue",
@@ -335,18 +320,12 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect1" : {},
-        "Effect2" : {},
-        "Effect3" : {}
+        }
       },
       "Orders": {
         "Order0": [
           0
-        ],
-        "Order1" : [],
-        "Order2" : [],
-        "Order3" : []
+        ]
       },
       "Cost": [
         "Blue",
@@ -392,9 +371,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect2" : {},
-        "Effect3" : {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -402,9 +379,7 @@
         ],
         "Order1": [
           1
-        ],
-        "Order2" : [],
-        "Order3" : []
+        ]
       },
       "Cost": [
         "Blue"
@@ -492,9 +467,7 @@
         "Order1": [
           2,
           3
-        ],
-        "Order2": [],
-        "Order3" : []
+        ]
       },
       "Cost": [
         "Blue"
@@ -573,18 +546,15 @@
           "visibleByWho": 2
         }
       },
-      "Orders":{
-        "Order0" : [
+      "Orders": {
+        "Order0": [
           0,
           1,
           2,
           3,
           2,
           3
-        ],
-        "Order1" : [],
-        "Order2" : [],
-        "Order3" : []
+        ]
       },
       "Cost": [
         "Red",
@@ -626,9 +596,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect2": {},
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -636,10 +604,7 @@
         ],
         "Order1": [
           1
-        ],
-        "Order2": [],
-        "Order3": []
-
+        ]
       },
       "Cost": [
         "Red",
@@ -664,18 +629,12 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 0
-        },
-        "Effect1": {},
-        "Effect2": {},
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
           0
-        ],
-        "Order1": [],
-        "Order2": [],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Red",
@@ -720,9 +679,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect2": {},
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -730,9 +687,7 @@
         ],
         "Order1": [
           1
-        ],
-        "Order2": [],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Red",
@@ -794,8 +749,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 1,
           "visibleByWho": 1
-        },
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -804,9 +758,7 @@
         "Order1": [
           1,
           2
-        ],
-        "Order2": [],
-        "Order3" : []
+        ]
       },
       "Cost": [
         "Red"
@@ -866,8 +818,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 1
-        },
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -884,8 +835,7 @@
           1,
           2,
           0
-        ],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Red"
@@ -981,8 +931,7 @@
           0,
           2,
           1
-        ],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Red",
@@ -1024,9 +973,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 1,
           "visibleByWho": 1
-        },
-        "Effect2": {},
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -1034,9 +981,7 @@
         ],
         "Order1": [
           1
-        ],
-        "Order2": [],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Yellow",
@@ -1098,8 +1043,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -1116,8 +1060,7 @@
           1,
           0,
           2
-        ],
-        "Order3":[],
+        ]
       },
       "Cost": [
         "Yellow",
@@ -1176,8 +1119,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -1186,9 +1128,7 @@
         ],
         "Order1": [
           2
-        ],
-        "Order2": [],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Yellow",
@@ -1247,8 +1187,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -1261,8 +1200,7 @@
         ],
         "Order2": [
           2
-        ],
-        "Order3":[]
+        ]
       },
       "Cost": [
         "Yellow",
@@ -1392,8 +1330,7 @@
           3,
           5,
           4
-        ],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Yellow",
@@ -1437,9 +1374,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 2
-        },
-        "Effect2":{},
-        "Effect3": {}
+        }
       },
       "Orders": {
         "Order0": [
@@ -1447,9 +1382,7 @@
         ],
         "Order1": [
           1
-        ],
-        "Order2": [],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Yellow"
@@ -1509,8 +1442,7 @@
           "mustBeDifferentSpots": 0,
           "isLinear": 0,
           "visibleByWho": 0
-        },
-        "Effect3":{}
+        }
       },
       "Orders": {
         "Order0": [
@@ -1524,8 +1456,7 @@
           0,
           2,
           1
-        ],
-        "Order3": []
+        ]
       },
       "Cost": [
         "Yellow"
