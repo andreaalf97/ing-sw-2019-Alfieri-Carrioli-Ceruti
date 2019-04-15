@@ -55,6 +55,8 @@ public class Weapon {
      */
     public Weapon loadWeaponFromJson(String weaponName)
     {
+
+        //support variables
         Weapon weaponTemp = new Weapon(weaponName);
         ArrayList<Effect> effectsListTemp = new ArrayList<>();
         ArrayList<Integer []> ordersTemp = new ArrayList<>();
@@ -73,27 +75,14 @@ public class Weapon {
                 Effect effectTemp = new Effect();
                 JsonObject jsonEffectThis = jsonEffect.get("Effect" + i).getAsJsonObject();
 
-                effectTemp.setnDamages(jsonEffectThis.get("nDamages").getAsInt());
-                effectTemp.setnMarks(jsonEffectThis.get("nMarks").getAsInt());
-                effectTemp.setnPlayerAttackable(jsonEffectThis.get("nPlayersAttackable").getAsInt());
-                effectTemp.setnPlayerMarkable(jsonEffectThis.get("nPlayersMarkable").getAsInt());
-                effectTemp.setMustShootOtherPlayers(jsonEffectThis.get("mustShootOtherPlayers").getAsBoolean());
-                effectTemp.setCanShootAnyPlayer(jsonEffectThis.get("canShootAnyPlayer").getAsBoolean());
+                effectTemp.setEffectFromJsonWithoutCost(jsonEffectThis);
 
                 ArrayList<Color> costTemp = new ArrayList<>();
                 JsonArray jsonCost = jsonEffectThis.get("cost").getAsJsonArray();
                 for(int j = 0; j <= jsonCost.size() - 1; j++)
-                    costTemp.add( Color.valueOf(jsonCost.get(j).getAsString()));
+                    costTemp.add( Color.valueOf(jsonCost.get(j).getAsString().toUpperCase()));
                 effectTemp.setCost(costTemp);
 
-                effectTemp.setnMoves(jsonEffectThis.get("nMoves").getAsInt());
-                effectTemp.setMinDistance(jsonEffectThis.get("minDistance").getAsInt());
-                effectTemp.setMaxDistance(jsonEffectThis.get("maxDistance").getAsInt());
-                effectTemp.setnMovesOtherPlayer(jsonEffectThis.get("nMovesOtherPlayer").getAsInt());
-                effectTemp.setMustBeOtherRoom(jsonEffectThis.get("mustBeOtherRoom").getAsBoolean());
-                effectTemp.setMustBeDifferentSpots(jsonEffectThis.get("mustBeDifferentSpots").getAsBoolean());
-                effectTemp.setLinear(jsonEffectThis.get("isLinear").getAsBoolean());
-                effectTemp.setVisibleByWho(Visibility.values()[jsonEffectThis.get("visibleByWho").getAsInt()]);
 
                 effectsListTemp.add(effectTemp);
             }
@@ -108,7 +97,7 @@ public class Weapon {
                 for(int cont = 0; cont <= jsonOrderThis.size() - 1; cont++) {
                     orderThis[cont] = jsonOrderThis.get(cont).getAsInt();
                 }
-                //TODO devo dichiarare la lunghezza di un array, quindi devo per forza riempirlo per evitare errori a run time e fare controlli a più alto livello
+                //TODO devo dichiarare la lunghezza di un array, quindi devo per forza riempirlo per evitare errori a run time e fare controlli a più alto livello + commenti
                 for (int cont = jsonOrderThis.size() - 1 ; cont <= orderThis.length - 1; cont ++){
                     orderThis[cont] = -1;
                 }
@@ -119,7 +108,7 @@ public class Weapon {
 
             JsonArray jsonCost = jsonWeaponLoaded.get("Cost").getAsJsonArray();
             for (int i = 0; i <= jsonCost.size() - 1; i++){
-                colorsTemp.add( Color.valueOf(jsonCost.get(i).getAsString()) );
+                colorsTemp.add( Color.valueOf(jsonCost.get(i).getAsString().toUpperCase()) );
             }
             weaponTemp.setColors(colorsTemp);
 
@@ -128,7 +117,7 @@ public class Weapon {
             e.printStackTrace();
         }
 
-        return weaponTemp; //TODO da rifare tutti i costi nel file json in maiuscolo + commentare codice
+        return weaponTemp;
     }
 
     /**

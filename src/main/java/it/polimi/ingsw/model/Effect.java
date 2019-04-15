@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.MapPackage.Visibility;
 
 import java.util.ArrayList;
@@ -189,4 +190,24 @@ public class Effect {
         this.visibleByWho = visibleByWho;
     }
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    public void setEffectFromJsonWithoutCost(JsonObject jsonEffect){
+        this.setnDamages(jsonEffect.get("nDamages").getAsInt());
+        this.setnMarks(jsonEffect.get("nMarks").getAsInt());
+        this.setnPlayerAttackable(jsonEffect.get("nPlayersAttackable").getAsInt());
+        this.setnPlayerMarkable(jsonEffect.get("nPlayersMarkable").getAsInt());
+        this.setMustShootOtherPlayers(jsonEffect.get("mustShootOtherPlayers").getAsBoolean());
+        this.setCanShootAnyPlayer(jsonEffect.get("canShootAnyPlayer").getAsBoolean());
+        this.setnMoves(jsonEffect.get("nMoves").getAsInt());
+        this.setMinDistance(jsonEffect.get("minDistance").getAsInt());
+        this.setMaxDistance(jsonEffect.get("maxDistance").getAsInt());
+        this.setnMovesOtherPlayer(jsonEffect.get("nMovesOtherPlayer").getAsInt());
+        this.setMustBeOtherRoom(jsonEffect.get("mustBeOtherRoom").getAsBoolean());
+        this.setMustBeDifferentSpots(jsonEffect.get("mustBeDifferentSpots").getAsBoolean());
+        this.setLinear(jsonEffect.get("isLinear").getAsBoolean());
+        this.setVisibleByWho(Visibility.values()[jsonEffect.get("visibleByWho").getAsInt()]);
+    }
+
+
 }

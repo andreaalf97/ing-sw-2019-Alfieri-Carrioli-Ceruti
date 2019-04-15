@@ -1465,8 +1465,7 @@
   },
   "Powerups": {
     "Teleporter": {
-      "Effects": {
-        "Effect0": {
+        "Effect": {
           "nDamages": 0,
           "nMarks": 0,
           "nPlayersAttackable": 0,
@@ -1483,8 +1482,7 @@
           "isLinear": 0,
           "visibleByWho": 0
         }
-      }
-    },
+      },
     "TargetingScope": {
       "Effect": {
         "nDamages": 1,

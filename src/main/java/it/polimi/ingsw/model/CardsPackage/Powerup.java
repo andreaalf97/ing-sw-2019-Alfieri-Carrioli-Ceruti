@@ -1,7 +1,14 @@
 package it.polimi.ingsw.model.CardsPackage;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Effect;
+import it.polimi.ingsw.model.MapPackage.Visibility;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 public class Powerup {
 
@@ -34,6 +41,35 @@ public class Powerup {
     }
     public String getPowerupName() {
         return this.powerupName;
+    }
+
+    public Powerup loadPowerupFromJson (String powerupName){
+        Powerup powerupTemp = new Powerup();
+        Effect effectTemp = new Effect();
+
+        try{
+            JsonElement jsonParser = new JsonParser().parse(new FileReader("resources/effects.json"));
+            JsonObject root = jsonParser.getAsJsonObject();
+            JsonObject jsonPowerups = root.get("Powerups").getAsJsonObject();
+
+            JsonObject jsonPowerupLoaded = jsonPowerups.get(powerupName).getAsJsonObject();
+            JsonObject jsonPowerupEffect = jsonPowerupLoaded.get("Effect").getAsJsonObject();
+
+            effectTemp.setEffectFromJsonWithoutCost(jsonPowerupLoaded);
+
+            //TODO cost teleporter
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        powerupTemp.setEffect(effectTemp);
+
+        return powerupTemp;
+    }
+
+    public void setEffect(Effect effectTemp){
+        this.effect = effectTemp;
     }
 
 }
