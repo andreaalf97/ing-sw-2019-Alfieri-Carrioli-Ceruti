@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
 import it.polimi.ingsw.model.CardsPackage.Weapon;
 import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
+import it.polimi.ingsw.model.MapPackage.Map;
+import it.polimi.ingsw.model.MapPackage.MapBuilder;
 import it.polimi.ingsw.model.MapPackage.MapName;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ public class Game implements Runnable{
      * This ArrayList contains the nicknames of the players
      */
     private ArrayList<String> playerNames;
+
+    private Map map;
 
     /**
      * This object initially contains all the Powerup cards
@@ -88,7 +92,8 @@ public class Game implements Runnable{
      * This method implements the void run() method from Runnable and is processed on a new thread
      */
     public void run(){
-        System.out.println("Game starting: ...");
+        Log.LOGGER.info("Game starting");
+        Log.LOGGER.warning("Let the player choose the map");
         chooseMap(MapName.WATER); //TODO let someone decide which map to play on
         setupKST(5); //TODO let someone decide the # of skulls on the KST
         setupSpawnSpots();
@@ -153,13 +158,17 @@ public class Game implements Runnable{
      * This method is used to generate the correct map
      * @param mapName The map that need to be created
      */
-    public void chooseMap(MapName mapName){}
+    private void chooseMap(MapName mapName){
+        this.map = MapBuilder.generateMap(mapName);
+    }
 
     /**
      * This method assigns the correct amount of skulls to the Kill Shot Track
      * @param nSkulls The amount of skulls to add
      */
-    public void setupKST(int nSkulls){}
+    private void setupKST(int nSkulls){
+        this.kst = new KillShotTrack(nSkulls);
+    }
 
     /**
      * This method initially refills all the spawn spots

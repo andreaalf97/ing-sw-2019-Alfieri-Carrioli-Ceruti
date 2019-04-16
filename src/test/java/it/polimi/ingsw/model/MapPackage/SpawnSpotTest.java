@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.MapPackage;
 
 import it.polimi.ingsw.model.CardsPackage.Weapon;
-import it.polimi.ingsw.model.MapPackage.Room;
-import it.polimi.ingsw.model.MapPackage.SpawnSpot;
 import org.junit.Assert;
 import org.junit.Test;
 
