@@ -18,7 +18,7 @@ public class MapBuilder {
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static Map generateMap(String mapName)
+    public static Map generateMap(MapName mapName)
     {
         Map tempMap = new Map();
         //temporary variable for the dynamic type of the matrix single spot
@@ -35,7 +35,7 @@ public class MapBuilder {
             JsonElement jsonElement = new JsonParser().parse(new FileReader("resources/maps.json"));
             JsonObject root = jsonElement.getAsJsonObject(); //all the file maps.json is now saved in root
 
-            JsonElement jsonMyMap = root.get(mapName);
+            JsonElement jsonMyMap = root.get(mapName.toString());
             JsonObject jsonObjectMyMap = jsonMyMap.getAsJsonObject(); //the map selected is saved in jsonObjectMymap
 
             //these two nested for cycles load the information of the single spot in the matrix map

@@ -9,7 +9,7 @@ class MapTest {
 
     @Test
     void verifyJsonMapReading(){
-        MapBuilder.generateMap("FIRE");
+        MapBuilder.generateMap(MapName.FIRE);
 
         Assert.assertTrue(true);
     }

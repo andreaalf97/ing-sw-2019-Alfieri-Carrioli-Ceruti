@@ -8,7 +8,8 @@ import java.util.Random;
 public enum Color {
     RED,
     YELLOW,
-    BLUE;
+    BLUE,
+    ANY;
 
     /**
      * The list of all possible values
@@ -30,8 +31,8 @@ public enum Color {
      * @return a random Color object
      */
     public static Color randomColor(){
-        return VALUES.get(RANDOM.nextInt(SIZE));
-    }
+        return VALUES.get(RANDOM.nextInt(SIZE - 1));
+    }//TODO check if method return any
 
     //https://stackoverflow.com/questions/1972392/pick-a-random-value-from-an-enum
 
