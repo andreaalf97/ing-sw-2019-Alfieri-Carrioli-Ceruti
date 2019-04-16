@@ -8,7 +8,8 @@ import java.util.Random;
 public enum Color {
     RED,
     YELLOW,
-    BLUE;
+    BLUE,
+    ANY;
 
     /**
      * The list of all possible values

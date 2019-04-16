@@ -3,7 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
 import it.polimi.ingsw.model.CardsPackage.Weapon;
 import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
+import it.polimi.ingsw.model.MapPackage.Map;
 import it.polimi.ingsw.model.MapPackage.MapName;
+import it.polimi.ingsw.model.MapPackage.Visibility;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -275,12 +277,129 @@ public class Game implements Runnable{
     public void moveAndGrab(Player player, int x, int y){}
 
     /**
-     * Shoots the defender with the weapon of the offender
+     * Shoots defenders with the weapon of the offender
      * @param offender Player who attacks
-     * @param defender Attacked player
+     * @param defenders Attacked players
      * @param weapon Shooting weapon
      */
-    public void shootPlayer(Player offender, Player defender, Weapon weapon){}
+    public void shootPlayer(Player offender, ArrayList<Player> defenders, Weapon weapon){
+
+        ArrayList<Integer[]> order = weapon.getOrder();
+
+        ArrayList<Effect> effects = weapon.getEffects();
+
+        ArrayList<String> playersHit = new ArrayList<String>();
+
+        System.out.println("Choose the order you want to shoot. 0 to order.size");
+
+        //for example the user chooses order x
+        int x = 2;
+
+        for ( int i = 0; i < order.get(x).length ; i++ ) {
+
+            int effect_number = order.get(x)[i];   //this is the effect we have to use
+
+            int spots_moved_on_x;
+            int spots_moved_on_y;
+
+            if (effects.get(effect_number).getnMoves() != 0) {
+                System.out.println("where do you want to move? maximum weapon.getEffects(effect_number).nmoves moves");       //expect a new spot
+
+                int xPos = 1, yPos = 1;     //spot where the user wants to move in
+
+                if (offender.getxPosition() <= xPos)
+                    spots_moved_on_x = xPos - offender.getxPosition();
+                else
+                    spots_moved_on_x = offender.getxPosition() - xPos;
+
+                if (offender.getyPosition() <= yPos)
+                    spots_moved_on_y = xPos - offender.getyPosition();
+                else
+                    spots_moved_on_y = offender.getyPosition() - xPos;
+
+                if (spots_moved_on_x + spots_moved_on_y > effects.get(effect_number).getnMoves())
+                    System.out.println("can't move here");
+                else
+                    movePlayer(offender, xPos, yPos);
+
+                continue;
+            }
+
+            if (effects.get(effect_number).getnMovesOtherPlayer() != 0) {
+                System.out.println("where do you want to move the player you attack? maximum weapon.getEffects(effect_number).nMovesOtherPlayer moves");       //expect a new spot
+
+                int xPos= 1, yPos = 1;     //spot where the user wants to move in
+
+                if (defenders.get(0).getxPosition() <= xPos)
+                    spots_moved_on_x = xPos - defenders.get(0).getxPosition();
+                else
+                    spots_moved_on_x = defenders.get(0).getxPosition() - xPos;
+
+                if (offender.getyPosition() <= yPos)
+                    spots_moved_on_y = xPos - defenders.get(0).getyPosition();
+                else
+                    spots_moved_on_y = defenders.get(0).getyPosition() - xPos;
+
+                if (spots_moved_on_x + spots_moved_on_y > effects.get(effect_number).getnMovesOtherPlayer())
+                    System.out.println("can't move this player here");
+                else
+                    movePlayer(defenders.get(0), xPos, yPos);
+
+                continue;
+            }
+
+            if(effects.get(effect_number).getCost() != null){
+
+                for ( int n = 0; n < effects.get(effect_number).getCost().size(); n++){
+                    if ( effects.get(effect_number).getCost().get(n) == Color.RED ){
+                        if ( offender.getnRedAmmo() == 0)
+                            System.out.println( "You don't have enough ammo to do this optional attack");
+                        else
+                            offender.setnRedAmmo(offender.getnRedAmmo()-1);
+                    }
+                    if ( effects.get(effect_number).getCost().get(n) == Color.YELLOW ){
+                        if ( offender.getnYellowAmmo() == 0)
+                            System.out.println( "You don't have enough ammo to do this optional attack");
+                        else
+                            offender.setnYellowAmmo(offender.getnYellowAmmo()-1);
+                    }
+                    if ( effects.get(effect_number).getCost().get(n) == Color.BLUE ){
+                        if ( offender.getnBlueAmmo() == 0)
+                            System.out.println( "You don't have enough ammo to do this optional attack");
+                        else
+                            offender.setnBlueAmmo(offender.getnBlueAmmo()-1);
+                    }
+                    if ( effects.get(effect_number).getCost().get(n) == Color.ANY ){
+                        if ( offender.getnRedAmmo() == 0 && offender.getnYellowAmmo() == 0 && offender.getnBlueAmmo() == 0 )
+                            System.out.println( "You don't have enough ammo to do this optional attack");
+                        else{
+                            System.out.println( "Choose the color you want to pay with" );
+                            /*TODO scale one of the color the user chose*/
+                        }
+                    }
+                }
+            }
+
+            if( effects.get(effect_number).getnPlayerAttackable() != 0 ){
+
+                if ( effects.get(effect_number).getVisibleByWho() == Visibility.NONE ){
+                    for ( int k = 0; k < defenders.size(); k++ ){   //controllo i defenders, se qualcuno non rispetta visibiluty lo escludo
+                    }
+                }
+                if ( effects.get(effect_number).getVisibleByWho() == Visibility.OFFENDER ){
+
+                }
+                if ( effects.get(effect_number).getVisibleByWho() == Visibility.LASTONEATTACKED ){
+
+                }
+            }
+
+
+
+
+        }
+        weapon.unload();
+    }
 
     /**
      * Clears the Kill Shot Track and gives points to all players involved

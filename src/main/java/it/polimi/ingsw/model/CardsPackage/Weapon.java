@@ -189,4 +189,8 @@ public class Weapon {
         return;
     }
 
+
+    public void unload() {
+        this.isLoaded = false;
+    }
 }
