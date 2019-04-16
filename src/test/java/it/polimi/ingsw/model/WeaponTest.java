@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.model.CardsPackage.Weapon;
+
 import org.junit.Assert;
 import org.junit.Test;
 

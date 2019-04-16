@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.MapPackage.Visibility;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public class Powerup {
 
@@ -30,9 +31,16 @@ public class Powerup {
     /**
      * simple constructor for the Powerup
      */
+    public Powerup(String powerupName ){
+        powerupName = null;
+        color = null;
+        effect = null;
+    }
+
     public Powerup(){
         powerupName = null;
         color = null;
+        effect = null;
     }
 
     //SETS AND GETS
@@ -44,8 +52,7 @@ public class Powerup {
     }
 
     public Powerup loadPowerupFromJson (String powerupName){
-        Powerup powerupTemp = new Powerup();
-        Effect effectTemp = new Effect();
+
 
         try{
             JsonElement jsonParser = new JsonParser().parse(new FileReader("resources/effects.json"));
@@ -55,21 +62,22 @@ public class Powerup {
             JsonObject jsonPowerupLoaded = jsonPowerups.get(powerupName).getAsJsonObject();
             JsonObject jsonPowerupEffect = jsonPowerupLoaded.get("Effect").getAsJsonObject();
 
-            effectTemp.setEffectFromJsonWithoutCost(jsonPowerupLoaded);
-
-            //TODO cost teleporter
+            Effect effectTemp = new Effect (jsonPowerupEffect);
+            return new Powerup( powerupName, effectTemp);
         }
         catch(FileNotFoundException e){
             e.printStackTrace();
         }
 
-        powerupTemp.setEffect(effectTemp);
-
-        return powerupTemp;
+        return new Powerup(powerupName);
     }
 
-    public void setEffect(Effect effectTemp){
+
+    public Powerup (String powerupName, Effect effectTemp){
+        this.powerupName = powerupName;
         this.effect = effectTemp;
+        this.color = Color.randomColor();
+
     }
 
 }

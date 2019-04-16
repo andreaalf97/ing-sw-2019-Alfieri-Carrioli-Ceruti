@@ -2,15 +2,16 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.CardsPackage.Weapon;
 import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
+
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
-class WeaponDeckTest {
+public class WeaponDeckTest {
 
     @Test
-    void pickCard() {
+    public void pickCard() {
 
         ArrayList<Weapon> weaponListTest = new ArrayList<Weapon>();
         Weapon w1 = new Weapon("SledgeHammer");

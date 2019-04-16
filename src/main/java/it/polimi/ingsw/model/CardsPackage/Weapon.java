@@ -36,6 +36,15 @@ public class Weapon {
      */
     private ArrayList<Integer[]> order;
 
+
+    public Weapon(String weaponName, ArrayList<Color> cost, ArrayList<Effect> effects, ArrayList<Integer[]> order){
+        this.weaponName = weaponName;
+        this.effects = effects;
+        this.order = order;
+        this.cost = cost;
+        isLoaded = true;
+    }
+
     /**
      * A basic constructor
      * @param weaponName The name of the weapon to read from the JSON file
@@ -57,10 +66,8 @@ public class Weapon {
     {
 
         //support variables
-        Weapon weaponTemp = new Weapon(weaponName);
         ArrayList<Effect> effectsListTemp = new ArrayList<>();
         ArrayList<Integer []> ordersTemp = new ArrayList<>();
-        Integer [] orderThis = new Integer[10];
         ArrayList<Color> colorsTemp = new ArrayList<>();
 
         try{
@@ -72,53 +79,42 @@ public class Weapon {
             JsonObject jsonEffect = jsonWeaponLoaded.get("Effects").getAsJsonObject();
 
             for (int i = 0; i <= jsonEffect.size() - 1; i++){
-                Effect effectTemp = new Effect();
                 JsonObject jsonEffectThis = jsonEffect.get("Effect" + i).getAsJsonObject();
 
-                effectTemp.setEffectFromJsonWithoutCost(jsonEffectThis);
-
-                ArrayList<Color> costTemp = new ArrayList<>();
-                JsonArray jsonCost = jsonEffectThis.get("cost").getAsJsonArray();
-                for(int j = 0; j <= jsonCost.size() - 1; j++)
-                    costTemp.add( Color.valueOf(jsonCost.get(j).getAsString().toUpperCase()));
-                effectTemp.setCost(costTemp);
-
+                Effect effectTemp = new Effect(jsonEffectThis);
 
                 effectsListTemp.add(effectTemp);
             }
-            weaponTemp.setEffects(effectsListTemp);  //finish loading of effects arrayList
-
 
             JsonObject jsonOrders = jsonWeaponLoaded.get("Orders").getAsJsonObject();
-            for(int k = 0; k <= jsonOrders.size() - 1; k++){
 
+            for(int k = 0; k <= jsonOrders.size() - 1; k++){
                 JsonArray jsonOrderThis = jsonOrders.get("Order" + k).getAsJsonArray();
 
+                Integer [] orderThisVector = new Integer[jsonOrderThis.size()];
+
                 for(int cont = 0; cont <= jsonOrderThis.size() - 1; cont++) {
-                    orderThis[cont] = jsonOrderThis.get(cont).getAsInt();
+                    orderThisVector[cont] = jsonOrderThis.get(cont).getAsInt();
+
                 }
-                //TODO devo dichiarare la lunghezza di un array, quindi devo per forza riempirlo per evitare errori a run time e fare controlli a più alto livello + commenti
-                for (int cont = jsonOrderThis.size() - 1 ; cont <= orderThis.length - 1; cont ++){
-                    orderThis[cont] = -1;
-                }
-                ordersTemp.add(orderThis);
+                ordersTemp.add(orderThisVector);               
+
             }
-            weaponTemp.setOrders(ordersTemp);
 
 
             JsonArray jsonCost = jsonWeaponLoaded.get("Cost").getAsJsonArray();
             for (int i = 0; i <= jsonCost.size() - 1; i++){
                 colorsTemp.add( Color.valueOf(jsonCost.get(i).getAsString().toUpperCase()) );
             }
-            weaponTemp.setColors(colorsTemp);
 
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
         }
 
-        return weaponTemp;
+        return new Weapon( weaponName, colorsTemp, effectsListTemp, ordersTemp );
     }
+
 
     /**
      *  getter for effects arraylist

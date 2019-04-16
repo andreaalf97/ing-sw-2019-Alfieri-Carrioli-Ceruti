@@ -2,13 +2,14 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.CardsPackage.Powerup;
 import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
 
-class PowerupDeckTest {
+import org.junit.Assert;
+import org.junit.Test;
+
+public class PowerupDeckTest {
 
     @Test
-    void pickCard() {
+    public void pickCard() {
         PowerupDeck powerupDeckTest = new PowerupDeck();
 
         powerupDeckTest.getPowerupList().add(new Powerup());

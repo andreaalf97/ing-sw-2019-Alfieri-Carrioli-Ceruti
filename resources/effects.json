@@ -1472,7 +1472,7 @@
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
-          "cost": 0,
+          "cost": [],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 0,
@@ -1492,7 +1492,7 @@
         "mustShootOtherPlayers": 0,
         "canShootAnyPlayer": 0,
         "cost": [
-          "Color"
+          "ANY"
         ],
         "nMoves": 0,
         "minDistance": 0,
@@ -1512,7 +1512,7 @@
         "nPlayersMarkable": 0,
         "mustShootOtherPlayers": 0,
         "canShootAnyPlayer": 0,
-        "cost": 0,
+        "cost": [],
         "nMoves": 0,
         "minDistance": 0,
         "maxDistance": 0,
@@ -1531,7 +1531,7 @@
         "nPlayersMarkable": 1,
         "mustShootOtherPlayers": 0,
         "canShootAnyPlayer": 0,
-        "cost": 0,
+        "cost": [],
         "nMoves": 0,
         "minDistance": 0,
         "maxDistance": 100,

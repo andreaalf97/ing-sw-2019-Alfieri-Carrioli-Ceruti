@@ -10,9 +10,7 @@
           false,
           true,
           false
-        ],
-        "x": 0,
-        "y": 0
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -23,9 +21,7 @@
           false,
           false,
           false
-        ],
-        "x": 1,
-        "y": 0
+        ]
       },
       "col2": {
         "isSpawnSpot": true,
@@ -36,9 +32,7 @@
           false,
           true,
           false
-        ],
-        "x": 2,
-        "y": 0
+        ]
       },
       "col3": {}
     },
@@ -52,9 +46,7 @@
           false,
           false,
           false
-        ],
-        "x": 0,
-        "y": 1
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -65,9 +57,7 @@
           false,
           true,
           false
-        ],
-        "x": 1,
-        "y": 1
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -78,9 +68,7 @@
           true,
           false,
           false
-        ],
-        "x": 2,
-        "y": 1
+        ]
       },
       "col3": {
         "isSpawnSpot": false,
@@ -91,9 +79,7 @@
           false,
           false,
           true
-        ],
-        "x": 3,
-        "y": 1
+        ]
       }
     },
     "row2": {
@@ -107,9 +93,7 @@
           false,
           false,
           false
-        ],
-        "x": 1,
-        "y": 2
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -120,9 +104,7 @@
           true,
           false,
           false
-        ],
-        "x": 2,
-        "y": 2
+        ]
       },
       "col3": {
         "isSpawnSpot": true,
@@ -133,9 +115,7 @@
           false,
           false,
           true
-        ],
-        "x": 3,
-        "y": 2
+        ]
       }
     }
   },
@@ -150,9 +130,7 @@
           false,
           true,
           false
-        ],
-        "x": 0,
-        "y": 0
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -163,9 +141,7 @@
           false,
           false,
           false
-        ],
-        "x": 1,
-        "y": 0
+        ]
       },
       "col2": {
         "isSpawnSpot": true,
@@ -176,9 +152,7 @@
           true,
           true,
           false
-        ],
-        "x": 2,
-        "y": 0
+        ]
       },
       "col3": {
         "isSpawnSpot": false,
@@ -189,9 +163,7 @@
           false,
           true,
           true
-        ],
-        "x": 3,
-        "y": 0
+        ]
       }
     },
     "row1": {
@@ -204,9 +176,7 @@
           false,
           false,
           false
-        ],
-        "x": 0,
-        "y": 1
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -217,9 +187,7 @@
           false,
           true,
           false
-        ],
-        "x": 1,
-        "y": 1
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -230,9 +198,7 @@
           false,
           false,
           false
-        ],
-        "x": 2,
-        "y": 1
+        ]
       },
       "col3": {
         "isSpawnSpot": false,
@@ -243,9 +209,7 @@
           false,
           false,
           false
-        ],
-        "x": 3,
-        "y": 1
+        ]
       }
     },
     "row2": {
@@ -259,9 +223,7 @@
           true,
           false,
           false
-        ],
-        "x": 1,
-        "y": 2
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -272,9 +234,7 @@
           false,
           false,
           true
-        ],
-        "x": 2,
-        "y": 2
+        ]
       },
       "col3": {
         "isSpawnSpot": true,
@@ -285,9 +245,7 @@
           false,
           false,
           false
-        ],
-        "x": 3,
-        "y": 2
+        ]
       }
     }
   },
@@ -302,9 +260,7 @@
           true,
           false,
           false
-        ],
-        "x": 0,
-        "y": 0
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -315,9 +271,7 @@
           false,
           true,
           true
-        ],
-        "x": 1,
-        "y": 0
+        ]
       },
       "col2": {
         "isSpawnSpot": true,
@@ -328,9 +282,7 @@
           true,
           true,
           false
-        ],
-        "x": 2,
-        "y": 0
+        ]
       },
       "col3": {
         "isSpawnSpot": false,
@@ -341,9 +293,7 @@
           false,
           true,
           true
-        ],
-        "x": 3,
-        "y": 0
+        ]
       }
     },
     "row1": {
@@ -356,9 +306,7 @@
           false,
           true,
           false
-        ],
-        "x": 0,
-        "y": 1
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -369,9 +317,7 @@
           false,
           true,
           false
-        ],
-        "x": 1,
-        "y": 1
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -382,9 +328,7 @@
           false,
           false,
           false
-        ],
-        "x": 2,
-        "y": 1
+        ]
       },
       "col3": {
         "isSpawnSpot": false,
@@ -395,9 +339,7 @@
           false,
           false,
           false
-        ],
-        "x": 3,
-        "y": 1
+        ]
       }
     },
     "row2": {
@@ -410,9 +352,7 @@
           false,
           false,
           false
-        ],
-        "x": 0,
-        "y": 2
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -423,9 +363,7 @@
           true,
           false,
           false
-        ],
-        "x": 1,
-        "y": 2
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -436,9 +374,7 @@
           false,
           false,
           true
-        ],
-        "x": 2,
-        "y": 2
+        ]
       },
       "col3": {
         "isSpawnSpot": true,
@@ -449,9 +385,7 @@
           false,
           false,
           false
-        ],
-        "x": 3,
-        "y": 2
+        ]
       }
     }
   },
@@ -466,9 +400,7 @@
           true,
           false,
           false
-        ],
-        "x": 0,
-        "y": 0
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -479,9 +411,7 @@
           false,
           true,
           true
-        ],
-        "x": 1,
-        "y": 0
+        ]
       },
       "col2": {
         "isSpawnSpot": true,
@@ -492,9 +422,7 @@
           false,
           true,
           false
-        ],
-        "x": 2,
-        "y": 0
+        ]
       },
       "col3": {}
     },
@@ -508,9 +436,7 @@
           false,
           true,
           false
-        ],
-        "x": 0,
-        "y": 1
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -521,9 +447,7 @@
           false,
           true,
           false
-        ],
-        "x": 1,
-        "y": 1
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -534,9 +458,7 @@
           true,
           false,
           false
-        ],
-        "x": 2,
-        "y": 1
+        ]
       },
       "col3": {
         "isSpawnSpot": false,
@@ -547,9 +469,7 @@
           false,
           false,
           true
-        ],
-        "x": 3,
-        "y": 1
+        ]
       }
     },
     "row2": {
@@ -562,9 +482,7 @@
           false,
           false,
           false
-        ],
-        "x": 0,
-        "y": 2
+        ]
       },
       "col1": {
         "isSpawnSpot": false,
@@ -575,9 +493,7 @@
           false,
           false,
           false
-        ],
-        "x": 1,
-        "y": 2
+        ]
       },
       "col2": {
         "isSpawnSpot": false,
@@ -588,9 +504,7 @@
           true,
           false,
           false
-        ],
-        "x": 2,
-        "y": 2
+        ]
       },
       "col3": {
         "isSpawnSpot": true,
@@ -601,9 +515,7 @@
           false,
           false,
           true
-        ],
-        "x": 3,
-        "y": 2
+        ]
       }
     }
   }
