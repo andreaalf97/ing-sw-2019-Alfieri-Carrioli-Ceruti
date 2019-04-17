@@ -31,7 +31,11 @@ public class Spot {
      * basic constructor
      */
     public Spot(){
+        this.playersHere = new ArrayList<>();
+        this.doors = new ArrayList<>();
+        this.room = null;
     }
+
 
 
     /**
@@ -40,7 +44,7 @@ public class Spot {
      * @param room is the room to set at the new spot
      */
     public Spot(ArrayList<Boolean> doors, Room room)
-    {
+    {   this.playersHere = new ArrayList<>();
         this.doors = doors;
         this.room = room;
     }
@@ -69,11 +73,6 @@ public class Spot {
     public ArrayList<Boolean> getDoors() { return new ArrayList<>(doors);}
     public void setRoom(Room room) { this.room = room;}
 
-    public void setDoors (ArrayList<Boolean> doors) throws NullPointerException{
-        if (doors == null)
-            throw new NullPointerException("doors should not be null");
-        else
-            this.doors = doors;}
 
     public ArrayList<String> getPlayersHere() { return new ArrayList<String>(playersHere); }
 

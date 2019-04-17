@@ -19,8 +19,7 @@ public class WeaponDeckTest {
         weaponListTest.add(w1);
         weaponListTest.add(w2);
 
-        WeaponDeck weaponDeckTest = new WeaponDeck();
-        weaponDeckTest.setWeaponDeck(weaponListTest);
+        WeaponDeck weaponDeckTest = new WeaponDeck(weaponListTest);
 
         Weapon weaponPicked = weaponDeckTest.pickCard();
 

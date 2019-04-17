@@ -10,85 +10,93 @@ public class SpotTest {
 
     @Test
     public void hasNorthDoorTrue() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(true);
-        spotTest.setDoors(doorsTest);
+        Room room = Room.AMETHYST;
+
+        Spot spotTest = new Spot(doorsTest, room);
         Assert.assertTrue(spotTest.getDoors().get(0));
     }
 
     @Test
     public void hasNorthDoorFalse() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
-        spotTest.setDoors(doorsTest);
+        Room room = Room.SAPPHIRE;
+
+        Spot spotTest = new Spot(doorsTest, room);
         Assert.assertFalse(spotTest.getDoors().get(0));
     }
 
     @Test
     public void hasSouthDoorTrue() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
         doorsTest.add(false);
         doorsTest.add(true);
-        spotTest.setDoors(doorsTest);
+        Room room = Room.SAPPHIRE;
+
+        Spot spotTest = new Spot(doorsTest, room);
         Assert.assertTrue(spotTest.getDoors().get(2));
     }
 
     @Test
     public void hasSouthDoorFalse() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorstest = new ArrayList<>();
         doorstest.add(false);
         doorstest.add(false);
         doorstest.add(false);
-        spotTest.setDoors(doorstest);
+        Room room = Room.SAPPHIRE;
+
+        Spot spotTest = new Spot(doorstest, room);
         Assert.assertFalse(spotTest.getDoors().get(2));
     }
 
     @Test
     public void hasEastDoorTrue() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorstest = new ArrayList<>();
         doorstest.add(false);
         doorstest.add(true);
-        spotTest.setDoors(doorstest);
+        Room room = Room.SAPPHIRE;
+
+        Spot spotTest = new Spot(doorstest, room);
         Assert.assertTrue(spotTest.getDoors().get(1));
     }
 
     @Test
     public void hasEastDoorFalse() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorstest = new ArrayList<>();
         doorstest.add(false);
         doorstest.add(false);
-        spotTest.setDoors(doorstest);
+        Room room = Room.SAPPHIRE;
+
+        Spot spotTest = new Spot(doorstest, room);
         Assert.assertFalse(spotTest.getDoors().get(1));
     }
 
     @Test
     public void hasWestDoorTrue() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
         doorsTest.add(false);
         doorsTest.add(false);
         doorsTest.add(true);
-        spotTest.setDoors(doorsTest);
+        Room room = Room.SAPPHIRE;
+
+        Spot spotTest = new Spot(doorsTest, room);
         Assert.assertTrue(spotTest.getDoors().get(3));
     }
 
     @Test
     public void hasWestDoorFalse() {
-        Spot spotTest = new Spot();
         ArrayList<Boolean> doorsTest = new ArrayList<>();
         doorsTest.add(false);
         doorsTest.add(false);
         doorsTest.add(false);
         doorsTest.add(false);
-        spotTest.setDoors(doorsTest);
+        Room room = Room.SAPPHIRE;
+
+        Spot spotTest = new Spot(doorsTest, room);
         Assert.assertFalse(spotTest.getDoors().get(3));
     }
 }

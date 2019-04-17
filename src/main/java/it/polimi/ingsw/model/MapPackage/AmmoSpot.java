@@ -31,24 +31,28 @@ public class AmmoSpot extends Spot {
         this.powerup = new Powerup();
     }
 
+    public AmmoSpot(ArrayList<Color> ammoColorList, Powerup powerup){
+        super();
+        this.ammoColorList = ammoColorList;
+        this.powerup = powerup;
+    }
+
+
     /**
      * basic constructor without parameters
      */
     public AmmoSpot(){
         super();
+        this.ammoColorList = new ArrayList<>();
+        this.powerup = new Powerup();
     }
 
-    /**
-     * setter for ammoColorList
-     * @param ammoColorList the arrayList that represent the color type of the ammo
-     * @throws NullPointerException
-     */
-    public void setAmmoColorList (ArrayList<Color> ammoColorList) throws NullPointerException{
-        if (ammoColorList == null)
-            throw new NullPointerException("ammoColoList should not be null");
-        else
-            this.ammoColorList = ammoColorList;
+    public AmmoSpot(ArrayList<Boolean> doors, Room room, ArrayList<Color> ammoColorList, Powerup powerup){
+        super();
+        this.ammoColorList = ammoColorList;
+        this.powerup = powerup;
     }
+
 
     /**
      * getter for ammoColorList

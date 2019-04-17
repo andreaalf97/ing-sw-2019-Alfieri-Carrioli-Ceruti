@@ -16,6 +16,10 @@ public class WeaponDeck{
         this.weaponList = new ArrayList<>();
     }
 
+    public WeaponDeck( ArrayList<Weapon> weaponList){
+        this.weaponList = weaponList;
+    }
+
     /**
      * getter for weaponList
      * @return a new copy of weaponList
@@ -24,17 +28,6 @@ public class WeaponDeck{
         return new ArrayList<>(weaponList);
     }
 
-    /**
-     * set the weaponList of the deck
-     * @param weaponListToSet the list of weapons avaliable
-     * @throws NullPointerException if param is null
-     */
-    public void setWeaponDeck(ArrayList<Weapon> weaponListToSet) throws NullPointerException{
-        if (weaponListToSet == null)
-            throw new NullPointerException();
-        else
-            this.weaponList = weaponListToSet;
-    }
 
     /**
      * Draws a card from the deck

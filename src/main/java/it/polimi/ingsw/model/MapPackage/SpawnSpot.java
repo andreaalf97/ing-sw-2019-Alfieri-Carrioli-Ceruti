@@ -20,7 +20,17 @@ public class SpawnSpot extends Spot {
     public SpawnSpot(ArrayList<Boolean> doors,Room room){
         super(doors,room);
 
-        this.weaponList = new ArrayList<>(3);
+        this.weaponList = new ArrayList<>();
+    }
+
+    public SpawnSpot(ArrayList<Boolean> doors,Room room, ArrayList<Weapon> weaponList){
+        super(doors,room);
+        this.weaponList = weaponList;
+    }
+
+    public SpawnSpot(ArrayList<Weapon> weaponList){
+        super();
+        this.weaponList = weaponList;
     }
 
     /**
@@ -38,18 +48,6 @@ public class SpawnSpot extends Spot {
         return new ArrayList<Weapon>(weaponList);
     }
 
-    /**
-     * replace this.weaponList with the param weaponList
-     * @param weaponList the weaponList that replace this.weaponList
-     * @throws NullPointerException if weaponlist is null
-     */
-    public void setWeaponList(ArrayList<Weapon> weaponList) throws NullPointerException{
-        if (weaponList == null)
-            throw new NullPointerException("weaponList should not be null");
-        else
-            this.weaponList = weaponList;
-
-    }
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

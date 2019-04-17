@@ -128,43 +128,6 @@ public class Weapon {
         return new ArrayList<>(effects);
     }
 
-    /**
-     * setter for cost
-     * @param colorsTemp the arrayList to set
-     * @throws NullPointerException if param is null
-     */
-    public void setColors (ArrayList<Color> colorsTemp) throws NullPointerException{
-        if (colorsTemp == null)
-            throw new NullPointerException();
-        else
-            this.cost = colorsTemp;
-    }
-
-    /**
-     * setter for order
-     * @param ordersTemp the arrayList to set
-     * @throws NullPointerException if param is null
-     */
-    public void setOrders (ArrayList<Integer []> ordersTemp) throws NullPointerException{
-        if (ordersTemp == null)
-            throw new NullPointerException();
-        else
-            this.order = ordersTemp;
-    }
-
-    /**
-     * setter for effects
-     * @param effectsTemp the ArrayList to set
-     * @throws NullPointerException if param is null
-     */
-    public void setEffects(ArrayList<Effect> effectsTemp) throws NullPointerException{
-        if ( effectsTemp == null) {
-            throw new NullPointerException();
-        }
-        else{
-            this.effects = effectsTemp;
-        }
-    }
 
     /**
      * getter for order arraylist
