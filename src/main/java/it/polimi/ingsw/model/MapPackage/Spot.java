@@ -77,12 +77,7 @@ public class Spot {
 
     public ArrayList<String> getPlayersHere() { return new ArrayList<String>(playersHere); }
 
-    //TODO remove this method
-    /*public void setPlayersHere(ArrayList<String> playersHere) throws NullPointerException {
-        if (playersHere == null)
-            throw new NullPointerException("playersHere should not be null");
-        else
-            this.playersHere = playersHere; }*/
+
     /*------------------------------------------------------------------------------------------------------------------*/
 
     /**

@@ -36,7 +36,13 @@ public class Weapon {
      */
     private ArrayList<Integer[]> order;
 
-
+    /**
+     * constructor used for creating new Weapon from Json
+     * @param weaponName the name of the weapon
+     * @param cost the cost of the weapon
+     * @param effects the effects of the weapon
+     * @param order the orders to follow for the right application of my effects
+     */
     public Weapon(String weaponName, ArrayList<Color> cost, ArrayList<Effect> effects, ArrayList<Integer[]> order){
         this.weaponName = weaponName;
         this.effects = effects;
@@ -74,7 +80,7 @@ public class Weapon {
             JsonElement jsonElement = new JsonParser().parse(new FileReader("resources/effects.json"));
             JsonObject root = jsonElement.getAsJsonObject();
             JsonObject jsonWeapons = root.get("Weapons").getAsJsonObject();
-            JsonObject jsonWeaponLoaded = jsonWeapons.get(weaponName).getAsJsonObject();
+            JsonObject jsonWeaponLoaded = jsonWeapons.get(weaponName).getAsJsonObject(); //this is my weapon in json, inside i have all my attributes
 
             JsonObject jsonEffect = jsonWeaponLoaded.get("Effects").getAsJsonObject();
 
@@ -84,10 +90,9 @@ public class Weapon {
                 Effect effectTemp = new Effect(jsonEffectThis);
 
                 effectsListTemp.add(effectTemp);
-            }
+            } //at the end of the for effectListTemp has all the effects
 
             JsonObject jsonOrders = jsonWeaponLoaded.get("Orders").getAsJsonObject();
-
             for(int k = 0; k <= jsonOrders.size() - 1; k++){
                 JsonArray jsonOrderThis = jsonOrders.get("Order" + k).getAsJsonArray();
 
@@ -97,16 +102,15 @@ public class Weapon {
                     orderThisVector[cont] = jsonOrderThis.get(cont).getAsInt();
 
                 }
-                ordersTemp.add(orderThisVector);               
-
-            }
+                ordersTemp.add(orderThisVector);
+            } //at the end of the for ordersTemp contains all the orders of the weapon
 
 
             JsonArray jsonCost = jsonWeaponLoaded.get("Cost").getAsJsonArray();
             for (int i = 0; i <= jsonCost.size() - 1; i++){
                 colorsTemp.add( Color.valueOf(jsonCost.get(i).getAsString().toUpperCase()) );
             }
-
+            // at the end of the for colorsTemp contains the cost of the weapon
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
@@ -185,7 +189,9 @@ public class Weapon {
         return;
     }
 
-
+    /**
+     * after shooting unload the weapon
+     */
     public void unload() {
         this.isLoaded = false;
     }

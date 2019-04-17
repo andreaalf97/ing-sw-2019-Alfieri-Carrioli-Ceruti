@@ -24,6 +24,11 @@ public class WeaponDeck{
         return new ArrayList<>(weaponList);
     }
 
+    /**
+     * set the weaponList of the deck
+     * @param weaponListToSet the list of weapons avaliable
+     * @throws NullPointerException if param is null
+     */
     public void setWeaponDeck(ArrayList<Weapon> weaponListToSet) throws NullPointerException{
         if (weaponListToSet == null)
             throw new NullPointerException();

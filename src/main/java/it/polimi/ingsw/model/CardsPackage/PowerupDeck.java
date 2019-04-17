@@ -18,7 +18,7 @@ public class PowerupDeck{
 
     //GET
     public ArrayList<Powerup> getPowerupList() {
-        return powerupList;
+        return new ArrayList<>(powerupList);
     }
 
     /**

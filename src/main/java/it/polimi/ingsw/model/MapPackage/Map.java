@@ -22,7 +22,7 @@ public class Map {
      * @param spot is the SpawnSpot that replace the one corresponding to x and y
      */
     public void setSpot(int x,int y,SpawnSpot spot){
-        this.map[x][y] = new SpawnSpot(spot.getDoors(),spot.getRoom());
+        this.map[x][y] = spot;
     }
 
     /**
@@ -32,7 +32,7 @@ public class Map {
      * @param spot is the AmmoSpot that replace the one corresponding to x and y
      */
     public void setSpot(int x,int y, AmmoSpot spot){
-        this.map[x][y] = new AmmoSpot(spot.getDoors(),spot.getRoom());
+        this.map[x][y] = spot;
     }
 
 

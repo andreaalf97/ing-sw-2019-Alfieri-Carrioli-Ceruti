@@ -37,48 +37,64 @@ public class Powerup {
         effect = null;
     }
 
+    /**
+     *simple constructor used in the tests
+     */
     public Powerup(){
         powerupName = null;
         color = null;
         effect = null;
     }
 
-    //SETS AND GETS
-    public Effect getEffect() {
-        return effect;
-    }
-    public String getPowerupName() {
-        return this.powerupName;
-    }
-
-    public Powerup loadPowerupFromJson (String powerupName){
-
-
-        try{
-            JsonElement jsonParser = new JsonParser().parse(new FileReader("resources/effects.json"));
-            JsonObject root = jsonParser.getAsJsonObject();
-            JsonObject jsonPowerups = root.get("Powerups").getAsJsonObject();
-
-            JsonObject jsonPowerupLoaded = jsonPowerups.get(powerupName).getAsJsonObject();
-            JsonObject jsonPowerupEffect = jsonPowerupLoaded.get("Effect").getAsJsonObject();
-
-            Effect effectTemp = new Effect (jsonPowerupEffect);
-            return new Powerup( powerupName, effectTemp);
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
-
-        return new Powerup(powerupName);
-    }
-
-
+    /**
+     * constructor used for creating the powerup from json
+     * @param powerupName the name of the powerup
+     * @param effectTemp the effect of the powerup
+     */
     public Powerup (String powerupName, Effect effectTemp){
         this.powerupName = powerupName;
         this.effect = effectTemp;
         this.color = Color.randomColor();
 
     }
+
+    //SETS AND GETS
+    public Effect getEffect() {
+        return this.effect;
+    }
+    public String getPowerupName() {
+        return this.powerupName;
+    }
+
+    /**
+     * this method return a powerup from the json file effects.json
+     * @param powerupName is the name of the powerup
+     * @return an istance of the powerup chosen
+     */
+    public Powerup loadPowerupFromJson (String powerupName){
+
+        Powerup powerupTemp = null;
+        Effect effectTemp = null;
+
+        try{
+            JsonElement jsonParser = new JsonParser().parse(new FileReader("resources/effects.json"));
+            JsonObject root = jsonParser.getAsJsonObject();
+            JsonObject jsonPowerups = root.get("Powerups").getAsJsonObject(); // jsonPowerups contains all powerups
+
+            JsonObject jsonPowerupLoaded = jsonPowerups.get(powerupName).getAsJsonObject(); //jSonPowerupLoaded contains my powerup
+            JsonObject jsonPowerupEffect = jsonPowerupLoaded.get("Effect").getAsJsonObject();
+
+            effectTemp = new Effect (jsonPowerupEffect); //here i load an effect loading all its attributes from the json
+            powerupTemp = new Powerup( powerupName, effectTemp);
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        return powerupTemp;
+    }
+
+
 
 }
 
