@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.MapPackage;
 
 import com.google.gson.*;
+import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
+import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,7 +20,7 @@ public class MapBuilder {
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static GameMap generateMap(MapName mapName)
+    public static GameMap generateMap(MapName mapName, WeaponDeck weaponDeck, PowerupDeck powerupDeck)
     {
         GameMap tempGameMap = new GameMap();
         //temporary variable for the dynamic type of the matrix single spot
@@ -66,6 +68,8 @@ public class MapBuilder {
         catch (FileNotFoundException e){
             e.printStackTrace();
         }
+
+        tempGameMap.refillAll(weaponDeck, powerupDeck);
 
         return tempGameMap;
     }

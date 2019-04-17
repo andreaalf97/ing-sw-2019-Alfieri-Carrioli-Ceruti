@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.MapPackage;
 
+import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
+import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
 import it.polimi.ingsw.model.Player;
+
+import java.util.Random;
 
 public class GameMap {
 
@@ -132,6 +136,32 @@ public class GameMap {
      */
     public void refill(int x,int y, Object objToAdd){
         map[x][y].refill(objToAdd);
+    }
+
+    /**
+     * Refills every spot on the map.
+     * Should only be used initially when all spots are empty
+     * @param weaponDeck the weaponDeck
+     * @param powerupDeck the powerupDeck
+     */
+    public void refillAll(WeaponDeck weaponDeck, PowerupDeck powerupDeck){
+        for(int i = 0; i < this.map.length; i++)
+            for(int j = 0; j < this.map[i].length; j++){
+                if(this.map[i][j].isAmmoSpot()){
+                    Random rand = new Random();
+                    if(rand.nextInt(1) == 0){
+                        this.map[i][j].refill(powerupDeck.pickCard()); //Refills with a powerup
+                    }
+                    else{
+                        this.map[i][j].refill(null); //Refills only ammos
+                    }
+                }
+                if(this.map[i][j].isSpawnSpot()){
+                    this.map[i][j].refill(weaponDeck.pickCard());
+                    this.map[i][j].refill(weaponDeck.pickCard());
+                    this.map[i][j].refill(weaponDeck.pickCard());
+                }
+            }
     }
 
     /**

@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.MapPackage.MapName;
 import it.polimi.ingsw.model.MapPackage.Visibility;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Game implements Runnable{
 
@@ -23,6 +22,9 @@ public class Game implements Runnable{
      */
     private ArrayList<String> playerNames;
 
+    /**
+     * The game map
+     */
     private GameMap gameMap;
 
     /**
@@ -69,24 +71,21 @@ public class Game implements Runnable{
      * @param playerNames ArrayList of all the players names
      * @param firstPlayer The nickname of the first player
      */
-    public Game(ArrayList<String> playerNames, String firstPlayer){
-        this.players = new ArrayList<>(playerNames.size());
+    public Game(ArrayList<String> playerNames, String firstPlayer, MapName chosenMap, int nSkulls){
+        this.players = new ArrayList<>();
         this.playerNames = playerNames;
         this.powerupDeck = new PowerupDeck();
         this.weaponDeck = new WeaponDeck();
         this.firstPlayer = firstPlayer;
         this.currentPlayer = firstPlayer;
         this.isFirstTurn = true;
-        //this.isFrenzy = false;
         this.numOfPlayers = playerNames.size();
 
-        Iterator i = playerNames.iterator();
+        for(String name : this.playerNames)
+            this.players.add(new Player(name));
 
-        while(i.hasNext()){
-            String temp = (String)i.next();
-            this.players.add(new Player(temp));
-        }
-
+        this.gameMap = MapBuilder.generateMap(chosenMap, weaponDeck, powerupDeck);
+        this.kst = new KillShotTrack(nSkulls);
     }
 
     /**
@@ -94,26 +93,23 @@ public class Game implements Runnable{
      */
     public void run(){
         Log.LOGGER.info("Game starting");
-        Log.LOGGER.warning("Let the player choose the gameMap");
-        chooseMap(MapName.WATER); //TODO let someone decide which gameMap to play on
-        setupKST(5); //TODO let someone decide the # of skulls on the KST
-        setupSpawnSpots();
-        setupAmmoSpots();
+        Log.LOGGER.warning("The map has been chosen by polling");
 
         boolean endOfTurns = false;
 
-        while(endOfTurns == false){ //TODO decide how to handle the turn
-            System.out.println("Do you want to use a powerup?");
+        while(!endOfTurns){
+            //TODO decide how to handle the turn
+            Log.LOGGER.info("Do you want to use a powerup?");
 
-            System.out.println("Move / Move&Grab / Attack");
+            Log.LOGGER.info("Move / Move&Grab / Attack");
 
-            System.out.println("Do you want to use a powerup?");
+            Log.LOGGER.info("Do you want to use a powerup?");
 
-            System.out.println("Move / Move&Grab / Attack");
+            Log.LOGGER.info("Move / Move&Grab / Attack");
 
-            System.out.println("Do you want to use a powerup?");
+            Log.LOGGER.info("Do you want to use a powerup?");
 
-            System.out.println("Do you want to reload?");
+            Log.LOGGER.info("Do you want to reload?");
 
             checkDeaths();
             refillAmmos();
@@ -123,6 +119,8 @@ public class Game implements Runnable{
             if(this.isFirstTurn && currentPlayer == playerNames.get(playerNames.size() - 1))
                 this.isFirstTurn = false;
             currentPlayer = nextPlayer(currentPlayer);
+
+            break;
         }
 
         giveKSTpoints();
@@ -153,14 +151,6 @@ public class Game implements Runnable{
      */
     private void endGame() {
         //TODO review this method
-    }
-
-    /**
-     * This method is used to generate the correct gameMap
-     * @param mapName The gameMap that need to be created
-     */
-    private void chooseMap(MapName mapName){
-        this.gameMap = MapBuilder.generateMap(mapName);
     }
 
     /**

@@ -30,8 +30,8 @@ public class PowerupDeck{
      * @return the card picked
      */
     public Powerup pickCard(){
-        Powerup powerupToPick = powerupList.get(powerupList.size()-1);
-        powerupList.remove(powerupList.size()-1);
+        Powerup powerupToPick = powerupList.get(0);
+        powerupList.remove(0);
         return powerupToPick;
     }
 }
