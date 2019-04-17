@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class WaitingRoom {
 
@@ -15,11 +16,26 @@ public class WaitingRoom {
     private String firstPlayer;
 
     /**
+     * Votes for each map:
+     * mapVotes[0] --> FIRE
+     * mapVotes[1] --> EARTH
+     * mapVotes[2] --> WIND
+     * mapVotes[3] --> WATER
+     */
+    private Map mapVotes;
+
+    private Map skullVotes;
+
+    /**
      * Basic constructor
      */
-    public WaitingRoom(){ this.players = new ArrayList<>(); }
+    public WaitingRoom(){
+        this.players = new ArrayList<>();
+    }
 
-    public ArrayList<String> getPlayers() { return this.players; }
+    //Can't return this.player because it could be modified
+    public ArrayList<String> getPlayers() { return new ArrayList<>(this.players); }
+    //Can return this.firstPlayer because String is immutable
     public String getFirstPlayer() { return this.firstPlayer; }
 
     /**

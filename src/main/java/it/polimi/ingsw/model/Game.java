@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
 import it.polimi.ingsw.model.CardsPackage.Weapon;
 import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
-import it.polimi.ingsw.model.MapPackage.Map;
+import it.polimi.ingsw.model.MapPackage.GameMap;
 import it.polimi.ingsw.model.MapPackage.MapBuilder;
 import it.polimi.ingsw.model.MapPackage.MapName;
 import it.polimi.ingsw.model.MapPackage.Visibility;
@@ -23,7 +23,7 @@ public class Game implements Runnable{
      */
     private ArrayList<String> playerNames;
 
-    private Map map;
+    private GameMap gameMap;
 
     /**
      * This object initially contains all the Powerup cards
@@ -94,8 +94,8 @@ public class Game implements Runnable{
      */
     public void run(){
         Log.LOGGER.info("Game starting");
-        Log.LOGGER.warning("Let the player choose the map");
-        chooseMap(MapName.WATER); //TODO let someone decide which map to play on
+        Log.LOGGER.warning("Let the player choose the gameMap");
+        chooseMap(MapName.WATER); //TODO let someone decide which gameMap to play on
         setupKST(5); //TODO let someone decide the # of skulls on the KST
         setupSpawnSpots();
         setupAmmoSpots();
@@ -156,11 +156,11 @@ public class Game implements Runnable{
     }
 
     /**
-     * This method is used to generate the correct map
-     * @param mapName The map that need to be created
+     * This method is used to generate the correct gameMap
+     * @param mapName The gameMap that need to be created
      */
     private void chooseMap(MapName mapName){
-        this.map = MapBuilder.generateMap(mapName);
+        this.gameMap = MapBuilder.generateMap(mapName);
     }
 
     /**
@@ -392,7 +392,7 @@ public class Game implements Runnable{
 
                 if ( effects.get(effect_number).getVisibleByWho() == Visibility.NONE ){
                     for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibiluty lo escludo
-                        if ( this.map.see( offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
+                        if ( this.gameMap.see( offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
                             defenders.remove(k);
                             k -= 1;
                         }
@@ -400,7 +400,7 @@ public class Game implements Runnable{
                 }
                 if ( effects.get(effect_number).getVisibleByWho() == Visibility.OFFENDER ){
                     for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibiluty lo escludo
-                        if ( !this.map.see( offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
+                        if ( !this.gameMap.see( offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
                             defenders.remove(k);
                             k -= 1;
                         }
@@ -410,7 +410,7 @@ public class Game implements Runnable{
 
                     if ( effects.get(effect_number).getVisibleByWho() == Visibility.LASTONEATTACKED ){
                         for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibiluty lo escludo
-                            if ( !this.map.see( playersHit.get(playersHit.size() - 1).getxPosition(), playersHit.get(playersHit.size() - 1).getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
+                            if ( !this.gameMap.see( playersHit.get(playersHit.size() - 1).getxPosition(), playersHit.get(playersHit.size() - 1).getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
                                 defenders.remove(k);
                                 k -= 1;
                             }

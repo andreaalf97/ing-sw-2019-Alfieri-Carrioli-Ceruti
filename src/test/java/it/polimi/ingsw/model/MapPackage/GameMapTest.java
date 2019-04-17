@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.MapPackage;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MapTest {
+public class GameMapTest {
 
     @Test
     public void verifyJsonMapReading(){

@@ -18,9 +18,9 @@ public class MapBuilder {
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static Map generateMap(MapName mapName)
+    public static GameMap generateMap(MapName mapName)
     {
-        Map tempMap = new Map();
+        GameMap tempGameMap = new GameMap();
         //temporary variable for the dynamic type of the matrix single spot
         boolean isSpawnSpot;
 
@@ -56,9 +56,9 @@ public class MapBuilder {
                         }
 
                         if (isSpawnSpot)
-                            tempMap.setSpot(i, j, new SpawnSpot(doors, room));
+                            tempGameMap.setSpot(i, j, new SpawnSpot(doors, room));
                         else
-                            tempMap.setSpot(i, j, new AmmoSpot(doors, room));
+                            tempGameMap.setSpot(i, j, new AmmoSpot(doors, room));
                     }
                 }
             }
@@ -67,6 +67,6 @@ public class MapBuilder {
             e.printStackTrace();
         }
 
-        return tempMap;
+        return tempGameMap;
     }
 }

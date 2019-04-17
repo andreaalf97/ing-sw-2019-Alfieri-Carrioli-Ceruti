@@ -2,14 +2,14 @@ package it.polimi.ingsw.model.MapPackage;
 
 import it.polimi.ingsw.model.Player;
 
-public class Map {
+public class GameMap {
 
     /**
      * The matrix representing the map
      */
     public Spot[][] map;
 
-    public Map(){
+    public GameMap(){
         map = new Spot[3][4];
     }
 
