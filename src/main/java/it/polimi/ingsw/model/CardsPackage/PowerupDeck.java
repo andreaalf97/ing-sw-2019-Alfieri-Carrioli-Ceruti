@@ -12,6 +12,10 @@ public class PowerupDeck{
     /**
      * Basic constructor
      */
+    public PowerupDeck(ArrayList<Powerup> powerUpListTemp){
+        this.powerupList = powerUpListTemp;
+    }
+
     public PowerupDeck(){
         this.powerupList = new ArrayList<>();
     }

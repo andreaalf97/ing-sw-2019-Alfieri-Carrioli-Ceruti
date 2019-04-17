@@ -32,7 +32,7 @@ public class Powerup {
      * simple constructor for the Powerup
      */
     public Powerup(String powerupName ){
-        powerupName = null;
+        powerupName = powerupName;
         color = null;
         effect = null;
     }
