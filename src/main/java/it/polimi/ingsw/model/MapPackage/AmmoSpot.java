@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.CardsPackage.Powerup;
 
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Random;
 
 public class AmmoSpot extends Spot {
 
@@ -102,8 +103,31 @@ public class AmmoSpot extends Spot {
      * @param objToAdd The eventual powerup
      */
     @Override
-    public void refill(Object objToAdd) {
-        super.refill(objToAdd);
+    public void refill(Object objToAdd){
+        Random rand = new Random();
+
+        if(objToAdd != null) {
+            this.powerup = (Powerup)objToAdd;
+
+            //Return a random number between 0 and 2
+            int randomNumber = rand.nextInt(3);
+            this.ammoColorList.add(Color.values()[randomNumber]);
+
+            randomNumber = rand.nextInt(3);
+            this.ammoColorList.add(Color.values()[randomNumber]);
+        }
+        else{
+            this.powerup = null;
+
+            int randomNumber = rand.nextInt(3);
+            this.ammoColorList.add(Color.values()[randomNumber]);
+
+            randomNumber = rand.nextInt(3);
+            this.ammoColorList.add(Color.values()[randomNumber]);
+
+            randomNumber = rand.nextInt(3);
+            this.ammoColorList.add(Color.values()[randomNumber]);
+        }
     }
 
     /**

@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.MapPackage.MapName;
+
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class WaitingRoom {
@@ -17,10 +21,6 @@ public class WaitingRoom {
 
     /**
      * Votes for each map:
-     * mapVotes[0] --> FIRE
-     * mapVotes[1] --> EARTH
-     * mapVotes[2] --> WIND
-     * mapVotes[3] --> WATER
      */
     private Map mapVotes;
 
@@ -31,6 +31,21 @@ public class WaitingRoom {
      */
     public WaitingRoom(){
         this.players = new ArrayList<>();
+        this.firstPlayer = null;
+
+        this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
+        this.mapVotes.put(MapName.FIRE, 0);
+        this.mapVotes.put(MapName.EARTH, 0);
+        this.mapVotes.put(MapName.WIND, 0);
+        this.mapVotes.put(MapName.WATER, 0);
+
+        //The keys can be 5, 6, 7, 8, ecc, depending on the amount of skulls players want on the board
+        //The values are the amount of votes each setup received
+        this.skullVotes = new HashMap<Integer, Integer>();
+        this.skullVotes.put(5, 0);
+        this.skullVotes.put(6, 0);
+        this.skullVotes.put(7, 0);
+        this.skullVotes.put(8, 0);
     }
 
     //Can't return this.player because it could be modified
@@ -39,19 +54,24 @@ public class WaitingRoom {
     public String getFirstPlayer() { return this.firstPlayer; }
 
     /**
-     * Adds a player to the players list
+     * Adds a player to the players list and registers their votes
      * @param nickname The nickname of the new player
-     * @return True if the players was correctly added
+     * @param mapToVote the map chosen by the new player
+     * @param nSkullsToVote the desired amount of skulls
+     * @throws IllegalArgumentException if the method receives bad arguments
      */
-    public boolean addPlayer(String nickname) {
+    public void addPlayer(String nickname, MapName mapToVote, int nSkullsToVote) throws IllegalArgumentException{
         if(this.players.contains(nickname))
-            return false;
+            throw new IllegalArgumentException("This waitingRoom already contains this player");
         this.players.add(nickname);
-        return true;
-    }
 
-    /**
-     * TODO
-     */
-    public void voteMap(){}
+        int tempVotes = (int)(this.mapVotes.get(mapToVote));
+        this.mapVotes.put(mapToVote, tempVotes+1);
+
+        if(nSkullsToVote < 5 || nSkullsToVote > 8)
+            throw new IllegalArgumentException("nSkullsToVote must be between 5 and 8");
+
+        tempVotes = (int)this.skullVotes.get(nSkullsToVote);
+        this.skullVotes.put(nSkullsToVote, tempVotes+1);
+    }
 }
