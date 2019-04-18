@@ -447,7 +447,7 @@ public class Game implements Runnable{
                             }
                         }
                     }
-                    if ( effects.get(effect_number).isMustShootOtherPlayers() ){
+                    if ( effects.get(effect_number).mustShootOtherPlayers() ){
                         for ( int j = 0; j < playersHit.size() - 1; j++ ){
                             for ( int k = 0; k < defenders.size() - 1; k++){
                                 if ( defenders.get(k) == playersHit.get(j) ){
@@ -458,10 +458,10 @@ public class Game implements Runnable{
                         }
                     }
                     /*TODO may delete this effect attribute
-                    if ( effects.get(effect_number).isCanShootAnyPlayer() ){}*/
+                    if ( effects.get(effect_number).canShootAnyPlayer() ){}*/
                 }
 
-                if( effects.get(effect_number).isMustBeDifferentSpots() ){
+                if( effects.get(effect_number).mustBeDifferentSpots() ){
                     for ( int k = 0; k < defenders.size() - 1; k++ ) {
                         for ( int j = 0; j < (defenders.size() - 1) && j != k; j++ ) {
                             if ( defenders.get(k).getxPosition() == defenders.get(j).getxPosition() && defenders.get(k).getyPosition() == defenders.get(j).getyPosition() ){

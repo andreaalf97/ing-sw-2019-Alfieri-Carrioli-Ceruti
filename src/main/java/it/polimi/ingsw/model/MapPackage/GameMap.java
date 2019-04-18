@@ -11,34 +11,15 @@ public class GameMap {
     /**
      * The matrix representing the map
      */
-    public Spot[][] map;
-
-    public GameMap(){
-        map = new Spot[3][4];
-    }
-
-
+    private Spot[][] map;
 
     /**
-     * set an existing spot in the map with the param spot
-     * @param x is the x of the spot to replace
-     * @param y is the y of the spot to replace
-     * @param spot is the SpawnSpot that replace the one corresponding to x and y
+     * Only constructor
+     * @param spotMatrix
      */
-    public void setSpot(int x,int y,SpawnSpot spot){
-        this.map[x][y] = spot;
+    protected GameMap(Spot[][] spotMatrix){
+        this.map = spotMatrix;
     }
-
-    /**
-     * set an existing spot in the map with the param spot
-     * @param x is the x of the spot to replace
-     * @param y is the y of the spot to replace
-     * @param spot is the AmmoSpot that replace the one corresponding to x and y
-     */
-    public void setSpot(int x,int y, AmmoSpot spot){
-        this.map[x][y] = spot;
-    }
-
 
     /**
      * Checks if the first spot can see the second spot
@@ -138,6 +119,8 @@ public class GameMap {
         map[x][y].refill(objToAdd);
     }
 
+
+    //TODO This method is obsolete --> The spawn are now refilled as we create them
     /**
      * Refills every spot on the map.
      * Should only be used initially when all spots are empty
@@ -145,9 +128,10 @@ public class GameMap {
      * @param powerupDeck the powerupDeck
      */
     public void refillAll(WeaponDeck weaponDeck, PowerupDeck powerupDeck){
+
         for(int i = 0; i < this.map.length; i++)
-            for(int j = 0; j < this.map[i].length; j++){
-                if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){
+            for(int j = 0; j < this.map[i].length; j++){ //For every spot in this map
+                if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){ //if this is an ammo spot
                     Random rand = new Random();
                     if(rand.nextInt(1) == 0){
                         this.map[i][j].refill(powerupDeck.pickCard()); //Refills with a powerup
@@ -161,6 +145,7 @@ public class GameMap {
                     this.map[i][j].refill(weaponDeck.pickCard());
                     this.map[i][j].refill(weaponDeck.pickCard());
                 }
+                //I am using 2 if statement in case we decide to add clean spots later (no ammo and no spawn)
             }
     }
 

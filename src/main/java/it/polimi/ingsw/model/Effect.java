@@ -95,103 +95,77 @@ public class Effect {
     //NMOVES HAS TO BE CHECKED FOR FIRST (IF NMOVES != 0 IT HAS TO BE A MOVEMENT ONLY EFFECT SO WE DON'T HAVE TO CHECK THE OTHERS)
     // ALSO NMOVESOTHERPLAYER HAS TO BE CHECKED FOR SECOND (IF NMOVERSOTHERPLAYER != 0 IT HAS TO BE A MOVEMENT ONLY EFFECT)
 
-    //SETS AND GETS
     /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
     public int getnDamages() {
         return nDamages;
     }
-    public void setnDamages(int nDamages) {
-        this.nDamages = nDamages;
-    }
+
     public int getnMarks() {
         return nMarks;
     }
-    public void setnMarks(int nMarks) {
-        this.nMarks = nMarks;
-    }
+
     public int getnMovesOtherPlayer() {
         return nMovesOtherPlayer;
     }
-    public void setnMovesOtherPlayer(int nMovesOtherPlayer) {
-        this.nMovesOtherPlayer = nMovesOtherPlayer;
-    }
+
     public int getnPlayerMarkable() {
         return nPlayerMarkable;
     }
-    public void setnPlayerMarkable(int nPlayerMarable) {
-        this.nPlayerMarkable = nPlayerMarable;
-    }
+
     public int getnPlayerAttackable() {
         return nPlayerAttackable;
     }
-    public void setnPlayerAttackable(int nPlayerAttackable) {
-        this.nPlayerAttackable = nPlayerAttackable;
-    }
+
     public int getnMarksOtherPlayer() {
         return nMarksOtherPlayer;
     }
-    public void setnMarksOtherPlayer(int nMarksOtherPlayer) {
-        this.nMarksOtherPlayer = nMarksOtherPlayer;
-    }
-    public boolean isMustShootOtherPlayers() {
+
+    public boolean mustShootOtherPlayers() {
         return mustShootOtherPlayers;
     }
-    public void setMustShootOtherPlayers(boolean mustShootOtherPlayers) { this.mustShootOtherPlayers = mustShootOtherPlayers;
-    }
-    public boolean isCanShootAnyPlayer() {
+
+    public boolean canShootAnyPlayer() {
         return canShootAnyPlayer;
     }
-    public void setCanShootAnyPlayer(boolean canShootAnyPlayer) {
-        this.canShootAnyPlayer = canShootAnyPlayer;
-    }
+
     public ArrayList<Color> getCost() {
-        return cost;
+        return new ArrayList<>(cost);
     }
-    public void setCost(ArrayList<Color> cost) {
-        this.cost = cost;
-    }
+
     public int getnMoves() {
         return nMoves;
     }
-    public void setnMoves(int nMoves) {
-        this.nMoves = nMoves;
-    }
+
     public int getMinDistance() {
         return minDistance;
     }
-    public void setMinDistance(int minDistance) {
-        this.minDistance = minDistance;
-    }
+
     public int getMaxDistance() {
         return maxDistance;
     }
-    public void setMaxDistance(int maxDistance) {
-        this.maxDistance = maxDistance;
-    }
-    public boolean isMustBeOtherRoom() {
+
+    public boolean mustBeOtherRoom() {
         return mustBeOtherRoom;
     }
-    public void setMustBeOtherRoom(boolean mustBeOtherRoom) {
-        this.mustBeOtherRoom = mustBeOtherRoom;
-    }
-    public boolean isMustBeDifferentSpots() {
+
+    public boolean mustBeDifferentSpots() {
         return mustBeDifferentSpots;
     }
-    public void setMustBeDifferentSpots(boolean mustBeDifferentSpots) {
-        this.mustBeDifferentSpots = mustBeDifferentSpots;
-    }
+
     public boolean isLinear() {
         return isLinear;
     }
-    public void setLinear(boolean linear) { isLinear = linear; }
+
     public Visibility getVisibleByWho() {
         return visibleByWho;
     }
-    public void setVisibleByWho(Visibility visibleByWho) {
-        this.visibleByWho = visibleByWho;
-    }
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Creates an effect by reading the jsonObject
+     * @param jsonEffect the jsonObject I want to read the effect from
+     */
     public Effect (JsonObject jsonEffect){
         this.nDamages = jsonEffect.get("nDamages").getAsInt();
         this.nMarks = jsonEffect.get("nMarks").getAsInt();
@@ -208,11 +182,11 @@ public class Effect {
         this.isLinear = jsonEffect.get("isLinear").getAsBoolean();
         this.visibleByWho = Visibility.values()[jsonEffect.get("visibleByWho").getAsInt()];
 
+        //Creating the cost ArrayList
         this.cost = new ArrayList<>();
         JsonArray jsonCost = jsonEffect.get("cost").getAsJsonArray();
-        for(int j = 0; j <= jsonCost.size() - 1; j++)
+        for(int j = 0; j < jsonCost.size(); j++)
             this.cost.add( Color.valueOf(jsonCost.get(j).getAsString().toUpperCase()));
-
 
     }
 

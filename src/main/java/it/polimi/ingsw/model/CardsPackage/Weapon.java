@@ -110,7 +110,7 @@ public class Weapon {
 
 
         this.weaponName = weaponName;
-        this.isLoaded = false;
+        this.isLoaded = true;
         this.cost = colorsTemp;
         this.effects = effectsListTemp;
         this.order = ordersTemp;

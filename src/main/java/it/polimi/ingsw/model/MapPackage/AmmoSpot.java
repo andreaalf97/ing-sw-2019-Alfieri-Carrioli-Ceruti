@@ -21,6 +21,11 @@ public class AmmoSpot extends Spot {
     private Powerup powerup;
 
     /**
+     * A random seed for refilling this spot
+     */
+    private static Random rand;
+
+    /**
      * Basic constructor
      * @param room the room where the spot is
      * @param doors the doors of the spot
@@ -29,29 +34,15 @@ public class AmmoSpot extends Spot {
         super(doors, room);
 
         this.ammoColorList = new ArrayList<>();
-        this.powerup = new Powerup();
+        this.powerup = null;
+        this.rand = new Random();
     }
 
     public AmmoSpot(ArrayList<Color> ammoColorList, Powerup powerup){
         super();
         this.ammoColorList = ammoColorList;
         this.powerup = powerup;
-    }
-
-
-    /**
-     * basic constructor without parameters
-     */
-    public AmmoSpot(){
-        super();
-        this.ammoColorList = new ArrayList<>();
-        this.powerup = new Powerup();
-    }
-
-    public AmmoSpot(ArrayList<Boolean> doors, Room room, ArrayList<Color> ammoColorList, Powerup powerup){
-        super();
-        this.ammoColorList = ammoColorList;
-        this.powerup = powerup;
+        this.rand = new Random();
     }
 
 
@@ -88,9 +79,8 @@ public class AmmoSpot extends Spot {
      */
     private void generateAmmo() {
 
-        double rand = Math.random();
-
-        if (rand < 0.4722222) { //probability to pick an ammo card with a powerup
+        //Should be 47.2222%
+        if (this.rand.nextBoolean()) { //probability to pick an ammo card with a powerup
             //TODO hasPowerup = true;
         }
         else {
@@ -108,29 +98,23 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public void refill(Object objToAdd){
-        Random rand = new Random();
 
         if(objToAdd != null) {
             this.powerup = (Powerup)objToAdd;
 
             //Return a random number between 0 and 2
-            int randomNumber = rand.nextInt(3);
-            this.ammoColorList.add(Color.values()[randomNumber]);
+            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
 
-            randomNumber = rand.nextInt(3);
-            this.ammoColorList.add(Color.values()[randomNumber]);
+            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
         }
         else{
             this.powerup = null;
 
-            int randomNumber = rand.nextInt(3);
-            this.ammoColorList.add(Color.values()[randomNumber]);
+            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
 
-            randomNumber = rand.nextInt(3);
-            this.ammoColorList.add(Color.values()[randomNumber]);
+            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
 
-            randomNumber = rand.nextInt(3);
-            this.ammoColorList.add(Color.values()[randomNumber]);
+            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
         }
     }
 
