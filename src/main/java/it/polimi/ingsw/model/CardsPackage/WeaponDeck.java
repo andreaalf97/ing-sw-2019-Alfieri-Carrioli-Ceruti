@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.CardsPackage;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.*;
+import com.google.gson.*;
 
 public class WeaponDeck{
 
@@ -10,10 +13,32 @@ public class WeaponDeck{
     private ArrayList<Weapon> weaponList;
 
     /**
-     * Basic constructor
+     * This constructor build the complete weapon deck
      */
     public WeaponDeck(){
+
         this.weaponList = new ArrayList<>();
+
+        try {
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject();
+            JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
+            Set<String> keys = jsonWeaponsDeck.keySet();
+
+            Iterator<String> iterator = keys.iterator();
+            while(iterator.hasNext()){
+                String weaponName = iterator.next();
+                Weapon weaponTemp = new Weapon(weaponName);
+                weaponTemp.loadWeaponFromJson(weaponName, jsonWeaponsDeck);
+
+                this.weaponList.add(weaponTemp);
+            }
+
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+
     }
 
     public WeaponDeck( ArrayList<Weapon> weaponList){

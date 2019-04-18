@@ -26,4 +26,10 @@ public class WeaponDeckTest {
         Assert.assertEquals(1, weaponDeckTest.getWeaponList().size());
 
     }
+    @Test
+    public void verifyJson(){
+        WeaponDeck weaponDeckTest = new WeaponDeck();
+
+        Assert.assertTrue(weaponDeckTest.getWeaponList().size() == 21);
+    }
 }

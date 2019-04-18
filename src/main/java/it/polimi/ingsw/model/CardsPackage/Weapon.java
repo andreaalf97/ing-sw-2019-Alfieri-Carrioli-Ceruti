@@ -65,10 +65,11 @@ public class Weapon {
 
     /**
      * this method return the weapon loaded from the json file
-     * @param weaponName the name of the weapon to load
+     * @param weaponName  the name of the weapon to load
+     * @param jsonWeapons the jsonObject that contains all the weapons
      * @return the weapon correctly filled
      */
-    public Weapon loadWeaponFromJson(String weaponName)
+    public Weapon loadWeaponFromJson(String weaponName, JsonObject jsonWeapons)
     {
 
         //support variables
@@ -76,45 +77,37 @@ public class Weapon {
         ArrayList<Integer []> ordersTemp = new ArrayList<>();
         ArrayList<Color> colorsTemp = new ArrayList<>();
 
-        try{
-            JsonElement jsonElement = new JsonParser().parse(new FileReader("resources/effects.json"));
-            JsonObject root = jsonElement.getAsJsonObject();
-            JsonObject jsonWeapons = root.get("Weapons").getAsJsonObject();
-            JsonObject jsonWeaponLoaded = jsonWeapons.get(weaponName).getAsJsonObject(); //this is my weapon in json, inside i have all my attributes
+        JsonObject jsonWeaponLoaded = jsonWeapons.get(weaponName).getAsJsonObject(); //this is my weapon in json, inside i have all my attributes
+        JsonObject jsonEffect = jsonWeaponLoaded.get("Effects").getAsJsonObject();
 
-            JsonObject jsonEffect = jsonWeaponLoaded.get("Effects").getAsJsonObject();
+        for (int i = 0; i <= jsonEffect.size() - 1; i++){
+            JsonObject jsonEffectThis = jsonEffect.get("Effect" + i).getAsJsonObject();
 
-            for (int i = 0; i <= jsonEffect.size() - 1; i++){
-                JsonObject jsonEffectThis = jsonEffect.get("Effect" + i).getAsJsonObject();
+            Effect effectTemp = new Effect(jsonEffectThis);
 
-                Effect effectTemp = new Effect(jsonEffectThis);
+            effectsListTemp.add(effectTemp);
+        } //at the end of the for effectListTemp has all the effects
 
-                effectsListTemp.add(effectTemp);
-            } //at the end of the for effectListTemp has all the effects
+        JsonObject jsonOrders = jsonWeaponLoaded.get("Orders").getAsJsonObject();
+        for(int k = 0; k <= jsonOrders.size() - 1; k++){
+            JsonArray jsonOrderThis = jsonOrders.get("Order" + k).getAsJsonArray();
 
-            JsonObject jsonOrders = jsonWeaponLoaded.get("Orders").getAsJsonObject();
-            for(int k = 0; k <= jsonOrders.size() - 1; k++){
-                JsonArray jsonOrderThis = jsonOrders.get("Order" + k).getAsJsonArray();
+            Integer [] orderThisVector = new Integer[jsonOrderThis.size()];
 
-                Integer [] orderThisVector = new Integer[jsonOrderThis.size()];
+            for(int cont = 0; cont <= jsonOrderThis.size() - 1; cont++) {
+                orderThisVector[cont] = jsonOrderThis.get(cont).getAsInt();
 
-                for(int cont = 0; cont <= jsonOrderThis.size() - 1; cont++) {
-                    orderThisVector[cont] = jsonOrderThis.get(cont).getAsInt();
-
-                }
-                ordersTemp.add(orderThisVector);
-            } //at the end of the for ordersTemp contains all the orders of the weapon
-
-
-            JsonArray jsonCost = jsonWeaponLoaded.get("Cost").getAsJsonArray();
-            for (int i = 0; i <= jsonCost.size() - 1; i++){
-                colorsTemp.add( Color.valueOf(jsonCost.get(i).getAsString().toUpperCase()) );
             }
-            // at the end of the for colorsTemp contains the cost of the weapon
+            ordersTemp.add(orderThisVector);
+        } //at the end of the for ordersTemp contains all the orders of the weapon
+
+
+        JsonArray jsonCost = jsonWeaponLoaded.get("Cost").getAsJsonArray();
+        for (int i = 0; i <= jsonCost.size() - 1; i++){
+            colorsTemp.add( Color.valueOf(jsonCost.get(i).getAsString().toUpperCase()) );
         }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
+        // at the end of the for colorsTemp contains the cost of the weapon
+
 
         return new Weapon( weaponName, colorsTemp, effectsListTemp, ordersTemp );
     }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.CardsPackage;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class PowerupDeck{
 
