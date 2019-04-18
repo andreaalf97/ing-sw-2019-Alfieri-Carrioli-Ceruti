@@ -130,8 +130,7 @@ public class Weapon {
      * getter for order arraylist
      * @return a new copy of order
      */
-    public ArrayList<Integer[]> getOrder(){ return new ArrayList<>(order);
-    }
+    public ArrayList<Integer[]> getOrder(){ return new ArrayList<>(order); }
 
     /**
      * Return true if the weapon can shoot
