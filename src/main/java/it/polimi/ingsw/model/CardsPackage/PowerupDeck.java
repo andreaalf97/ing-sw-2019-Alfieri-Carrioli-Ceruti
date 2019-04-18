@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model.CardsPackage;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 
 public class PowerupDeck{
@@ -16,8 +21,30 @@ public class PowerupDeck{
         this.powerupList = powerUpListTemp;
     }
 
-    public PowerupDeck(){
+    public PowerupDeck()
+    {
         this.powerupList = new ArrayList<>();
+
+        try{
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject();
+            JsonObject jsonPowerupsDeck = jsonDecks.get("Powerups").getAsJsonObject();
+            Set<String> keys = jsonPowerupsDeck.keySet();
+
+            Iterator<String> iterator = keys.iterator();
+            while(iterator.hasNext()){
+                String powerupName = iterator.next();
+                Powerup powerupTemp = new Powerup(powerupName);
+
+                for (int i = 0; i <= 5; i++) {
+                    powerupTemp.loadPowerupFromJson(powerupName, jsonPowerupsDeck);
+                    this.powerupList.add(powerupTemp);
+                }
+            }
+
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
     }
 
     //GET
