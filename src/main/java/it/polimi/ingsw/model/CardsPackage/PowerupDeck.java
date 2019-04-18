@@ -21,6 +21,10 @@ public class PowerupDeck{
         this.powerupList = powerUpListTemp;
     }
 
+    /**
+     * Automatically generates the powerup deck from the effects.json file
+     *
+     */
     public PowerupDeck()
     {
         this.powerupList = new ArrayList<>();
@@ -30,14 +34,12 @@ public class PowerupDeck{
             JsonObject jsonPowerupsDeck = jsonDecks.get("Powerups").getAsJsonObject();
             Set<String> keys = jsonPowerupsDeck.keySet();
 
-            Iterator<String> iterator = keys.iterator();
-            while(iterator.hasNext()){
-                String powerupName = iterator.next();
-                Powerup powerupTemp = new Powerup(powerupName);
+            for(int i = 0; i < 6; i++) {
+                Iterator<String> iterator = keys.iterator();
+                while (iterator.hasNext()) {
+                    String powerupName = iterator.next();
+                    this.powerupList.add(new Powerup(powerupName, jsonPowerupsDeck));
 
-                for (int i = 0; i <= 5; i++) {
-                    powerupTemp.loadPowerupFromJson(powerupName, jsonPowerupsDeck);
-                    this.powerupList.add(powerupTemp);
                 }
             }
 

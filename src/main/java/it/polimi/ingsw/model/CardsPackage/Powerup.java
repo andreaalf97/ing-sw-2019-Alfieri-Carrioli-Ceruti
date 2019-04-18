@@ -1,15 +1,9 @@
 package it.polimi.ingsw.model.CardsPackage;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Effect;
-import it.polimi.ingsw.model.MapPackage.Visibility;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
 
 public class Powerup {
 
@@ -28,14 +22,6 @@ public class Powerup {
      */
     private Effect effect;
 
-    /**
-     * simple constructor for the Powerup
-     */
-    public Powerup(String powerupName ){
-        powerupName = powerupName;
-        color = null;
-        effect = null;
-    }
 
     /**
      *simple constructor used in the tests
@@ -59,9 +45,19 @@ public class Powerup {
     }
 
     //SETS AND GETS
+
+    /**
+     * Getter
+     * @return this.effect
+     */
     public Effect getEffect() {
         return this.effect;
     }
+
+    /**
+     * Getter
+     * @return this.powerupName
+     */
     public String getPowerupName() {
         return this.powerupName;
     }
@@ -71,16 +67,17 @@ public class Powerup {
      * @param powerupName is the name of the powerup
      * @return an istance of the powerup chosen
      */
-    public Powerup loadPowerupFromJson (String powerupName, JsonObject jsonPowerupsDeck){
+    public Powerup(String powerupName, JsonObject jsonPowerupsDeck){
 
         JsonObject jsonPowerupLoaded = jsonPowerupsDeck.get(powerupName).getAsJsonObject(); //jSonPowerupLoaded contains my powerup
         JsonObject jsonPowerupEffect = jsonPowerupLoaded.get("Effect").getAsJsonObject();
 
-        Effect effectTemp = new Effect (jsonPowerupEffect); //here i load an effect loading all its attributes from the json
+        Effect effectTemp = new Effect(jsonPowerupEffect); //here i load an effect loading all its attributes from the json
         Powerup powerupTemp = new Powerup( powerupName, effectTemp);
 
-
-        return powerupTemp;
+        this.powerupName = powerupName;
+        this.effect = effectTemp;
+        this.color = Color.randomColor();
     }
 
 

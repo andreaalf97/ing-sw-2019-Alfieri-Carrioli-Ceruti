@@ -69,7 +69,7 @@ public class Weapon {
      * @param jsonWeapons the jsonObject that contains all the weapons
      * @return the weapon correctly filled
      */
-    public Weapon loadWeaponFromJson(String weaponName, JsonObject jsonWeapons)
+    public Weapon(String weaponName, JsonObject jsonWeapons)
     {
 
         //support variables
@@ -109,7 +109,11 @@ public class Weapon {
         // at the end of the for colorsTemp contains the cost of the weapon
 
 
-        return new Weapon( weaponName, colorsTemp, effectsListTemp, ordersTemp );
+        this.weaponName = weaponName;
+        this.isLoaded = false;
+        this.cost = colorsTemp;
+        this.effects = effectsListTemp;
+        this.order = ordersTemp;
     }
 
 

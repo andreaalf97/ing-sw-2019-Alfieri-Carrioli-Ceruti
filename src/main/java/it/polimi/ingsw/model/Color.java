@@ -32,7 +32,7 @@ public enum Color {
      */
     public static Color randomColor(){
         return VALUES.get(RANDOM.nextInt(SIZE - 1));
-    }//TODO check if method return any
+    }
 
     //https://stackoverflow.com/questions/1972392/pick-a-random-value-from-an-enum
 

@@ -147,7 +147,7 @@ public class GameMap {
     public void refillAll(WeaponDeck weaponDeck, PowerupDeck powerupDeck){
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++){
-                if(this.map[i][j].isAmmoSpot()){
+                if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){
                     Random rand = new Random();
                     if(rand.nextInt(1) == 0){
                         this.map[i][j].refill(powerupDeck.pickCard()); //Refills with a powerup
@@ -156,7 +156,7 @@ public class GameMap {
                         this.map[i][j].refill(null); //Refills only ammos
                     }
                 }
-                if(this.map[i][j].isSpawnSpot()){
+                if(this.map[i][j] != null && this.map[i][j].isSpawnSpot()){
                     this.map[i][j].refill(weaponDeck.pickCard());
                     this.map[i][j].refill(weaponDeck.pickCard());
                     this.map[i][j].refill(weaponDeck.pickCard());

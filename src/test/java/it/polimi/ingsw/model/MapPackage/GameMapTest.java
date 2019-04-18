@@ -9,7 +9,6 @@ public class GameMapTest {
 
     @Test
     public void verifyJsonMapReading(){
-        //TODO This test does not run!!!
         MapBuilder.generateMap(MapName.FIRE, new WeaponDeck(), new PowerupDeck());
 
         Assert.assertTrue(true);

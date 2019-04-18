@@ -27,8 +27,7 @@ public class WeaponDeck{
             Iterator<String> iterator = keys.iterator();
             while(iterator.hasNext()){
                 String weaponName = iterator.next();
-                Weapon weaponTemp = new Weapon(weaponName);
-                weaponTemp.loadWeaponFromJson(weaponName, jsonWeaponsDeck);
+                Weapon weaponTemp = new Weapon(weaponName, jsonWeaponsDeck);
 
                 this.weaponList.add(weaponTemp);
             }
