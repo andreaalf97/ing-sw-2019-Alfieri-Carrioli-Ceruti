@@ -55,4 +55,14 @@ public class KillShotTrack {
      * @return An arrayList of players nicknames
      */
     public ArrayList<String> getRanking(){return new ArrayList<String>();}
+
+    /**
+     * Returns true when all skulls have been removed from the KST
+     * @return true when there are no more skulls
+     */
+    public boolean noMoreSkulls(){
+        if(!this.skullList.contains("SKULL")) //If the skullList does not contain any skull
+            return true;
+        return false;
+    }
 }

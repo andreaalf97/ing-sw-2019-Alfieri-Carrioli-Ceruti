@@ -2,10 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.MapPackage.MapName;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class WaitingRoom {
 
@@ -24,6 +21,9 @@ public class WaitingRoom {
      */
     private Map mapVotes;
 
+    /**
+     * Votes for amount of skulls to use
+     */
     private Map skullVotes;
 
     /**
@@ -73,5 +73,31 @@ public class WaitingRoom {
 
         tempVotes = (int)this.skullVotes.get(nSkullsToVote);
         this.skullVotes.put(nSkullsToVote, tempVotes+1);
+    }
+
+    public MapName getVotedMap(){
+        MapName tempMaxMapName = MapName.values()[0];
+        int tempMaxVotes = (int)this.mapVotes.get(MapName.values()[0]);
+
+        for(int i = 1; i < MapName.values().length; i++){
+            if((int)this.mapVotes.get(MapName.values()[i]) > tempMaxVotes){
+                tempMaxMapName = MapName.values()[i];
+                tempMaxVotes = (int)this.mapVotes.get(MapName.values()[i]);
+            }
+        }
+
+        return tempMaxMapName;
+    }
+
+    public int getVotedSkulls(){
+        int maxSkulls = (int)this.skullVotes.get(5);
+
+        for(int i = 6; i <= 8; i++){
+            if((int)this.skullVotes.get(i) > maxSkulls){
+                maxSkulls = (int)this.skullVotes.get(i);
+            }
+        }
+
+        return maxSkulls;
     }
 }

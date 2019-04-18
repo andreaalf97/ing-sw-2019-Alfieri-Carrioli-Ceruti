@@ -14,11 +14,13 @@ public class Game implements Runnable{
 
     /**
      * This ArrayList contains all the player objects
+     * The players must in the same order of the round!
      */
     private ArrayList<Player> players;
 
     /**
      * This ArrayList contains the nicknames of the players
+     * The players must in the same order of the round & in the same order of this.players!
      */
     private ArrayList<String> playerNames;
 
@@ -52,16 +54,6 @@ public class Game implements Runnable{
      */
     private int numOfPlayers;
 
-    /**
-     * This references the player who is currently active in the game
-     */
-    private String currentPlayer;
-
-    /**
-     * This variable is used to check if everybody ran their first turn
-     */
-    private boolean isFirstTurn;
-
     //TODO: might not need attribute --> private boolean isFrenzy;
 
     //##########################################################################################################
@@ -77,8 +69,6 @@ public class Game implements Runnable{
         this.powerupDeck = new PowerupDeck();
         this.weaponDeck = new WeaponDeck();
         this.firstPlayer = firstPlayer;
-        this.currentPlayer = firstPlayer;
-        this.isFirstTurn = true;
         this.numOfPlayers = playerNames.size();
 
         for(String name : this.playerNames)
@@ -94,37 +84,71 @@ public class Game implements Runnable{
     public void run(){
         Log.LOGGER.info("Game starting");
         Log.LOGGER.warning("The map has been chosen by polling");
+        Log.LOGGER.warning("The KST has been set up after polling");
 
         boolean endOfTurns = false;
+        boolean isFirstTurn = true;
 
-        while(!endOfTurns){
-            //TODO decide how to handle the turn
-            Log.LOGGER.info("Do you want to use a powerup?");
+        //Runs the first turn for all players
+        for(String currentPlayer : this.playerNames){
+            //Spawn player by choosing 2 powerups!
 
-            Log.LOGGER.info("Move / Move&Grab / Attack");
+            //Do you want to use a powerup?
 
-            Log.LOGGER.info("Do you want to use a powerup?");
+            //Move - Move&Grab - Attack
 
-            Log.LOGGER.info("Move / Move&Grab / Attack");
+            //Do you want to use a powerup?
 
-            Log.LOGGER.info("Do you want to use a powerup?");
+            //Move - Move&Grab - Attack
 
-            Log.LOGGER.info("Do you want to reload?");
+            //Do you want to use a powerup?
+
+            //Do you want to reload?
 
             checkDeaths();
             refillAmmos();
             refillSpawns();
+        }
 
+        //Runs until the end of the regular game, will handle frenzy in the next loop
+        while(!endOfTurns){
 
-            if(this.isFirstTurn && currentPlayer == playerNames.get(playerNames.size() - 1))
-                this.isFirstTurn = false;
-            currentPlayer = nextPlayer(currentPlayer);
+            for(String currentPlayer : this.playerNames) {
 
-            break;
+                //Do you want to use a powerup?
+
+                //Move - Move&Grab - Attack
+
+                //Do you want to use a powerup?
+
+                //Move - Move&Grab - Attack
+
+                //Do you want to use a powerup?
+
+                //Do you want to reload?
+
+                checkDeaths();
+                refillAmmos();
+                refillSpawns();
+
+                if (this.kst.noMoreSkulls())
+                    endOfTurns = true;
+            }
+        }
+
+        for(String currentPlayer : this.playerNames){
+            setupForFrenzy();
         }
 
         giveKSTpoints();
         endGame();
+    }
+
+    /**
+     * This method sets up all player for the final frenzy turn
+     */
+    private void setupForFrenzy() {
+        //TODO
     }
 
     /**

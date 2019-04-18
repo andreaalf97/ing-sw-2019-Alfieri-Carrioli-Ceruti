@@ -26,7 +26,7 @@ public class GamesHandler {
      * @param room the waiting room
      */
     public void startGame(WaitingRoom room){
-        this.games.add(new Game(room.getPlayers(), room.getFirstPlayer()));
+        this.games.add(new Game(room.getPlayers(), room.getFirstPlayer(), room.getVotedMap(), room.getVotedSkulls()));
         this.games.get(this.games.size() - 1).run();
     }
 
