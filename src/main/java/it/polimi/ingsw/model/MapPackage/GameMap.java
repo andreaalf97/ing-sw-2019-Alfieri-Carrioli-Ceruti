@@ -69,13 +69,14 @@ public class GameMap {
      * @param y Y coordinate
      * @return The spot
      */
-    public Spot getSpotByIndex(int x, int y){ return map[x][y]; }
+    private Spot getSpotByIndex(int x, int y){ return map[x][y]; }
 
     /**
-     * Return the spot where the selected player is
+     * Return the coordinates of the spot where the selected player is
      * @param player the player to find
+     * @return an array where [0] = X, [1] = Y
      */
-    private int[] getPlayerSpot(String player){
+    private int[] getPlayerSpotCoord(String player){
         for(int i = 0; i < map.length; i++)
             for(int j = 0; j < map[i].length; j++)
                 if(map[i][j].playerHere(player)){
@@ -100,7 +101,7 @@ public class GameMap {
     }
 
     /**
-     * Removes the player from the map by removing their name from the spot
+     * Removes the player from the map by removing their name from the spot, e.g. when the player dies
      * @param player The player to remove
      */
     private void removePlayerFromMap(String player){
@@ -127,24 +128,30 @@ public class GameMap {
      * @param weaponDeck the weaponDeck
      * @param powerupDeck the powerupDeck
      */
-    public void refillAll(WeaponDeck weaponDeck, PowerupDeck powerupDeck){
+    public void refillAllWhenEmpty(WeaponDeck weaponDeck, PowerupDeck powerupDeck){
 
         for(int i = 0; i < this.map.length; i++)
+
             for(int j = 0; j < this.map[i].length; j++){ //For every spot in this map
+
                 if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){ //if this is an ammo spot
                     Random rand = new Random();
+
                     if(rand.nextInt(1) == 0){
-                        this.map[i][j].refill(powerupDeck.pickCard()); //Refills with a powerup
+                        this.map[i][j].refill(powerupDeck.drawCard()); //Refills with a powerup
                     }
                     else{
                         this.map[i][j].refill(null); //Refills only ammos
                     }
                 }
+
+
                 if(this.map[i][j] != null && this.map[i][j].isSpawnSpot()){
                     this.map[i][j].refill(weaponDeck.pickCard());
                     this.map[i][j].refill(weaponDeck.pickCard());
                     this.map[i][j].refill(weaponDeck.pickCard());
                 }
+
                 //I am using 2 if statement in case we decide to add clean spots later (no ammo and no spawn)
             }
     }
@@ -186,19 +193,22 @@ public class GameMap {
      * @return a matrix[3][4] of boolean
      */
     public boolean[][] wherePlayerCanMove(String player, int nMoves){
-        int[] playerSpot = getPlayerSpot(player);
 
-        int playerSpotX = playerSpot[0];
-        int playerSpotY = playerSpot[1];
+        int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in 1
 
-        boolean[][] temp = new boolean[4][3];
+        int playerSpotX = playerSpot[0]; //The X coord
+        int playerSpotY = playerSpot[1]; //The Y coord
 
-        for(int i = 0; i < temp.length; i++)    //for every row
-            for(int j = 0; j < temp[i].length; j++) //for every column in the row
+        boolean[][] temp = new boolean[4][3]; //The matrix I will return once completed
+
+        //Initialize the matrix to false for clearness
+        for(int i = 0; i < temp.length; i++)
+            for(int j = 0; j < temp[i].length; j++) //for every spot
                 temp[i][j] = false; //initialize to false
 
-        for(int i = 0; i < temp.length; i++) //for every row
-            for(int j = 0; j < temp[i].length; j++) //for every column
+        //Check all spots
+        for(int i = 0; i < temp.length; i++)
+            for(int j = 0; j < temp[i].length; j++) //for every spot
                 if(canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves)) //if the player can move from his spot to the <i, j> spot
                     temp[i][j] = true; //temp<i, j> is true --> the player can move there
 
@@ -226,6 +236,7 @@ public class GameMap {
 
         Spot spot1 = getSpotByIndex(spot1X, spot1Y);
 
+        //North == true if the player can move north
         boolean north = false, east = false, west = false, south = false;
 
         if(spot1.hasNorthDoor())
@@ -240,9 +251,33 @@ public class GameMap {
         if(spot1.hasWestDoor())
             west = canMoveFromTo(spot1X - 1, spot1Y, spot2X, spot2Y, nMoves - 1);
 
-        return north || east || south || west;
+        return north || east || south || west; // ==> If there is at least one path throught one of these doors
     }
 
 
+    public boolean[][] wherePlayerCanMoveAndGrab(String player, int nMoves) {
+        int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in 1
 
+        int playerSpotX = playerSpot[0]; //The X coord
+        int playerSpotY = playerSpot[1]; //The Y coord
+
+        boolean[][] temp = new boolean[4][3]; //The matrix I will return once completed
+
+        //Initialize the matrix to false for clearness
+        for(int i = 0; i < temp.length; i++)
+            for(int j = 0; j < temp[i].length; j++) //for every spot
+                temp[i][j] = false; //initialize to false
+
+        //Check all spots
+        for(int i = 0; i < temp.length; i++)
+            for(int j = 0; j < temp[i].length; j++) //for every spot
+                if(canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves) && !emptySpot(i, j)) //if the player can move from his spot to the <i, j> spot
+                    temp[i][j] = true; //temp<i, j> is true --> the player can move there
+
+        return temp;
+    }
+
+    private boolean emptySpot(int i, int j) {
+        return map[i][j].emptySpot();
+    }
 }

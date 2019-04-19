@@ -40,6 +40,10 @@ public class WeaponDeck{
 
     }
 
+    /**
+     * Constructor only used in tests
+     * @param weaponList The weapon list to put in this object
+     */
     public WeaponDeck( ArrayList<Weapon> weaponList){
         this.weaponList = weaponList;
     }

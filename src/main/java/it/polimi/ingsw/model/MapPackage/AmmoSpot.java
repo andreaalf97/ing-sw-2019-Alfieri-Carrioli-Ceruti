@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.MapPackage;
 
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.CardsPackage.Powerup;
 
 import java.util.ArrayList;
-import java.lang.Math;
 import java.util.Random;
 
 public class AmmoSpot extends Spot {
@@ -23,10 +23,11 @@ public class AmmoSpot extends Spot {
     /**
      * A random seed for refilling this spot
      */
-    private static Random rand;
+    private static Random rand = new Random();
+    //TODO Check if this is correct or if we should initialize it in the constructor
 
     /**
-     * Basic constructor
+     * Basic constructor used when building a new map
      * @param room the room where the spot is
      * @param doors the doors of the spot
      */
@@ -35,14 +36,17 @@ public class AmmoSpot extends Spot {
 
         this.ammoColorList = new ArrayList<>();
         this.powerup = null;
-        this.rand = new Random();
     }
 
+    /**
+     * Constructor used in tests
+     * @param ammoColorList
+     * @param powerup
+     */
     public AmmoSpot(ArrayList<Color> ammoColorList, Powerup powerup){
         super();
         this.ammoColorList = ammoColorList;
         this.powerup = powerup;
-        this.rand = new Random();
     }
 
 
@@ -57,9 +61,9 @@ public class AmmoSpot extends Spot {
     /**
      * Removes all ammos from this spot
      */
-    public void removeAmmos() {
+    public void removeAmmo() {
         if (getAmmoColorList().isEmpty())
-            System.out.println("no ammo in the spot,reload this spot at the end of the turn");
+            Log.LOGGER.info("no ammo in the spot,reload this spot at the end of the turn");
         else
             ammoColorList = new ArrayList<>();
     }
@@ -67,11 +71,11 @@ public class AmmoSpot extends Spot {
     /**
      * Adds ammos to this spot
      */
-    public void addAmmos() {
+    public void addAmmo() {
         if (getAmmoColorList().isEmpty())
             generateAmmo();
         else
-            System.out.println("no ammo in the spot,reload this spot at the end of the turn");
+            Log.LOGGER.info("no ammo in the spot,reload this spot at the end of the turn");
     }
 
     /**
@@ -94,7 +98,7 @@ public class AmmoSpot extends Spot {
 
     /**
      * Refills this spot
-     * @param objToAdd The eventual powerup
+     * @param objToAdd The eventual powerup -- can also be null
      */
     @Override
     public void refill(Object objToAdd){
@@ -143,6 +147,12 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public boolean isSpawnSpot() {
+        return false;
+    }
+
+    public boolean emptySpot() {
+        if(this.powerup == null && this.ammoColorList.isEmpty())
+            return true;
         return false;
     }
 }

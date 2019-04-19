@@ -1,7 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.CardsPackage;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.MapPackage.Visibility;
 
 import java.util.ArrayList;
@@ -26,11 +27,6 @@ public class Effect {
      * Players receiving mark by this single effect
      */
     private int nPlayerAttackable;       //can be 0 to 4
-
-    /**
-     * marks that i can give to other players
-     */
-    private int nMarksOtherPlayer;
 
     /**
      * Refers to the player the offender attacked in the last effect.
@@ -117,10 +113,6 @@ public class Effect {
         return nPlayerAttackable;
     }
 
-    public int getnMarksOtherPlayer() {
-        return nMarksOtherPlayer;
-    }
-
     public boolean mustShootOtherPlayers() {
         return mustShootOtherPlayers;
     }
@@ -166,7 +158,7 @@ public class Effect {
      * Creates an effect by reading the jsonObject
      * @param jsonEffect the jsonObject I want to read the effect from
      */
-    public Effect (JsonObject jsonEffect){
+    protected Effect (JsonObject jsonEffect){
         this.nDamages = jsonEffect.get("nDamages").getAsInt();
         this.nMarks = jsonEffect.get("nMarks").getAsInt();
         this.nPlayerAttackable = jsonEffect.get("nPlayersAttackable").getAsInt();
@@ -187,6 +179,29 @@ public class Effect {
         JsonArray jsonCost = jsonEffect.get("cost").getAsJsonArray();
         for(int j = 0; j < jsonCost.size(); j++)
             this.cost.add( Color.valueOf(jsonCost.get(j).getAsString().toUpperCase()));
+
+    }
+
+    /**
+     * Creates a new effect by copying another one --> e.g. this is used in the method getEffect() {return new Effect(this.effect);} to avoid overwriting
+     * @param effectToCopy the effect to copy
+     */
+    protected Effect(Effect effectToCopy){
+        this.nDamages = effectToCopy.nDamages;
+        this.nMarks = effectToCopy.nMarks;
+        this.nPlayerAttackable = effectToCopy.nPlayerAttackable;
+        this.nPlayerMarkable = effectToCopy.nPlayerMarkable;
+        this.mustShootOtherPlayers = effectToCopy.mustShootOtherPlayers;
+        this.canShootAnyPlayer = effectToCopy.canShootAnyPlayer;
+        this.nMoves = effectToCopy.nMoves;
+        this.minDistance = effectToCopy.minDistance;
+        this.maxDistance = effectToCopy.maxDistance;
+        this.nMovesOtherPlayer = effectToCopy.nMovesOtherPlayer;
+        this.mustBeOtherRoom = effectToCopy.mustBeOtherRoom;
+        this.mustBeDifferentSpots = effectToCopy.mustBeDifferentSpots;
+        this.isLinear = effectToCopy.isLinear;
+        this.visibleByWho = effectToCopy.visibleByWho;
+        this.cost = effectToCopy.cost;
 
     }
 

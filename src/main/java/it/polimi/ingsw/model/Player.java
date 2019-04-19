@@ -110,7 +110,7 @@ public class Player {
     }
 
     /**
-     * Second constructor
+     * Constructs a new Player with -1 as X and Y position
      * @param nickname Player's nickname
      */
     public Player(String nickname){
@@ -127,9 +127,6 @@ public class Player {
     public int getPoints(){ return this.points; }
     public String getNickname() {
         return nickname;
-    }
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
     public int getnRedAmmo() {
         return nRedAmmo;
@@ -152,47 +149,23 @@ public class Player {
     public ArrayList<Weapon> getWeaponList() {
         return weaponList;
     }
-    public void setWeaponList(ArrayList<Weapon> weaponList) {
-        this.weaponList = weaponList;
-    }
     public ArrayList<Powerup> getPowerupList() {
         return powerupList;
-    }
-    public void setPowerupList(ArrayList<Powerup> powerupList) {
-        this.powerupList = powerupList;
     }
     public int getnDeaths() {
         return nDeaths;
     }
-    public void setnDeaths(int nDeaths) {
-        this.nDeaths = nDeaths;
-    }
     public int getxPosition() {
         return xPosition;
-    }
-    public void setxPosition(int xPosition) {
-        this.xPosition = xPosition;
     }
     public int getyPosition() {
         return yPosition;
     }
-    public void setyPosition(int yPosition) {
-        this.yPosition = yPosition;
-    }
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
     public int getnMovesBeforeGrabbing() {
         return nMovesBeforeGrabbing;
     }
-    public void setnMovesBeforeGrabbing(int nMovesBeforeGrabbing) {
-        this.nMovesBeforeGrabbing = nMovesBeforeGrabbing;
-    }
     public int getnMovesBeforeShooting() {
         return nMovesBeforeShooting;
-    }
-    public void setnMovesBeforeShooting(int nMovesBeforeShooting) {
-        this.nMovesBeforeShooting = nMovesBeforeShooting;
     }
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -206,6 +179,7 @@ public class Player {
 
         ArrayList<String> tempNames = new ArrayList<>();
         int[] ricorrenze = new int[12];
+        //TODO Do this with an HashMap like in KillShotTrack.getRanking()
         for(int i = 0; i < 12; i++)
             ricorrenze[i] = 0;
 
@@ -231,7 +205,7 @@ public class Player {
      * @param player The offender's nickname
      * @param nDamages The amount of damages
      */
-    public void giveDamage(String player,int nDamages){                    /*assign damage to this.player*/
+    public void giveDamage(String player,int nDamages){
         for(int j = 0; j < nDamages; j++){
             damages.add(player);
         }

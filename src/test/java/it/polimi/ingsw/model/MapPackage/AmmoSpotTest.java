@@ -18,7 +18,7 @@ public class AmmoSpotTest {
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.addAmmos();
+        ammoSpotTest.addAmmo();
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 
@@ -32,7 +32,7 @@ public class AmmoSpotTest {
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.addAmmos();
+        ammoSpotTest.addAmmo();
         Assert.assertEquals(ammoColorListTest,ammoSpotTest.getAmmoColorList());
     }
 
@@ -46,7 +46,7 @@ public class AmmoSpotTest {
         ammoColoListTest.add(Color.RED);
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColoListTest, powerup);
 
-        ammoSpotTest.addAmmos();
+        ammoSpotTest.addAmmo();
         Assert.assertEquals(ammoColoListTest,ammoSpotTest.getAmmoColorList());
     }
 
@@ -60,7 +60,7 @@ public class AmmoSpotTest {
         ammoColorListTest.add(Color.BLUE);
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
-        ammoSpotTest.removeAmmos();
+        ammoSpotTest.removeAmmo();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 
@@ -70,7 +70,7 @@ public class AmmoSpotTest {
         Powerup powerup = new Powerup();
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.removeAmmos();
+        ammoSpotTest.removeAmmo();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 }

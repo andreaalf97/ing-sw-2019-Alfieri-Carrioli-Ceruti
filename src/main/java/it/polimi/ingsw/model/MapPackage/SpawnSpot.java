@@ -63,7 +63,6 @@ public class SpawnSpot extends Spot {
             weaponList.add(weaponToAdd);
             return true;
         }
-
     }
 
     /**
@@ -89,10 +88,10 @@ public class SpawnSpot extends Spot {
      */
     @Override
     public void refill(Object objToAdd) throws IllegalArgumentException, IndexOutOfBoundsException{
-        if(!(objToAdd instanceof Weapon))
+        if(!(objToAdd instanceof Weapon)) //TODO shouldn't use instanceof
             throw new IllegalArgumentException("objToAdd should be a Weapon object");
 
-        if(weaponList.size() > 2)
+        if(weaponList.size() > 2) //The caller must check before calling
             throw new IndexOutOfBoundsException("There is no room for a weapon");
 
         weaponList.add((Weapon)objToAdd);
@@ -104,7 +103,9 @@ public class SpawnSpot extends Spot {
      */
     @Override
     public void grabSomething(Player p) {
-
+        //TODO how do we choose which weapon the player wants to pick?
+        //Maybe this method is obsolete and Game should do all the work --> grabSomething() in AmmoSpot becomes obsolete too then
+        //Maybe we should add an Integer that is ignored by the AmmoSpot method
     }
 
     /**
@@ -123,5 +124,11 @@ public class SpawnSpot extends Spot {
     @Override
     public boolean isSpawnSpot() {
         return true;
+    }
+
+    public boolean emptySpot() {
+        if(this.weaponList.isEmpty())
+            return true;
+        return false;
     }
 }

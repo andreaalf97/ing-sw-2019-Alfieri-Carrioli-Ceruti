@@ -73,7 +73,7 @@ public class MapBuilder {
                             tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
 
                             if(rand.nextBoolean()){
-                                tempSpotMatrix[i][j].refill(powerupDeck.pickCard()); //Refills with a powerup
+                                tempSpotMatrix[i][j].refill(powerupDeck.drawCard()); //Refills with a powerup
                             }
                             else{
                                 tempSpotMatrix[i][j].refill(null); //Refills only ammos

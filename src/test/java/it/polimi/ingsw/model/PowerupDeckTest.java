@@ -22,7 +22,7 @@ public class PowerupDeckTest {
 
 
         PowerupDeck powerupDeckTest = new PowerupDeck(powerupListTest);
-        Powerup powerupToPick = powerupDeckTest.pickCard();
+        Powerup powerupToPick = powerupDeckTest.drawCard();
 
         Assert.assertEquals(2, powerupDeckTest.getPowerupList().size());
     }

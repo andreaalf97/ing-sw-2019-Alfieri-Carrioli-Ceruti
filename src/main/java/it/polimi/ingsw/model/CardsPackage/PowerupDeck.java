@@ -15,14 +15,14 @@ public class PowerupDeck{
     private ArrayList<Powerup> powerupList;
 
     /**
-     * Basic constructor
+     * Basic constructor used in tests
      */
     public PowerupDeck(ArrayList<Powerup> powerUpListTemp){
         this.powerupList = powerUpListTemp;
     }
 
     /**
-     * Automatically generates the powerup deck from the effects.json file
+     * Automatically generates the power up deck from the effects.json file
      *
      */
     public PowerupDeck()
@@ -49,7 +49,10 @@ public class PowerupDeck{
         }
     }
 
-    //GET
+    /**
+     * Getter
+     * @return the powerup list
+     */
     public ArrayList<Powerup> getPowerupList() {
         return new ArrayList<>(powerupList);
     }
@@ -58,7 +61,7 @@ public class PowerupDeck{
      * Draws a card from the deck
      * @return the card picked
      */
-    public Powerup pickCard(){
+    public Powerup drawCard(){
         Powerup powerupToPick = powerupList.get(0);
         powerupList.remove(0);
         return powerupToPick;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.CardsPackage.Effect;
 import it.polimi.ingsw.model.CardsPackage.PowerupDeck;
 import it.polimi.ingsw.model.CardsPackage.Weapon;
 import it.polimi.ingsw.model.CardsPackage.WeaponDeck;
@@ -14,7 +15,7 @@ public class Game implements Runnable{
 
     /**
      * This ArrayList contains all the player objects
-     * The players must in the same order of the round!
+     * The players must in the same order of the round, so the first player must be in position 0 !!
      */
     private ArrayList<Player> players;
 
@@ -45,11 +46,6 @@ public class Game implements Runnable{
     private KillShotTrack kst;
 
     /**
-     * This references the player that ran the first Turn
-     */
-    private String firstPlayer;
-
-    /**
      * This contains the number of players in the game and must be equal to players.size() at all times
      */
     private int numOfPlayers;
@@ -61,14 +57,13 @@ public class Game implements Runnable{
     /**
      * This constructor instantiates a new Game by knowing the list of nicknames and the first player
      * @param playerNames ArrayList of all the players names
-     * @param firstPlayer The nickname of the first player
+     *
      */
-    public Game(ArrayList<String> playerNames, String firstPlayer, MapName chosenMap, int nSkulls){
+    public Game(ArrayList<String> playerNames, MapName chosenMap, int nSkulls){
         this.players = new ArrayList<>();
         this.playerNames = playerNames;
         this.powerupDeck = new PowerupDeck();
         this.weaponDeck = new WeaponDeck();
-        this.firstPlayer = firstPlayer;
         this.numOfPlayers = playerNames.size();
 
         for(String name : this.playerNames)
@@ -87,7 +82,6 @@ public class Game implements Runnable{
         Log.LOGGER.warning("The KST has been set up after polling");
 
         boolean endOfTurns = false;
-        boolean isFirstTurn = true;
 
         //Runs the first turn for all players
         for(String currentPlayer : this.playerNames){
@@ -137,6 +131,7 @@ public class Game implements Runnable{
         }
 
         for(String currentPlayer : this.playerNames){
+            //TODO check if the round continues from the last player
             setupForFrenzy();
         }
 
@@ -156,18 +151,9 @@ public class Game implements Runnable{
      * It is usually executed at the end of each turn
      */
     private void checkDeaths() {
-        System.out.println("Checking deaths...");
-        System.out.println("Done checking deaths");
-    }
-
-    /**
-     * This method returns the nickname of the next player
-     * @param currentPlayer The player running the current turn
-     * @return The nickname of the next player
-     */
-    private String nextPlayer(String currentPlayer) {
-        int indexOfCurrent = playerNames.indexOf(currentPlayer);
-        return playerNames.get((indexOfCurrent + 1) % playerNames.size());
+        //TODO
+        Log.LOGGER.info("Checking deaths...");
+        Log.LOGGER.info("Done checking deaths");
     }
 
     /**
@@ -176,27 +162,6 @@ public class Game implements Runnable{
     private void endGame() {
         //TODO review this method
     }
-
-    /**
-     * This method assigns the correct amount of skulls to the Kill Shot Track
-     * @param nSkulls The amount of skulls to add
-     */
-    private void setupKST(int nSkulls){
-        this.kst = new KillShotTrack(nSkulls);
-    }
-
-    /**
-     * This method initially refills all the spawn spots
-     */
-    public void setupSpawnSpots(){}
-
-    /**
-     * This method initially refills all the ammo spots
-     */
-    public void setupAmmoSpots(){}
-
-    //TODO Might not need the method below
-    //public void chooseFirstPlayer(String player){ this.firstPlayer = player; }
 
     /**
      * This method runs the entire turn of a single player
@@ -229,7 +194,9 @@ public class Game implements Runnable{
      * @param nMoves The amount of required moves
      * @return A boolean matrix where the <i, j> element is true only if the player is allowed to move there
      */
-    public boolean[][] wherePlayerCanMove(String player, int nMoves){return new boolean[1][1];}
+    public boolean[][] wherePlayerCanMove(String player, int nMoves){
+        return this.gameMap.wherePlayerCanMove(player, nMoves);
+    }
 
     /**
      * Show all the different spots where a player is allowed to move and grab
@@ -237,7 +204,9 @@ public class Game implements Runnable{
      * @param nMoves The amount of required moves
      * @return A boolean matrix where the <i, j> element is true only if the player is allowed to move there and there is ammo to grab
      */
-    public boolean[][] wherePlayerCanMoveAndGrab(String player, int nMoves){return new boolean[1][1];}
+    public boolean[][] wherePlayerCanMoveAndGrab(String player, int nMoves){
+        return this.gameMap.wherePlayerCanMoveAndGrab(player, nMoves);
+    }
 
     /**
      * Tells if player P1 can shoot player P2 with the selected weapon
@@ -279,7 +248,9 @@ public class Game implements Runnable{
      * Reloads the selected weapon
      * @param weapon weapon to reload
      */
-    public void reload(Weapon weapon){}
+    public void reload(Weapon weapon){
+        weapon.reload();
+    }
 
     /**
      * Tell if the selected weapon can be reloaded
@@ -287,6 +258,7 @@ public class Game implements Runnable{
      * @return true only if the weapon can be reloaded
      */
     public boolean canReload(Weapon weapon){
+        //TODO
         return true;
     }
 
@@ -348,6 +320,7 @@ public class Game implements Runnable{
                     movePlayer(offender, xPos, yPos);
 
                 //TODO why are we skipping one cycle here?
+                //Is it because we don't check anything alse if nMoves > 0 ? ---> Use comments
                 continue;
             }
 
@@ -483,6 +456,7 @@ public class Game implements Runnable{
         }
         weapon.unload();
     }
+
     /**
      * Clears the Kill Shot Track and gives points to all players involved
      */

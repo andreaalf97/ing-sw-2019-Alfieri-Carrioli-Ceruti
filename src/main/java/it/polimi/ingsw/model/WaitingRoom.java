@@ -12,11 +12,6 @@ public class WaitingRoom {
     private ArrayList<String> players;
 
     /**
-     * The nickname of the first player
-     */
-    private String firstPlayer;
-
-    /**
      * Votes for each map:
      */
     private Map mapVotes;
@@ -31,7 +26,6 @@ public class WaitingRoom {
      */
     public WaitingRoom(){
         this.players = new ArrayList<>();
-        this.firstPlayer = null;
 
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
         this.mapVotes.put(MapName.FIRE, 0);
@@ -50,8 +44,6 @@ public class WaitingRoom {
 
     //Can't return this.player because it could be modified
     public ArrayList<String> getPlayers() { return new ArrayList<>(this.players); }
-    //Can return this.firstPlayer because String is immutable
-    public String getFirstPlayer() { return this.firstPlayer; }
 
     /**
      * Adds a player to the players list and registers their votes

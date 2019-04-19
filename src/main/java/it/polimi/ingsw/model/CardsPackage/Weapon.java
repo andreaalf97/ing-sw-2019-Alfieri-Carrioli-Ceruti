@@ -2,11 +2,7 @@ package it.polimi.ingsw.model.CardsPackage;
 
 import com.google.gson.*;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Effect;
-import it.polimi.ingsw.model.MapPackage.Visibility;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Weapon {
@@ -14,7 +10,7 @@ public class Weapon {
     /**
      * The name of the weapon as addressed on the JSON file
      */
-    private String weaponName;
+    private String weaponName; //TODO might not need this for model, but might need for thesting
 
     /**
      * The cost of this weapon
@@ -37,7 +33,7 @@ public class Weapon {
     private ArrayList<Integer[]> order;
 
     /**
-     * constructor used for creating new Weapon from Json
+     * constructor used when creating new Weapon from Json
      * @param weaponName the name of the weapon
      * @param cost the cost of the weapon
      * @param effects the effects of the weapon
@@ -52,7 +48,7 @@ public class Weapon {
     }
 
     /**
-     * A basic constructor
+     * A basic constructor only used in tests
      * @param weaponName The name of the weapon to read from the JSON file
      */
     public Weapon(String weaponName){
@@ -64,7 +60,7 @@ public class Weapon {
     }
 
     /**
-     * this method return the weapon loaded from the json file
+     * this method returns a weapon from a JsonObject
      * @param weaponName  the name of the weapon to load
      * @param jsonWeapons the jsonObject that contains all the weapons
      * @return the weapon correctly filled
@@ -145,7 +141,6 @@ public class Weapon {
      */
     public void reload(){
         this.isLoaded = true;
-        return;
     }
 
     /**

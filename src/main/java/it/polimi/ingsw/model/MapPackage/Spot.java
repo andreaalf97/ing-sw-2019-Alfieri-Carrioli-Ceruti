@@ -28,7 +28,7 @@ public class Spot {
 
 
     /**
-     * basic constructor
+     * basic constructor used in tests
      */
     public Spot(){
         this.playersHere = new ArrayList<>();
@@ -49,32 +49,18 @@ public class Spot {
         this.room = room;
     }
 
-    /**
-     * spot constructor
-     * @param playersHere the players in the spot
-     * @param doors the doors of the spot
-     * @param room the room of the spot
-     */
-    public Spot(ArrayList<String> playersHere,ArrayList<Boolean> doors, Room room){
-        this.playersHere = playersHere;
-        this.doors = doors;
-        this.room = room;
-    }
-
-
     //SETS AND GETS
     /*------------------------------------------------------------------------------------------------------------------*/
     public boolean hasNorthDoor(){ return doors.get(0);}
     public boolean hasEastDoor(){ return doors.get(1); }
     public boolean hasSouthDoor(){ return doors.get(2);}
     public boolean hasWestDoor(){ return doors.get(3);}
+
     public Room getRoom() { return room;}
 
     public ArrayList<Boolean> getDoors() { return new ArrayList<>(doors);}
-    public void setRoom(Room room) { this.room = room;}
 
-
-    public ArrayList<String> getPlayersHere() { return new ArrayList<String>(playersHere); }
+    public ArrayList<String> getPlayersHere() { return new ArrayList<>(playersHere); }
 
 
     /*------------------------------------------------------------------------------------------------------------------*/
@@ -147,4 +133,7 @@ public class Spot {
         throw new ClassCastException("There should not exists any Spot objects!");
     }
 
+    public boolean emptySpot() throws ClassCastException{
+        throw new ClassCastException("This should never be called!");
+    }
 }
