@@ -309,26 +309,23 @@ public class Game implements Runnable{
 
         ArrayList<Effect> effects = weapon.getEffects();
 
-        ArrayList<Player> playersHit = new ArrayList<>();
+        ArrayList<Player> playersHit = new ArrayList<Player>();
 
         System.out.println("Choose the order you want to shoot. 0 to order.size");
 
         //for example the user chooses order x
         int x = 2;
 
-        //TODO need to check if player wants to stop at any point in the order
         for ( int i = 0; i < order.get(x).length ; i++ ) {
 
             int effect_number = order.get(x)[i];   //this is the effect we have to use
 
-            //TODO what are these two?
             int spots_moved_on_x;
             int spots_moved_on_y;
 
             if (effects.get(effect_number).getnMoves() != 0) {
                 System.out.println("where do you want to move? maximum weapon.getEffects(effect_number).nmoves moves");       //expect a new spot
 
-                //TODO we already have a method to check if a player can move from a spot to another --> GameMap.canMoveFromTo(int p1x, int p1y, int p2x, int p2y, int nMoves)
                 int xPos = 1, yPos = 1;     //spot where the user wants to move in
 
                 if (offender.getxPosition() <= xPos)
@@ -346,15 +343,12 @@ public class Game implements Runnable{
                 else
                     movePlayer(offender, xPos, yPos);
 
-                //TODO why are we skipping one cycle here?
-                //Is it because we don't check anything alse if nMoves > 0 ? ---> Use comments
                 continue;
             }
 
             if (effects.get(effect_number).getnMovesOtherPlayer() != 0) {
                 System.out.println("where do you want to move the player you attack? maximum weapon.getEffects(effect_number).nMovesOtherPlayer moves");       //expect a new spot
 
-                //TODO same as the loop before
                 int xPos= 1, yPos = 1;     //spot where the user wants to move in
 
                 if (defenders.get(0).getxPosition() <= xPos)
@@ -372,33 +366,26 @@ public class Game implements Runnable{
                 else
                     movePlayer(defenders.get(0), xPos, yPos);
 
-                //TODO why are we skipping one cycle
                 continue;
             }
 
             if(effects.get(effect_number).getCost() != null){
 
-                for ( int n = 0; n < effects.get(effect_number).getCost().size() - 1; n++){
-                    //TODO calls like "effects.get.getCost.get" might not be the best way
-                    //TODO e.g. create a temporary array and work on it
-
-                    //TODO don't hardcode checks on ammos here, create a new method instead (e.g. a boolean method)
+                for ( int n = 0; n < effects.get(effect_number).getCost().size() - 1; n++ ){
                     if ( effects.get(effect_number).getCost().get(n) == Color.RED ){
-                        if ( offender.getnRedAmmo() == 0)
+                        if ( offender.getnRedAmmo() == 0 )
                             System.out.println( "You don't have enough ammo to do this optional attack");
                         else
                             offender.setnRedAmmo(offender.getnRedAmmo()-1);
-
-                        //TODO you are repeating the same code for every color!!
                     }
                     if ( effects.get(effect_number).getCost().get(n) == Color.YELLOW ){
-                        if ( offender.getnYellowAmmo() == 0)
+                        if ( offender.getnYellowAmmo() == 0 )
                             System.out.println( "You don't have enough ammo to do this optional attack");
                         else
                             offender.setnYellowAmmo(offender.getnYellowAmmo()-1);
                     }
                     if ( effects.get(effect_number).getCost().get(n) == Color.BLUE ){
-                        if ( offender.getnBlueAmmo() == 0)
+                        if ( offender.getnBlueAmmo() == 0 )
                             System.out.println( "You don't have enough ammo to do this optional attack");
                         else
                             offender.setnBlueAmmo(offender.getnBlueAmmo()-1);
@@ -414,14 +401,10 @@ public class Game implements Runnable{
                 }
             }
 
-            if( effects.get(effect_number).getnPlayerAttackable() != 0 ){
+            if( effects.get(effect_number).getnPlayerAttackable() != 0  || effects.get(effect_number).getnPlayerMarkable() != 0){
 
                 if ( effects.get(effect_number).getVisibleByWho() == Visibility.NONE ){
-                    /*TODO use a foreach loop to avoid k -= 1 !! --> for(Player defender : defenders)
-                     https://stackoverflow.com/questions/85190/how-does-the-java-for-each-loop-work
-                     */
-
-                    for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibiluty lo escludo
+                    for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
                         if ( this.gameMap.see( offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
                             defenders.remove(k);
                             k -= 1;
@@ -429,8 +412,7 @@ public class Game implements Runnable{
                     }
                 }
                 if ( effects.get(effect_number).getVisibleByWho() == Visibility.OFFENDER ){
-                    //TODO use foreach
-                    for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibiluty lo escludo
+                    for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
                         if ( !this.gameMap.see( offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
                             defenders.remove(k);
                             k -= 1;
@@ -440,7 +422,7 @@ public class Game implements Runnable{
                 if ( playersHit.size() != 0 ) {
 
                     if ( effects.get(effect_number).getVisibleByWho() == Visibility.LASTONEATTACKED ){
-                        for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibiluty lo escludo
+                        for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
                             if ( !this.gameMap.see( playersHit.get(playersHit.size() - 1).getxPosition(), playersHit.get(playersHit.size() - 1).getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
                                 defenders.remove(k);
                                 k -= 1;
@@ -458,7 +440,7 @@ public class Game implements Runnable{
                         }
                     }
                     /*TODO may delete this effect attribute
-                    if ( effects.get(effect_number).canShootAnyPlayer() ){}*/
+                    if ( effects.get(effect_number).isCanShootAnyPlayer() ){}*/
                 }
 
                 if( effects.get(effect_number).mustBeDifferentSpots() ){
@@ -474,12 +456,52 @@ public class Game implements Runnable{
                         }
                     }
                 }
+                /*TODO either make getSpotByIndex public or make some new method to get the player room*/
+                /*if( effects.get(effect_number).mustBeOtherRoom()) {
+                    for ( int k = 0; k < defenders.size() - 1; k++ ){
+                        if ( this.gameMap.getSpotByIndex(offender.getxPosition(), offender.getyPosition()).getRoom() == this.gameMap.getSpotByIndex(defenders.get(k).getxPosition(), defenders.get(k).getyPosition()).getRoom()) {
+                            defenders.remove(k);
+                            k -= 1;
+                        }
+                    }
+                } */
+                if ( effects.get(effect_number).isLinear()) {
+                    System.out.println("In which direction do you want to shoot?");
+                    //for example NORTH /*TODO look for scanf.
+                    // In this case if i already have the list of player i want to attack, i only have to check if someone is not in line and remove him.*/
+                }
 
+                for ( int k = 0; k < defenders.size() - 1; k++ ) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
+
+                    int spots_on_x, spots_on_y;
+
+                    if (offender.getxPosition() <= defenders.get(k).getxPosition())
+                        spots_on_x = defenders.get(k).getxPosition() - offender.getxPosition();
+                    else
+                        spots_on_x = offender.getxPosition() - defenders.get(k).getxPosition();
+
+                    if (offender.getyPosition() <= defenders.get(k).getyPosition())
+                        spots_on_y = defenders.get(k).getyPosition() - offender.getyPosition();
+                    else
+                        spots_on_y = offender.getyPosition() - defenders.get(k).getyPosition();
+                    if ( spots_on_x + spots_on_y > effects.get(effect_number).getMinDistance()){
+                        defenders.remove(k);
+                        k -= 1;
+                    }
+                    if ( spots_on_x + spots_on_y < effects.get(effect_number).getMaxDistance()){
+                        defenders.remove(k);
+                        k -= 1;
+                    }
+                }
+                for (int k = 0; k < (defenders.size() - 1) && k < (effects.get(effect_number).getnPlayerAttackable() - 1); k++) {
+                    defenders.get(k).giveDamage(offender.getNickname(), effects.get(effect_number).getnDamages());
+                    playersHit.add(defenders.get(k));
+                }
+                for (int k = 0; k < (defenders.size() - 1) && k < (effects.get(effect_number).getnPlayerMarkable() - 1); k++) {
+                    defenders.get(k).giveMarks(offender.getNickname(), effects.get(effect_number).getnMarks());
+                    playersHit.add(defenders.get(k));
+                }
             }
-
-
-
-
         }
         weapon.unload();
     }
