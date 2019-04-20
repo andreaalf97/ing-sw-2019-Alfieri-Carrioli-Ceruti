@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.MapPackage.MapName;
-
 import java.util.*;
 
 public class WaitingRoom {
@@ -22,6 +21,18 @@ public class WaitingRoom {
     private Map skullVotes;
 
     /**
+     * Timer
+     */
+    private Timer timer;
+
+    /**
+     * Used to define when the room is ready to start
+     */
+    private boolean isReady;
+
+    private final static long TOTALTIME = 2 * 60 * 1000;
+
+    /**
      * Basic constructor
      */
     public WaitingRoom(){
@@ -40,6 +51,28 @@ public class WaitingRoom {
         this.skullVotes.put(6, 0);
         this.skullVotes.put(7, 0);
         this.skullVotes.put(8, 0);
+
+        this.isReady = false;
+
+        this.timer = new Timer();
+        this.timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(players.size() > 4)
+                    isReady = true;
+                else
+                    Log.LOGGER.severe("Room has not been filled in time!");
+            }
+        }, TOTALTIME);
+
+    }
+
+    /**
+     * Returns the amount of players registered into this room
+     * @return this.players.size()
+     */
+    public int nPlayers(){
+        return this.players.size();
     }
 
     //Can't return this.player because it could be modified
@@ -55,16 +88,19 @@ public class WaitingRoom {
     public void addPlayer(String nickname, MapName mapToVote, int nSkullsToVote) throws IllegalArgumentException{
         if(this.players.contains(nickname))
             throw new IllegalArgumentException("This waitingRoom already contains this player");
-        this.players.add(nickname);
 
-        int tempVotes = (int)(this.mapVotes.get(mapToVote));
-        this.mapVotes.put(mapToVote, tempVotes+1);
+        if(!this.isReady) {
+            this.players.add(nickname);
 
-        if(nSkullsToVote < 5 || nSkullsToVote > 8)
-            throw new IllegalArgumentException("nSkullsToVote must be between 5 and 8");
+            int tempVotes = (int) (this.mapVotes.get(mapToVote));
+            this.mapVotes.put(mapToVote, tempVotes + 1);
 
-        tempVotes = (int)this.skullVotes.get(nSkullsToVote);
-        this.skullVotes.put(nSkullsToVote, tempVotes+1);
+            if (nSkullsToVote < 5 || nSkullsToVote > 8)
+                throw new IllegalArgumentException("nSkullsToVote must be between 5 and 8");
+
+            tempVotes = (int) this.skullVotes.get(nSkullsToVote);
+            this.skullVotes.put(nSkullsToVote, tempVotes + 1);
+        }
     }
 
     public MapName getVotedMap(){
@@ -91,5 +127,9 @@ public class WaitingRoom {
         }
 
         return maxSkulls;
+    }
+
+    public boolean isReady(){
+        return this.isReady;
     }
 }
