@@ -39,8 +39,8 @@ public class GamesHandler {
 
         //Opening a new thread for the new game
         //TODO might not be the right way to handle it if we are using MVC
-        Thread thread = new Thread(this.games.get(this.games.size() - 1));
-        thread.start();
+        //Thread thread = new Thread(this.games.get(this.games.size() - 1));
+        //thread.start();
     }
 
 
