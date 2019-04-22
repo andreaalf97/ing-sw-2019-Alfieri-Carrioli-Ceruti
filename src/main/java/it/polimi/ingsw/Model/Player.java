@@ -236,13 +236,12 @@ public class Player {
      * Gives marks to this player
      * @param player the offender
      * @param nMarks the amount of marks
-     * @throws IllegalArgumentException if nMarks <= 0 || nMarks > 12
      */
     //TODO test the exception
-    public void giveMarks(String player,int nMarks) throws IllegalArgumentException {
+    public void giveMarks(String player,int nMarks)  {
         /*assign marks to this player*/
         if(nMarks <= 0 || nMarks > 12) {
-            throw new IllegalArgumentException("i can only be > 0 && < 12");
+            throw new RuntimeException("i can only be > 0 && < 12");
         }
         for(int j = 0; j < nMarks; j++)
             marks.add(player);
@@ -251,11 +250,10 @@ public class Player {
     /**
      * Gives points to this player
      * @param n The amount of points
-     * @throws IllegalArgumentException if n < 0
      */
-    public void givePoints(int n) throws IllegalArgumentException {
+    public void givePoints(int n)  {
         if(n < 0)
-            throw new IllegalArgumentException("n can't be negative");
+            throw new RuntimeException("n can't be negative");
         points += n;
     }
 

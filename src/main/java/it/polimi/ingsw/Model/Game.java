@@ -11,6 +11,14 @@ import it.polimi.ingsw.Model.MapPackage.Visibility;
 
 import java.util.ArrayList;
 
+/*
+    THE MODEL:
+        - Data related logic
+        - Interaction with Database or JSON file
+        - Communicates with controller (TODO how?)
+        - Can sometimes update the view (depends on framework)
+ */
+
 public class Game implements Runnable{
 
     /**
@@ -523,7 +531,7 @@ public class Game implements Runnable{
 
         /*
         if(!playerNames.contains(nickname))
-            throw new NoSuchPlayerException("This player does not exist");
+            throw new RuntimeException("This player does not exist");
         */
 
         return players.get(playerNames.indexOf(nickname));

@@ -225,9 +225,9 @@ public class GameMap {
      * @param nMoves How many moves the player can use
      * @return true if the player can move from spot1 to spot2 in nMoves
      */
-    public boolean canMoveFromTo(int spot1X, int spot1Y, int spot2X, int spot2Y, int nMoves) throws IllegalArgumentException{
+    public boolean canMoveFromTo(int spot1X, int spot1Y, int spot2X, int spot2Y, int nMoves) {
         if(spot1X < 0 || spot1X > 4 || spot1Y < 0 || spot1Y > 3 || spot2X < 0 || spot2X > 4 || spot2Y < 0 || spot2Y > 3)
-            throw new IllegalArgumentException("This is not a valid spot");
+            throw new RuntimeException("This is not a valid spot");
 
         if(spot1X == spot2X && spot1Y == spot2Y)
             return true;

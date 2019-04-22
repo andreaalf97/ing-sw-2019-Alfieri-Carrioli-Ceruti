@@ -83,11 +83,10 @@ public class WaitingRoom {
      * @param nickname The nickname of the new player
      * @param mapToVote the map chosen by the new player
      * @param nSkullsToVote the desired amount of skulls
-     * @throws IllegalArgumentException if the method receives bad arguments
      */
-    public void addPlayer(String nickname, MapName mapToVote, int nSkullsToVote) throws IllegalArgumentException{
+    public void addPlayer(String nickname, MapName mapToVote, int nSkullsToVote) {
         if(this.players.contains(nickname))
-            throw new IllegalArgumentException("This waitingRoom already contains this player");
+            throw new RuntimeException("This waitingRoom already contains this player");
 
         if(!this.isReady) {
             this.players.add(nickname);
@@ -96,7 +95,7 @@ public class WaitingRoom {
             this.mapVotes.put(mapToVote, tempVotes + 1);
 
             if (nSkullsToVote < 5 || nSkullsToVote > 8)
-                throw new IllegalArgumentException("nSkullsToVote must be between 5 and 8");
+                throw new RuntimeException("nSkullsToVote must be between 5 and 8");
 
             tempVotes = (int) this.skullVotes.get(nSkullsToVote);
             this.skullVotes.put(nSkullsToVote, tempVotes + 1);

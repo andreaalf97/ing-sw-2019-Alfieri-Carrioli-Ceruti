@@ -83,16 +83,14 @@ public class SpawnSpot extends Spot {
     /**
      * Refills this spot with a weapon
      * @param objToAdd the weapon to add
-     * @throws IllegalArgumentException if the object is not a weapon
-     * @throws IndexOutOfBoundsException if there is no room for a new weapon
      */
     @Override
-    public void refill(Object objToAdd) throws IllegalArgumentException, IndexOutOfBoundsException{
+    public void refill(Object objToAdd) {
         if(!(objToAdd instanceof Weapon)) //TODO shouldn't use instanceof
-            throw new IllegalArgumentException("objToAdd should be a Weapon object");
+            throw new RuntimeException("objToAdd should be a Weapon object");
 
         if(weaponList.size() > 2) //The caller must check before calling
-            throw new IndexOutOfBoundsException("There is no room for a weapon");
+            throw new RuntimeException("There is no room for a weapon");
 
         weaponList.add((Weapon)objToAdd);
     }

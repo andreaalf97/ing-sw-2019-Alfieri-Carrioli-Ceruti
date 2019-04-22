@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Model.MapPackage;
 
 import it.polimi.ingsw.Model.Color;
-import it.polimi.ingsw.Model.NoSuchPlayerException;
 import it.polimi.ingsw.Model.Player;
 
 import java.util.ArrayList;
@@ -87,7 +86,6 @@ public class Spot {
     /**
      * Removes the player from this spot
      * @param nickname the nickname of the player
-     * @throws NoSuchPlayerException if the player is not on this spot
      */
     public void removePlayer(String nickname){
         if(playersHere.contains(nickname))
@@ -98,44 +96,40 @@ public class Spot {
      * Refills this spot.
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @param objToAdd the object to add
-     * @throws ClassCastException always
      */
-    public void refill(Object objToAdd) throws ClassCastException{
-        throw new ClassCastException("This object should not exist!");
+    public void refill(Object objToAdd) {
+        throw new RuntimeException("This object should not exist!");
     }
 
     /**
      * Gives whatever's on this spot to the player.
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @param p the player
-     * @throws ClassCastException always
      */
-    public void grabSomething(Player p) throws ClassCastException{
-        throw new ClassCastException("This object should not exist!");
+    public void grabSomething(Player p) {
+        throw new RuntimeException("This object should not exist!");
     }
 
     /**
      * Is this an ammo spot?
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @return should never return anything
-     * @throws ClassCastException always
      */
-    public boolean isAmmoSpot() throws ClassCastException{
-        throw new ClassCastException("There should not exists any Spot objects!");
+    public boolean isAmmoSpot() {
+        throw new RuntimeException("There should not exists any Spot objects!");
     }
 
     /**
      * Is this a spawn spot?
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @return should never return anything
-     * @throws ClassCastException always
      */
-    public boolean isSpawnSpot() throws ClassCastException{
-        throw new ClassCastException("There should not exists any Spot objects!");
+    public boolean isSpawnSpot() {
+        throw new RuntimeException("There should not exists any Spot objects!");
     }
 
-    public boolean emptySpot() throws ClassCastException{
-        throw new ClassCastException("This should never be called!");
+    public boolean emptySpot() {
+        throw new RuntimeException("This should never be called!");
     }
 
     /**
