@@ -106,6 +106,8 @@ public class AmmoSpot extends Spot {
         if(objToAdd != null) {
             this.powerup = (Powerup)objToAdd;
 
+            this.ammoColorList.clear();
+
             //Return a random number between 0 and 2
             this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
 
@@ -113,6 +115,8 @@ public class AmmoSpot extends Spot {
         }
         else{
             this.powerup = null;
+
+            this.ammoColorList.clear();
 
             this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
 
@@ -150,8 +154,24 @@ public class AmmoSpot extends Spot {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public boolean emptySpot() {
         if(this.powerup == null && this.ammoColorList.isEmpty())
+            return true;
+        return false;
+    }
+
+    /**
+     * Tells you if this spot is full
+     * @return true or false depending on the presence of a powerup and some ammos
+     */
+    @Override
+    public boolean isFull(){
+        if( (this.powerup == null && this.ammoColorList.size() == 3) || (this.powerup != null && this.ammoColorList.size() == 2) )
             return true;
         return false;
     }

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.CardsPackage.Effect;
-import it.polimi.ingsw.Model.CardsPackage.PowerupDeck;
-import it.polimi.ingsw.Model.CardsPackage.Weapon;
-import it.polimi.ingsw.Model.CardsPackage.WeaponDeck;
+import it.polimi.ingsw.Model.CardsPackage.*;
 import it.polimi.ingsw.Model.MapPackage.GameMap;
 import it.polimi.ingsw.Model.MapPackage.MapBuilder;
 import it.polimi.ingsw.Model.MapPackage.MapName;
@@ -19,7 +16,7 @@ import java.util.ArrayList;
         - Can sometimes update the view (depends on framework)
  */
 
-public class Game implements Runnable{
+public class Game {
 
     /**
      * This ArrayList contains all the player objects
@@ -82,83 +79,10 @@ public class Game implements Runnable{
     }
 
     /**
-     * This method implements the void run() method from Runnable and is processed on a new thread
-     */
-    public void run(){
-        Log.LOGGER.info("Game starting");
-        Log.LOGGER.warning("The map has been chosen by polling");
-        Log.LOGGER.warning("The KST has been set up after polling");
-
-        boolean endOfTurns = false;
-
-        //Runs the first turn for all players
-        for(String currentPlayer : this.playerNames){
-
-            //Spawn player by choosing 2 powerups!
-            //At this point the player should have nothing in his hands
-            givePowerup(currentPlayer);
-            givePowerup(currentPlayer);
-
-            int chosenPowerupToDiscard = 0; //TODO let the player decide on which powerup to discard
-            respawn(currentPlayer, chosenPowerupToDiscard);
-
-            //Do you want to use a powerup?
-
-            //Move - Move&Grab - Attack
-
-            //Do you want to use a powerup?
-
-            //Move - Move&Grab - Attack
-
-            //Do you want to use a powerup?
-
-            //Do you want to reload?
-
-            checkDeaths();
-            refillAmmos();
-            refillSpawns();
-        }
-
-        //Runs until the end of the regular game, will handle frenzy in the next loop
-        while(!endOfTurns){
-
-            for(String currentPlayer : this.playerNames) {
-
-                //Do you want to use a powerup?
-
-                //Move - Move&Grab - Attack
-
-                //Do you want to use a powerup?
-
-                //Move - Move&Grab - Attack
-
-                //Do you want to use a powerup?
-
-                //Do you want to reload?
-
-                checkDeaths();
-                refillAmmos();
-                refillSpawns();
-
-                if (this.kst.noMoreSkulls())
-                    endOfTurns = true;
-            }
-        }
-
-        for(String currentPlayer : this.playerNames){
-            //TODO check if the round continues from the last player
-            setupForFrenzy();
-        }
-
-        giveKSTpoints();
-        endGame();
-    }
-
-    /**
      * Gives a randomly picked powerup to the player
      * @param player the player who's receiving the powerup
      */
-    private void givePowerup(String player) {
+    public void givePowerup(String player) {
 
         Player p = getPlayerByNickname(player);
         p.givePowerup(this.powerupDeck.drawCard());
@@ -167,7 +91,7 @@ public class Game implements Runnable{
     /**
      * This method sets up all player for the final frenzy turn
      */
-    private void setupForFrenzy() {
+    public void setupForFrenzy() {
         //TODO
     }
 
@@ -175,7 +99,7 @@ public class Game implements Runnable{
      * This method checks if any player is dead and counts their boards assigning the right amount of point to each player.
      * It is usually executed at the end of each turn
      */
-    private void checkDeaths() {
+    public void checkDeaths() {
         //TODO
         Log.LOGGER.info("Checking deaths...");
         Log.LOGGER.info("Done checking deaths");
@@ -184,7 +108,7 @@ public class Game implements Runnable{
     /**
      * This closes all connections and ends the game
      */
-    private void endGame() {
+    public void endGame() {
         //TODO review this method
     }
 
@@ -264,12 +188,16 @@ public class Game implements Runnable{
     /**
      * Refills all the ammo spots
      */
-    public void refillAmmos(){}
+    public void refillAmmos(){
+        this.gameMap.refillAmmos(this.powerupDeck);
+    }
 
     /**
      * Refills all the spawn spots with weapons
      */
-    public void refillSpawns(){}
+    public void refillSpawns(){
+        this.gameMap.refillSpawns(this.weaponDeck);
+    }
 
     /**
      * Moves the selected player to the new spot
@@ -535,6 +463,21 @@ public class Game implements Runnable{
         */
 
         return players.get(playerNames.indexOf(nickname));
+    }
+
+    public ArrayList<String> getPlayerNames() {
+        return new ArrayList<>(this.playerNames);
+    }
+
+    public boolean noMoreSkullsOnKST() {
+        return this.kst.noMoreSkulls();
+    }
+
+    public ArrayList<Powerup> getPlayerPowerups(String player) {
+
+        Player p = this.getPlayerByNickname(player);
+
+        return p.getPowerupList();
     }
 
     //TODO Think about this method

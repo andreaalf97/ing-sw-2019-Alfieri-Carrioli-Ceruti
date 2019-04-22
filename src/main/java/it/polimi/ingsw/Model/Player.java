@@ -150,7 +150,7 @@ public class Player {
         return weaponList;
     }
     public ArrayList<Powerup> getPowerupList() {
-        return powerupList;
+        return new ArrayList<>(powerupList);
     }
     public int getnDeaths() {
         return nDeaths;

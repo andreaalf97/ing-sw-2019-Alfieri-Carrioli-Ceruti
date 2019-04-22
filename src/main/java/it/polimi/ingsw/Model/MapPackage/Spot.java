@@ -150,4 +150,8 @@ public class Spot {
 
         }
     }
+
+    public boolean isFull() {
+        throw new RuntimeException("This should never be called!");
+    }
 }

@@ -61,7 +61,7 @@ public class WeaponDeck{
      * Draws a card from the deck
      * @return the picked card
      */
-    public Weapon pickCard(){
+    public Weapon drawCard(){
         Weapon weaponToPick = weaponList.get(weaponList.size() - 1);
         weaponList.remove(weaponList.size()-1);
         return weaponToPick;

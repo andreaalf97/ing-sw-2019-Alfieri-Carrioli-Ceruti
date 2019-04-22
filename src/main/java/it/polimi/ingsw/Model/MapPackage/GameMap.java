@@ -148,9 +148,9 @@ public class GameMap {
 
 
                 if(this.map[i][j] != null && this.map[i][j].isSpawnSpot()){
-                    this.map[i][j].refill(weaponDeck.pickCard());
-                    this.map[i][j].refill(weaponDeck.pickCard());
-                    this.map[i][j].refill(weaponDeck.pickCard());
+                    this.map[i][j].refill(weaponDeck.drawCard());
+                    this.map[i][j].refill(weaponDeck.drawCard());
+                    this.map[i][j].refill(weaponDeck.drawCard());
                 }
 
                 //I am using 2 if statement in case we decide to add clean spots later (no ammo and no spawn)
@@ -291,5 +291,50 @@ public class GameMap {
                     return;
                 }
 
+    }
+
+    /**
+     * This method refills all the ammo spots
+     * @param powerupDeck the deck to draw a card from
+     */
+    public void refillAmmos(PowerupDeck powerupDeck) {
+        for(int i = 0; i < this.map.length; i++)
+            for(int j = 0; j < this.map[i].length; j++)
+                if(this.map[i][j].isAmmoSpot()){
+                    //Generate a new Random object
+                    Random rand = new Random();
+
+                    //If this is not full, I refill it
+                    //The refill method for ammo spots automatically clear all the arrays
+                    if(!this.map[i][j].isFull()) {
+                        if (rand.nextBoolean()) {
+                            //It also receives a powerup
+
+                            this.map[i][j].refill(powerupDeck.drawCard());
+                        } else {
+                            //It doesn't receive a powerup
+                            this.map[i][j].refill(null);
+                        }
+                    }
+
+
+                }
+    }
+
+    /**
+     * Refills all the spawn spots
+     * @param weaponDeck the weapon deck to draw cards from
+     */
+    public void refillSpawns(WeaponDeck weaponDeck) {
+
+        for(int i = 0; i < this.map.length; i++)
+            for(int j = 0; j < this.map[i].length; j++)
+                if(this.map[i][j].isSpawnSpot()){
+
+                    //Adds a new weapon until the spot is full
+                    while(!this.map[i][j].isFull())
+                        this.map[i][j].refill(weaponDeck.drawCard());
+
+                }
     }
 }

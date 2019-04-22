@@ -21,7 +21,7 @@ public class WeaponDeckTest {
 
         WeaponDeck weaponDeckTest = new WeaponDeck(weaponListTest);
 
-        Weapon weaponPicked = weaponDeckTest.pickCard();
+        Weapon weaponPicked = weaponDeckTest.drawCard();
 
         Assert.assertEquals(1, weaponDeckTest.getWeaponList().size());
 

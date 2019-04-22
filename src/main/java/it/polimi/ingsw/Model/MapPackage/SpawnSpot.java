@@ -124,9 +124,15 @@ public class SpawnSpot extends Spot {
         return true;
     }
 
+    @Override
     public boolean emptySpot() {
         if(this.weaponList.isEmpty())
             return true;
         return false;
+    }
+
+    @Override
+    public boolean isFull() {
+        return (this.weaponList.size() == 3);
     }
 }

@@ -62,9 +62,9 @@ public class MapBuilder {
                         if(isSpawnSpot) { //If this is a Spawn spot I add all the weapons
                             tempSpotMatrix[i][j] = new SpawnSpot(doors, room);
 
-                            tempSpotMatrix[i][j].refill(weaponDeck.pickCard());
-                            tempSpotMatrix[i][j].refill(weaponDeck.pickCard());
-                            tempSpotMatrix[i][j].refill(weaponDeck.pickCard());
+                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
                         }
 
                         //Constructing a new AmmoSpot
