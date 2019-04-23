@@ -1,5 +1,6 @@
-package it.polimi.ingsw.Model;
+package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.Log;
 import it.polimi.ingsw.Model.MapPackage.MapName;
 import java.util.*;
 
