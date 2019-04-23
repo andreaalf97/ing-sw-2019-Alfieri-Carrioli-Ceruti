@@ -1,14 +1,20 @@
-package it.polimi.ingsw.Model;
+package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.Game;
+import it.polimi.ingsw.Model.Log;
 import it.polimi.ingsw.Model.MapPackage.MapName;
+import it.polimi.ingsw.View.View;
 
 import java.util.ArrayList;
 
 public class GamesHandler {
+
+    //TODO Refactor this after moving it to Controller package
+
     /**
      * The list of active games
      */
-    private ArrayList<Game> games;
+    private ArrayList<Controller> games;
 
     /**
      * The list of active waiting rooms
@@ -35,12 +41,11 @@ public class GamesHandler {
     public void startGame(WaitingRoom room){
 
         //Creating and adding a new game to the list
-        this.games.add(new Game(room.getPlayers(), room.getVotedMap(), room.getVotedSkulls()));
+        games.add(new Controller(new Game(room.getPlayers(), room.getVotedMap(), room.getVotedSkulls()), new View(room.getPlayers())));
 
-        //Opening a new thread for the new game
-        //TODO might not be the right way to handle it if we are using MVC
-        //Thread thread = new Thread(this.games.get(this.games.size() - 1));
-        //thread.start();
+        games.get(games.size() - 1).runGame();
+
+        //TODO need to close all connections once the game is over --> how to do it object oriented?
     }
 
 

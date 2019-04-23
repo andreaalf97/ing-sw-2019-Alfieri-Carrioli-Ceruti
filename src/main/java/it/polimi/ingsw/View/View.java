@@ -17,32 +17,20 @@ import java.util.Observer;
 
 public class View extends Observable implements Observer {
 
-    boolean isWaitingForResponse;
+    ArrayList<String> players;
 
-    String playerWaitingFor;
-
-    Response response;
-
-    public View(){
-        this.isWaitingForResponse = false;
-        this.playerWaitingFor = "NONE";
+    public View(ArrayList<String> players){
+        this.players = players;
     }
 
-    /**
-     * Here we handle what happens when the Observable objects (the ClientView!) calls the notifyObservers() method
-     * @param o
-     * @param arg
-     */
     @Override
     public void update(Observable o, Object arg) {
-
+        //TODO here the View needs to show to all clients that the model is changed by sending custom messages to each one of them
+        //e.g. It shouldn't tell player X which powerups Player Y has in his hands
     }
 
-    public void askForIndexPowerupToDiscard(String currentPlayer, ArrayList<Powerup> playerPowerups) {
+    public int askForIndexPowerupToDiscard(String currentPlayer, ArrayList<Powerup> playerPowerups) {
         //TODO Ask the correct player which powerup he wants to discard and return the index
-    }
-
-    public int getPowerupToDiscard() {
-        return this.response.responseInt;
+        return 0;
     }
 }
