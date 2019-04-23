@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.MapPackage;
 
 import it.polimi.ingsw.Model.CardsPackage.Powerup;
 import it.polimi.ingsw.Model.Color;
+import it.polimi.ingsw.Model.Player;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -72,5 +73,35 @@ public class AmmoSpotTest {
 
         ammoSpotTest.removeAmmo();
         Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
+    }
+
+    @Test
+    public void refill(){
+        AmmoSpot ammoSpotTest = new AmmoSpot();
+        ammoSpotTest.refill(null);
+
+        Assert.assertEquals(3,ammoSpotTest.getAmmoColorList().size());
+        Assert.assertFalse(ammoSpotTest.getAmmoColorList().contains(Color.ANY));
+
+        AmmoSpot ammoSpotTestWithPowerup = new AmmoSpot();
+        Powerup p1 = new Powerup();
+        ammoSpotTestWithPowerup.refill(p1);
+
+        Assert.assertEquals(2,ammoSpotTestWithPowerup.getAmmoColorList().size());
+        Assert.assertFalse(ammoSpotTest.getAmmoColorList().contains(Color.ANY));
+    }
+
+
+    @Test
+    public void grabSomething(){
+        AmmoSpot ammoSpotTest = new AmmoSpot();
+        Player playerTest = new Player("gino");
+        Powerup p1 = new Powerup();
+        ammoSpotTest.refill(p1);
+
+        ammoSpotTest.grabSomething(playerTest);
+
+        Assert.assertEquals(1, playerTest.getPowerupList().size());
+
     }
 }

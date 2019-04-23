@@ -40,7 +40,7 @@ public class KillShotTrack {
         for(int i = 0; i < nSkulls; i++){
             this.skullList.add("SKULL");
         }
-        this.isOverkill = new ArrayList<>(this.skullList.size());
+        this.isOverkill = new ArrayList<>(nSkulls);
     }
 
     /**
@@ -52,7 +52,7 @@ public class KillShotTrack {
         for(int i = 0; i < this.skullList.size(); i++){
             if(skullList.get(i) == "SKULL"){
                 this.skullList.set(i, player);
-                this.isOverkill.set(i, isOverkill);
+                this.isOverkill.add(isOverkill);
                 return;
             }
         }
@@ -63,7 +63,6 @@ public class KillShotTrack {
      * @return An arrayList of players nicknames
      */
     public ArrayList<String> getRanking(){
-        //TODO Test this
         //HashMap used to count how many times each player is
         Map recurrences = new HashMap<String, Integer>();
 

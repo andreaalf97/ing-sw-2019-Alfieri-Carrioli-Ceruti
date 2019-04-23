@@ -49,6 +49,13 @@ public class AmmoSpot extends Spot {
         this.powerup = powerup;
     }
 
+    public AmmoSpot(){
+        super();
+        this.ammoColorList = new ArrayList<>();
+        this.powerup = null;
+
+    }
+
 
     /**
      * getter for ammoColorList
@@ -134,6 +141,8 @@ public class AmmoSpot extends Spot {
     public void grabSomething(Player player) {
          if(this.powerup != null) player.givePowerup(powerup);
          player.giveAmmos(ammoColorList);
+
+         //todo if i give something to the player i have to reload the spot
     }
 
     /**

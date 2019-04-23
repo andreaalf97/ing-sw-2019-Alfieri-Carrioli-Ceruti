@@ -62,9 +62,13 @@ public class WeaponDeck{
      * @return the picked card
      */
     public Weapon drawCard(){
-        Weapon weaponToPick = weaponList.get(weaponList.size() - 1);
-        weaponList.remove(weaponList.size()-1);
-        return weaponToPick;
+        if (!this.getWeaponList().isEmpty()) {
+            Weapon weaponToPick = weaponList.get(weaponList.size() - 1);
+            weaponList.remove(weaponList.size() - 1);
+            return weaponToPick;
+        }
+        else
+            return null;
     }
 
 }
