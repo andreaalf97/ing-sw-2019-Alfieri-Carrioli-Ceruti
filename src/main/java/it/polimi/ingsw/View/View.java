@@ -44,4 +44,8 @@ public class View extends Observable implements Observer {
         return 0;
     }
 
+    public String askForPlayerNameToAttackPowerup(ArrayList<String> attackablePlayers) {
+        //TODO
+        return "NONE";
+    }
 }

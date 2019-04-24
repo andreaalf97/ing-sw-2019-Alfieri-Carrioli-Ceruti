@@ -72,4 +72,13 @@ public class Powerup {
     public Color getColor() {
         return this.color;
     }
+
+    public boolean isTurnPowerup() {
+        //TODO might have to review this
+
+        if(powerupName == "Teleporter" || powerupName == "Newton")
+            return true;
+
+        return false;
+    }
 }

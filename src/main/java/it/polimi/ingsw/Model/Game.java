@@ -162,10 +162,10 @@ public class Game {
      * Tells if player P1 can shoot player P2 with the selected weapon
      * @param p1 The nickname of the first player
      * @param p2 The nickname of the second player
-     * @param weapon The weapon that P1 wants to use to shoot
+     * @param effect The effect that P1 wants to use on P2
      * @return True only if P1 is allowed to shoot P2 with that weapon
      */
-    public boolean p1CanShootp2(String p1, String p2, Weapon weapon){
+    public boolean p1CanShootp2(String p1, String p2, Effect effect){
         //TODO review this method, might not need it if we don't advice the player on which weapon to use
         return true;
     }
@@ -212,24 +212,6 @@ public class Game {
      * @param y the position of the spot on the y-axis
      */
     public void movePlayer(Player player, int x, int y){}
-
-    /**
-     * Reloads the selected weapon
-     * @param weapon weapon to reload
-     */
-    public void reload(Weapon weapon){
-        weapon.reload();
-    }
-
-    /**
-     * Tell if the selected weapon can be reloaded
-     * @param weapon weapon to check
-     * @return true only if the weapon can be reloaded
-     */
-    public boolean canReload(Weapon weapon){
-        //TODO
-        return true;
-    }
 
     /**
      * Moves the player to the selected spot and grabs the ammos on it
@@ -491,7 +473,10 @@ public class Game {
         return p.getPowerupList();
     }
 
-    public void usePowerup(Player offender, Player defender, Powerup powerup) {
+    public void usePowerup(String offenderName, String defenderName, Powerup powerup) {
+
+        Player offender = getPlayerByNickname(offenderName);
+        Player defender = getPlayerByNickname(defenderName);
 
         Effect effect = powerup.getEffect();
 
@@ -650,4 +635,24 @@ public class Game {
 
         return rechargeableWeapons;
     }
+
+    /**
+     * Tells if the player has any power up that can be used at any time during the turn
+     * @param player the player to chech
+     * @return
+     */
+    public boolean playerHasTurnPowerup(String player) {
+        Player p = getPlayerByNickname(player);
+
+        if(p.hasTurnPowerup())
+            return true;
+        return false;
+    }
+
+    public ArrayList<String> getAttackablePlayersPowerup(String player, Powerup powerupToUse) {
+        //TODO
+        return new ArrayList<>();
+    }
+
+
 }

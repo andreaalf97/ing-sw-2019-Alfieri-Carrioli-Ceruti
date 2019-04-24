@@ -325,4 +325,16 @@ public class Player {
 
         this.isDead = false;
     }
+
+    /**
+     * Tells if the player has a turn power up in his hand
+     */
+    public boolean hasTurnPowerup() {
+
+        for(Powerup i : powerupList)
+            if(i.isTurnPowerup())
+                return true;
+
+        return false;
+    }
 }

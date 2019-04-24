@@ -4,7 +4,6 @@ import it.polimi.ingsw.Model.CardsPackage.Powerup;
 import it.polimi.ingsw.Model.CardsPackage.Weapon;
 import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Log;
-import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.View.View;
 
 import java.util.ArrayList;
@@ -159,12 +158,40 @@ public class Controller {
     /**
      * Asks the player if he wants to use a "turn" power up and executes it
      * A "turn" power up is one that can be used at any time during a turn (i.e. Teleport)
+     * If the player does not have any Turn power up the method does't ask him anything
      * @param player the choosing player
      */
     private void useTurnPowerup(String player) {
-        int chosenPowerup = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerups(player));
-        Powerup powerupToUse = gameModel.getPowerupByIndex(player, chosenPowerup);
-        //todo the problem is that i have to choose the offender if i want to use a powerup in gameModel, row 247
+
+        //If the player does not have any power up that can be used now I don't ask him anything
+        int chosenPowerupIndex = -1;
+        if(gameModel.playerHasTurnPowerup(player))
+            chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerups(player));
+        else
+            return;
+
+        //Keep asking the player if he wants to use a powerup until he says NO or he's out of usable power ups
+        while (chosenPowerupIndex != -1) {
+
+            //Retrieve the power up from the given index
+            Powerup powerupToUse = gameModel.getPowerupByIndex(player, chosenPowerupIndex);
+
+            //Finds all players I can attack with this power up
+            ArrayList<String> attackablePlayers = gameModel.getAttackablePlayersPowerup(player, powerupToUse);
+
+            //Asks the player which player he wants to use the power up on
+            String chosenPlayerName = view.askForPlayerNameToAttackPowerup(attackablePlayers);
+
+            //Uses the powerup on the player
+            gameModel.usePowerup(player, chosenPlayerName, powerupToUse);
+
+            chosenPowerupIndex = -1;
+            if(gameModel.playerHasTurnPowerup(player))
+                chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerups(player));
+
+            //N.B. chosenPowerupIndex could still be -1 after view.askForIndexPowerupToUse(...) if the player selects NONE as choice
+        }
+
     }
 
     /**
