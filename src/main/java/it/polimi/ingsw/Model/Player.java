@@ -104,7 +104,7 @@ public class Player {
         this.nDeaths = 0;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.isDead = false;
+        this.isDead = true;
         this.nMovesBeforeGrabbing = 1;
         this.nMovesBeforeShooting = 0;
     }
@@ -317,5 +317,12 @@ public class Player {
         this.powerupList.remove(powerupToDiscard);
 
         return returnColor;
+    }
+
+    public void revive() {
+        if(!this.isDead)
+            throw new RuntimeException("This player needs to be dead to be revived!");
+
+        this.isDead = false;
     }
 }

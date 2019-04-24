@@ -12,7 +12,7 @@ import java.util.ArrayList;
     THE MODEL:
         - Data related logic
         - Interaction with Database or JSON file
-        - Communicates with controller (TODO how?)
+        - Communicates with controller
         - Can sometimes update the view (depends on framework)
  */
 
@@ -159,8 +159,13 @@ public class Game {
     public void respawn(String player, int powerupIndexToDiscard){
 
         Player p = getPlayerByNickname(player);
+
+        if(!p.isDead())
+            throw new RuntimeException("The player you want to respawn is not dead!");
+
         Color discardedColor = p.discardPowerupByIndex(powerupIndexToDiscard);
 
+        p.revive();
         movePlayerToSpawnColor(player, discardedColor);
     }
 
