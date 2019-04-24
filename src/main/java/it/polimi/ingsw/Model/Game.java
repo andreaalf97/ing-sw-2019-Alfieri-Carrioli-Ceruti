@@ -7,6 +7,7 @@ import it.polimi.ingsw.Model.MapPackage.MapName;
 import it.polimi.ingsw.Model.MapPackage.Visibility;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
     THE MODEL:
@@ -188,7 +189,7 @@ public class Game {
 
     private void movePlayerToSpawnColor(String player, Color discardedColor) {
         this.gameMap.movePlayerToColorSpawn(player, discardedColor);
-    }
+}
 
     /**
      * Refills all the ammo spots
@@ -623,5 +624,30 @@ public class Game {
         Player p = getPlayerByNickname(player);
 
         return p.isDead();
+    }
+
+
+ // methods added by gino for controller communication with model
+    public Powerup getPowerupByIndex(String player, int index){
+        Player currentPlayer = getPlayerByNickname(player);
+        return currentPlayer.getPowerupList().get(index);
+    }
+
+    public ArrayList<Weapon> checkRechargeableWeapons (String player){
+        Player currentPlayer = getPlayerByNickname(player);
+        ArrayList<Weapon> rechargeableWeapons = new ArrayList<>();
+
+        for (int i = 0; i < currentPlayer.getWeaponList().size(); i++){
+            ArrayList<Color> weaponCost = currentPlayer.getWeaponList().get(i).getCost();
+
+            int nRedAmmoWeapon = Collections.frequency(weaponCost, Color.RED);
+            int nBlueAmmoWeapon = Collections.frequency(weaponCost, Color.BLUE);
+            int nYellowAmmoWeapon = Collections.frequency(weaponCost, Color.YELLOW);
+
+            if (nRedAmmoWeapon < currentPlayer.getnRedAmmo() && nYellowAmmoWeapon < currentPlayer.getnYellowAmmo() && nBlueAmmoWeapon < currentPlayer.getnBlueAmmo())
+                rechargeableWeapons.add(currentPlayer.getWeaponList().get(i));
+        }
+
+        return rechargeableWeapons;
     }
 }

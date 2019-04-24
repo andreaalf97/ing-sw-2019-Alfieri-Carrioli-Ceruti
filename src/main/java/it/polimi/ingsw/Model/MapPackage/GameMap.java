@@ -282,6 +282,12 @@ public class GameMap {
         return map[i][j].emptySpot();
     }
 
+
+    /**
+     * this method is called by the game(row 190) and it moves the player to the spawnspot of the same color as the discarded powerup
+     * @param player the player that has to respawn
+     * @param discardedColor the color of the spawnspot
+     */
     public void movePlayerToColorSpawn(String player, Color discardedColor) {
 
         for(int i = 0; i < this.map.length; i++)

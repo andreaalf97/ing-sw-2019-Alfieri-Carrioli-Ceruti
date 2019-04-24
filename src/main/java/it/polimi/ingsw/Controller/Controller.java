@@ -1,9 +1,13 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Model.CardsPackage.Powerup;
+import it.polimi.ingsw.Model.CardsPackage.Weapon;
 import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Log;
+import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.View.View;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 /*
@@ -50,7 +54,7 @@ public class Controller {
             gameModel.givePowerup(currentPlayer);
             gameModel.givePowerup(currentPlayer);
 
-            int chosenPowerupToDiscard = this.view.askForIndexPowerupToDiscard(currentPlayer, this.gameModel.getPlayerPowerups(currentPlayer));;
+            int chosenPowerupToDiscard = this.view.askForIndexPowerupToDiscard(currentPlayer, this.gameModel.getPlayerPowerups(currentPlayer));
 
             gameModel.respawn(currentPlayer, chosenPowerupToDiscard);
 
@@ -85,7 +89,7 @@ public class Controller {
         for(String currentPlayer : gameModel.getPlayerNames()){
             Log.LOGGER.log(Level.INFO, "IT IS {0} FRENZY TURN", currentPlayer);
 
-            //TODO make sure he round continues from the last player
+            //TODO make sure the round continues from the last player
             runTurn(currentPlayer);
         }
 
@@ -135,10 +139,13 @@ public class Controller {
 
     /**
      * Asks the player if he wants to reload any of his weapons
-     * @param player
+     * @param player the player that choose only one of his weapons //todo make the layer reload even other weapons
      */
     private void reloadWeapons(String player) {
-        //TODO
+        ArrayList<Weapon> weaponsThatCanBeReloaded = gameModel.checkRechargeableWeapons(player);
+
+        int chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
+        //todo reload the weapon :)))))))
     }
 
     /**
@@ -155,7 +162,9 @@ public class Controller {
      * @param player the choosing player
      */
     private void useTurnPowerup(String player) {
-        //TODO
+        int chosenPowerup = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerups(player));
+        Powerup powerupToUse = gameModel.getPowerupByIndex(player, chosenPowerup);
+        //todo the problem is that i have to choose the offender if i want to use a powerup in gameModel, row 247
     }
 
     /**

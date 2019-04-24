@@ -129,6 +129,12 @@ public class Weapon {
     public ArrayList<Integer[]> getOrder(){ return new ArrayList<>(order); }
 
     /**
+     * getter for cost arraylist
+     * @return a new copy of cost
+     */
+    public ArrayList<Color> getCost(){ return new ArrayList<>(cost); }
+
+    /**
      * Return true if the weapon can shoot
      * @return if the weapon is loaded
      */
