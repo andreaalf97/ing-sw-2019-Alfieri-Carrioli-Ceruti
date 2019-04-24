@@ -91,7 +91,7 @@ public class Game {
     /**
      * This method sets up all player for the final frenzy turn
      */
-    public void setupForFrenzy() {
+    public void setupForFrenzy(String player) {
         //TODO
     }
 
@@ -193,14 +193,14 @@ public class Game {
     /**
      * Refills all the ammo spots
      */
-    public void refillAmmos(){
+    public void refillAllAmmoSpots(){
         this.gameMap.refillAmmos(this.powerupDeck);
     }
 
     /**
      * Refills all the spawn spots with weapons
      */
-    public void refillSpawns(){
+    public void refillAllSpawnSpots(){
         this.gameMap.refillSpawns(this.weaponDeck);
     }
 
@@ -619,4 +619,9 @@ public class Game {
         }
     }
 
+    public boolean playerIsDead(String player) {
+        Player p = getPlayerByNickname(player);
+
+        return p.isDead();
+    }
 }
