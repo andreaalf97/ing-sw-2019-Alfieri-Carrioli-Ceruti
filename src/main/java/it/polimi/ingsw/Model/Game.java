@@ -91,8 +91,25 @@ public class Game {
     /**
      * This method sets up all player for the final frenzy turn
      */
-    public void setupForFrenzy(String player) {
+    public void setupForFrenzy() {
         //TODO
+    }
+
+    /**
+     * This method checks if any player is dead and counts their boards assigning the right amount of point to each player.
+     * It is usually executed at the end of each turn
+     */
+    public void checkDeaths() {
+        //TODO
+        Log.LOGGER.info("Checking deaths...");
+        Log.LOGGER.info("Done checking deaths");
+    }
+
+    /**
+     * This closes all connections and ends the game
+     */
+    public void endGame() {
+        //TODO review this method
     }
 
     /**
@@ -171,14 +188,14 @@ public class Game {
     /**
      * Refills all the ammo spots
      */
-    public void refillAllAmmoSpots(){
+    public void refillAmmos(){
         this.gameMap.refillAmmos(this.powerupDeck);
     }
 
     /**
      * Refills all the spawn spots with weapons
      */
-    public void refillAllSpawnSpots(){
+    public void refillSpawns(){
         this.gameMap.refillSpawns(this.weaponDeck);
     }
 
@@ -461,11 +478,6 @@ public class Game {
         Player p = this.getPlayerByNickname(player);
 
         return p.getPowerupList();
-    }
-
-    public boolean playerIsDead(String player) {
-        Player p = getPlayerByNickname(player);
-        return p.isDead();
     }
 
     //TODO Think about this method
