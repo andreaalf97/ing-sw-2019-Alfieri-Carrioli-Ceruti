@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cardsPackage.Weapon;
-import it.polimi.ingsw.model.cardsPackage.WeaponDeck;
+import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.model.cards.WeaponDeck;
 
 import org.junit.Assert;
 import org.junit.Test;

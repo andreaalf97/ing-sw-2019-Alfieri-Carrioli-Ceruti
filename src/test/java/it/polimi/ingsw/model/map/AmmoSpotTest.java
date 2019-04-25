@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.mapPackage;
+package it.polimi.ingsw.model.map;
 
-import it.polimi.ingsw.model.cardsPackage.PowerUp;
+import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import org.junit.Assert;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cardsPackage;
+package it.polimi.ingsw.model.cards;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

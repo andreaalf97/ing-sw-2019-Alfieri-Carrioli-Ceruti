@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.cardsPackage.PowerUp;
-import it.polimi.ingsw.model.cardsPackage.Weapon;
+import it.polimi.ingsw.model.cards.PowerUp;
+import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
 import java.util.Observable;

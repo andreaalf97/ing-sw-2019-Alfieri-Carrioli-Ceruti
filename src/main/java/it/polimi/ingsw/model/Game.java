@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cardsPackage.*;
-import it.polimi.ingsw.model.mapPackage.GameMap;
-import it.polimi.ingsw.model.mapPackage.MapBuilder;
-import it.polimi.ingsw.model.mapPackage.MapName;
-import it.polimi.ingsw.model.mapPackage.Visibility;
+import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.map.GameMap;
+import it.polimi.ingsw.model.map.MapBuilder;
+import it.polimi.ingsw.model.map.MapName;
+import it.polimi.ingsw.model.map.Visibility;
 
 import java.util.ArrayList;
 import java.util.Collections;

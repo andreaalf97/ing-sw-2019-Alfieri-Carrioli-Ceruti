@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cardsPackage;
+package it.polimi.ingsw.model.cards;
 
 import org.junit.Assert;
 import org.junit.Test;

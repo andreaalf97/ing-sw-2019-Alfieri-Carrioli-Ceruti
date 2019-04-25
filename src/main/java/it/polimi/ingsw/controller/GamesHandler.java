@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Log;
-import it.polimi.ingsw.model.mapPackage.MapName;
+import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;

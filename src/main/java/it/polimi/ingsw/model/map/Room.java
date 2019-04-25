@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.mapPackage;
+package it.polimi.ingsw.model.map;
 
 public enum Room {
     RUBY,

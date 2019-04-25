@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.mapPackage;
+package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.KillShotTrack;
 import org.junit.Assert;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.mapPackage;
+package it.polimi.ingsw.model.map;
 
 import org.junit.Assert;
 import org.junit.Test;

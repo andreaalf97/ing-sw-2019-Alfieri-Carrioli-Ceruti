@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.cardsPackage.PowerUp;
-import it.polimi.ingsw.model.cardsPackage.Weapon;
+import it.polimi.ingsw.model.cards.PowerUp;
+import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.view.View;

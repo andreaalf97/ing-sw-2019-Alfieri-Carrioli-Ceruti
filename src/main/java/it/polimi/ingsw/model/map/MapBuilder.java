@@ -1,8 +1,8 @@
-package it.polimi.ingsw.model.mapPackage;
+package it.polimi.ingsw.model.map;
 
 import com.google.gson.*;
-import it.polimi.ingsw.model.cardsPackage.PowerUpDeck;
-import it.polimi.ingsw.model.cardsPackage.WeaponDeck;
+import it.polimi.ingsw.model.cards.PowerUpDeck;
+import it.polimi.ingsw.model.cards.WeaponDeck;
 import it.polimi.ingsw.model.Log;
 
 import java.io.FileNotFoundException;
