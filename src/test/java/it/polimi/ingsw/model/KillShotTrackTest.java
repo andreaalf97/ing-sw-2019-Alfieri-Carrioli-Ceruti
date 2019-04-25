@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.map;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.KillShotTrack;
 import org.junit.Assert;
@@ -50,6 +50,61 @@ public class KillShotTrackTest {
         ArrayList<String> ranking2 = new ArrayList<>(kstTest2.getRanking());
 
         Assert.assertEquals(0, ranking2.size());
+    }
+
+    @Test
+    public void noMoreSkullsFalse(){
+
+        ArrayList<String> skullListTest = new ArrayList<>();
+        skullListTest.add("SKULL");
+        skullListTest.add("SKULL");
+        skullListTest.add("SKULL");
+        skullListTest.add("SKULL");
+        skullListTest.add("SKULL");
+
+        KillShotTrack kstTest = new KillShotTrack(skullListTest);
+
+        Assert.assertFalse(kstTest.noMoreSkulls());
+
+    }
+
+    @Test
+    public void noMoreSkullsTrue(){
+
+        ArrayList<String> skullListTest = new ArrayList<>();
+        skullListTest.add("andreaalf");
+        skullListTest.add("ginogino");
+        skullListTest.add("mememe");
+        skullListTest.add("andreaalf");
+        skullListTest.add("andreaalf");
+
+        KillShotTrack kstTest = new KillShotTrack(skullListTest);
+
+        Assert.assertTrue(kstTest.noMoreSkulls());
+
+    }
+
+    @Test
+    public void noMoreSkullsException(){
+
+        ArrayList<String> skullListTest = new ArrayList<>();
+        skullListTest.add("andreaalf");
+        skullListTest.add("SKULL");
+        skullListTest.add("mememe");
+        skullListTest.add("andreaalf");
+        skullListTest.add("andreaalf");
+
+        KillShotTrack kstTest = new KillShotTrack(skullListTest);
+
+        try {
+            kstTest.noMoreSkulls();
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+            return;
+        }
+
+        Assert.fail();
     }
 
 }

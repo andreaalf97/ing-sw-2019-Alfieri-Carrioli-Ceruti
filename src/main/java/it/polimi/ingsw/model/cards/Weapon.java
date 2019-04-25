@@ -146,6 +146,10 @@ public class Weapon {
      * Reloads this weapon
      */
     public void reload(){
+
+        if(this.isLoaded)
+            throw new RuntimeException("This weapon should not be loaded");
+
         this.isLoaded = true;
     }
 
@@ -153,6 +157,10 @@ public class Weapon {
      * after shooting unload the weapon
      */
     public void unload() {
+
+        if(!this.isLoaded)
+            throw new RuntimeException("This weapon should be loaded");
+
         this.isLoaded = false;
     }
 }

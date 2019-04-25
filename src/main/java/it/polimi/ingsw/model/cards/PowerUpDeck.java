@@ -59,6 +59,7 @@ public class PowerUpDeck {
         return new ArrayList<>(powerUpList);
     }
 
+    //TESTED
     /**
      * Draws a card from the deck
      * @return the card picked

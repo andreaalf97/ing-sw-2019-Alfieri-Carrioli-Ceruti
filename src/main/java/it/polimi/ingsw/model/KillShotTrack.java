@@ -36,13 +36,24 @@ public class KillShotTrack {
      * @param nSkulls How many skulls to put on the KST
      */
     public KillShotTrack(int nSkulls){
+
         this.skullList = new ArrayList<>();
         for(int i = 0; i < nSkulls; i++){
             this.skullList.add("SKULL");
         }
+
         this.isOverkill = new ArrayList<>(nSkulls);
     }
 
+    /**
+     * Cnstructor only used in tests
+     */
+    public KillShotTrack(ArrayList<String> skullList){
+        this.skullList = skullList;
+        this.isOverkill = new ArrayList<>(skullList.size());
+    }
+
+    //TESTED
     /**
      * Adds a kill to the KST
      * @param player The player who got the kill
@@ -58,6 +69,7 @@ public class KillShotTrack {
         }
     }
 
+    //TESTED
     /**
      * Returns the names of the Players ordered by the amount of kills
      * @return An arrayList of players nicknames
@@ -110,13 +122,24 @@ public class KillShotTrack {
         return ranking;
     }
 
+    //TESTED
     /**
      * Returns true when all skulls have been removed from the KST
      * @return true when there are no more skulls
      */
     public boolean noMoreSkulls(){
-        if(this.skullList.contains("SKULL")) //If the skullList contains at least one skull
-            return false;
-        return true;
+
+        boolean foundSkull = false;
+
+        //for every string in skullList
+        for(String i : skullList){
+            if(i.equals("SKULL")) //if this is a skull there should not be any player afterward
+                foundSkull = true;
+            else
+                if(foundSkull)
+                    throw new RuntimeException("There should not be any players after a skull");
+        }
+
+        return (!this.skullList.contains("SKULL")); //If the skullList contains at least one skull
     }
 }

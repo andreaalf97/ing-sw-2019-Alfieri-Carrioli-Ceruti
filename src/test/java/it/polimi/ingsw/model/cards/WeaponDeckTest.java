@@ -1,7 +1,4 @@
-package it.polimi.ingsw.model;
-
-import it.polimi.ingsw.model.cards.Weapon;
-import it.polimi.ingsw.model.cards.WeaponDeck;
+package it.polimi.ingsw.model.cards;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +8,7 @@ import java.util.ArrayList;
 public class WeaponDeckTest {
 
     @Test
-    public void pickCard() {
+    public void drawCard() {
 
         ArrayList<Weapon> weaponListTest = new ArrayList<Weapon>();
         Weapon w1 = new Weapon("SledgeHammer");
@@ -23,9 +20,23 @@ public class WeaponDeckTest {
 
         Weapon weaponPicked = weaponDeckTest.drawCard();
 
-        Assert.assertEquals(1, weaponDeckTest.getWeaponList().size());
+        Assert.assertTrue(1 == weaponDeckTest.getWeaponList().size() && weaponPicked.equals(w1));
 
     }
+
+    @Test
+    public void drawCardEmpty() {
+
+        ArrayList<Weapon> weaponListTest = new ArrayList<>();
+
+        WeaponDeck weaponDeckTest = new WeaponDeck(weaponListTest);
+
+        Weapon weaponPicked = weaponDeckTest.drawCard();
+
+        Assert.assertNull(weaponPicked);
+
+    }
+
     @Test
     public void verifyJson(){
         WeaponDeck weaponDeckTest = new WeaponDeck();
