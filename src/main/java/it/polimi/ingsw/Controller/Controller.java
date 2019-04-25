@@ -152,7 +152,7 @@ public class Controller {
             gameModel.reloadWeapon(player, chosenWeapon, weaponsThatCanBeReloaded);
 
             chosenWeapon = -1;
-
+            //keep asking the player if he wants to reload another weapon
             chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
         }
 
@@ -163,7 +163,9 @@ public class Controller {
      * @param player the choosing player
      */
     private void doOneMove(String player) {
-        //TODO
+        int chosenMove = view.askForIndexMoveToDo(player);
+
+        gameModel.executeMove(chosenMove);
     }
 
     /**
@@ -210,7 +212,8 @@ public class Controller {
      * It is usually executed at the end of each turn
      */
     public void checkDeaths() {
-        //TODO
+        gameModel.checkDeaths();
+        //NB the model will assign points, not the controller
     }
 
     /**

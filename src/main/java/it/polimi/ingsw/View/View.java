@@ -48,4 +48,9 @@ public class View extends Observable implements Observer {
         //TODO
         return "NONE";
     }
+
+    public int askForIndexMoveToDo(String player){
+        //TODO ask the move to do to the player and it will be better to do a representation of the map and the players on the map
+        return 0;
+    }
 }

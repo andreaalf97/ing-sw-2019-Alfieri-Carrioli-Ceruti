@@ -101,7 +101,7 @@ public class Game {
      * It is usually executed at the end of each turn
      */
     public void checkDeaths() {
-        //TODO
+        //TODO check deaths and assign the points to the players 
         Log.LOGGER.info("Checking deaths...");
         Log.LOGGER.info("Done checking deaths");
     }
@@ -679,4 +679,9 @@ public class Game {
 
         currentPlayer.reloadWeapon(weaponToReload);
     }
+
+    public void executeMove(int index){
+        //todo 0->move 1->move&grab 2->shoot
+    }
 }
+
