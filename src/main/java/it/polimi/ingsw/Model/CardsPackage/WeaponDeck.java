@@ -3,7 +3,10 @@ package it.polimi.ingsw.Model.CardsPackage;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+import java.util.logging.Level;
+
 import com.google.gson.*;
+import it.polimi.ingsw.Model.Log;
 
 public class WeaponDeck{
 
@@ -34,7 +37,7 @@ public class WeaponDeck{
 
         }
         catch(FileNotFoundException e){
-            e.printStackTrace();
+            Log.LOGGER.log(Level.SEVERE, e.getMessage());
         }
 
 

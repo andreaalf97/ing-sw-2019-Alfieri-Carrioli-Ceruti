@@ -31,7 +31,7 @@ public class WaitingRoom {
      */
     private boolean isReady;
 
-    private final static long TOTALTIME = 2 * 60 * 1000;
+    private final static long TOTALTIME = (long)2 * 60 * 1000;
 
     /**
      * Basic constructor

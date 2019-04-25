@@ -3,13 +3,17 @@ package it.polimi.ingsw.Model.MapPackage;
 import com.google.gson.*;
 import it.polimi.ingsw.Model.CardsPackage.PowerUpDeck;
 import it.polimi.ingsw.Model.CardsPackage.WeaponDeck;
+import it.polimi.ingsw.Model.Log;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class MapBuilder {
+
+    private static Random rand = new Random();
 
     /**
      * This static method reads the necessary values from a JSON file and constructs the new map selected
@@ -20,9 +24,6 @@ public class MapBuilder {
 
         //The Spot matrix I will work on
         Spot[][] tempSpotMatrix = new Spot[3][4];
-
-        //Random number generator
-        Random rand = new Random();
 
         try {
             JsonElement jsonElement = new JsonParser().parse(new FileReader("resources/maps.json"));
@@ -88,7 +89,7 @@ public class MapBuilder {
         }
         catch (FileNotFoundException e){
             //If the file does not exist || we have problems with the file
-            e.printStackTrace();
+            Log.LOGGER.log(Level.SEVERE, e.getMessage());
         }
 
         //The map is created with its PROTECTED constructor

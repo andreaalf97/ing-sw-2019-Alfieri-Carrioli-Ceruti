@@ -2,10 +2,12 @@ package it.polimi.ingsw.Model.CardsPackage;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.Model.Log;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+import java.util.logging.Level;
 
 public class PowerUpDeck {
 
@@ -45,7 +47,7 @@ public class PowerUpDeck {
 
         }
         catch(FileNotFoundException e){
-            e.printStackTrace();
+            Log.LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 

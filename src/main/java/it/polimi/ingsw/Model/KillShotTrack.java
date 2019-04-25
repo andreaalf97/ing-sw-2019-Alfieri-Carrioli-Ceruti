@@ -50,7 +50,7 @@ public class KillShotTrack {
      */
     public void addKill(String player, boolean isOverkill){
         for(int i = 0; i < this.skullList.size(); i++){
-            if(skullList.get(i) == "SKULL"){
+            if( skullList.get(i).equals("SKULL") ){
                 this.skullList.set(i, player);
                 this.isOverkill.add(isOverkill);
                 return;
@@ -70,13 +70,13 @@ public class KillShotTrack {
         for(int i = 0; i < this.skullList.size(); i++){ //For every kill in the KST
 
             String player = this.skullList.get(i);
-            if(player != "SKULL" && !recurrences.containsKey(player)){ //If it is the first time I find this player in the List
+            if(!player.equals("SKULL") && !recurrences.containsKey(player)){ //If it is the first time I find this player in the List
                 if(this.isOverkill.get(i))
                     recurrences.put(player, 2); //IF it was an overkill --> 2 kills
                 else
                     recurrences.put(player, 1); //IF it was not an overkill --> 1 kill
             }
-            else if(player != "SKULL" && recurrences.containsKey(player)){
+            else if(!player.equals("SKULL") && recurrences.containsKey(player)){
                 int tempRec = (int)recurrences.get(player);
                 if(this.isOverkill.get(i))
                     recurrences.put(player, tempRec + 2); //IF it was an overkill

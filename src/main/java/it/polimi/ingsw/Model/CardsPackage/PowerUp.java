@@ -85,7 +85,7 @@ public class PowerUp {
     public boolean isTurnPowerup() {
         //TODO might have to review this
 
-        if(powerupName == "Teleporter" || powerupName == "Newton")
+        if( powerupName.equals("Teleporter") || powerupName.equals("Newton") )
             return true;
 
         return false;

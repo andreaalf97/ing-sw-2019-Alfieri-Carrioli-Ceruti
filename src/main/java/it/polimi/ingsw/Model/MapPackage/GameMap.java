@@ -14,12 +14,15 @@ public class GameMap {
      */
     private Spot[][] map;
 
+    private static Random rand;
+
     /**
      * Only constructor
      * @param spotMatrix
      */
     protected GameMap(Spot[][] spotMatrix){
         this.map = spotMatrix;
+        this.rand = new Random();
     }
 
     /**
@@ -136,7 +139,6 @@ public class GameMap {
             for(int j = 0; j < this.map[i].length; j++){ //For every spot in this map
 
                 if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){ //if this is an ammo spot
-                    Random rand = new Random();
 
                     if(rand.nextInt(1) == 0){
                         this.map[i][j].refill(powerupDeck.drawCard()); //Refills with a powerup
@@ -196,6 +198,9 @@ public class GameMap {
     public boolean[][] wherePlayerCanMove(String player, int nMoves){
 
         int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in 1
+
+        if ( playerSpot == null)
+            throw new RuntimeException("This array shouldn't be null");
 
         int playerSpotX = playerSpot[0]; //The X coord
         int playerSpotY = playerSpot[1]; //The Y coord
@@ -259,6 +264,9 @@ public class GameMap {
     public boolean[][] wherePlayerCanMoveAndGrab(String player, int nMoves) {
         int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in 1
 
+        if(playerSpot == null)
+            throw new RuntimeException("This array shouldn't be null");
+
         int playerSpotX = playerSpot[0]; //The X coord
         int playerSpotY = playerSpot[1]; //The Y coord
 
@@ -307,8 +315,6 @@ public class GameMap {
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
                 if(this.map[i][j].isAmmoSpot()){
-                    //Generate a new Random object
-                    Random rand = new Random();
 
                     //If this is not full, I refill it
                     //The refill method for ammo spots automatically clear all the arrays
