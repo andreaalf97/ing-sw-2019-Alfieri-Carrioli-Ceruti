@@ -7,27 +7,27 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
-public class PowerupDeck{
+public class PowerUpDeck {
 
     /**
      * The list of powerups in this deck
      */
-    private ArrayList<Powerup> powerupList;
+    private ArrayList<PowerUp> powerUpList;
 
     /**
      * Basic constructor used in tests
      */
-    public PowerupDeck(ArrayList<Powerup> powerUpListTemp){
-        this.powerupList = powerUpListTemp;
+    public PowerUpDeck(ArrayList<PowerUp> powerUpListTemp){
+        this.powerUpList = powerUpListTemp;
     }
 
     /**
      * Automatically generates the power up deck from the effects.json file
      *
      */
-    public PowerupDeck()
+    public PowerUpDeck()
     {
-        this.powerupList = new ArrayList<>();
+        this.powerUpList = new ArrayList<>();
 
         try{
             JsonObject jsonDecks = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject();
@@ -38,7 +38,7 @@ public class PowerupDeck{
                 Iterator<String> iterator = keys.iterator();
                 while (iterator.hasNext()) {
                     String powerupName = iterator.next();
-                    this.powerupList.add(new Powerup(powerupName, jsonPowerupsDeck));
+                    this.powerUpList.add(new PowerUp(powerupName, jsonPowerupsDeck));
 
                 }
             }
@@ -53,19 +53,19 @@ public class PowerupDeck{
      * Getter
      * @return the powerup list
      */
-    public ArrayList<Powerup> getPowerupList() {
-        return new ArrayList<>(powerupList);
+    public ArrayList<PowerUp> getPowerUpList() {
+        return new ArrayList<>(powerUpList);
     }
 
     /**
      * Draws a card from the deck
      * @return the card picked
      */
-    public Powerup drawCard(){
-        if (!this.getPowerupList().isEmpty()) {
-            Powerup powerupToPick = powerupList.get(0);
-            powerupList.remove(0);
-            return powerupToPick;
+    public PowerUp drawCard(){
+        if (!this.getPowerUpList().isEmpty()) {
+            PowerUp powerUpToPick = powerUpList.get(0);
+            powerUpList.remove(0);
+            return powerUpToPick;
         }
         else
             return null; //todo should return something in the log? it's better to do a pile of discarded powerup?

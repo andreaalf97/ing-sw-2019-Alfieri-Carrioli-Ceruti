@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.MapPackage;
 
-import it.polimi.ingsw.Model.CardsPackage.Powerup;
+import it.polimi.ingsw.Model.CardsPackage.PowerUp;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.Player;
 import org.junit.Assert;
@@ -15,7 +15,7 @@ public class AmmoSpotTest {
     public void addAmmoWhenSpotIsUnloaded() {
 
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
-        Powerup powerup = new Powerup();
+        PowerUp powerup = new PowerUp();
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
@@ -26,7 +26,7 @@ public class AmmoSpotTest {
     @Test
     public void addAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
-        Powerup powerup = new Powerup();
+        PowerUp powerup = new PowerUp();
 
         ammoColorListTest.add(Color.RED);
         ammoColorListTest.add(Color.RED);
@@ -40,7 +40,7 @@ public class AmmoSpotTest {
     @Test
     public void addAmmoWhenSpotIsAlreadyLoaded(){
         ArrayList<Color> ammoColoListTest = new ArrayList<>();
-        Powerup powerup = new Powerup();
+        PowerUp powerup = new PowerUp();
 
         ammoColoListTest.add(Color.RED);
         ammoColoListTest.add(Color.RED);
@@ -55,7 +55,7 @@ public class AmmoSpotTest {
     @Test
     public  void removeAmmoTrue() {
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
-        Powerup powerup = new Powerup();
+        PowerUp powerup = new PowerUp();
 
         ammoColorListTest.add(Color.RED);
         ammoColorListTest.add(Color.BLUE);
@@ -68,7 +68,7 @@ public class AmmoSpotTest {
     @Test
     public void removeAmmoFalse(){
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
-        Powerup powerup = new Powerup();
+        PowerUp powerup = new PowerUp();
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
         ammoSpotTest.removeAmmo();
@@ -84,7 +84,7 @@ public class AmmoSpotTest {
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().contains(Color.ANY));
 
         AmmoSpot ammoSpotTestWithPowerup = new AmmoSpot();
-        Powerup p1 = new Powerup();
+        PowerUp p1 = new PowerUp();
         ammoSpotTestWithPowerup.refill(p1);
 
         Assert.assertEquals(2,ammoSpotTestWithPowerup.getAmmoColorList().size());
@@ -96,12 +96,12 @@ public class AmmoSpotTest {
     public void grabSomething(){
         AmmoSpot ammoSpotTest = new AmmoSpot();
         Player playerTest = new Player("gino");
-        Powerup p1 = new Powerup();
+        PowerUp p1 = new PowerUp();
         ammoSpotTest.refill(p1);
 
         ammoSpotTest.grabSomething(playerTest);
 
-        Assert.assertEquals(1, playerTest.getPowerupList().size());
+        Assert.assertEquals(1, playerTest.getPowerUpList().size());
 
     }
 }

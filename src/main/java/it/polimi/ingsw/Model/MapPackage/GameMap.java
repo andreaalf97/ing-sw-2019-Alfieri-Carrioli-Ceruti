@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.MapPackage;
 
-import it.polimi.ingsw.Model.CardsPackage.PowerupDeck;
+import it.polimi.ingsw.Model.CardsPackage.PowerUpDeck;
 import it.polimi.ingsw.Model.CardsPackage.WeaponDeck;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.Player;
@@ -129,7 +129,7 @@ public class GameMap {
      * @param weaponDeck the weaponDeck
      * @param powerupDeck the powerupDeck
      */
-    public void refillAllWhenEmpty(WeaponDeck weaponDeck, PowerupDeck powerupDeck){
+    public void refillAllWhenEmpty(WeaponDeck weaponDeck, PowerUpDeck powerupDeck){
 
         for(int i = 0; i < this.map.length; i++)
 
@@ -303,7 +303,7 @@ public class GameMap {
      * This method refills all the ammo spots
      * @param powerupDeck the deck to draw a card from
      */
-    public void refillAmmos(PowerupDeck powerupDeck) {
+    public void refillAmmos(PowerUpDeck powerupDeck) {
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
                 if(this.map[i][j].isAmmoSpot()){

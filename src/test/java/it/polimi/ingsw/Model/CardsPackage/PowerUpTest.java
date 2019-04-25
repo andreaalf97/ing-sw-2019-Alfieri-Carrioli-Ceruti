@@ -3,7 +3,7 @@ package it.polimi.ingsw.Model.CardsPackage;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PowerupTest {
+public class PowerUpTest {
 
     @Test
     public void loadPowerupFromJson() {

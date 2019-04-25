@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import it.polimi.ingsw.Model.Color;
 
 
-public class Powerup {
+public class PowerUp {
 
     /**
      * The name of this powerup
@@ -25,10 +25,19 @@ public class Powerup {
     /**
      *simple constructor used in the tests
      */
-    public Powerup(){
+    public PowerUp(){
         powerupName = null;
         color = null;
         effect = null;
+    }
+
+    /**
+     * Constructor only used in tests
+     */
+    public PowerUp(Color color){
+        this.powerupName = null;
+        this.color = color;
+        this.effect = null;
     }
 
     /**
@@ -53,7 +62,7 @@ public class Powerup {
      * @param powerupName is the name of the powerup
      * @return an instance of the chosen powerup
      */
-    public Powerup(String powerupName, JsonObject jsonPowerupsDeck){
+    public PowerUp(String powerupName, JsonObject jsonPowerupsDeck){
 
         JsonObject jsonPowerupLoaded = jsonPowerupsDeck.get(powerupName).getAsJsonObject(); //jSonPowerupLoaded contains my powerup
         JsonObject jsonPowerupEffect = jsonPowerupLoaded.get("Effect").getAsJsonObject();

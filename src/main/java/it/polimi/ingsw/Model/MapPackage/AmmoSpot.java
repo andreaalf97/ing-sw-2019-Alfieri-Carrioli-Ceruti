@@ -1,9 +1,9 @@
 package it.polimi.ingsw.Model.MapPackage;
 
+import it.polimi.ingsw.Model.CardsPackage.PowerUp;
 import it.polimi.ingsw.Model.Color;
 import it.polimi.ingsw.Model.Log;
 import it.polimi.ingsw.Model.Player;
-import it.polimi.ingsw.Model.CardsPackage.Powerup;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,7 +18,7 @@ public class AmmoSpot extends Spot {
     /**
      * The eventual powerup on this spot
      */
-    private Powerup powerup;
+    private PowerUp powerup;
 
     /**
      * A random seed for refilling this spot
@@ -43,7 +43,7 @@ public class AmmoSpot extends Spot {
      * @param ammoColorList
      * @param powerup
      */
-    public AmmoSpot(ArrayList<Color> ammoColorList, Powerup powerup){
+    public AmmoSpot(ArrayList<Color> ammoColorList, PowerUp powerup){
         super();
         this.ammoColorList = ammoColorList;
         this.powerup = powerup;
@@ -111,7 +111,7 @@ public class AmmoSpot extends Spot {
     public void refill(Object objToAdd){
 
         if(objToAdd != null) {
-            this.powerup = (Powerup)objToAdd;
+            this.powerup = (PowerUp)objToAdd;
 
             this.ammoColorList.clear();
 
@@ -139,7 +139,7 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public void grabSomething(Player player) {
-         if(this.powerup != null) player.givePowerup(powerup);
+         if(this.powerup != null) player.givePowerUp(powerup);
          player.giveAmmos(ammoColorList);
 
          //todo if i give something to the player i have to reload the spot

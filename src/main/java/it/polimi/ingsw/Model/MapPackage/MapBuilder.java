@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model.MapPackage;
 
 import com.google.gson.*;
-import it.polimi.ingsw.Model.CardsPackage.PowerupDeck;
+import it.polimi.ingsw.Model.CardsPackage.PowerUpDeck;
 import it.polimi.ingsw.Model.CardsPackage.WeaponDeck;
 
 import java.io.FileNotFoundException;
@@ -16,7 +16,7 @@ public class MapBuilder {
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static GameMap generateMap(MapName mapName, WeaponDeck weaponDeck, PowerupDeck powerupDeck) {
+    public static GameMap generateMap(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerupDeck) {
 
         //The Spot matrix I will work on
         Spot[][] tempSpotMatrix = new Spot[3][4];

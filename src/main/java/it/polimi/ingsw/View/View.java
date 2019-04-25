@@ -1,6 +1,6 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Model.CardsPackage.Powerup;
+import it.polimi.ingsw.Model.CardsPackage.PowerUp;
 import it.polimi.ingsw.Model.CardsPackage.Weapon;
 
 import java.util.ArrayList;
@@ -30,11 +30,11 @@ public class View extends Observable implements Observer {
         //e.g. It shouldn't tell player X which powerups Player Y has in his hands
     }
 
-    public int askForIndexPowerupToDiscard(String currentPlayer, ArrayList<Powerup> playerPowerups) {
+    public int askForIndexPowerupToDiscard(String currentPlayer, ArrayList<PowerUp> playerPowerUps) {
         //TODO Ask the correct player which powerup he wants to discard and return the index
         return 0;
     }
-    public int askForIndexPowerupToUse(String currentPlayer, ArrayList<Powerup> playerPowerups ){
+    public int askForIndexPowerupToUse(String currentPlayer, ArrayList<PowerUp> playerPowerUps){
         //TODO ask the correct player which powerup he wants to use and return the index
         return 0;
     }

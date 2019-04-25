@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Model.CardsPackage.Powerup;
+import it.polimi.ingsw.Model.CardsPackage.PowerUp;
 import it.polimi.ingsw.Model.CardsPackage.Weapon;
 import it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Log;
@@ -187,16 +187,16 @@ public class Controller {
         while (chosenPowerupIndex != -1) {
 
             //Retrieve the power up from the given index
-            Powerup powerupToUse = gameModel.getPowerupByIndex(player, chosenPowerupIndex);
+            PowerUp powerUpToUse = gameModel.getPowerupByIndex(player, chosenPowerupIndex);
 
             //Finds all players I can attack with this power up
-            ArrayList<String> attackablePlayers = gameModel.getAttackablePlayersPowerup(player, powerupToUse);
+            ArrayList<String> attackablePlayers = gameModel.getAttackablePlayersPowerup(player, powerUpToUse);
 
             //Asks the player which player he wants to use the power up on
             String chosenPlayerName = view.askForPlayerNameToAttackPowerup(attackablePlayers);
 
             //Uses the powerup on the player
-            gameModel.usePowerup(player, chosenPlayerName, powerupToUse);
+            gameModel.usePowerup(player, chosenPlayerName, powerUpToUse);
 
             chosenPowerupIndex = -1;
             if(gameModel.playerHasTurnPowerup(player))

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Model.CardsPackage.PowerUp;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -64,11 +65,6 @@ public class PlayerTest {
         playerTest.setDamages(offenders);
 
         Assert.assertTrue(playerTest.getOffendersRanking().isEmpty());
-    }
-
-
-    @Test
-    public void canAttack() {
     }
 
     @Test
@@ -193,5 +189,200 @@ public class PlayerTest {
         Assert.assertFalse(
                 testPlayer.canGiveMarks("Player1", 4) //asserting that player1 CAN'T give marks to andreaalf
         );
+    }
+
+    @Test
+    public void isDead(){
+        Player testPlayer = new Player("andreaalf");
+        testPlayer.setIsDead(true);
+
+        Assert.assertTrue(testPlayer.isDead());
+    }
+
+    @Test
+    public void kill(){
+        Player testPlayer = new Player("andreaalf");
+
+        testPlayer.setIsDead(false);
+
+        testPlayer.kill();
+
+        Assert.assertTrue(testPlayer.isDead());
+    }
+
+    @Test
+    public void killException(){
+        Player testPlayer = new Player("andreaalf");
+
+        try{
+            testPlayer.kill();
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+            return;
+        }
+
+        Assert.fail();
+    }
+
+    @Test
+    public void giveAmmosRegular(){
+        Player testPlayer = new Player("andreaalf");
+
+        testPlayer.setnBlueAmmo(0);
+        testPlayer.setnRedAmmo(0);
+        testPlayer.setnYellowAmmo(0);
+
+        ArrayList<Color> ammos = new ArrayList<>();
+        ammos.add(Color.BLUE);
+        ammos.add(Color.RED);
+        ammos.add(Color.YELLOW);
+
+        testPlayer.giveAmmos(ammos);
+
+        Assert.assertTrue(testPlayer.getnBlueAmmo() == 1 && testPlayer.getnRedAmmo() == 1 && testPlayer.getnYellowAmmo() == 1);
+    }
+
+    @Test
+    public void giveAmmosUntilFull(){
+        Player testPlayer = new Player("andreaalf");
+
+        testPlayer.setnBlueAmmo(0);
+        testPlayer.setnRedAmmo(0);
+        testPlayer.setnYellowAmmo(0);
+
+        ArrayList<Color> ammos = new ArrayList<>();
+        ammos.add(Color.BLUE);
+        ammos.add(Color.BLUE);
+        ammos.add(Color.BLUE);
+
+        testPlayer.giveAmmos(ammos);
+
+        Assert.assertTrue(testPlayer.getnBlueAmmo() == 3 && testPlayer.getnRedAmmo() == 0 && testPlayer.getnYellowAmmo() == 0);
+    }
+
+    @Test
+    public void giveAmmosOverflow(){
+        Player testPlayer = new Player("andreaalf");
+
+        testPlayer.setnBlueAmmo(2);
+        testPlayer.setnRedAmmo(0);
+        testPlayer.setnYellowAmmo(0);
+
+        ArrayList<Color> ammos = new ArrayList<>();
+        ammos.add(Color.BLUE);
+        ammos.add(Color.BLUE);
+        ammos.add(Color.BLUE);
+
+        testPlayer.giveAmmos(ammos);
+
+        Assert.assertTrue(testPlayer.getnBlueAmmo() == 3 && testPlayer.getnRedAmmo() == 0 && testPlayer.getnYellowAmmo() == 0);
+    }
+
+    @Test
+    public void givePowerUpToEmptyWallet(){
+        Player testPlayer = new Player("andreaalf");
+
+        PowerUp testPowerUp = new PowerUp();
+
+        testPlayer.givePowerUp(testPowerUp);
+        testPlayer.givePowerUp(testPowerUp);
+
+        ArrayList<PowerUp> assertList = new ArrayList<>();
+        assertList.add(testPowerUp);
+        assertList.add(testPowerUp);
+
+        Assert.assertEquals(testPlayer.getPowerUpList(), assertList);
+
+    }
+
+    @Test
+    public void givePowerUpToFullWallet(){
+        Player testPlayer = new Player("andreaalf");
+
+        PowerUp testPowerUp = new PowerUp();
+
+        testPlayer.givePowerUp(testPowerUp);
+        testPlayer.givePowerUp(testPowerUp);
+        testPlayer.givePowerUp(testPowerUp);
+
+        try {
+            testPlayer.givePowerUp(testPowerUp);
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+            return;
+        }
+
+        Assert.fail();
+    }
+
+    @Test
+    public void discardPowerUpByIndex(){
+        Player testPlayer = new Player("andreaalf");
+
+        PowerUp testPowerUpRed = new PowerUp(Color.RED);
+        PowerUp testPowerUp = new PowerUp();
+
+
+        testPlayer.givePowerUp(testPowerUp);
+        testPlayer.givePowerUp(testPowerUpRed);
+        testPlayer.givePowerUp(testPowerUp);
+
+        Color returnColor = testPlayer.discardPowerUpByIndex(1);
+
+        ArrayList<PowerUp> testList = new ArrayList<>();
+        testList.add(testPowerUp);
+        testList.add(testPowerUp);
+
+        Assert.assertTrue(testPlayer.getPowerUpList().equals(testList) && returnColor == Color.RED);
+    }
+
+    @Test
+    public void discardPowerUpByIndexException(){
+        Player testPlayer = new Player("andreaalf");
+
+        PowerUp testPowerUp = new PowerUp();
+
+        testPlayer.givePowerUp(testPowerUp);
+        testPlayer.givePowerUp(testPowerUp);
+
+        try {
+            testPlayer.discardPowerUpByIndex(2);
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+            return;
+        }
+
+        Assert.fail();
+    }
+
+    @Test
+    public void reviveRegular(){
+        Player testPlayer = new Player("andreaalf");
+
+        testPlayer.setIsDead(true);
+
+        testPlayer.revive();
+
+        Assert.assertFalse(testPlayer.isDead());
+    }
+
+    @Test
+    public void reviveException(){
+        Player testPlayer = new Player("andreaalf");
+
+        testPlayer.setIsDead(false);
+
+        try {
+            testPlayer.revive();
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+            return;
+        }
+
+        Assert.fail();
     }
 }

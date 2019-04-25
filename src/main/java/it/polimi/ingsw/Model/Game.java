@@ -37,9 +37,9 @@ public class Game {
     private GameMap gameMap;
 
     /**
-     * This object initially contains all the Powerup cards
+     * This object initially contains all the PowerUp cards
      */
-    private PowerupDeck powerupDeck;
+    private PowerUpDeck powerupDeck;
 
     /**
      * This object initially contains all the Weapon cards
@@ -68,7 +68,7 @@ public class Game {
     public Game(ArrayList<String> playerNames, MapName chosenMap, int nSkulls){
         this.players = new ArrayList<>();
         this.playerNames = playerNames;
-        this.powerupDeck = new PowerupDeck();
+        this.powerupDeck = new PowerUpDeck();
         this.weaponDeck = new WeaponDeck();
         this.numOfPlayers = playerNames.size();
 
@@ -86,7 +86,7 @@ public class Game {
     public void givePowerup(String player) {
 
         Player p = getPlayerByNickname(player);
-        p.givePowerup(this.powerupDeck.drawCard());
+        p.givePowerUp(this.powerupDeck.drawCard());
     }
 
     /**
@@ -181,7 +181,7 @@ public class Game {
         if(!p.isDead())
             throw new RuntimeException("The player you want to respawn is not dead!");
 
-        Color discardedColor = p.discardPowerupByIndex(powerupIndexToDiscard);
+        Color discardedColor = p.discardPowerUpByIndex(powerupIndexToDiscard);
 
         p.revive();
         movePlayerToSpawnColor(player, discardedColor);
@@ -450,11 +450,6 @@ public class Game {
 
     private Player getPlayerByNickname(String nickname){
 
-        /*
-        if(!playerNames.contains(nickname))
-            throw new RuntimeException("This player does not exist");
-        */
-
         return players.get(playerNames.indexOf(nickname));
     }
 
@@ -466,14 +461,14 @@ public class Game {
         return this.kst.noMoreSkulls();
     }
 
-    public ArrayList<Powerup> getPlayerPowerups(String player) {
+    public ArrayList<PowerUp> getPlayerPowerups(String player) {
 
         Player p = this.getPlayerByNickname(player);
 
-        return p.getPowerupList();
+        return p.getPowerUpList();
     }
 
-    public void usePowerup(String offenderName, String defenderName, Powerup powerup) {
+    public void usePowerup(String offenderName, String defenderName, PowerUp powerup) {
 
         Player offender = getPlayerByNickname(offenderName);
         Player defender = getPlayerByNickname(defenderName);
@@ -616,9 +611,9 @@ public class Game {
      * @param index index of the powerup
      * @return the powerup corresponding to index
      */
-    public Powerup getPowerupByIndex(String player, int index){
+    public PowerUp getPowerupByIndex(String player, int index){
         Player currentPlayer = getPlayerByNickname(player);
-        return currentPlayer.getPowerupList().get(index);
+        return currentPlayer.getPowerUpList().get(index);
     }
 
     /**
@@ -663,7 +658,7 @@ public class Game {
         return false;
     }
 
-    public ArrayList<String> getAttackablePlayersPowerup(String player, Powerup powerupToUse) {
+    public ArrayList<String> getAttackablePlayersPowerup(String player, PowerUp powerUpToUse) {
         //TODO
         return new ArrayList<>();
     }
@@ -674,6 +669,7 @@ public class Game {
      * @param index
      */
     public void reloadWeapon(String player, int index, ArrayList<Weapon> rechargeableWeapons){
+        //TODO Talk about this with gino
         Player currentPlayer = getPlayerByNickname(player);
         Weapon weaponToReload = rechargeableWeapons.get(index);
 

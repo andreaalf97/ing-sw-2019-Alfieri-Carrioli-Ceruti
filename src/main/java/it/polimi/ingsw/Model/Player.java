@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.CardsPackage.Powerup;
+import it.polimi.ingsw.Model.CardsPackage.PowerUp;
 import it.polimi.ingsw.Model.CardsPackage.Weapon;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class Player {
     /**
      * The list of the player's powerups
      */
-    private ArrayList<Powerup> powerupList;
+    private ArrayList<PowerUp> powerUpList;
 
     /**
      * The list of player's nickanames who hurt this player
@@ -99,7 +99,7 @@ public class Player {
         this.nBlueAmmo = 1;
         this.points = 0;
         this.weaponList = new ArrayList<>(3);
-        this.powerupList = new ArrayList<>(3);
+        this.powerUpList = new ArrayList<>(3);
         this.damages = new ArrayList<>(12);
         this.marks = new ArrayList<>(12);
         this.nDeaths = 0;
@@ -120,56 +120,58 @@ public class Player {
 
     //SETS AND GETS
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    public void setDamages(ArrayList<String> damages){ this.damages = damages; }
-    public ArrayList<String> getDamages(){ return this.damages; }
-    public void setMarks(ArrayList<String> marks){ this.marks = marks; }
-    public ArrayList<String> getMarks(){ return this.marks; }
-    public void setPoints(int points){ this.points = points; }
-    public int getPoints(){ return this.points; }
-    public String getNickname() {
+    protected void setIsDead(boolean isDead){ this.isDead = isDead; }
+    protected void setDamages(ArrayList<String> damages){ this.damages = damages; }
+    protected ArrayList<String> getDamages(){ return this.damages; }
+    protected void setMarks(ArrayList<String> marks){ this.marks = marks; }
+    protected ArrayList<String> getMarks(){ return this.marks; }
+    protected void setPoints(int points){ this.points = points; }
+    protected int getPoints(){ return this.points; }
+    protected String getNickname() {
         return nickname;
     }
     public int getnRedAmmo() {
         return nRedAmmo;
     }
-    public void setnRedAmmo(int nRedAmmo) {
+    protected void setnRedAmmo(int nRedAmmo) {
         this.nRedAmmo = nRedAmmo;
     }
     public int getnBlueAmmo() {
         return nBlueAmmo;
     }
-    public void setnBlueAmmo(int nBlueAmmo) {
+    protected void setnBlueAmmo(int nBlueAmmo) {
         this.nBlueAmmo = nBlueAmmo;
     }
     public int getnYellowAmmo() {
         return nYellowAmmo;
     }
-    public void setnYellowAmmo(int nYellowAmmo) {
+    protected void setnYellowAmmo(int nYellowAmmo) {
         this.nYellowAmmo = nYellowAmmo;
     }
-    public ArrayList<Weapon> getWeaponList() {
+    protected ArrayList<Weapon> getWeaponList() {
         return weaponList;
     }
-    public ArrayList<Powerup> getPowerupList() {
-        return new ArrayList<>(powerupList);
+    public ArrayList<PowerUp> getPowerUpList() {
+        return new ArrayList<>(powerUpList);
     }
-    public int getnDeaths() {
+    protected int getnDeaths() {
         return nDeaths;
     }
-    public int getxPosition() {
+    protected int getxPosition() {
         return xPosition;
     }
-    public int getyPosition() {
+    protected int getyPosition() {
         return yPosition;
     }
-    public int getnMovesBeforeGrabbing() {
+    protected int getnMovesBeforeGrabbing() {
         return nMovesBeforeGrabbing;
     }
-    public int getnMovesBeforeShooting() {
+    protected int getnMovesBeforeShooting() {
         return nMovesBeforeShooting;
     }
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+    //TESTED
     /**
      * Return the list of offenders nicknames ordered by the amount of damages
      * @return The list of offenders
@@ -200,7 +202,7 @@ public class Player {
         return tempNames;
     }        /*return players who gave damages to this.player in order(in 0 highest damage)*/
 
-
+    //TESTED
     /**
      * Gives the required amount of damages to this player
      * @param player The offender's nickname
@@ -212,6 +214,7 @@ public class Player {
         }
     }
 
+    //TESTED
     /**
      * Returns true only if a player can give n marks to this player.
      * (Every player can only have 3 marks by another player)
@@ -233,6 +236,7 @@ public class Player {
         return (counter + nMarks <= 3);
     }
 
+    //TESTED
     /**
      * Gives marks to this player
      * @param player the offender
@@ -248,6 +252,7 @@ public class Player {
             marks.add(player);
     }
 
+    //TESTED
     /**
      * Gives points to this player
      * @param n The amount of points
@@ -258,20 +263,25 @@ public class Player {
         points += n;
     }
 
+    //TESTED
     /**
      * True if this player is dead
      * @return true if this player is dead
      */
     public boolean isDead(){return this.isDead;}
 
+    //TESTED
     /**
      * Adds the weapon to the player's weaponList
      * @param weapon Weapon to add
      */
     public void giveWeapon(Weapon weapon){
+        if(weaponList.size() > 2)
+            throw new RuntimeException("This player can't receive any more weapons");
         weaponList.add(weapon);
     }
 
+    //TESTED
     /**
      * Gives ammos to this player
      * @param ammos An array of Colors to be given to this player
@@ -293,33 +303,43 @@ public class Player {
         }
     }
 
+    //TESTED
     /**
      * Gives a powerup to this player
      * @param powerup the powerup to be given
      */
-    public void givePowerup(Powerup powerup){
-        if(powerupList.size() < 3) powerupList.add(powerup);
+    public void givePowerUp(PowerUp powerup){
+
+        if(powerUpList.size() > 2)
+            throw new RuntimeException("This player already has 3 power up");
+
+        powerUpList.add(powerup);
     }
 
+    //TESTED
     /**
      * Discards a powerup by the index and return its color
-     * @param powerupIndexToDiscard the index of the powerup in the array
+     * @param powerUpIndexToDiscard the index of the powerup in the array
      * @return the color of the powerup
      */
-    public Color discardPowerupByIndex(int powerupIndexToDiscard) {
+    public Color discardPowerUpByIndex(int powerUpIndexToDiscard) {
+
+        if(powerUpIndexToDiscard < 0 || powerUpIndexToDiscard >= this.powerUpList.size())
+            throw new RuntimeException("powerUpIndexToDiscard is out of bound");
 
         //Extracts the powerup from the list by its index
-        Powerup powerupToDiscard = this.powerupList.get(powerupIndexToDiscard);
+        PowerUp powerUpToDiscard = this.powerUpList.get(powerUpIndexToDiscard);
 
         //Reads the color from this powerup
-        Color returnColor = powerupToDiscard.getColor();
+        Color returnColor = powerUpToDiscard.getColor();
 
         //Removing the powerup from the list
-        this.powerupList.remove(powerupToDiscard);
+        this.powerUpList.remove(powerUpToDiscard);
 
         return returnColor;
     }
 
+    //TESTED
     public void revive() {
         if(!this.isDead)
             throw new RuntimeException("This player needs to be dead to be revived!");
@@ -327,18 +347,30 @@ public class Player {
         this.isDead = false;
     }
 
+    //TESTED
+    /**
+     * Kills this player if he's not already dead
+     */
+    public void kill(){
+        if(isDead == true)
+            throw new RuntimeException("This player is already dead!");
+        this.isDead = true;
+    }
+
+    //TODO test
     /**
      * Tells if the player has a turn power up in his hand
      */
     public boolean hasTurnPowerup() {
 
-        for(Powerup i : powerupList)
+        for(PowerUp i : powerUpList)
             if(i.isTurnPowerup())
                 return true;
 
         return false;
     }
 
+    //TODO test
     /**
      * this method reload a weapon that i am sure i can reload, see reloadWeapons in Controller.java
      * @param weaponToReload the weapon that the player wants to reload
@@ -348,16 +380,17 @@ public class Player {
 
         for (int i = 0; i < this.getWeaponList().size(); i++) {
 
-            if (this.getWeaponList().get(i).equals(weaponToReload)) { // this is the weapons that i want to reload
+            if (weaponList.get(i).equals(weaponToReload)) { // this is the weapons that i want to reload
 
-                //first i take the ammo from the player
-                this.nBlueAmmo = this.nBlueAmmo - Collections.frequency(cost, Color.BLUE);
-                this.nRedAmmo = this.nRedAmmo - Collections.frequency(cost, Color.RED);
-                this.nYellowAmmo = this.nYellowAmmo - Collections.frequency(cost, Color.YELLOW);
+                //first I take the ammo from the player
+                this.nBlueAmmo -= Collections.frequency(cost, Color.BLUE);
+                this.nRedAmmo -= Collections.frequency(cost, Color.RED);
+                this.nYellowAmmo -= Collections.frequency(cost, Color.YELLOW);
 
                 //reload the weapon
                 this.weaponList.get(i).reload(); //todo is this right?
             }
         }
     }
+
 }
