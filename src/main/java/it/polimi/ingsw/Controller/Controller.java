@@ -138,13 +138,24 @@ public class Controller {
 
     /**
      * Asks the player if he wants to reload any of his weapons
-     * @param player the player that choose only one of his weapons //todo make the layer reload even other weapons
+     * @param player the player that choose only one of his weapons
      */
     private void reloadWeapons(String player) {
+        //check all the weapons unloaded
         ArrayList<Weapon> weaponsThatCanBeReloaded = gameModel.checkRechargeableWeapons(player);
+        int chosenWeapon = -1; //this will be the index of the weapons to load
 
-        int chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
-        //todo reload the weapon :)))))))
+        //ask the index of the weapon that the user wants to reload
+        chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
+
+        while (chosenWeapon != -1){
+            gameModel.reloadWeapon(player, chosenWeapon, weaponsThatCanBeReloaded);
+
+            chosenWeapon = -1;
+
+            chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
+        }
+
     }
 
     /**

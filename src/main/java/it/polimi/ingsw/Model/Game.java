@@ -611,26 +611,40 @@ public class Game {
         return p.isDead();
     }
 
-
- // methods added by gino for controller communication with model
+    /**
+     * @param player is the current player
+     * @param index index of the powerup
+     * @return the powerup corresponding to index
+     */
     public Powerup getPowerupByIndex(String player, int index){
         Player currentPlayer = getPlayerByNickname(player);
         return currentPlayer.getPowerupList().get(index);
     }
+
+    /**
+     * check the weapons that player has unloaded
+     * @param player the player to check
+     * @return an arraylist of the weapons unloaded
+     */
 
     public ArrayList<Weapon> checkRechargeableWeapons (String player){
         Player currentPlayer = getPlayerByNickname(player);
         ArrayList<Weapon> rechargeableWeapons = new ArrayList<>();
 
         for (int i = 0; i < currentPlayer.getWeaponList().size(); i++){
-            ArrayList<Color> weaponCost = currentPlayer.getWeaponList().get(i).getCost();
+            //first i need the cost of the weapon unloaded
+            if (!currentPlayer.getWeaponList().get(i).isLoaded()) {
+                ArrayList<Color> weaponCost = currentPlayer.getWeaponList().get(i).getCost();
 
-            int nRedAmmoWeapon = Collections.frequency(weaponCost, Color.RED);
-            int nBlueAmmoWeapon = Collections.frequency(weaponCost, Color.BLUE);
-            int nYellowAmmoWeapon = Collections.frequency(weaponCost, Color.YELLOW);
+                //cost of the weapon divided
+                int nRedAmmoWeapon = Collections.frequency(weaponCost, Color.RED);
+                int nBlueAmmoWeapon = Collections.frequency(weaponCost, Color.BLUE);
+                int nYellowAmmoWeapon = Collections.frequency(weaponCost, Color.YELLOW);
 
-            if (nRedAmmoWeapon < currentPlayer.getnRedAmmo() && nYellowAmmoWeapon < currentPlayer.getnYellowAmmo() && nBlueAmmoWeapon < currentPlayer.getnBlueAmmo())
-                rechargeableWeapons.add(currentPlayer.getWeaponList().get(i));
+                //add in the list the weapons that the player can reload with his ammo
+                if (nRedAmmoWeapon < currentPlayer.getnRedAmmo() && nYellowAmmoWeapon < currentPlayer.getnYellowAmmo() && nBlueAmmoWeapon < currentPlayer.getnBlueAmmo())
+                    rechargeableWeapons.add(currentPlayer.getWeaponList().get(i));
+            }
         }
 
         return rechargeableWeapons;
@@ -654,5 +668,15 @@ public class Game {
         return new ArrayList<>();
     }
 
+    /**
+     * reload the weapon of the player corresponding to index , i am sure that i can reload that weapon -> see ReloadWeapon in Controller.java
+     * @param player
+     * @param index
+     */
+    public void reloadWeapon(String player, int index, ArrayList<Weapon> rechargeableWeapons){
+        Player currentPlayer = getPlayerByNickname(player);
+        Weapon weaponToReload = rechargeableWeapons.get(index);
 
+        currentPlayer.reloadWeapon(weaponToReload);
+    }
 }

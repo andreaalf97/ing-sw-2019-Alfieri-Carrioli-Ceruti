@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.CardsPackage.Powerup;
 import it.polimi.ingsw.Model.CardsPackage.Weapon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class Player {
@@ -336,5 +337,27 @@ public class Player {
                 return true;
 
         return false;
+    }
+
+    /**
+     * this method reload a weapon that i am sure i can reload, see reloadWeapons in Controller.java
+     * @param weaponToReload the weapon that the player wants to reload
+     */
+    public void reloadWeapon (Weapon weaponToReload){
+        ArrayList<Color> cost = weaponToReload.getCost();
+
+        for (int i = 0; i < this.getWeaponList().size(); i++) {
+
+            if (this.getWeaponList().get(i).equals(weaponToReload)) { // this is the weapons that i want to reload
+
+                //first i take the ammo from the player
+                this.nBlueAmmo = this.nBlueAmmo - Collections.frequency(cost, Color.BLUE);
+                this.nRedAmmo = this.nRedAmmo - Collections.frequency(cost, Color.RED);
+                this.nYellowAmmo = this.nYellowAmmo - Collections.frequency(cost, Color.YELLOW);
+
+                //reload the weapon
+                this.weaponList.get(i).reload(); //todo is this right?
+            }
+        }
     }
 }

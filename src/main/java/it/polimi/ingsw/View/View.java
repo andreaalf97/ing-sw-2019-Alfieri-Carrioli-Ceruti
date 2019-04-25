@@ -40,7 +40,7 @@ public class View extends Observable implements Observer {
     }
 
     public int askForIndexWeaponToReload(ArrayList <Weapon> rechargeableWeapons){
-        //TODO ask the correct player which weapon he wants to reload and return the index
+        //TODO  return -1 if i don't want to reload, otherwise i return the index of the weapon that i want to reload
         return 0;
     }
 
