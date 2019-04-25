@@ -1,0 +1,4 @@
+mvn sonar:sonar \
+-Dsonar.projectKey=it.polimi.ingsw:AM29 \
+-Dsonar.host.url=http://localhost:9000 \
+-Dsonar.login=e5ddfab8a72db925fff8d196a77dc00672f751af
