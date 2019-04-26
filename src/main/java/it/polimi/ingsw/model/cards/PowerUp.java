@@ -9,7 +9,7 @@ public class PowerUp {
     /**
      * The name of this powerup
      */
-    private String powerupName;
+    private String powerUpName;
 
     /**
      * The color of this powerup (they can be discarded as ammos)
@@ -26,7 +26,7 @@ public class PowerUp {
      *simple constructor used in the tests
      */
     public PowerUp(){
-        powerupName = null;
+        powerUpName = null;
         color = null;
         effect = null;
     }
@@ -35,7 +35,7 @@ public class PowerUp {
      * Constructor only used in tests
      */
     public PowerUp(Color color){
-        this.powerupName = null;
+        this.powerUpName = null;
         this.color = color;
         this.effect = null;
     }
@@ -50,26 +50,26 @@ public class PowerUp {
 
     /**
      * Getter
-     * @return this.powerupName
+     * @return this.powerUpName
      */
-    public String getPowerupName() {
-        //Can return this.powerupName because String is an immutable object
-        return this.powerupName;
+    public String getPowerUpName() {
+        //Can return this.powerUpName because String is an immutable object
+        return this.powerUpName;
     }
 
     /**
      * this method return a powerup from the input JsonObject
-     * @param powerupName is the name of the powerup
+     * @param powerUpName is the name of the powerup
      * @return an instance of the chosen powerup
      */
-    public PowerUp(String powerupName, JsonObject jsonPowerupsDeck){
+    public PowerUp(String powerUpName, JsonObject jsonPowerupsDeck){
 
-        JsonObject jsonPowerupLoaded = jsonPowerupsDeck.get(powerupName).getAsJsonObject(); //jSonPowerupLoaded contains my powerup
+        JsonObject jsonPowerupLoaded = jsonPowerupsDeck.get(powerUpName).getAsJsonObject(); //jSonPowerupLoaded contains my powerup
         JsonObject jsonPowerupEffect = jsonPowerupLoaded.get("Effect").getAsJsonObject();
 
         Effect effectTemp = new Effect(jsonPowerupEffect); //here i load an effect loading all its attributes from the json
 
-        this.powerupName = powerupName;
+        this.powerUpName = powerUpName;
         this.effect = effectTemp;
         this.color = Color.randomColor();
     }
@@ -85,7 +85,7 @@ public class PowerUp {
     public boolean isTurnPowerup() {
         //TODO might have to review this
 
-        if( powerupName.equals("Teleporter") || powerupName.equals("Newton") )
+        if( powerUpName.equals("Teleporter") || powerUpName.equals("Newton") )
             return true;
 
         return false;

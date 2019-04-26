@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.cards;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.map.Visibility;
 
 import java.util.ArrayList;
 

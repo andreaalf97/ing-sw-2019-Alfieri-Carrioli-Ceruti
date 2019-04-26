@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.model.map.Visibility;
+import it.polimi.ingsw.model.cards.Visibility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,11 +71,27 @@ public class Game {
         this.kst = new KillShotTrack(nSkulls);
     }
 
+    //##########################################################################################################
+
+    public ArrayList<String> getPlayerNames() {
+        return new ArrayList<>(this.playerNames);
+    }
+
+    public ArrayList<PowerUp> getPlayerPowerUps(String player) {
+
+        Player p = this.getPlayerByNickname(player);
+
+        return p.getPowerUpList();
+    }
+
+    //##########################################################################################################
+
+
     /**
      * Gives a randomly picked powerup to the player
      * @param player the player who's receiving the powerup
      */
-    public void givePowerup(String player) {
+    public void givePowerUp(String player) {
 
         Player p = getPlayerByNickname(player);
         p.givePowerUp(this.powerupDeck.drawCard());
@@ -103,31 +119,6 @@ public class Game {
         Log.LOGGER.info("Checking deaths...");
         Log.LOGGER.info("Done checking deaths");
     }
-
-    /**
-     * This closes all connections and ends the game
-     */
-    public void endGame() {
-        //TODO review this method
-    }
-
-    /**
-     * This method runs the entire turn of a single player
-     * @param currentPlayer The nickname of the current player
-     */
-    public void runTurn(String currentPlayer){}
-
-    /**
-     * Draws a weapon from the powerup deck and gives it a player
-     * @param player the nickname of player who's receiving the card
-     */
-    public void drawPowerupToPlayer(String player){}
-
-    /**
-     * Allows the player to discard a powerup card and choose their new Spawn spot
-     * @param indexToDiscard the index in the player's ArrayList of card to be discarded
-     */
-    public void restartFromSpawnPoint(int indexToDiscard) {}
 
     /**
      * Gives the chosen weapon to a player
@@ -217,7 +208,7 @@ public class Game {
      * @param x the position of the spot on the x-axis
      * @param y the position of the spot on the y-axis
      */
-    public void movePlayer(String player, int x, int y){
+    protected void movePlayer(String player, int x, int y){
 
         Player p = getPlayerByNickname(player);
 
@@ -240,7 +231,7 @@ public class Game {
      * @param defendersNames Attacked player
      * @param weapon Shooting weapon
      */
-    public void shootPlayer(String offenderName, ArrayList<String> defendersNames, Weapon weapon){
+    protected void shootPlayer(String offenderName, ArrayList<String> defendersNames, Weapon weapon){
 
         Player offender = getPlayerByNickname(offenderName);
         ArrayList<Player> defenders = new ArrayList<>();
@@ -453,7 +444,6 @@ public class Game {
         weapon.unload();
     }
 
-
     /**
      * Clears the Kill Shot Track and gives points to all players involved
      */
@@ -475,22 +465,11 @@ public class Game {
         return players.get(playerNames.indexOf(nickname));
     }
 
-    public ArrayList<String> getPlayerNames() {
-        return new ArrayList<>(this.playerNames);
-    }
-
     public boolean noMoreSkullsOnKST() {
         return this.kst.noMoreSkulls();
     }
 
-    public ArrayList<PowerUp> getPlayerPowerups(String player) {
-
-        Player p = this.getPlayerByNickname(player);
-
-        return p.getPowerUpList();
-    }
-
-    public void usePowerup(String offenderName, String defenderName, PowerUp powerup) {
+    public void usePowerUp(String offenderName, String defenderName, PowerUp powerup) {
 
         Player offender = getPlayerByNickname(offenderName);
         Player defender = getPlayerByNickname(defenderName);
@@ -672,15 +651,15 @@ public class Game {
      * @param player the player to chech
      * @return
      */
-    public boolean playerHasTurnPowerup(String player) {
+    public boolean playerHasTurnPowerUp(String player) {
         Player p = getPlayerByNickname(player);
 
-        if(p.hasTurnPowerup())
+        if(p.hasTurnPowerUp())
             return true;
         return false;
     }
 
-    public ArrayList<String> getAttackablePlayersPowerup(String player, PowerUp powerUpToUse) {
+    public ArrayList<String> getAttackablePlayersPowerUp(String player, PowerUp powerUpToUse) {
         //TODO
         return new ArrayList<>();
     }
@@ -716,6 +695,7 @@ public class Game {
 
     public void executeMove(int index){
         //todo 0->move 1->move&grab 2->shoot
+        //might be better to create an enum for this
     }
 
     protected void revive(String playerName) {

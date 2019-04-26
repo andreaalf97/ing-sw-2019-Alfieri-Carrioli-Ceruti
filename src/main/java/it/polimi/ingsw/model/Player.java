@@ -361,7 +361,7 @@ public class Player {
     /**
      * Tells if the player has a turn power up in his hand
      */
-    public boolean hasTurnPowerup() {
+    public boolean hasTurnPowerUp() {
 
         for(PowerUp i : powerUpList)
             if(i.isTurnPowerup())
@@ -377,6 +377,10 @@ public class Player {
     public void reloadWeapon (int index){
 
         Weapon weaponToReload = this.weaponList.get(index);
+
+        if(weaponToReload == null)
+            throw new IllegalArgumentException("No index found");
+
         ArrayList<Color> cost = weaponToReload.getCost();
 
 

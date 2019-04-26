@@ -50,10 +50,10 @@ public class Controller {
 
             //Spawn player by choosing 2 powerups!
             //At this point the player should have nothing in his hands
-            gameModel.givePowerup(currentPlayer);
-            gameModel.givePowerup(currentPlayer);
+            gameModel.givePowerUp(currentPlayer);
+            gameModel.givePowerUp(currentPlayer);
 
-            int chosenPowerupToDiscard = this.view.askForIndexPowerupToDiscard(currentPlayer, this.gameModel.getPlayerPowerups(currentPlayer));
+            int chosenPowerupToDiscard = this.view.askForIndexPowerupToDiscard(currentPlayer, this.gameModel.getPlayerPowerUps(currentPlayer));
 
             gameModel.respawn(currentPlayer, chosenPowerupToDiscard);
 
@@ -105,8 +105,8 @@ public class Controller {
 
         //If player is dead, respawn
         if(gameModel.playerIsDead(currentPlayer)){
-            gameModel.givePowerup(currentPlayer);
-            int chosenPowerUpToDiscard = view.askForIndexPowerupToDiscard(currentPlayer, gameModel.getPlayerPowerups(currentPlayer));
+            gameModel.givePowerUp(currentPlayer);
+            int chosenPowerUpToDiscard = view.askForIndexPowerupToDiscard(currentPlayer, gameModel.getPlayerPowerUps(currentPlayer));
 
             gameModel.respawn(currentPlayer, chosenPowerUpToDiscard);
         }
@@ -190,8 +190,8 @@ public class Controller {
 
         //If the player does not have any power up that can be used now I don't ask him anything
         int chosenPowerupIndex = -1;
-        if(gameModel.playerHasTurnPowerup(player))
-            chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerups(player));
+        if(gameModel.playerHasTurnPowerUp(player))
+            chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerUps(player));
         else
             return;
 
@@ -202,17 +202,17 @@ public class Controller {
             PowerUp powerUpToUse = gameModel.getPowerupByIndex(player, chosenPowerupIndex);
 
             //Finds all players I can attack with this power up
-            ArrayList<String> attackablePlayers = gameModel.getAttackablePlayersPowerup(player, powerUpToUse);
+            ArrayList<String> attackablePlayers = gameModel.getAttackablePlayersPowerUp(player, powerUpToUse);
 
             //Asks the player which player he wants to use the power up on
             String chosenPlayerName = view.askForPlayerNameToAttackPowerup(attackablePlayers);
 
             //Uses the powerup on the player
-            gameModel.usePowerup(player, chosenPlayerName, powerUpToUse);
+            gameModel.usePowerUp(player, chosenPlayerName, powerUpToUse);
 
             chosenPowerupIndex = -1;
-            if(gameModel.playerHasTurnPowerup(player))
-                chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerups(player));
+            if(gameModel.playerHasTurnPowerUp(player))
+                chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerUps(player));
 
             //N.B. chosenPowerupIndex could still be -1 after view.askForIndexPowerupToUse(...) if the player selects NONE as choice
         }
