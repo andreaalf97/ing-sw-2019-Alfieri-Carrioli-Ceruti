@@ -149,6 +149,7 @@ public class Controller {
         chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
 
         while (chosenWeapon != -1){
+
             gameModel.reloadWeapon(player, chosenWeapon, weaponsThatCanBeReloaded);
 
             chosenWeapon = -1;

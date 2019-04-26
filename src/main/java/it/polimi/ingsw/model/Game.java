@@ -51,13 +51,6 @@ public class Game {
      */
     private KillShotTrack kst;
 
-    /**
-     * This contains the number of players in the game and must be equal to players.size() at all times
-     */
-    private int numOfPlayers;
-
-    //TODO: might not need attribute --> private boolean isFrenzy;
-
     //##########################################################################################################
 
     /**
@@ -70,7 +63,6 @@ public class Game {
         this.playerNames = playerNames;
         this.powerupDeck = new PowerUpDeck();
         this.weaponDeck = new WeaponDeck();
-        this.numOfPlayers = playerNames.size();
 
         for(String name : this.playerNames)
             this.players.add(new Player(name));
@@ -87,6 +79,12 @@ public class Game {
 
         Player p = getPlayerByNickname(player);
         p.givePowerUp(this.powerupDeck.drawCard());
+    }
+
+    public void giveWeapon(String player){
+        Player p = getPlayerByNickname(player);
+
+        p.giveWeapon(this.weaponDeck.drawCard());
     }
 
     /**
@@ -136,7 +134,10 @@ public class Game {
      * @param weapon The weapon object to be given
      * @param player The nickname of the player
      */
-    public void giveWeaponToPlayer(Weapon weapon, String player){}
+    protected void giveWeaponToPlayer(String player, Weapon weapon){
+        Player p = getPlayerByNickname(player);
+        p.giveWeapon(weapon);
+    }
 
     /**
      * Show all the different spots where a player is allowed to move
@@ -188,8 +189,13 @@ public class Game {
     }
 
     private void movePlayerToSpawnColor(String player, Color discardedColor) {
-        this.gameMap.movePlayerToColorSpawn(player, discardedColor);
-}
+        gameMap.movePlayerToColorSpawn(player, discardedColor);
+        int[] coord = gameMap.getPlayerSpotCoord(player);
+
+        Player p = getPlayerByNickname(player);
+
+        p.moveTo(coord[0], coord[1]);
+    }
 
     /**
      * Refills all the ammo spots
@@ -211,7 +217,14 @@ public class Game {
      * @param x the position of the spot on the x-axis
      * @param y the position of the spot on the y-axis
      */
-    public void movePlayer(Player player, int x, int y){}
+    public void movePlayer(String player, int x, int y){
+
+        Player p = getPlayerByNickname(player);
+
+        p.moveTo(x, y);
+
+        gameMap.movePlayer(player, x, y);
+    }
 
     /**
      * Moves the player to the selected spot and grabs the ammos on it
@@ -223,11 +236,17 @@ public class Game {
 
     /**
      * Shoots the defender with the weapon of the offender
-     * @param offender Player who attacks
-     * @param defenders Attacked player
+     * @param offenderName Player who attacks
+     * @param defendersNames Attacked player
      * @param weapon Shooting weapon
      */
-    public void shootPlayer(Player offender, ArrayList<Player> defenders, Weapon weapon){
+    public void shootPlayer(String offenderName, ArrayList<String> defendersNames, Weapon weapon){
+
+        Player offender = getPlayerByNickname(offenderName);
+        ArrayList<Player> defenders = new ArrayList<>();
+
+        for(String i : defendersNames)
+            defenders.add(getPlayerByNickname(i));
 
         ArrayList<Integer[]> order = weapon.getOrder();
 
@@ -265,7 +284,7 @@ public class Game {
                 if (spots_moved_on_x + spots_moved_on_y > effects.get(effect_number).getnMoves())
                     System.out.println("can't move here");
                 else
-                    movePlayer(offender, xPos, yPos);
+                    movePlayer(offender.getNickname(), xPos, yPos);
 
                 continue;       //if nMoves != 0 it must be a movement only effects, it means that I don't need to check the other effects
             }
@@ -288,7 +307,7 @@ public class Game {
                 if (spots_moved_on_x + spots_moved_on_y > effects.get(effect_number).getnMovesOtherPlayer())
                     System.out.println("can't move this player here");
                 else
-                    movePlayer(defenders.get(0), xPos, yPos);
+                    movePlayer(defenders.get(0).getNickname(), xPos, yPos);
 
                 continue;   //if nMovesOtherPlayer != 0 it must be a movement only effects, it means that I don't need to check the other effects
             }
@@ -450,6 +469,9 @@ public class Game {
 
     private Player getPlayerByNickname(String nickname){
 
+        if(!playerNames.contains(nickname))
+            throw new IllegalArgumentException("This nickname does not exist!");
+
         return players.get(playerNames.indexOf(nickname));
     }
 
@@ -497,7 +519,7 @@ public class Game {
             if (spots_moved_on_x + spots_moved_on_y > effect.getnMoves())
                 System.out.println("can't move here");
             else
-                movePlayer(offender, xPos, yPos);
+                movePlayer(offender.getNickname(), xPos, yPos);
         }
 
         if (effect.getnMovesOtherPlayer() != 0) {
@@ -518,7 +540,7 @@ public class Game {
             if (spots_moved_on_x + spots_moved_on_y > effect.getnMovesOtherPlayer())
                 System.out.println("can't move this player here");
             else
-                movePlayer(defender, xPos, yPos);
+                movePlayer(defender.getNickname(), xPos, yPos);
         }
 
         if( effect.getCost() != null ){       //if there is a cost I pay it ( for example the targeting scope )
@@ -678,6 +700,14 @@ public class Game {
 
     public void executeMove(int index){
         //todo 0->move 1->move&grab 2->shoot
+    }
+
+    protected void revive(String playerName) {
+
+        Player p = getPlayerByNickname(playerName);
+
+        p.revive();
+
     }
 }
 

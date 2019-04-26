@@ -80,10 +80,10 @@ public class GameMap {
      * @param player the player to find
      * @return an array where [0] = X, [1] = Y
      */
-    private int[] getPlayerSpotCoord(String player){
+    public int[] getPlayerSpotCoord(String player){
         for(int i = 0; i < map.length; i++)
             for(int j = 0; j < map[i].length; j++)
-                if(map[i][j].playerHere(player)){
+                if(map[i][j] != null && map[i][j].playerHere(player)){
                     int[] returnValue = new int[2];
                     returnValue[0] = i;
                     returnValue[1] = j;
@@ -100,8 +100,20 @@ public class GameMap {
      * @param newY the new y coord
      */
     public void movePlayer(String player, int newX, int newY){
-        removePlayerFromMap(player);
+        if(playerIsOnMap(player))
+            removePlayerFromMap(player);
+
         map[newX][newY].addPlayer(player);
+    }
+
+    private boolean playerIsOnMap(String player) {
+
+        for(int i = 0; i < map.length; i++)
+            for(int j = 0; j < map[i].length; j++)
+                if(map[i][j] != null && map[i][j].playerHere(player))
+                    return true;
+
+        return false;
     }
 
     /**
@@ -287,6 +299,10 @@ public class GameMap {
     }
 
     private boolean emptySpot(int i, int j) {
+
+        if(map[i][j] == null)
+            throw new IllegalArgumentException("This spot does not exist -- is null!");
+
         return map[i][j].emptySpot();
     }
 
@@ -300,7 +316,7 @@ public class GameMap {
 
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
-                if(this.map[i][j].isSpawnSpot() && this.map[i][j].getColor() == discardedColor){
+                if(this.map[i][j] != null && this.map[i][j].isSpawnSpot() && this.map[i][j].getColor() == discardedColor){
                     this.map[i][j].addPlayer(player);
                     return;
                 }
@@ -314,7 +330,7 @@ public class GameMap {
     public void refillAmmos(PowerUpDeck powerupDeck) {
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
-                if(this.map[i][j].isAmmoSpot()){
+                if(map[i][j] != null && this.map[i][j].isAmmoSpot()){
 
                     //If this is not full, I refill it
                     //The refill method for ammo spots automatically clear all the arrays
@@ -341,7 +357,7 @@ public class GameMap {
 
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
-                if(this.map[i][j].isSpawnSpot()){
+                if(map[i][j] != null && map[i][j].isSpawnSpot()){
 
                     //Adds a new weapon until the spot is full
                     while(!this.map[i][j].isFull())
