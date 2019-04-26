@@ -370,27 +370,24 @@ public class Player {
         return false;
     }
 
-    //TODO test
     /**
      * this method reload a weapon that i am sure i can reload, see reloadWeapons in controller.java
-     * @param weaponToReload the weapon that the player wants to reload
+     * @param index is the index of the weapon to reload in the hans of the player
      */
-    public void reloadWeapon (Weapon weaponToReload){
+    public void reloadWeapon (int index){
+
+        Weapon weaponToReload = this.weaponList.get(index);
         ArrayList<Color> cost = weaponToReload.getCost();
 
-        for (int i = 0; i < this.getWeaponList().size(); i++) {
 
-            if (weaponList.get(i).equals(weaponToReload)) { // this is the weapons that i want to reload
+        //first I take the ammo from the player
+        this.nBlueAmmo -= Collections.frequency(cost, Color.BLUE);
+        this.nRedAmmo -= Collections.frequency(cost, Color.RED);
+        this.nYellowAmmo -= Collections.frequency(cost, Color.YELLOW);
 
-                //first I take the ammo from the player
-                this.nBlueAmmo -= Collections.frequency(cost, Color.BLUE);
-                this.nRedAmmo -= Collections.frequency(cost, Color.RED);
-                this.nYellowAmmo -= Collections.frequency(cost, Color.YELLOW);
+        //reload the weapon
+        this.weaponList.get(index).reload();
 
-                //reload the weapon
-                this.weaponList.get(i).reload(); //todo is this right?
-            }
-        }
     }
 
     protected void moveTo(int x, int y) {

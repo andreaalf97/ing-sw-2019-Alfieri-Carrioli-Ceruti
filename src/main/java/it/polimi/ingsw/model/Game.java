@@ -690,12 +690,28 @@ public class Game {
      * @param player
      * @param index
      */
-    public void reloadWeapon(String player, int index, ArrayList<Weapon> rechargeableWeapons){
-        //TODO Talk about this with gino
-        Player currentPlayer = getPlayerByNickname(player);
-        Weapon weaponToReload = rechargeableWeapons.get(index);
+    public void reloadWeapon(String player, int index){
 
-        currentPlayer.reloadWeapon(weaponToReload);
+        Player currentPlayer = getPlayerByNickname(player);
+
+        currentPlayer.reloadWeapon(index);
+    }
+
+    /**
+     * this method receive a player and a weapon
+     * @param player the player to examinate
+     * @param weaponToReload the weapon that we search in the player hand
+     * @return the index of the weapon in the hand of the player
+     */
+    public int getRealWeaponIndexOfTheUnloadedWeapon(String player, Weapon weaponToReload){
+        int realIndex = -1;
+        Player currentPlayer = getPlayerByNickname(player);
+
+        for (int i = 0; i < currentPlayer.getWeaponList().size(); i++ )
+            if (currentPlayer.getWeaponList().get(i).equals(weaponToReload))
+                realIndex = i;
+
+        return realIndex;
     }
 
     public void executeMove(int index){

@@ -10,7 +10,7 @@ public class Weapon {
     /**
      * The name of the weapon as addressed on the JSON file
      */
-    private String weaponName; //TODO might not need this for model, but might need for thesting
+    private String weaponName; //TODO might not need this for model, but might need for testing
 
     /**
      * The cost of this weapon

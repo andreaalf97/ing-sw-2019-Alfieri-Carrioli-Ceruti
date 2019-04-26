@@ -1,9 +1,15 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.cards.PowerUp;
+import it.polimi.ingsw.model.cards.PowerUpDeck;
+import it.polimi.ingsw.model.cards.Weapon;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class PlayerTest {
@@ -384,5 +390,30 @@ public class PlayerTest {
         }
 
         Assert.fail();
+    }
+
+    @Test
+    public void reload(){
+        Player playerTest = new Player("gino");
+
+        Weapon weaponTest = null;
+
+        //copy from gameTest.Java see there for explanations
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("LockRifle", weaponsJSON);
+        }
+        catch (FileNotFoundException e){
+            Assert.fail();
+            return;
+        }
+
+        weaponTest.unload();
+
+        playerTest.giveWeapon(weaponTest);
+
+        playerTest.reloadWeapon(0);
+
+        Assert.assertTrue(playerTest.getWeaponList().get(0).isLoaded());
     }
 }

@@ -145,16 +145,27 @@ public class Controller {
         ArrayList<Weapon> weaponsThatCanBeReloaded = gameModel.checkRechargeableWeapons(player);
         int chosenWeapon = -1; //this will be the index of the weapons to load
 
-        //ask the index of the weapon that the user wants to reload
+        //ask the index of the weapon that the user wants to reload, the index refers to weaponThatCanBeReloaded, not the weapons in the player hand!!
         chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
 
-        while (chosenWeapon != -1){
+        if (chosenWeapon != -1) {
 
-            gameModel.reloadWeapon(player, chosenWeapon, weaponsThatCanBeReloaded);
+            //if i have others weapon to reload i continue to ask the player if he wants to reload the others
+            while (chosenWeapon != -1) {
 
-            chosenWeapon = -1;
-            //keep asking the player if he wants to reload another weapon
-            chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
+                //calculate the real index of the weapon in the hand of the player
+                int realWeaponIndex = gameModel.getRealWeaponIndexOfTheUnloadedWeapon(player, weaponsThatCanBeReloaded.get(chosenWeapon));
+
+                //reload the weapon in the player hand
+                gameModel.reloadWeapon(player, realWeaponIndex);
+
+                chosenWeapon = -1; //todo this is unneccesary only if view can return -1
+
+                //keep asking the player if he wants to reload another weapon and recalculate the weapons that player can reload
+                weaponsThatCanBeReloaded = gameModel.checkRechargeableWeapons(player);
+                chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
+
+            }
         }
 
     }
