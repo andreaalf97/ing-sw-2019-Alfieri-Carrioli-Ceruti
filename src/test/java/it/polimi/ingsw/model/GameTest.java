@@ -40,15 +40,20 @@ public class GameTest {
             return;
         }
 
+        //Players are dead by default so I need to revive them
         game.revive("andreaalf");
         game.revive("ginogino");
 
+        //Giving the duplicate to the player
         game.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
         game.giveWeapon("ginogino");
 
+        //Moving these players to the testing spots
         game.movePlayer("andreaalf", 0, 0);
         game.movePlayer("ginogino", 0, 1);
 
+        //Array to pass to the shootPlayer method
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add("ginogino");
 

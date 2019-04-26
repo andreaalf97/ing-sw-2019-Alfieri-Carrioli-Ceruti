@@ -1,5 +1,7 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
@@ -7,7 +9,7 @@ import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
 
-public class GamesHandler {
+public class Main {
 
     //TODO Refactor this after moving it to controller package
 
@@ -29,7 +31,7 @@ public class GamesHandler {
     /**
      * Basic constructor
      */
-    public GamesHandler(){
+    public Main(){
         this.games = new ArrayList<>();
         this.waitingRooms = new ArrayList<>();
     }
@@ -79,7 +81,7 @@ public class GamesHandler {
     public static void main(String args[]){
         Log.LOGGER.info("Server starting...");
 
-        GamesHandler gamesHandler = new GamesHandler();
+        Main main = new Main();
 
         Log.LOGGER.info("Opening up for new players...");
 
@@ -100,17 +102,17 @@ public class GamesHandler {
         //Must be 5 <= nSkulls <= 8
         Log.LOGGER.warning("Choose nSkulls...");
 
-        gamesHandler.addPlayer("andreaalf", MapName.FIRE, 6);
-        gamesHandler.addPlayer("ginocerutino", MapName.FIRE, 6);
-        gamesHandler.addPlayer("mememe", MapName.WATER, 6);
+        main.addPlayer("andreaalf", MapName.FIRE, 6);
+        main.addPlayer("ginocerutino", MapName.FIRE, 6);
+        main.addPlayer("mememe", MapName.WATER, 6);
 
         while(true){
             //Keep accepting new players
 
-            for(WaitingRoom i : gamesHandler.waitingRooms){
+            for(WaitingRoom i : main.waitingRooms){
                 if(i.isReady()){
-                    gamesHandler.startGame(i);
-                    gamesHandler.removeRoom(i);
+                    main.startGame(i);
+                    main.removeRoom(i);
                 }
             }
 
