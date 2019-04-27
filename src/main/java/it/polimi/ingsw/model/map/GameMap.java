@@ -25,6 +25,11 @@ public class GameMap {
         this.rand = new Random();
     }
 
+    @Override
+    public GameMap clone(){
+        return new GameMap(this.map.clone());
+    }
+
     /**
      * Checks if the first spot can see the second spot
      * @param spot1X spot1 X

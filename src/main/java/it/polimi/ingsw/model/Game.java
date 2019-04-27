@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.cards.Visibility;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Observable;
 
 /*
     THE MODEL:
@@ -17,7 +18,7 @@ import java.util.Collections;
         - Can sometimes update the view (depends on framework)
  */
 
-public class Game {
+public class Game extends Observable {
 
     /**
      * This ArrayList contains all the player objects
@@ -698,12 +699,37 @@ public class Game {
         //might be better to create an enum for this
     }
 
+    /**
+     * Revives the player
+     * @param playerName the nickname of the player
+     */
     protected void revive(String playerName) {
 
         Player p = getPlayerByNickname(playerName);
 
         p.revive();
 
+    }
+
+    /**
+     * @return a copy of the list of Players
+     */
+    protected ArrayList<Player> clonePlayers(){
+        return new ArrayList<>(this.players);
+    }
+
+    /**
+     * @return a copy of the kill shot track
+     */
+    protected KillShotTrack cloneKST(){
+        return this.kst.clone();
+    }
+
+    /**
+     * @return a copy of the game map
+     */
+    protected GameMap cloneGameMap(){
+        return this.gameMap.clone();
     }
 }
 

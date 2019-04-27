@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 
@@ -16,6 +18,7 @@ import java.util.Observer;
         - Template Engines
  */
 
+@Deprecated
 public class View extends Observable implements Observer {
 
     ArrayList<String> players;
@@ -28,6 +31,22 @@ public class View extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         //TODO here the view needs to show to all clients that the model is changed by sending custom messages to each one of them
         //e.g. It shouldn't tell player X which powerups Player Y has in his hands
+
+        if(!(o instanceof GameView))
+            throw new IllegalArgumentException("Illegal update argument for the View");
+
+        GameView gameView = (GameView) o;
+
+        /*
+            I can now work with:
+                gameView.gameMap;
+                gameView.kst;
+                gameView.players;
+        */
+
+
+        //TODO implement network logic
+
     }
 
     public int askForIndexPowerupToDiscard(String currentPlayer, ArrayList<PowerUp> playerPowerUps) {

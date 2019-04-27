@@ -49,8 +49,20 @@ public class KillShotTrack {
      * Cnstructor only used in tests
      */
     public KillShotTrack(ArrayList<String> skullList){
+        this(skullList, new ArrayList<Boolean>(skullList.size()));
+    }
+
+    /**
+     * Cnstructor only used in tests
+     */
+    private KillShotTrack(ArrayList<String> skullList, ArrayList<Boolean> isOverkill){
         this.skullList = skullList;
-        this.isOverkill = new ArrayList<>(skullList.size());
+        this.isOverkill = isOverkill;
+    }
+
+    @Override
+    public KillShotTrack clone(){
+        return new KillShotTrack(new ArrayList<>(this.skullList), new ArrayList<>(this.isOverkill));
     }
 
     //TESTED

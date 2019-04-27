@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 
 /*
@@ -17,7 +19,7 @@ import java.util.logging.Level;
         - Passes data to the view
  */
 
-public class Controller {
+public class Controller implements Observer {
 
     /**
      * The MODEL
@@ -233,5 +235,10 @@ public class Controller {
      */
     private void endGame() {
         //TODO
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
