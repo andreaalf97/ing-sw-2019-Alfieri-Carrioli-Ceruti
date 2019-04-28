@@ -120,16 +120,16 @@ public class Game extends Observable {
     /**
      * This method sets up all player for the final frenzy turn
      */
-    public void setupForFrenzy ( String string ) {
+    public void setupForFrenzy () {
 
-        Player player = getPlayerByNickname(string);
+        ArrayList<String> playersWithFrenzyBoard = new ArrayList<String>();
 
-        if ( player.getDamages().isEmpty() ) {
-
+        for(Player p : players) {
+            if (p.getDamages().isEmpty())
+                p.sethasFrenzyBoard(true);
+            p.setCanReloadBeforeShooting(true);
+            //TODO nMovesBeforeReloading depends on where the frenzy turn starts from
         }
-        //this method has to be called when the last skull on the kst gets removed.
-        //if the player has NO damages, just keep the marks and ammos, and flip the board over. Point will be 2,1,1,1. No points for first blood.
-        //if the player already has damages, just flip over the action tiles.
     }
 
     /**
@@ -465,6 +465,32 @@ public class Game extends Observable {
             }
         }
         weapon.unload();
+    }
+    /**
+     * Clears the player frenzy board and gives points to all players involved
+     */
+    public void giveFrenzyBoardPoints ( Player player) {
+
+        int[] pointValues = {2, 1, 1, 1};
+
+        ArrayList<String> ranking = player.getOffendersRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+    }
+    /**
+     * Clears the player board and gives points to all players involved
+     */
+    public void giveBoardPoints ( Player player  ) {
+
+        int[] pointValues = {8, 6, 4, 2, 1, 1};
+
+        getPlayerByNickname( player.getDamages().get(0) ).givePoints(1);            //first blood point
+
+        ArrayList<String> ranking = player.getOffendersRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
     }
 
     /**
