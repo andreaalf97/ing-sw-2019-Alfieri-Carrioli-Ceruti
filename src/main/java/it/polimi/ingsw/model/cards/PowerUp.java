@@ -21,20 +21,27 @@ public class PowerUp {
      */
     private Effect effect;
 
+    /**
+     * if a powerup is a "turnPowerUp" i can use it whenever i want in my turn, for example: i can use a tagback grenade only when a player is attacking me.
+     */
+    private boolean isTurnPowerup;
+
 
     /**
      *simple constructor used in the tests
      */
     public PowerUp(){
-        powerUpName = null;
-        color = null;
-        effect = null;
+        this.isTurnPowerup = false;
+        this.powerUpName = null;
+        this.color = null;
+        this.effect = null;
     }
 
     /**
      * Constructor only used in tests
      */
     public PowerUp(Color color){
+        this.isTurnPowerup = false;
         this.powerUpName = null;
         this.color = color;
         this.effect = null;
@@ -47,6 +54,8 @@ public class PowerUp {
     public Effect getEffect() {
         return new Effect(this.effect);
     }
+
+    public boolean isTurnPowerup(){ return this.isTurnPowerup; }
 
     /**
      * Getter
@@ -69,6 +78,7 @@ public class PowerUp {
 
         Effect effectTemp = new Effect(jsonPowerupEffect); //here i load an effect loading all its attributes from the json
 
+        this.isTurnPowerup = jsonPowerupLoaded.get("isTurnPowerup").getAsBoolean();
         this.powerUpName = powerUpName;
         this.effect = effectTemp;
         this.color = Color.randomColor();
@@ -82,12 +92,4 @@ public class PowerUp {
         return this.color;
     }
 
-    public boolean isTurnPowerup() {
-        //TODO might have to review this
-
-        if( powerUpName.equals("Teleporter") || powerUpName.equals("Newton") )
-            return true;
-
-        return false;
-    }
 }

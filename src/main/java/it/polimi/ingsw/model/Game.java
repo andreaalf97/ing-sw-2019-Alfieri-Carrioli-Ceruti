@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.cards.Visibility;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observable;
+import java.util.logging.Level;
 
 /*
     THE MODEL:
@@ -90,14 +91,26 @@ public class Game extends Observable {
 
     /**
      * Gives a randomly picked powerup to the player
-     * @param player the player who's receiving the powerup
+     * @param player the player who's receiving the powerUp
      */
     public void givePowerUp(String player) {
 
         Player p = getPlayerByNickname(player);
-        p.givePowerUp(this.powerupDeck.drawCard());
+        if (!this.powerupDeck.getPowerUpList().isEmpty())
+            p.givePowerUp(this.powerupDeck.drawCard());
+        else {
+            //if deck is empty i reload it from json instead shuffle the old one
+
+            Log.LOGGER.log(Level.INFO, "deck is empty, reloading it from json");
+            this.powerupDeck = new PowerUpDeck();
+            p.givePowerUp(this.powerupDeck.drawCard());
+        }
     }
 
+    /**
+     * gives a randomly picked weapon to the player
+     * @param player the player who's receiving the weapon
+     */
     public void giveWeapon(String player){
         Player p = getPlayerByNickname(player);
 

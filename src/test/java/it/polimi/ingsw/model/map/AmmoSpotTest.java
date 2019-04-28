@@ -12,19 +12,19 @@ public class AmmoSpotTest {
 
 
     @Test
-    public void addAmmoWhenSpotIsUnloaded() {
+    public void refillAmmoWhenSpotIsUnloaded() {
 
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
         PowerUp powerup = new PowerUp();
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.addAmmo();
+        ammoSpotTest.refill(null);
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 
     @Test
-    public void addAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
+    public void refillAmmoWhenSpotIsAlreadyLoadedWithPowerup(){
         ArrayList<Color> ammoColorListTest = new ArrayList<>();
         PowerUp powerup = new PowerUp();
 
@@ -33,12 +33,12 @@ public class AmmoSpotTest {
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.addAmmo();
+        ammoSpotTest.refill(powerup);
         Assert.assertEquals(ammoColorListTest,ammoSpotTest.getAmmoColorList());
     }
 
     @Test
-    public void addAmmoWhenSpotIsAlreadyLoaded(){
+    public void refillAmmoWhenSpotIsAlreadyLoaded(){
         ArrayList<Color> ammoColoListTest = new ArrayList<>();
         PowerUp powerup = new PowerUp();
 
@@ -47,7 +47,7 @@ public class AmmoSpotTest {
         ammoColoListTest.add(Color.RED);
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColoListTest, powerup);
 
-        ammoSpotTest.addAmmo();
+        ammoSpotTest.refill(null);
         Assert.assertEquals(ammoColoListTest,ammoSpotTest.getAmmoColorList());
     }
 

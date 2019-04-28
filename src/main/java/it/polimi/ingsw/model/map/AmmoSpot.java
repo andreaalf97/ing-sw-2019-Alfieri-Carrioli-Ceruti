@@ -25,7 +25,6 @@ public class AmmoSpot extends Spot {
      * A random seed for refilling this spot
      */
     private Random rand = new Random();
-    //TODO Check if this is correct or if we should initialize it in the constructor
 
     /**
      * Basic constructor used when building a new map
@@ -66,6 +65,7 @@ public class AmmoSpot extends Spot {
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+    //TESTED
     /**
      * Removes all ammos from this spot
      */
@@ -76,34 +76,7 @@ public class AmmoSpot extends Spot {
             ammoColorList = new ArrayList<>();
     }
 
-    /**
-     * Adds ammos to this spot
-     */
-    public void addAmmo() {
-        if (getAmmoColorList().isEmpty())
-            generateAmmo();
-        else
-            Log.LOGGER.info("no ammo in the spot,reload this spot at the end of the turn");
-    }
-
-    /**
-     * Randomly generates new ammos
-     */
-    private void generateAmmo() {
-
-        //Should be 47.2222%
-        if (this.rand.nextBoolean()) { //probability to pick an ammo card with a powerup
-            //TODO hasPowerup = true;
-        }
-        else {
-            //TODO hasPowerup = false;
-            ammoColorList.add(Color.randomColor());
-        }
-        ammoColorList.add(Color.randomColor());
-        ammoColorList.add(Color.randomColor());
-
-    }
-
+    //TESTED
     /**
      * Refills this spot
      * @param objToAdd The eventual powerup -- can also be null
@@ -134,6 +107,7 @@ public class AmmoSpot extends Spot {
         }
     }
 
+    //TESTED
     /**
      * Gives whatever is on the spot to a player
      * @param player the player who's receiving the object
@@ -143,7 +117,7 @@ public class AmmoSpot extends Spot {
          if(this.powerup != null) player.givePowerUp(powerup);
          player.giveAmmos(ammoColorList);
 
-         //todo if i give something to the player i have to reload the spot
+         //todo if i give something to the player i have to reload the spot, i have to do this at every end of a player turn
     }
 
     /**
@@ -165,8 +139,8 @@ public class AmmoSpot extends Spot {
     }
 
     /**
-     *
-     * @return
+     * this method check if the spot is empty or not
+     * @return true if the ammospot is empty
      */
     @Override
     public boolean emptySpot() {
@@ -181,4 +155,5 @@ public class AmmoSpot extends Spot {
     public boolean isFull() {
         return ((this.powerup == null && this.ammoColorList.size() == 3) || (this.powerup != null && this.ammoColorList.size() == 2));
     }
+
 }

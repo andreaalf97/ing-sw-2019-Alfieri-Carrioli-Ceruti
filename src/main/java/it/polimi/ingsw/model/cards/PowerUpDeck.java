@@ -65,13 +65,9 @@ public class PowerUpDeck {
      * @return the card picked
      */
     public PowerUp drawCard(){
-        if (!this.getPowerUpList().isEmpty()) {
             PowerUp powerUpToPick = powerUpList.get(0);
             powerUpList.remove(0);
             return powerUpToPick;
-        }
-        else
-            return null; //todo should return something in the log? it's better to do a pile of discarded powerup?
     }
 
 }
