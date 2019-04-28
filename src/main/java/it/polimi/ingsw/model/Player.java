@@ -83,7 +83,18 @@ public class Player {
      */
     private int nMovesBeforeShooting;
 
-
+    /**
+     * It's true if the board gets flipped for frenzy turn
+     */
+    private boolean hasFrenzyBoard;
+    /**
+     * It depends on which player the frenzy turn starts from (one or two)
+     */
+    private int nMovesBeforeReloading;
+    /**
+     * True during frenzy turn
+     */
+    private boolean canReloadBeforeShooting;
 
 
     /**
@@ -108,6 +119,9 @@ public class Player {
         this.isDead = true;
         this.nMovesBeforeGrabbing = 1;
         this.nMovesBeforeShooting = 0;
+        this.hasFrenzyBoard = false;
+        this.nMovesBeforeReloading = 0;
+        this.canReloadBeforeShooting = false;
     }
 
     /**
@@ -122,7 +136,7 @@ public class Player {
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
     protected void setIsDead(boolean isDead){ this.isDead = isDead; }
     protected void setDamages(ArrayList<String> damages){ this.damages = damages; }
-    public ArrayList<String> getDamages(){ return this.damages; }
+    protected ArrayList<String> getDamages(){ return this.damages; }
     protected void setMarks(ArrayList<String> marks){ this.marks = marks; }
     protected ArrayList<String> getMarks(){ return this.marks; }
     protected void setPoints(int points){ this.points = points; }
@@ -168,6 +182,20 @@ public class Player {
     }
     protected int getnMovesBeforeShooting() {
         return nMovesBeforeShooting;
+    }
+    protected void sethasFrenzyBoard( boolean hasFrenzyBoard) {this.hasFrenzyBoard = hasFrenzyBoard;}
+    protected boolean gethasFrenzyBoard() {return hasFrenzyBoard;}
+    protected int getnMovesBeforeReloading() {
+        return nMovesBeforeReloading;
+    }
+    protected void setnMovesBeforeReloading(int nMovesBeforeReloading) {
+        this.nMovesBeforeReloading = nMovesBeforeReloading;
+    }
+    protected boolean isCanReloadBeforeShooting() {
+        return canReloadBeforeShooting;
+    }
+    protected void setCanReloadBeforeShooting(boolean canReloadBeforeShooting) {
+        this.canReloadBeforeShooting = canReloadBeforeShooting;
     }
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
