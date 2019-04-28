@@ -2,7 +2,9 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
@@ -26,36 +28,51 @@ public class ClientView extends Observable implements Runnable, Observer {
         //TODO
 
         Socket socket = null;
+        Scanner stdin = null;
+        BufferedReader socketin = null;
+        PrintWriter socketout = null;
 
+        //Creates all the readers
         try {
             socket = new Socket(ipAddress, port);
-            Scanner stdin = new Scanner(System.in);
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-            Scanner in = new Scanner(socket.getInputStream());
-
-            while (true){
-                System.out.println(in.nextLine());
-                String sending = in.nextLine();
-
-                if(sending.toUpperCase().equals("QUIT"))
-                    break;
-
-                out.println(sending);
-                out.flush();
-            }
-
+            stdin = new Scanner(System.in);
+            socketout = new PrintWriter(socket.getOutputStream());
+            socketin = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream())
+            );
         }
         catch (IOException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
         }
-        finally {
-            try {
-                socket.close();
-            }
-            catch (IOException | NullPointerException e){
-                Log.LOGGER.log(Level.SEVERE, e.getMessage());
+
+
+        try {
+            while (true) {
+                System.out.println(socketin.readLine());
+                String sending = stdin.nextLine();
+
+                if (sending.toUpperCase().equals("QUIT"))
+                    break;
+
+                socketout.println(sending);
+                socketout.flush();
             }
         }
+        catch (IOException | NullPointerException e){
+            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
+        }
+
+
+        try {
+            socket.close();
+        }
+        catch (IOException | NullPointerException e){
+            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     @Override

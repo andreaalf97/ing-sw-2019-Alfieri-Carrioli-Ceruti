@@ -1,14 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.WaitingRoom;
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 
@@ -44,12 +41,14 @@ public class ClientHandler implements Runnable {
             System.out.println("Received answer:");
             System.out.println(line);
 
+            /*
             while(Server.notAValidUsername(line)){
                 out.println("Not a valid username:");
                 out.flush();
                 line = in.nextLine();
                 System.out.println("Received answer " + line);
             }
+            */
 
 
 
@@ -102,6 +101,7 @@ public class ClientHandler implements Runnable {
         }
         catch (IOException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
         }
     }
 
