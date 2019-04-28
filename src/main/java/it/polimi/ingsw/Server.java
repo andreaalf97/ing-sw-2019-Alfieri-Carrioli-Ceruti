@@ -45,6 +45,8 @@ public class Server {
     public Server(int port){
         this.openConnections = new ArrayList<>();
         this.port = port;
+        this.waitingRooms = new ArrayList<>();
+        this.usernames = new ArrayList<>();
     }
 
     /**

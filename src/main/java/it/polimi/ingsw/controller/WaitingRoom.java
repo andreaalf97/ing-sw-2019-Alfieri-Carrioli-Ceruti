@@ -67,13 +67,17 @@ public class WaitingRoom {
         this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(players.size() > 4)
+                if(players.size() > 3) {
                     isReady = true;
+                    Log.LOGGER.severe("Room is ready with " + players.size() + " players");
+                }
                 else
                     Log.LOGGER.severe("Room has not been filled in time!");
             }
         }, TOTALTIME);
 
+
+        this.sockets = new ArrayList<>();
     }
 
     /**
