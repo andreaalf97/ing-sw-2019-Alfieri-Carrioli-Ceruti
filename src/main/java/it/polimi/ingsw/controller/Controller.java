@@ -83,7 +83,7 @@ public class Controller implements Observer {
         for(String currentPlayer : gameModel.getPlayerNames()){
             Log.LOGGER.log(Level.INFO, "SETTING UP {0} FOR FRENZY", currentPlayer);
 
-            gameModel.setupForFrenzy(currentPlayer);
+            //gameModel.setupForFrenzy(currentPlayer);
         }
 
         //Run the frenzy round

@@ -2,7 +2,10 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
+
+import java.net.Socket;
 import java.util.*;
+import java.util.logging.SocketHandler;
 
 public class WaitingRoom {
 
@@ -10,6 +13,11 @@ public class WaitingRoom {
      * The list of connected player
      */
     private ArrayList<String> players;
+
+    /**
+     * The list of connections for this room
+     */
+    private ArrayList<Socket> sockets;
 
     /**
      * Votes for each map:
@@ -85,11 +93,12 @@ public class WaitingRoom {
      * @param mapToVote the map chosen by the new player
      * @param nSkullsToVote the desired amount of skulls
      */
-    public void addPlayer(String nickname, MapName mapToVote, int nSkullsToVote) {
+    public void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
         if(this.players.contains(nickname))
             throw new RuntimeException("This waitingRoom already contains this player");
 
         if(!this.isReady) {
+            this.sockets.add(socket);
             this.players.add(nickname);
 
             int tempVotes = (int) (this.mapVotes.get(mapToVote));

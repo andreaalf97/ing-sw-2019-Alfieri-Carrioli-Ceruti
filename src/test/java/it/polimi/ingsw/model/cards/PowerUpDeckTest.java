@@ -14,22 +14,6 @@ public class PowerUpDeckTest {
         Assert.assertTrue(powerUpDeckTest.getPowerUpList().size() == 24);
     }
 
-
-    @Test
-    public void drawCardUntilEmpty(){
-        PowerUpDeck powerUpDeckTest = new PowerUpDeck();
-        PowerUp powerUpTest = powerUpDeckTest.drawCard();
-
-        Assert.assertTrue(powerUpDeckTest.getPowerUpList().size() == 23);
-
-        while (powerUpDeckTest.getPowerUpList().size() != 0){
-            powerUpTest = powerUpDeckTest.drawCard();
-        }
-
-        PowerUp powerUpTestNull = powerUpDeckTest.drawCard();
-        Assert.assertTrue(powerUpTestNull == null);
-    }
-
     @Test
     public void drawCardRegular() {
         PowerUp p1 = new PowerUp();
