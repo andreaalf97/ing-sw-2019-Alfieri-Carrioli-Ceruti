@@ -71,8 +71,9 @@ public class KillShotTrack {
      * @param player The player who got the kill
      * @param isOverkill True if it was an overkill
      */
+    //TODO what if it's a multiple kill??
     public void addKill(String player, boolean isOverkill){
-        for(int i = 0; i < this.skullList.size(); i++){
+        for(int i = 0; i < this.skullList.size(); i++){     //TODO what are you doing here? what if it's the last skull? the frenzy turn begins!
             if( skullList.get(i).equals("SKULL") ){
                 this.skullList.set(i, player);
                 this.isOverkill.add(isOverkill);

@@ -299,6 +299,7 @@ public class GameMap {
             for(int j = 0; j < temp[i].length; j++) //for every spot
                 if(canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves) && !emptySpot(i, j)) //if the player can move from his spot to the <i, j> spot
                     temp[i][j] = true; //temp<i, j> is true --> the player can move there
+        //TODO so we suppose nMoves is 2 if the player has more than 2 damages?? or maybe is better to check the damages inside this method and update nMoves the right way ( also for frenzy turn a player can move up to 3 spots, then grab ).
 
         return temp;
     }

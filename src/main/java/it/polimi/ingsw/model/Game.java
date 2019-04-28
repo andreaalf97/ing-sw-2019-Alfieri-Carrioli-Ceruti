@@ -107,8 +107,16 @@ public class Game extends Observable {
     /**
      * This method sets up all player for the final frenzy turn
      */
-    public void setupForFrenzy(String player) {
-        //TODO
+    public void setupForFrenzy ( String string ) {
+
+        Player player = getPlayerByNickname(string);
+
+        if ( player.getDamages().isEmpty() ) {
+
+        }
+        //this method has to be called when the last skull on the kst gets removed.
+        //if the player has NO damages, just keep the marks and ammos, and flip the board over. Point will be 2,1,1,1. No points for first blood.
+        //if the player already has damages, just flip over the action tiles.
     }
 
     /**
@@ -278,6 +286,7 @@ public class Game extends Observable {
                 else
                     movePlayer(offender.getNickname(), xPos, yPos);
 
+
                 continue;       //if nMoves != 0 it must be a movement only effects, it means that I don't need to check the other effects
             }
 
@@ -427,14 +436,14 @@ public class Game extends Observable {
                 }
             }
 
-            if( effects.get(effect_number).getnPlayerAttackable() != 0 ){
+            if( effects.get(effect_number).getnPlayerAttackable() != 0 ){    // defenders.size() must also be  < genNPlayerMarkable  !!
                 /*TODO for the targeting scope we have a choice to make: the player ask to use the scope right before giving damage or we have to check if the player has a scope, then ask if he want to use it and to which player*/
                 for (int k = 0; k < (defenders.size() - 1) && k < (effects.get(effect_number).getnPlayerAttackable() - 1); k++) {
                     defenders.get(k).giveDamage(offender.getNickname(), effects.get(effect_number).getnDamages());
                     playersHit.add(defenders.get(k));
                 }
             }
-            if( effects.get(effect_number).getnPlayerMarkable() != 0 ){
+            if( effects.get(effect_number).getnPlayerMarkable() != 0 ){ //defenders.size() must also be  < getnPlayerMarkable  !!
 
                 for (int k = 0; k < (defenders.size() - 1) && k < (effects.get(effect_number).getnPlayerMarkable() - 1); k++) {
                     defenders.get(k).giveMarks(offender.getNickname(), effects.get(effect_number).getnMarks());

@@ -122,7 +122,7 @@ public class Player {
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
     protected void setIsDead(boolean isDead){ this.isDead = isDead; }
     protected void setDamages(ArrayList<String> damages){ this.damages = damages; }
-    protected ArrayList<String> getDamages(){ return this.damages; }
+    public ArrayList<String> getDamages(){ return this.damages; }
     protected void setMarks(ArrayList<String> marks){ this.marks = marks; }
     protected ArrayList<String> getMarks(){ return this.marks; }
     protected void setPoints(int points){ this.points = points; }
