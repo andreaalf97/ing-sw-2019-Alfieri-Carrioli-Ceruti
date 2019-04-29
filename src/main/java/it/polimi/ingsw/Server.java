@@ -1,8 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.WaitingRoom;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
+import it.polimi.ingsw.view.server.VirtualView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,11 +21,6 @@ public class Server {
     private final int port;
 
     /**
-     * The list of open socket connections
-     */
-    private ArrayList<Socket> openConnections;
-
-    /**
      * The list of active user names, used to validate new user names
      */
     private static ArrayList<String> usernames;
@@ -32,27 +30,15 @@ public class Server {
      */
     private ArrayList<WaitingRoom> waitingRooms;
 
-    /**
-     * The max amount of players in each game
-     */
-    private static final int MAXPLAYERS = 8;
-
 
 
     /**
      * Basic constructor
      */
     public Server(int port){
-        this.openConnections = new ArrayList<>();
         this.port = port;
-    }
-
-    /**
-     * Starts the game by passing the associated waiting room
-     * @param room the waiting room
-     */
-    public void startGame(WaitingRoom room){
-        //TODO need to close all connections once the game is over --> how to do it object oriented?
+        this.usernames = new ArrayList<>();
+        this.waitingRooms = new ArrayList<>();
     }
 
     /**
@@ -61,10 +47,13 @@ public class Server {
      * @param mapToVote the map he voted for
      * @param nSkullsToVote the amount of skulls he voted for
      */
-    public synchronized void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote){
+    public synchronized void addPlayerToWaitingRoom(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote){
+
+        if(usernames.contains(nickname))
+            throw new RuntimeException("This username is not valid and this should have been checked before");
 
         //If there is no room yet or all the rooms are empty --> create a new room
-        if(waitingRooms.isEmpty() || waitingRooms.get(waitingRooms.size() - 1).nPlayers() >= MAXPLAYERS){
+        if(waitingRooms.isEmpty() || waitingRooms.get(waitingRooms.size() - 1).nPlayers() >= WaitingRoom.MAXPLAYERS){
             WaitingRoom newWaitingRoom = new WaitingRoom();
             newWaitingRoom.addPlayer(socket, nickname, mapToVote, nSkullsToVote);
             waitingRooms.add(newWaitingRoom);
@@ -72,16 +61,38 @@ public class Server {
 
         //If there is a spot for a new player in the current room
         else{
-            this.waitingRooms.get(this.waitingRooms.size() - 1).addPlayer(socket, nickname, mapToVote, nSkullsToVote);
+            waitingRooms.get(waitingRooms.size() - 1).addPlayer(socket, nickname, mapToVote, nSkullsToVote);
+        }
+
+        usernames.add(nickname);
+
+        if(waitingRooms.get(waitingRooms.size() - 1).isReady()){
+            startGame(waitingRooms.get(waitingRooms.size() - 1));
         }
 
     }
 
-    public void removeRoom(WaitingRoom waitingRoom){
-        if(waitingRooms.contains(waitingRoom))
-            this.waitingRooms.remove(waitingRoom);
-    }
+    /**
+     * Starts a new game from the given waiting room
+     * @param waitingRoom a ready waiting room
+     */
+    private void startGame(WaitingRoom waitingRoom) {
+        if(!waitingRoom.isReady())
+            throw new RuntimeException("This room is not ready to start a game");
 
+        Game game = new Game(waitingRoom.players, waitingRoom.getVotedMap(), waitingRoom.getVotedSkulls());
+
+        VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.sockets);
+
+        Controller controller = new Controller(game, virtualView);
+
+        GameView gameView = new GameView();
+
+        virtualView.addObserver(controller);
+        gameView.addObserver(virtualView);
+
+
+    }
 
     private void startServer(){
 
@@ -90,29 +101,27 @@ public class Server {
         try {
             //Opens a new server on the specified port
             serverSocket = new ServerSocket(port);
-            System.out.println("Opened new server on port 2345");
+            Log.LOGGER.log(Level.INFO,"Opened new server on port 2345");
         }
         catch (IOException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
 
-        Log.LOGGER.log(Level.INFO, "Server ready on port " + port);
         //I now have a server open and ready to accept connections
 
         try {
             while (true) {
                 //Accept a new connection
                 Socket socket = serverSocket.accept();
-                System.out.println("New connection accepted:");
-                //Adds the connection to the list of open connections
-                openConnections.add(socket);
-                System.out.println("Added new socket to openConnection list");
+                Log.LOGGER.log(Level.INFO, "New connection accepted from " + socket.getRemoteSocketAddress());
+
                 //Creates a new handler with the new socket
-                ClientHandler clientHandler = new ClientHandler(this, socket);
-                System.out.println("Created new clientHandler object");
+                ClientVotesHandler clientVotesHandler = new ClientVotesHandler(this, socket);
+                Log.LOGGER.log(Level.INFO,"Created new clientVotesHandler object");
+
                 //Runs the new Handler on a new Thread
-                Thread t = new Thread(clientHandler);
+                Thread t = new Thread(clientVotesHandler);
                 t.start();
             }
         }
@@ -120,15 +129,18 @@ public class Server {
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
+        finally {
+            try {
+                serverSocket.close();
+            }
+            catch (IOException | NullPointerException h) {
+                Log.LOGGER.log(Level.SEVERE, h.getMessage());
+                h.printStackTrace();
+            }
+        }
 
 
-        try {
-            serverSocket.close();
-        }
-        catch (IOException | NullPointerException h) {
-            Log.LOGGER.log(Level.SEVERE, h.getMessage());
-            h.printStackTrace();
-        }
+
 
 
     }
@@ -142,10 +154,9 @@ public class Server {
         return usernames.contains(username);
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args){
 
         Server server = new Server(2345);
-        System.out.println("Created new Server object with port 2345");
         server.startServer();
 
     }

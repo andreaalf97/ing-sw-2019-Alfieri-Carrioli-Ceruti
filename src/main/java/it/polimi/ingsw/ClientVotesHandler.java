@@ -6,15 +6,16 @@ import it.polimi.ingsw.model.map.MapName;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Level;
 
-public class ClientHandler implements Runnable {
+public class ClientVotesHandler implements Runnable {
 
-    Server caller;
-    Socket socket;
+    private Server caller;
+    private Socket socket;
 
-    public ClientHandler(Server caller, Socket socket){
+    public ClientVotesHandler(Server caller, Socket socket){
         this.caller = caller;
         this.socket = socket;
     }
@@ -33,23 +34,19 @@ public class ClientHandler implements Runnable {
             //Asks for username
             out.println("Insert username:");
             out.flush();
-            System.out.println("Asked for username");
+            Log.LOGGER.log(Level.INFO,"Asked for username");
 
             //Retrieve username
             String line = in.nextLine();
 
-            System.out.println("Received answer:");
-            System.out.println(line);
+            Log.LOGGER.log(Level.INFO,"Received answer: " + line);
 
-            /*
             while(Server.notAValidUsername(line)){
                 out.println("Not a valid username:");
                 out.flush();
                 line = in.nextLine();
-                System.out.println("Received answer " + line);
+                Log.LOGGER.log(Level.INFO,"Received answer " + line);
             }
-            */
-
 
 
             //Stores the new username
@@ -63,17 +60,17 @@ public class ClientHandler implements Runnable {
             out.println("3 -- WATER");
             out.flush();
 
-            System.out.println("Asked for map");
+            Log.LOGGER.log(Level.INFO,"Asked for map");
 
 
             int nextInt = in.nextInt();
-            System.out.println("Received answer " + nextInt);
+            Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
 
             while(nextInt < 0 || nextInt > 3){
                 out.println("Not a valid vote");
                 out.flush();
                 nextInt = in.nextInt();
-                System.out.println("Received answer " + nextInt);
+                Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
             }
 
             //Stores the voted map
@@ -81,32 +78,32 @@ public class ClientHandler implements Runnable {
 
             out.println("Vote for skulls (5 to 8):");
             out.flush();
-            System.out.println("Asked for nSkulls");
+            Log.LOGGER.log(Level.INFO,"Asked for nSkulls");
             nextInt = in.nextInt();
-            System.out.println("Received answer " + nextInt);
+            Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
 
 
             while(nextInt < 5 || nextInt > 8){
                 out.println("Not a valid vote");
                 out.flush();
                 nextInt = in.nextInt();
-                System.out.println("Received answer " + nextInt);
+                Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
             }
 
             int votedSkulls = nextInt;
 
             Log.LOGGER.log(Level.INFO, "Adding " +  username + " to a waiting room");
-            caller.addPlayer(socket, username, votedMap, votedSkulls);
+            caller.addPlayerToWaitingRoom(socket, username, votedMap, votedSkulls);
+
+            out.println("You have been added to a waiting room");
+            out.println("Time is set to " + WaitingRoom.TIMERMINUTES + " minutes");
+            out.flush();
 
         }
-        catch (IOException e){
+        catch (IOException | NoSuchElementException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void handleSocket(Socket socket){
-
     }
 
 

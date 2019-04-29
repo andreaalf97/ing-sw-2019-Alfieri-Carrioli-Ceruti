@@ -1,13 +1,16 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.server;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameView;
+import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
 
 /*
     THE VIEW:
@@ -19,12 +22,26 @@ import java.util.Observer;
  */
 
 @Deprecated
-public class View extends Observable implements Observer {
+public class VirtualView extends Observable implements Observer, Runnable {
 
+    /**
+     * Player nicknames
+     */
     ArrayList<String> players;
 
-    public View(ArrayList<String> players){
+    /**
+     * Open connections
+     */
+    ArrayList<Socket> sockets;
+
+    /**
+     * Only constructor
+     * @param players players nicknames
+     * @param sockets list of all open connections
+     */
+    public VirtualView(ArrayList<String> players, ArrayList<Socket> sockets){
         this.players = players;
+        this.sockets = sockets;
     }
 
     @Override
@@ -33,7 +50,7 @@ public class View extends Observable implements Observer {
         //e.g. It shouldn't tell player X which powerups Player Y has in his hands
 
         if(!(o instanceof GameView))
-            throw new IllegalArgumentException("Illegal update argument for the View");
+            throw new IllegalArgumentException("Illegal update argument for the VirtualView");
 
         GameView gameView = (GameView) o;
 
@@ -71,5 +88,10 @@ public class View extends Observable implements Observer {
     public int askForIndexMoveToDo(String player){
         //TODO ask the move to do to the player and it will be better to do a representation of the map and the players on the map
         return 0;
+    }
+
+    @Override
+    public void run() {
+        Log.LOGGER.log(Level.INFO, "The Virtual View is up and running");
     }
 }

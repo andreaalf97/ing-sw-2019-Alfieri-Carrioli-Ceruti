@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Log;
-import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -13,31 +13,33 @@ import java.util.logging.Level;
 
 /*
     THE CONTROLLER:
-        - Receives input the view
+        - Receives input the virtualView
         - Processes requests
         - Gets data from the model
-        - Passes data to the view
+        - Passes data to the virtualView
  */
 
 public class Controller implements Observer {
 
     /**
      * The MODEL
+     * This is here because the Controller is the only one allowed to modify the gameModel
      */
     Game gameModel;
 
     /**
      * The VIEW
+     * This is here because the Controller might need to send messages to the clients through the Virtual View
      */
-    View view;
+    VirtualView virtualView;
 
-    public Controller(Game gameModel, View view){
+    public Controller(Game gameModel, VirtualView virtualView){
         this.gameModel = gameModel;
-        this.view = view;
+        this.virtualView = virtualView;
     }
 
     /**
-     * This method implements the void run() method from Runnable and is used to process the entire Game by pausing when waiting for data from the view
+     * This method implements the void run() method from Runnable and is used to process the entire Game by pausing when waiting for data from the virtualView
      */
     public void runGame(){
         Log.LOGGER.info("Game starting");
@@ -55,7 +57,7 @@ public class Controller implements Observer {
             gameModel.givePowerUp(currentPlayer);
             gameModel.givePowerUp(currentPlayer);
 
-            int chosenPowerupToDiscard = this.view.askForIndexPowerupToDiscard(currentPlayer, this.gameModel.getPlayerPowerUps(currentPlayer));
+            int chosenPowerupToDiscard = this.virtualView.askForIndexPowerupToDiscard(currentPlayer, this.gameModel.getPlayerPowerUps(currentPlayer));
 
             gameModel.respawn(currentPlayer, chosenPowerupToDiscard);
 
@@ -108,7 +110,7 @@ public class Controller implements Observer {
         //If player is dead, respawn
         if(gameModel.playerIsDead(currentPlayer)){
             gameModel.givePowerUp(currentPlayer);
-            int chosenPowerUpToDiscard = view.askForIndexPowerupToDiscard(currentPlayer, gameModel.getPlayerPowerUps(currentPlayer));
+            int chosenPowerUpToDiscard = virtualView.askForIndexPowerupToDiscard(currentPlayer, gameModel.getPlayerPowerUps(currentPlayer));
 
             gameModel.respawn(currentPlayer, chosenPowerUpToDiscard);
         }
@@ -148,7 +150,7 @@ public class Controller implements Observer {
         int chosenWeapon = -1; //this will be the index of the weapons to load
 
         //ask the index of the weapon that the user wants to reload, the index refers to weaponThatCanBeReloaded, not the weapons in the player hand!!
-        chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
+        chosenWeapon = virtualView.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
 
         if (chosenWeapon != -1) {
 
@@ -161,11 +163,11 @@ public class Controller implements Observer {
                 //reload the weapon in the player hand
                 gameModel.reloadWeapon(player, realWeaponIndex);
 
-                chosenWeapon = -1; //todo this is unneccesary only if view can return -1
+                chosenWeapon = -1; //todo this is unneccesary only if virtualView can return -1
 
                 //keep asking the player if he wants to reload another weapon and recalculate the weapons that player can reload
                 weaponsThatCanBeReloaded = gameModel.checkRechargeableWeapons(player);
-                chosenWeapon = view.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
+                chosenWeapon = virtualView.askForIndexWeaponToReload(weaponsThatCanBeReloaded);
 
             }
         }
@@ -177,7 +179,7 @@ public class Controller implements Observer {
      * @param player the choosing player
      */
     private void doOneMove(String player) {
-        int chosenMove = view.askForIndexMoveToDo(player);
+        int chosenMove = virtualView.askForIndexMoveToDo(player);
 
         gameModel.executeMove(chosenMove);
     }
@@ -193,7 +195,7 @@ public class Controller implements Observer {
         //If the player does not have any power up that can be used now I don't ask him anything
         int chosenPowerupIndex = -1;
         if(gameModel.playerHasTurnPowerUp(player))
-            chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerUps(player));
+            chosenPowerupIndex = virtualView.askForIndexPowerupToUse( player, gameModel.getPlayerPowerUps(player));
         else
             return;
 
@@ -207,16 +209,16 @@ public class Controller implements Observer {
             ArrayList<String> attackablePlayers = gameModel.getAttackablePlayersPowerUp(player, powerUpToUse);
 
             //Asks the player which player he wants to use the power up on
-            String chosenPlayerName = view.askForPlayerNameToAttackPowerup(attackablePlayers);
+            String chosenPlayerName = virtualView.askForPlayerNameToAttackPowerup(attackablePlayers);
 
             //Uses the powerup on the player
             gameModel.usePowerUp(player, chosenPlayerName, powerUpToUse);
 
             chosenPowerupIndex = -1;
             if(gameModel.playerHasTurnPowerUp(player))
-                chosenPowerupIndex = view.askForIndexPowerupToUse( player, gameModel.getPlayerPowerUps(player));
+                chosenPowerupIndex = virtualView.askForIndexPowerupToUse( player, gameModel.getPlayerPowerUps(player));
 
-            //N.B. chosenPowerupIndex could still be -1 after view.askForIndexPowerupToUse(...) if the player selects NONE as choice
+            //N.B. chosenPowerupIndex could still be -1 after virtualView.askForIndexPowerupToUse(...) if the player selects NONE as choice
         }
 
     }

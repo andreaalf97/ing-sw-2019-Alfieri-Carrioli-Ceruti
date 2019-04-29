@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.client;
 
 import it.polimi.ingsw.model.Log;
 
@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 import java.util.logging.Level;
 
 public class ClientView extends Observable implements Runnable, Observer {
@@ -18,60 +17,59 @@ public class ClientView extends Observable implements Runnable, Observer {
 
     int port;
 
+    Socket serverSocket;
+
     public ClientView(String ipAddress, int port){
         this.ipAddress = ipAddress;
         this.port = port;
+        serverSocket = null;
     }
 
     @Override
     public void run() {
         //TODO
 
-        Socket socket = null;
-        Scanner stdin = null;
+        BufferedReader stdin = null;
         BufferedReader socketin = null;
         PrintWriter socketout = null;
+        PrintWriter stdout = null;
 
         //Creates all the readers
         try {
-            socket = new Socket(ipAddress, port);
-            stdin = new Scanner(System.in);
-            socketout = new PrintWriter(socket.getOutputStream());
-            socketin = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream())
+            serverSocket = new Socket(ipAddress, port);
+            stdin = new BufferedReader(
+                    new InputStreamReader(System.in)
             );
+            socketin = new BufferedReader(
+                    new InputStreamReader(serverSocket.getInputStream())
+            );
+            socketout = new PrintWriter(serverSocket.getOutputStream());
+            stdout = new PrintWriter(System.out);
+
         }
         catch (IOException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
 
+        StreamPrinter stdinToSocket = new StreamPrinter(stdin, socketout);
+        StreamPrinter socketToStdout = new StreamPrinter(socketin, stdout);
 
+        Thread t1 = new Thread(stdinToSocket);
+        Thread t2 = new Thread(socketToStdout);
+
+        t1.start();
+        t2.start();
+
+        /*
         try {
-            while (true) {
-                System.out.println(socketin.readLine());
-                String sending = stdin.nextLine();
-
-                if (sending.toUpperCase().equals("QUIT"))
-                    break;
-
-                socketout.println(sending);
-                socketout.flush();
-            }
+            serverSocket.close();
         }
         catch (IOException | NullPointerException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
-
-
-        try {
-            socket.close();
-        }
-        catch (IOException | NullPointerException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
-        }
+        */
 
     }
 

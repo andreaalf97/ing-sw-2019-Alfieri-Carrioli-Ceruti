@@ -1,23 +1,22 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.net.Socket;
 import java.util.*;
-import java.util.logging.SocketHandler;
 
 public class WaitingRoom {
 
     /**
      * The list of connected player
      */
-    private ArrayList<String> players;
+    protected ArrayList<String> players;
 
     /**
      * The list of connections for this room
      */
-    private ArrayList<Socket> sockets;
+    protected ArrayList<Socket> sockets;
 
     /**
      * Votes for each map:
@@ -39,13 +38,27 @@ public class WaitingRoom {
      */
     private boolean isReady;
 
-    private final static long TOTALTIME = (long)2 * 60 * 1000;
+    /**
+     * The length of the timer
+     */
+    protected final static long TIMERMINUTES = (long) 2;
+
+    /**
+     * Maximum amount of players for a single game
+     */
+    protected final static int MAXPLAYERS = 5;
+
+    /**
+     * Minimum amount of players for a single game
+     */
+    protected final static int MINPLAYERS = 3;
 
     /**
      * Basic constructor
      */
     public WaitingRoom(){
         this.players = new ArrayList<>();
+        this.sockets = new ArrayList<>();
 
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
         this.mapVotes.put(MapName.FIRE, 0);
@@ -67,12 +80,12 @@ public class WaitingRoom {
         this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(players.size() > 4)
+                if(players.size() > MINPLAYERS)
                     isReady = true;
                 else
-                    Log.LOGGER.severe("Room has not been filled in time!");
+                    Log.LOGGER.warning("Room has not been filled in time! Not doing anything tho");
             }
-        }, TOTALTIME);
+        }, TIMERMINUTES * 60 * 1000);
 
     }
 
@@ -84,40 +97,45 @@ public class WaitingRoom {
         return this.players.size();
     }
 
-    //Can't return this.player because it could be modified
-    public ArrayList<String> getPlayers() { return new ArrayList<>(this.players); }
-
     /**
      * Adds a player to the players list and registers their votes
      * @param nickname The nickname of the new player
      * @param mapToVote the map chosen by the new player
      * @param nSkullsToVote the desired amount of skulls
      */
-    public void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
-        if(this.players.contains(nickname))
+    protected void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
+        if(players.contains(nickname))
             throw new RuntimeException("This waitingRoom already contains this player");
 
-        if(!this.isReady) {
-            this.sockets.add(socket);
-            this.players.add(nickname);
+        if(isReady)
+            throw new RuntimeException("This room was ready but you tried to add a new player");
 
-            int tempVotes = (int) (this.mapVotes.get(mapToVote));
-            this.mapVotes.put(mapToVote, tempVotes + 1);
+        sockets.add(socket);
+        players.add(nickname);
 
-            if (nSkullsToVote < 5 || nSkullsToVote > 8)
-                throw new RuntimeException("nSkullsToVote must be between 5 and 8");
+        int tempVotes = (int) (mapVotes.get(mapToVote));
+        mapVotes.put(mapToVote, tempVotes + 1);
 
-            tempVotes = (int) this.skullVotes.get(nSkullsToVote);
-            this.skullVotes.put(nSkullsToVote, tempVotes + 1);
-        }
+        if (nSkullsToVote < 5 || nSkullsToVote > 8)
+            throw new RuntimeException("nSkullsToVote must be between 5 and 8");
+
+        tempVotes = (int) skullVotes.get(nSkullsToVote);
+        skullVotes.put(nSkullsToVote, tempVotes + 1);
+
+        if(players.size() == MAXPLAYERS)
+            isReady = true;
+
     }
 
-    public MapName getVotedMap(){
+    /**
+     * @return the most voted game map
+     */
+    protected MapName getVotedMap(){
         MapName tempMaxMapName = MapName.values()[0];
-        int tempMaxVotes = (int)this.mapVotes.get(MapName.values()[0]);
+        int tempMaxVotes = (int)mapVotes.get(MapName.values()[0]);
 
         for(int i = 1; i < MapName.values().length; i++){
-            if((int)this.mapVotes.get(MapName.values()[i]) > tempMaxVotes){
+            if((int)mapVotes.get(MapName.values()[i]) > tempMaxVotes){
                 tempMaxMapName = MapName.values()[i];
                 tempMaxVotes = (int)this.mapVotes.get(MapName.values()[i]);
             }
@@ -126,19 +144,25 @@ public class WaitingRoom {
         return tempMaxMapName;
     }
 
-    public int getVotedSkulls(){
-        int maxSkulls = (int)this.skullVotes.get(5);
+    /**
+     * @return the most voted amount of skulls
+     */
+    protected int getVotedSkulls(){
+        int maxSkulls = (int)skullVotes.get(5);
 
         for(int i = 6; i <= 8; i++){
-            if((int)this.skullVotes.get(i) > maxSkulls){
-                maxSkulls = (int)this.skullVotes.get(i);
+            if((int)skullVotes.get(i) > maxSkulls){
+                maxSkulls = (int)skullVotes.get(i);
             }
         }
 
         return maxSkulls;
     }
 
-    public boolean isReady(){
-        return this.isReady;
+    /**
+     * @return if this room is ready or not
+     */
+    protected boolean isReady(){
+        return isReady;
     }
 }

@@ -15,14 +15,14 @@ import java.util.Observer;
 @Deprecated
 public class GameView extends Observable implements Observer {
 
-    public ArrayList<Player> players;
+    protected ArrayList<Player> players;
 
-    public KillShotTrack kst;
+    protected KillShotTrack kst;
 
-    public GameMap gameMap;
+    protected GameMap gameMap;
 
     /**
-     * This method updates this object and notifies the View
+     * This method updates this object and notifies the VirtualView
      * @param o The Game object
      * @param obj Unused
      */
