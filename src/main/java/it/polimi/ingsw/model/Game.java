@@ -332,10 +332,64 @@ public class Game extends Observable {
         return type;
     }
 
-    public void makeMovementEffect(){
+    public void payCostEffect(String string, Weapon weapon, int orderNumber, int indexInOrder) {
+        
+        int effect_number = weapon.getOrder().get(orderNumber)[indexInOrder];
 
+        ArrayList<Color> cost = new ArrayList<>();
+
+        for (Color color: weapon.getEffects().get(effect_number).getCost())
+            cost.add(color);
+
+        if (weapon.getEffects().get(effect_number).getCost() != null) {       //if there is a cost I pay it ( for example an optional shooting action )
+            try{
+                pay(string, cost);
+            }
+            catch(InvalidChoiceException e){
+
+            }
+        }
     }
-    public void makeDamageEffect(){
+
+    public void makeMovementEffect(String string, Weapon weapon, int orderNumber, int indexInOrder, int xPos, int yPos){
+
+        int spots_moved_on_x = 0;
+        int spots_moved_on_y = 0;
+
+        int effect_number = weapon.getOrder().get(orderNumber)[indexInOrder];
+
+        Player player = getPlayerByNickname(string);
+
+        if (weapon.getEffects().get(effect_number).getnMoves() != 0 || weapon.getEffects().get(effect_number).getnMoves() != 0) {
+
+            if (player.getxPosition() <= xPos)
+                spots_moved_on_x = xPos - player.getxPosition();
+            else
+                spots_moved_on_x = player.getxPosition() - xPos;
+
+            if (player.getyPosition() <= yPos)
+                spots_moved_on_y = xPos - player.getyPosition();
+            else
+                spots_moved_on_y = player.getyPosition() - xPos;
+
+            if (spots_moved_on_x + spots_moved_on_y > weapon.getEffects().get(effect_number).getnMoves())
+                System.out.println("can't move here");
+            else
+                movePlayer(player.getNickname(), xPos, yPos);
+        }
+    }
+
+    public void makeDamageEffect(String offendername, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int indexInOrder){
+
+        int effect_number = weapon.getOrder().get(orderNumber)[indexInOrder];
+
+        Player offender = getPlayerByNickname(offendername);
+
+        ArrayList<Player> defenders = new ArrayList<>();
+
+        for (String i : defendersNames)
+            defenders.add(getPlayerByNickname(i));
+        /*TODO finish implementation*/
 
     }
 

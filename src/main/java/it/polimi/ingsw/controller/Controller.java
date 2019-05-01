@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import javax.rmi.ssl.SslRMIClientSocketFactory;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,7 +20,7 @@ import java.util.logging.Level;
         - Passes data to the virtualView
  */
 
-public class Controller implements Observer {
+public class Controller implements Observer, Runnable {
 
     /**
      * The MODEL
@@ -260,6 +261,15 @@ public class Controller implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println((String) arg);
+    }
 
+    @Override
+    public void run() {
+        System.out.println("A new controller is now running on a new Thread");
+
+        virtualView.sendAll("GAME STARTED");
+
+        while (true);
     }
 }

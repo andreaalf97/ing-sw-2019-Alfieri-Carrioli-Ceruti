@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -22,7 +23,7 @@ import java.util.logging.Level;
  */
 
 @Deprecated
-public class VirtualView extends Observable implements Observer, Runnable {
+public class VirtualView extends Observable implements Observer {
 
     /**
      * Player nicknames
@@ -42,6 +43,13 @@ public class VirtualView extends Observable implements Observer, Runnable {
     public VirtualView(ArrayList<String> players, ArrayList<Socket> sockets){
         this.players = players;
         this.sockets = sockets;
+
+        for(Socket i : sockets){
+
+            VirtualViewSocketHandler socketHandler = new VirtualViewSocketHandler(i);
+            Thread t = new Thread(socketHandler);
+            t.start();
+        }
     }
 
     @Override
@@ -90,8 +98,29 @@ public class VirtualView extends Observable implements Observer, Runnable {
         return 0;
     }
 
-    @Override
-    public void run() {
-        Log.LOGGER.log(Level.INFO, "The Virtual View is up and running");
+    public void sendAll(String message) {
+
+        for(Socket socket : sockets){
+
+            PrintWriter writer = null;
+
+            try {
+
+                writer = new PrintWriter(socket.getOutputStream());
+
+            }
+            catch (IOException e){
+                Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            }
+
+            writer.println(message);
+            writer.flush();
+
+        }
+
+    }
+
+    protected void notify(String message){
+        notifyObservers(message);
     }
 }

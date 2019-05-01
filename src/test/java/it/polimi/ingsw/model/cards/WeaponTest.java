@@ -7,26 +7,6 @@ import org.junit.Test;
 public class WeaponTest {
 
 
-
-    @Test
-    public void reloadException() {
-
-        Weapon weaponTest = new Weapon("weaponTest");
-
-        weaponTest.reload();
-
-        try {
-            weaponTest.reload();
-        }
-        catch (RuntimeException e){
-            Assert.assertTrue(true);
-            return;
-        }
-
-        Assert.assertTrue(false);
-
-    }
-
     @Test
     public void unloadException() {
 
