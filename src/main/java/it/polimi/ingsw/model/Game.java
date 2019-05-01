@@ -87,7 +87,13 @@ public class Game extends Observable {
     }
 
     //##########################################################################################################
+    private Player getPlayerByNickname(String nickname){
 
+        if(!playerNames.contains(nickname))
+            throw new IllegalArgumentException("This nickname does not exist!");
+
+        return players.get(playerNames.indexOf(nickname));
+    }
 
     /**
      * Gives a randomly picked powerup to the player
@@ -173,18 +179,6 @@ public class Game extends Observable {
     }
 
     /**
-     * Tells if player P1 can shoot player P2 with the selected weapon
-     * @param p1 The nickname of the first player
-     * @param p2 The nickname of the second player
-     * @param effect The effect that P1 wants to use on P2
-     * @return True only if P1 is allowed to shoot P2 with that weapon
-     */
-    public boolean p1CanShootp2(String p1, String p2, Effect effect){
-        //TODO review this method, might not need it if we don't advice the player on which weapon to use
-        return true;
-    }
-
-    /**
      * Lets the player pick a new powerup card and choose the new spawn spot to respawn
      * @param player the nickname of the player
      */
@@ -248,6 +242,99 @@ public class Game extends Observable {
     public void moveAndGrab(Player player, int x, int y){}
 
     /**
+     * Tells if player offender can shoot player defenders with the selected weapon
+     * @param offendername The nickname of the first player
+     * @param defendersNames The nickname of the second player
+     * @param weapon The effect the weapon used
+     * @return True only if offender can shoot defenders
+     */
+    public boolean p1CanShootPlayers(String offendername, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int indexInOrder) {
+
+
+        int effect_number = weapon.getOrder().get(orderNumber)[indexInOrder];
+
+        Player offender = getPlayerByNickname(offendername);
+
+        ArrayList<Player> defenders = new ArrayList<>();
+
+        for (String i : defendersNames)
+            defenders.add(getPlayerByNickname(i));
+
+        if (weapon.getEffects().get(effect_number).getVisibleByWho() == Visibility.NONE) { // for ( Player p : defenders )
+            for (int k = 0; k < defenders.size() - 1; k++) {   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
+                if (this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition())) {
+                    defenders.remove(k);
+                    k -= 1;
+                    return false;
+                }
+            }
+        }
+        if (weapon.getEffects().get(effect_number).getVisibleByWho() == Visibility.OFFENDER) {
+            for (int k = 0; k < defenders.size() - 1; k++) {   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
+                if (!this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition())) {
+                    defenders.remove(k);
+                    k -= 1;
+                    return false;
+                }
+            }
+        }
+
+        for (int k = 0; k < defenders.size() - 1; k++) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
+
+            int spots_on_x, spots_on_y;
+
+            if (offender.getxPosition() <= defenders.get(k).getxPosition())
+                spots_on_x = defenders.get(k).getxPosition() - offender.getxPosition();
+            else
+                spots_on_x = offender.getxPosition() - defenders.get(k).getxPosition();
+
+            if (offender.getyPosition() <= defenders.get(k).getyPosition())
+                spots_on_y = defenders.get(k).getyPosition() - offender.getyPosition();
+            else
+                spots_on_y = offender.getyPosition() - defenders.get(k).getyPosition();
+            if (spots_on_x + spots_on_y > weapon.getEffects().get(effect_number).getMinDistance()) {
+                defenders.remove(k);
+                k -= 1;
+                return false;
+
+            }
+            if (spots_on_x + spots_on_y < weapon.getEffects().get(effect_number).getMaxDistance()) {
+                defenders.remove(k);
+                k -= 1;
+                return false;
+
+            }
+        }
+        return true;
+    }
+
+
+    public int typeOfEffect( int ordernumber, int indexinOrder, Weapon weapon ){
+
+        int effectNumber = weapon.getOrder().get(ordernumber)[indexinOrder];   //this is the effect we have to check
+
+        int type = 0;
+
+        if (weapon.getEffects().get(effectNumber).getnMoves() != 0) {      //this.player movement
+            type = 0;
+        }
+        if (weapon.getEffects().get(effectNumber).getnMovesOtherPlayer() != 0) {      //other player movement
+            type = 0;
+        }
+        if (weapon.getEffects().get(effectNumber).getnPlayerAttackable() != 0|| weapon.getEffects().get(effectNumber).getnPlayerMarkable() != 0) {      //damage effect
+            type = 1;
+        }
+        return type;
+    }
+
+    public void makeMovementEffect(){
+
+    }
+    public void makeDamageEffect(){
+
+    }
+
+    /**
      * Shoots the defender with the weapon of the offender
      * @param offenderName Player who attacks
      * @param defendersNames Attacked player
@@ -256,6 +343,7 @@ public class Game extends Observable {
     protected void shootPlayer(String offenderName, ArrayList<String> defendersNames, Weapon weapon){
 
         Player offender = getPlayerByNickname(offenderName);
+
         ArrayList<Player> defenders = new ArrayList<>();
 
         for(String i : defendersNames)
@@ -506,13 +594,6 @@ public class Game extends Observable {
 
     }
 
-    private Player getPlayerByNickname(String nickname){
-
-        if(!playerNames.contains(nickname))
-            throw new IllegalArgumentException("This nickname does not exist!");
-
-        return players.get(playerNames.indexOf(nickname));
-    }
 
     public boolean noMoreSkullsOnKST() {
         return this.kst.noMoreSkulls();

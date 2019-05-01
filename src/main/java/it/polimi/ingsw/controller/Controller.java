@@ -76,6 +76,8 @@ public class Controller implements Observer {
                 gameModel.refillAllAmmoSpots();
                 gameModel.refillAllSpawnSpots();
 
+
+
                 if (gameModel.noMoreSkullsOnKST())
                     endOfTurns = true;
             }
