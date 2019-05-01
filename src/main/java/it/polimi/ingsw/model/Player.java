@@ -87,10 +87,7 @@ public class Player {
      * It's true if the board gets flipped for frenzy turn
      */
     private boolean hasFrenzyBoard;
-    /**
-     * It depends on which player the frenzy turn starts from (one or two)
-     */
-    private int nMovesBeforeReloading;
+
     /**
      * True during frenzy turn
      */
@@ -109,10 +106,10 @@ public class Player {
         this.nYellowAmmo = 1;
         this.nBlueAmmo = 1;
         this.points = 0;
-        this.weaponList = new ArrayList<>(3);
-        this.powerUpList = new ArrayList<>(3);
-        this.damages = new ArrayList<>(12);
-        this.marks = new ArrayList<>(12);
+        this.weaponList = new ArrayList<>();
+        this.powerUpList = new ArrayList<>();
+        this.damages = new ArrayList<>();
+        this.marks = new ArrayList<>();
         this.nDeaths = 0;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
@@ -120,7 +117,6 @@ public class Player {
         this.nMovesBeforeGrabbing = 1;
         this.nMovesBeforeShooting = 0;
         this.hasFrenzyBoard = false;
-        this.nMovesBeforeReloading = 0;
         this.canReloadBeforeShooting = false;
     }
 
@@ -185,12 +181,6 @@ public class Player {
     }
     protected void sethasFrenzyBoard( boolean hasFrenzyBoard) {this.hasFrenzyBoard = hasFrenzyBoard;}
     protected boolean gethasFrenzyBoard() {return hasFrenzyBoard;}
-    protected int getnMovesBeforeReloading() {
-        return nMovesBeforeReloading;
-    }
-    protected void setnMovesBeforeReloading(int nMovesBeforeReloading) {
-        this.nMovesBeforeReloading = nMovesBeforeReloading;
-    }
     protected boolean isCanReloadBeforeShooting() {
         return canReloadBeforeShooting;
     }
