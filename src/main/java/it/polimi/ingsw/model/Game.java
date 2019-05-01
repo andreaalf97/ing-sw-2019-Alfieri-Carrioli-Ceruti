@@ -1052,7 +1052,7 @@ public class Game extends Observable {
         for(Player i : players){
             if(i.isCurrentPlayer())
                 return i;
-        }                
+        }
         throw new RuntimeException("didn't find the current player!");
     }
 }
