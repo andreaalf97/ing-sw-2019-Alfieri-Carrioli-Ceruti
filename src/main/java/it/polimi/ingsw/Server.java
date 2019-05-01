@@ -56,11 +56,13 @@ public class Server {
         if(waitingRooms.isEmpty() || waitingRooms.get(waitingRooms.size() - 1).nPlayers() >= WaitingRoom.MAXPLAYERS){
             WaitingRoom newWaitingRoom = new WaitingRoom();
             newWaitingRoom.addPlayer(socket, nickname, mapToVote, nSkullsToVote);
+            Log.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + waitingRooms.size());
             waitingRooms.add(newWaitingRoom);
         }
 
         //If there is a spot for a new player in the current room
         else{
+            Log.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + (waitingRooms.size() - 1));
             waitingRooms.get(waitingRooms.size() - 1).addPlayer(socket, nickname, mapToVote, nSkullsToVote);
         }
 
@@ -76,7 +78,7 @@ public class Server {
      * Starts a new game from the given waiting room
      * @param waitingRoom a ready waiting room
      */
-    private void startGame(WaitingRoom waitingRoom) {
+    public static void startGame(WaitingRoom waitingRoom) {
         if(!waitingRoom.isReady())
             throw new RuntimeException("This room is not ready to start a game");
 
@@ -91,7 +93,8 @@ public class Server {
         virtualView.addObserver(controller);
         gameView.addObserver(virtualView);
 
-
+        Thread t = new Thread(controller);
+        t.start();
     }
 
     private void startServer(){

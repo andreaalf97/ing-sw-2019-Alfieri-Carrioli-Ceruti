@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.map.MapName;
 
 import java.net.Socket;
 import java.util.*;
+import java.util.logging.Level;
 
 public class WaitingRoom {
 
@@ -80,8 +81,11 @@ public class WaitingRoom {
         this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(players.size() > MINPLAYERS)
+                if(players.size() >= MINPLAYERS) {
                     isReady = true;
+                    Log.LOGGER.log(Level.INFO, "The timer is starting the game");
+                    startGame();
+                }
                 else
                     Log.LOGGER.warning("Room has not been filled in time! Not doing anything tho");
             }
@@ -164,5 +168,9 @@ public class WaitingRoom {
      */
     protected boolean isReady(){
         return isReady;
+    }
+
+    private void startGame(){
+        Server.startGame(this);
     }
 }
