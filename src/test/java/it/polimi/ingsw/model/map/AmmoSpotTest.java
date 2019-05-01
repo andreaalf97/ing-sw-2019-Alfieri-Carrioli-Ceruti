@@ -99,7 +99,7 @@ public class AmmoSpotTest {
         PowerUp p1 = new PowerUp();
         ammoSpotTest.refill(p1);
 
-        ammoSpotTest.grabSomething(playerTest);
+        ammoSpotTest.grabSomething(playerTest, -1);
 
         Assert.assertEquals(1, playerTest.getPowerUpList().size());
         Assert.assertTrue((playerTest.getnBlueAmmo() + playerTest.getnRedAmmo() + playerTest.getnYellowAmmo()) > 0);

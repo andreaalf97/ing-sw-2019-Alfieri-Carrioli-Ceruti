@@ -315,8 +315,11 @@ public class Player {
      * Gives ammos to this player
      * @param ammos An array of Colors to be given to this player
      */
-    public void giveAmmos(ArrayList<Color> ammos){
+    public void giveAmmos(ArrayList<Color> ammos) throws RuntimeException{
         Iterator i = ammos.iterator();
+
+        if (ammos.contains(Color.ANY))
+            throw new RuntimeException("ammos must not contains any");
 
         while(i.hasNext()){
             Color temp = (Color)i.next();
@@ -399,6 +402,7 @@ public class Player {
         return false;
     }
 
+    //TESTED
     /**
      * this method reload a weapon that i am sure i can reload, see reloadWeapons in controller.java
      * @param index is the index of the weapon to reload in the hans of the player
@@ -423,6 +427,12 @@ public class Player {
 
     }
 
+    //TESTED
+    /**
+     * this method move this player in (x,y)
+     * @param x the new x
+     * @param y the new y
+     */
     protected void moveTo(int x, int y) {
 
         if(x < 0 || x > 3)
@@ -435,11 +445,12 @@ public class Player {
         this.yPosition = y;
     }
 
+    //TESTED
     /**
      * Removes the chosen ammo color from this player's wallet
      * @param i
      */
-    public void removeAmmo(Color i) {
+    public void removeAmmo(Color i) throws RuntimeException{
         switch (i){
             case RED:
                 nRedAmmo--;
@@ -455,6 +466,7 @@ public class Player {
         }
     }
 
+    //TESTED
     /**
      * Takes the weapon from the player and returns it
      * @param indexToDiscard index of the weapon

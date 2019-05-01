@@ -286,6 +286,27 @@ public class PlayerTest {
     }
 
     @Test
+    public void giveAmmosException(){
+        Player testPlayer = new Player("gino");
+
+        testPlayer.setnBlueAmmo(2);
+        testPlayer.setnRedAmmo(0);
+        testPlayer.setnYellowAmmo(0);
+
+        ArrayList<Color> ammos = new ArrayList<>();
+        ammos.add(Color.BLUE);
+        ammos.add(Color.BLUE);
+        try {
+            ammos.add(Color.ANY);
+            testPlayer.giveAmmos(ammos);
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+        }
+
+    }
+
+    @Test
     public void givePowerUpToEmptyWallet(){
         Player testPlayer = new Player("andreaalf");
 
@@ -415,5 +436,89 @@ public class PlayerTest {
         playerTest.reloadWeapon(0);
 
         Assert.assertTrue(playerTest.getWeaponList().get(0).isLoaded());
+    }
+
+    @Test
+    public void moveTo(){
+        Player playerTest = new Player("gino", 1,2);
+
+        playerTest.moveTo(2,2);
+        Assert.assertEquals(2, playerTest.getxPosition());
+        Assert.assertEquals(2, playerTest.getyPosition());
+
+        try {
+            playerTest.moveTo(4,1);
+        }
+        catch (IllegalArgumentException e){
+            Assert.assertTrue(true);
+        }
+
+        try {
+            playerTest.moveTo(1,4);
+        }
+        catch (IllegalArgumentException e){
+            Assert.assertTrue(true);
+        }
+
+    }
+
+    @Test
+    public void removeAmmo(){
+        Player playerTest = new Player("gino", 0,0);
+
+        ArrayList<Color> ammosTest = new ArrayList<>();
+        ammosTest.add(Color.RED);
+        ammosTest.add(Color.RED);
+        playerTest.giveAmmos(ammosTest);
+
+        playerTest.removeAmmo(Color.RED);
+        Assert.assertEquals(2, playerTest.getnRedAmmo());
+
+        playerTest.removeAmmo(Color.BLUE);
+        playerTest.removeAmmo(Color.YELLOW);
+        Assert.assertEquals(0, playerTest.getnYellowAmmo());
+        Assert.assertEquals(0, playerTest.getnBlueAmmo());
+
+
+        try{
+            playerTest.removeAmmo(Color.ANY);
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void giveWeapon() {
+        Player playerTest = new Player("gino", 0,0);
+        playerTest.giveWeapon(new Weapon("a"));
+
+        Assert.assertEquals(1,playerTest.getWeaponList().size());
+
+        playerTest.giveWeapon(new Weapon("b"));
+        playerTest.giveWeapon(new Weapon("c"));
+
+        try{
+            playerTest.giveWeapon(new Weapon("d"));
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+
+        }
+    }
+    @Test
+    public void removeWeaponByIndex(){
+        Player playerTest = new Player("gino", 0,0);
+
+        Weapon weaponTest = new Weapon("ginogino");
+
+        playerTest.giveWeapon(weaponTest);
+        playerTest.giveWeapon(new Weapon("a"));
+        playerTest.giveWeapon(new Weapon("b"));
+
+        Weapon weaponToRemove = playerTest.removeWeaponByIndex(0);
+
+        Assert.assertEquals(weaponTest, weaponToRemove);
+
     }
 }
