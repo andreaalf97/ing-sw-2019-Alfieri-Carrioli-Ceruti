@@ -31,25 +31,11 @@ public class VirtualView extends Observable implements Observer {
     ArrayList<String> players;
 
     /**
-     * Open connections
-     */
-    ArrayList<Socket> sockets;
-
-    /**
      * Only constructor
      * @param players players nicknames
-     * @param sockets list of all open connections
      */
-    public VirtualView(ArrayList<String> players, ArrayList<Socket> sockets){
+    public VirtualView(ArrayList<String> players){
         this.players = players;
-        this.sockets = sockets;
-
-        for(Socket i : sockets){
-
-            VirtualViewSocketHandler socketHandler = new VirtualViewSocketHandler(i);
-            Thread t = new Thread(socketHandler);
-            t.start();
-        }
     }
 
     @Override
@@ -99,24 +85,7 @@ public class VirtualView extends Observable implements Observer {
     }
 
     public void sendAll(String message) {
-
-        for(Socket socket : sockets){
-
-            PrintWriter writer = null;
-
-            try {
-
-                writer = new PrintWriter(socket.getOutputStream());
-
-            }
-            catch (IOException e){
-                Log.LOGGER.log(Level.SEVERE, e.getMessage());
-            }
-
-            writer.println(message);
-            writer.flush();
-
-        }
+        //TODO
 
     }
 

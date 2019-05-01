@@ -23,6 +23,7 @@ public class VirtualViewSocketHandler implements Runnable {
         }
         catch (IOException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -30,14 +31,15 @@ public class VirtualViewSocketHandler implements Runnable {
     public void run() {
 
         try {
-
-            while (true) {
-                String line = reader.readLine();
+            String line;
+            while ((line = reader.readLine()) != null) {
                 caller.notify(line);
             }
         }
-        catch (IOException e){
+        catch (IOException | NullPointerException e){
+            Log.LOGGER.log(Level.SEVERE, "Error while trying to read from VirtualViewSocketHandler");
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
         }
     }
 }

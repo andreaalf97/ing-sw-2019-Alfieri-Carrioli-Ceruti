@@ -42,7 +42,7 @@ public class WaitingRoom {
     /**
      * The length of the timer
      */
-    protected final static long TIMERMINUTES = (long) 2;
+    protected final static long TIMERMINUTES = (long) 1;
 
     /**
      * Maximum amount of players for a single game
@@ -53,6 +53,8 @@ public class WaitingRoom {
      * Minimum amount of players for a single game
      */
     protected final static int MINPLAYERS = 3;
+
+
 
     /**
      * Basic constructor

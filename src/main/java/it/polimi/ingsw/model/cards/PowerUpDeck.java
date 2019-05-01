@@ -48,6 +48,7 @@ public class PowerUpDeck {
         }
         catch(FileNotFoundException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
         }
     }
 
