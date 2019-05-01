@@ -78,4 +78,15 @@ public class SpawnSpotTest {
 
 
     }
+
+    @Test
+    public void refillCheckWeaponIsAddedWithoutRuntimeExceptions(){
+        Weapon w1 = new Weapon("a");
+        ArrayList<Weapon> weaponsListTest = new ArrayList<>();
+        SpawnSpot spawnSpotTest = new SpawnSpot(weaponsListTest);
+
+        spawnSpotTest.refill(w1);
+
+        Assert.assertEquals(1, spawnSpotTest.getWeaponList().size());
+    }
 }

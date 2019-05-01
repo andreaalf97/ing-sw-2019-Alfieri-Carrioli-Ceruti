@@ -15,6 +15,7 @@ public class MapBuilder {
 
     private static Random rand = new Random();
 
+
     /**
      * This static method reads the necessary values from a JSON file and constructs the new map selected
      * @param mapName the name of the chosen map
@@ -25,13 +26,11 @@ public class MapBuilder {
         //The Spot matrix I will work on
         Spot[][] tempSpotMatrix = new Spot[3][4];
 
+
         try {
             JsonElement jsonElement = new JsonParser().parse(new FileReader("resources/maps.json"));
-            JsonObject root = jsonElement.getAsJsonObject(); //the entire json file as a JsonObject
 
-            //TODO do we need a JsonElement AND a JsonObject?
-            JsonElement jsonMyMap = root.get(mapName.toString());
-            JsonObject jsonObjectMyMap = jsonMyMap.getAsJsonObject(); //the map selected is saved in jsonObjectMymap
+            JsonObject jsonObjectMyMap = jsonElement.getAsJsonObject().get(mapName.toString()).getAsJsonObject(); //the map selected is saved in jsonObjectMymap
 
             //these two nested for cycles load the information of the single spot in the matrix map
             for(int i = 0; i < tempSpotMatrix.length; i++) {

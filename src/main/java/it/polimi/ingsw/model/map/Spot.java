@@ -36,8 +36,6 @@ public class Spot {
         this.room = null;
     }
 
-
-
     /**
      * spot constructor
      * @param doors is the doors to set at the new spot
@@ -73,6 +71,7 @@ public class Spot {
     public boolean playerHere(String player){
         return playersHere.contains(player);
     }
+
 
     /**
      * Adds a player to this spot if the player is not already on the spot

@@ -114,7 +114,10 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public void grabSomething(Player player) {
-         if(this.powerup != null) player.givePowerUp(powerup);
+         if(powerup != null) {
+             player.givePowerUp(powerup);
+             powerup = null;
+         }
          player.giveAmmos(ammoColorList);
 
          //todo if i give something to the player i have to reload the spot, i have to do this at every end of a player turn

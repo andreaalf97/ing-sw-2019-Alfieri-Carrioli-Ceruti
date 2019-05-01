@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class SpotTest {
 
-
+    //these are useless tests
     @Test
     public void hasNorthDoorTrue() {
         ArrayList<Boolean> doorsTest = new ArrayList<>();

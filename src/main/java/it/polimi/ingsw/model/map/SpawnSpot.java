@@ -51,8 +51,11 @@ public class SpawnSpot extends Spot {
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+    //TODO should addWeapon and removeWeapon be boolean?
+
+    //TESTED
     /**
-     * Adds a weapon to this spot
+     * Adds a weapon to list to this spot weaponlist
      * @param weaponToAdd the weapon to add
      * @return true if the weapon was added
      */
@@ -65,6 +68,7 @@ public class SpawnSpot extends Spot {
         }
     }
 
+    //TESTED
     /**
      * Removes a weapon from this spot
      * @param weaponToRemove the weapon to remove
@@ -80,6 +84,7 @@ public class SpawnSpot extends Spot {
 
     }
 
+    //TESTED --> no exceptions tested
     /**
      * Refills this spot with a weapon
      * @param objToAdd the weapon to add
