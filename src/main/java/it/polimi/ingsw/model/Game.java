@@ -144,9 +144,13 @@ public class Game extends Observable {
      * It is usually executed at the end of each turn
      */
     public void checkDeaths() {
-        //TODO check deaths and assign the points to the players 
         Log.LOGGER.info("Checking deaths...");
-        Log.LOGGER.info("Done checking deaths");
+
+        for(Player i : players){
+            if(i.isDead()){
+                giveBoardPoints(i);
+            }
+        }
     }
 
     /**
@@ -571,15 +575,27 @@ public class Game extends Observable {
      * Clears the player board and gives points to all players involved
      */
     public void giveBoardPoints ( Player player  ) {
+        //TODO dare segnalini a chi infierisce e modificare il kst
+        if(!player.isDead())
+            throw new RuntimeException("This player is not dead");
 
-        int[] pointValues = {8, 6, 4, 2, 1, 1};
+        ArrayList<Integer> pointValues = new ArrayList<>();
+        pointValues.add(8);
+        pointValues.add(6);
+        pointValues.add(4);
+        pointValues.add(2);
+        pointValues.add(1);
+        pointValues.add(1);
 
         getPlayerByNickname( player.getDamages().get(0) ).givePoints(1);            //first blood point
 
+        for(int k = 0; k < player.getnDeaths(); k++)
+            pointValues.remove(0);
+
         ArrayList<String> ranking = player.getOffendersRanking();
 
-        for (int i = 0; i < ranking.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+        for (int i = 0; i < ranking.size() && i < pointValues.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues.get(i));
     }
 
     /**
@@ -591,7 +607,7 @@ public class Game extends Observable {
         ArrayList<String> ranking = kst.getRanking();
 
         for (int i = 0; i < ranking.size(); i++)
-                getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
 
     }
 
@@ -954,6 +970,36 @@ public class Game extends Observable {
         gameMap.refill(x, y, toDiscard);
 
 
+    }
+
+    public void endTurnUpdateStatus() {
+
+        Player current = getCurrentPlayer();
+
+        Player next = getNextPlayer(current);
+
+        current.endTurnCurrent();
+
+        next.startTurn();
+    }
+
+    private Player getNextPlayer(Player current) {
+
+        int currentIndex = players.indexOf(current);
+
+        if(currentIndex == players.size() - 1)
+            return players.get(0);
+        else
+            return players.get(currentIndex + 1);
+
+    }
+
+    private Player getCurrentPlayer() {
+        for(Player i : players){
+            if(i.isCurrentPlayer())
+                return i;
+        }                
+        throw new RuntimeException("didn't find the current player!");
     }
 }
 

@@ -469,4 +469,17 @@ public class Player {
         return toReturn;
 
     }
+
+    public void endTurnCurrent() {
+        playerStatus.isActive = false;
+        playerStatus.isFirstTurn = false;
+    }
+
+    public void startTurn() {
+        playerStatus.isActive = true;
+    }
+
+    public boolean isCurrentPlayer() {
+        return playerStatus.isActive;
+    }
 }

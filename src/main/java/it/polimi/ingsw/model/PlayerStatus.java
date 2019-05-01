@@ -13,6 +13,8 @@ public class PlayerStatus {
      */
     protected boolean isActive;
 
+    //todo manca la frenesia?
+
     /**
      * The type of answer the controller is waiting for
      */

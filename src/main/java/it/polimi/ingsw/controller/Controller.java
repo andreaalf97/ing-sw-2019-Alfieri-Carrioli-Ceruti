@@ -241,6 +241,23 @@ public class Controller implements Observer {
         //TODO
     }
 
+    /**
+     * This method:
+     *      - update the current player status
+     *      - checks all deaths
+     *      - refills
+     */
+    private void endTurn(){
+
+        gameModel.endTurnUpdateStatus();
+
+        gameModel.checkDeaths();
+
+        gameModel.refillAllAmmoSpots();
+
+        gameModel.refillAllSpawnSpots();
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
