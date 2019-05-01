@@ -74,6 +74,11 @@ public class Player {
     private boolean isDead;
 
     /**
+     * Maximum amount of moves during movement
+     */
+    private int nMoves;
+
+    /**
      * Amount of moves this player can do before grabbing (increases as the damages increase)
      */
     private int nMovesBeforeGrabbing;
@@ -92,6 +97,11 @@ public class Player {
      * True during frenzy turn
      */
     private boolean canReloadBeforeShooting;
+
+    /**
+     * The current state of this player
+     */
+    private PlayerStatus playerStatus;
 
 
     /**
@@ -114,6 +124,7 @@ public class Player {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.isDead = true;
+        this.nMoves = 3;
         this.nMovesBeforeGrabbing = 1;
         this.nMovesBeforeShooting = 0;
         this.hasFrenzyBoard = false;
@@ -422,5 +433,40 @@ public class Player {
 
         this.xPosition = x;
         this.yPosition = y;
+    }
+
+    /**
+     * Removes the chosen ammo color from this player's wallet
+     * @param i
+     */
+    public void removeAmmo(Color i) {
+        switch (i){
+            case RED:
+                nRedAmmo--;
+                break;
+            case YELLOW:
+                nYellowAmmo--;
+                break;
+            case BLUE:
+                nBlueAmmo--;
+                break;
+            case ANY:
+                throw new RuntimeException("Color.ANY can't appear here");
+        }
+    }
+
+    /**
+     * Takes the weapon from the player and returns it
+     * @param indexToDiscard index of the weapon
+     * @return the weapon removed from the player
+     */
+    public Weapon removeWeaponByIndex(int indexToDiscard) {
+
+        Weapon toReturn = weaponList.get(indexToDiscard);
+
+        weaponList.remove(toReturn);
+
+        return toReturn;
+
     }
 }

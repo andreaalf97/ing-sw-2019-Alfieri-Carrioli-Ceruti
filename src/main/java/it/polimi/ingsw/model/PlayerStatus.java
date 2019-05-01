@@ -1,4 +1,6 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.controller.Question;
 
 public class PlayerStatus {
 
@@ -12,9 +14,10 @@ public class PlayerStatus {
     protected boolean isActive;
 
     /**
-     *
+     * The type of answer the controller is waiting for
      */
-    protected boolean waitingForAnswerToThisQuestion;
+    protected Question waitingForAnswerToThisQuestion;
+
     /**
      *
      */

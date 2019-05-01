@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.cards.PowerUpDeck;
+import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.cards.WeaponDeck;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameMap {
@@ -182,8 +184,8 @@ public class GameMap {
      * @param y the y coord
      * @param p the player
      */
-    public void grabSomething(int x, int y, Player p) {
-        map[x][y].grabSomething(p);
+    public void grabSomething(int x, int y, Player p, int index) {
+        map[x][y].grabSomething(p, index);
     }
 
     /**
@@ -370,5 +372,24 @@ public class GameMap {
                         this.map[i][j].refill(weaponDeck.drawCard());
 
                 }
+    }
+
+    public ArrayList<Weapon> showSpawnSpotWeapons(Color roomColor) {
+
+
+        Spot s = getSpawnSpotByRoomColor(roomColor);
+
+        return s.getSpawnWeapons();
+    }
+
+    private Spot getSpawnSpotByRoomColor(Color roomColor){
+        for(int i = 0; i < map.length; i++){
+            for(int j = 0; j < map[i].length; j++){
+                if(map[i][j].isSpawnSpot() && map[i][j].getColor() == roomColor)
+                    return map[i][j];
+            }
+        }
+
+        return null;
     }
 }

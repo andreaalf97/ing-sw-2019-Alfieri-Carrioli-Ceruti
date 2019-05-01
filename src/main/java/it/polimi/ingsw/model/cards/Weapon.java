@@ -147,9 +147,6 @@ public class Weapon {
      */
     public void reload(){
 
-        if(this.isLoaded)
-            throw new RuntimeException("This weapon should not be loaded");
-
         this.isLoaded = true;
     }
 

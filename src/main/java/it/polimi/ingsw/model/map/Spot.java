@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
 
@@ -105,7 +106,7 @@ public class Spot {
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @param p the player
      */
-    public void grabSomething(Player p) {
+    public void grabSomething(Player p, int index) {
         throw new RuntimeException("This object should not exist!");
     }
 
@@ -151,6 +152,10 @@ public class Spot {
     }
 
     public boolean isFull() {
+        throw new RuntimeException("This should never be called!");
+    }
+
+    public ArrayList<Weapon> getSpawnWeapons() {
         throw new RuntimeException("This should never be called!");
     }
 }

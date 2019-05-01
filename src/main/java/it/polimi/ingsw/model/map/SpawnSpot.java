@@ -105,10 +105,11 @@ public class SpawnSpot extends Spot {
      * @param p the player who's receiving the weapon
      */
     @Override
-    public void grabSomething(Player p) {
-        //TODO how do we choose which weapon the player wants to pick?
-        //Maybe this method is obsolete and Game should do all the work --> grabSomething() in AmmoSpot becomes obsolete too then
-        //Maybe we should add an Integer that is ignored by the AmmoSpot method
+    public void grabSomething(Player p, int index) {
+
+        p.giveWeapon(weaponList.get(index));
+
+        weaponList.remove(weaponList.get(index));
     }
 
     /**
@@ -139,5 +140,10 @@ public class SpawnSpot extends Spot {
     @Override
     public boolean isFull() {
         return (this.weaponList.size() == 3);
+    }
+
+    @Override
+    public ArrayList<Weapon> getSpawnWeapons(){
+        return new ArrayList<>(weaponList);
     }
 }

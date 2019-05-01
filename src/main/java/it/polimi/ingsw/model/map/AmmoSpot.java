@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,14 +114,16 @@ public class AmmoSpot extends Spot {
      * @param player the player who's receiving the object
      */
     @Override
-    public void grabSomething(Player player) {
+    public void grabSomething(Player player, int index) {
+
+        if(index != -1)
+            throw new RuntimeException("Index must be -1 when calling grabSomething in AmmoSpot");
+
          if(powerup != null) {
              player.givePowerUp(powerup);
              powerup = null;
          }
          player.giveAmmos(ammoColorList);
-
-         //todo if i give something to the player i have to reload the spot, i have to do this at every end of a player turn
     }
 
     /**
@@ -159,4 +162,8 @@ public class AmmoSpot extends Spot {
         return ((this.powerup == null && this.ammoColorList.size() == 3) || (this.powerup != null && this.ammoColorList.size() == 2));
     }
 
+    @Override
+    public ArrayList<Weapon> getSpawnWeapons(){
+        throw new RuntimeException("This should never be called!");
+    }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
@@ -778,6 +779,100 @@ public class Game extends Observable {
      */
     protected GameMap cloneGameMap(){
         return this.gameMap.clone();
+    }
+
+    /**
+     * Makes the player pay the correct amount of ammo
+     * @param nickname the nickname
+     * @param cost the cost to pay
+     */
+    public void pay(String nickname, ArrayList<Color> cost) throws InvalidChoiceException {
+
+        Player p = getPlayerByNickname(nickname);
+
+        for(Color i : cost){
+
+            switch (i){
+                case RED:
+                    if(p.getnRedAmmo() == 0)
+                        throw new InvalidChoiceException("Not enough red ammo");
+                    break;
+                case BLUE:
+                    if(p.getnBlueAmmo() == 0)
+                        throw new InvalidChoiceException("Not enough blue ammo");
+                    break;
+                case YELLOW:
+                    if(p.getnYellowAmmo() == 0)
+                        throw new InvalidChoiceException("Not enough yellow ammo");
+                    break;
+                case ANY:
+                    throw new RuntimeException("Color.ANY can't appear here");
+            }
+
+            p.removeAmmo(i);
+        }
+    }
+
+    /**
+     * Gives
+     * @param player
+     * @throws InvalidChoiceException
+     */
+    public void giveAmmoCard(String player) throws InvalidChoiceException{
+
+        Player p = getPlayerByNickname(player);
+
+        int x = p.getxPosition();
+        int y = p.getyPosition();
+
+        if(! gameMap.isAmmoSpot(x, y))
+            throw new InvalidChoiceException("This is not an ammo spot");
+
+        gameMap.grabSomething(x, y, p, -1);
+    }
+
+    /**
+     * Returns a copy of the weapons on the spawn spot
+     * @param roomColor the color of the spawn
+     * @return a copy of the weapons
+     */
+    public ArrayList<Weapon> showSpawnSpotWeapons(Color roomColor){
+        return gameMap.showSpawnSpotWeapons(roomColor);
+    }
+
+    public void pickWeapon(String nickname, int index){
+
+        Player p = getPlayerByNickname(nickname);
+
+        int x = p.getxPosition();
+        int y = p.getyPosition();
+
+        gameMap.grabSomething(x, y, p, index);
+
+    }
+
+    public void switchWeapons(String player, int indexToDiscard, int indexToPick){
+
+        Player p = getPlayerByNickname(player);
+
+        int x = p.getxPosition();
+        int y = p.getyPosition();
+
+        if(!gameMap.isSpawnSpot(x, y))
+            throw new RuntimeException("This is not a spawn spot");
+
+        Weapon toDiscard = p.removeWeaponByIndex(indexToDiscard);
+
+        toDiscard.reload();
+
+
+
+        gameMap.grabSomething(x, y, p, indexToPick);
+
+
+        gameMap.refill(x, y, toDiscard);
+
+
     }
 }
 
