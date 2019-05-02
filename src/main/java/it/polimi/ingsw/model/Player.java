@@ -200,6 +200,9 @@ public class Player {
     }
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+    public ArrayList<Weapon> returnPlayerWeaponList(){
+        return getWeaponList();
+    }
     //TESTED
     /**
      * Return the list of offenders nicknames ordered by the amount of damages

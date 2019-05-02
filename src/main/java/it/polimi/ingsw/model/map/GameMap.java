@@ -142,6 +142,7 @@ public class GameMap {
                     map[i][j].removePlayer(player);
     }
 
+    //TESTED
     /**
      * Gives whatever is on the spot to a given player
      * @param x the x coord
@@ -152,6 +153,7 @@ public class GameMap {
         map[x][y].grabSomething(p, index);
     }
 
+    //TESTED
     /**
      * Is this an ammo spot?
      * @param x x coord
@@ -162,6 +164,7 @@ public class GameMap {
         return map[x][y].isAmmoSpot();
     }
 
+    //TESTED
     /**
      * Is this a spawn spot?
      * @param x the x coord
@@ -172,15 +175,20 @@ public class GameMap {
         return map[x][y].isSpawnSpot();
     }
 
+    //TESTED
     /**
      * Return all the spots where the player can move with nMoves
      * @param player the player's nickname
      * @param nMoves The amount of moves available
      * @return a matrix[3][4] of boolean
      */
-    public boolean[][] wherePlayerCanMove(String player, int nMoves){
+    public boolean[][] wherePlayerCanMove(String player, int nMoves) throws RuntimeException{
 
-        int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in 1
+        boolean[][] temp = new boolean[3][4];
+        booleanMatrixInizialisation(temp);
+
+
+        int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in
 
         if ( playerSpot == null)
             throw new RuntimeException("This array shouldn't be null");
@@ -188,22 +196,34 @@ public class GameMap {
         int playerSpotX = playerSpot[0]; //The X coord
         int playerSpotY = playerSpot[1]; //The Y coord
 
-        boolean[][] temp = new boolean[4][3]; //The matrix I will return once completed
+        //Check all spots
+        for(int i = 0; i < temp.length; i++)
+            for(int j = 0; j < temp[i].length; j++) {
+                //for every spot
+                if (validSpot(i, j)) {
+                    if (canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves)) //if the player can move from his spot to the <i, j> spot
+                        temp[i][j] = true; //temp<i, j> is true --> the player can move there
+                }
+            }
+
+        return temp;
+    }
+
+    //TESTED
+    /**
+     * initialise the boolean matrix in which we will have the spots where player can do actions
+     * @param temp the matrix representing the gameMap
+     */
+    public void booleanMatrixInizialisation(boolean [][] temp){
 
         //Initialize the matrix to false for clearness
         for(int i = 0; i < temp.length; i++)
             for(int j = 0; j < temp[i].length; j++) //for every spot
                 temp[i][j] = false; //initialize to false
 
-        //Check all spots
-        for(int i = 0; i < temp.length; i++)
-            for(int j = 0; j < temp[i].length; j++) //for every spot
-                if(canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves)) //if the player can move from his spot to the <i, j> spot
-                    temp[i][j] = true; //temp<i, j> is true --> the player can move there
-
-        return temp;
     }
 
+    //TESTED
     /**
      * Tells you if a player in spot1 can move to spot2 with a certain amount of moves
      * @param spot1X spot 1 X coord
@@ -213,8 +233,8 @@ public class GameMap {
      * @param nMoves How many moves the player can use
      * @return true if the player can move from spot1 to spot2 in nMoves
      */
-    public boolean canMoveFromTo(int spot1X, int spot1Y, int spot2X, int spot2Y, int nMoves) {
-        if(spot1X < 0 || spot1X > 4 || spot1Y < 0 || spot1Y > 3 || spot2X < 0 || spot2X > 4 || spot2Y < 0 || spot2Y > 3)
+    public boolean canMoveFromTo(int spot1X, int spot1Y, int spot2X, int spot2Y, int nMoves) throws  RuntimeException {
+        if(spot1X < 0 || spot1X > 2 || spot1Y < 0 || spot1Y > 3 || spot2X < 0 || spot2X > 2 || spot2Y < 0 || spot2Y > 3 || !validSpot(spot1X, spot1Y) || !validSpot(spot2X, spot2Y))
             throw new RuntimeException("This is not a valid spot");
 
         if(spot1X == spot2X && spot1Y == spot2Y)
@@ -228,22 +248,66 @@ public class GameMap {
         //North == true if the player can move north
         boolean north = false, east = false, west = false, south = false;
 
-        if(spot1.hasNorthDoor())
-            north = canMoveFromTo(spot1X, spot1Y - 1, spot2X, spot2Y, nMoves - 1);
+        if(spot1.hasNorthDoor() ||  (isSameRoom(spot1X , spot1Y, spot1X - 1 , spot1Y)  ))
+            north = canMoveFromTo(spot1X - 1, spot1Y , spot2X, spot2Y, nMoves - 1);
 
-        if(spot1.hasEastDoor())
-            east = canMoveFromTo(spot1X + 1, spot1Y, spot2X, spot2Y, nMoves - 1);
+        if(spot1.hasEastDoor() ||   (isSameRoom(spot1X, spot1Y , spot1X , spot1Y + 1) ))
+            east = canMoveFromTo(spot1X , spot1Y + 1, spot2X, spot2Y, nMoves - 1);
 
-        if(spot1.hasSouthDoor())
-            south = canMoveFromTo(spot1X, spot1Y + 1, spot2X, spot2Y, nMoves - 1);
+        if(spot1.hasSouthDoor() ||   (isSameRoom(spot1X , spot1Y , spot1X + 1, spot1Y) ))
+            south = canMoveFromTo(spot1X + 1, spot1Y , spot2X, spot2Y, nMoves - 1);
 
-        if(spot1.hasWestDoor())
-            west = canMoveFromTo(spot1X - 1, spot1Y, spot2X, spot2Y, nMoves - 1);
+        if(spot1.hasWestDoor() ||   (isSameRoom(spot1X, spot1Y , spot1X , spot1Y - 1)))
+            west = canMoveFromTo(spot1X , spot1Y - 1, spot2X, spot2Y, nMoves - 1);
 
         return north || east || south || west; // ==> If there is at least one path throught one of these doors
     }
 
+    //TESTED
+    /**
+     * tells if the spot individuated with the two couple of coordinates are in the same room
+     * @param x1 spot 1 x
+     * @param y1 spot 1 y
+     * @param x2 spot 2 x
+     * @param y2 spot 2 y
+     * @return true if spot are in the same room
+     */
+    private boolean isSameRoom(int x1, int y1, int x2, int y2) {
+        if(x1 < 0 || x1 > 2 )
+            return false;
+        if(x2 < 0 || x2 > 2 )
+            return false;
+        if (y1 < 0 || y1 > 3)
+            return false;
+        if (y2 < 0 || y2 > 3)
+            return false;
 
+        if (map[x1][y1] != null && map[x2][y2] != null && getSpotByIndex(x1,y1).getRoom() == getSpotByIndex(x2, y2).getRoom())
+            return true;
+        return false;
+
+    }
+
+    //TESTED
+    /**
+     * check if the spot is valid
+     * @param x spot x
+     * @param y spot y
+     * @return true if spot is valid and exists
+     */
+    private boolean validSpot(int x, int y) {
+        if (x < 0 || x > 2 || y < 0 || y > 3 || getSpotByIndex(x, y) == null)
+            return false;
+        return true;
+    }
+
+    //TESTED
+    /**
+     * return all the spots where the player can move and grab something
+     * @param player the player who moves
+     * @param nMoves the moves that player can do
+     * @return a boolean matrix representing the gameMap
+     */
     public boolean[][] wherePlayerCanMoveAndGrab(String player, int nMoves) {
         int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in 1
 
@@ -253,23 +317,27 @@ public class GameMap {
         int playerSpotX = playerSpot[0]; //The X coord
         int playerSpotY = playerSpot[1]; //The Y coord
 
-        boolean[][] temp = new boolean[4][3]; //The matrix I will return once completed
-
-        //Initialize the matrix to false for clearness
-        for(int i = 0; i < temp.length; i++)
-            for(int j = 0; j < temp[i].length; j++) //for every spot
-                temp[i][j] = false; //initialize to false
+        boolean[][] temp = new boolean[3][4]; //The matrix I will return once completed
+        booleanMatrixInizialisation(temp);
 
         //Check all spots
         for(int i = 0; i < temp.length; i++)
             for(int j = 0; j < temp[i].length; j++) //for every spot
-                if(canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves) && !emptySpot(i, j)) //if the player can move from his spot to the <i, j> spot
-                    temp[i][j] = true; //temp<i, j> is true --> the player can move there
-        //TODO so we suppose nMoves is 2 if the player has more than 2 damages?? or maybe is better to check the damages inside this method and update nMoves the right way ( also for frenzy turn a player can move up to 3 spots, then grab ).
+                if (validSpot(i, j)) {
+                    if (canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves) && !emptySpot(i, j)) //if the player can move from his spot to the <i, j> spot
+                        temp[i][j] = true; //temp<i, j> is true --> the player can move there
+                }
 
         return temp;
     }
 
+    //TESTED
+    /**
+     * tells if the spot is empty
+     * @param i spot x
+     * @param j spot y
+     * @return true if spot is empty
+     */
     private boolean emptySpot(int i, int j) {
 
         if(map[i][j] == null)
