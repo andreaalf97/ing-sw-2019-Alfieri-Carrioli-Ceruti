@@ -401,4 +401,15 @@ public class GameMap {
 
         return null;
     }
+
+    public Room getPlayerRoom(String nickname){
+
+        for(int i = 0; i < map.length; i++)
+            for(int j = 0; j < map[i].length; j++)
+                if(map[i][j] != null && map[i][j].playerHere(nickname)){
+                    return map[i][j].getRoom();
+                }
+
+        return null;
+    }
 }
