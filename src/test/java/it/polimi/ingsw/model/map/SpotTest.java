@@ -99,4 +99,14 @@ public class SpotTest {
         Spot spotTest = new Spot(doorsTest, room);
         Assert.assertFalse(spotTest.getDoors().get(3));
     }
+
+    @Test
+    public void removePlayer(){
+        Spot spotTest = new Spot();
+        spotTest.addPlayer("gino");
+
+        spotTest.removePlayer("gino");
+        Assert.assertEquals(0, spotTest.getPlayersHere().size());
+
+    }
 }

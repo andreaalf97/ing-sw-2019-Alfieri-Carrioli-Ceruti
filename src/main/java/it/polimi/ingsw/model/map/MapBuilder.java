@@ -89,6 +89,7 @@ public class MapBuilder {
         catch (FileNotFoundException e){
             //If the file does not exist || we have problems with the file
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
         }
 
         //The map is created with its PROTECTED constructor

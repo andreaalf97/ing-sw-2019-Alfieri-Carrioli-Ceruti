@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -22,7 +23,7 @@ import java.util.logging.Level;
  */
 
 @Deprecated
-public class VirtualView extends Observable implements Observer, Runnable {
+public class VirtualView extends Observable implements Observer {
 
     /**
      * Player nicknames
@@ -30,18 +31,11 @@ public class VirtualView extends Observable implements Observer, Runnable {
     ArrayList<String> players;
 
     /**
-     * Open connections
-     */
-    ArrayList<Socket> sockets;
-
-    /**
      * Only constructor
      * @param players players nicknames
-     * @param sockets list of all open connections
      */
-    public VirtualView(ArrayList<String> players, ArrayList<Socket> sockets){
+    public VirtualView(ArrayList<String> players){
         this.players = players;
-        this.sockets = sockets;
     }
 
     @Override
@@ -90,8 +84,12 @@ public class VirtualView extends Observable implements Observer, Runnable {
         return 0;
     }
 
-    @Override
-    public void run() {
-        Log.LOGGER.log(Level.INFO, "The Virtual View is up and running");
+    public void sendAll(String message) {
+        //TODO
+
+    }
+
+    protected void notify(String message){
+        notifyObservers(message);
     }
 }

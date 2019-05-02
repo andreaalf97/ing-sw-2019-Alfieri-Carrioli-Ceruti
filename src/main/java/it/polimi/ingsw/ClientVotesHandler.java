@@ -15,7 +15,7 @@ public class ClientVotesHandler implements Runnable {
     private Server caller;
     private Socket socket;
 
-    public ClientVotesHandler(Server caller, Socket socket){
+    ClientVotesHandler(Server caller, Socket socket){
         this.caller = caller;
         this.socket = socket;
     }
@@ -34,18 +34,14 @@ public class ClientVotesHandler implements Runnable {
             //Asks for username
             out.println("Insert username:");
             out.flush();
-            Log.LOGGER.log(Level.INFO,"Asked for username");
 
             //Retrieve username
             String line = in.nextLine();
-
-            Log.LOGGER.log(Level.INFO,"Received answer: " + line);
 
             while(Server.notAValidUsername(line)){
                 out.println("Not a valid username:");
                 out.flush();
                 line = in.nextLine();
-                Log.LOGGER.log(Level.INFO,"Received answer " + line);
             }
 
 
@@ -60,17 +56,12 @@ public class ClientVotesHandler implements Runnable {
             out.println("3 -- WATER");
             out.flush();
 
-            Log.LOGGER.log(Level.INFO,"Asked for map");
-
-
             int nextInt = in.nextInt();
-            Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
 
             while(nextInt < 0 || nextInt > 3){
                 out.println("Not a valid vote");
                 out.flush();
                 nextInt = in.nextInt();
-                Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
             }
 
             //Stores the voted map
@@ -80,23 +71,20 @@ public class ClientVotesHandler implements Runnable {
             out.flush();
             Log.LOGGER.log(Level.INFO,"Asked for nSkulls");
             nextInt = in.nextInt();
-            Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
 
 
             while(nextInt < 5 || nextInt > 8){
                 out.println("Not a valid vote");
                 out.flush();
                 nextInt = in.nextInt();
-                Log.LOGGER.log(Level.INFO,"Received answer " + nextInt);
             }
 
             int votedSkulls = nextInt;
 
-            Log.LOGGER.log(Level.INFO, "Adding " +  username + " to a waiting room");
             caller.addPlayerToWaitingRoom(socket, username, votedMap, votedSkulls);
 
             out.println("You have been added to a waiting room");
-            out.println("Time is set to " + WaitingRoom.TIMERMINUTES + " minutes");
+            out.println("The timer is set to " + WaitingRoom.TIMERMINUTES + " minutes");
             out.flush();
 
         }

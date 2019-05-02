@@ -38,6 +38,7 @@ public class WeaponDeck{
         }
         catch(FileNotFoundException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
         }
 
 

@@ -73,7 +73,7 @@ public class Spot {
         return playersHere.contains(player);
     }
 
-
+    //TESTED
     /**
      * Adds a player to this spot if the player is not already on the spot
      * @param nickname the name of the player
@@ -83,6 +83,7 @@ public class Spot {
             playersHere.add(nickname);
     }
 
+    //TESTED
     /**
      * Removes the player from this spot
      * @param nickname the nickname of the player

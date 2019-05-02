@@ -14,7 +14,7 @@ public class GameMap {
     /**
      * The matrix representing the map
      */
-    private Spot[][] map;
+    protected  Spot[][] map;
 
     private static Random rand;
 
@@ -32,6 +32,16 @@ public class GameMap {
         return new GameMap(this.map.clone());
     }
 
+    //TESTED
+    /**
+     * Returns the spot indexed by these coordinates
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @return The spot
+     */
+    private Spot getSpotByIndex(int x, int y){ return map[x][y]; }
+
+    //TESTED
     /**
      * Checks if the first spot can see the second spot
      * @param spot1X spot1 X
@@ -45,43 +55,39 @@ public class GameMap {
         Spot spotY = getSpotByIndex(spot2X, spot2Y);
 
         Spot tempSpot;
+        if( spotX != null && spotY != null) {
+            if (spotX.getRoom() == spotY.getRoom()) {
+                return true;
+            } else {
+                if (spotX.hasNorthDoor()) {
+                    tempSpot = getSpotByIndex(spot1X - 1, spot1Y);
+                    if (tempSpot.getRoom() == spotY.getRoom())
+                        return true;
+                }
+                if (spotX.hasEastDoor()) {
+                    tempSpot = getSpotByIndex(spot1X, spot1Y + 1);
+                    if (tempSpot.getRoom() == spotY.getRoom())
+                        return true;
+                }
+                if (spotX.hasSouthDoor()) {
+                    tempSpot = getSpotByIndex(spot1X + 1, spot1Y);
+                    if (tempSpot.getRoom() == spotY.getRoom())
+                        return true;
+                }
+                if (spotX.hasWestDoor()) {
+                    tempSpot = getSpotByIndex(spot1X, spot1Y - 1);
+                    if (tempSpot.getRoom() == spotY.getRoom())
+                        return true;
+                }
+            }
 
-        if(spotX.getRoom() == spotY.getRoom()){
-            return true;
+            return false;
         }
-        else{
-            if(spotX.hasNorthDoor()){
-                tempSpot = getSpotByIndex(spot1X, spot1Y - 1);
-                if(tempSpot.getRoom() == spotY.getRoom())
-                    return true;
-            }
-            if(spotX.hasEastDoor()){
-                tempSpot = getSpotByIndex(spot1X + 1, spot1Y);
-                if(tempSpot.getRoom() == spotY.getRoom())
-                    return true;
-            }
-            if(spotX.hasSouthDoor()){
-                tempSpot = getSpotByIndex(spot1X, spot1Y + 1);
-                if(tempSpot.getRoom() == spotY.getRoom())
-                    return true;
-            }
-            if(spotX.hasWestDoor()){
-                tempSpot = getSpotByIndex(spot1X - 1, spot1Y);
-                if(tempSpot.getRoom() == spotY.getRoom())
-                    return true;
-            }
-        }
+
         return false;
     }
 
-    /**
-     * Returns the spot indexed by these coordinates
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @return The spot
-     */
-    private Spot getSpotByIndex(int x, int y){ return map[x][y]; }
-
+    //TESTED
     /**
      * Return the coordinates of the spot where the selected player is
      * @param player the player to find
@@ -99,7 +105,7 @@ public class GameMap {
         return null;
     }
 
-
+    //TESTED
     /**
      * Moves the given player to the new spot
      * @param player the player to move
@@ -113,6 +119,7 @@ public class GameMap {
         map[newX][newY].addPlayer(player);
     }
 
+    //TESTED
     private boolean playerIsOnMap(String player) {
 
         for(int i = 0; i < map.length; i++)
@@ -123,6 +130,7 @@ public class GameMap {
         return false;
     }
 
+    //TESTED
     /**
      * Removes the player from the map by removing their name from the spot, e.g. when the player dies
      * @param player The player to remove
@@ -130,52 +138,8 @@ public class GameMap {
     private void removePlayerFromMap(String player){
         for(int i = 0; i < map.length; i++)
             for(int j = 0; j < map[i].length; j++)
-                map[i][j].removePlayer(player);
-    }
-
-    /**
-     * Refills this spot
-     * @param x the x coord
-     * @param y the y coord
-     * @param objToAdd The object to add
-     */
-    public void refill(int x,int y, Object objToAdd){
-        map[x][y].refill(objToAdd);
-    }
-
-
-    //TODO This method is obsolete --> The spawn are now refilled as we create them
-    /**
-     * Refills every spot on the map.
-     * Should only be used initially when all spots are empty
-     * @param weaponDeck the weaponDeck
-     * @param powerupDeck the powerupDeck
-     */
-    public void refillAllWhenEmpty(WeaponDeck weaponDeck, PowerUpDeck powerupDeck){
-
-        for(int i = 0; i < this.map.length; i++)
-
-            for(int j = 0; j < this.map[i].length; j++){ //For every spot in this map
-
-                if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){ //if this is an ammo spot
-
-                    if(rand.nextInt(1) == 0){
-                        this.map[i][j].refill(powerupDeck.drawCard()); //Refills with a powerup
-                    }
-                    else{
-                        this.map[i][j].refill(null); //Refills only ammos
-                    }
-                }
-
-
-                if(this.map[i][j] != null && this.map[i][j].isSpawnSpot()){
-                    this.map[i][j].refill(weaponDeck.drawCard());
-                    this.map[i][j].refill(weaponDeck.drawCard());
-                    this.map[i][j].refill(weaponDeck.drawCard());
-                }
-
-                //I am using 2 if statement in case we decide to add clean spots later (no ammo and no spawn)
-            }
+                if (map[i][j] != null)
+                    map[i][j].removePlayer(player);
     }
 
     /**
@@ -330,6 +294,51 @@ public class GameMap {
                 }
 
     }
+
+    /**
+     * Refills this spot
+     * @param x the x coord
+     * @param y the y coord
+     * @param objToAdd The object to add
+     */
+    public void refill(int x,int y, Object objToAdd){
+        map[x][y].refill(objToAdd);
+    }
+
+    //TODO This method is obsolete --> The spawn are now refilled as we create them
+    /**
+     * Refills every spot on the map.
+     * Should only be used initially when all spots are empty
+     * @param weaponDeck the weaponDeck
+     * @param powerupDeck the powerupDeck
+     */
+    public void refillAllWhenEmpty(WeaponDeck weaponDeck, PowerUpDeck powerupDeck){
+
+        for(int i = 0; i < this.map.length; i++)
+
+            for(int j = 0; j < this.map[i].length; j++){ //For every spot in this map
+
+                if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){ //if this is an ammo spot
+
+                    if(rand.nextInt(1) == 0){
+                        this.map[i][j].refill(powerupDeck.drawCard()); //Refills with a powerup
+                    }
+                    else{
+                        this.map[i][j].refill(null); //Refills only ammos
+                    }
+                }
+
+
+                if(this.map[i][j] != null && this.map[i][j].isSpawnSpot()){
+                    this.map[i][j].refill(weaponDeck.drawCard());
+                    this.map[i][j].refill(weaponDeck.drawCard());
+                    this.map[i][j].refill(weaponDeck.drawCard());
+                }
+
+                //I am using 2 if statement in case we decide to add clean spots later (no ammo and no spawn)
+            }
+    }
+
 
     /**
      * This method refills all the ammo spots
