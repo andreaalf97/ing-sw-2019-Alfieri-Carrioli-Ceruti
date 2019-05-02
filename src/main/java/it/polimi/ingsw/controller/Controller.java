@@ -61,6 +61,12 @@ public class Controller implements Observer {
 
             gameModel.respawn(currentPlayer, chosenPowerupToDiscard);
 
+            /*con che arma vuoi sparare?
+            aspetto la weapon
+            scorro gli effetti, se ce n'è almeno uno di movimento,
+            chiedo, oltre alla lista di player che l'utente vuole attaccare, chi vuole spostare (se lui o un avversario) e in che posizione
+            shoot: shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)
+            alrimenti se non ci sono effetti di movimento: shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber)*/
             runTurn(currentPlayer);
         }
 
