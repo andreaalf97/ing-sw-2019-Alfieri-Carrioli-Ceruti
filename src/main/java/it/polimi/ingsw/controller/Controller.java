@@ -32,7 +32,7 @@ public class Controller implements Observer, Runnable {
      * The VIEW
      * This is here because the Controller might need to send messages to the clients through the Virtual View
      */
-    VirtualView virtualView;
+    public VirtualView virtualView;
 
     public Controller(Game gameModel, VirtualView virtualView){
         this.gameModel = gameModel;

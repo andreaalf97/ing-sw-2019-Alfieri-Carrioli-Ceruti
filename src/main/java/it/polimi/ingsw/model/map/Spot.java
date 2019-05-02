@@ -159,4 +159,5 @@ public class Spot {
     public ArrayList<Weapon> getSpawnWeapons() {
         throw new RuntimeException("This should never be called!");
     }
+
 }
