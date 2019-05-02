@@ -213,14 +213,14 @@ public class Game extends Observable {
      * Refills all the ammo spots
      */
     public void refillAllAmmoSpots(){
-        this.gameMap.refillAmmos(this.powerupDeck);
+        this.gameMap.refillAllAmmo(this.powerupDeck);
     }
 
     /**
      * Refills all the spawn spots with weapons
      */
     public void refillAllSpawnSpots(){
-        this.gameMap.refillSpawns(this.weaponDeck);
+        this.gameMap.refillAllSpawns(this.weaponDeck);
     }
 
     /**

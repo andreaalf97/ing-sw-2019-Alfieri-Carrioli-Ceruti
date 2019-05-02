@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.PowerUpDeck;
+import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.cards.WeaponDeck;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.print.attribute.standard.ReferenceUriSchemesSupported;
+import java.util.ArrayList;
 
 public class GameMapTest {
 
@@ -223,6 +226,85 @@ public class GameMapTest {
     }
 
     @Test
-    public void isEmptySpot(){
+    public void respawnPlayer(){
+        //ROOM RUBY
+        gameMapTestFire.movePlayerToColorSpawn("gino", Color.RED);
+        Assert.assertTrue(gameMapTestFire.map[1][0].getPlayersHere().contains("gino"));
+
+        //ROOM SAPPHIRE
+        gameMapTestFire.movePlayerToColorSpawn("gino", Color.BLUE);
+        Assert.assertTrue(gameMapTestFire.map[0][2].getPlayersHere().contains("gino"));
+    }
+
+    @Test
+    public void refill(){
+        Player playerTest = new Player("gino", 0 , 0);
+        gameMapTestFire.grabSomething(0,0, playerTest, -1);
+
+        PowerUp p = new PowerUp(Color.RED);
+        gameMapTestFire.refill(0,0, p);
+        Assert.assertTrue(gameMapTestFire.map[0][0].isFull());
+
+        gameMapTestFire.grabSomething(1, 0, playerTest, 0);
+        Assert.assertEquals(2, gameMapTestFire.map[1][0].getSpawnWeapons().size());
+
+        Weapon w = new Weapon("a");
+        gameMapTestFire.refill(1, 0, w);
+        Assert.assertEquals(3, gameMapTestFire.map[1][0].getSpawnWeapons().size());
+
+    }
+
+    @Test
+    public void refillAllAmmo(){
+        Player playerTest = new Player ("gino", 0 ,0);
+
+        gameMapTestFire.grabSomething(0,0, playerTest, -1);
+        gameMapTestFire.grabSomething(0,1, playerTest, -1);
+        gameMapTestFire.grabSomething(2,1, playerTest, -1);
+
+        PowerUpDeck powerUpDeckTest = new PowerUpDeck();
+        gameMapTestFire.refillAllAmmo(powerUpDeckTest);
+        for (int i = 0; i < gameMapTestFire.map.length ; i++)
+            for (int j = 0; j < gameMapTestFire.map[i].length; j++)
+                if (gameMapTestFire.map[i][j]  != null && gameMapTestFire.map[i][j].isAmmoSpot())
+                    Assert.assertTrue(gameMapTestFire.map[i][j].isFull());
+
+    }
+
+    @Test
+    public void refillAllSpawns(){
+        Player playerTest = new Player("gino", 1, 0);
+
+        gameMapTestFire.grabSomething(1, 0 , playerTest, 0);
+        gameMapTestFire.grabSomething(0, 2 , playerTest, 0);
+        gameMapTestFire.grabSomething(2, 3 , playerTest, 0);
+
+        Assert.assertEquals(3, playerTest.returnPlayerWeaponList().size());
+
+        WeaponDeck weaponDeckTest = new WeaponDeck();
+        gameMapTestFire.refillAllSpawns(weaponDeckTest);
+        for (int i = 0; i < gameMapTestFire.map.length ; i++)
+            for (int j = 0; j < gameMapTestFire.map[i].length; j++)
+                if (gameMapTestFire.map[i][j]  != null && gameMapTestFire.map[i][j].isSpawnSpot())
+                    Assert.assertTrue(gameMapTestFire.map[i][j].isFull());
+
+    }
+
+    @Test
+    public void showSpawnWeapons(){
+        ArrayList<Weapon> weaponListTest = new ArrayList<Weapon>();
+        weaponListTest = gameMapTestFire.showSpawnSpotWeapons(Color.RED);
+
+        Assert.assertEquals(3, weaponListTest.size());
+    }
+
+    @Test
+    public void getPlayerRoom(){
+        Player playerTest = new Player("gino", 0 , 0);
+
+        gameMapTestFire.map[0][0].addPlayer("gino");
+        Assert.assertEquals(Room.SAPPHIRE, gameMapTestFire.getPlayerRoom("gino"));
+
+        Assert.assertEquals(null, gameMapTestFire.getPlayerRoom("ingg"));
     }
 }

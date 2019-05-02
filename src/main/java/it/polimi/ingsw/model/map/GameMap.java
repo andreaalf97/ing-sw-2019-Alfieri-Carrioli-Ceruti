@@ -346,9 +346,9 @@ public class GameMap {
         return map[i][j].emptySpot();
     }
 
-
+    //TESTED
     /**
-     * this method is called by the game(row 190) and it moves the player to the spawnspot of the same color as the discarded powerup
+     * RESPAWN METHOD!! this method is called by the game(row 190) and it moves the player to the spawnspot of the same color as the discarded powerup
      * @param player the player that has to respawn
      * @param discardedColor the color of the spawnspot
      */
@@ -363,6 +363,7 @@ public class GameMap {
 
     }
 
+    //TESTED
     /**
      * Refills this spot
      * @param x the x coord
@@ -373,46 +374,12 @@ public class GameMap {
         map[x][y].refill(objToAdd);
     }
 
-    //TODO This method is obsolete --> The spawn are now refilled as we create them
-    /**
-     * Refills every spot on the map.
-     * Should only be used initially when all spots are empty
-     * @param weaponDeck the weaponDeck
-     * @param powerupDeck the powerupDeck
-     */
-    public void refillAllWhenEmpty(WeaponDeck weaponDeck, PowerUpDeck powerupDeck){
-
-        for(int i = 0; i < this.map.length; i++)
-
-            for(int j = 0; j < this.map[i].length; j++){ //For every spot in this map
-
-                if(this.map[i][j] != null && this.map[i][j].isAmmoSpot()){ //if this is an ammo spot
-
-                    if(rand.nextInt(1) == 0){
-                        this.map[i][j].refill(powerupDeck.drawCard()); //Refills with a powerup
-                    }
-                    else{
-                        this.map[i][j].refill(null); //Refills only ammos
-                    }
-                }
-
-
-                if(this.map[i][j] != null && this.map[i][j].isSpawnSpot()){
-                    this.map[i][j].refill(weaponDeck.drawCard());
-                    this.map[i][j].refill(weaponDeck.drawCard());
-                    this.map[i][j].refill(weaponDeck.drawCard());
-                }
-
-                //I am using 2 if statement in case we decide to add clean spots later (no ammo and no spawn)
-            }
-    }
-
-
+    //TESTED
     /**
      * This method refills all the ammo spots
      * @param powerupDeck the deck to draw a card from
      */
-    public void refillAmmos(PowerUpDeck powerupDeck) {
+    public void refillAllAmmo(PowerUpDeck powerupDeck) {
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
                 if(map[i][j] != null && this.map[i][j].isAmmoSpot()){
@@ -434,11 +401,12 @@ public class GameMap {
                 }
     }
 
+    //TESTED
     /**
      * Refills all the spawn spots
      * @param weaponDeck the weapon deck to draw cards from
      */
-    public void refillSpawns(WeaponDeck weaponDeck) {
+    public void refillAllSpawns(WeaponDeck weaponDeck) {
 
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
@@ -451,25 +419,43 @@ public class GameMap {
                 }
     }
 
+    //TESTED
+    /**
+     * show the weapons in the spawn spot associated to that color
+     * @param roomColor the color of the spawnspot
+     * @return the weapon list of the spawnspot
+     */
     public ArrayList<Weapon> showSpawnSpotWeapons(Color roomColor) {
-
 
         Spot s = getSpawnSpotByRoomColor(roomColor);
 
         return s.getSpawnWeapons();
     }
 
+    //TESTED
+    /**
+     * tells the spawnspot associated to the color
+     * @param roomColor spawnspot color
+     * @return the Spawnspot
+     */
     private Spot getSpawnSpotByRoomColor(Color roomColor){
         for(int i = 0; i < map.length; i++){
             for(int j = 0; j < map[i].length; j++){
-                if(map[i][j].isSpawnSpot() && map[i][j].getColor() == roomColor)
-                    return map[i][j];
+                if(validSpot(i,j) && map[i][j].isSpawnSpot() && map[i][j].getColor() == roomColor) {
+                        return map[i][j];
+                }
             }
         }
 
         return null;
     }
 
+    //TESTED
+    /**
+     * return the room where the player is
+     * @param nickname the nickname of the player
+     * @return the room where the player is if he present on the map, else null
+     */
     public Room getPlayerRoom(String nickname){
 
         for(int i = 0; i < map.length; i++)
