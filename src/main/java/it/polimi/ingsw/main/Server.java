@@ -1,13 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.main;
 
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.view.server.VirtualView;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -23,7 +19,7 @@ public class Server {
     /**
      * The receiver of all connections
      */
-    private static Proxy proxy;
+    private static MessageParser messageParser;
 
     /**
      * The list of active waiting rooms
@@ -42,8 +38,9 @@ public class Server {
      */
     public Server(int port){
         this.port = port;
-        this.proxy = new Proxy();
+        this.messageParser = new MessageParser();
         this.waitingRooms = new ArrayList<>();
+        this.tempNicknames = new ArrayList<>();
     }
 
     /**
@@ -52,15 +49,17 @@ public class Server {
      * @param mapToVote the map he voted for
      * @param nSkullsToVote the amount of skulls he voted for
      */
-    public synchronized void addPlayerToWaitingRoom(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote){
+    public synchronized void addPlayerToWaitingRoom(Receiver receiver, String nickname, MapName mapToVote, int nSkullsToVote){
 
-        if(proxy.hasNickname(nickname) || tempNicknames.contains(nickname))
+        if(messageParser.hasNickname(nickname) || tempNicknames.contains(nickname))
             throw new RuntimeException("This username is not valid and this should have been checked before");
 
         //If there is no room yet or all the rooms are empty --> create a new room
         if(waitingRooms.isEmpty() || waitingRooms.get(waitingRooms.size() - 1).nPlayers() >= WaitingRoom.MAXPLAYERS){
+
+            Log.LOGGER.log(Level.INFO, "Creating waiting room #" + waitingRooms.size());
             WaitingRoom newWaitingRoom = new WaitingRoom();
-            newWaitingRoom.addPlayer(socket, nickname, mapToVote, nSkullsToVote);
+            newWaitingRoom.addPlayer(receiver, nickname, mapToVote, nSkullsToVote);
             Log.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + waitingRooms.size());
             waitingRooms.add(newWaitingRoom);
         }
@@ -68,7 +67,7 @@ public class Server {
         //If there is a spot for a new player in the current room
         else{
             Log.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + (waitingRooms.size() - 1));
-            waitingRooms.get(waitingRooms.size() - 1).addPlayer(socket, nickname, mapToVote, nSkullsToVote);
+            waitingRooms.get(waitingRooms.size() - 1).addPlayer(receiver, nickname, mapToVote, nSkullsToVote);
         }
 
         tempNicknames.add(nickname);
@@ -87,11 +86,22 @@ public class Server {
         if(!waitingRoom.isReady())
             throw new RuntimeException("This room is not ready to start a game");
 
+        int nextRoomNumber = messageParser.getNextRoomNumber();
+
+
         //Remove all the waiting room nicknames from the temp nicknames
-        for(String nickname : waitingRoom.players)
+        //Also setting the correct game room number to all player receivers
+        for(String nickname : waitingRoom.players) {
             tempNicknames.remove(nickname);
 
-        proxy.startGame(waitingRoom);
+            int index = waitingRoom.players.indexOf(nickname);
+            waitingRoom.receivers.get(index).setNickname(nickname);
+        }
+
+
+
+
+        messageParser.startGame(waitingRoom);
 
 
     }
@@ -119,8 +129,16 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 Log.LOGGER.log(Level.INFO, "New connection accepted from " + socket.getRemoteSocketAddress());
 
+                //Creates a new receiver but does not run it
+                Receiver receiver = new Receiver(
+                        "",
+                        messageParser,
+                        new BufferedReader(new InputStreamReader(socket.getInputStream())),
+                        new PrintWriter(socket.getOutputStream())
+                );
+
                 //Creates a new handler with the new socket
-                ClientVotesHandler clientVotesHandler = new ClientVotesHandler(this, socket);
+                ClientVotesHandler clientVotesHandler = new ClientVotesHandler(this, receiver);
 
                 //Runs the new Handler on a new Thread
                 Thread t = new Thread(clientVotesHandler);
@@ -153,7 +171,8 @@ public class Server {
      * @return true if the nickname is not already an active nickname
      */
     public static boolean notAValidUsername(String nickname){
-        return proxy.hasNickname(nickname) || tempNicknames.contains(nickname);
+        return messageParser.hasNickname(nickname) ||
+                tempNicknames.contains(nickname);
     }
 
     public static void main(String[] args){
@@ -162,4 +181,6 @@ public class Server {
         server.startServer();
 
     }
+
+
 }

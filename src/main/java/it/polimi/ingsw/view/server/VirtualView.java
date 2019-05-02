@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.server;
 
+import it.polimi.ingsw.main.Receiver;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.model.Log;
@@ -31,11 +32,18 @@ public class VirtualView extends Observable implements Observer {
     ArrayList<String> players;
 
     /**
+     * The channels to communicate with the player
+     */
+    ArrayList<Receiver> receivers;
+
+    /**
      * Only constructor
      * @param players players nicknames
      */
-    public VirtualView(ArrayList<String> players){
+    public VirtualView(ArrayList<String> players, ArrayList<Receiver> receivers){
+
         this.players = players;
+        this.receivers = receivers;
     }
 
     @Override
@@ -89,7 +97,23 @@ public class VirtualView extends Observable implements Observer {
 
     }
 
-    protected void notify(String message){
+    public void notify(String nickname, String message){
+
+        //TODO this is now just an echo server
+
+        Receiver receiver = getReceiverByNickname(nickname);
+
+        receiver.sendMessage(message);
+
+
+
         notifyObservers(message);
     }
+
+    private Receiver getReceiverByNickname(String nickname) {
+        int index = players.indexOf(nickname);
+        return receivers.get(index);
+    }
+
+
 }

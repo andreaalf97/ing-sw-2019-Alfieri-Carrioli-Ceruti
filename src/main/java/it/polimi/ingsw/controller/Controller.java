@@ -32,7 +32,7 @@ public class Controller implements Observer, Runnable {
      * The VIEW
      * This is here because the Controller might need to send messages to the clients through the Virtual View
      */
-    VirtualView virtualView;
+    public VirtualView virtualView;
 
     public Controller(Game gameModel, VirtualView virtualView){
         this.gameModel = gameModel;
@@ -62,6 +62,12 @@ public class Controller implements Observer, Runnable {
 
             gameModel.respawn(currentPlayer, chosenPowerupToDiscard);
 
+            /*con che arma vuoi sparare?
+            aspetto la weapon
+            scorro gli effetti, se ce n'è almeno uno di movimento,
+            chiedo, oltre alla lista di player che l'utente vuole attaccare, chi vuole spostare (se lui o un avversario) e in che posizione
+            shoot: shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)
+            alrimenti se non ci sono effetti di movimento: shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber)*/
             runTurn(currentPlayer);
         }
 

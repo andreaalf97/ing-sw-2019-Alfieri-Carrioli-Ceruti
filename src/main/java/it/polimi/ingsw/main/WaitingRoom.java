@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.main;
 
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
@@ -17,7 +17,7 @@ public class WaitingRoom {
     /**
      * The list of connections for this room
      */
-    protected ArrayList<Socket> sockets;
+    protected ArrayList<Receiver> receivers;
 
     /**
      * Votes for each map:
@@ -61,7 +61,7 @@ public class WaitingRoom {
      */
     public WaitingRoom(){
         this.players = new ArrayList<>();
-        this.sockets = new ArrayList<>();
+        this.receivers = new ArrayList<>();
 
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
         this.mapVotes.put(MapName.FIRE, 0);
@@ -99,7 +99,7 @@ public class WaitingRoom {
      * Returns the amount of players registered into this room
      * @return this.players.size()
      */
-    public int nPlayers(){
+    public synchronized int nPlayers(){
         return this.players.size();
     }
 
@@ -109,14 +109,14 @@ public class WaitingRoom {
      * @param mapToVote the map chosen by the new player
      * @param nSkullsToVote the desired amount of skulls
      */
-    protected void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
+    protected synchronized void addPlayer(Receiver receiver, String nickname, MapName mapToVote, int nSkullsToVote) {
         if(players.contains(nickname))
             throw new RuntimeException("This waitingRoom already contains this player");
 
         if(isReady)
             throw new RuntimeException("This room was ready but you tried to add a new player");
 
-        sockets.add(socket);
+        receivers.add(receiver);
         players.add(nickname);
 
         int tempVotes = (int) (mapVotes.get(mapToVote));
