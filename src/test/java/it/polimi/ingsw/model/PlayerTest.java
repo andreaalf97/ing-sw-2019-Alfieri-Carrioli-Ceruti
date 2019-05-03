@@ -106,6 +106,19 @@ public class PlayerTest {
     }
 
     @Test
+    public void giveDamageFull(){
+        Player playerTest = new Player("gino");
+        playerTest.giveDamage("tammazzo", 11);
+        Assert.assertTrue(playerTest.isDead());
+
+
+        Player playerTest2 = new Player("andrealf");
+        playerTest2.giveDamage("nontammazzo", 2);
+        Assert.assertFalse(playerTest2.isDead());
+
+    }
+
+    @Test
     public void giveMarks() {
         Player testPlayer = new Player("andreaalf");
 

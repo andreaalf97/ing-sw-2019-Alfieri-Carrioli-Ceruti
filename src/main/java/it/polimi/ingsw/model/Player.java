@@ -234,6 +234,7 @@ public class Player {
         return tempNames;
     }        /*return players who gave damages to this.player in order(in 0 highest damage)*/
 
+    //todo test better
     //TESTED
     /**
      * Gives the required amount of damages to this player
@@ -242,8 +243,15 @@ public class Player {
      */
     public void giveDamage(String player,int nDamages){
         for(int j = 0; j < nDamages; j++){
-            damages.add(player);
+            if (damages.size() <= 12)
+                 damages.add(player);
         }
+
+        if(damages.size() >= 11)
+            isDead = true;
+        else
+            isDead = false;
+
     }
 
     //TESTED

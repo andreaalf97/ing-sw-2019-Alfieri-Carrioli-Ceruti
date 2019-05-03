@@ -77,10 +77,21 @@ public class Game extends Observable {
 
     //##########################################################################################################
 
+    //TESTED
+    /**
+     * getter for players nicknames in the game
+     * @return players in game
+     */
     public ArrayList<String> getPlayerNames() {
         return new ArrayList<>(this.playerNames);
     }
 
+    //TESTED
+    /**
+     * getter for player powerup
+     * @param player the player
+     * @return player powerup list
+     */
     public ArrayList<PowerUp> getPlayerPowerUps(String player) {
 
         Player p = this.getPlayerByNickname(player);
@@ -89,7 +100,15 @@ public class Game extends Observable {
     }
 
     //##########################################################################################################
-    private Player getPlayerByNickname(String nickname){
+
+    //todo this method is protected or i can't call it in tests
+    //TESTED
+    /**
+     * this method return the object player corresponding to nickname
+     * @param nickname the nickname of the player
+     * @return the object Player
+     */
+    protected Player getPlayerByNickname(String nickname){
 
         if(!playerNames.contains(nickname))
             throw new IllegalArgumentException("This nickname does not exist!");
@@ -97,6 +116,7 @@ public class Game extends Observable {
         return players.get(playerNames.indexOf(nickname));
     }
 
+    //TESTED
     /**
      * Gives a randomly picked powerup to the player
      * @param player the player who's receiving the powerUp
@@ -115,6 +135,7 @@ public class Game extends Observable {
         }
     }
 
+    //todo can eliminate this method, a player will never pick one weapon from the weapondeck, and this method is only used in one test
     /**
      * gives a randomly picked weapon to the player
      * @param player the player who's receiving the weapon
@@ -140,6 +161,7 @@ public class Game extends Observable {
         }
     }
 
+    //TESTED
     /**
      * This method checks if any player is dead and counts their boards assigning the right amount of point to each player.
      * It is usually executed at the end of each turn
@@ -149,11 +171,47 @@ public class Game extends Observable {
 
         for(Player i : players){
             if(i.isDead()){
-                giveBoardPoints(i);
+                giveBoardPointsAndModifyKST(i);
             }
         }
     }
 
+    //TESTED
+    /**
+     * Clears the player board and gives points to all players involved, this method also modify kst and assign mark
+     */
+    protected void giveBoardPointsAndModifyKST ( Player player  ) {
+        if(!player.isDead())
+            throw new RuntimeException("This player is not dead");
+
+        //at this point i am sure that player is dead, so i can modify kst and give one mark to the last player
+        if (player.getDamages().size() == 12) {
+            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), true);
+            getPlayerByNickname(player.getDamages().get(player.getDamages().size() - 1)).giveMarks(player.getNickname(), 1);
+        }
+        else
+            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), false);
+
+        ArrayList<Integer> pointValues = new ArrayList<>();
+        pointValues.add(8);
+        pointValues.add(6);
+        pointValues.add(4);
+        pointValues.add(2);
+        pointValues.add(1);
+        pointValues.add(1);
+
+        getPlayerByNickname( player.getDamages().get(0) ).givePoints(1);            //first blood point
+
+        for(int k = 0; k < player.getnDeaths(); k++)
+            pointValues.remove(0);
+
+        ArrayList<String> ranking = player.getOffendersRanking();
+
+        for (int i = 0; i < ranking.size() && i < pointValues.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues.get(i));
+    }
+
+    //todo again this method is used only in one test, we should remove it
     /**
      * Gives the chosen weapon to a player
      * @param weapon The weapon object to be given
@@ -697,32 +755,8 @@ public class Game extends Observable {
         for (int i = 0; i < ranking.size(); i++)
             getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
     }
-    /**
-     * Clears the player board and gives points to all players involved
-     */
-    public void giveBoardPoints ( Player player  ) {
-        //TODO dare segnalini a chi infierisce e modificare il kst
-        if(!player.isDead())
-            throw new RuntimeException("This player is not dead");
 
-        ArrayList<Integer> pointValues = new ArrayList<>();
-        pointValues.add(8);
-        pointValues.add(6);
-        pointValues.add(4);
-        pointValues.add(2);
-        pointValues.add(1);
-        pointValues.add(1);
 
-        getPlayerByNickname( player.getDamages().get(0) ).givePoints(1);            //first blood point
-
-        for(int k = 0; k < player.getnDeaths(); k++)
-            pointValues.remove(0);
-
-        ArrayList<String> ranking = player.getOffendersRanking();
-
-        for (int i = 0; i < ranking.size() && i < pointValues.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues.get(i));
-    }
 
     /**
      * Clears the Kill Shot Track and gives points to all players involved
