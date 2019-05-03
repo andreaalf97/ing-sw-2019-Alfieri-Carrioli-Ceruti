@@ -35,6 +35,7 @@ public class Receiver implements Runnable {
 
             while (true) {
                 String line = in.readLine();
+                Log.LOGGER.log(Level.INFO, "Receiver class received a new line");
                 questioner.answer(nickname, line);
             }
 

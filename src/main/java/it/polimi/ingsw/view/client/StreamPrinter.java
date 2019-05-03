@@ -22,15 +22,17 @@ public class StreamPrinter implements Runnable {
     public void run() {
 
         try {
-            while (true) {
-                String line = input.readLine();
+            String line;
+            while ((line = input.readLine()) != null) {
                 output.println(line);
                 output.flush();
             }
+
         }
         catch (IOException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
+            return;
         }
 
     }

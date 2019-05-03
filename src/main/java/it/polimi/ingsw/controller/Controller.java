@@ -20,7 +20,7 @@ import java.util.logging.Level;
         - Passes data to the virtualView
  */
 
-public class Controller implements Observer, Runnable {
+public class Controller implements Observer {
 
     /**
      * The MODEL
@@ -267,15 +267,20 @@ public class Controller implements Observer, Runnable {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println((String) arg);
+
+        if( !(o instanceof VirtualView) )
+            throw new RuntimeException("The observable is not a virtual view");
+
+        if(arg != null && !(arg instanceof ArrayList))
+            throw new RuntimeException("The arg should be an array list");
+
+        Log.LOGGER.log(Level.INFO, "Controller class received a new message");
+
+        String nickname = ((ArrayList<String>) arg).get(0);
+        String message = ((ArrayList<String>) arg).get(1);
+
+        System.out.println(nickname + " sent: " + message);
+        virtualView.sendMessage(nickname, message);
     }
 
-    @Override
-    public void run() {
-        System.out.println("A new controller is now running on a new Thread");
-
-        virtualView.sendAll("GAME STARTED");
-
-        while (true);
-    }
 }

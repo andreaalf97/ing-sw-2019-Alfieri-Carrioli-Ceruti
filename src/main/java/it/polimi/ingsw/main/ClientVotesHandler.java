@@ -64,7 +64,6 @@ public class ClientVotesHandler implements Runnable {
 
             receiver.out.println("Vote for skulls (5 to 8):");
             receiver.out.flush();
-            Log.LOGGER.log(Level.INFO,"Asked for nSkulls");
             nextInt = Integer.parseInt(receiver.in.readLine());
 
 

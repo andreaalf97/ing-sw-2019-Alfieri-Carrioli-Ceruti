@@ -94,6 +94,9 @@ public class VirtualView extends Observable implements Observer {
 
     public void sendAll(String message) {
         //TODO
+        for(Receiver r : receivers){
+            r.sendMessage(message);
+        }
 
     }
 
@@ -101,18 +104,24 @@ public class VirtualView extends Observable implements Observer {
 
         //TODO this is now just an echo server
 
-        Receiver receiver = getReceiverByNickname(nickname);
+        Log.LOGGER.log(Level.INFO, "Virtual View class received a new message");
 
-        receiver.sendMessage(message);
+        ArrayList<String> answer = new ArrayList<>();
+        answer.add(nickname);
+        answer.add(message);
 
-
-
-        notifyObservers(message);
+        setChanged();
+        notifyObservers(answer);
     }
 
     private Receiver getReceiverByNickname(String nickname) {
         int index = players.indexOf(nickname);
         return receivers.get(index);
+    }
+
+    public void sendMessage(String nickname, String message){
+        Receiver r = getReceiverByNickname(nickname);
+        r.sendMessage(message);
     }
 
 

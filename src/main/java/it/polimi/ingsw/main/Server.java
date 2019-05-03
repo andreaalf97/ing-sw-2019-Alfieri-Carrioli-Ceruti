@@ -24,7 +24,7 @@ public class Server {
     /**
      * The list of active waiting rooms
      */
-    private ArrayList<WaitingRoom> waitingRooms;
+    private static ArrayList<WaitingRoom> waitingRooms;
 
     /**
      * The nicknames that haven't started a game yet
@@ -86,8 +86,7 @@ public class Server {
         if(!waitingRoom.isReady())
             throw new RuntimeException("This room is not ready to start a game");
 
-        int nextRoomNumber = messageParser.getNextRoomNumber();
-
+        waitingRooms.remove(waitingRoom);
 
         //Remove all the waiting room nicknames from the temp nicknames
         //Also setting the correct game room number to all player receivers

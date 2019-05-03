@@ -73,10 +73,4 @@ public class MessageParser implements Questioner {
     public void lostConnection(String nickname) {
         System.out.println("LOST CONNECTION");
     }
-
-    public int getNextRoomNumber() {
-
-        return nControllers;
-
-    }
 }
