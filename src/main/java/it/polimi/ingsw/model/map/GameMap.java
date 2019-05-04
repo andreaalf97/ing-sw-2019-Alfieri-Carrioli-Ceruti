@@ -39,7 +39,7 @@ public class GameMap {
      * @param y Y coordinate
      * @return The spot
      */
-    private Spot getSpotByIndex(int x, int y){ return map[x][y]; }
+    public Spot getSpotByIndex(int x, int y){ return map[x][y]; }
 
     //TESTED
     /**
@@ -105,6 +105,7 @@ public class GameMap {
         return null;
     }
 
+    //todo test exception
     //TESTED
     /**
      * Moves the given player to the new spot
@@ -113,8 +114,13 @@ public class GameMap {
      * @param newY the new y coord
      */
     public void movePlayer(String player, int newX, int newY){
+
+        if(newX < 0 || newX > 2 || newY < 0 || newY > 3)
+            throw new IllegalArgumentException("x or y are out of game matrix");
+
         if(playerIsOnMap(player))
             removePlayerFromMap(player);
+
 
         map[newX][newY].addPlayer(player);
     }
@@ -191,7 +197,7 @@ public class GameMap {
         int[] playerSpot = getPlayerSpotCoord(player); //This array contains the X coord in 0 and the Y coord in
 
         if ( playerSpot == null)
-            throw new RuntimeException("This array shouldn't be null");
+            throw new RuntimeException("This array shouldn't be null, the player isn't on map");
 
         int playerSpotX = playerSpot[0]; //The X coord
         int playerSpotY = playerSpot[1]; //The Y coord
@@ -295,7 +301,7 @@ public class GameMap {
      * @param y spot y
      * @return true if spot is valid and exists
      */
-    private boolean validSpot(int x, int y) {
+    public boolean validSpot(int x, int y) {
         if (x < 0 || x > 2 || y < 0 || y > 3 || getSpotByIndex(x, y) == null)
             return false;
         return true;
@@ -348,7 +354,7 @@ public class GameMap {
 
     //TESTED
     /**
-     * RESPAWN METHOD!! this method is called by the game(row 190) and it moves the player to the spawnspot of the same color as the discarded powerup
+     * RESPAWN METHOD!! this method is called by the game in the method respawn and it moves the player to the spawnspot of the same color as the discarded powerup
      * @param player the player that has to respawn
      * @param discardedColor the color of the spawnspot
      */

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
@@ -133,6 +134,145 @@ public class GameTest {
         Assert.assertFalse(gameTest.getPlayerByNickname("meme").isDead());
         Assert.assertEquals(9, gameTest.getPlayerByNickname("andreaalf").getPoints());
         Assert.assertEquals(6, gameTest.getPlayerByNickname("meme").getPoints());
+    }
+
+    @Test
+    public void wherePlayerCanMove(){
+
+        gameTest.movePlayer("gino", 0 , 0);
+        boolean [][] temp = gameTest.wherePlayerCanMove("gino", 1);
+
+        Assert.assertTrue(temp[0][0]);
+        Assert.assertTrue(temp[0][1]);
+        Assert.assertTrue(temp[1][0]);
+
+
+        gameTest.movePlayer("andreaalf", 0, 0);
+        boolean[][] temp2 = gameTest.wherePlayerCanMove("andreaalf", 10);
+
+
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 4; j++)
+                if(gameTest.validSpot(i, j))
+                    Assert.assertTrue(temp2[i][j]);
+
+    }
+
+    @Test
+    public void wherePlayerCanMoveAndGrab(){
+
+        gameTest.movePlayer("gino", 0 , 0);
+        boolean [][] temp = gameTest.wherePlayerCanMoveAndGrab("gino", 1);
+
+        Assert.assertTrue(temp[0][0]);
+        Assert.assertTrue(temp[0][1]);
+        Assert.assertTrue(temp[1][0]);
+
+
+        gameTest.movePlayer("andreaalf", 0, 0);
+        boolean[][] temp2 = gameTest.wherePlayerCanMoveAndGrab("andreaalf", 10);
+
+
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 4; j++)
+                if(gameTest.validSpot(i, j))
+                    Assert.assertTrue(temp2[i][j]);
+
+    }
+
+    @Test
+    public void respawn(){
+        //this is the first spawn for a player, like the first turn
+        PowerUp powerUpTestRed = new PowerUp(Color.RED);
+        gameTest.getPlayerByNickname("gino").givePowerUp(powerUpTestRed);
+
+        gameTest.respawn("gino", 0);
+        Assert.assertFalse(gameTest.getPlayerByNickname("gino").isDead());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getyPosition());
+        Assert.assertEquals(0,gameTest.getPlayerByNickname("gino").getPowerUpList().size());
+
+
+        //another test we can do is when a player get killed and then has to respawn
+        PowerUp powerUpTestBlue = new PowerUp(Color.BLUE);
+        gameTest.getPlayerByNickname("gino").givePowerUp(powerUpTestBlue);
+
+        gameTest.getPlayerByNickname("gino").giveDamage("meme", 11);
+        Assert.assertTrue(gameTest.getPlayerByNickname("gino").isDead());
+
+        gameTest.respawn("gino", 0 );
+        Assert.assertFalse(gameTest.getPlayerByNickname("gino").isDead());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getyPosition());
+        Assert.assertEquals(0,gameTest.getPlayerByNickname("gino").getPowerUpList().size());
+
+    }
+
+    @Test
+    public void refillAllAmmoSpots(){
+        //pick some ammos and then control if all spots are refilled
+        gameTest.movePlayer("gino", 1 , 0);
+        try {
+            gameTest.giveAmmoCard("gino");
+        }
+        catch (InvalidChoiceException e){
+            Assert.assertTrue(true);
+        }
+
+        gameTest.movePlayer("gino", 1 , 1);
+        try {
+            gameTest.giveAmmoCard("gino");
+        }
+        catch (InvalidChoiceException e){
+            Assert.fail();
+        }
+
+        gameTest.movePlayer("gino", 2 , 1);
+        try {
+            gameTest.giveAmmoCard("gino");
+        }
+        catch (InvalidChoiceException e){
+            Assert.fail();
+        }
+
+        gameTest.refillAllAmmoSpots();
+
+        for(int i = 0; i < 3; i++)
+            for (int j = 0; j < 4; j++)
+                if(gameTest.validSpot(i, j) && gameTest.getSpotByIndex(i,j).isAmmoSpot())
+                    Assert.assertTrue(gameTest.getSpotByIndex(i, j).isFull());
+
+
+    }
+
+    @Test
+    public void refillAllSpawnSpots(){
+        //pick three weapons and refill the spawn spots
+        gameTest.movePlayer("gino", 1, 0);
+        gameTest.pickWeapon("gino", 0);
+
+        gameTest.movePlayer("gino", 0, 2);
+        gameTest.pickWeapon("gino", 0);
+
+        gameTest.movePlayer("gino", 2, 3);
+        gameTest.pickWeapon("gino", 0);
+
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("gino").getWeaponList().size());
+        gameTest.refillAllSpawnSpots();
+
+        Assert.assertTrue(gameTest.getSpotByIndex(1,0).isFull());
+        Assert.assertTrue(gameTest.getSpotByIndex(0,2).isFull());
+        Assert.assertTrue(gameTest.getSpotByIndex(2,3).isFull());
+
+    }
+
+    @Test
+    public void movePlayer(){
+        gameTest.movePlayer("gino",2, 3);
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("gino").getyPosition());
+        Assert.assertTrue(gameTest.getSpotByIndex(2, 3).getPlayersHere().contains("gino"));
+
     }
 
 }

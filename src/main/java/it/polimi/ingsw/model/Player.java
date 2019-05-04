@@ -446,10 +446,10 @@ public class Player {
      */
     protected void moveTo(int x, int y) {
 
-        if(x < 0 || x > 3)
+        if(x < 0 || x > 2)
             throw new IllegalArgumentException("x is out of bound");
 
-        if(y < 0 || y > 2)
+        if(y < 0 || y > 3)
             throw new IllegalArgumentException("y is out of bound");
 
         this.xPosition = x;

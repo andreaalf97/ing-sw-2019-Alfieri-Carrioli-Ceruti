@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
+import it.polimi.ingsw.model.map.Spot;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -146,6 +147,17 @@ public class Game extends Observable {
         p.giveWeapon(this.weaponDeck.drawCard());
     }
 
+    //todo again this method is used only in one test, we should remove it
+    /**
+     * Gives the chosen weapon to a player
+     * @param weapon The weapon object to be given
+     * @param player The nickname of the player
+     */
+    protected void giveWeaponToPlayer(String player, Weapon weapon){
+        Player p = getPlayerByNickname(player);
+        p.giveWeapon(weapon);
+    }
+
     /**
      * This method sets up all player for the final frenzy turn
      */
@@ -211,17 +223,7 @@ public class Game extends Observable {
             getPlayerByNickname(ranking.get(i)).givePoints(pointValues.get(i));
     }
 
-    //todo again this method is used only in one test, we should remove it
-    /**
-     * Gives the chosen weapon to a player
-     * @param weapon The weapon object to be given
-     * @param player The nickname of the player
-     */
-    protected void giveWeaponToPlayer(String player, Weapon weapon){
-        Player p = getPlayerByNickname(player);
-        p.giveWeapon(weapon);
-    }
-
+    //TESTED
     /**
      * Show all the different spots where a player is allowed to move
      * @param player The nickname of the player
@@ -232,6 +234,7 @@ public class Game extends Observable {
         return this.gameMap.wherePlayerCanMove(player, nMoves);
     }
 
+    //TESTED
     /**
      * Show all the different spots where a player is allowed to move and grab
      * @param player The nickname of the player
@@ -242,6 +245,7 @@ public class Game extends Observable {
         return this.gameMap.wherePlayerCanMoveAndGrab(player, nMoves);
     }
 
+    //TESTED
     /**
      * Lets the player pick a new powerup card and choose the new spawn spot to respawn
      * @param player the nickname of the player
@@ -255,19 +259,27 @@ public class Game extends Observable {
 
         Color discardedColor = p.discardPowerUpByIndex(powerupIndexToDiscard);
 
+        //set player alive and move player to spawnspot
         p.revive();
         movePlayerToSpawnColor(player, discardedColor);
     }
 
+    //TESTED
+    /**
+     * this method moves the player to the spawn spot associated to that color
+     * @param player the player to respawn
+     * @param discardedColor the color of the powerup discarded
+     */
     private void movePlayerToSpawnColor(String player, Color discardedColor) {
         gameMap.movePlayerToColorSpawn(player, discardedColor);
         int[] coord = gameMap.getPlayerSpotCoord(player);
 
         Player p = getPlayerByNickname(player);
-
+        //last action is modifing the player coordinates
         p.moveTo(coord[0], coord[1]);
     }
 
+    //TESTED
     /**
      * Refills all the ammo spots
      */
@@ -275,6 +287,7 @@ public class Game extends Observable {
         this.gameMap.refillAllAmmo(this.powerupDeck);
     }
 
+    //TESTED
     /**
      * Refills all the spawn spots with weapons
      */
@@ -282,6 +295,7 @@ public class Game extends Observable {
         this.gameMap.refillAllSpawns(this.weaponDeck);
     }
 
+    //TESTED
     /**
      * Moves the selected player to the new spot
      * @param player the nickname of the player
@@ -292,9 +306,10 @@ public class Game extends Observable {
 
         Player p = getPlayerByNickname(player);
 
-        p.moveTo(x, y);
-
-        gameMap.movePlayer(player, x, y);
+        if (gameMap.validSpot(x ,y)) {
+            p.moveTo(x, y);
+            gameMap.movePlayer(player, x, y);
+        }
     }
 
     /**
@@ -1071,9 +1086,9 @@ public class Game extends Observable {
     }
 
     /**
-     * Gives
-     * @param player
-     * @throws InvalidChoiceException
+     * Gives the ammo card on the spot to the player
+     * @param player the player who grab ammo
+     * @throws InvalidChoiceException if this isn't an ammo spot
      */
     public void giveAmmoCard(String player) throws InvalidChoiceException{
 
@@ -1174,6 +1189,28 @@ public class Game extends Observable {
                 return i;
         }
         throw new RuntimeException("didn't find the current player!");
+    }
+
+    //TESTED
+    /**
+     * tells if the spot is valid, this method is cretaed in gameMap.java, but we should know if spot is valid even in Game.java
+     * @param x spot x
+     * @param y spot y
+     * @return true if spot is valid
+     */
+    public boolean validSpot(int x , int y){
+        return gameMap.validSpot(x , y);
+    }
+
+    //TESTED  todo i have create this for testing in refillAllAmmoSpot and refillallSpawnSpot
+    /**
+     * this method returns a spot by using index
+     * @param x the x of the spot
+     * @param y the y of the spot
+     * @return the spot corresponding to that index
+     */
+    public Spot getSpotByIndex(int x, int y){
+        return gameMap.getSpotByIndex(x, y);
     }
 }
 
