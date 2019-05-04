@@ -27,7 +27,11 @@ public class Spot {
      */
     private Room room;
 
-
+    public Spot(Spot spot){
+        this.playersHere = new ArrayList<>(spot.playersHere);
+        this.doors = spot.doors;
+        this.room = spot.room;
+    }
     /**
      * basic constructor used in tests
      */
@@ -54,14 +58,9 @@ public class Spot {
     public boolean hasEastDoor(){ return doors.get(1); }
     public boolean hasSouthDoor(){ return doors.get(2);}
     public boolean hasWestDoor(){ return doors.get(3);}
-
     public Room getRoom() { return room;}
-
     public ArrayList<Boolean> getDoors() { return new ArrayList<>(doors);}
-
     public ArrayList<String> getPlayersHere() { return new ArrayList<>(playersHere); }
-
-
     /*------------------------------------------------------------------------------------------------------------------*/
 
     /**

@@ -129,6 +129,7 @@ public class Player {
         this.nMovesBeforeShooting = 0;
         this.hasFrenzyBoard = false;
         this.canReloadBeforeShooting = false;
+        this.playerStatus = new PlayerStatus();
     }
 
     /**
@@ -137,6 +138,28 @@ public class Player {
      */
     public Player(String nickname){
         this(nickname, -1, -1);
+    }
+
+    public Player(Player player){
+        this.nickname = player.nickname;
+        this.nRedAmmo = player.nRedAmmo;
+        this.nYellowAmmo = player.nYellowAmmo;
+        this.nBlueAmmo = player.nBlueAmmo;
+        this.points = player.points;
+        this.weaponList = new ArrayList<>(player.weaponList);
+        this.powerUpList = new ArrayList<>(player.powerUpList);
+        this.damages = new ArrayList<>(player.damages);
+        this.marks = player.marks;
+        this.nDeaths = player.nDeaths;
+        this.xPosition = player.xPosition;
+        this.yPosition = player.yPosition;
+        this.isDead = player.isDead;
+        this.nMoves = player.nMoves;
+        this.nMovesBeforeGrabbing = player.nMovesBeforeGrabbing;
+        this.nMovesBeforeShooting = player.nMovesBeforeShooting;
+        this.hasFrenzyBoard = player.hasFrenzyBoard;
+        this.canReloadBeforeShooting = player.canReloadBeforeShooting;
+        this.playerStatus = new PlayerStatus(player.playerStatus);
     }
 
     //SETS AND GETS
@@ -197,6 +220,12 @@ public class Player {
     }
     protected void setCanReloadBeforeShooting(boolean canReloadBeforeShooting) {
         this.canReloadBeforeShooting = canReloadBeforeShooting;
+    }
+    public PlayerStatus getPlayerStatus() {
+        return playerStatus;
+    }
+    public void setPlayerStatus(PlayerStatus playerStatus) {
+        this.playerStatus = playerStatus;
     }
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 

@@ -414,19 +414,30 @@ public class Game extends Observable {
             }
         }
 
-        if (effect.isLinear()) {        /*TODO finish implementation!!*/
+        if (effect.isLinear()) {
+
             for ( int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++ ){
-                if ( offender.getxPosition() == defenders_temp.get(i).getxPosition() && offender.getyPosition() > defenders_temp.get(i).getyPosition() ){
-                    //EAST
-                }
-                if ( offender.getxPosition() == defenders_temp.get(i).getxPosition() && offender.getyPosition() < defenders_temp.get(i).getyPosition() ){
-                    //WEST
-                }
-                if ( offender.getxPosition() < defenders_temp.get(i).getxPosition() && offender.getyPosition() == defenders_temp.get(i).getyPosition() ){
-                    //SOUTH
-                }
-                if ( offender.getxPosition() > defenders_temp.get(i).getxPosition() && offender.getyPosition() == defenders_temp.get(i).getyPosition() ){
-                    //NORTH
+
+                if (defenders_temp.get(i).getxPosition() != offender.getxPosition() || defenders_temp.get(i).getyPosition() != offender.getyPosition()) {   //controllo se offender e defender.get(i) non siano nello stesso spot, se così fosse andrebbe bene ma non sarebbe ancora decisa la direzione che devono rispettare i defenders successivi
+
+                    if (defenders_temp.get(i).getxPosition() == offender.getxPosition()) {      //offender e il primo defender sono sulla stessa riga
+
+                        if (defenders_temp.get(0).getyPosition() > offender.getyPosition()) { //il primo defender è a EAST rispetto all'offender
+                            //controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                        }else
+                        if (defenders_temp.get(0).getyPosition() < offender.getyPosition()) { //il primo defender è a WEST rispetto all'offender
+                            //controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                        }
+                    }
+                    if (defenders_temp.get(0).getyPosition() == offender.getyPosition()) {      //offender e il primo defender sono sulla stessa colonna
+
+                        if (defenders_temp.get(0).getxPosition() > offender.getxPosition()) {   //il primo defender è a NORTH rispetto all'offender
+                            //controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                        }else
+                        if (defenders_temp.get(0).getxPosition() < offender.getxPosition()) {   //il primo defender è a SOUTH rispetto all'offender
+                            //controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                        }
+                    }
                 }
             }
         }
@@ -486,6 +497,7 @@ public class Game extends Observable {
         }
     }
 
+
     public void makeMovementEffect(String string, Effect effect, int xPos, int yPos) throws InvalidChoiceException{
 
         Player player = getPlayerByNickname(string);
@@ -521,10 +533,6 @@ public class Game extends Observable {
 
     public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves){
 
-        int indexInOrder = 0;
-
-        int effect_number = weapon.getOrder().get(orderNumber)[indexInOrder];
-
         Player offender = getPlayerByNickname(offenderName);
 
         ArrayList<Player> defenders = new ArrayList<>();
@@ -533,13 +541,23 @@ public class Game extends Observable {
 
         ArrayList<Player> playersHit = new ArrayList<>();
 
+        //salvo i dati della partita e dei players appena prima di attaccare, così se durante l'attacco qualcosa non va bene (es. i giocatori dati dall'utente sono sbagliati),
+        // sostituisco agli stati di player probabilmente modificati in un effetto precedente, quelli di appena prima dell'attacco.
+        Player backUpOffender = new Player(offender);
+
+        ArrayList<Player> backUpDefenders = new ArrayList<>();
+
+        GameMap backUpMap = new GameMap(this.gameMap);
 
         for (String i : defendersNames) {
+
             defenders.add(getPlayerByNickname(i));
+
+            Player backUpDefender = new Player(i);
+            backUpDefenders.add(backUpDefender);      //aggiungo alla lista delle copie dei giocatori defenders, un defender per volta scorrendo defendersNames
         }
 
         for ( int i : weapon.getOrder().get(orderNumber)){      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
-
 
             Effect effetto = weapon.getEffects().get(i);
 
@@ -553,6 +571,13 @@ public class Game extends Observable {
                 catch (InvalidChoiceException e){
                     Log.LOGGER.log(Level.SEVERE, e.getMessage());
                     e.printStackTrace();
+                    //resetto mappa
+                    this.gameMap = new GameMap(backUpMap);
+                    //resetto offender
+                    offender = new Player(backUpOffender);
+                    //resetto i defenders
+                    //for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
+                    //    defenders.get(p) = new Player(backUpDefenders.get(p));}
                 }
             }
             if( typeOfEffect(effetto) == 1 ){  //Damage effect
@@ -577,12 +602,7 @@ public class Game extends Observable {
                     defendersNames.remove(p.getNickname());
                 }
 
-
                 makeDamageEffect(offenderName, defenders_temp, effetto);
-
-                for( Player player_temp : defenders_temp) {
-                    playersHit.add(player_temp);
-                }
 
             }
         }
@@ -603,8 +623,15 @@ public class Game extends Observable {
 
         ArrayList<Player> defenders = new ArrayList<>();
 
+        PlayerStatus offenderStatus = offender.getPlayerStatus();
+
+        ArrayList<PlayerStatus> defendersStatus = new ArrayList<>();
+
+        GameMap gameMap = this.gameMap;
+
         for (String i : defendersNames) {
             defenders.add(getPlayerByNickname(i));
+            defendersStatus.add(getPlayerByNickname(i).getPlayerStatus());      //aggiungo gli stati dei defenders in defendersStatus
         }
 
         for ( int i : weapon.getOrder().get(orderNumber)){      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
@@ -619,6 +646,12 @@ public class Game extends Observable {
             catch (InvalidChoiceException e){
                 Log.LOGGER.log(Level.SEVERE, e.getMessage());
                 e.printStackTrace();
+                //se c'è un eccezione, resetto tutti gli stati dei players e la mappa
+                this.gameMap = gameMap;
+                offender.setPlayerStatus(offenderStatus);
+                for( int j = 0; j < defenders.size() - 1; j++ ) {
+                    defenders.get(j).setPlayerStatus(defendersStatus.get(j));
+                }
             }
 
             for ( Player p : defenders_temp ) {
@@ -626,12 +659,7 @@ public class Game extends Observable {
                 defendersNames.remove(p.getNickname());
             }
 
-
             makeDamageEffect(offenderName, defenders_temp, effetto);
-
-            for( Player player_temp : defenders_temp) {
-                playersHit.add(player_temp);
-            }
 
         }
         return true;

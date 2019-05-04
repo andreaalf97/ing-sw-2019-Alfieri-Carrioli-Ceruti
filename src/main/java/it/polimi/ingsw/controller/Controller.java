@@ -62,6 +62,11 @@ public class Controller implements Observer {
 
             gameModel.respawn(currentPlayer, chosenPowerupToDiscard);
 
+            //SHOOTING
+
+            //con che arma vuoi sparare?
+            Log.LOGGER.log(Level.INFO, "Which weapon you want to shoot with?", currentPlayer);
+
             /*con che arma vuoi sparare?
             aspetto la weapon
             scorro gli effetti, se ce n'è almeno uno di movimento,

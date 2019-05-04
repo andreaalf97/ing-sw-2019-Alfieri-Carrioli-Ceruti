@@ -27,11 +27,19 @@ public class GameMap {
         this.rand = new Random();
     }
 
+    public GameMap(GameMap gameMap){
+
+        for(int i = 0; i < gameMap.map.length; i++) {
+            for (int j = 0; j < gameMap.map[i].length; j++) {
+                this.map[i][j] = new Spot(gameMap.map[i][j]);
+            }
+        }
+    }
+
     @Override
     public GameMap clone(){
         return new GameMap(this.map.clone());
     }
-
     //TESTED
     /**
      * Returns the spot indexed by these coordinates
@@ -102,6 +110,7 @@ public class GameMap {
                     returnValue[1] = j;
                     return returnValue;
                 }
+        /**perchè ritorna null???*/
         return null;
     }
 
