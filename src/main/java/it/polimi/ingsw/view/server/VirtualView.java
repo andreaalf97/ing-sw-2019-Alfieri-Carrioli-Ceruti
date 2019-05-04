@@ -100,21 +100,29 @@ public class VirtualView extends Observable implements Observer {
 
     }
 
-    public void notify(String nickname, String message){
+    public void notify(String nickname, String stringMessage){
 
         //TODO this is now just an echo server
 
-        Log.LOGGER.log(Level.INFO, "Virtual View class received a new message");
+        Message message = null;
 
-        ArrayList<String> answer = new ArrayList<>();
-        answer.add(nickname);
-        answer.add(message);
+        try {
+            message = new Message(nickname, stringMessage);
+        }
+        catch (IllegalArgumentException e){
+            sendMessage(nickname, "Invalid command");
+            return;
+        }
 
         setChanged();
-        notifyObservers(answer);
+        notifyObservers(message);
     }
 
     private Receiver getReceiverByNickname(String nickname) {
+
+        if(!players.contains(nickname))
+            throw new RuntimeException(nickname + " is not a valid nickname");
+
         int index = players.indexOf(nickname);
         return receivers.get(index);
     }

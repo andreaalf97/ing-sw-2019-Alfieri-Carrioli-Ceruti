@@ -4,9 +4,9 @@ import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.view.server.Message;
 import it.polimi.ingsw.view.server.VirtualView;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -271,16 +271,19 @@ public class Controller implements Observer {
         if( !(o instanceof VirtualView) )
             throw new RuntimeException("The observable is not a virtual view");
 
-        if(arg != null && !(arg instanceof ArrayList))
-            throw new RuntimeException("The arg should be an array list");
+        if(arg != null && !(arg instanceof Message))
+            throw new RuntimeException("The arg should be a Message class");
 
         Log.LOGGER.log(Level.INFO, "Controller class received a new message");
 
-        String nickname = ((ArrayList<String>) arg).get(0);
-        String message = ((ArrayList<String>) arg).get(1);
+        Message message = (Message) arg;
 
-        System.out.println(nickname + " sent: " + message);
-        virtualView.sendMessage(nickname, message);
+        String nickname = message.getSender();
+        ArrayList<String> defenders = message.getDefenders();
+        int answerIndex = message.getAnswerIndex();
+
+        System.out.println("Message received from " + nickname);
+        virtualView.sendMessage(nickname, "MESSAGE RECEIVED BY CONTROLLER " + this);
     }
 
 }
