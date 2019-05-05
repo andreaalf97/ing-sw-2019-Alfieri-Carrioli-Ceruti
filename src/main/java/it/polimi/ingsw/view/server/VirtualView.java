@@ -86,6 +86,14 @@ public class VirtualView extends Observable implements Observer {
         //TODO
         return "NONE";
     }
+    public int askForXpos() {
+        //TODO
+        return 0;
+    }
+    public int askForYpos() {
+        //TODO
+        return 0;
+    }
 
     public int askForIndexMoveToDo(String player){
         //TODO ask the move to do to the player and it will be better to do a representation of the map and the players on the map
