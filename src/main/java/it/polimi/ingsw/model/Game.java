@@ -232,6 +232,9 @@ public class Game extends Observable {
 
         for (int i = 0; i < ranking.size() && i < pointValues.size(); i++)
             getPlayerByNickname(ranking.get(i)).givePoints(pointValues.get(i));
+
+        player.resetDamages();
+        player.addKill();
     }
 
     //TESTED
@@ -323,13 +326,23 @@ public class Game extends Observable {
         }
     }
 
+    //TESTED
     /**
      * Moves the player to the selected spot and grabs the ammos on it
      * @param player the nickname of the player
      * @param x the position of the spot on the x-axis
      * @param y the position of the spot on the y-axis
      */
-    public void moveAndGrab(Player player, int x, int y){}
+    public void moveAndGrab(String player, int x, int y, int index){
+
+        Player p = getPlayerByNickname(player);
+
+        if (gameMap.validSpot(x ,y)) {
+            p.moveTo(x, y);
+            gameMap.movePlayer(player, x, y);
+            gameMap.grabSomething(x, y, p, index);
+        }
+    }
 
     /**
      * Tells if player offender can shoot player defenders with the selected weapon
@@ -487,7 +500,9 @@ public class Game extends Observable {
         return defenders;
     }
 
+//todo comment these methods and test them
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public int typeOfEffect( Effect effect ){
 
         int type = 0;
@@ -1042,7 +1057,6 @@ public class Game extends Observable {
      * @param player the player to check
      * @return an arraylist of the weapons unloaded
      */
-
     public ArrayList<Weapon> checkRechargeableWeapons (String player){
         Player currentPlayer = getPlayerByNickname(player);
         ArrayList<Weapon> rechargeableWeapons = new ArrayList<>();

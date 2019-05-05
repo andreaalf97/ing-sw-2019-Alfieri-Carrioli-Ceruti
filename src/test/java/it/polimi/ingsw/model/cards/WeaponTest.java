@@ -18,10 +18,7 @@ public class WeaponTest {
         }
         catch (RuntimeException e){
             Assert.assertTrue(true);
-            return;
         }
-
-        Assert.assertTrue(false);
 
     }
 
