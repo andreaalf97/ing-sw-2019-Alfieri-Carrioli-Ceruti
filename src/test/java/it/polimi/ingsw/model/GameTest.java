@@ -20,7 +20,7 @@ public class GameTest {
     Game gameTest;
 
     @Before
-    public void setup(){
+    public void setup() {
         ArrayList<String> playersNamesTest = new ArrayList<>();
         playersNamesTest.add("gino");
         playersNamesTest.add("andreaalf");
@@ -31,7 +31,7 @@ public class GameTest {
 
     //todo incomplete
     @Test
-    public void shootPlayerThor(){
+    public void shootPlayerThor() {
 
         //Testing if attacking with Thor works as expected
 
@@ -51,8 +51,7 @@ public class GameTest {
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Thor", weaponsJSON);
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             Assert.fail();
             return;
         }
@@ -82,7 +81,7 @@ public class GameTest {
     }
 
     @Test
-    public void givePowerUp(){
+    public void givePowerUp() {
         gameTest.givePowerUp("gino");
         Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getPowerUpList().size());
 
@@ -90,12 +89,11 @@ public class GameTest {
     }
 
     @Test
-    public void giveBoardPoints(){
+    public void giveBoardPoints() {
         //i have to do this because in the game at the start we consider the players dead, waiting for spawn
         gameTest.getPlayerByNickname("meme").revive();
         gameTest.getPlayerByNickname("gino").revive();
         gameTest.getPlayerByNickname("andreaalf").revive();
-
 
 
         //check normal kill
@@ -124,7 +122,7 @@ public class GameTest {
     }
 
     @Test
-    public void checkDeaths(){
+    public void checkDeaths() {
         gameTest.getPlayerByNickname("meme").revive();
         gameTest.getPlayerByNickname("gino").revive();
         gameTest.getPlayerByNickname("andreaalf").revive();
@@ -142,10 +140,10 @@ public class GameTest {
     }
 
     @Test
-    public void wherePlayerCanMove(){
+    public void wherePlayerCanMove() {
 
-        gameTest.movePlayer("gino", 0 , 0);
-        boolean [][] temp = gameTest.wherePlayerCanMove("gino", 1);
+        gameTest.movePlayer("gino", 0, 0);
+        boolean[][] temp = gameTest.wherePlayerCanMove("gino", 1);
 
         Assert.assertTrue(temp[0][0]);
         Assert.assertTrue(temp[0][1]);
@@ -156,18 +154,18 @@ public class GameTest {
         boolean[][] temp2 = gameTest.wherePlayerCanMove("andreaalf", 10);
 
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
             for (int j = 0; j < 4; j++)
-                if(gameTest.validSpot(i, j))
+                if (gameTest.validSpot(i, j))
                     Assert.assertTrue(temp2[i][j]);
 
     }
 
     @Test
-    public void wherePlayerCanMoveAndGrab(){
+    public void wherePlayerCanMoveAndGrab() {
 
-        gameTest.movePlayer("gino", 0 , 0);
-        boolean [][] temp = gameTest.wherePlayerCanMoveAndGrab("gino", 1);
+        gameTest.movePlayer("gino", 0, 0);
+        boolean[][] temp = gameTest.wherePlayerCanMoveAndGrab("gino", 1);
 
         Assert.assertTrue(temp[0][0]);
         Assert.assertTrue(temp[0][1]);
@@ -178,15 +176,15 @@ public class GameTest {
         boolean[][] temp2 = gameTest.wherePlayerCanMoveAndGrab("andreaalf", 10);
 
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
             for (int j = 0; j < 4; j++)
-                if(gameTest.validSpot(i, j))
+                if (gameTest.validSpot(i, j))
                     Assert.assertTrue(temp2[i][j]);
 
     }
 
     @Test
-    public void respawn(){
+    public void respawn() {
         //this is the first spawn for a player, like the first turn
         PowerUp powerUpTestRed = new PowerUp(Color.RED);
         gameTest.getPlayerByNickname("gino").givePowerUp(powerUpTestRed);
@@ -195,7 +193,7 @@ public class GameTest {
         Assert.assertFalse(gameTest.getPlayerByNickname("gino").isDead());
         Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
         Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getyPosition());
-        Assert.assertEquals(0,gameTest.getPlayerByNickname("gino").getPowerUpList().size());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getPowerUpList().size());
 
 
         //another test we can do is when a player get killed and then has to respawn
@@ -205,53 +203,50 @@ public class GameTest {
         gameTest.getPlayerByNickname("gino").giveDamage("meme", 11);
         Assert.assertTrue(gameTest.getPlayerByNickname("gino").isDead());
 
-        gameTest.respawn("gino", 0 );
+        gameTest.respawn("gino", 0);
         Assert.assertFalse(gameTest.getPlayerByNickname("gino").isDead());
         Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getxPosition());
         Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getyPosition());
-        Assert.assertEquals(0,gameTest.getPlayerByNickname("gino").getPowerUpList().size());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getPowerUpList().size());
 
     }
 
     @Test
-    public void refillAllAmmoSpots(){
+    public void refillAllAmmoSpots() {
         //pick some ammos and then control if all spots are refilled
-        gameTest.movePlayer("gino", 1 , 0);
+        gameTest.movePlayer("gino", 1, 0);
         try {
             gameTest.giveAmmoCard("gino");
-        }
-        catch (InvalidChoiceException e){
+        } catch (RuntimeException e) {
             Assert.assertTrue(true);
         }
 
-        gameTest.movePlayer("gino", 1 , 1);
+        gameTest.movePlayer("gino", 1, 1);
         try {
             gameTest.giveAmmoCard("gino");
-        }
-        catch (InvalidChoiceException e){
+        } catch (RuntimeException e) {
             Assert.fail();
         }
 
-        gameTest.movePlayer("gino", 2 , 1);
+        gameTest.movePlayer("gino", 2, 1);
         try {
             gameTest.giveAmmoCard("gino");
-        }
-        catch (InvalidChoiceException e){
+        } catch (RuntimeException e) {
             Assert.fail();
         }
 
         gameTest.refillAllAmmoSpots();
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
             for (int j = 0; j < 4; j++)
-                if(gameTest.validSpot(i, j) && gameTest.getSpotByIndex(i,j).isAmmoSpot())
+                if (gameTest.validSpot(i, j) && gameTest.getSpotByIndex(i, j).isAmmoSpot())
                     Assert.assertTrue(gameTest.getSpotByIndex(i, j).isFull());
 
 
     }
 
     @Test
-    public void refillAllSpawnSpots(){
+    public void refillAllSpawnSpots() {
         //pick three weapons and refill the spawn spots
         gameTest.movePlayer("gino", 1, 0);
         gameTest.pickWeapon("gino", 0);
@@ -265,15 +260,15 @@ public class GameTest {
         Assert.assertEquals(3, gameTest.getPlayerByNickname("gino").getWeaponList().size());
         gameTest.refillAllSpawnSpots();
 
-        Assert.assertTrue(gameTest.getSpotByIndex(1,0).isFull());
-        Assert.assertTrue(gameTest.getSpotByIndex(0,2).isFull());
-        Assert.assertTrue(gameTest.getSpotByIndex(2,3).isFull());
+        Assert.assertTrue(gameTest.getSpotByIndex(1, 0).isFull());
+        Assert.assertTrue(gameTest.getSpotByIndex(0, 2).isFull());
+        Assert.assertTrue(gameTest.getSpotByIndex(2, 3).isFull());
 
     }
 
     @Test
-    public void movePlayer(){
-        gameTest.movePlayer("gino",2, 3);
+    public void movePlayer() {
+        gameTest.movePlayer("gino", 2, 3);
         Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getxPosition());
         Assert.assertEquals(3, gameTest.getPlayerByNickname("gino").getyPosition());
         Assert.assertTrue(gameTest.getSpotByIndex(2, 3).getPlayersHere().contains("gino"));
@@ -281,8 +276,8 @@ public class GameTest {
     }
 
     @Test
-    public void movePlayerAndGrab(){
-        gameTest.moveAndGrab("gino", 1, 0 , 0);
+    public void movePlayerAndGrab() {
+        gameTest.moveAndGrab("gino", 1, 0, 0);
         Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
         Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getyPosition());
         Assert.assertTrue(gameTest.getSpotByIndex(1, 0).getPlayersHere().contains("gino"));
@@ -291,7 +286,7 @@ public class GameTest {
     }
 
     @Test
-    public void giveFrenzyBoardPoints(){
+    public void giveFrenzyBoardPoints() {
         gameTest.getPlayerByNickname("gino").giveDamage("andreaalf", 1);
         gameTest.getPlayerByNickname("gino").giveDamage("meme", 1);
 
@@ -302,7 +297,7 @@ public class GameTest {
     }
 
     @Test
-    public void giveKSTPoints(){
+    public void giveKSTPoints() {
         //todo dopo la kill multipla questo test  va aggiornato
         //all'inizio sono tutti morti
         gameTest.getPlayerByNickname("gino").revive();
@@ -350,5 +345,119 @@ public class GameTest {
 
     }
 
+    @Test
+    public void checkRechargeableWeapons() {
+        Weapon w1 = new Weapon("a");
+        Weapon w2 = new Weapon("b");
+        Weapon w3 = new Weapon("c");
+
+        gameTest.giveWeaponToPlayer("gino", w1);
+        gameTest.giveWeaponToPlayer("gino", w2);
+        gameTest.giveWeaponToPlayer("gino", w3);
+
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("gino").getWeaponList().size());
+
+        w1.unload();
+        w2.unload();
+
+        ArrayList<Weapon> weaponstest = gameTest.checkRechargeableWeapons("gino");
+        Assert.assertEquals(2, weaponstest.size());
+        Assert.assertTrue(weaponstest.contains(w1));
+        Assert.assertTrue(weaponstest.contains(w2));
+
+
+    }
+
+    @Test
+    public void reloadWeapon() {
+        Weapon w1 = new Weapon("a");
+
+        gameTest.giveWeaponToPlayer("gino", w1);
+
+        w1.unload();
+
+        gameTest.reloadWeapon("gino", 0);
+
+        Assert.assertTrue(gameTest.getPlayerByNickname("gino").getWeaponList().get(0).isLoaded());
+
+
+    }
+
+    @Test
+    public void getRealIndexOfWeapon() {
+        Weapon w1 = new Weapon("a");
+        Weapon w2 = new Weapon("b");
+        Weapon w3 = new Weapon("c");
+
+
+        gameTest.giveWeaponToPlayer("gino", w1);
+        gameTest.giveWeaponToPlayer("gino", w2);
+        gameTest.giveWeaponToPlayer("gino", w3);
+
+        Assert.assertEquals(1, gameTest.getRealWeaponIndexOfTheUnloadedWeapon("gino", w2));
+
+
+    }
+
+    @Test
+    public void pay() {
+        ArrayList<Color> cost = new ArrayList<>();
+        cost.add(Color.RED);
+        cost.add(Color.BLUE);
+        cost.add(Color.YELLOW);
+        try {
+            gameTest.pay("gino", cost);
+            Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getnYellowAmmo() + gameTest.getPlayerByNickname("gino").getnBlueAmmo() + gameTest.getPlayerByNickname("gino").getnRedAmmo());
+        } catch (InvalidChoiceException e) {
+            Assert.fail();
+        } catch (RuntimeException re) {
+            Assert.fail();
+        }
+
+        ArrayList<Color> costException = new ArrayList<>();
+        costException.add(Color.ANY);
+
+        try {
+            gameTest.pay("gino", costException);
+        } catch (InvalidChoiceException e) {
+            Assert.fail();
+        } catch (RuntimeException re) {
+            Assert.assertTrue(true);
+        }
+
+
+    }
+
+    @Test
+    public void giveAmmoCard() {
+        gameTest.movePlayer("gino", 0, 0);
+
+        try {
+            gameTest.giveAmmoCard("gino");
+            Assert.assertTrue(gameTest.getPlayerByNickname("gino").getnRedAmmo() + gameTest.getPlayerByNickname("gino").getnBlueAmmo() + gameTest.getPlayerByNickname("gino").getnYellowAmmo() > 3);
+        } catch (RuntimeException e) {
+            Assert.fail();
+        }
+
+        gameTest.movePlayer("gino", 1, 0);
+
+        try {
+            gameTest.giveAmmoCard("gino");
+        } catch (RuntimeException e) {
+            Assert.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void pickWeapon() {
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getWeaponList().size());
+        gameTest.movePlayer("gino", 1 , 0);
+        gameTest.pickWeapon("gino", 0);
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getWeaponList().size());
+    }
 
 }
+
+
+
+

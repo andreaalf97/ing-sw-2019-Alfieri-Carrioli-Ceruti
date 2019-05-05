@@ -119,6 +119,17 @@ public class Game extends Observable {
 
     //TESTED
     /**
+     * @param player is the current player
+     * @param index index of the powerup
+     * @return the powerup corresponding to index
+     */
+    public PowerUp getPowerupByIndex(String player, int index){
+        Player currentPlayer = getPlayerByNickname(player);
+        return currentPlayer.getPowerUpList().get(index);
+    }
+
+    //TESTED
+    /**
      * Gives a randomly picked powerup to the player
      * @param player the player who's receiving the powerUp
      */
@@ -147,13 +158,13 @@ public class Game extends Observable {
         p.giveWeapon(this.weaponDeck.drawCard());
     }
 
-    //todo again this method is used only in one test, we should remove it
+    //USED IN TESTS
     /**
      * Gives the chosen weapon to a player
      * @param weapon The weapon object to be given
      * @param player The nickname of the player
      */
-    protected void giveWeaponToPlayer(String player, Weapon weapon){
+    public void giveWeaponToPlayer(String player, Weapon weapon){
         Player p = getPlayerByNickname(player);
         p.giveWeapon(weapon);
     }
@@ -1008,18 +1019,14 @@ public class Game extends Observable {
             }
         }
     }
+
+    public ArrayList<String> getAttackablePlayersPowerUp(String player, PowerUp powerUpToUse) {
+        //TODO
+        return new ArrayList<>();
+    }
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param player is the current player
-     * @param index index of the powerup
-     * @return the powerup corresponding to index
-     */
-    public PowerUp getPowerupByIndex(String player, int index){
-        Player currentPlayer = getPlayerByNickname(player);
-        return currentPlayer.getPowerUpList().get(index);
-    }
-
+    //TESTED
     /**
      * check the weapons that player has unloaded
      * @param player the player to check
@@ -1048,6 +1055,7 @@ public class Game extends Observable {
         return rechargeableWeapons;
     }
 
+    //todo i don't think that a return boolean method like this need to be tested
     /**
      * Tells if the player has any power up that can be used at any time during the turn
      * @param player the player to chech
@@ -1061,11 +1069,7 @@ public class Game extends Observable {
         return false;
     }
 
-    public ArrayList<String> getAttackablePlayersPowerUp(String player, PowerUp powerUpToUse) {
-        //TODO
-        return new ArrayList<>();
-    }
-
+    //TESTED
     /**
      * reload the weapon of the player corresponding to index , i am sure that i can reload that weapon -> see ReloadWeapon in controller.java
      * @param player
@@ -1078,6 +1082,7 @@ public class Game extends Observable {
         currentPlayer.reloadWeapon(index);
     }
 
+    //TESTED
     /**
      * this method receive a player and a weapon
      * @param player the player to examinate
@@ -1095,11 +1100,16 @@ public class Game extends Observable {
         return realIndex;
     }
 
+    /**
+     * method that execute the move corresponding to index
+     * @param index the move representation
+     */
     public void executeMove(int index){
         //todo 0->move 1->move&grab 2->shoot
         //might be better to create an enum for this
     }
 
+    //ONLY USED IN TESTS
     /**
      * Revives the player
      * @param playerName the nickname of the player
@@ -1112,6 +1122,7 @@ public class Game extends Observable {
 
     }
 
+    //TESTED
     /**
      * @return a copy of the list of Players
      */
@@ -1119,6 +1130,7 @@ public class Game extends Observable {
         return new ArrayList<>(this.players);
     }
 
+    //TESTED
     /**
      * @return a copy of the kill shot track
      */
@@ -1126,6 +1138,7 @@ public class Game extends Observable {
         return this.kst.clone();
     }
 
+    //TESTED
     /**
      * @return a copy of the game map
      */
@@ -1133,12 +1146,13 @@ public class Game extends Observable {
         return this.gameMap.clone();
     }
 
+    //TESTED
     /**
      * Makes the player pay the correct amount of ammo
      * @param nickname the nickname
      * @param cost the cost to pay
      */
-    public void pay(String nickname, ArrayList<Color> cost) throws InvalidChoiceException {
+    public void pay(String nickname, ArrayList<Color> cost) throws InvalidChoiceException, RuntimeException{
 
         Player p = getPlayerByNickname(nickname);
 
@@ -1165,12 +1179,13 @@ public class Game extends Observable {
         }
     }
 
+    //TESTED
     /**
      * Gives the ammo card on the spot to the player
      * @param player the player who grab ammo
      * @throws InvalidChoiceException if this isn't an ammo spot
      */
-    public void giveAmmoCard(String player) throws InvalidChoiceException{
+    public void giveAmmoCard(String player) throws RuntimeException{
 
         Player p = getPlayerByNickname(player);
 
@@ -1178,11 +1193,12 @@ public class Game extends Observable {
         int y = p.getyPosition();
 
         if(! gameMap.isAmmoSpot(x, y))
-            throw new InvalidChoiceException("This is not an ammo spot");
+            throw new RuntimeException("This is not an ammo spot");
 
         gameMap.grabSomething(x, y, p, -1);
     }
 
+    //TESTED
     /**
      * Returns a copy of the weapons on the spawn spot
      * @param roomColor the color of the spawn
@@ -1192,6 +1208,7 @@ public class Game extends Observable {
         return gameMap.showSpawnSpotWeapons(roomColor);
     }
 
+    //TESTED
     /**
      * pick a weapon from the spawnspot where the player is
      * @param nickname the player who wants to pick the weapon

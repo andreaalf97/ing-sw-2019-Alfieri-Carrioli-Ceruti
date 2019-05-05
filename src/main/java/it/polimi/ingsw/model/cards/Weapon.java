@@ -53,7 +53,7 @@ public class Weapon {
      */
     public Weapon(String weaponName){
         this.weaponName = weaponName;
-        isLoaded = false;
+        isLoaded = true;
         this.cost = new ArrayList<>();
         this.effects = new ArrayList<>();
         this.order = new ArrayList<>();
