@@ -109,7 +109,7 @@ public class Game extends Observable {
      * @param nickname the nickname of the player
      * @return the object Player
      */
-    public Player getPlayerByNickname(String nickname){
+    protected Player getPlayerByNickname(String nickname){
 
         if(!playerNames.contains(nickname))
             throw new IllegalArgumentException("This nickname does not exist!");
@@ -192,17 +192,17 @@ public class Game extends Observable {
     /**
      * Clears the player board and gives points to all players involved, this method also modify kst and assign mark
      */
-    protected void giveBoardPointsAndModifyKST ( Player player  )  throws RuntimeException{
+    protected void giveBoardPointsAndModifyKST ( Player player  ) {
         if(!player.isDead())
             throw new RuntimeException("This player is not dead");
 
         //at this point i am sure that player is dead, so i can modify kst and give one mark to the last player
         if (player.getDamages().size() == 12) {
-            this.kst.addKill(player.getDamages().get(11), true);
-            getPlayerByNickname(player.getDamages().get(11)).giveMarks(player.getNickname(), 1);
+            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), true);
+            getPlayerByNickname(player.getDamages().get(player.getDamages().size() - 1)).giveMarks(player.getNickname(), 1);
         }
         else
-            this.kst.addKill(player.getDamages().get(10), false);
+            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), false);
 
         ArrayList<Integer> pointValues = new ArrayList<>();
         pointValues.add(8);
@@ -221,9 +221,6 @@ public class Game extends Observable {
 
         for (int i = 0; i < ranking.size() && i < pointValues.size(); i++)
             getPlayerByNickname(ranking.get(i)).givePoints(pointValues.get(i));
-
-        player.addKill();
-        player.resetDamages();
     }
 
     //TESTED
@@ -315,65 +312,13 @@ public class Game extends Observable {
         }
     }
 
-    //TESTED
     /**
      * Moves the player to the selected spot and grabs the ammos on it
      * @param player the nickname of the player
      * @param x the position of the spot on the x-axis
      * @param y the position of the spot on the y-axis
      */
-    public void moveAndGrab(String player, int x, int y, int index) {
-
-        Player p = getPlayerByNickname(player);
-
-        if (gameMap.validSpot(x, y)) {
-            p.moveTo(x, y);
-            gameMap.movePlayer(player, x, y);
-            gameMap.grabSomething(x, y, p, index);
-        }
-    }
-
-
-    //TESTED
-    /**
-     * Clears the player frenzy board and gives points to all players involved
-     */
-    public void giveFrenzyBoardPoints ( Player player) {
-
-        int[] pointValues = {2, 1, 1, 1};
-
-        ArrayList<String> ranking = player.getOffendersRanking();
-
-        for (int i = 0; i < ranking.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
-    }
-
-    //TESTED
-    /**
-     * Clears the Kill Shot Track and gives points to all players involved
-     */
-    public void giveKSTpoints(){
-        int[] pointValues = {8, 6, 4, 2, 1, 1};
-
-        ArrayList<String> ranking = kst.getRanking();
-
-        for (int i = 0; i < ranking.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
-
-    }
-
-    //TESTED
-    /**
-     * check if kst is full, if it's full we start the frenzy turn
-     * @return
-     */
-    public boolean noMoreSkullsOnKST() {
-        return this.kst.noMoreSkulls();
-    }
-
-    //todo comment these methods below
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void moveAndGrab(Player player, int x, int y){}
 
     /**
      * Tells if player offender can shoot player defenders with the selected weapon
@@ -531,6 +476,7 @@ public class Game extends Observable {
         return defenders;
     }
 
+
     public int typeOfEffect( Effect effect ){
 
         int type = 0;
@@ -564,6 +510,7 @@ public class Game extends Observable {
         }
     }
 
+
     public void makeMovementEffect(String string, Effect effect, int xPos, int yPos) throws InvalidChoiceException{
 
         Player player = getPlayerByNickname(string);
@@ -586,17 +533,19 @@ public class Game extends Observable {
 
         Player offender = getPlayerByNickname(offendername);
 
-        ArrayList<Player> defenders = new ArrayList<>();
-
         for ( Player p : defenders_temp){           //per ogni giocatore presente nella lista dei defenders, assegno quanti danni e marchi dell'effetto
-            p.giveDamage(offender.getNickname(), effect.getnDamages());
-            p.giveMarks(offender.getNickname(), effect.getnMarks());
+
+            if ( effect.getnDamages() != 0 )
+                p.giveDamage(offender.getNickname(), effect.getnDamages());
+
+            if ( effect.getnMarks() != 0 )
+                p.giveMarks(offender.getNickname(), effect.getnMarks());
+
         }
     }
 
-    public void shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)throws InvalidChoiceException{
 
-        boolean result = true;
+    public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)throws InvalidChoiceException {
 
         Player offender = getPlayerByNickname(offenderName);
 
@@ -605,10 +554,6 @@ public class Game extends Observable {
         ArrayList<Player> defenders_temp = new ArrayList<>();
 
         ArrayList<Player> playersHit = new ArrayList<>();
-
-        //se l'arma è scarica non si può sparare, il giocatore perde un'azione
-        if ( !weapon.isLoaded() )
-            throw new InvalidChoiceException("This weapon is not loaded");
 
         //salvo i dati della partita e dei players appena prima di attaccare, così se durante l'attacco qualcosa non va bene (es. i giocatori dati dall'utente sono sbagliati),
         // sostituisco agli stati di player probabilmente modificati in un effetto precedente, quelli di appena prima dell'attacco.
@@ -627,132 +572,126 @@ public class Game extends Observable {
 
         }
 
-        for ( int i : weapon.getOrder().get(orderNumber)){      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
+        try {
+            //se l'arma è scarica non si può sparare, il giocatore perde un'azione
+            if (!weapon.isLoaded())
+                throw new InvalidChoiceException("This weapon is not loaded");
 
-            Effect effetto = weapon.getEffects().get(i);
+            for (int i : weapon.getOrder().get(orderNumber)) {      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
 
-            payCostEffect( effetto, offenderName );      //if the effect has a cost, the player pays it
+                Effect effetto = weapon.getEffects().get(i);
 
-            if( typeOfEffect(effetto) == 0 ){  //Movement effect
+                payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
 
-                try{
-                    makeMovementEffect( playerWhoMoves, effetto, xPosition, yPosition );
-                }
-                catch (InvalidChoiceException e){
-                    Log.LOGGER.log(Level.SEVERE, e.getMessage());
-                    e.printStackTrace();
-                    result = false;
+                if (typeOfEffect(effetto) == 0) //Movement effect
+                    makeMovementEffect(playerWhoMoves, effetto, xPosition, yPosition);
+
+                if (typeOfEffect(effetto) == 1) {  //Damage effect
+
+                    /* a whoP1ShootsInThisEffect gli passo al primo giro la lista dei nomi dei players ricevuta dall'utente, ai giri successivi i players a cui non ho ancora sparato, cioè quelli a cui devo sparare in questo effetto.
+                    Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
+
+                    defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit);
+
+                     /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
+                     ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
+                     poi gino poi andreaalf ( ma nel primo effetto si ha nPlayersAttackable = 2 ), WhoP1ShootsInThisEffect ritorna andreaalf, gino, li colpisco e li aggiungo a playersHit, nel prossimo effetto passo a
+                     whoP1CanShootInThisEffect defenders - defenders_temp, ovvero andreaalf (poi se c'è un must_shoot_other player in questo effetto lancio un'eccezione*/
+                    for (Player p : defenders_temp) {
+                        playersHit.add(p);
+                        defendersNames.remove(p.getNickname());
+                    }
+                    makeDamageEffect(offenderName, defenders_temp, effetto);
                 }
             }
-            if( typeOfEffect(effetto) == 1 ){  //Damage effect
-
-                /* a whoP1ShootsInThisEffect gli passo al primo giro la lista dei nomi dei players ricevuta dall'utente, ai giri successivi i players a cui non ho ancora sparato, cioè quelli a cui devo sparare in questo effetto.
-                Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
-
-                try{
-                    defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit );
-                }
-                catch (InvalidChoiceException e){
-                    Log.LOGGER.log(Level.SEVERE, e.getMessage());
-                    e.printStackTrace();
-                    result = false;
-                }
-
-                /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
-                 ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
-                 poi gino poi andreaalf ( ma nel primo effetto si ha nPlayersAttackable = 2 ), WhoP1ShootsInThisEffect ritorna andreaalf, gino, li colpisco e li aggiungo a playersHit, nel prossimo effetto passo a
-                 whoP1CanShootInThisEffect defenders - defenders_temp, ovvero andreaalf (poi se c'è un must_shoot_other player in questo effetto lancio un'eccezione*/
-                for ( Player p : defenders_temp ) {
-                    playersHit.add(p);
-                    defendersNames.remove(p.getNickname());
-                }
-
-                makeDamageEffect(offenderName, defenders_temp, effetto);
-
+            return true;
+        } catch (InvalidChoiceException e) {
+            //resetto mappa
+            this.gameMap = new GameMap(backUpMap);
+            //resetto offender
+            offender = new Player(backUpOffender);
+            //resetto i defenders
+            /*TODO fix the errore below!*/
+            for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
+                defenders.set(p, new Player(backUpDefenders.get(p)));
             }
+            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
 
-            //se ho riscontrato un'eccezione, result == false, resetto i giocatori e la mappa e finisco la mossa di shooting
-            if (!result){
-                //resetto mappa
-                this.gameMap = new GameMap(backUpMap);
-                //resetto offender
-                offender = new Player(backUpOffender);
-                //resetto i defenders
-                /*TODO fix the errore below!*/
-                //for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
-                //defenders.get(p) = new Player(backUpDefenders.get(p));
-                //}
-            }
+            return false;
         }
     }
 
-    public void shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber) throws InvalidChoiceException{
-
-        boolean result = true;
+    public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber) throws InvalidChoiceException{
 
         Player offender = getPlayerByNickname(offenderName);
+
+        ArrayList<Player> defenders = new ArrayList<>();
 
         ArrayList<Player> defenders_temp = new ArrayList<>();
 
         ArrayList<Player> playersHit = new ArrayList<>();
 
-        ArrayList<Player> defenders = new ArrayList<>();
-
-        PlayerStatus offenderStatus = offender.getPlayerStatus();
-
-        //creo copia di giocatori e mappa per eventuale reset
+        //salvo i dati della partita e dei players appena prima di attaccare, così se durante l'attacco qualcosa non va bene (es. i giocatori dati dall'utente sono sbagliati),
+        // sostituisco agli stati di player probabilmente modificati in un effetto precedente, quelli di appena prima dell'attacco.
         Player backUpOffender = new Player(offender);
 
         ArrayList<Player> backUpDefenders = new ArrayList<>();
 
         GameMap backUpMap = new GameMap(this.gameMap);
 
-        //se l'arma è scarica non si può sparare, il giocatore perde un'azione
-        if ( !weapon.isLoaded() )
-            throw new InvalidChoiceException("This weapon is not loaded");
-
         for (String i : defendersNames) {
+
             defenders.add(getPlayerByNickname(i));
 
             Player backUpDefender = new Player(i);
             backUpDefenders.add(backUpDefender);      //aggiungo alla lista delle copie dei giocatori defenders, un defender per volta scorrendo defendersNames
+
         }
+        try {
+            //se l'arma è scarica non si può sparare, il giocatore perde un'azione
+            if (!weapon.isLoaded())
+                throw new InvalidChoiceException("This weapon is not loaded");
 
-        for ( int i : weapon.getOrder().get(orderNumber)){      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
+            for (int i : weapon.getOrder().get(orderNumber)) {      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
 
-            Effect effetto = weapon.getEffects().get(i);
+                Effect effetto = weapon.getEffects().get(i);
 
-            payCostEffect( effetto, offenderName );      //if the effect has a cost, the player pays it
+                payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
 
-            try{
-                defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit );
+                if (typeOfEffect(effetto) == 1) {  //Damage effect
+
+                    /* a whoP1ShootsInThisEffect gli passo al primo giro la lista dei nomi dei players ricevuta dall'utente, ai giri successivi i players a cui non ho ancora sparato, cioè quelli a cui devo sparare in questo effetto.
+                    Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
+
+                    defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit);
+
+                     /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
+                     ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
+                     poi gino poi andreaalf ( ma nel primo effetto si ha nPlayersAttackable = 2 ), WhoP1ShootsInThisEffect ritorna andreaalf, gino, li colpisco e li aggiungo a playersHit, nel prossimo effetto passo a
+                     whoP1CanShootInThisEffect defenders - defenders_temp, ovvero andreaalf (poi se c'è un must_shoot_other player in questo effetto lancio un'eccezione*/
+                    for (Player p : defenders_temp) {
+                        playersHit.add(p);
+                        defendersNames.remove(p.getNickname());
+                    }
+                    makeDamageEffect(offenderName, defenders_temp, effetto);
+                }
             }
-            catch (InvalidChoiceException e){
-                Log.LOGGER.log(Level.SEVERE, e.getMessage());
-                e.printStackTrace();
-                result = false;
+            return true;
+        } catch (InvalidChoiceException e) {
+            //resetto mappa
+            this.gameMap = new GameMap(backUpMap);
+            //resetto offender
+            offender = new Player(backUpOffender);
+            //resetto i defenders
+            /*TODO fix the errore below!*/
+            for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
+                defenders.set(p, new Player(backUpDefenders.get(p)));
             }
+            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
 
-            //se ho riscontrato un'eccezione, result == false, resetto i giocatori e la mappa e finisco la mossa di shooting
-            if (!result){
-                //resetto mappa
-                this.gameMap = new GameMap(backUpMap);
-                //resetto offender
-                offender = new Player(backUpOffender);
-                //resetto i defenders
-                /*TODO fix the errore below!*/
-                //for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
-                //defenders.get(p) = new Player(backUpDefenders.get(p));
-                //}
-            }
-
-            for ( Player p : defenders_temp ) {
-                playersHit.add(p);
-                defendersNames.remove(p.getNickname());
-            }
-
-            makeDamageEffect(offenderName, defenders_temp, effetto);
-
+            return false;
         }
     }
 
@@ -877,7 +816,72 @@ public class Game extends Observable {
         weapon.unload();
     }*/
 
-    public void usePowerUp(String offenderName, String defenderName, PowerUp powerup) {
+    /**
+     * Clears the player frenzy board and gives points to all players involved
+     */
+    public void giveFrenzyBoardPoints ( Player player) {
+
+        int[] pointValues = {2, 1, 1, 1};
+
+        ArrayList<String> ranking = player.getOffendersRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+    }
+
+
+
+    /**
+     * Clears the Kill Shot Track and gives points to all players involved
+     */
+    public void giveKSTpoints(){
+        int[] pointValues = {8, 6, 4, 2, 1, 1};
+
+        ArrayList<String> ranking = kst.getRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+
+    }
+
+
+    public boolean noMoreSkullsOnKST() {
+        return this.kst.noMoreSkulls();
+    }
+
+    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ){
+
+        Player currentPlayer = getPlayerByNickname(currentPlayerName);
+        Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
+
+
+        ArrayList<Player> temp = new ArrayList<>();
+        temp.add(playerWhoReceiveEffect);
+
+        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
+
+        makeDamageEffect( currentPlayerName, temp, effect );
+
+    }
+
+    public void useMovementPowerUp ( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, int xPos, int yPos )throws InvalidChoiceException{
+
+        Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
+
+        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
+
+
+        if (effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0) {
+            if ( effect.getnMoves() != 0){
+                if( this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMoves()) ) {
+                    movePlayer(playerWhoReceiveEffect.getNickname(), xPos, yPos);
+                }else
+                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves o nMovesOtherPlayer");
+            }
+
+        }
+    }
+    /*public void usePowerUp(String offenderName, String defenderName, PowerUp powerup) {
 
         Player offender = getPlayerByNickname(offenderName);
         Player defender = getPlayerByNickname(defenderName);
@@ -956,7 +960,7 @@ public class Game extends Observable {
                         System.out.println( "You don't have enough ammo to do this optional attack");
                     else{
                         System.out.println( "Choose the color you want to pay with" );
-                        /*TODO scale one of the color the user chose*/
+                        /*TODO scale one of the color the user chose
                     }
                 }
             }
@@ -975,7 +979,7 @@ public class Game extends Observable {
         if (effect.isLinear()) {
             System.out.println("In which direction do you want to shoot?");
             //for example NORTH /*TODO look for scanf.
-            // In this case if i already have the list of player i want to attack, i only have to check if someone is not in line and remove him.*/
+            // In this case if i already have the list of player i want to attack, i only have to check if someone is not in line and remove him.
         }
 
         //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance cant't shoot him
@@ -1007,8 +1011,13 @@ public class Game extends Observable {
                 defender.giveMarks(offender.getNickname(), effect.getnDamages());
             }
         }
+    }*/
+
+    public boolean playerIsDead(String player) {
+        Player p = getPlayerByNickname(player);
+
+        return p.isDead();
     }
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param player is the current player
@@ -1025,6 +1034,7 @@ public class Game extends Observable {
      * @param player the player to check
      * @return an arraylist of the weapons unloaded
      */
+
     public ArrayList<Weapon> checkRechargeableWeapons (String player){
         Player currentPlayer = getPlayerByNickname(player);
         ArrayList<Weapon> rechargeableWeapons = new ArrayList<>();

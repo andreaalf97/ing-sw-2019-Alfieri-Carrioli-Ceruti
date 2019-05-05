@@ -67,6 +67,21 @@ public class Controller implements Observer {
             //con che arma vuoi sparare?
             Log.LOGGER.log(Level.INFO, "Which weapon you want to shoot with?", currentPlayer);
 
+            boolean isMove = false;
+            //scorro gli effetti dell'arma scelta, se c'è un effetto di movimento esco dal loop e chiamo gameModel.ShootWithMovement
+            /*for (int i : gameModel.getPlayerByNickName.weaponList.get(i).getOrder.get(orderNumber)) {
+                //movement effect
+                if ( gameModel.typeOfEffect(i) == 0){
+                    isMove = true;
+                }
+            }
+            if (isMove){
+                gameModel.shootWithMovement();
+            }
+            else {
+                gameModel.shootWithoutMovement();
+            }*/
+
             /*con che arma vuoi sparare?
             aspetto la weapon
             scorro gli effetti, se ce n'è almeno uno di movimento,
@@ -122,7 +137,7 @@ public class Controller implements Observer {
     private void runTurn(String currentPlayer){
 
         //If player is dead, respawn
-        if(gameModel.getPlayerByNickname(currentPlayer).isDead()){
+        if(gameModel.playerIsDead(currentPlayer)){
             gameModel.givePowerUp(currentPlayer);
             int chosenPowerUpToDiscard = virtualView.askForIndexPowerupToDiscard(currentPlayer, gameModel.getPlayerPowerUps(currentPlayer));
 
@@ -226,7 +241,7 @@ public class Controller implements Observer {
             String chosenPlayerName = virtualView.askForPlayerNameToAttackPowerup(attackablePlayers);
 
             //Uses the powerup on the player
-            gameModel.usePowerUp(player, chosenPlayerName, powerUpToUse);
+            //gameModel.usePowerUp(player, chosenPlayerName, powerUpToUse);
 
             chosenPowerupIndex = -1;
             if(gameModel.playerHasTurnPowerUp(player))
