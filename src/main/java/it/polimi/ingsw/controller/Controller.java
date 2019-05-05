@@ -125,7 +125,7 @@ public class Controller implements Observer {
             runTurn(currentPlayer);
         }
 
-        gameModel.giveKSTpoints();
+        gameModel.giveKSTPoints();
 
         endGame();
     }
@@ -137,7 +137,7 @@ public class Controller implements Observer {
     private void runTurn(String currentPlayer){
 
         //If player is dead, respawn
-        if(gameModel.playerIsDead(currentPlayer)){
+        if(gameModel.getPlayerByNickname(currentPlayer).isDead()){
             gameModel.givePowerUp(currentPlayer);
             int chosenPowerUpToDiscard = virtualView.askForIndexPowerupToDiscard(currentPlayer, gameModel.getPlayerPowerUps(currentPlayer));
 

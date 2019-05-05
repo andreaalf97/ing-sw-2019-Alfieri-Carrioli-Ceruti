@@ -109,7 +109,7 @@ public class Game extends Observable {
      * @param nickname the nickname of the player
      * @return the object Player
      */
-    protected Player getPlayerByNickname(String nickname){
+    public Player getPlayerByNickname(String nickname){
 
         if(!playerNames.contains(nickname))
             throw new IllegalArgumentException("This nickname does not exist!");
@@ -203,17 +203,17 @@ public class Game extends Observable {
     /**
      * Clears the player board and gives points to all players involved, this method also modify kst and assign mark
      */
-    protected void giveBoardPointsAndModifyKST ( Player player  ) {
+    protected void giveBoardPointsAndModifyKST ( Player player  ) throws RuntimeException {
         if(!player.isDead())
             throw new RuntimeException("This player is not dead");
 
         //at this point i am sure that player is dead, so i can modify kst and give one mark to the last player
         if (player.getDamages().size() == 12) {
-            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), true);
-            getPlayerByNickname(player.getDamages().get(player.getDamages().size() - 1)).giveMarks(player.getNickname(), 1);
+            this.kst.addKill(player.getDamages().get(11), true);
+            getPlayerByNickname(player.getDamages().get(11)).giveMarks(player.getNickname(), 1);
         }
         else
-            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), false);
+            this.kst.addKill(player.getDamages().get(10), false);
 
         ArrayList<Integer> pointValues = new ArrayList<>();
         pointValues.add(8);
@@ -235,6 +235,43 @@ public class Game extends Observable {
 
         player.resetDamages();
         player.addKill();
+    }
+
+    //TESTED
+    /**
+     * Clears the player frenzy board and gives points to all players involved
+     */
+    public void giveFrenzyBoardPoints ( Player player) {
+
+        int[] pointValues = {2, 1, 1, 1};
+
+        ArrayList<String> ranking = player.getOffendersRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+    }
+
+    //TESTED
+    /**
+     * Clears the Kill Shot Track and gives points to all players involved
+     */
+    public void giveKSTPoints(){
+        int[] pointValues = {8, 6, 4, 2, 1, 1};
+
+        ArrayList<String> ranking = kst.getRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+
+    }
+
+    //TESTED
+    /**
+     * check if skulls on kst are finished so we can set up FrenzyTurm
+     * @return true if there are no skulls on kst
+     */
+    public boolean noMoreSkullsOnKST() {
+        return this.kst.noMoreSkulls();
     }
 
     //TESTED
@@ -842,71 +879,7 @@ public class Game extends Observable {
         weapon.unload();
     }*/
 
-    /**
-     * Clears the player frenzy board and gives points to all players involved
-     */
-    public void giveFrenzyBoardPoints ( Player player) {
 
-        int[] pointValues = {2, 1, 1, 1};
-
-        ArrayList<String> ranking = player.getOffendersRanking();
-
-        for (int i = 0; i < ranking.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
-    }
-
-
-
-    /**
-     * Clears the Kill Shot Track and gives points to all players involved
-     */
-    public void giveKSTpoints(){
-        int[] pointValues = {8, 6, 4, 2, 1, 1};
-
-        ArrayList<String> ranking = kst.getRanking();
-
-        for (int i = 0; i < ranking.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
-
-    }
-
-
-    public boolean noMoreSkullsOnKST() {
-        return this.kst.noMoreSkulls();
-    }
-
-    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ){
-
-        Player currentPlayer = getPlayerByNickname(currentPlayerName);
-        Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
-
-
-        ArrayList<Player> temp = new ArrayList<>();
-        temp.add(playerWhoReceiveEffect);
-
-        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
-
-        makeDamageEffect( currentPlayerName, temp, effect );
-
-    }
-
-    public void useMovementPowerUp ( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, int xPos, int yPos )throws InvalidChoiceException{
-
-        Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
-
-        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
-
-
-        if (effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0) {
-            if ( effect.getnMoves() != 0){
-                if( this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMoves()) ) {
-                    movePlayer(playerWhoReceiveEffect.getNickname(), xPos, yPos);
-                }else
-                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves o nMovesOtherPlayer");
-            }
-
-        }
-    }
     /*public void usePowerUp(String offenderName, String defenderName, PowerUp powerup) {
 
         Player offender = getPlayerByNickname(offenderName);
@@ -1039,17 +1012,49 @@ public class Game extends Observable {
         }
     }*/
 
-    public boolean playerIsDead(String player) {
-        Player p = getPlayerByNickname(player);
 
-        return p.isDead();
+    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ){
+
+        Player currentPlayer = getPlayerByNickname(currentPlayerName);
+        Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
+
+
+        ArrayList<Player> temp = new ArrayList<>();
+        temp.add(playerWhoReceiveEffect);
+
+        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
+
+        makeDamageEffect( currentPlayerName, temp, effect );
+
     }
+
+    public void useMovementPowerUp ( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, int xPos, int yPos )throws InvalidChoiceException{
+
+        Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
+
+        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
+
+
+        if (effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0) {
+            if ( effect.getnMoves() != 0){
+                if( this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMoves()) ) {
+                    movePlayer(playerWhoReceiveEffect.getNickname(), xPos, yPos);
+                }else
+                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves o nMovesOtherPlayer");
+            }
+
+        }
+    }
+
 
     public ArrayList<String> getAttackablePlayersPowerUp(String player, PowerUp powerUpToUse) {
         //TODO
         return new ArrayList<>();
     }
+
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //TESTED
 
     //TESTED
     /**

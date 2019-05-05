@@ -4,8 +4,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
-import it.polimi.ingsw.model.map.GameMap;
-import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
 import org.junit.Assert;
 import org.junit.Before;
@@ -336,7 +334,7 @@ public class GameTest {
 
         //chiamo metodo e controllo punti: gino 22, meme 24, andreaalf 20
         //chiamo metodo e controllo punti: gino 22, meme 24, andreaalf 20
-        gameTest.giveKSTpoints();
+        gameTest.giveKSTPoints();
         Assert.assertEquals(24, gameTest.getPlayerByNickname("meme").getPoints());
         Assert.assertEquals(20, gameTest.getPlayerByNickname("andreaalf").getPoints());
         Assert.assertEquals(22, gameTest.getPlayerByNickname("gino").getPoints());
