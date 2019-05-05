@@ -418,44 +418,57 @@ public class Game extends Observable {
 
             for ( int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++ ){
 
-                if (defenders_temp.get(i).getxPosition() != offender.getxPosition() || defenders_temp.get(i).getyPosition() != offender.getyPosition()) {   //controllo se offender e defender.get(i) non siano nello stesso spot, se così fosse andrebbe bene ma non sarebbe ancora decisa la direzione che devono rispettare i defenders successivi
+                //se sia x che y sono diverse il defender è sicuramente non allineato
+                if (defenders_temp.get(i).getxPosition() != offender.getxPosition() && defenders_temp.get(i).getyPosition() != offender.getyPosition()) {
+                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_1");
+                }
 
-                    if (defenders_temp.get(i).getxPosition() == offender.getxPosition()) {      //offender e il primo defender sono sulla stessa riga
+                //controllo se offender e defender.get(i) non siano nello stesso spot, se così fosse andrebbe bene ma non sarebbe ancora decisa la direzione che devono rispettare i defenders successivi
+                if (defenders_temp.get(i).getxPosition() != offender.getxPosition() || defenders_temp.get(i).getyPosition() != offender.getyPosition()) {
 
-                        if (defenders_temp.get(0).getyPosition() > offender.getyPosition()) { //il primo defender è a EAST rispetto all'offender
+                    if (defenders_temp.get(i).getxPosition() == offender.getxPosition()) {      //offender e defender sono sulla stessa riga
+
+                        if (defenders_temp.get(i).getyPosition() > offender.getyPosition()) { //iL defender è a EAST rispetto all'offender
+
                             //controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
+                                if (defenders_temp.get(j).getyPosition() < offender.getyPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_2");
+                                }
+                            }
                         }else
-                        if (defenders_temp.get(0).getyPosition() < offender.getyPosition()) { //il primo defender è a WEST rispetto all'offender
+                        if (defenders_temp.get(i).getyPosition() < offender.getyPosition()) { //il primo defender è a WEST rispetto all'offender
                             //controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
+                                if (defenders_temp.get(j).getyPosition() > offender.getyPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_3");
+                                }
+                            }
                         }
                     }
-                    if (defenders_temp.get(0).getyPosition() == offender.getyPosition()) {      //offender e il primo defender sono sulla stessa colonna
+                    if (defenders_temp.get(i).getyPosition() == offender.getyPosition()) {      //offender e il defender sono sulla stessa colonna
 
-                        if (defenders_temp.get(0).getxPosition() > offender.getxPosition()) {   //il primo defender è a NORTH rispetto all'offender
-                            //controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                        if (defenders_temp.get(i).getxPosition() > offender.getxPosition()) {   //il defender è a SOUTH rispetto all'offender
+                            //controllo se anche gli altri defenders sono a SOUTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
+                                if (defenders_temp.get(j).getxPosition() < offender.getxPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_4");
+                                }
+                            }
                         }else
-                        if (defenders_temp.get(0).getxPosition() < offender.getxPosition()) {   //il primo defender è a SOUTH rispetto all'offender
-                            //controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                        if (defenders_temp.get(0).getxPosition() < offender.getxPosition()) {   //il defender è a NORTH rispetto all'offender
+                            //controllo se anche gli altri defenders sono a NORTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
+                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
+                                if (defenders_temp.get(j).getxPosition() > offender.getxPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_5");
+                                }
+                            }
                         }
                     }
                 }
             }
         }
 
-
-            /*if (effect.getnPlayerAttackable() != 0) {    // defenders.size() must also be  < genNPlayerMarkable  !!
-                for (int k = 0; k < (defenders_temp.size() - 1) && k < (effect.getnPlayerAttackable() - 1); k++) {
-                    defenders_temp.get(k).giveDamage(offender.getNickname(), effect.getnDamages());
-                    playersHit.add(defenders_temp.get(k));
-                }
-            }
-            if (effect.getnPlayerMarkable() != 0) { //defenders.size() must also be  < getnPlayerMarkable  !!
-
-                for (int k = 0; k < (defenders_temp.size() - 1) && k < (effect.getnPlayerMarkable() - 1); k++) {
-                    defenders_temp.get(k).giveMarks(offender.getNickname(), effect.getnMarks());
-                    playersHit.add(defenders_temp.get(k));
-                }
-            }*/
         for (int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++) {
             defenders.add(defenders_temp.get(i));       //questi sono i giocatori a cui effettivamente faccio danno
         }
@@ -514,7 +527,6 @@ public class Game extends Observable {
             } else
                 throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
         }
-
     }
 
     public void makeDamageEffect(String offendername, ArrayList<Player> defenders_temp, Effect effect){
@@ -527,11 +539,12 @@ public class Game extends Observable {
             p.giveDamage(offender.getNickname(), effect.getnDamages());
             p.giveMarks(offender.getNickname(), effect.getnMarks());
         }
-
     }
 
 
-    public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves){
+    public void shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)throws InvalidChoiceException{
+
+        boolean result = true;
 
         Player offender = getPlayerByNickname(offenderName);
 
@@ -540,6 +553,10 @@ public class Game extends Observable {
         ArrayList<Player> defenders_temp = new ArrayList<>();
 
         ArrayList<Player> playersHit = new ArrayList<>();
+
+        //se l'arma è scarica non si può sparare, il giocatore perde un'azione
+        if ( !weapon.isLoaded() )
+            throw new InvalidChoiceException("This weapon is not loaded");
 
         //salvo i dati della partita e dei players appena prima di attaccare, così se durante l'attacco qualcosa non va bene (es. i giocatori dati dall'utente sono sbagliati),
         // sostituisco agli stati di player probabilmente modificati in un effetto precedente, quelli di appena prima dell'attacco.
@@ -555,6 +572,7 @@ public class Game extends Observable {
 
             Player backUpDefender = new Player(i);
             backUpDefenders.add(backUpDefender);      //aggiungo alla lista delle copie dei giocatori defenders, un defender per volta scorrendo defendersNames
+
         }
 
         for ( int i : weapon.getOrder().get(orderNumber)){      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
@@ -566,18 +584,12 @@ public class Game extends Observable {
             if( typeOfEffect(effetto) == 0 ){  //Movement effect
 
                 try{
-                    makeMovementEffect( playerWhoMoves, effetto, xPosition, yPosition);
+                    makeMovementEffect( playerWhoMoves, effetto, xPosition, yPosition );
                 }
                 catch (InvalidChoiceException e){
                     Log.LOGGER.log(Level.SEVERE, e.getMessage());
                     e.printStackTrace();
-                    //resetto mappa
-                    this.gameMap = new GameMap(backUpMap);
-                    //resetto offender
-                    offender = new Player(backUpOffender);
-                    //resetto i defenders
-                    //for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
-                    //    defenders.get(p) = new Player(backUpDefenders.get(p));}
+                    result = false;
                 }
             }
             if( typeOfEffect(effetto) == 1 ){  //Damage effect
@@ -591,6 +603,7 @@ public class Game extends Observable {
                 catch (InvalidChoiceException e){
                     Log.LOGGER.log(Level.SEVERE, e.getMessage());
                     e.printStackTrace();
+                    result = false;
                 }
 
                 /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
@@ -605,15 +618,25 @@ public class Game extends Observable {
                 makeDamageEffect(offenderName, defenders_temp, effetto);
 
             }
+
+            //se ho riscontrato un'eccezione, result == false, resetto i giocatori e la mappa e finisco la mossa di shooting
+            if (!result){
+                //resetto mappa
+                this.gameMap = new GameMap(backUpMap);
+                //resetto offender
+                offender = new Player(backUpOffender);
+                //resetto i defenders
+                /*TODO fix the errore below!*/
+                //for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
+                //defenders.get(p) = new Player(backUpDefenders.get(p));
+                //}
+            }
         }
-        return true;
     }
 
-    public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber){
+    public void shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber) throws InvalidChoiceException{
 
-        int indexInOrder = 0;
-
-        int effect_number = weapon.getOrder().get(orderNumber)[indexInOrder];
+        boolean result = true;
 
         Player offender = getPlayerByNickname(offenderName);
 
@@ -625,13 +648,22 @@ public class Game extends Observable {
 
         PlayerStatus offenderStatus = offender.getPlayerStatus();
 
-        ArrayList<PlayerStatus> defendersStatus = new ArrayList<>();
+        //creo copia di giocatori e mappa per eventuale reset
+        Player backUpOffender = new Player(offender);
 
-        GameMap gameMap = this.gameMap;
+        ArrayList<Player> backUpDefenders = new ArrayList<>();
+
+        GameMap backUpMap = new GameMap(this.gameMap);
+
+        //se l'arma è scarica non si può sparare, il giocatore perde un'azione
+        if ( !weapon.isLoaded() )
+            throw new InvalidChoiceException("This weapon is not loaded");
 
         for (String i : defendersNames) {
             defenders.add(getPlayerByNickname(i));
-            defendersStatus.add(getPlayerByNickname(i).getPlayerStatus());      //aggiungo gli stati dei defenders in defendersStatus
+
+            Player backUpDefender = new Player(i);
+            backUpDefenders.add(backUpDefender);      //aggiungo alla lista delle copie dei giocatori defenders, un defender per volta scorrendo defendersNames
         }
 
         for ( int i : weapon.getOrder().get(orderNumber)){      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
@@ -646,12 +678,20 @@ public class Game extends Observable {
             catch (InvalidChoiceException e){
                 Log.LOGGER.log(Level.SEVERE, e.getMessage());
                 e.printStackTrace();
-                //se c'è un eccezione, resetto tutti gli stati dei players e la mappa
-                this.gameMap = gameMap;
-                offender.setPlayerStatus(offenderStatus);
-                for( int j = 0; j < defenders.size() - 1; j++ ) {
-                    defenders.get(j).setPlayerStatus(defendersStatus.get(j));
-                }
+                result = false;
+            }
+
+            //se ho riscontrato un'eccezione, result == false, resetto i giocatori e la mappa e finisco la mossa di shooting
+            if (!result){
+                //resetto mappa
+                this.gameMap = new GameMap(backUpMap);
+                //resetto offender
+                offender = new Player(backUpOffender);
+                //resetto i defenders
+                /*TODO fix the errore below!*/
+                //for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
+                //defenders.get(p) = new Player(backUpDefenders.get(p));
+                //}
             }
 
             for ( Player p : defenders_temp ) {
@@ -662,7 +702,6 @@ public class Game extends Observable {
             makeDamageEffect(offenderName, defenders_temp, effetto);
 
         }
-        return true;
     }
 
     /*
