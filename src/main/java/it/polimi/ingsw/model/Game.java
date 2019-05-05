@@ -109,7 +109,7 @@ public class Game extends Observable {
      * @param nickname the nickname of the player
      * @return the object Player
      */
-    protected Player getPlayerByNickname(String nickname){
+    public Player getPlayerByNickname(String nickname){
 
         if(!playerNames.contains(nickname))
             throw new IllegalArgumentException("This nickname does not exist!");
@@ -192,17 +192,17 @@ public class Game extends Observable {
     /**
      * Clears the player board and gives points to all players involved, this method also modify kst and assign mark
      */
-    protected void giveBoardPointsAndModifyKST ( Player player  ) {
+    protected void giveBoardPointsAndModifyKST ( Player player  )  throws RuntimeException{
         if(!player.isDead())
             throw new RuntimeException("This player is not dead");
 
         //at this point i am sure that player is dead, so i can modify kst and give one mark to the last player
         if (player.getDamages().size() == 12) {
-            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), true);
-            getPlayerByNickname(player.getDamages().get(player.getDamages().size() - 1)).giveMarks(player.getNickname(), 1);
+            this.kst.addKill(player.getDamages().get(11), true);
+            getPlayerByNickname(player.getDamages().get(11)).giveMarks(player.getNickname(), 1);
         }
         else
-            this.kst.addKill(player.getDamages().get(player.getDamages().size() - 1), false);
+            this.kst.addKill(player.getDamages().get(10), false);
 
         ArrayList<Integer> pointValues = new ArrayList<>();
         pointValues.add(8);
@@ -221,6 +221,9 @@ public class Game extends Observable {
 
         for (int i = 0; i < ranking.size() && i < pointValues.size(); i++)
             getPlayerByNickname(ranking.get(i)).givePoints(pointValues.get(i));
+
+        player.addKill();
+        player.resetDamages();
     }
 
     //TESTED
@@ -312,13 +315,65 @@ public class Game extends Observable {
         }
     }
 
+    //TESTED
     /**
      * Moves the player to the selected spot and grabs the ammos on it
      * @param player the nickname of the player
      * @param x the position of the spot on the x-axis
      * @param y the position of the spot on the y-axis
      */
-    public void moveAndGrab(Player player, int x, int y){}
+    public void moveAndGrab(String player, int x, int y, int index) {
+
+        Player p = getPlayerByNickname(player);
+
+        if (gameMap.validSpot(x, y)) {
+            p.moveTo(x, y);
+            gameMap.movePlayer(player, x, y);
+            gameMap.grabSomething(x, y, p, index);
+        }
+    }
+
+
+    //TESTED
+    /**
+     * Clears the player frenzy board and gives points to all players involved
+     */
+    public void giveFrenzyBoardPoints ( Player player) {
+
+        int[] pointValues = {2, 1, 1, 1};
+
+        ArrayList<String> ranking = player.getOffendersRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+    }
+
+    //TESTED
+    /**
+     * Clears the Kill Shot Track and gives points to all players involved
+     */
+    public void giveKSTpoints(){
+        int[] pointValues = {8, 6, 4, 2, 1, 1};
+
+        ArrayList<String> ranking = kst.getRanking();
+
+        for (int i = 0; i < ranking.size(); i++)
+            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
+
+    }
+
+    //TESTED
+    /**
+     * check if kst is full, if it's full we start the frenzy turn
+     * @return
+     */
+    public boolean noMoreSkullsOnKST() {
+        return this.kst.noMoreSkulls();
+    }
+
+    //todo comment these methods below
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Tells if player offender can shoot player defenders with the selected weapon
@@ -476,7 +531,6 @@ public class Game extends Observable {
         return defenders;
     }
 
-
     public int typeOfEffect( Effect effect ){
 
         int type = 0;
@@ -510,7 +564,6 @@ public class Game extends Observable {
         }
     }
 
-
     public void makeMovementEffect(String string, Effect effect, int xPos, int yPos) throws InvalidChoiceException{
 
         Player player = getPlayerByNickname(string);
@@ -540,7 +593,6 @@ public class Game extends Observable {
             p.giveMarks(offender.getNickname(), effect.getnMarks());
         }
     }
-
 
     public void shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)throws InvalidChoiceException{
 
@@ -825,39 +877,6 @@ public class Game extends Observable {
         weapon.unload();
     }*/
 
-    /**
-     * Clears the player frenzy board and gives points to all players involved
-     */
-    public void giveFrenzyBoardPoints ( Player player) {
-
-        int[] pointValues = {2, 1, 1, 1};
-
-        ArrayList<String> ranking = player.getOffendersRanking();
-
-        for (int i = 0; i < ranking.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
-    }
-
-
-
-    /**
-     * Clears the Kill Shot Track and gives points to all players involved
-     */
-    public void giveKSTpoints(){
-        int[] pointValues = {8, 6, 4, 2, 1, 1};
-
-        ArrayList<String> ranking = kst.getRanking();
-
-        for (int i = 0; i < ranking.size(); i++)
-            getPlayerByNickname(ranking.get(i)).givePoints(pointValues[i]);
-
-    }
-
-
-    public boolean noMoreSkullsOnKST() {
-        return this.kst.noMoreSkulls();
-    }
-
     public void usePowerUp(String offenderName, String defenderName, PowerUp powerup) {
 
         Player offender = getPlayerByNickname(offenderName);
@@ -989,12 +1008,7 @@ public class Game extends Observable {
             }
         }
     }
-
-    public boolean playerIsDead(String player) {
-        Player p = getPlayerByNickname(player);
-
-        return p.isDead();
-    }
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param player is the current player
@@ -1011,7 +1025,6 @@ public class Game extends Observable {
      * @param player the player to check
      * @return an arraylist of the weapons unloaded
      */
-
     public ArrayList<Weapon> checkRechargeableWeapons (String player){
         Player currentPlayer = getPlayerByNickname(player);
         ArrayList<Weapon> rechargeableWeapons = new ArrayList<>();

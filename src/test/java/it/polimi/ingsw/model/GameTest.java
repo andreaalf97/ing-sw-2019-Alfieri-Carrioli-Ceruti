@@ -26,7 +26,7 @@ public class GameTest {
         playersNamesTest.add("andreaalf");
         playersNamesTest.add("meme");
 
-        gameTest = new Game(playersNamesTest, MapName.FIRE, 5);
+        gameTest = new Game(playersNamesTest, MapName.FIRE, 6);
     }
 
     //todo incomplete
@@ -115,6 +115,11 @@ public class GameTest {
 
         Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getPoints());
         Assert.assertFalse(gameTest.getPlayerByNickname("meme").isDead());
+
+        //check that if i have already kill gino he should give only 6 points
+        gameTest.getPlayerByNickname("andreaalf").giveDamage("gino", 12);
+        gameTest.giveBoardPointsAndModifyKST(gameTest.getPlayerByNickname("andreaalf"));
+        Assert.assertEquals(16, gameTest.getPlayerByNickname("gino").getPoints());
 
     }
 
@@ -274,5 +279,76 @@ public class GameTest {
         Assert.assertTrue(gameTest.getSpotByIndex(2, 3).getPlayersHere().contains("gino"));
 
     }
+
+    @Test
+    public void movePlayerAndGrab(){
+        gameTest.moveAndGrab("gino", 1, 0 , 0);
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getyPosition());
+        Assert.assertTrue(gameTest.getSpotByIndex(1, 0).getPlayersHere().contains("gino"));
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getWeaponList().size());
+
+    }
+
+    @Test
+    public void giveFrenzyBoardPoints(){
+        gameTest.getPlayerByNickname("gino").giveDamage("andreaalf", 1);
+        gameTest.getPlayerByNickname("gino").giveDamage("meme", 1);
+
+        gameTest.giveFrenzyBoardPoints(gameTest.getPlayerByNickname("gino"));
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("andreaalf").getPoints());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("meme").getPoints());
+
+    }
+
+    @Test
+    public void giveKSTPoints(){
+        //todo dopo la kill multipla questo test  va aggiornato
+        //all'inizio sono tutti morti
+        gameTest.getPlayerByNickname("gino").revive();
+        gameTest.getPlayerByNickname("andreaalf").revive();
+        gameTest.getPlayerByNickname("meme").revive();
+
+        // 3 segnalini per meme
+        gameTest.getPlayerByNickname("gino").giveDamage("meme", 12);
+        gameTest.getPlayerByNickname("andreaalf").giveDamage("meme", 11);
+        gameTest.checkDeaths();
+
+        gameTest.getPlayerByNickname("gino").revive();
+        gameTest.getPlayerByNickname("andreaalf").revive();
+
+        Assert.assertEquals(18, gameTest.getPlayerByNickname("meme").getPoints());
+
+        // 2 segnalini per andrealf
+        gameTest.getPlayerByNickname("gino").giveDamage("andreaalf", 11);
+        gameTest.getPlayerByNickname("meme").giveDamage("andreaalf", 11);
+        gameTest.checkDeaths();
+
+        gameTest.getPlayerByNickname("gino").revive();
+        gameTest.getPlayerByNickname("meme").revive();
+
+        Assert.assertEquals(16, gameTest.getPlayerByNickname("andreaalf").getPoints());
+
+        //4 segnalini per gino
+        gameTest.getPlayerByNickname("andreaalf").giveDamage("gino", 12);
+        gameTest.getPlayerByNickname("meme").giveDamage("gino", 12);
+        gameTest.checkDeaths();
+
+        gameTest.getPlayerByNickname("andreaalf").revive();
+        gameTest.getPlayerByNickname("meme").revive();
+
+        Assert.assertEquals(14, gameTest.getPlayerByNickname("gino").getPoints());
+
+        //chiamo metodo e controllo punti: gino 22, meme 24, andreaalf 20
+        //chiamo metodo e controllo punti: gino 22, meme 24, andreaalf 20
+        gameTest.giveKSTpoints();
+        Assert.assertEquals(24, gameTest.getPlayerByNickname("meme").getPoints());
+        Assert.assertEquals(20, gameTest.getPlayerByNickname("andreaalf").getPoints());
+        Assert.assertEquals(22, gameTest.getPlayerByNickname("gino").getPoints());
+
+        Assert.assertTrue(gameTest.noMoreSkullsOnKST());
+
+    }
+
 
 }

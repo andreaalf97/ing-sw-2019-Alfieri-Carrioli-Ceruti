@@ -49,6 +49,20 @@ public class KillShotTrackTest {
         ArrayList<String> ranking2 = new ArrayList<>(kstTest2.getRanking());
 
         Assert.assertEquals(0, ranking2.size());
+
+
+        KillShotTrack kstTest3 = new KillShotTrack(6);
+        kstTest3.addKill("meme", true);
+        kstTest3.addKill("meme", false);
+        kstTest3.addKill("andreaalf", false);
+        kstTest3.addKill("andreaalf", false);
+        kstTest3.addKill("gino", true);
+        kstTest3.addKill("gino", true);
+        ArrayList<String> ranking3 = new ArrayList<>(kstTest3.getRanking());
+
+        Assert.assertEquals("gino", ranking3.get(0));
+        Assert.assertEquals("meme", ranking3.get(1));
+        Assert.assertEquals("andreaalf", ranking3.get(2));
     }
 
     @Test

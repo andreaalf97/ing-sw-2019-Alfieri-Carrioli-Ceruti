@@ -534,4 +534,19 @@ public class Player {
     public boolean isCurrentPlayer() {
         return playerStatus.isActive;
     }
+
+    //TESTED
+    /**
+     * reset damages arraylist after kill
+     */
+    public void resetDamages() {
+        damages = new ArrayList<>();
+    }
+
+    /**
+     * add one kill to player kill
+     */
+    public void addKill() {
+        nDeaths ++;
+    }
 }
