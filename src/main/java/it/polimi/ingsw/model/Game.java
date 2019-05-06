@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observable;
@@ -142,14 +141,49 @@ public class Game extends Observable {
      */
     public void setupForFrenzy () {
 
-        ArrayList<String> playersWithFrenzyBoard = new ArrayList<String>();
+        ArrayList<String> fromKillerOn = new ArrayList<>();
+        ArrayList<String> fromStartPlayerOn = new ArrayList<>();
 
-        for(Player p : players) {
-            if (p.getDamages().isEmpty())
-                p.sethasFrenzyBoard(true);
-            p.setCanReloadBeforeShooting(true);
-            //TODO nMovesBeforeReloading depends on where the frenzy turn starts from
+        ArrayList<String> skullList = kst.getSkullList();
+
+        String killer = skullList.get(skullList.size() - 1);
+
+        fromKillerOn.add(killer);
+
+        String nextPlayer = getNextPlayer(killer);
+        while (!(players.get(0).equals(nextPlayer))){
+            fromKillerOn.add(nextPlayer);
+            nextPlayer = getNextPlayer(nextPlayer);
         }
+
+        while (!(fromStartPlayerOn.equals(killer))){
+            fromStartPlayerOn.add(nextPlayer);
+            nextPlayer = getNextPlayer(nextPlayer);
+        }
+
+        for(String i : fromKillerOn){
+
+            Player p = getPlayerByNickname(i);
+            p.setNMoves(4);
+            p.setNMovesBeforeGrabbing(2);
+            p.setCanReloadBeforeShooting(true);
+            p.setNMovesBeforeShooting(1);
+            p.getPlayerStatus().nMovesDone = 0;
+
+        }
+
+        for(String i : fromStartPlayerOn){
+
+            Player p = getPlayerByNickname(i);
+            p.setNMoves(0);
+            p.setNMovesBeforeGrabbing(3);
+            p.setCanReloadBeforeShooting(true);
+            p.setNMovesBeforeShooting(2);
+            p.getPlayerStatus().nMovesDone = 1;
+        }
+
+
+
     }
 
     //TESTED
@@ -599,7 +633,6 @@ public class Game extends Observable {
 
         }
     }
-
 
     public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)throws InvalidChoiceException {
 
@@ -1270,21 +1303,21 @@ public class Game extends Observable {
 
         Player current = getCurrentPlayer();
 
-        Player next = getNextPlayer(current);
+        String next = getNextPlayer(current.getNickname());
 
         current.endTurnCurrent();
 
-        next.startTurn();
+        getPlayerByNickname(next).startTurn();
     }
 
-    private Player getNextPlayer(Player current) {
+    private String getNextPlayer(String current) {
 
         int currentIndex = players.indexOf(current);
 
         if(currentIndex == players.size() - 1)
-            return players.get(0);
+            return players.get(0).getNickname();
         else
-            return players.get(currentIndex + 1);
+            return players.get(currentIndex + 1).getNickname();
 
     }
 
@@ -1317,5 +1350,10 @@ public class Game extends Observable {
     public Spot getSpotByIndex(int x, int y){
         return gameMap.getSpotByIndex(x, y);
     }
+
+
+
+
+
 }
 

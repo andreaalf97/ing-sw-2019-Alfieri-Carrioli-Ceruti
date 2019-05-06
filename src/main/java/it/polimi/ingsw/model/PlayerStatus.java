@@ -4,14 +4,6 @@ import it.polimi.ingsw.controller.Question;
 
 public class PlayerStatus {
 
-    public PlayerStatus(PlayerStatus playerStatus){
-        this.isFirstTurn = playerStatus.isFirstTurn;
-        this.isActive = playerStatus.isActive;
-        /*TODO è corretto??*/
-        this.waitingForAnswerToThisQuestion = playerStatus.waitingForAnswerToThisQuestion;
-        this.nMovesDone = playerStatus.nMovesDone;
-        this.waitingForShootingOrder = playerStatus.waitingForShootingOrder;
-    }
     /**
      * true if it's this player's first turn in the game
      */
@@ -20,6 +12,8 @@ public class PlayerStatus {
      * true during this player's turn
      */
     protected boolean isActive;
+
+    protected int nMovesDone;
 
     //todo manca la frenesia?
 
@@ -31,13 +25,19 @@ public class PlayerStatus {
     /**
      *
      */
-    protected boolean nMovesDone;
-    /**
-     *
-     */
     protected boolean waitingForShootingOrder;
 
+    public PlayerStatus(PlayerStatus playerStatus){
+        this.isFirstTurn = playerStatus.isFirstTurn;
+        this.isActive = playerStatus.isActive;
+        this.waitingForAnswerToThisQuestion = playerStatus.waitingForAnswerToThisQuestion;
+        this.nMovesDone = playerStatus.nMovesDone;
+        this.waitingForShootingOrder = playerStatus.waitingForShootingOrder;
+    }
+
     public PlayerStatus(){
+
         this.isFirstTurn = true;
+
     }
 }

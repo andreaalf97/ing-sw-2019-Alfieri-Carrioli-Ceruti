@@ -89,11 +89,6 @@ public class Player {
     private int nMovesBeforeShooting;
 
     /**
-     * It's true if the board gets flipped for frenzy turn
-     */
-    private boolean hasFrenzyBoard;
-
-    /**
      * True during frenzy turn
      */
     private boolean canReloadBeforeShooting;
@@ -127,7 +122,6 @@ public class Player {
         this.nMoves = 3;
         this.nMovesBeforeGrabbing = 1;
         this.nMovesBeforeShooting = 0;
-        this.hasFrenzyBoard = false;
         this.canReloadBeforeShooting = false;
         this.playerStatus = new PlayerStatus();
     }
@@ -157,7 +151,6 @@ public class Player {
         this.nMoves = player.nMoves;
         this.nMovesBeforeGrabbing = player.nMovesBeforeGrabbing;
         this.nMovesBeforeShooting = player.nMovesBeforeShooting;
-        this.hasFrenzyBoard = player.hasFrenzyBoard;
         this.canReloadBeforeShooting = player.canReloadBeforeShooting;
         this.playerStatus = new PlayerStatus(player.playerStatus);
     }
@@ -213,8 +206,6 @@ public class Player {
     protected int getnMovesBeforeShooting() {
         return nMovesBeforeShooting;
     }
-    protected void sethasFrenzyBoard( boolean hasFrenzyBoard) {this.hasFrenzyBoard = hasFrenzyBoard;}
-    protected boolean gethasFrenzyBoard() {return hasFrenzyBoard;}
     protected boolean isCanReloadBeforeShooting() {
         return canReloadBeforeShooting;
     }
@@ -567,5 +558,17 @@ public class Player {
      */
     public void addKill() {
         nDeaths ++;
+    }
+
+    public void setNMoves(int nMoves) {
+        this.nMoves = nMoves;
+    }
+
+    public void setNMovesBeforeGrabbing(int NMovesBeforeGrabbing) {
+        this.nMovesBeforeGrabbing = NMovesBeforeGrabbing;
+    }
+
+    public void setNMovesBeforeShooting(int NMovesBeforeShooting) {
+        this.nMovesBeforeShooting = NMovesBeforeShooting;
     }
 }
