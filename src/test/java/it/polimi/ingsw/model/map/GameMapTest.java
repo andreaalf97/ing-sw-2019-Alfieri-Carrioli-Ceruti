@@ -8,10 +8,7 @@ import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.cards.WeaponDeck;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import java.util.ArrayList;
 
 public class GameMapTest {
@@ -63,8 +60,7 @@ public class GameMapTest {
         Assert.assertEquals(0, coordinates[0]);
         Assert.assertEquals(0, coordinates[1]);
 
-        Assert.assertEquals(null, gameMapTestFire.getPlayerSpotCoord("nogi"));
-
+        Assert.assertNull(gameMapTestFire.getPlayerSpotCoord("nogi"));
     }
 
     @Test
@@ -79,6 +75,14 @@ public class GameMapTest {
         coordinates = gameMapTestFire.getPlayerSpotCoord("gino");
         Assert.assertEquals(2, coordinates[0]);
         Assert.assertEquals(2, coordinates[1]);
+
+        try
+        {
+            gameMapTestFire.movePlayer("gino", -1 , 3);
+        }
+        catch (IllegalArgumentException e){
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
@@ -112,7 +116,7 @@ public class GameMapTest {
         gameMapTestFire.grabSomething(1, 0, player, 0);
 
         //check player has taken the weapon
-        Assert.assertTrue(player.returnPlayerWeaponList().size() != 0);
+        Assert.assertTrue(player.getWeaponListCopy().size() != 0);
 
 
 
@@ -151,7 +155,7 @@ public class GameMapTest {
     }
 
     @Test
-    public void canMoveFrom(){
+    public void canMoveFromTo(){
         //north 1 move
         Assert.assertTrue(gameMapTestFire.canMoveFromTo(1,0,0,0, 1));
         Assert.assertTrue(gameMapTestFire.canMoveFromTo(2,3,1,3, 1));
@@ -279,7 +283,7 @@ public class GameMapTest {
         gameMapTestFire.grabSomething(0, 2 , playerTest, 0);
         gameMapTestFire.grabSomething(2, 3 , playerTest, 0);
 
-        Assert.assertEquals(3, playerTest.returnPlayerWeaponList().size());
+        Assert.assertEquals(3, playerTest.getWeaponListCopy().size());
 
         WeaponDeck weaponDeckTest = new WeaponDeck();
         gameMapTestFire.refillAllSpawns(weaponDeckTest);
@@ -292,8 +296,7 @@ public class GameMapTest {
 
     @Test
     public void showSpawnWeapons(){
-        ArrayList<Weapon> weaponListTest = new ArrayList<Weapon>();
-        weaponListTest = gameMapTestFire.showSpawnSpotWeapons(Color.RED);
+        ArrayList<Weapon> weaponListTest = gameMapTestFire.showSpawnSpotWeapons(Color.RED);
 
         Assert.assertEquals(3, weaponListTest.size());
     }

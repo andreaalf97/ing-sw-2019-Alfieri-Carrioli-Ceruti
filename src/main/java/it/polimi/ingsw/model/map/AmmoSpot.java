@@ -114,7 +114,7 @@ public class AmmoSpot extends Spot {
      * @param player the player who's receiving the object
      */
     @Override
-    public void grabSomething(Player player, int index) {
+    public void grabSomething(Player player, int index) throws RuntimeException {
 
         if(index != -1)
             throw new RuntimeException("Index must be -1 when calling grabSomething in AmmoSpot");
@@ -126,6 +126,7 @@ public class AmmoSpot extends Spot {
          player.giveAmmos(ammoColorList);
     }
 
+    //TESTED
     /**
      * Is this an ammo spot
      * @return always true
@@ -135,6 +136,7 @@ public class AmmoSpot extends Spot {
         return true;
     }
 
+    //TESTED
     /**
      * Is this a spawn spot
      * @return always false
@@ -144,6 +146,7 @@ public class AmmoSpot extends Spot {
         return false;
     }
 
+    //TESTED
     /**
      * this method check if the spot is empty or not
      * @return true if the ammospot is empty
@@ -153,6 +156,7 @@ public class AmmoSpot extends Spot {
         return ( this.powerup == null && this.ammoColorList.isEmpty() );
     }
 
+    //TESTED
     /**
      * Tells you if this spot is full
      * @return true or false depending on the presence of a powerup and some ammos
@@ -162,8 +166,9 @@ public class AmmoSpot extends Spot {
         return ((this.powerup == null && this.ammoColorList.size() == 3) || (this.powerup != null && this.ammoColorList.size() == 2));
     }
 
+    //TESTED
     @Override
-    public ArrayList<Weapon> getSpawnWeapons(){
+    public ArrayList<Weapon> getSpawnWeapons() throws RuntimeException{
         throw new RuntimeException("This should never be called!");
     }
 }

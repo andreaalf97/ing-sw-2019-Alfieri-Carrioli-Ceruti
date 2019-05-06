@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 
+import javax.management.relation.RoleUnresolved;
 import java.util.ArrayList;
 
 public class Spot {
@@ -63,6 +64,27 @@ public class Spot {
     public ArrayList<String> getPlayersHere() { return new ArrayList<>(playersHere); }
     /*------------------------------------------------------------------------------------------------------------------*/
 
+    //TESTED
+    /**
+     * Return the color of the spot based on its room
+     * @return RUBY == RED -- TOPAZ == YELLOW -- SAPPHIRE == BLUE -- OTHERS == ANY
+     */
+    public Color getColor() {
+
+        switch (this.room){
+
+            case RUBY: return Color.RED;
+
+            case TOPAZ: return Color.YELLOW;
+
+            case SAPPHIRE: return Color.BLUE;
+
+            default: return Color.ANY;
+
+        }
+    }
+
+    //TESTED
     /**
      * Tell you if the selected player is on this spot
      * @param player the asked player
@@ -97,7 +119,7 @@ public class Spot {
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @param objToAdd the object to add
      */
-    public void refill(Object objToAdd) {
+    public void refill(Object objToAdd) throws RuntimeException {
         throw new RuntimeException("This object should not exist!");
     }
 
@@ -106,7 +128,7 @@ public class Spot {
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @param p the player
      */
-    public void grabSomething(Player p, int index) {
+    public void grabSomething(Player p, int index) throws RuntimeException {
         throw new RuntimeException("This object should not exist!");
     }
 
@@ -115,7 +137,7 @@ public class Spot {
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @return should never return anything
      */
-    public boolean isAmmoSpot() {
+    public boolean isAmmoSpot() throws RuntimeException {
         throw new RuntimeException("There should not exists any Spot objects!");
     }
 
@@ -123,39 +145,36 @@ public class Spot {
      * Is this a spawn spot?
      * This should never be called! A spot can only be a SpawnSpot or an AmmoSpot
      * @return should never return anything
+     * @throws RuntimeException if this method is called
      */
-    public boolean isSpawnSpot() {
+    public boolean isSpawnSpot() throws RuntimeException {
         throw new RuntimeException("There should not exists any Spot objects!");
     }
 
-    public boolean emptySpot() {
+    /**
+     * tells if this spot it's empty
+     * @return boolean
+     * @throws RuntimeException if this method is called
+     */
+    public boolean emptySpot() throws RuntimeException {
         throw new RuntimeException("This should never be called!");
     }
 
     /**
-     * Return the color of the spot based on its room
-     * @return RUBY == RED -- TOPAZ == YELLOW -- SAPPHIRE == BLUE -- OTHERS == ANY
+     * tells if this spot is full
+     * @return true if spot is full
+     * @throws RuntimeException if method is called
      */
-    public Color getColor() {
-
-        switch (this.room){
-
-            case RUBY: return Color.RED;
-
-            case TOPAZ: return Color.YELLOW;
-
-            case SAPPHIRE: return Color.BLUE;
-
-            default: return Color.ANY;
-
-        }
-    }
-
-    public boolean isFull() {
+    public boolean isFull() throws RuntimeException {
         throw new RuntimeException("This should never be called!");
     }
 
-    public ArrayList<Weapon> getSpawnWeapons() {
+    /**
+     * public getter for the spawn weapons
+     * @return spot weapons list
+     * @throws RuntimeException  if this method is called
+     */
+    public ArrayList<Weapon> getSpawnWeapons() throws RuntimeException {
         throw new RuntimeException("This should never be called!");
     }
 

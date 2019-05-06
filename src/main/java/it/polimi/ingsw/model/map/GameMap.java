@@ -110,11 +110,11 @@ public class GameMap {
                     returnValue[1] = j;
                     return returnValue;
                 }
-        /**perchè ritorna null???*/
+
+        //a this point i am sure that player isn't on map
         return null;
     }
 
-    //todo test exception
     //TESTED
     /**
      * Moves the given player to the new spot
@@ -134,9 +134,13 @@ public class GameMap {
         map[newX][newY].addPlayer(player);
     }
 
-    //TESTED
+    //TESTED - PRIVATE METHOD
+    /**
+     * private methods, it controls if player is on map
+     * @param player the player to check
+     * @return true if player is present on map
+     */
     private boolean playerIsOnMap(String player) {
-
         for(int i = 0; i < map.length; i++)
             for(int j = 0; j < map[i].length; j++)
                 if(map[i][j] != null && map[i][j].playerHere(player))
@@ -145,7 +149,7 @@ public class GameMap {
         return false;
     }
 
-    //TESTED
+    //TESTED - PRIVATE METHOD
     /**
      * Removes the player from the map by removing their name from the spot, e.g. when the player dies
      * @param player The player to remove
@@ -229,7 +233,7 @@ public class GameMap {
      * initialise the boolean matrix in which we will have the spots where player can do actions
      * @param temp the matrix representing the gameMap
      */
-    public void booleanMatrixInizialisation(boolean [][] temp){
+    private void booleanMatrixInizialisation(boolean [][] temp){
 
         //Initialize the matrix to false for clearness
         for(int i = 0; i < temp.length; i++)
@@ -278,7 +282,7 @@ public class GameMap {
         return north || east || south || west; // ==> If there is at least one path throught one of these doors
     }
 
-    //TESTED
+    //TESTED - PRIVATE METHOD
     /**
      * tells if the spot individuated with the two couple of coordinates are in the same room
      * @param x1 spot 1 x
@@ -346,7 +350,7 @@ public class GameMap {
         return temp;
     }
 
-    //TESTED
+    //TESTED - PRIVATE METHOD
     /**
      * tells if the spot is empty
      * @param i spot x
@@ -447,7 +451,7 @@ public class GameMap {
         return s.getSpawnWeapons();
     }
 
-    //TESTED
+    //TESTED - PRIVATE METHOD
     /**
      * tells the spawnspot associated to the color
      * @param roomColor spawnspot color

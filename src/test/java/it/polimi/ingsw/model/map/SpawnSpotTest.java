@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class SpawnSpotTest {
 
         Assert.assertFalse(spawnSpotTest.addWeapon(w4));
     }
+
     @Test
     public void addWeaponCheckTrue() {
 
@@ -62,6 +64,7 @@ public class SpawnSpotTest {
 
         Assert.assertFalse(spawnSpotTest.removeWeapon(wToRemove));
     }
+
     @Test
     public void removeWeaponCheckTrueCondition(){
         Weapon w1 = new Weapon("a");
@@ -89,4 +92,25 @@ public class SpawnSpotTest {
 
         Assert.assertEquals(1, spawnSpotTest.getWeaponList().size());
     }
+
+    @Test
+    public void grabSomething(){
+        Weapon w1 = new Weapon("a");
+        Weapon w2 = new Weapon("b");
+        Weapon w3 = new Weapon("c");
+
+        ArrayList<Weapon> weaponListTest = new ArrayList<>();
+        weaponListTest.add(w1);
+        weaponListTest.add(w2);
+        weaponListTest.add(w3);
+
+        SpawnSpot spawnSpotTest = new SpawnSpot(weaponListTest);
+
+        Player playerTest = new Player("gino", 1, 0);
+        spawnSpotTest.grabSomething(playerTest, 0);
+
+        Assert.assertTrue(playerTest.getWeaponListCopy().contains(w1));
+
+    }
 }
+

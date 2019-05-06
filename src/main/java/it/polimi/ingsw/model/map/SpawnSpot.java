@@ -51,8 +51,8 @@ public class SpawnSpot extends Spot {
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-    //TODO should addWeapon and removeWeapon be boolean?
 
+    //TODO should addWeapon and removeWeapon be boolean?
     //TESTED
     /**
      * Adds a weapon to list to this spot weaponlist
@@ -100,6 +100,7 @@ public class SpawnSpot extends Spot {
         weaponList.add((Weapon)objToAdd);
     }
 
+    //TESTED
     /**
      * Gives a weapon to the player
      * @param p the player who's receiving the weapon
@@ -112,6 +113,7 @@ public class SpawnSpot extends Spot {
         weaponList.remove(weaponList.get(index));
     }
 
+    //TESTED
     /**
      * Is this an ammo spot?
      * @return always false
@@ -121,6 +123,7 @@ public class SpawnSpot extends Spot {
         return false;
     }
 
+    //TESTED
     /**
      * Is this a spawn spot?
      * @return always true
@@ -130,6 +133,7 @@ public class SpawnSpot extends Spot {
         return true;
     }
 
+    //TESTED
     @Override
     public boolean emptySpot() {
         if(this.weaponList.isEmpty())
@@ -137,11 +141,13 @@ public class SpawnSpot extends Spot {
         return false;
     }
 
+    //TESTED
     @Override
     public boolean isFull() {
         return (this.weaponList.size() == 3);
     }
 
+    //TESTED
     @Override
     public ArrayList<Weapon> getSpawnWeapons(){
         return new ArrayList<>(weaponList);

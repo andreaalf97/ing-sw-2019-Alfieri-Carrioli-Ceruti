@@ -140,7 +140,7 @@ public class KillShotTrack {
      * Returns true when all skulls have been removed from the KST
      * @return true when there are no more skulls
      */
-    public boolean noMoreSkulls(){
+    public boolean noMoreSkulls() throws RuntimeException{
 
         boolean foundSkull = false;
 
