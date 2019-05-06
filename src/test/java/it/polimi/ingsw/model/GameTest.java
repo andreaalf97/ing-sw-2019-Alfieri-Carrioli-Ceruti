@@ -33,16 +33,6 @@ public class GameTest {
 
         //Testing if attacking with Thor works as expected
 
-        //Creating the list of players for the test
-        ArrayList<String> playerNames = new ArrayList<>();
-        //Offender
-        playerNames.add("andreaalf");
-        //Defender
-        playerNames.add("ginogino");
-
-        //creating a new game
-        Game game = new Game(playerNames, MapName.FIRE, 5);
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest = null;
@@ -55,23 +45,26 @@ public class GameTest {
         }
 
         //Players are dead by default so I need to revive them
-        game.revive("andreaalf");
-        game.revive("ginogino");
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
 
         //Giving the duplicate to the player
-        game.giveWeaponToPlayer("andreaalf", weaponTest);
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
         //Testing if this player receives a drawn weapon from the deck
-        game.giveWeapon("ginogino");
+        gameTest.giveWeapon("gino");
 
         //Moving these players to the testing spots
-        game.movePlayer("andreaalf", 0, 0);
-        game.movePlayer("ginogino", 0, 1);
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 0, 1);
 
         //Array to pass to the shootPlayer method
         ArrayList<String> defenders = new ArrayList<>();
-        defenders.add("ginogino");
+        defenders.add("gino");
+        defenders.add("meme");
 
-        //game.shootPlayer("andreaalf", defenders, weaponTest);
+        gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+
+
 
         //TODO don't know how to specify order to follow
 
