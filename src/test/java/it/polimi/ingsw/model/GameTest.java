@@ -91,7 +91,6 @@ public class GameTest {
         //Giving the duplicate to the player
         gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
         //Testing if this player receives a drawn weapon from the deck
-        gameTest.giveWeapon("gino");
 
         //Moving these players to the testing spots
         gameTest.movePlayer("andreaalf", 0, 0);
@@ -154,7 +153,6 @@ public class GameTest {
         //Giving the duplicate to the player
         gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
         //Testing if this player receives a drawn weapon from the deck
-        gameTest.giveWeapon("gino");
 
         //Moving these players to the testing spots
         gameTest.movePlayer("andreaalf", 0, 0);
@@ -217,7 +215,6 @@ public class GameTest {
         //Giving the duplicate to the player
         gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
         //Testing if this player receives a drawn weapon from the deck
-        gameTest.giveWeapon("gino");
 
         //Moving these players to the testing spots
         gameTest.movePlayer("andreaalf", 0, 0);
@@ -273,7 +270,6 @@ public class GameTest {
         //Giving the duplicate to the player
         gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
         //Testing if this player receives a drawn weapon from the deck
-        gameTest.giveWeapon("gino");
 
         //Moving these players to the testing spots
         gameTest.movePlayer("andreaalf", 0, 0);
