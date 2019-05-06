@@ -549,7 +549,7 @@ public class Game extends Observable {
         return type;
     }
 
-    public void payCostEffect( Effect effect, String player ) {
+    public boolean payCostEffect( Effect effect, String player ) {
 
         ArrayList<Color> cost = new ArrayList<>();
 
@@ -559,11 +559,13 @@ public class Game extends Observable {
         if (effect.getCost() != null) {       //if there is a cost I pay it ( for example an optional shooting action )
             try{
                 pay( player, cost );
+                return true;
             }
             catch(InvalidChoiceException e){
-
+                return false;
             }
         }
+        return true;
     }
 
 
@@ -628,10 +630,11 @@ public class Game extends Observable {
 
                 Effect effetto = weapon.getEffects().get(i);
 
-
                 if (typeOfEffect(effetto) == 0) { //Movement effect
                     makeMovementEffect(playerWhoMoves, effetto, xPosition, yPosition);
-                    payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
+                    if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
+                        throw new InvalidChoiceException("Cannot pay");
+                    }
                 }
 
                 if (typeOfEffect(effetto) == 1) {  //Damage effect
@@ -644,7 +647,9 @@ public class Game extends Observable {
                     if(defenders_temp.isEmpty())
                         return true;
 
-                    payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
+                    if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
+                        throw new InvalidChoiceException("Cannot pay");
+                    }
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -711,7 +716,9 @@ public class Game extends Observable {
                         return true;
                     }
 
-                    payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
+                    if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
+                        throw new InvalidChoiceException("Cannot pay");
+                    }
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -737,281 +744,28 @@ public class Game extends Observable {
         }
     }
 
-    /*
-    protected void shootPlayer(String offenderName, ArrayList<String> defendersNames, Weapon weapon){
 
-        Player offender = getPlayerByNickname(offenderName);
+    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ) throws InvalidChoiceException{
 
-        ArrayList<Player> defenders = new ArrayList<>();
-
-        for(String i : defendersNames)
-            defenders.add(getPlayerByNickname(i));
-
-        ArrayList<Integer[]> order = weapon.getOrder();
-
-        ArrayList<Effect> effects = weapon.getEffects();
-
-        ArrayList<Player> playersHit = new ArrayList<Player>();
-
-        System.out.println("Choose the order you want to shoot. 0 to order.size");
-
-        //for example the user chooses order x
-        int x = 2;
-
-        for ( int i = 0; i < order.get(x).length ; i++ ) {
-
-            int effect_number = order.get(x)[i];   //this is the effect we have to use
-
-            int spots_moved_on_x;
-            int spots_moved_on_y;
-
-            if ( playersHit.size() != 0 ) {
-
-                if ( effects.get(effect_number).getVisibleByWho() == Visibility.LASTONEATTACKED ){
-                    for ( int k = 0; k < defenders.size() - 1; k++ ){   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
-                        if ( !this.gameMap.see( playersHit.get(playersHit.size() - 1).getxPosition(), playersHit.get(playersHit.size() - 1).getyPosition(), defenders.get(k).getxPosition(), defenders.get(k).getyPosition()) ){
-                            defenders.remove(k);
-                            k -= 1;
-                        }
-                    }
-                }
-                if ( effects.get(effect_number).mustShootOtherPlayers() ){
-                    for ( int j = 0; j < playersHit.size() - 1; j++ ){
-                        for ( int k = 0; k < defenders.size() - 1; k++){
-                            if ( defenders.get(k) == playersHit.get(j) ){
-                                defenders.remove(k);
-                                k -= 1;
-                            }
-                        }
-                    }
-                }
-
-                    if ( effects.get(effect_number).isCanShootAnyPlayer() ){}
-            }
-
-            if( effects.get(effect_number).mustBeDifferentSpots() ){
-                for ( int k = 0; k < defenders.size() - 1; k++ ) {
-                    for ( int j = 0; j < (defenders.size() - 1) && j != k; j++ ) {
-                        if ( defenders.get(k).getxPosition() == defenders.get(j).getxPosition() && defenders.get(k).getyPosition() == defenders.get(j).getyPosition() ){
-                            System.out.println("which player do you want to hit between defenders.get(k).getPlayerName and defenders.get(j).getPlayerName");
-                            //want to hit j
-                            defenders.remove(k);
-                            k -= 1;
-                            j -= 1;
-                        }
-                    }
-                }
-            }
-
-                /*if( effects.get(effect_number).mustBeOtherRoom()) {
-                    for ( int k = 0; k < defenders.size() - 1; k++ ){
-                        if ( this.gameMap.getSpotByIndex(offender.getxPosition(), offender.getyPosition()).getRoom() == this.gameMap.getSpotByIndex(defenders.get(k).getxPosition(), defenders.get(k).getyPosition()).getRoom()) {
-                            defenders.remove(k);
-                            k -= 1;
-                        }
-                    }
-                }
-            if ( effects.get(effect_number).isLinear()) {
-                System.out.println("In which direction do you want to shoot?");
-                //for example NORTH /*TODO look for scanf.
-                // In this case if i already have the list of player i want to attack, i only have to check if someone is not in line and remove him.
-            }
-
-            for ( int k = 0; k < defenders.size() - 1; k++ ) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
-
-                int spots_on_x, spots_on_y;
-
-                if (offender.getxPosition() <= defenders.get(k).getxPosition())
-                    spots_on_x = defenders.get(k).getxPosition() - offender.getxPosition();
-                else
-                    spots_on_x = offender.getxPosition() - defenders.get(k).getxPosition();
-
-                if (offender.getyPosition() <= defenders.get(k).getyPosition())
-                    spots_on_y = defenders.get(k).getyPosition() - offender.getyPosition();
-                else
-                    spots_on_y = offender.getyPosition() - defenders.get(k).getyPosition();
-                if ( spots_on_x + spots_on_y > effects.get(effect_number).getMinDistance()){
-                    defenders.remove(k);
-                    k -= 1;
-                }
-                if ( spots_on_x + spots_on_y < effects.get(effect_number).getMaxDistance()){
-                    defenders.remove(k);
-                    k -= 1;
-                }
-            }
-
-            if( effects.get(effect_number).getnPlayerAttackable() != 0 ){    // defenders.size() must also be  < genNPlayerMarkable  !!
-
-                for (int k = 0; k < (defenders.size() - 1) && k < (effects.get(effect_number).getnPlayerAttackable() - 1); k++) {
-                    defenders.get(k).giveDamage(offender.getNickname(), effects.get(effect_number).getnDamages());
-                    playersHit.add(defenders.get(k));
-                }
-            }
-            if( effects.get(effect_number).getnPlayerMarkable() != 0 ){ //defenders.size() must also be  < getnPlayerMarkable  !!
-
-                for (int k = 0; k < (defenders.size() - 1) && k < (effects.get(effect_number).getnPlayerMarkable() - 1); k++) {
-                    defenders.get(k).giveMarks(offender.getNickname(), effects.get(effect_number).getnMarks());
-                    playersHit.add(defenders.get(k));
-                }
-            }
-        }
-        weapon.unload();
-    }*/
-
-
-    /*public void usePowerUp(String offenderName, String defenderName, PowerUp powerup) {
-
-        Player offender = getPlayerByNickname(offenderName);
-        Player defender = getPlayerByNickname(defenderName);
-
-        Effect effect = powerup.getEffect();
-
-        int spots_moved_on_x;
-        int spots_moved_on_y;
-
-        if (effect.getnMoves() != 0) {
-
-            System.out.println("where do you want to move? maximum effect.nmoves moves");       //expect a new spot
-
-            int xPos = 1, yPos = 1;     //spot where the user wants to move in
-
-            if (offender.getxPosition() <= xPos)
-                spots_moved_on_x = xPos - offender.getxPosition();
-            else
-                spots_moved_on_x = offender.getxPosition() - xPos;
-
-            if (offender.getyPosition() <= yPos)
-                spots_moved_on_y = xPos - offender.getyPosition();
-            else
-                spots_moved_on_y = offender.getyPosition() - xPos;
-
-            if (spots_moved_on_x + spots_moved_on_y > effect.getnMoves())
-                System.out.println("can't move here");
-            else
-                movePlayer(offender.getNickname(), xPos, yPos);
-        }
-
-        if (effect.getnMovesOtherPlayer() != 0) {
-            System.out.println("where do you want to move the player you attack? maximum effect.nMovesOtherPlayer moves");       //expect a new spot
-
-            int xPos= 1, yPos = 2;     //spot where the user wants to move the other player
-
-            if (defender.getxPosition() <= xPos)
-                spots_moved_on_x = xPos - defender.getxPosition();
-            else
-                spots_moved_on_x = defender.getxPosition() - xPos;
-
-            if (offender.getyPosition() <= yPos)
-                spots_moved_on_y = xPos - defender.getyPosition();
-            else
-                spots_moved_on_y = defender.getyPosition() - xPos;
-
-            if (spots_moved_on_x + spots_moved_on_y > effect.getnMovesOtherPlayer())
-                System.out.println("can't move this player here");
-            else
-                movePlayer(defender.getNickname(), xPos, yPos);
-        }
-
-        if( effect.getCost() != null ){       //if there is a cost I pay it ( for example the targeting scope )
-
-            for ( Color cost : effect.getCost() ){
-                if ( cost == Color.RED ){
-                    if ( offender.getnRedAmmo() == 0 )
-                        System.out.println( "You don't have enough ammo to do this optional attack");
-                    else
-                        offender.setnRedAmmo(offender.getnRedAmmo()-1);
-                }
-                if ( cost == Color.YELLOW ){
-                    if ( offender.getnYellowAmmo() == 0 )
-                        System.out.println( "You don't have enough ammo to do this optional attack");
-                    else
-                        offender.setnYellowAmmo(offender.getnYellowAmmo()-1);
-                }
-                if ( cost == Color.BLUE ){
-                    if ( offender.getnBlueAmmo() == 0 )
-                        System.out.println( "You don't have enough ammo to do this optional attack");
-                    else
-                        offender.setnBlueAmmo(offender.getnBlueAmmo()-1);
-                }
-                if ( cost == Color.ANY ){
-                    if ( offender.getnRedAmmo() == 0 && offender.getnYellowAmmo() == 0 && offender.getnBlueAmmo() == 0 )
-                        System.out.println( "You don't have enough ammo to do this optional attack");
-                    else{
-                        System.out.println( "Choose the color you want to pay with" );
-                        /*TODO scale one of the color the user chose
-                    }
-                }
-            }
-        }
-        if (effect.getVisibleByWho() == Visibility.NONE) { // for ( Player p : defenders )
-            if (this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defender.getxPosition(), defender.getyPosition())) {
-                System.out.println("Can't use this powerup");
-            }
-        }
-        if (effect.getVisibleByWho() == Visibility.NONE) { // for ( Player p : defenders )
-            if (!this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defender.getxPosition(), defender.getyPosition())) {
-                System.out.println("Can't use this powerup");
-            }
-        }
-
-        if (effect.isLinear()) {
-            System.out.println("In which direction do you want to shoot?");
-            //for example NORTH /*TODO look for scanf.
-            // In this case if i already have the list of player i want to attack, i only have to check if someone is not in line and remove him.
-        }
-
-        //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance cant't shoot him
-
-        int spots_on_x, spots_on_y;
-
-        if (offender.getxPosition() <= defender.getxPosition())
-            spots_on_x = defender.getxPosition() - offender.getxPosition();
-        else
-            spots_on_x = offender.getxPosition() - defender.getxPosition();
-
-        if (offender.getyPosition() <= defender.getyPosition())
-            spots_on_y = defender.getyPosition() - offender.getyPosition();
-        else
-            spots_on_y = offender.getyPosition() - defender.getyPosition();
-
-        if (spots_on_x + spots_on_y > effect.getMinDistance()) {
-            System.out.println("Can't use this powerup");
-        }
-        if (spots_on_x + spots_on_y < effect.getMaxDistance()) {
-            System.out.println("Can't use this powerup");
-        }
-        else {
-            if( effect.getnPlayerAttackable() != 0 ) {
-                defender.giveDamage(offender.getNickname(), effect.getnDamages());
-            }
-
-            if( effect.getnPlayerMarkable() != 0 ) {
-                defender.giveMarks(offender.getNickname(), effect.getnDamages());
-            }
-        }
-    }*/
-
-
-    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ){
-
-        Player currentPlayer = getPlayerByNickname(currentPlayerName);
         Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
 
+        //creo un ArrayList<Player> in cui ci sarà solo un player per passarlo a makeDamageEffect
+        ArrayList<Player> singlePlayerArray = new ArrayList<>();
+        singlePlayerArray.add(playerWhoReceiveEffect);
 
-        ArrayList<Player> temp = new ArrayList<>();
-        temp.add(playerWhoReceiveEffect);
-
-        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
-
-        makeDamageEffect( currentPlayerName, temp, effect );
-
+        if (!payCostEffect(effect, currentPlayerName)) {   //if the effect has a cost, the player pays it
+            throw new InvalidChoiceException("Cannot pay");
+        }
+        makeDamageEffect( currentPlayerName, singlePlayerArray, effect );
     }
 
     public void useMovementPowerUp ( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, int xPos, int yPos )throws InvalidChoiceException{
 
         Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
 
-        payCostEffect( effect, currentPlayerName );      //if the effect has a cost, the player pays it
+        if (!payCostEffect(effect, currentPlayerName)) {   //if the effect has a cost, the player pays it
+            throw new InvalidChoiceException("Cannot pay");
+        }
 
 
         if (effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0) {
