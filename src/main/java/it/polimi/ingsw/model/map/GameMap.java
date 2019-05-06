@@ -29,11 +29,18 @@ public class GameMap {
 
     public GameMap(GameMap gameMap){
 
+        this.map = new Spot[3][4];
+
         for(int i = 0; i < gameMap.map.length; i++) {
             for (int j = 0; j < gameMap.map[i].length; j++) {
-                this.map[i][j] = new Spot(gameMap.map[i][j]);
+                if(gameMap.map[i][j] != null)
+                    this.map[i][j] = new Spot(gameMap.map[i][j]);
+                else
+                    this.map[i][j] = null;
             }
         }
+
+        this.rand = new Random();
     }
 
     @Override

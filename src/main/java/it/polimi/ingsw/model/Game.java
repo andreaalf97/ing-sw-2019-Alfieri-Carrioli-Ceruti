@@ -675,7 +675,7 @@ public class Game extends Observable {
         }
     }
 
-    public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber) throws InvalidChoiceException{
+    public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber) {
 
         Player offender = getPlayerByNickname(offenderName);
 
