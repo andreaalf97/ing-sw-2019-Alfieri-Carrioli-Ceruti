@@ -88,6 +88,7 @@ public class PlayerTest {
         results.add("player2");
         results.add("player1");
 
+        Assert.assertFalse(testPlayer.isDead());
         Assert.assertEquals(testPlayer.getDamages(), results);
     }
 
@@ -101,6 +102,7 @@ public class PlayerTest {
         results.add("player1");
         results.add("player1");
 
+        Assert.assertFalse(testPlayer.isDead());
         Assert.assertEquals(testPlayer.getDamages(), results);
 
     }
@@ -135,6 +137,13 @@ public class PlayerTest {
         results.add("player1");
 
         Assert.assertEquals(testPlayer.getMarks(), results);
+
+        try{
+            testPlayer.giveMarks("andreaalf", 13);
+        }
+        catch(RuntimeException e){
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
@@ -155,6 +164,13 @@ public class PlayerTest {
         testPlayer.givePoints(3);
 
         Assert.assertEquals(3, testPlayer.getPoints());
+
+        try{
+            testPlayer.givePoints(-2);
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
@@ -227,6 +243,13 @@ public class PlayerTest {
         testPlayer.kill();
 
         Assert.assertTrue(testPlayer.isDead());
+
+        try{
+            testPlayer.kill();
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
@@ -242,6 +265,25 @@ public class PlayerTest {
         }
 
         Assert.fail();
+    }
+
+    @Test
+    public void giveWeapon() {
+        Player playerTest = new Player("gino", 0,0);
+        playerTest.giveWeapon(new Weapon("a"));
+
+        Assert.assertEquals(1,playerTest.getWeaponList().size());
+
+        playerTest.giveWeapon(new Weapon("b"));
+        playerTest.giveWeapon(new Weapon("c"));
+
+        try{
+            playerTest.giveWeapon(new Weapon("d"));
+        }
+        catch (RuntimeException e){
+            Assert.assertTrue(true);
+
+        }
     }
 
     @Test
@@ -427,7 +469,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void reload(){
+    public void reloadWeapon(){
         Player playerTest = new Player("gino");
 
         Weapon weaponTest = null;
@@ -501,24 +543,6 @@ public class PlayerTest {
         }
     }
 
-    @Test
-    public void giveWeapon() {
-        Player playerTest = new Player("gino", 0,0);
-        playerTest.giveWeapon(new Weapon("a"));
-
-        Assert.assertEquals(1,playerTest.getWeaponList().size());
-
-        playerTest.giveWeapon(new Weapon("b"));
-        playerTest.giveWeapon(new Weapon("c"));
-
-        try{
-            playerTest.giveWeapon(new Weapon("d"));
-        }
-        catch (RuntimeException e){
-            Assert.assertTrue(true);
-
-        }
-    }
     @Test
     public void removeWeaponByIndex(){
         Player playerTest = new Player("gino", 0,0);

@@ -66,6 +66,16 @@ public class AmmoSpotTest {
     }
 
     @Test
+    public void removeAmmoFalse(){
+        ArrayList<Color> ammoColorListTest = new ArrayList<>();
+        PowerUp powerup = new PowerUp();
+        AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
+
+        ammoSpotTest.removeAmmo();
+        Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
+    }
+
+    @Test
     public void refillGeneric(){
         AmmoSpot ammoSpotTest = new AmmoSpot();
         ammoSpotTest.refill(null);
@@ -80,17 +90,6 @@ public class AmmoSpotTest {
         Assert.assertEquals(2,ammoSpotTestWithPowerup.getAmmoColorList().size());
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().contains(Color.ANY));
     }
-
-    @Test
-    public void removeAmmoFalse(){
-        ArrayList<Color> ammoColorListTest = new ArrayList<>();
-        PowerUp powerup = new PowerUp();
-        AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
-
-        ammoSpotTest.removeAmmo();
-        Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
-    }
-
 
     @Test
     public void grabSomethingWithPowerup(){

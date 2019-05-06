@@ -229,9 +229,15 @@ public class Player {
     }
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-    public ArrayList<Weapon> returnPlayerWeaponList(){
+    //TESTED
+    /**
+     * getter for weaponlist
+     * @return the weaponList of the player
+     */
+    public ArrayList<Weapon> getWeaponListCopy(){
         return getWeaponList();
     }
+
     //TESTED
     /**
      * Return the list of offenders nicknames ordered by the amount of damages
@@ -261,9 +267,9 @@ public class Player {
         }
 
         return tempNames;
-    }        /*return players who gave damages to this.player in order(in 0 highest damage)*/
+        /*return players who gave damages to this.player in order(in 0 highest damage)*/
+    }
 
-    //todo test better
     //TESTED
     /**
      * Gives the required amount of damages to this player
@@ -311,8 +317,7 @@ public class Player {
      * @param player the offender
      * @param nMarks the amount of marks
      */
-    //TODO test the exception
-    public void giveMarks(String player,int nMarks)  {
+    public void giveMarks(String player,int nMarks) throws RuntimeException {
         /*assign marks to this player*/
         if(nMarks <= 0 || nMarks > 12) {
             throw new RuntimeException("i can only be > 0 && < 12");
@@ -326,7 +331,7 @@ public class Player {
      * Gives points to this player
      * @param n The amount of points
      */
-    public void givePoints(int n)  {
+    public void givePoints(int n) throws RuntimeException{
         if(n < 0)
             throw new RuntimeException("n can't be negative");
         points += n;
@@ -344,7 +349,7 @@ public class Player {
      * Adds the weapon to the player's weaponList
      * @param weapon Weapon to add
      */
-    public void giveWeapon(Weapon weapon){
+    public void giveWeapon(Weapon weapon) throws RuntimeException{
         if(weaponList.size() > 2)
             throw new RuntimeException("This player can't receive any more weapons");
         weaponList.add(weapon);
@@ -380,7 +385,7 @@ public class Player {
      * Gives a powerup to this player
      * @param powerup the powerup to be given
      */
-    public void givePowerUp(PowerUp powerup){
+    public void givePowerUp(PowerUp powerup) throws RuntimeException{
 
         if(powerUpList.size() > 2)
             throw new RuntimeException("This player already has 3 power up");
@@ -394,25 +399,25 @@ public class Player {
      * @param powerUpIndexToDiscard the index of the powerup in the array
      * @return the color of the powerup
      */
-    public Color discardPowerUpByIndex(int powerUpIndexToDiscard) {
+    public Color discardPowerUpByIndex(int powerUpIndexToDiscard) throws RuntimeException {
 
         if(powerUpIndexToDiscard < 0 || powerUpIndexToDiscard >= this.powerUpList.size())
             throw new RuntimeException("powerUpIndexToDiscard is out of bound");
 
-        //Extracts the powerup from the list by its index
+        //Extracts the powerUp from the list by its index
         PowerUp powerUpToDiscard = this.powerUpList.get(powerUpIndexToDiscard);
 
-        //Reads the color from this powerup
+        //Reads the color from this powerUp
         Color returnColor = powerUpToDiscard.getColor();
 
-        //Removing the powerup from the list
+        //Removing the powerUp from the list
         this.powerUpList.remove(powerUpToDiscard);
 
         return returnColor;
     }
 
     //TESTED
-    public void revive() {
+    public void revive() throws RuntimeException{
         if(!this.isDead)
             throw new RuntimeException("This player needs to be dead to be revived!");
 
@@ -423,7 +428,7 @@ public class Player {
     /**
      * Kills this player if he's not already dead
      */
-    public void kill(){
+    public void kill() throws RuntimeException{
         if(isDead == true)
             throw new RuntimeException("This player is already dead!");
         this.isDead = true;
@@ -488,7 +493,7 @@ public class Player {
     //TESTED
     /**
      * Removes the chosen ammo color from this player's wallet
-     * @param i
+     * @param i the color of the ammo to remove
      */
     public void removeAmmo(Color i) throws RuntimeException{
         switch (i){
@@ -522,15 +527,28 @@ public class Player {
 
     }
 
+    //TESTED
+    /**
+     * this method sets player status for end turn
+     */
     public void endTurnCurrent() {
         playerStatus.isActive = false;
         playerStatus.isFirstTurn = false;
     }
 
+    //TESTED
+    /**
+     * this method sets player status active for start turn
+     */
     public void startTurn() {
         playerStatus.isActive = true;
     }
 
+    //TESTED
+    /**
+     * tells if the turn of the player is active
+     * @return true if player is current player
+     */
     public boolean isCurrentPlayer() {
         return playerStatus.isActive;
     }
@@ -543,6 +561,7 @@ public class Player {
         damages = new ArrayList<>();
     }
 
+    //TESTED
     /**
      * add one kill to player kill
      */

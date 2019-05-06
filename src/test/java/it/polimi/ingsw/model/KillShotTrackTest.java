@@ -26,9 +26,6 @@ public class KillShotTrackTest {
 
     }
 
-
-
-
     @Test
     public void getRanking() {
         KillShotTrack kstTest = new KillShotTrack(6);

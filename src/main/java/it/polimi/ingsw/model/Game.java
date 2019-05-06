@@ -76,8 +76,6 @@ public class Game extends Observable {
         this.kst = new KillShotTrack(nSkulls);
     }
 
-    //##########################################################################################################
-
     //TESTED
     /**
      * getter for players nicknames in the game
@@ -100,9 +98,6 @@ public class Game extends Observable {
         return p.getPowerUpList();
     }
 
-    //##########################################################################################################
-
-    //todo this method is protected or i can't call it in tests
     //TESTED
     /**
      * this method return the object player corresponding to nickname
@@ -123,9 +118,38 @@ public class Game extends Observable {
      * @param index index of the powerup
      * @return the powerup corresponding to index
      */
-    public PowerUp getPowerupByIndex(String player, int index){
+    public PowerUp getPowerUpByIndex(String player, int index){
         Player currentPlayer = getPlayerByNickname(player);
         return currentPlayer.getPowerUpList().get(index);
+    }
+
+
+    //TESTED
+    /**
+     * check if skulls on kst are finished so we can set up FrenzyTurm
+     * @return true if there are no skulls on kst
+     */
+    public boolean noMoreSkullsOnKST() {
+        return this.kst.noMoreSkulls();
+    }
+
+    //##########################################################################################################
+
+
+    //TODO DO THIS
+    /**
+     * This method sets up all player for the final frenzy turn
+     */
+    public void setupForFrenzy () {
+
+        ArrayList<String> playersWithFrenzyBoard = new ArrayList<String>();
+
+        for(Player p : players) {
+            if (p.getDamages().isEmpty())
+                p.sethasFrenzyBoard(true);
+            p.setCanReloadBeforeShooting(true);
+            //TODO nMovesBeforeReloading depends on where the frenzy turn starts from
+        }
     }
 
     //TESTED
@@ -147,17 +171,6 @@ public class Game extends Observable {
         }
     }
 
-    //todo can eliminate this method, a player will never pick one weapon from the weapondeck, and this method is only used in one test
-    /**
-     * gives a randomly picked weapon to the player
-     * @param player the player who's receiving the weapon
-     */
-    public void giveWeapon(String player){
-        Player p = getPlayerByNickname(player);
-
-        p.giveWeapon(this.weaponDeck.drawCard());
-    }
-
     //USED IN TESTS
     /**
      * Gives the chosen weapon to a player
@@ -167,21 +180,6 @@ public class Game extends Observable {
     public void giveWeaponToPlayer(String player, Weapon weapon){
         Player p = getPlayerByNickname(player);
         p.giveWeapon(weapon);
-    }
-
-    /**
-     * This method sets up all player for the final frenzy turn
-     */
-    public void setupForFrenzy () {
-
-        ArrayList<String> playersWithFrenzyBoard = new ArrayList<String>();
-
-        for(Player p : players) {
-            if (p.getDamages().isEmpty())
-                p.sethasFrenzyBoard(true);
-            p.setCanReloadBeforeShooting(true);
-            //TODO nMovesBeforeReloading depends on where the frenzy turn starts from
-        }
     }
 
     //TESTED
@@ -267,15 +265,6 @@ public class Game extends Observable {
 
     //TESTED
     /**
-     * check if skulls on kst are finished so we can set up FrenzyTurm
-     * @return true if there are no skulls on kst
-     */
-    public boolean noMoreSkullsOnKST() {
-        return this.kst.noMoreSkulls();
-    }
-
-    //TESTED
-    /**
      * Show all the different spots where a player is allowed to move
      * @param player The nickname of the player
      * @param nMoves The amount of required moves
@@ -315,7 +304,7 @@ public class Game extends Observable {
         movePlayerToSpawnColor(player, discardedColor);
     }
 
-    //TESTED
+    //TESTED - PRIVATE METHOD
     /**
      * this method moves the player to the spawn spot associated to that color
      * @param player the player to respawn
@@ -381,6 +370,7 @@ public class Game extends Observable {
         }
     }
 
+    //TODO TEST
     /**
      * Tells if player offender can shoot player defenders with the selected weapon
      * @param offendername The nickname of the player who shoots
@@ -537,7 +527,7 @@ public class Game extends Observable {
         return defenders;
     }
 
-//todo comment these methods and test them
+    //todo comment these methods and test them
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public int typeOfEffect( Effect effect ){
@@ -1055,8 +1045,6 @@ public class Game extends Observable {
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //TESTED
-
-    //TESTED
     /**
      * check the weapons that player has unloaded
      * @param player the player to check
@@ -1130,6 +1118,7 @@ public class Game extends Observable {
         return realIndex;
     }
 
+    //TODO MAKE THE CONTROLLER SEND THE INDEX CORRESPONDING TO MOVE
     /**
      * method that execute the move corresponding to index
      * @param index the move representation

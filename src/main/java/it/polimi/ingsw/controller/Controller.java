@@ -232,7 +232,7 @@ public class Controller implements Observer {
         while (chosenPowerupIndex != -1) {
 
             //Retrieve the power up from the given index
-            PowerUp powerUpToUse = gameModel.getPowerupByIndex(player, chosenPowerupIndex);
+            PowerUp powerUpToUse = gameModel.getPowerUpByIndex(player, chosenPowerupIndex);
 
             //Finds all players I can attack with this power up
             ArrayList<String> attackablePlayers = gameModel.getAttackablePlayersPowerUp(player, powerUpToUse);

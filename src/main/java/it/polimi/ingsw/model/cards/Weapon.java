@@ -142,18 +142,19 @@ public class Weapon {
         return this.isLoaded;
     }
 
+    //TESTED
     /**
      * Reloads this weapon
      */
     public void reload(){
-
         this.isLoaded = true;
     }
 
+    //TESTED
     /**
      * after shooting unload the weapon
      */
-    public void unload() {
+    public void unload() throws RuntimeException{
 
         if(!this.isLoaded)
             throw new RuntimeException("This weapon should be loaded");
