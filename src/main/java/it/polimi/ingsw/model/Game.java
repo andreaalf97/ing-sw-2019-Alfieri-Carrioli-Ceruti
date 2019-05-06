@@ -380,6 +380,9 @@ public class Game extends Observable {
      */
     public ArrayList<Player> whoP1CanShootInThisEffect(String offendername, ArrayList<String> defendersNames, Effect effect, ArrayList<Player> playersHit) throws InvalidChoiceException{
 
+        if(defendersNames.isEmpty())
+            return new ArrayList<Player>();
+
         Player offender = getPlayerByNickname(offendername);
 
         ArrayList<Player> defenders_temp = new ArrayList<>();
@@ -625,10 +628,11 @@ public class Game extends Observable {
 
                 Effect effetto = weapon.getEffects().get(i);
 
-                payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
 
-                if (typeOfEffect(effetto) == 0) //Movement effect
+                if (typeOfEffect(effetto) == 0) { //Movement effect
                     makeMovementEffect(playerWhoMoves, effetto, xPosition, yPosition);
+                    payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
+                }
 
                 if (typeOfEffect(effetto) == 1) {  //Damage effect
 
@@ -636,6 +640,11 @@ public class Game extends Observable {
                     Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
 
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit);
+
+                    if(defenders_temp.isEmpty())
+                        return true;
+
+                    payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -671,7 +680,11 @@ public class Game extends Observable {
 
         ArrayList<Player> playersHit = new ArrayList<>();
 
-        ArrayList<Player> backUpPlayers = new ArrayList<>(this.players);
+        ArrayList<Player> backUpPlayers = new ArrayList<>();
+
+        for(Player p : this.players) {
+            backUpPlayers.add(new Player(p));
+        }
 
         GameMap backUpMap = new GameMap(this.gameMap);
 
@@ -687,7 +700,6 @@ public class Game extends Observable {
 
                 Effect effetto = weapon.getEffects().get(i);
 
-                payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
 
                 if (typeOfEffect(effetto) == 1) {  //Damage effect
 
@@ -695,9 +707,11 @@ public class Game extends Observable {
                     Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
 
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit);
-                    if ( defenders_temp == null ){
-                        throw new InvalidChoiceException("defenders_temp == null");
+                    if ( defenders_temp.isEmpty() ){
+                        return true;
                     }
+
+                    payCostEffect(effetto, offenderName);      //if the effect has a cost, the player pays it
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf

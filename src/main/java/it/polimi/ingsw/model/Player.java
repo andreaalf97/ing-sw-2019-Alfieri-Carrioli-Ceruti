@@ -149,7 +149,7 @@ public class Player {
         this.weaponList = new ArrayList<>(player.weaponList);
         this.powerUpList = new ArrayList<>(player.powerUpList);
         this.damages = new ArrayList<>(player.damages);
-        this.marks = player.marks;
+        this.marks = new ArrayList<>(player.marks);
         this.nDeaths = player.nDeaths;
         this.xPosition = player.xPosition;
         this.yPosition = player.yPosition;
