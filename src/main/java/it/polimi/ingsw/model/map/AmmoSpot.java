@@ -77,6 +77,10 @@ public class AmmoSpot extends Spot {
             ammoColorList = new ArrayList<>();
     }
 
+    public void setAmmo(ArrayList<Color> colors){
+        this.ammoColorList = colors;
+    }
+
     //TESTED
     /**
      * Refills this spot

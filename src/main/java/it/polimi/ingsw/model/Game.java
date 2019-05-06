@@ -374,54 +374,44 @@ public class Game extends Observable {
     /**
      * Tells if player offender can shoot player defenders with the selected weapon
      * @param offendername The nickname of the player who shoots
-     * @param defendersNames The nickname of the players the offender wants to shoot
+     * @param defenders The nickname of the players the offender wants to shoot
      * @param effect The effect of the weapon
      * @return The players that get shot during this effect
      */
-    public ArrayList<Player> whoP1CanShootInThisEffect(String offendername, ArrayList<String> defendersNames, Effect effect, ArrayList<Player> playersHit) throws InvalidChoiceException{
-
-        if(defendersNames.isEmpty())
-            return new ArrayList<Player>();
-
-        Player offender = getPlayerByNickname(offendername);
+    public ArrayList<Player> whoP1CanShootInThisEffect(String offendername, ArrayList<Player> defenders, Effect effect, ArrayList<Player> playersHit) throws InvalidChoiceException{
 
         ArrayList<Player> defenders_temp = new ArrayList<>();
 
-        ArrayList<Player> defenders = new ArrayList<>();
-
-
-        for (String i : defendersNames)
-            defenders_temp.add(getPlayerByNickname(i));
-
+        Player offender = getPlayerByNickname(offendername);
 
         if (effect.getVisibleByWho() == Visibility.NONE) { // for ( Player p : defenders )
-            for (int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++) {   //controllo i defenders, se qualcuno non rispetta vuol dire che l'utente ha dato input sbagliati, si ferma il suo attacco
-                if (this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders_temp.get(i).getxPosition(), defenders_temp.get(i).getyPosition())) {
+            for (int i = 0; i < defenders.size() - 1 && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {   //controllo i defenders, se qualcuno non rispetta vuol dire che l'utente ha dato input sbagliati, si ferma il suo attacco
+                if (this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders.get(i).getxPosition(), defenders.get(i).getyPosition())) {
                     throw new InvalidChoiceException("qualche defender non rispetta la visibilità dell'effetto -NONE");
                 }
             }
         }
         if (effect.getVisibleByWho() == Visibility.OFFENDER) {
-            for (int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++) {   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
-                if (!this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders_temp.get(i).getxPosition(), defenders_temp.get(i).getyPosition())) {
+            for (int i = 0; i < defenders.size() - 1 && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
+                if (!this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders.get(i).getxPosition(), defenders.get(i).getyPosition())) {
                     throw new InvalidChoiceException("qualche defender non rispetta la visibilità dell'effetto -OFFENDER");
                 }
             }
         }
 
-        for (int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
+        for (int i = 0; i < defenders.size()  && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
 
             int spots_on_x, spots_on_y;
 
-            if (offender.getxPosition() <= defenders_temp.get(i).getxPosition())
-                spots_on_x = defenders_temp.get(i).getxPosition() - offender.getxPosition();
+            if (offender.getxPosition() <= defenders.get(i).getxPosition())
+                spots_on_x = defenders.get(i).getxPosition() - offender.getxPosition();
             else
-                spots_on_x = offender.getxPosition() - defenders_temp.get(i).getxPosition();
+                spots_on_x = offender.getxPosition() - defenders.get(i).getxPosition();
 
-            if (offender.getyPosition() <= defenders_temp.get(i).getyPosition())
-                spots_on_y = defenders_temp.get(i).getyPosition() - offender.getyPosition();
+            if (offender.getyPosition() <= defenders.get(i).getyPosition())
+                spots_on_y = defenders.get(i).getyPosition() - offender.getyPosition();
             else
-                spots_on_y = offender.getyPosition() - defenders_temp.get(i).getyPosition();
+                spots_on_y = offender.getyPosition() - defenders.get(i).getyPosition();
 
             if (spots_on_x + spots_on_y < effect.getMinDistance()) {
                 throw new InvalidChoiceException("qualche defender non rispetta la distanza per questo effetto MinDistance");
@@ -435,33 +425,33 @@ public class Game extends Observable {
                 if (playersHit.isEmpty()) {
                     throw new InvalidChoiceException("playersHit is empty and visibility is LASTONEATTACKED");
                 }
-                if (!this.gameMap.see(playersHit.get(playersHit.size() - 1).getxPosition(), playersHit.get(playersHit.size() - 1).getyPosition(), defenders_temp.get(i).getxPosition(), defenders_temp.get(i).getyPosition())) {
+                if (!this.gameMap.see(playersHit.get(playersHit.size() - 1).getxPosition(), playersHit.get(playersHit.size() - 1).getyPosition(), defenders.get(i).getxPosition(), defenders.get(i).getyPosition())) {
                     throw new InvalidChoiceException("qualche defender non rispetta la visibilità dell'effetto -LASTONEATTACKED");
                 }
             }
-            if (effect.mustShootOtherPlayers()) {       //per ogni player in defenders_temp scorro i players in playersHit, se ne trovo due uguali lancio eccezione
+            if (effect.mustShootOtherPlayers()) {       //per ogni player in defenders scorro i players in playersHit, se ne trovo due uguali lancio eccezione
 
                 if (playersHit.isEmpty()) {
                     throw new InvalidChoiceException("playersHit is empty and mustShootOtherPlayers = 1");
                 }
                 for (int k = 0; k < playersHit.size() - 1; k++) {
-                    if (defenders_temp.get(i) == playersHit.get(k)) {
+                    if (defenders.get(i) == playersHit.get(k)) {
                         throw new InvalidChoiceException("cercando di sparare ad un giocatore già colpito, non permesso in questo attacco");
                     }
                 }
             }
 
             if( effect.mustBeOtherRoom()) {
-                if ( this.gameMap.getPlayerRoom(offendername) == this.gameMap.getPlayerRoom(defenders_temp.get(i).getNickname())) {
+                if ( this.gameMap.getPlayerRoom(offendername) == this.gameMap.getPlayerRoom(defenders.get(i).getNickname())) {
                     throw new InvalidChoiceException("almeno un defender è nella stessa stranza dell'offender -MustBeOtherRoom ");
                 }
             }
         }
 
         if (effect.mustBeDifferentSpots()) {
-            for ( int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++ ){
-                for ( int j = 0; ( j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable() ) && i != j; j++ ) {
-                    if ((defenders_temp.get(i).getxPosition() == defenders_temp.get(j).getxPosition() && defenders_temp.get(i).getyPosition() == defenders_temp.get(j).getyPosition())) {     //se due giocatori si trovano nello stesso spot significa che l'utente ha dato informazioni sbagliate, lancio eccezione
+            for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++){
+                for (int j = 0; i < defenders.size() - 1 && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()) && i != j; i++) {
+                    if ((defenders.get(i).getxPosition() == defenders.get(j).getxPosition() && defenders.get(i).getyPosition() == defenders.get(j).getyPosition())) {     //se due giocatori si trovano nello stesso spot significa che l'utente ha dato informazioni sbagliate, lancio eccezione
                         throw new InvalidChoiceException("almeno due giocatori non rispettano mustBeDifferentSpots");
                     }
                 }
@@ -470,50 +460,50 @@ public class Game extends Observable {
 
         if (effect.isLinear()) {
 
-            for ( int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++ ){
+            for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++){
 
                 //se sia x che y sono diverse il defender è sicuramente non allineato
-                if (defenders_temp.get(i).getxPosition() != offender.getxPosition() && defenders_temp.get(i).getyPosition() != offender.getyPosition()) {
+                if (defenders.get(i).getxPosition() != offender.getxPosition() && defenders.get(i).getyPosition() != offender.getyPosition()) {
                     throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_1");
                 }
 
                 //controllo se offender e defender.get(i) non siano nello stesso spot, se così fosse andrebbe bene ma non sarebbe ancora decisa la direzione che devono rispettare i defenders successivi
-                if (defenders_temp.get(i).getxPosition() != offender.getxPosition() || defenders_temp.get(i).getyPosition() != offender.getyPosition()) {
+                if (defenders.get(i).getxPosition() != offender.getxPosition() || defenders.get(i).getyPosition() != offender.getyPosition()) {
 
-                    if (defenders_temp.get(i).getxPosition() == offender.getxPosition()) {      //offender e defender sono sulla stessa riga
+                    if (defenders.get(i).getxPosition() == offender.getxPosition()) {      //offender e defender sono sulla stessa riga
 
-                        if (defenders_temp.get(i).getyPosition() > offender.getyPosition()) { //iL defender è a EAST rispetto all'offender
+                        if (defenders.get(i).getyPosition() > offender.getyPosition()) { //iL defender è a EAST rispetto all'offender
 
                             //controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
-                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
-                                if (defenders_temp.get(j).getyPosition() < offender.getyPosition()){
+                            for ( int j = i; j < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
+                                if (defenders.get(j).getyPosition() < offender.getyPosition()){
                                     throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_2");
                                 }
                             }
                         }else
-                        if (defenders_temp.get(i).getyPosition() < offender.getyPosition()) { //il primo defender è a WEST rispetto all'offender
+                        if (defenders.get(i).getyPosition() < offender.getyPosition()) { //il primo defender è a WEST rispetto all'offender
                             //controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
-                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
-                                if (defenders_temp.get(j).getyPosition() > offender.getyPosition()){
+                            for ( int j = i; j < defenders.size() &&  (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
+                                if (defenders.get(j).getyPosition() > offender.getyPosition()){
                                     throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_3");
                                 }
                             }
                         }
                     }
-                    if (defenders_temp.get(i).getyPosition() == offender.getyPosition()) {      //offender e il defender sono sulla stessa colonna
+                    if (defenders.get(i).getyPosition() == offender.getyPosition()) {      //offender e il defender sono sulla stessa colonna
 
-                        if (defenders_temp.get(i).getxPosition() > offender.getxPosition()) {   //il defender è a SOUTH rispetto all'offender
+                        if (defenders.get(i).getxPosition() > offender.getxPosition()) {   //il defender è a SOUTH rispetto all'offender
                             //controllo se anche gli altri defenders sono a SOUTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
-                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
-                                if (defenders_temp.get(j).getxPosition() < offender.getxPosition()){
+                            for ( int j = i; j < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
+                                if (defenders.get(j).getxPosition() < offender.getxPosition()){
                                     throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_4");
                                 }
                             }
                         }else
-                        if (defenders_temp.get(0).getxPosition() < offender.getxPosition()) {   //il defender è a NORTH rispetto all'offender
+                        if (defenders.get(0).getxPosition() < offender.getxPosition()) {   //il defender è a NORTH rispetto all'offender
                             //controllo se anche gli altri defenders sono a NORTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
-                            for ( int j = i; j < defenders_temp.size() - 1 || j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable(); j++){
-                                if (defenders_temp.get(j).getxPosition() > offender.getxPosition()){
+                            for ( int j = i; j < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
+                                if (defenders.get(j).getxPosition() > offender.getxPosition()){
                                     throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_5");
                                 }
                             }
@@ -523,11 +513,10 @@ public class Game extends Observable {
             }
         }
 
-        for (int i = 0; i < defenders_temp.size() - 1 || i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable(); i++) {
-            defenders.add(defenders_temp.get(i));       //questi sono i giocatori a cui effettivamente faccio danno
+        for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {
+            defenders_temp.add(defenders.get(i));       //questi sono i giocatori a cui effettivamente faccio danno
         }
-
-        return defenders;
+        return defenders_temp;
     }
 
     //todo comment these methods and test them
@@ -551,14 +540,9 @@ public class Game extends Observable {
 
     public boolean payCostEffect( Effect effect, String player ) {
 
-        ArrayList<Color> cost = new ArrayList<>();
-
-        for (Color color: effect.getCost())
-            cost.add(color);
-
         if (effect.getCost() != null) {       //if there is a cost I pay it ( for example an optional shooting action )
             try{
-                pay( player, cost );
+                pay( player, effect.getCost() );
                 return true;
             }
             catch(InvalidChoiceException e){
@@ -631,7 +615,9 @@ public class Game extends Observable {
                 Effect effetto = weapon.getEffects().get(i);
 
                 if (typeOfEffect(effetto) == 0) { //Movement effect
+
                     makeMovementEffect(playerWhoMoves, effetto, xPosition, yPosition);
+
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
                         throw new InvalidChoiceException("Cannot pay");
                     }
@@ -642,14 +628,15 @@ public class Game extends Observable {
                     /* a whoP1ShootsInThisEffect gli passo al primo giro la lista dei nomi dei players ricevuta dall'utente, ai giri successivi i players a cui non ho ancora sparato, cioè quelli a cui devo sparare in questo effetto.
                     Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
 
-                    defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit);
+                    defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
 
                     if(defenders_temp.isEmpty())
                         return true;
 
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
                         throw new InvalidChoiceException("Cannot pay");
-                    }
+                    } else
+                        payCostEffect(effetto, offenderName);
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -657,7 +644,7 @@ public class Game extends Observable {
                      whoP1CanShootInThisEffect defenders - defenders_temp, ovvero andreaalf (poi se c'è un must_shoot_other player in questo effetto lancio un'eccezione*/
                     for (Player p : defenders_temp) {
                         playersHit.add(p);
-                        defendersNames.remove(p.getNickname());
+                        defenders.remove(p);
                     }
                     makeDamageEffect(offenderName, defenders_temp, effetto);
                 }
@@ -693,6 +680,7 @@ public class Game extends Observable {
 
         GameMap backUpMap = new GameMap(this.gameMap);
 
+        //defenders è la lista di tutti i giocatori che arriva dall'utente
         for (String i : defendersNames)
             defenders.add(getPlayerByNickname(i));
 
@@ -711,14 +699,15 @@ public class Game extends Observable {
                     /* a whoP1ShootsInThisEffect gli passo al primo giro la lista dei nomi dei players ricevuta dall'utente, ai giri successivi i players a cui non ho ancora sparato, cioè quelli a cui devo sparare in questo effetto.
                     Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
 
-                    defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit);
+                    defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
                     if ( defenders_temp.isEmpty() ){
                         return true;
                     }
 
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
                         throw new InvalidChoiceException("Cannot pay");
-                    }
+                    } else
+                        payCostEffect(effetto, offenderName);
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -726,7 +715,8 @@ public class Game extends Observable {
                      whoP1CanShootInThisEffect defenders - defenders_temp, ovvero andreaalf (poi se c'è un must_shoot_other player in questo effetto lancio un'eccezione*/
                     for (Player p : defenders_temp) {
                         playersHit.add(p);
-                        defendersNames.remove(p.getNickname());
+                        defenders.remove(p);
+                        //defendersNames.remove(p.getNickname());
                     }
                     makeDamageEffect(offenderName, defenders_temp, effetto);
                 }
