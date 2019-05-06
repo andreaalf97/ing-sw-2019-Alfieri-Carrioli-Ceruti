@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
+import it.polimi.ingsw.model.map.AmmoSpot;
 import it.polimi.ingsw.model.map.MapName;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +30,7 @@ public class GameTest {
 
     //todo incomplete
     @Test
-    public void shootPlayerThor() {
+    public void shootPlayerThorTwoDefenders() {
 
         //Testing if attacking with Thor works as expected
 
@@ -79,6 +80,87 @@ public class GameTest {
 
         //Testing if I added the correct damages to meme
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+
+    }
+
+    @Test
+    public void shootPlayerThorThreeDefenders() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest = null;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Thor", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        ArrayList<Color> colors = new ArrayList<>();
+
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+
+        gameTest.getPlayerByNickname("andreaalf").giveAmmos(colors);
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 1);
+        gameTest.movePlayer("meme", 2, 1);
+        gameTest.movePlayer("ingConti", 2, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+
+
+        gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+
+        //Testing if I removed the right ammos
+        //Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+
+        testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
 
     }
 
@@ -302,23 +384,27 @@ public class GameTest {
         //TODO | now, if the player shoots wrong we still remove ammos from him
         //in this case, we make andreaalf pay 1 RED even if the attack was wrong
         //Testing if I removed the right ammos
-        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+        testArray.add("andreaalf");
 
         //Testing if I added the correct damages to gino
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
 
+        ArrayList<String> testMarks = new ArrayList<>();
+        testMarks.add("andreaalf");
+
         //Testing if I added the correct marks to gino
-        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+        Assert.assertEquals(testMarks, gameTest.getPlayerByNickname("gino").getMarks());
 
-        //Testing if meme has the correct marks
-        //Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+        ArrayList<String> testMarks1 = new ArrayList<>();
+        testMarks1.add("andreaalf");
 
-        //testing if meme has the correct damages
-        //Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
-
-
+        //Testing if I added the correct marks to meme
+        Assert.assertEquals(testMarks1, gameTest.getPlayerByNickname("meme").getMarks());
+        
     }
 
     @Test
