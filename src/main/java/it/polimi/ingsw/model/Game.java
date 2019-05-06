@@ -608,22 +608,13 @@ public class Game extends Observable {
 
         ArrayList<Player> playersHit = new ArrayList<>();
 
-        //salvo i dati della partita e dei players appena prima di attaccare, così se durante l'attacco qualcosa non va bene (es. i giocatori dati dall'utente sono sbagliati),
-        // sostituisco agli stati di player probabilmente modificati in un effetto precedente, quelli di appena prima dell'attacco.
-        Player backUpOffender = new Player(offender);
-
-        ArrayList<Player> backUpDefenders = new ArrayList<>();
-
         GameMap backUpMap = new GameMap(this.gameMap);
 
-        for (String i : defendersNames) {
+        ArrayList<Player> backUpPlayers = new ArrayList<>(this.players);
 
+        for (String i : defendersNames)
             defenders.add(getPlayerByNickname(i));
 
-            Player backUpDefender = new Player(i);
-            backUpDefenders.add(backUpDefender);      //aggiungo alla lista delle copie dei giocatori defenders, un defender per volta scorrendo defendersNames
-
-        }
 
         try {
             //se l'arma è scarica non si può sparare, il giocatore perde un'azione
@@ -661,13 +652,8 @@ public class Game extends Observable {
         } catch (InvalidChoiceException e) {
             //resetto mappa
             this.gameMap = new GameMap(backUpMap);
-            //resetto offender
-            offender = new Player(backUpOffender);
-            //resetto i defenders
-            /*TODO fix the errore below!*/
-            for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
-                defenders.set(p, new Player(backUpDefenders.get(p)));
-            }
+            //resetto tutti i players in this game
+            this.players = new ArrayList<>(backUpPlayers);
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
 
@@ -685,22 +671,13 @@ public class Game extends Observable {
 
         ArrayList<Player> playersHit = new ArrayList<>();
 
-        //salvo i dati della partita e dei players appena prima di attaccare, così se durante l'attacco qualcosa non va bene (es. i giocatori dati dall'utente sono sbagliati),
-        // sostituisco agli stati di player probabilmente modificati in un effetto precedente, quelli di appena prima dell'attacco.
-        Player backUpOffender = new Player(offender);
-
-        ArrayList<Player> backUpDefenders = new ArrayList<>();
+        ArrayList<Player> backUpPlayers = new ArrayList<>(this.players);
 
         GameMap backUpMap = new GameMap(this.gameMap);
 
-        for (String i : defendersNames) {
-
+        for (String i : defendersNames)
             defenders.add(getPlayerByNickname(i));
 
-            Player backUpDefender = new Player(i);
-            backUpDefenders.add(backUpDefender);      //aggiungo alla lista delle copie dei giocatori defenders, un defender per volta scorrendo defendersNames
-
-        }
         try {
             //se l'arma è scarica non si può sparare, il giocatore perde un'azione
             if (!weapon.isLoaded())
@@ -718,6 +695,9 @@ public class Game extends Observable {
                     Questo metodo mi ritorna una lista di player che effettivamente vengono colpiti/marchiati durante quest'effetto. Quindi li aggiungo a PlayersHit    */
 
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defendersNames, effetto, playersHit);
+                    if ( defenders_temp == null ){
+                        throw new InvalidChoiceException("defenders_temp == null");
+                    }
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -734,13 +714,8 @@ public class Game extends Observable {
         } catch (InvalidChoiceException e) {
             //resetto mappa
             this.gameMap = new GameMap(backUpMap);
-            //resetto offender
-            offender = new Player(backUpOffender);
-            //resetto i defenders
-            /*TODO fix the errore below!*/
-            for (int p = 0; p < defenders.size() - 1 && p < backUpDefenders.size() - 1; p++) {
-                defenders.set(p, new Player(backUpDefenders.get(p)));
-            }
+            //resetto tutti i players in this game
+            this.players = new ArrayList<>(backUpPlayers);
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
 
