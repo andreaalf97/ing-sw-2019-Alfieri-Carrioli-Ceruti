@@ -35,6 +35,8 @@ public class WeaponDeck{
                 this.weaponList.add(weaponTemp);
             }
 
+            //Collections.shuffle(this.weaponList);
+
         }
         catch(FileNotFoundException e){
             Log.LOGGER.log(Level.SEVERE, e.getMessage());
