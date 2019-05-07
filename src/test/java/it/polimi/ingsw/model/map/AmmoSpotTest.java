@@ -71,8 +71,14 @@ public class AmmoSpotTest {
         PowerUp powerup = new PowerUp();
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.removeAmmo();
-        Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
+        try {
+            ammoSpotTest.removeAmmo();
+            Assert.fail();
+        }
+        catch (RuntimeException e) {
+            Assert.assertTrue(ammoSpotTest.getAmmoColorList().isEmpty());
+        }
+
     }
 
     @Test
