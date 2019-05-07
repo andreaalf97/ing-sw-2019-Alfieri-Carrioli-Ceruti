@@ -185,7 +185,6 @@ public class GameMapTest {
         }
         catch(RuntimeException e){
             Assert.assertTrue(true);
-            e.printStackTrace();
         }
 
         try{
@@ -193,7 +192,6 @@ public class GameMapTest {
         }
         catch(RuntimeException e){
             Assert.assertTrue(true);
-            e.printStackTrace();
         }
     }
 

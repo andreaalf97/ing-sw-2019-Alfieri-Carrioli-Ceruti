@@ -58,6 +58,7 @@ public class MessageParser implements Questioner {
             t.start();
         }
 
+        controller.virtualView.sendAll("GAME STARTED");
         nControllers++;
 
     }

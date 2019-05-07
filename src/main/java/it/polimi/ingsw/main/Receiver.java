@@ -35,6 +35,10 @@ public class Receiver implements Runnable {
 
             while (true) {
                 String line = in.readLine();
+
+                if(line == null)
+                    throw new IOException("Received null from client --> disconnecting");
+
                 Log.LOGGER.log(Level.INFO, "Receiver class received a new line");
                 questioner.answer(nickname, line);
             }

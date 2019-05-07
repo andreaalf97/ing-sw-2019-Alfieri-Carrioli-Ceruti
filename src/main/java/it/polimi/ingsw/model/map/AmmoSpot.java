@@ -72,7 +72,7 @@ public class AmmoSpot extends Spot {
      */
     public void removeAmmo() {
         if (getAmmoColorList().isEmpty())
-            Log.LOGGER.info("no ammo in the spot,reload this spot at the end of the turn");
+            throw new RuntimeException("This spot was empty");
         else
             ammoColorList = new ArrayList<>();
     }

@@ -222,7 +222,7 @@ public class Game extends Observable {
      * It is usually executed at the end of each turn
      */
     public void checkDeaths() {
-        Log.LOGGER.info("Checking deaths...");
+        //Log.LOGGER.info("Checking deaths...");
 
         for(Player i : players){
             if(i.isDead()){
