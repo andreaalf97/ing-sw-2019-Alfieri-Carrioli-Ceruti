@@ -542,7 +542,7 @@ public class GameTest {
     }
 
     @Test
-    public void shootPlayerCyberbladeDisanceExxeptionAndCheckingBacupMapAndPlayers() {
+    public void shootPlayerCyberbladeDisanceExceptionAndCheckingBacupMapAndPlayers() {
 
         ArrayList<String > players = new ArrayList<>();
         players.add("andreaalf");
