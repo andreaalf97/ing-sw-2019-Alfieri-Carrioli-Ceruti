@@ -553,9 +553,11 @@ public class Game extends Observable {
         return defenders_temp;
     }
 
-    //todo comment these methods and test them
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * this method checks what type of effect effect is
+     * @param effect the effect to check
+     * @return the type of this effect. 0 = movemente effect, 1 = damage effect
+     */
     public int typeOfEffect( Effect effect ){
 
         int type = 0;
@@ -572,6 +574,12 @@ public class Game extends Observable {
         return type;
     }
 
+    /**
+     * this method check if the player can pay the cost in effect, then pays it
+     * @param effect the effect we have to see to pay his cost
+     * @param player the player who has to pay
+     * @return true if player pays, false if the player can't pay
+     */
     public boolean payCostEffect( Effect effect, String player ) {
 
         if (effect.getCost() != null) {       //if there is a cost I pay it ( for example an optional shooting action )
@@ -586,7 +594,14 @@ public class Game extends Observable {
         return true;
     }
 
-
+    /**
+     * This method is called by ShootWithMovemente() and makes the actual effect of movement
+     * @param string is the player being moved
+     * @param effect is the movement effect we have to look at
+     * @param xPos is the  x position of the player after he moved
+     * @param yPos is the  y position of the player after he moved
+     * @throws InvalidChoiceException
+     */
     public void makeMovementEffect(String string, Effect effect, int xPos, int yPos) throws InvalidChoiceException{
 
         Player player = getPlayerByNickname(string);
@@ -605,6 +620,12 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * This method is called by ShootWithMovemente() and ShootWithMovemente() and makes the actual effect of damage
+     * @param offendername is the player who makes damage
+     * @param defenders_temp are the players who receive damage
+     * @param effect is the effect we have to look at
+     */
     public void makeDamageEffect(String offendername, ArrayList<Player> defenders_temp, Effect effect){
 
         Player offender = getPlayerByNickname(offendername);
@@ -620,6 +641,18 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * This method, called from the controller, makes the actual shooting of the weapon with movement effects
+     * @param offenderName is the player who uses the weapon
+     * @param defendersNames are the players who receive the effects
+     * @param weapon is the weapon being used to shoot
+     * @param orderNumber is the order of the effect chose by the user
+     * @param xPosition is the new x position of the player being moved
+     * @param yPosition is the new y position of the player being moved
+     * @param playerWhoMoves is the player who moves
+     * @return return true if all the checks on the effects are executed the right way
+     * @throws InvalidChoiceException
+     */
     public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)throws InvalidChoiceException {
 
         Player offender = getPlayerByNickname(offenderName);
@@ -668,8 +701,7 @@ public class Game extends Observable {
 
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
                         throw new InvalidChoiceException("Cannot pay");
-                    } else
-                        payCostEffect(effetto, offenderName);
+                    }
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -695,6 +727,14 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * This method, called from the controller, makes the actual shooting of the weapon without movement effects
+     * @param offenderName is the player who uses the weapon
+     * @param defendersNames are the players who receive the effects
+     * @param weapon is the weapon being used to shoot
+     * @param orderNumber is the order of the effect chose by the user
+     * @return return true if all the checks on the effects are executed the right way
+     */
     public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber) {
 
         Player offender = getPlayerByNickname(offenderName);
@@ -739,8 +779,7 @@ public class Game extends Observable {
 
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
                         throw new InvalidChoiceException("Cannot pay");
-                    } else
-                        payCostEffect(effetto, offenderName);
+                    }
 
                      /*rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena eseguito, così nel prossimo giro nel ciclo,
                      ovvero nel prossimo effetto, escludo i giocatori colpiti nell'effetto precedente (esempio se il giovatore vuole colpire andreaalf
@@ -767,7 +806,13 @@ public class Game extends Observable {
         }
     }
 
-
+    /**
+     * This method uses a power with damage effect
+     * @param currentPlayerName is the player who uses the powerup
+     * @param playerWhoReceiveEffectName is the player who receives the effect of the power up
+     * @param effect is the effect of the power up
+     * @throws InvalidChoiceException
+     */
     public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ) throws InvalidChoiceException{
 
         Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
@@ -782,6 +827,15 @@ public class Game extends Observable {
         makeDamageEffect( currentPlayerName, singlePlayerArray, effect );
     }
 
+    /**
+     * This method uses a power with movement effect
+     * @param currentPlayerName  is the player who uses the powerup
+     * @param playerWhoReceiveEffectName is the player who receives the effect of the power up
+     * @param effect is the effect of the power up
+     * @param xPos is the new x position of the player being moved
+     * @param yPos is the new y position of the player being moved
+     * @throws InvalidChoiceException
+     */
     public void useMovementPowerUp ( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, int xPos, int yPos )throws InvalidChoiceException{
 
         Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
@@ -802,13 +856,10 @@ public class Game extends Observable {
         }
     }
 
-
     public ArrayList<String> getAttackablePlayersPowerUp(String player, PowerUp powerUpToUse) {
         //TODO
         return new ArrayList<>();
     }
-
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //TESTED
     /**
