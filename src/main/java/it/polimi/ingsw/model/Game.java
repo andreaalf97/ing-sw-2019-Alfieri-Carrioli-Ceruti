@@ -653,9 +653,7 @@ public class Game extends Observable {
      * @return return true if all the checks on the effects are executed the right way
      * @throws InvalidChoiceException
      */
-    public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves)throws InvalidChoiceException {
-
-        Player offender = getPlayerByNickname(offenderName);
+    public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves){
 
         ArrayList<Player> defenders = new ArrayList<>();
 
@@ -667,9 +665,12 @@ public class Game extends Observable {
 
         ArrayList<Player> backUpPlayers = new ArrayList<>(this.players);
 
+        for(Player p : this.players) {
+            backUpPlayers.add(new Player(p));
+        }
+
         for (String i : defendersNames)
             defenders.add(getPlayerByNickname(i));
-
 
         try {
             //se l'arma è scarica non si può sparare, il giocatore perde un'azione
@@ -737,8 +738,6 @@ public class Game extends Observable {
      */
     public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber) {
 
-        Player offender = getPlayerByNickname(offenderName);
-
         ArrayList<Player> defenders = new ArrayList<>();
 
         ArrayList<Player> defenders_temp = new ArrayList<>();
@@ -747,11 +746,11 @@ public class Game extends Observable {
 
         ArrayList<Player> backUpPlayers = new ArrayList<>();
 
+        GameMap backUpMap = new GameMap(this.gameMap);
+
         for(Player p : this.players) {
             backUpPlayers.add(new Player(p));
         }
-
-        GameMap backUpMap = new GameMap(this.gameMap);
 
         //defenders è la lista di tutti i giocatori che arriva dall'utente
         for (String i : defendersNames)
@@ -765,7 +764,6 @@ public class Game extends Observable {
             for (int i : weapon.getOrder().get(orderNumber)) {      //scorro gli effetti di quest'arma nell'ordine scelto dall'utente
 
                 Effect effetto = weapon.getEffects().get(i);
-
 
                 if (typeOfEffect(effetto) == 1) {  //Damage effect
 
