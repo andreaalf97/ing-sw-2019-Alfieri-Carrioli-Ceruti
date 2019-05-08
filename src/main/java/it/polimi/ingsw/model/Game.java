@@ -602,19 +602,26 @@ public class Game extends Observable {
      * @param yPos is the  y position of the player after he moved
      * @throws InvalidChoiceException
      */
-    public void makeMovementEffect(String string, Effect effect, int xPos, int yPos) throws InvalidChoiceException{
+    public void makeMovementEffect(String string, Effect effect, ArrayList<Integer> xPos, ArrayList<Integer> yPos) throws InvalidChoiceException{
 
         Player player = getPlayerByNickname(string);
 
+        int i = 0;
+
         if ( effect.getnMoves() != 0){
-            if( this.gameMap.canMoveFromTo(player.getxPosition(), player.getyPosition(), xPos, yPos, effect.getnMoves()) ) {
-                movePlayer(player.getNickname(), xPos, yPos);
+            if( this.gameMap.canMoveFromTo(player.getxPosition(), player.getyPosition(), xPos.get(i), yPos.get(i), effect.getnMoves()) ) {
+                movePlayer(player.getNickname(),xPos.get(i), yPos.get(i));
+                xPos.remove(i);
+                yPos.remove(i);
+
             }else
                 throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves");
         }
         if ( effect.getnMovesOtherPlayer() != 0) {
-            if (this.gameMap.canMoveFromTo(player.getxPosition(), player.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer())) {
-                movePlayer(player.getNickname(), xPos, yPos);
+            if (this.gameMap.canMoveFromTo(player.getxPosition(), player.getyPosition(), xPos.get(i), yPos.get(i), effect.getnMovesOtherPlayer())) {
+                movePlayer(player.getNickname(), xPos.get(i), yPos.get(i));
+                xPos.remove(i);
+                yPos.remove(i);
             } else
                 throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
         }
@@ -630,14 +637,16 @@ public class Game extends Observable {
 
         Player offender = getPlayerByNickname(offendername);
 
-        for ( Player p : defenders_temp){           //per ogni giocatore presente nella lista dei defenders, assegno quanti danni e marchi dell'effetto
+        if (effect.getnPlayerAttackable() != 0) {       //per ogni giocatore a cui bisogna dare danni presente nella lista dei defenders, assegno nDamages dell'effetto
+            for (int i = 0; i < defenders_temp.size() && i < effect.getnPlayerAttackable(); i++) {
+                defenders_temp.get(i).giveDamage(offendername, effect.getnDamages());
+            }
+        }
 
-            if ( effect.getnDamages() != 0 )
-                p.giveDamage(offender.getNickname(), effect.getnDamages());
-
-            if ( effect.getnMarks() != 0 )
-                p.giveMarks(offender.getNickname(), effect.getnMarks());
-
+        if (effect.getnPlayerMarkable() != 0) {     //per ogni giocatore a cui bisogna dare marchi presente nella lista dei defenders, assegno nMarks dell'effetto
+            for (int i = 0; i < defenders_temp.size() && i < effect.getnPlayerMarkable(); i++) {
+                defenders_temp.get(i).giveMarks(offendername, effect.getnMarks());
+            }
         }
     }
 
@@ -653,7 +662,7 @@ public class Game extends Observable {
      * @return return true if all the checks on the effects are executed the right way
      * @throws InvalidChoiceException
      */
-    public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, int xPosition, int yPosition, String playerWhoMoves){
+    public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon, int orderNumber, ArrayList<Integer> xPosition, ArrayList<Integer> yPosition, String playerWhoMoves){
 
         ArrayList<Player> defenders = new ArrayList<>();
 

@@ -52,6 +52,23 @@
     },
     "MachineGun": {
       "Effects": {
+        "Effect0": {
+          "nDamages": 1,
+          "nMarks": 0,
+          "nPlayersAttackable": 2,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 0,
+          "canShootAnyPlayer": 0,
+          "cost": [],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 2
+        },
         "Effect1": {
           "nDamages": 1,
           "nMarks": 0,
@@ -107,10 +124,29 @@
           "isLinear": 0,
           "visibleByWho": 2
         },
-        "Effect0": {
+        "Effect4": {
           "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 2,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": 1,
+          "canShootAnyPlayer": 0,
+          "cost": [
+            "Blue"
+          ],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": 0,
+          "mustBeDifferentSpots": 0,
+          "isLinear": 0,
+          "visibleByWho": 2
+        },
+        "Effect5": {
+          "nDamages": 1,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": 0,
           "canShootAnyPlayer": 0,
@@ -146,6 +182,28 @@
         "Order3": [
           0,
           3,
+          1
+        ],
+        "Order4": [
+          0,
+          1,
+          4,
+          5
+        ],
+        "Order5": [
+          0,
+          4,
+          5,
+          1
+        ],
+        "Order6": [
+          0,
+          4,
+          1
+        ],
+        "Order7": [
+          0,
+          5,
           1
         ]
       },
