@@ -419,21 +419,21 @@ public class Game extends Observable {
         Player offender = getPlayerByNickname(offendername);
 
         if (effect.getVisibleByWho() == Visibility.NONE) { // for ( Player p : defenders )
-            for (int i = 0; i < defenders.size() - 1 && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {   //controllo i defenders, se qualcuno non rispetta vuol dire che l'utente ha dato input sbagliati, si ferma il suo attacco
+            for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {   //controllo i defenders, se qualcuno non rispetta vuol dire che l'utente ha dato input sbagliati, si ferma il suo attacco
                 if (this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders.get(i).getxPosition(), defenders.get(i).getyPosition())) {
                     throw new InvalidChoiceException("qualche defender non rispetta la visibilità dell'effetto -NONE");
                 }
             }
         }
         if (effect.getVisibleByWho() == Visibility.OFFENDER) {
-            for (int i = 0; i < defenders.size() - 1 && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
+            for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {   //controllo i defenders, se qualcuno non rispetta visibility lo escludo
                 if (!this.gameMap.see(offender.getxPosition(), offender.getyPosition(), defenders.get(i).getxPosition(), defenders.get(i).getyPosition())) {
                     throw new InvalidChoiceException("qualche defender non rispetta la visibilità dell'effetto -OFFENDER");
                 }
             }
         }
 
-        for (int i = 0; i < defenders.size()  && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
+        for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
 
             int spots_on_x, spots_on_y;
 
@@ -715,6 +715,7 @@ public class Game extends Observable {
                     makeDamageEffect(offenderName, defenders_temp, effetto);
                 }
             }
+            weapon.setLoaded(false);
             return true;
         } catch (InvalidChoiceException e) {
             //resetto mappa
@@ -791,6 +792,7 @@ public class Game extends Observable {
                     makeDamageEffect(offenderName, defenders_temp, effetto);
                 }
             }
+            weapon.setLoaded(false);
             return true;
         } catch (InvalidChoiceException e) {
             //resetto mappa

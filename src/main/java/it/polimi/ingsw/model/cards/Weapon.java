@@ -22,6 +22,10 @@ public class Weapon {
      */
     private ArrayList<Effect> effects;
 
+    public void setLoaded(boolean loaded) {
+        isLoaded = loaded;
+    }
+
     /**
      * True if the weapon is able to shoot
      */
