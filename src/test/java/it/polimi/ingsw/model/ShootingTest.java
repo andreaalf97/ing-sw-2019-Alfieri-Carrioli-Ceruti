@@ -562,13 +562,7 @@ public class ShootingTest {
     @Test
     public void shootPlayerHeatseeker() {
 
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
+        //Testing if attacking with Heatseeker works as expected
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -625,14 +619,6 @@ public class ShootingTest {
     @Test
     public void shootPlayerHeatseekerCantShootSomeoneYouSee() {
 
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest = null;
@@ -671,15 +657,6 @@ public class ShootingTest {
 
     @Test
     public void shootPlayerCyberblade() {
-
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-        players.add("meme");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -752,15 +729,6 @@ public class ShootingTest {
     @Test
     public void shootPlayerCyberbladeDisanceExceptionAndCheckingBacupMapAndPlayers() {
 
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-        players.add("meme");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest = null;
@@ -827,14 +795,6 @@ public class ShootingTest {
 
     @Test
     public void shootPlayerZX_2_FirstEffect() {
-
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -963,14 +923,6 @@ public class ShootingTest {
     @Test
     public void shootPlayerShotgunFirstEffect() {
 
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest = null;
@@ -1025,14 +977,6 @@ public class ShootingTest {
     @Test
     public void shootPlayerShotgunSecondEffect() {
 
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest = null;
@@ -1079,14 +1023,6 @@ public class ShootingTest {
     @Test
     public void shootPlayerPowerGloveFirstEffectInvalidDistance() {
 
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest = null;
@@ -1132,14 +1068,6 @@ public class ShootingTest {
 
     @Test
     public void shootPlayerPowerGloveFirstEffect() {
-
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -1198,8 +1126,6 @@ public class ShootingTest {
 
     @Test
     public void shootPlayerPowerGloveSecondEffectInvalidChoiceDistance() {
-
-        //Testing if attacking with Thor works as expected
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -1263,15 +1189,6 @@ public class ShootingTest {
     @Test
     public void shootPlayerPowerGloveSecondEffect() {
 
-        ArrayList<String > players = new ArrayList<>();
-        players.add("andreaalf");
-        players.add("gino");
-        players.add("meme");
-
-        gameTest = new Game(players, MapName.FIRE, 6);
-
-        //Testing if attacking with Thor works as expected
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest = null;
@@ -1334,4 +1251,82 @@ public class ShootingTest {
         Assert.assertEquals(testArray1, gameTest.getPlayerByNickname("meme").getDamages());
     }
 
+    @Test
+    public void shootPlayerShockwaveFirstEffectTooManyPlayers() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+        players.add("keny");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest = null;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Shockwave", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+        gameTest.revive("keny");
+
+
+        //ArrayList<Color> colors = new ArrayList<>();
+        //colors.add(Color.BLUE);
+        //gameTest.getPlayerByNickname("andreaalf").giveAmmos(colors);
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 0, 1);
+        gameTest.movePlayer("meme", 0, 1);
+        gameTest.movePlayer("ingConti", 0, 1);
+        gameTest.movePlayer("keny", 0, 1);
+
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+        defenders.add("keny");
+
+        boolean result = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+
+        Assert.assertFalse(result);
+
+        /*ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+
+        ArrayList<String> testArray1 = new ArrayList<>();
+        testArray1.add("andreaalf");
+
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray1, gameTest.getPlayerByNickname("meme").getMarks());
+
+        ArrayList<String> testArray2 = new ArrayList<>();
+        testArray2.add("andreaalf");
+
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray2, gameTest.getPlayerByNickname("ingConti").getMarks());*/
+
+    }
 }
