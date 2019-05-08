@@ -475,6 +475,18 @@ public class Game extends Observable {
                     }
                 }
             }
+            //vuol dire che devo sparare ai giocatori a cui avevo già sparato
+            /**if (effect.mustShootSamePlayers()) {       //per ogni player in defenders scorro i players in playersHit, se ne trovo due uguali lancio eccezione
+
+                if (playersHit.isEmpty()) {
+                    throw new InvalidChoiceException("playersHit is empty and mustShootOtherPlayers = 1");
+                }
+                for (int k = 0; k < playersHit.size() - 1; k++) {
+                    if (defenders.get(i) == playersHit.get(k)) {
+                        throw new InvalidChoiceException("cercando di sparare ad un giocatore già colpito, non permesso in questo attacco");
+                    }
+                }
+            }*/
 
             if( effect.mustBeOtherRoom()) {
                 if ( this.gameMap.getPlayerRoom(offendername) == this.gameMap.getPlayerRoom(defenders.get(i).getNickname())) {
@@ -485,20 +497,29 @@ public class Game extends Observable {
 
         if (effect.mustBeDifferentSpots()) {
             for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++){
-                for (int j = 0; i < defenders.size() - 1 && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()) && i != j; i++) {
+                for (int j = 0; i < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()) && i != j; i++) {
                     if ((defenders.get(i).getxPosition() == defenders.get(j).getxPosition() && defenders.get(i).getyPosition() == defenders.get(j).getyPosition())) {     //se due giocatori si trovano nello stesso spot significa che l'utente ha dato informazioni sbagliate, lancio eccezione
                         throw new InvalidChoiceException("almeno due giocatori non rispettano mustBeDifferentSpots");
                     }
                 }
             }
         }
+        /*if (effect.mustBeSameSpots()) {
+            for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++){
+                for (int j = 0; i < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()) && i != j; i++) {
+                    if ((defenders.get(i).getxPosition() != defenders.get(j).getxPosition() || defenders.get(i).getyPosition() != defenders.get(j).getyPosition())) {     //se due giocatori si trovano in spot diversi significa che l'utente ha dato informazioni sbagliate, lancio eccezione
+                        throw new InvalidChoiceException("almeno due giocatori non rispettano mustBeSameSpots");
+                    }
+                }
+            }
+        }*/
 
         if (effect.isLinear()) {
 
             for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++){
 
                 //se sia x che y sono diverse il defender è sicuramente non allineato
-                if (defenders.get(i).getxPosition() != offender.getxPosition() && defenders.get(i).getyPosition() != offender.getyPosition()) {
+                if (defenders.get(i).getxPosition() != offender.getxPosition() || defenders.get(i).getyPosition() != offender.getyPosition()) {
                     throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_1");
                 }
 
