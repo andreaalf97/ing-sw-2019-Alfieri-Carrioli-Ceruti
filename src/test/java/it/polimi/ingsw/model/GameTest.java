@@ -1064,7 +1064,7 @@ public class GameTest {
     }
 
     @Test
-    public void shootPlayerPowerGlove() {
+    public void shootPlayerPowerGloveFirstEffect() {
 
         ArrayList<String > players = new ArrayList<>();
         players.add("andreaalf");
@@ -1079,7 +1079,7 @@ public class GameTest {
         Weapon weaponTest = null;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Shotgun", weaponsJSON);
+            weaponTest = new Weapon("PowerGlove", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
             return;
@@ -1104,18 +1104,22 @@ public class GameTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add("gino");
 
-        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, 0, 0, "gino");
+        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, 0, 1, "andreaalf");
 
         Assert.assertTrue(result);
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add("andreaalf");
-        testArray.add("andreaalf");
-        testArray.add("andreaalf");
-
 
         //Testing if I added the correct damages to gino
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        ArrayList<String> testArray1 = new ArrayList<>();
+        testArray1.add("andreaalf");
+        testArray1.add("andreaalf");
+
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray1, gameTest.getPlayerByNickname("gino").getMarks());
     }
 
     @Test
