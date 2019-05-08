@@ -308,4 +308,26 @@ public class GameMapTest {
 
         Assert.assertEquals(null, gameMapTestFire.getPlayerRoom("ingg"));
     }
+
+    @Test
+    public void distance(){
+        Assert.assertEquals(2, gameMapTestFire.distance(0, 0, 1, 1));
+        Assert.assertEquals(2, gameMapTestFire.distance(1, 1, 0, 0));
+
+        Assert.assertEquals(3, gameMapTestFire.distance(0, 0, 1, 2));
+        Assert.assertEquals(3, gameMapTestFire.distance(1, 2, 0, 0));
+
+        Assert.assertEquals(3, gameMapTestFire.distance(0, 0, 2, 1));
+        Assert.assertEquals(3, gameMapTestFire.distance(2, 1, 0, 0));
+
+        Assert.assertEquals(2, gameMapTestFire.distance(0, 1, 1, 2));
+        Assert.assertEquals(2, gameMapTestFire.distance(1, 2, 0, 1));
+
+        Assert.assertEquals(5, gameMapTestFire.distance(0, 0, 2, 3));
+        Assert.assertEquals(5, gameMapTestFire.distance(2, 3, 0, 0));
+
+        Assert.assertEquals(4, gameMapTestFire.distance(2, 1, 0, 1));
+        Assert.assertEquals(4, gameMapTestFire.distance(0, 1, 2, 1));
+
+    }
 }

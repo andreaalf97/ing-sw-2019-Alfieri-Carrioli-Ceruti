@@ -322,7 +322,7 @@ public class GameMap {
      * @return true if spot is valid and exists
      */
     public boolean validSpot(int x, int y) {
-        if (x < 0 || x > 2 || y < 0 || y > 3 || getSpotByIndex(x, y) == null)
+        if (x < 0 || x > 2 || y < 0 || y > 3 || map[x][y] == null)
             return false;
         return true;
     }
@@ -492,4 +492,81 @@ public class GameMap {
 
         return null;
     }
+
+    /**
+     * Returns the distance between two spots
+     * @return the distance
+     */
+    public int distance(int x1, int y1, int x2, int y2){
+
+        ArrayList<int[]> queue = new ArrayList<>();
+
+        int[] temp = {x1, y1};
+        queue.add(temp);
+
+        boolean[][] visited = new boolean[3][4];
+        for(int i = 0; i < visited.length; i++)
+            for(int j = 0; j < visited[i].length; j++)
+                visited[i][j] = false;
+
+        int[][] distance = new int[3][4];
+        for(int i = 0; i < distance.length; i++)
+            for(int j = 0; j < distance[i].length; j++)
+                distance[i][j] = 500;
+
+        distance[x1][y1] = 0;
+
+        while(!queue.isEmpty()){
+            temp = queue.remove(0);
+
+            int tempX = temp[0];
+            int tempY = temp[1];
+
+            visited[tempX][tempY] = true;
+
+            if(distance[tempX][tempY] > distance[x2][y2])
+                continue;
+
+            if(validSpot(tempX-1, tempY) && canMoveFromTo(tempX, tempY, tempX-1, tempY, 1) && !visited[tempX - 1][tempY]){
+                if(distance[tempX][tempY] + 1 < distance[tempX - 1][tempY])
+                    distance[tempX - 1][tempY] = distance[tempX][tempY] + 1;
+                int[] newTemp = new int[2];
+                newTemp[0] = tempX - 1;
+                newTemp[1] = tempY;
+                queue.add(newTemp);
+            }
+
+            if(validSpot(tempX, tempY+1) && canMoveFromTo(tempX, tempY, tempX, tempY + 1, 1) && !visited[tempX][tempY + 1]){
+                if(distance[tempX][tempY] + 1 < distance[tempX][tempY + 1])
+                    distance[tempX][tempY + 1] = distance[tempX][tempY] + 1;
+                int[] newTemp = new int[2];
+                newTemp[0] = tempX;
+                newTemp[1] = tempY + 1;
+                queue.add(newTemp);
+            }
+
+            if(validSpot(tempX+1, tempY) && canMoveFromTo(tempX, tempY, tempX+1, tempY, 1) && !visited[tempX + 1][tempY]){
+                if(distance[tempX][tempY] + 1 < distance[tempX + 1][tempY])
+                    distance[tempX + 1][tempY] = distance[tempX][tempY] + 1;
+                int[] newTemp = new int[2];
+                newTemp[0] = tempX + 1;
+                newTemp[1] = tempY;
+                queue.add(newTemp);
+            }
+
+            if(validSpot(tempX, tempY-1) && canMoveFromTo(tempX, tempY, tempX, tempY-1, 1) && !visited[tempX][tempY - 1]){
+                if(distance[tempX][tempY] + 1 < distance[tempX][tempY - 1])
+                    distance[tempX][tempY - 1] = distance[tempX][tempY] + 1;
+                int[] newTemp = new int[2];
+                newTemp[0] = tempX;
+                newTemp[1] = tempY - 1;
+                queue.add(newTemp);
+            }
+
+        }
+
+        return distance[x2][y2];
+
+    }
+
 }
