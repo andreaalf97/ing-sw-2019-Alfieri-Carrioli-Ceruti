@@ -433,6 +433,7 @@ public class Game extends Observable {
             }
         }
 
+        //TODO cambiare il modo per calcolare la distanza tra due spots
         for (int i = 0; i < defenders.size() && (i < effect.getnPlayerAttackable() || i < effect.getnPlayerMarkable()); i++) {      //if a defender is not minDistance < |defender.position - offender.position| < MaxDistance remove him.
 
             int spots_on_x, spots_on_y;
@@ -724,6 +725,9 @@ public class Game extends Observable {
                     makeDamageEffect(offenderName, defenders_temp, effetto);
                 }
             }
+            if (defenders.size()!= 0){
+                throw new InvalidChoiceException("Too many players for this weapon");
+            }
             weapon.setLoaded(false);
             return true;
         } catch (InvalidChoiceException e) {
@@ -800,6 +804,9 @@ public class Game extends Observable {
                     }
                     makeDamageEffect(offenderName, defenders_temp, effetto);
                 }
+            }
+            if (defenders.size()!= 0) {
+                throw new InvalidChoiceException("Too many players for this weapon");
             }
             weapon.setLoaded(false);
             return true;
