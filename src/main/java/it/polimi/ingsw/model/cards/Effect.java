@@ -77,6 +77,11 @@ public class Effect {
     public final boolean mustBeDifferentSpots;
 
     /**
+     * True if nPlayerAttackable > 1 && all the defenders must be in same spots
+     */
+    public final boolean mustBeSameSpots;
+
+    /**
      * True if the effect is only applicable in one direction
      */
     public final boolean isLinear;
@@ -169,6 +174,7 @@ public class Effect {
         this.maxDistance = jsonEffect.get("maxDistance").getAsInt();
         this.nMovesOtherPlayer = jsonEffect.get("nMovesOtherPlayer").getAsInt();
         this.mustBeOtherRoom = jsonEffect.get("mustBeOtherRoom").getAsBoolean();
+        this.mustBeSameSpots = jsonEffect.get("mustBeSameSpots").getAsBoolean();
         this.mustBeDifferentSpots= jsonEffect.get("mustBeDifferentSpots").getAsBoolean();
         this.isLinear = jsonEffect.get("isLinear").getAsBoolean();
         this.visibleByWho = Visibility.values()[jsonEffect.get("visibleByWho").getAsInt()];
@@ -198,6 +204,7 @@ public class Effect {
         this.nMovesOtherPlayer = effectToCopy.nMovesOtherPlayer;
         this.mustBeOtherRoom = effectToCopy.mustBeOtherRoom;
         this.mustBeDifferentSpots = effectToCopy.mustBeDifferentSpots;
+        this.mustBeSameSpots = effectToCopy.mustBeSameSpots;
         this.isLinear = effectToCopy.isLinear;
         this.visibleByWho = effectToCopy.visibleByWho;
         this.cost = effectToCopy.cost;
