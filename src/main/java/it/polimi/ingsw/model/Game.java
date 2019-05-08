@@ -672,7 +672,7 @@ public class Game extends Observable {
 
         GameMap backUpMap = new GameMap(this.gameMap);
 
-        ArrayList<Player> backUpPlayers = new ArrayList<>(this.players);
+        ArrayList<Player> backUpPlayers = new ArrayList<>();
 
         for(Player p : this.players) {
             backUpPlayers.add(new Player(p));
