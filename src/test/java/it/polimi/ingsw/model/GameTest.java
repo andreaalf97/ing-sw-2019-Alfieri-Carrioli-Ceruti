@@ -381,26 +381,21 @@ public class GameTest {
         gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
 
 
-        //TODO | now, if the player shoots wrong we still remove ammos from him
         //in this case, we make andreaalf pay 1 RED even if the attack was wrong
         //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
-        testArray.add("andreaalf");
-        testArray.add("andreaalf");
 
         //Testing if I added the correct damages to gino
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
 
         ArrayList<String> testMarks = new ArrayList<>();
-        testMarks.add("andreaalf");
 
         //Testing if I added the correct marks to gino
         Assert.assertEquals(testMarks, gameTest.getPlayerByNickname("gino").getMarks());
 
         ArrayList<String> testMarks1 = new ArrayList<>();
-        testMarks1.add("andreaalf");
 
         //Testing if I added the correct marks to meme
         Assert.assertEquals(testMarks1, gameTest.getPlayerByNickname("meme").getMarks());
