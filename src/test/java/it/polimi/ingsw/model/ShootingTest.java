@@ -871,7 +871,7 @@ public class ShootingTest {
     }
 
     @Test
-    public void shootPlayerFlamethrowerFirstTwoDefenders(){
+    public void shootPlayerFlamethrowerFirstEffectTwoDefenders(){
 
         //Testing if attacking with Flamethrower works as expected
 
@@ -918,7 +918,7 @@ public class ShootingTest {
         Assert.assertFalse(gameTest.getPlayerByNickname("andreaalf").getWeaponList().get(0).isLoaded());
     }
 
-    /*@Test
+    @Test
     public void shootPlayerFlamethrowerFirstEffectTwoDefendersOnlyOneValid(){
 
         //Testing if attacking with Flamethrower works as expected
@@ -956,15 +956,14 @@ public class ShootingTest {
 
         Assert.assertFalse(result);
 
-        /*ArrayList<String> testArray = new ArrayList<>();
-        testArray.add("andreaalf");
+        ArrayList<String> testArray = new ArrayList<>();
 
         //Testing if I added the correct damages to gino
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
-        Assert.assertNotEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
 
-        Assert.assertFalse(gameTest.getPlayerByNickname("andreaalf").getWeaponList().get(0).isLoaded());
-    }*/
+        Assert.assertTrue(gameTest.getPlayerByNickname("andreaalf").getWeaponList().get(0).isLoaded());
+    }
 
     @Test
     public void shootPlayerFlamethrowerFirstEffectThreeDefendersOneNotConsidered(){
@@ -1027,7 +1026,7 @@ public class ShootingTest {
         Assert.assertTrue(gameTest.getPlayerByNickname("andreaalf").getWeaponList().get(0).isLoaded());
     }
 
-    /*@Test
+    @Test
     public void shootPlayerFlamethrowerSecondEffectThreeDefenders(){
 
         ArrayList<String > players = new ArrayList<>();
@@ -1035,6 +1034,7 @@ public class ShootingTest {
         players.add("gino");
         players.add("meme");
         players.add("ingConti");
+        players.add("keny");
 
 
         gameTest = new Game(players, MapName.FIRE, 6);
@@ -1057,15 +1057,18 @@ public class ShootingTest {
         gameTest.revive("gino");
         gameTest.revive("meme");
         gameTest.revive("ingConti");
+        gameTest.revive("keny");
+
 
         //Giving the duplicate to the player
         gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
 
         //Moving these players to the testing spots
-        gameTest.movePlayer("andreaalf", 1, 1);
-        gameTest.movePlayer("gino", 1, 2);
-        gameTest.movePlayer("meme", 1, 3);
-        gameTest.movePlayer("ingConti", 1, 3);
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 0, 1);
+        gameTest.movePlayer("meme", 0, 1);
+        gameTest.movePlayer("ingConti", 0, 2);
+        gameTest.movePlayer("keny", 0, 2);
 
         ArrayList<Color> colorsAmmo = new ArrayList<>();
         colorsAmmo.add(Color.YELLOW);
@@ -1076,6 +1079,7 @@ public class ShootingTest {
         defenders.add("gino");
         defenders.add("meme");
         defenders.add("ingConti");
+        defenders.add("keny");
 
         boolean result = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
 
@@ -1083,21 +1087,34 @@ public class ShootingTest {
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add("andreaalf");
+        testArray.add("andreaalf");
 
-        //ArrayList<String> testArray2 = new ArrayList<>();
-        //testArray.add("andreaalf");
-        //testArray.add("andreaalf");
+        ArrayList<String> testArray1 = new ArrayList<>();
+        testArray1.add("andreaalf");
+        testArray1.add("andreaalf");
+
+        ArrayList<String> testArray2 = new ArrayList<>();
+        testArray2.add("andreaalf");
+
+        ArrayList<String> testArray3 = new ArrayList<>();
+        testArray3.add("andreaalf");
 
 
-        //Testing if I added the correct damages to gino and meme
-        //Assert.assertEquals(testArray2, gameTest.getPlayerByNickname("gino").getDamages());
-        //Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
-        //Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
 
-        //Assert.assertFalse(gameTest.getPlayerByNickname("andreaalf").getWeaponList().get(0).isLoaded());
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
 
-        //Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
-    }*/
+        //Testing if I added the correct damages to meme
+        Assert.assertEquals(testArray1, gameTest.getPlayerByNickname("meme").getDamages());
+
+        //Testing if I added the correct damages to meme
+        Assert.assertEquals(testArray2, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+        //Testing if I added the correct damages to meme
+        Assert.assertEquals(testArray3, gameTest.getPlayerByNickname("keny").getDamages());
+
+    }
+    
 
     @Test
     public void shootPlayerCyberblade() {
@@ -1145,7 +1162,10 @@ public class ShootingTest {
         defenders.add("gino");
         defenders.add("meme");
 
-        gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 2, xPos, yPos, "andreaalf");
+        ArrayList<String> playerWhoMove = new ArrayList<>();
+        playerWhoMove.add("andreaalf");
+
+        gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 2, xPos, yPos, playerWhoMove);
         //gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, 0, 1, "andreaalf");
 
         //Testing if I removed the right ammos
@@ -1215,7 +1235,10 @@ public class ShootingTest {
         ArrayList<Integer> yPos = new ArrayList<>();
         yPos.add(1);
 
-        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 2, xPos, yPos, "andreaalf");
+        ArrayList<String> playerWhoMove = new ArrayList<>();
+        playerWhoMove.add("andreaalf");
+
+        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 2, xPos, yPos, playerWhoMove);
 
         Assert.assertFalse(result);
 
@@ -1404,7 +1427,10 @@ public class ShootingTest {
         ArrayList<Integer> yPos = new ArrayList<>();
         yPos.add(0);
 
-        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, xPos, yPos, "gino");
+        ArrayList<String> playerWhoMove = new ArrayList<>();
+        playerWhoMove.add("gino");
+
+        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, xPos, yPos, playerWhoMove);
 
         Assert.assertTrue(result);
 
@@ -1504,7 +1530,10 @@ public class ShootingTest {
         ArrayList<Integer> yPos = new ArrayList<>();
         yPos.add(1);
 
-        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xPos, yPos, "andreaalf");
+        ArrayList<String> playerWhoMove = new ArrayList<>();
+        playerWhoMove.add("andreaalf");
+
+        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xPos, yPos, playerWhoMove);
 
         Assert.assertFalse(result);
 
@@ -1550,7 +1579,10 @@ public class ShootingTest {
         ArrayList<Integer> yPos = new ArrayList<>();
         yPos.add(1);
 
-        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xPos, yPos, "andreaalf");
+        ArrayList<String> playerWhoMove = new ArrayList<>();
+        playerWhoMove.add("andreaalf");
+
+        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xPos, yPos, playerWhoMove);
 
         Assert.assertTrue(result);
 
@@ -1614,7 +1646,10 @@ public class ShootingTest {
         yPos.add(1);
         yPos.add(2);
 
-        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, xPos, yPos, "andreaalf");
+        ArrayList<String> playerWhoMove = new ArrayList<>();
+        playerWhoMove.add("andreaalf");
+
+        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, xPos, yPos, playerWhoMove);
 
         Assert.assertFalse(result);
 
@@ -1676,7 +1711,10 @@ public class ShootingTest {
         yPos.add(1);
         yPos.add(2);
 
-        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, xPos, yPos, "andreaalf");
+        ArrayList<String> playerWhoMove = new ArrayList<>();
+        playerWhoMove.add("andreaalf");
+
+        boolean result = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, xPos, yPos, playerWhoMove);
 
         Assert.assertTrue(result);
 

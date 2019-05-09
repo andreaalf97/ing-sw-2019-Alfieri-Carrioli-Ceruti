@@ -149,6 +149,10 @@ public class Effect {
         return mustBeDifferentSpots;
     }
 
+    public boolean mustBeSameSpots() {
+        return mustBeSameSpots;
+    }
+
     public boolean isLinear() {
         return isLinear;
     }
