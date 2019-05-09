@@ -8,7 +8,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 1,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [
             "RED"
           ],
@@ -20,7 +19,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect0": {
           "nDamages": 2,
@@ -28,7 +28,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 1,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -38,7 +37,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -60,7 +60,6 @@
           "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -70,7 +69,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -78,7 +78,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Yellow"
           ],
@@ -90,7 +89,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 1,
@@ -98,7 +98,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Blue"
           ],
@@ -110,7 +109,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect3": {
           "nDamages": 1,
@@ -118,7 +118,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -128,7 +127,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect4": {
           "nDamages": 1,
@@ -136,7 +136,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [
             "Blue"
           ],
@@ -148,7 +147,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -198,7 +198,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [
             "Blue"
           ],
@@ -210,7 +209,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 3,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 2,
@@ -218,7 +218,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [
             "Blue"
           ],
@@ -230,7 +229,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 3,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect0": {
           "nDamages": 2,
@@ -238,7 +238,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -248,7 +247,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -271,7 +271,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -281,7 +280,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 0,
@@ -289,7 +289,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 2,
           "minDistance": 0,
@@ -299,7 +298,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 1,
@@ -307,7 +307,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": true,
           "cost": [
             "Blue"
           ],
@@ -319,7 +318,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": true
         }
       },
       "Orders": {
@@ -352,7 +352,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 1,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 2,
@@ -362,7 +361,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -384,7 +384,6 @@
           "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -394,7 +393,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -402,7 +402,6 @@
           "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Blue",
             "Red"
@@ -415,7 +414,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -438,7 +438,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -448,7 +447,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -456,7 +456,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -466,7 +465,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -474,7 +474,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Red",
             "Yellow"
@@ -487,7 +486,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect3": {
           "nDamages": 3,
@@ -495,7 +495,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -505,7 +504,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -530,7 +530,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -540,7 +539,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -548,7 +548,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -558,7 +557,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -566,7 +566,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [
             "Red"
           ],
@@ -578,7 +577,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect3": {
           "nDamages": 1,
@@ -586,7 +586,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -596,7 +595,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -622,7 +622,6 @@
           "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -632,7 +631,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -640,7 +640,6 @@
           "nPlayersAttackable": 4,
           "nPlayersMarkable": 4,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -650,7 +649,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -674,7 +674,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -684,7 +683,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -706,7 +706,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 4,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -716,7 +715,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -724,7 +724,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 4,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Red"
           ],
@@ -736,7 +735,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -760,7 +760,6 @@
           "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -770,7 +769,8 @@
           "mustBeDifferentSpots": true,
           "isLinear": true,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -778,7 +778,6 @@
           "nPlayersAttackable": 50,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Yellow",
             "Yellow"
@@ -791,7 +790,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": true,
           "visibleByWho": 2,
-          "mustBeSameSpots": true
+          "mustBeSameSpots": true,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 1,
@@ -799,7 +799,6 @@
           "nPlayersAttackable": 50,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 2,
@@ -809,7 +808,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": true
+          "mustBeSameSpots": true,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -833,7 +833,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -843,7 +842,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -851,7 +851,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -861,7 +860,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 1,
@@ -869,7 +869,6 @@
           "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Red"
           ],
@@ -881,7 +880,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -908,6 +908,62 @@
     "RocketLauncher": {
       "Effects": {
         "Effect0": {
+          "nDamages": 2,
+          "nMarks": 0,
+          "nPlayersAttackable": 1,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": false,
+          "cost": [],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
+        },
+        "Effect1": {
+          "nDamages": 0,
+          "nMarks": 0,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": false,
+          "cost": [],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 1,
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
+        },
+        "Effect2": {
+          "nDamages": 1,
+          "nMarks": 0,
+          "nPlayersAttackable": 4,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": true,
+          "cost": [
+            "Yellow"
+          ],
+          "nMoves": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": true,
+          "mustShootSamePlayers": true
+        },
+        "Effect3": {
           "nDamages": 0,
           "nMarks": 0,
           "nPlayersAttackable": 0,
@@ -925,25 +981,7 @@
           "visibleByWho": 1,
           "mustBeSameSpots": false
         },
-        "Effect1": {
-          "nDamages": 2,
-          "nMarks": 0,
-          "nPlayersAttackable": 1,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
-          "cost": [],
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,
-          "mustBeDifferentSpots": false,
-          "isLinear": false,
-          "visibleByWho": 2,
-          "mustBeSameSpots": false
-        },
-        "Effect2": {
+        "Effect4": {
           "nDamages": 0,
           "nMarks": 0,
           "nPlayersAttackable": 0,
@@ -960,27 +998,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 0,
-          "mustBeSameSpots": false
-        },
-        "Effect3": {
-          "nDamages": 1,
-          "nMarks": 0,
-          "nPlayersAttackable": 4,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
-          "cost": [
-            "Yellow"
-          ],
-          "nMoves": 0,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,
-          "mustBeDifferentSpots": false,
-          "isLinear": false,
-          "visibleByWho": 0,
+          "visibleByWho": 1,
           "mustBeSameSpots": false
         }
       },
@@ -991,14 +1009,15 @@
           2
         ],
         "Order1": [
-          1,
           0,
-          2
+          2,
+          3,
+          4
         ],
         "Order2": [
           0,
           2,
-          1
+          4
         ]
       },
       "Cost": [
@@ -1014,7 +1033,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1024,7 +1042,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": true,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -1032,7 +1051,6 @@
           "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1042,7 +1060,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": true,
           "visibleByWho": 1,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -1067,7 +1086,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 1,
           "minDistance": 0,
@@ -1077,7 +1095,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -1085,7 +1104,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1095,7 +1113,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 2,
@@ -1103,7 +1122,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
-          "mustShootSamePlayers": false,
           "cost": [
             "Yellow"
           ],
@@ -1115,7 +1133,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -1148,7 +1167,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 1,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1158,7 +1176,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 0,
@@ -1166,7 +1185,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 3,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1176,7 +1194,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -1200,7 +1219,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1210,7 +1228,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 0,
@@ -1218,7 +1237,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1228,7 +1246,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 2,
@@ -1236,7 +1255,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -1246,7 +1264,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -1275,7 +1294,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 1,
           "minDistance": 0,
@@ -1285,7 +1303,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -1293,7 +1312,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 1,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1303,7 +1321,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -1311,7 +1330,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Blue"
           ],
@@ -1323,7 +1341,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect3": {
           "nDamages": 2,
@@ -1331,7 +1350,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1341,7 +1359,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect4": {
           "nDamages": 0,
@@ -1349,7 +1368,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 1,
           "minDistance": 0,
@@ -1359,7 +1377,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": true,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -1392,7 +1411,6 @@
           "nPlayersAttackable": 3,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
@@ -1402,7 +1420,8 @@
           "mustBeDifferentSpots": true,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -1410,7 +1429,6 @@
           "nPlayersAttackable": 4,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Yellow"
           ],
@@ -1422,7 +1440,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -1445,7 +1464,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1455,7 +1473,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect1": {
           "nDamages": 3,
@@ -1463,7 +1482,6 @@
           "nPlayersAttackable": 1,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [
             "Red"
           ],
@@ -1475,7 +1493,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -1483,7 +1502,6 @@
           "nPlayersAttackable": 0,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
-          "mustShootSamePlayers": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
@@ -1493,7 +1511,8 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 0,
-          "mustBeSameSpots": false
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -1524,7 +1543,6 @@
         "nPlayersAttackable": 0,
         "nPlayersMarkable": 0,
         "mustShootOtherPlayers": false,
-        "mustShootSamePlayers": false,
         "cost": [],
         "nMoves": 0,
         "minDistance": 0,
@@ -1534,7 +1552,8 @@
         "mustBeDifferentSpots": false,
         "isLinear": false,
         "visibleByWho": 0,
-        "mustBeSameSpots": false
+        "mustBeSameSpots": false,
+        "mustShootSamePlayers": false
       }
     },
     "TargetingScope": {
@@ -1545,7 +1564,6 @@
         "nPlayersAttackable": 1,
         "nPlayersMarkable": 0,
         "mustShootOtherPlayers": false,
-        "mustShootSamePlayers": false,
         "cost": [
           "ANY"
         ],
@@ -1557,7 +1575,8 @@
         "mustBeDifferentSpots": false,
         "isLinear": false,
         "visibleByWho": 1,
-        "mustBeSameSpots": false
+        "mustBeSameSpots": false,
+        "mustShootSamePlayers": false
       }
     },
     "Newton": {
@@ -1568,7 +1587,6 @@
         "nPlayersAttackable": 0,
         "nPlayersMarkable": 0,
         "mustShootOtherPlayers": false,
-        "mustShootSamePlayers": false,
         "cost": [],
         "nMoves": 0,
         "minDistance": 0,
@@ -1578,7 +1596,8 @@
         "mustBeDifferentSpots": false,
         "isLinear": true,
         "visibleByWho": 0,
-        "mustBeSameSpots": false
+        "mustBeSameSpots": false,
+        "mustShootSamePlayers": false
       }
     },
     "TagbackGrenade": {
@@ -1589,7 +1608,6 @@
         "nPlayersAttackable": 0,
         "nPlayersMarkable": 1,
         "mustShootOtherPlayers": false,
-        "mustShootSamePlayers": false,
         "cost": [],
         "nMoves": 0,
         "minDistance": 0,
@@ -1599,7 +1617,8 @@
         "mustBeDifferentSpots": false,
         "isLinear": false,
         "visibleByWho": 1,
-        "mustBeSameSpots": false
+        "mustBeSameSpots": false,
+        "mustShootSamePlayers": false
       }
     }
   }
