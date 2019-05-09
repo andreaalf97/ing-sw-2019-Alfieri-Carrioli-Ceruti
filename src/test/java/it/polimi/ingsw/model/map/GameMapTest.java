@@ -311,6 +311,9 @@ public class GameMapTest {
 
     @Test
     public void distance(){
+        Assert.assertEquals(0, gameMapTestFire.distance(0, 0, 0, 0));
+        Assert.assertEquals(0, gameMapTestFire.distance(2, 1, 2, 1));
+
         Assert.assertEquals(2, gameMapTestFire.distance(0, 0, 1, 1));
         Assert.assertEquals(2, gameMapTestFire.distance(1, 1, 0, 0));
 
