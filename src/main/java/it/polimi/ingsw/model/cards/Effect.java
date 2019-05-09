@@ -37,7 +37,7 @@ public class Effect {
      * Refers to the player the offender attacked in the last effect.
      * True if the offender can attack the last defender and any other player
      */
-    public final boolean canShootAnyPlayer;
+    public final boolean mustShootSamePlayers;
 
     /**
      * The cost of this effect.
@@ -122,7 +122,7 @@ public class Effect {
     }
 
     public boolean canShootAnyPlayer() {
-        return canShootAnyPlayer;
+        return mustShootSamePlayers;
     }
 
     public ArrayList<Color> getCost() {
@@ -172,7 +172,7 @@ public class Effect {
         this.nPlayerAttackable = jsonEffect.get("nPlayersAttackable").getAsInt();
         this.nPlayerMarkable = jsonEffect.get("nPlayersMarkable").getAsInt();
         this.mustShootOtherPlayers = jsonEffect.get("mustShootOtherPlayers").getAsBoolean();
-        this.canShootAnyPlayer = jsonEffect.get("canShootAnyPlayer").getAsBoolean();
+        this.mustShootSamePlayers = jsonEffect.get("mustShootSamePlayers").getAsBoolean();
         this.nMoves = jsonEffect.get("nMoves").getAsInt();
         this.minDistance = jsonEffect.get("minDistance").getAsInt();
         this.maxDistance = jsonEffect.get("maxDistance").getAsInt();
@@ -201,7 +201,7 @@ public class Effect {
         this.nPlayerAttackable = effectToCopy.nPlayerAttackable;
         this.nPlayerMarkable = effectToCopy.nPlayerMarkable;
         this.mustShootOtherPlayers = effectToCopy.mustShootOtherPlayers;
-        this.canShootAnyPlayer = effectToCopy.canShootAnyPlayer;
+        this.mustShootSamePlayers = effectToCopy.mustShootSamePlayers;
         this.nMoves = effectToCopy.nMoves;
         this.minDistance = effectToCopy.minDistance;
         this.maxDistance = effectToCopy.maxDistance;

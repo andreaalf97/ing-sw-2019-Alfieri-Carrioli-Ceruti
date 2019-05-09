@@ -759,7 +759,10 @@ public class ShootingTest {
         ArrayList<Integer> yArray = new ArrayList<>();
         yArray.add(1);
 
-        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, "andreaalf");
+        ArrayList<String> movingPlayers = new ArrayList<>();
+        movingPlayers.add("andreaalf");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movingPlayers);
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
