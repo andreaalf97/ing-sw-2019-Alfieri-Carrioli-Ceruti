@@ -7,16 +7,34 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 
+/**
+ * This class runs on its own thread and handles receiving every message from the specific player
+ */
 public class Receiver implements Runnable {
 
+    /**
+     * The nickname of the owner of this stream
+     */
     String nickname;
 
+    /**
+     * The questioner is the class allowed to ask a question to this object
+     */
     Questioner questioner;
 
+    /**
+     * The stream coming FROM THE CLIENT
+     */
     BufferedReader in;
 
+    /**
+     * The stream going TO THE CLIENT
+     */
     PrintWriter out;
 
+    /**
+     * The constructor
+     */
     public Receiver(String nickname, Questioner questioner, BufferedReader in, PrintWriter out){
         this.nickname = nickname;
         this.questioner = questioner;
@@ -52,14 +70,19 @@ public class Receiver implements Runnable {
     }
 
     /**
-     * Sends the message through the socket
-     * @param message
+     * Sends the message through the output stream
+     * @param message the message to send to the player
      */
     public void sendMessage(String message){
         out.println(message);
         out.flush();
     }
 
+    /**
+     * Sets the nickname of the stream
+     * Used when the player has been assigned to a new game
+     * @param nickname the nickname of the player
+     */
     public void setNickname(String nickname){
         this.nickname = nickname;
     }

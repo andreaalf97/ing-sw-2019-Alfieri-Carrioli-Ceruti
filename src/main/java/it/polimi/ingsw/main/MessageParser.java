@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * This class waits for user input and sends it to the right controller
+ * It associate every nickname to a specific Receiver and Controller
+ * Every Receiver has 1 nickname
+ * Every Controller has multiple nicknames
  */
 public class MessageParser implements Questioner {
 
@@ -20,13 +23,10 @@ public class MessageParser implements Questioner {
 
     ArrayList<String> nicknames;
 
-    private int nControllers;
-
     public MessageParser(){
         this.nicknameControllers = new HashMap<>();
         this.receivers = new ArrayList<>();
         this.nicknames = new ArrayList<>();
-        this.nControllers = 0;
     }
 
 
@@ -59,7 +59,6 @@ public class MessageParser implements Questioner {
         }
 
         controller.virtualView.sendAll("GAME STARTED");
-        nControllers++;
 
     }
 

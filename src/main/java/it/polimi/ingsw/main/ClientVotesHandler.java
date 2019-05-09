@@ -1,26 +1,48 @@
 package it.polimi.ingsw.main;
 
-import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.view.client.StreamPrinter;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
+
+/*
+Per ora un nickname viene registrato quando il giocatore ha finito di votare, mentre viene aggiunto
+a una waiting room.
+Se due giocatori inseriscono lo stesso nickname contemporaneamente non ho attualmente modo
+di scegliere tra uno dei due e dire all'altro di inserire un username valido
+
+Edit: Il server fa un ulteriore controllo sincronizzato prima di aggiungere
+ */
 
 /**
  * This class handles any new connection by asking votes to the new player
  */
 public class ClientVotesHandler implements Runnable {
 
-    private Server caller;
+    /**
+     * It uses the receiver only through its IN and OUT attributes
+     * Does not run a separate thread
+     */
     private Receiver receiver;
 
-    ClientVotesHandler(Server caller, Receiver receiver){
-        this.caller = caller;
+    /**
+     * The nickname of this player
+     * This is null until we receive the first answer
+     */
+    private String nickname;
+
+    /**
+     * Constructor
+     * @param receiver the holder of the streams
+     */
+    ClientVotesHandler(Receiver receiver){
         this.receiver = receiver;
+        this.nickname = null;
     }
 
+    /**
+     * Receives the votes and closes this thread
+     */
     @Override
     public void run(){
 
@@ -33,15 +55,16 @@ public class ClientVotesHandler implements Runnable {
             //Retrieve username
             String line = receiver.in.readLine();
 
+            //Keeps asking if the nickname is wrong
             while(Server.notAValidUsername(line)){
-                receiver.out.println("Not a valid username:");
+                receiver.out.println("The given username is already logged in");
                 receiver.out.flush();
                 line = receiver.in.readLine();
             }
 
 
             //Stores the new username
-            String username = line;
+            this.nickname = line;
 
             //Asks for voted map
             receiver.out.println("Select map:");
@@ -56,7 +79,7 @@ public class ClientVotesHandler implements Runnable {
             while(nextInt < 0 || nextInt > 3){
                 receiver.out.println("Not a valid vote");
                 receiver.out.flush();
-                nextInt = nextInt = Integer.parseInt(receiver.in.readLine());
+                nextInt = Integer.parseInt(receiver.in.readLine());
             }
 
             //Stores the voted map
@@ -75,7 +98,7 @@ public class ClientVotesHandler implements Runnable {
 
             int votedSkulls = nextInt;
 
-            caller.addPlayerToWaitingRoom(receiver, username, votedMap, votedSkulls);
+            Server.addPlayerToWaitingRoom(receiver, this.nickname, votedMap, votedSkulls);
 
             receiver.out.println("You have been added to a waiting room");
             receiver.out.println("The timer is set to " + WaitingRoom.TIMERMINUTES + " minutes");
@@ -83,8 +106,8 @@ public class ClientVotesHandler implements Runnable {
 
         }
         catch (IOException | NoSuchElementException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
+            System.out.println("Disconnected while voting");
+            Server.disconnected(this.nickname);
         }
     }
 

@@ -9,6 +9,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+/**
+ * This class has a few functions:
+ *      It starts the server on the given port
+ *      It keeps accepting new connections from new clients
+ */
 public class Server {
 
     /**
@@ -17,30 +22,27 @@ public class Server {
     private final int port;
 
     /**
-     * The receiver of all connections
+     * The entry point for new messages directed to a running game
      */
-    private static MessageParser messageParser;
+    private static MessageParser messageParser = new MessageParser();
 
     /**
      * The list of active waiting rooms
      */
-    private static ArrayList<WaitingRoom> waitingRooms;
+    private static ArrayList<WaitingRoom> waitingRooms = new ArrayList<>();
 
     /**
-     * The nicknames that haven't started a game yet
+     * The nicknames of all the players currently connected
      */
-    private static ArrayList<String> tempNicknames;
+    private static ArrayList<String> allNicknames = new ArrayList<>();
 
 
 
     /**
      * Basic constructor
      */
-    public Server(int port){
+    private Server(int port){
         this.port = port;
-        this.messageParser = new MessageParser();
-        this.waitingRooms = new ArrayList<>();
-        this.tempNicknames = new ArrayList<>();
     }
 
     /**
@@ -49,9 +51,15 @@ public class Server {
      * @param mapToVote the map he voted for
      * @param nSkullsToVote the amount of skulls he voted for
      */
-    public synchronized void addPlayerToWaitingRoom(Receiver receiver, String nickname, MapName mapToVote, int nSkullsToVote){
+    /* TODO
+    Attualmente se una waiting room è piena (5 players) e non si connettono più nuovi giocatori al Server,
+    la partita non parte:
+    questo perchè il controllo viene fatto quando aggiungo un giocatore alla waiting room
+    (Se l'ultima waiting room è piena, inizio la partita e creo una nuova room per il giocatore nuovo)
+     */
+    synchronized static void addPlayerToWaitingRoom(Receiver receiver, String nickname, MapName mapToVote, int nSkullsToVote){
 
-        if(messageParser.hasNickname(nickname) || tempNicknames.contains(nickname))
+        if(messageParser.hasNickname(nickname) || allNicknames.contains(nickname))
             throw new RuntimeException("This username is not valid and this should have been checked before");
 
         //If there is no room yet or all the rooms are empty --> create a new room
@@ -70,7 +78,7 @@ public class Server {
             waitingRooms.get(waitingRooms.size() - 1).addPlayer(receiver, nickname, mapToVote, nSkullsToVote);
         }
 
-        tempNicknames.add(nickname);
+        allNicknames.add(nickname);
 
         if(waitingRooms.get(waitingRooms.size() - 1).isReady()){
             startGame(waitingRooms.get(waitingRooms.size() - 1));
@@ -82,7 +90,7 @@ public class Server {
      * Starts a new game from the given waiting room
      * @param waitingRoom a ready waiting room
      */
-    public synchronized static void startGame(WaitingRoom waitingRoom) {
+    synchronized static void startGame(WaitingRoom waitingRoom) {
         if(!waitingRoom.isReady())
             throw new RuntimeException("This room is not ready to start a game");
 
@@ -91,7 +99,7 @@ public class Server {
         //Remove all the waiting room nicknames from the temp nicknames
         //Also setting the correct game room number to all player receivers
         for(String nickname : waitingRoom.players) {
-            tempNicknames.remove(nickname);
+            allNicknames.remove(nickname);
 
             int index = waitingRoom.players.indexOf(nickname);
             waitingRoom.receivers.get(index).setNickname(nickname);
@@ -105,6 +113,9 @@ public class Server {
 
     }
 
+    /**
+     * It keeps accepting new connections forever
+     */
     private void startServer(){
 
         //The socket where the server is running
@@ -128,16 +139,16 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 Log.LOGGER.log(Level.INFO, "New connection accepted from " + socket.getRemoteSocketAddress());
 
-                //Creates a new receiver but does not run it
+                //Creates a new receiver (the handler of the streams) but does not run it
                 Receiver receiver = new Receiver(
                         "",
-                        messageParser,
-                        new BufferedReader(new InputStreamReader(socket.getInputStream())),
-                        new PrintWriter(socket.getOutputStream())
+                        messageParser, //this is the receiver of all messages once the game has started
+                        new BufferedReader(new InputStreamReader(socket.getInputStream())), //the stram from the client
+                        new PrintWriter(socket.getOutputStream()) //the stream to the client
                 );
 
                 //Creates a new handler with the new socket
-                ClientVotesHandler clientVotesHandler = new ClientVotesHandler(this, receiver);
+                ClientVotesHandler clientVotesHandler = new ClientVotesHandler(receiver);
 
                 //Runs the new Handler on a new Thread
                 Thread t = new Thread(clientVotesHandler);
@@ -169,11 +180,21 @@ public class Server {
      * @param nickname the nickname to check
      * @return true if the nickname is not already an active nickname
      */
-    public static boolean notAValidUsername(String nickname){
+    static boolean notAValidUsername(String nickname){
         return messageParser.hasNickname(nickname) ||
-                tempNicknames.contains(nickname);
+                allNicknames.contains(nickname);
     }
 
+    static void disconnected(String nickname){
+        if(nickname == null)
+            return;
+        allNicknames.remove(nickname);
+    }
+
+    /**
+     * The main funtion just chooses the port and starts a server there
+     * @param args not used
+     */
     public static void main(String[] args){
 
         Server server = new Server(2345);
