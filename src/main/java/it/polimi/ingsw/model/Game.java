@@ -723,25 +723,27 @@ public class Game extends Observable {
 
         int i = 0;
 
-        if ( effect.getnMoves() != 0){
-            if( this.gameMap.canMoveFromTo(playersWhoMove.get(i).getxPosition(), playersWhoMove.get(i).getyPosition(), xPos.get(i), yPos.get(i), effect.getnMoves()) ) {
-                movePlayer(playersWhoMove.get(i).getNickname(),xPos.get(i), yPos.get(i));
-                xPos.remove(i);
-                yPos.remove(i);
-                playersWhoMoveNames.remove(i);
-            }else
-                throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves");
-        }
+        if (!playersWhoMoveNames.isEmpty()) {
+            if (effect.getnMoves() != 0) {
+                if (this.gameMap.canMoveFromTo(playersWhoMove.get(i).getxPosition(), playersWhoMove.get(i).getyPosition(), xPos.get(i), yPos.get(i), effect.getnMoves())) {
+                    movePlayer(playersWhoMove.get(i).getNickname(), xPos.get(i), yPos.get(i));
+                    xPos.remove(i);
+                    yPos.remove(i);
+                    playersWhoMoveNames.remove(i);
+                } else
+                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves");
+            }
 
-        //TODO nMoves other player is useless
-        if ( effect.getnMovesOtherPlayer() != 0) {
-            if (this.gameMap.canMoveFromTo(playersWhoMove.get(i).getxPosition(), playersWhoMove.get(i).getyPosition(), xPos.get(i), yPos.get(i), effect.getnMovesOtherPlayer())) {
-                movePlayer(playersWhoMove.get(i).getNickname(), xPos.get(i), yPos.get(i));
-                xPos.remove(i);
-                yPos.remove(i);
-                playersWhoMoveNames.remove(i);
-            } else
-                throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
+            //TODO nMoves other player is useless
+            if (effect.getnMovesOtherPlayer() != 0) {
+                if (this.gameMap.canMoveFromTo(playersWhoMove.get(i).getxPosition(), playersWhoMove.get(i).getyPosition(), xPos.get(i), yPos.get(i), effect.getnMovesOtherPlayer())) {
+                    movePlayer(playersWhoMove.get(i).getNickname(), xPos.get(i), yPos.get(i));
+                    xPos.remove(i);
+                    yPos.remove(i);
+                    playersWhoMoveNames.remove(i);
+                } else
+                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
+            }
         }
     }
 

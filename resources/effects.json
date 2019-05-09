@@ -312,7 +312,7 @@
           ],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,

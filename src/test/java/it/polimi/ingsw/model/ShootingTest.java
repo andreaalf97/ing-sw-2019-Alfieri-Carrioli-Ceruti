@@ -738,7 +738,6 @@ public class ShootingTest {
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
         gameTest.revive("gino");
-        gameTest.revive("meme");
 
         //Giving the duplicate to the player
         gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
@@ -746,7 +745,6 @@ public class ShootingTest {
         //Moving these players to the testing spots
         gameTest.movePlayer("andreaalf", 0, 0);
         gameTest.movePlayer("gino", 0, 1);
-        gameTest.movePlayer("meme", 0, 2);
 
         //Array to pass to the shootPlayer method
         ArrayList<String> defenders = new ArrayList<>();
@@ -779,10 +777,6 @@ public class ShootingTest {
         //Testing if I added the correct damages to gino
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
 
-        testArray = new ArrayList<>();
-
-        //Testing if I added the correct damages to meme
-        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
 
     }
 
@@ -1043,9 +1037,9 @@ public class ShootingTest {
     }
 
     @Test
-    public void shootPlayerPlasmaGunZeroMoveEmptyArray() {
+    public void shootPlayerPlasmaGunTooManyPlayersException() {
 
-        //Testing if attacking with Thor works as expected
+        //Testing if attacking with PlasmaGun works as expected
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -1074,6 +1068,7 @@ public class ShootingTest {
         //Array to pass to the shootPlayer method
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add("gino");
+        defenders.add("meme");
 
         ArrayList<Integer> xArray = new ArrayList<>();
 
@@ -1082,25 +1077,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
 
         boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movingPlayers);
-        Assert.assertTrue(b);
-
-        //Testing if I removed the right ammos
-        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
-
-        ArrayList<String> testArray = new ArrayList<>();
-        testArray.add("andreaalf");
-        testArray.add("andreaalf");
-
-        //Testing if I added the correct damages to gino
-        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
-
-        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getxPosition());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getyPosition());
-
-        testArray = new ArrayList<>();
-
-        //Testing if I added the correct damages to meme
-        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertFalse(b);
 
     }
 
@@ -1425,7 +1402,7 @@ public class ShootingTest {
         Weapon weaponTest = null;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Whisper", weaponsJSON);
+            weaponTest = new Weapon("Electroscythe", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
             return;
