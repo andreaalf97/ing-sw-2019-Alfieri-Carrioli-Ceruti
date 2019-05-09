@@ -637,19 +637,6 @@ public class Game extends Observable {
                     }
                 }
             }
-            //vuol dire che devo sparare ai giocatori a cui avevo già sparato
-            /*if (effect.mustShootSamePlayers()) {       //per ogni player in defenders scorro i players in playersHit, se ne trovo due uguali lancio eccezione
-
-                if (playersHit.isEmpty()) {
-                    throw new InvalidChoiceException("playersHit is empty and mustShootOtherPlayers = 1");
-                }
-                for (int k = 0; k < playersHit.size() - 1; k++) {
-                    if (defenders.get(i) == playersHit.get(k)) {
-                        throw new InvalidChoiceException("cercando di sparare ad un giocatore già colpito, non permesso in questo attacco");
-                    }
-                }
-            }*/
-
             if( effect.mustBeOtherRoom()) {
                 if ( this.gameMap.getPlayerRoom(offendername) == this.gameMap.getPlayerRoom(defenders.get(i).getNickname())) {
                     throw new InvalidChoiceException("almeno un defender è nella stessa stranza dell'offender -MustBeOtherRoom ");
