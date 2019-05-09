@@ -121,7 +121,7 @@ public class Effect {
         return mustShootOtherPlayers;
     }
 
-    public boolean canShootAnyPlayer() {
+    public boolean mustShootSamePlayers() {
         return mustShootSamePlayers;
     }
 
