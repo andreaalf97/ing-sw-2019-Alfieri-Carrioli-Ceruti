@@ -13,7 +13,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class ShootingTest {
-    Game gameTest;
+    private Game gameTest;
 
     @Before
     public void setup() {
@@ -32,7 +32,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
@@ -94,7 +94,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
@@ -156,7 +156,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
@@ -211,7 +211,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
@@ -278,7 +278,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("MachineGun", weaponsJSON);
@@ -352,7 +352,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("MachineGun", weaponsJSON);
@@ -439,7 +439,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("MachineGun", weaponsJSON);
@@ -515,7 +515,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Thor", weaponsJSON);
@@ -577,7 +577,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Thor", weaponsJSON);
@@ -658,7 +658,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Thor", weaponsJSON);
@@ -726,7 +726,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
@@ -787,7 +787,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
@@ -852,7 +852,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
@@ -913,7 +913,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
@@ -978,7 +978,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
@@ -1044,7 +1044,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
@@ -1110,7 +1110,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
@@ -1175,7 +1175,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
@@ -1234,7 +1234,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
@@ -1299,7 +1299,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
@@ -1364,7 +1364,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
@@ -1421,7 +1421,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
@@ -1479,7 +1479,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
@@ -1534,7 +1534,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
@@ -1593,7 +1593,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
@@ -1649,7 +1649,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
@@ -1709,7 +1709,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
@@ -1774,7 +1774,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
@@ -1839,7 +1839,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
@@ -1906,7 +1906,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
@@ -1972,11 +1972,9 @@ public class ShootingTest {
 
         gameTest = new Game(players, MapName.FIRE, 6);
 
-        //Testing if attacking with Thor works as expected
-
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("VortexCannon", weaponsJSON);
@@ -2057,6 +2055,415 @@ public class ShootingTest {
 
     }
 
+    //TODO Removing red ammo even if it shouldn't
+    @Test
+    public void shootPlayerVortexCannonMainEffectOnly() {
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("VortexCannon", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 1, 0);
+        gameTest.movePlayer("gino", 1, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(1);
+        yArray.add(2);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertTrue(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getyPosition());
+
+    }
+
+    @Test
+    public void shootPlayerVortexCannonTwoPlayers() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("VortexCannon", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 0);
+        gameTest.movePlayer("meme", 1, 1);
+        gameTest.movePlayer("ingConti", 2, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(1);
+        yArray.add(1);
+
+        xArray.add(1);
+        yArray.add(1);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+        movers.add("meme");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertTrue(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getyPosition());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("meme").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("meme").getyPosition());
+
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("ingConti").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("ingConti").getyPosition());
+
+        testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct marks to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+
+        testArray = new ArrayList<>();
+
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+    }
+
+    @Test
+    public void shootPlayerFurnaceDifferentRoom() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Furnace", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 0);
+        gameTest.movePlayer("meme", 1, 1);
+        gameTest.movePlayer("ingConti", 1, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+        Assert.assertTrue(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+    }
+
+    @Test
+    public void shootPlayerFurnaceSameRoomAsOffender() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Furnace", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 0, 0);
+        gameTest.movePlayer("meme", 0, 1);
+        gameTest.movePlayer("ingConti", 0, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+    }
+
+    @Test
+    public void shootPlayerFurnaceSecondEffect() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Furnace", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 0);
+        gameTest.movePlayer("meme", 1, 0);
+        gameTest.movePlayer("ingConti", 1, 0);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
+        Assert.assertTrue(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+        //Testing if I'm assigning the correct amount of marks to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getMarks());
+
+    }
+
+    @Test
+    public void shootPlayerFurnaceSecondEffectInvalidChoice() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Furnace", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 0);
+        gameTest.movePlayer("meme", 1, 0);
+        gameTest.movePlayer("ingConti", 1, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+        //Testing if I'm assigning the correct amount of marks to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getMarks());
+
+    }
+
     @Test
     public void shootPlayerHeatseeker() {
 
@@ -2064,7 +2471,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Heatseeker", weaponsJSON);
@@ -2119,7 +2526,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Heatseeker", weaponsJSON);
@@ -2169,7 +2576,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Hellion", weaponsJSON);
@@ -2235,7 +2642,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Hellion", weaponsJSON);
@@ -2300,7 +2707,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Hellion", weaponsJSON);
@@ -2356,7 +2763,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
@@ -2404,7 +2811,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
@@ -2460,7 +2867,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
@@ -2522,7 +2929,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
@@ -2601,7 +3008,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
@@ -2656,7 +3063,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
@@ -2740,7 +3147,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
@@ -2808,7 +3215,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
@@ -2898,7 +3305,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Cyberblade", weaponsJSON);
@@ -2972,7 +3379,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Cyberblade", weaponsJSON);
@@ -3042,7 +3449,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("ZX-2", weaponsJSON);
@@ -3104,7 +3511,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("ZX-2", weaponsJSON);
@@ -3169,7 +3576,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shotgun", weaponsJSON);
@@ -3226,7 +3633,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shotgun", weaponsJSON);
@@ -3272,7 +3679,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
@@ -3321,7 +3728,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
@@ -3382,7 +3789,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
@@ -3448,7 +3855,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
@@ -3529,7 +3936,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
@@ -3608,7 +4015,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
@@ -3675,7 +4082,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
@@ -3751,7 +4158,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
@@ -3796,7 +4203,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
@@ -3839,7 +4246,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
@@ -3886,7 +4293,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
@@ -3952,7 +4359,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
@@ -4014,7 +4421,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = null;
+        Weapon weaponTest;
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
