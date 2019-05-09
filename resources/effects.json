@@ -880,7 +880,7 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 1,
-          "mustBeSameSpots": false,
+          "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         }
       },
