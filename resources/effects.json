@@ -17,10 +17,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect0": {
           "nDamages": 2,
@@ -35,10 +35,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -67,10 +67,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -87,10 +87,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 1,
@@ -107,10 +107,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect3": {
           "nDamages": 1,
@@ -125,10 +125,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect4": {
           "nDamages": 1,
@@ -145,10 +145,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -207,10 +207,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 3
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 3,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 2,
@@ -227,10 +227,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 3
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 3,
+          "mustBeSameSpots": false
         },
         "Effect0": {
           "nDamages": 2,
@@ -245,10 +245,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -278,10 +278,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 0,
@@ -296,10 +296,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 1,
@@ -316,10 +316,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -359,10 +359,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -391,10 +391,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -412,10 +412,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -445,10 +445,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 1
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -463,10 +463,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -484,10 +484,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 1
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect3": {
           "nDamages": 3,
@@ -502,10 +502,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -537,10 +537,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 1
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -555,10 +555,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -575,10 +575,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 1
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect3": {
           "nDamages": 1,
@@ -593,10 +593,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -629,10 +629,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": true,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -647,10 +647,10 @@
           "maxDistance": 1,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -681,10 +681,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -713,10 +713,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -733,10 +733,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -764,18 +764,18 @@
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
-          "maxDistance": 100,
+          "maxDistance": 2,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
           "mustBeDifferentSpots": true,
-          "isLinear": 1,
-          "visibleByWho": 1
+          "isLinear": true,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 4,
+          "nPlayersAttackable": 50,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
           "canShootAnyPlayer": false,
@@ -785,31 +785,31 @@
           ],
           "nMoves": 0,
           "minDistance": 1,
-          "maxDistance": 100,
+          "maxDistance": 1,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": true,
+          "visibleByWho": 2,
+          "mustBeSameSpots": true
         },
         "Effect2": {
           "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 4,
+          "nPlayersAttackable": 50,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": true,
           "canShootAnyPlayer": false,
           "cost": [],
           "nMoves": 0,
           "minDistance": 2,
-          "maxDistance": 100,
+          "maxDistance": 2,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 1,
-          "visibleByWho": 1
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": true
         }
       },
       "Orders": {
@@ -840,10 +840,10 @@
           "maxDistance": 0,
           "nMovesOtherPlayer": 1,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -858,10 +858,10 @@
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 1
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 1,
@@ -877,11 +877,11 @@
           "minDistance": 0,
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,        
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 1
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -919,11 +919,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 1,
-          "mustBeOtherRoom": false,        
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 1
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -937,11 +937,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -957,11 +957,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,        
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         },
         "Effect3": {
           "nDamages": 1,
@@ -977,11 +977,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,     
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1020,10 +1020,11 @@
           "minDistance": 0,
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,         "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 1,
-          "visibleByWho": 1
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": true,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -1037,11 +1038,11 @@
           "minDistance": 0,
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,     
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 1,
-          "visibleByWho": 1
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": true,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1072,11 +1073,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 2,
@@ -1090,11 +1091,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,     
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 2,
@@ -1110,11 +1111,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1153,11 +1154,11 @@
           "minDistance": 0,
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 0,
@@ -1171,11 +1172,11 @@
           "minDistance": 0,
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1205,11 +1206,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,    
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 0,
@@ -1223,11 +1224,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 1,
-          "mustBeOtherRoom": false,    
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 2,
@@ -1241,11 +1242,11 @@
           "minDistance": 1,
           "maxDistance": 1,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,  
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1280,11 +1281,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,     
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -1298,11 +1299,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,     
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -1318,11 +1319,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         },
         "Effect3": {
           "nDamages": 2,
@@ -1336,11 +1337,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,        
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect4": {
           "nDamages": 0,
@@ -1354,11 +1355,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,    
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 1,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": true,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1397,11 +1398,11 @@
           "minDistance": 1,
           "maxDistance": 1,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
+          "mustBeOtherRoom": false,
           "mustBeDifferentSpots": true,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 1,
@@ -1417,11 +1418,11 @@
           "minDistance": 1,
           "maxDistance": 1,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,       
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1450,11 +1451,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,      
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect1": {
           "nDamages": 3,
@@ -1470,11 +1471,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,     
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 2
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false
         },
         "Effect2": {
           "nDamages": 0,
@@ -1488,11 +1489,11 @@
           "minDistance": 0,
           "maxDistance": 0,
           "nMovesOtherPlayer": 2,
-          "mustBeOtherRoom": false,     
-          "mustBeSameSpots" : false,
-        "mustBeDifferentSpots": false,
-          "isLinear": 0,
-          "visibleByWho": 0
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
+          "mustBeSameSpots": false
         }
       },
       "Orders": {
@@ -1529,11 +1530,11 @@
         "minDistance": 0,
         "maxDistance": 0,
         "nMovesOtherPlayer": 100,
-        "mustBeOtherRoom": false,     
-        "mustBeSameSpots" : false,
+        "mustBeOtherRoom": false,
         "mustBeDifferentSpots": false,
-        "isLinear": 0,
-        "visibleByWho": 0
+        "isLinear": false,
+        "visibleByWho": 0,
+        "mustBeSameSpots": false
       }
     },
     "TargetingScope": {
@@ -1552,11 +1553,11 @@
         "minDistance": 0,
         "maxDistance": 100,
         "nMovesOtherPlayer": 0,
-        "mustBeOtherRoom": false,        
-        "mustBeSameSpots" : false,
-      "mustBeDifferentSpots": false,
-        "isLinear": 0,
-        "visibleByWho": 1
+        "mustBeOtherRoom": false,
+        "mustBeDifferentSpots": false,
+        "isLinear": false,
+        "visibleByWho": 1,
+        "mustBeSameSpots": false
       }
     },
     "Newton": {
@@ -1573,11 +1574,11 @@
         "minDistance": 0,
         "maxDistance": 0,
         "nMovesOtherPlayer": 2,
-        "mustBeOtherRoom": false,      
-        "mustBeSameSpots" : false,
-      "mustBeDifferentSpots": false,
-        "isLinear": 1,
-        "visibleByWho": 0
+        "mustBeOtherRoom": false,
+        "mustBeDifferentSpots": false,
+        "isLinear": true,
+        "visibleByWho": 0,
+        "mustBeSameSpots": false
       }
     },
     "TagbackGrenade": {
@@ -1594,11 +1595,11 @@
         "minDistance": 0,
         "maxDistance": 100,
         "nMovesOtherPlayer": 0,
-        "mustBeOtherRoom": false,         
-        "mustBeSameSpots" : false,
-      "mustBeDifferentSpots": false,
-        "isLinear": 0,
-        "visibleByWho": 1
+        "mustBeOtherRoom": false,
+        "mustBeDifferentSpots": false,
+        "isLinear": false,
+        "visibleByWho": 1,
+        "mustBeSameSpots": false
       }
     }
   }
