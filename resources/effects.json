@@ -480,7 +480,7 @@
           ],
           "nMoves": 0,
           "minDistance": 0,
-          "maxDistance": 0,
+          "maxDistance": 100,
           "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
@@ -715,7 +715,7 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false,
+          "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         },
         "Effect1": {
@@ -735,7 +735,7 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
-          "mustBeSameSpots": false,
+          "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         }
       },
