@@ -2074,7 +2074,6 @@ public class ShootingTest {
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
         gameTest.revive("gino");
-        gameTest.revive("meme");
 
         //Giving the duplicate to the player
         gameTest.giveWeaponToPlayer("andreaalf", weaponTest);

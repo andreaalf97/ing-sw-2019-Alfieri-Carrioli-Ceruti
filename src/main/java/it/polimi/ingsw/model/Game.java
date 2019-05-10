@@ -818,6 +818,9 @@ public class Game extends Observable {
 
                 if (typeOfEffect(effetto) == 0) { //Movement effect
 
+                    if(playersWhoMoveNames.isEmpty())
+                        return true;
+
                     makeMovementEffect(playersWhoMoveNames, effetto, xPosition, yPosition, playersHit, offenderName);
 
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
