@@ -466,7 +466,7 @@
           "isLinear": false,
           "visibleByWho": 2,
           "mustBeSameSpots": false,
-          "mustShootSamePlayers": false
+          "mustShootSamePlayers": true
         },
         "Effect2": {
           "nDamages": 0,

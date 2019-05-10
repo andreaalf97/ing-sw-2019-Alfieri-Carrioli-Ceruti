@@ -435,16 +435,22 @@ public class Game extends Observable {
 
                             //controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for ( int j = i; j < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
-                                if (defenders.get(j).getyPosition() < offender.getyPosition()){
+                                if (defenders.get(j).getxPosition() != offender.getxPosition()){
                                     throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_2");
+                                }
+                                if (defenders.get(j).getyPosition() < offender.getyPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_3");
                                 }
                             }
                         }else
                         if (defenders.get(i).getyPosition() < offender.getyPosition()) { //il primo defender è a WEST rispetto all'offender
                             //controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for ( int j = i; j < defenders.size() &&  (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
+                                if (defenders.get(j).getxPosition() != offender.getxPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_4");
+                                }
                                 if (defenders.get(j).getyPosition() > offender.getyPosition()){
-                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_3");
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_5");
                                 }
                             }
                         }
@@ -454,16 +460,22 @@ public class Game extends Observable {
                         if (defenders.get(i).getxPosition() > offender.getxPosition()) {   //il defender è a SOUTH rispetto all'offender
                             //controllo se anche gli altri defenders sono a SOUTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for ( int j = i; j < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
+                                if (defenders.get(j).getyPosition() != offender.getyPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_6");
+                                }
                                 if (defenders.get(j).getxPosition() < offender.getxPosition()){
-                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_4");
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_7");
                                 }
                             }
                         }else
                         if (defenders.get(0).getxPosition() < offender.getxPosition()) {   //il defender è a NORTH rispetto all'offender
                             //controllo se anche gli altri defenders sono a NORTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for ( int j = i; j < defenders.size() && (j < effect.getnPlayerAttackable() || j < effect.getnPlayerMarkable()); j++){
+                                if (defenders.get(j).getyPosition() != offender.getyPosition()){
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_8");
+                                }
                                 if (defenders.get(j).getxPosition() > offender.getxPosition()){
-                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_5");
+                                    throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_9");
                                 }
                             }
                         }
@@ -699,14 +711,15 @@ public class Game extends Observable {
      * @param yPos is the  y position of the player after he moved
      * @throws InvalidChoiceException
      */
-    public void makeMovementEffect(ArrayList<String> playersWhoMoveNames, Effect effect, ArrayList<Integer> xPos, ArrayList<Integer> yPos) throws InvalidChoiceException{
+    public void makeMovementEffect(ArrayList<String> playersWhoMoveNames, Effect effect, ArrayList<Integer> xPos, ArrayList<Integer> yPos, ArrayList<Player> playersHit, String offenderName) throws InvalidChoiceException{
 
         ArrayList<Player> playersWhoMove = new ArrayList<>();
+
+        Player offender = getPlayerByNickname(offenderName);
 
         for ( String p : playersWhoMoveNames){
             playersWhoMove.add(getPlayerByNickname(p));
         }
-
 
         int i = 0;
 
@@ -716,6 +729,9 @@ public class Game extends Observable {
                     movePlayer(playersWhoMove.get(i).getNickname(), xPos.get(i), yPos.get(i));
                     xPos.remove(i);
                     yPos.remove(i);
+                    if (playersWhoMove.get(i) != offender){
+                        playersHit.add(playersWhoMove.get(i));
+                    }
                     playersWhoMoveNames.remove(i);
                 } else
                     throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves");
@@ -727,6 +743,9 @@ public class Game extends Observable {
                     movePlayer(playersWhoMove.get(i).getNickname(), xPos.get(i), yPos.get(i));
                     xPos.remove(i);
                     yPos.remove(i);
+                    if (playersWhoMove.get(i) != offender){
+                        playersHit.add(playersWhoMove.get(i));
+                    }
                     playersWhoMoveNames.remove(i);
                 } else
                     throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
@@ -799,7 +818,7 @@ public class Game extends Observable {
 
                 if (typeOfEffect(effetto) == 0) { //Movement effect
 
-                    makeMovementEffect(playersWhoMoveNames, effetto, xPosition, yPosition);
+                    makeMovementEffect(playersWhoMoveNames, effetto, xPosition, yPosition, playersHit, offenderName);
 
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
                         throw new InvalidChoiceException("Cannot pay");
