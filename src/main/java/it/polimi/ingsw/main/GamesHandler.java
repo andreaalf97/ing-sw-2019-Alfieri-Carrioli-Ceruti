@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,15 +16,18 @@ import java.util.Map;
  * Every Receiver has 1 nickname
  * Every Controller has multiple nicknames
  */
-public class MessageParser implements Questioner {
+public class GamesHandler implements Questioner {
 
-    Map<String, Controller> nicknameControllers;
+    /**
+     * A map that connects every nickname to its Controller
+     */
+    private Map<String, Controller> nicknameControllers;
 
-    ArrayList<Receiver> receivers;
+    private ArrayList<Receiver> receivers;
 
-    ArrayList<String> nicknames;
+    private ArrayList<String> nicknames;
 
-    public MessageParser(){
+    public GamesHandler(){
         this.nicknameControllers = new HashMap<>();
         this.receivers = new ArrayList<>();
         this.nicknames = new ArrayList<>();
@@ -69,8 +73,27 @@ public class MessageParser implements Questioner {
         controller.virtualView.notify(nickname, answer);
     }
 
+
     @Override
     public void lostConnection(String nickname) {
-        System.out.println("LOST CONNECTION");
+
+        Controller controller = nicknameControllers.get(nickname);
+        controller.virtualView.sendAll(nickname + " DISCONNECTED");
+
+        System.out.println("LOST CONNECTION with " + nickname);
+    }
+
+    /**
+     * Reinserts the player to the correct game
+     * @param nickname
+     */
+    public void reinsert(Receiver receiver, String nickname) {
+
+        int index = nickname.indexOf(nickname);
+
+        receivers.set(index, receiver);
+
+        nicknameControllers.get(nickname).reinsert(nickname, receiver);
+
     }
 }

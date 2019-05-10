@@ -24,7 +24,7 @@ public class Server {
     /**
      * The entry point for new messages directed to a running game
      */
-    private static MessageParser messageParser = new MessageParser();
+    private static GamesHandler gamesHandler = new GamesHandler();
 
     /**
      * The list of active waiting rooms
@@ -59,7 +59,7 @@ public class Server {
      */
     synchronized static void addPlayerToWaitingRoom(Receiver receiver, String nickname, MapName mapToVote, int nSkullsToVote){
 
-        if(messageParser.hasNickname(nickname) || allNicknames.contains(nickname))
+        if(gamesHandler.hasNickname(nickname) || allNicknames.contains(nickname))
             throw new RuntimeException("This username is not valid and this should have been checked before");
 
         //If there is no room yet or all the rooms are empty --> create a new room
@@ -108,9 +108,18 @@ public class Server {
 
 
 
-        messageParser.startGame(waitingRoom);
+        gamesHandler.startGame(waitingRoom);
 
 
+    }
+
+    /**
+     * Inserts a player back to its original game
+     * @param nickname
+     */
+    public static void reinsert(Receiver receiver, String nickname) {
+
+        gamesHandler.reinsert(receiver, nickname);
     }
 
     /**
@@ -142,7 +151,7 @@ public class Server {
                 //Creates a new receiver (the handler of the streams) but does not run it
                 Receiver receiver = new Receiver(
                         "",
-                        messageParser, //this is the receiver of all messages once the game has started
+                        gamesHandler, //this is the receiver of all messages once the game has started
                         new BufferedReader(new InputStreamReader(socket.getInputStream())), //the stram from the client
                         new PrintWriter(socket.getOutputStream()) //the stream to the client
                 );
@@ -180,16 +189,22 @@ public class Server {
      * @param nickname the nickname to check
      * @return true if the nickname is not already an active nickname
      */
-    static boolean notAValidUsername(String nickname){
-        return messageParser.hasNickname(nickname) ||
+    static boolean activeUsername(String nickname){
+        return gamesHandler.hasNickname(nickname) ||
                 allNicknames.contains(nickname);
     }
 
+    /**
+     * Deletes the nickname from the list of active nicknames
+     * @param nickname
+     */
     static void disconnected(String nickname){
         if(nickname == null)
             return;
         allNicknames.remove(nickname);
     }
+
+
 
     /**
      * The main funtion just chooses the port and starts a server there

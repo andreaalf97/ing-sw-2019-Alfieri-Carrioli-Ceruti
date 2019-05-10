@@ -5,15 +5,6 @@ import it.polimi.ingsw.model.map.MapName;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-/*
-Per ora un nickname viene registrato quando il giocatore ha finito di votare, mentre viene aggiunto
-a una waiting room.
-Se due giocatori inseriscono lo stesso nickname contemporaneamente non ho attualmente modo
-di scegliere tra uno dei due e dire all'altro di inserire un username valido
-
-Edit: Il server fa un ulteriore controllo sincronizzato prima di aggiungere
- */
-
 /**
  * This class handles any new connection by asking votes to the new player
  */
@@ -56,10 +47,11 @@ public class ClientVotesHandler implements Runnable {
             String line = receiver.in.readLine();
 
             //Keeps asking if the nickname is wrong
-            while(Server.notAValidUsername(line)){
+            if(Server.activeUsername(line)){
                 receiver.out.println("The given username is already logged in");
                 receiver.out.flush();
-                line = receiver.in.readLine();
+
+                Server.reinsert(receiver, line);
             }
 
 
@@ -77,7 +69,7 @@ public class ClientVotesHandler implements Runnable {
             int nextInt = Integer.parseInt(receiver.in.readLine());
 
             while(nextInt < 0 || nextInt > 3){
-                receiver.out.println("Not a valid vote");
+                receiver.out.println("Not a valid vote. Try again:");
                 receiver.out.flush();
                 nextInt = Integer.parseInt(receiver.in.readLine());
             }
@@ -91,15 +83,22 @@ public class ClientVotesHandler implements Runnable {
 
 
             while(nextInt < 5 || nextInt > 8){
-                receiver.out.println("Not a valid vote");
+                receiver.out.println("Not a valid vote. Try again:");
                 receiver.out.flush();
                 nextInt = Integer.parseInt(receiver.in.readLine());
             }
 
             int votedSkulls = nextInt;
 
-            Server.addPlayerToWaitingRoom(receiver, this.nickname, votedMap, votedSkulls);
-
+            try {
+                Server.addPlayerToWaitingRoom(receiver, this.nickname, votedMap, votedSkulls);
+            }
+            catch (RuntimeException e){
+                receiver.out.println("Invalid username");
+                receiver.out.flush();
+                run();
+                return;
+            }
             receiver.out.println("You have been added to a waiting room");
             receiver.out.println("The timer is set to " + WaitingRoom.TIMERMINUTES + " minutes");
             receiver.out.flush();

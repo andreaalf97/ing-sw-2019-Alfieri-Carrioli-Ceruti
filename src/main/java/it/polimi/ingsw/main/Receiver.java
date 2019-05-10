@@ -15,12 +15,12 @@ public class Receiver implements Runnable {
     /**
      * The nickname of the owner of this stream
      */
-    String nickname;
+    private String nickname;
 
     /**
      * The questioner is the class allowed to ask a question to this object
      */
-    Questioner questioner;
+    private Questioner questioner;
 
     /**
      * The stream coming FROM THE CLIENT
@@ -35,7 +35,7 @@ public class Receiver implements Runnable {
     /**
      * The constructor
      */
-    public Receiver(String nickname, Questioner questioner, BufferedReader in, PrintWriter out){
+    Receiver(String nickname, Questioner questioner, BufferedReader in, PrintWriter out){
         this.nickname = nickname;
         this.questioner = questioner;
         this.in = in;
@@ -63,8 +63,6 @@ public class Receiver implements Runnable {
 
         }
         catch (IOException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
             questioner.lostConnection(nickname);
         }
     }

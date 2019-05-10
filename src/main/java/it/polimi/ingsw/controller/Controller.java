@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.main.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
@@ -306,4 +307,14 @@ public class Controller implements Observer {
         virtualView.sendMessage(nickname, "MESSAGE RECEIVED BY CONTROLLER " + this);
     }
 
+    /**
+     * Reinserts the player in the game
+     * @param nickname
+     */
+    public void reinsert(String nickname, Receiver receiver) {
+
+        virtualView.updateReceiver(nickname, receiver);
+        virtualView.sendAll(nickname + " reconnected");
+
+    }
 }

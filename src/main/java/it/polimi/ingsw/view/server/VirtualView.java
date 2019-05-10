@@ -140,5 +140,13 @@ public class VirtualView extends Observable implements Observer {
         r.sendMessage(message);
     }
 
-
+    /**
+     * Updates the receiver of the given nickname
+     * @param nickname
+     * @param receiver
+     */
+    public void updateReceiver(String nickname, Receiver receiver) {
+        int index = players.indexOf(nickname);
+        receivers.set(index, receiver);
+    }
 }
