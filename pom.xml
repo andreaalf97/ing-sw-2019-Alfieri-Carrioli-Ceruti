@@ -15,8 +15,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Java version -->
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>12</maven.compiler.source>
+    <maven.compiler.target>12</maven.compiler.target>
 
     <!-- Integrating Sonar with Jacoco -->
     <sonar.projectKey>AM29</sonar.projectKey>
@@ -51,6 +51,20 @@
       <version>2.8.5</version>
       <scope>compile</scope>
     </dependency>
+
+    <!--JAVA FX-->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>11.0.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>11.0.2</version>
+    </dependency>
+    <!--end of JAVA FX-->
 
   </dependencies>
 
@@ -96,6 +110,17 @@
           <artifactId>sonar-maven-plugin</artifactId>
           <version>3.4.0.905</version>
         </plugin>
+
+        <!--JAVA FX-->
+        <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.1</version>
+          <configuration>
+            <mainClass>it.polimi.ingsw.main.Server</mainClass>
+          </configuration>
+        </plugin>
+        <!--end of JAVA FX-->
 
       </plugins>
   </build>
