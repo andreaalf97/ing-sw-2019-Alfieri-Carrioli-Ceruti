@@ -34,7 +34,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -96,7 +96,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -158,7 +158,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -213,7 +213,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -280,7 +280,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("MachineGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -354,7 +354,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("MachineGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -441,7 +441,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("MachineGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -517,7 +517,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Thor", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -579,7 +579,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Thor", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -660,7 +660,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Thor", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -728,7 +728,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -789,7 +789,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -854,7 +854,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -915,7 +915,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -980,7 +980,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1046,7 +1046,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PlasmaGun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1112,7 +1112,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1177,7 +1177,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1236,7 +1236,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1301,7 +1301,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1366,7 +1366,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Whisper", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1423,7 +1423,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1481,7 +1481,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1536,7 +1536,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1595,7 +1595,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1651,7 +1651,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Electroscythe", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1712,7 +1712,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1777,7 +1777,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1842,7 +1842,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1909,7 +1909,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("TractorBeam", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -1977,7 +1977,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("VortexCannon", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2064,7 +2064,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("VortexCannon", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2131,7 +2131,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("VortexCannon", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2223,7 +2223,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Furnace", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2285,7 +2285,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Furnace", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2346,7 +2346,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Furnace", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2413,7 +2413,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Furnace", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2473,7 +2473,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Heatseeker", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2528,7 +2528,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Heatseeker", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2578,7 +2578,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Hellion", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2644,7 +2644,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Hellion", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2709,7 +2709,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Hellion", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2765,7 +2765,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2813,7 +2813,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2869,7 +2869,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -2931,7 +2931,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3020,7 +3020,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3105,7 +3105,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Flamethrower", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3180,7 +3180,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3245,7 +3245,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3310,7 +3310,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3383,7 +3383,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3455,7 +3455,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3510,7 +3510,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3594,7 +3594,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3662,7 +3662,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("RocketLauncher", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3754,7 +3754,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Railgun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3810,7 +3810,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Railgun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3866,7 +3866,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Railgun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3919,7 +3919,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Railgun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -3976,7 +3976,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Railgun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4027,7 +4027,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Cyberblade", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4101,7 +4101,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Cyberblade", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4171,7 +4171,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("ZX-2", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4233,7 +4233,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("ZX-2", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4298,7 +4298,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shotgun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4355,7 +4355,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shotgun", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4401,7 +4401,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4450,7 +4450,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4511,7 +4511,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4577,7 +4577,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("PowerGlove", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4658,7 +4658,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4737,7 +4737,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4804,7 +4804,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4880,7 +4880,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4925,7 +4925,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -4968,7 +4968,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -5015,7 +5015,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -5081,7 +5081,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();
@@ -5143,7 +5143,7 @@ public class ShootingTest {
         //The weapon I'm giving to the player is a duplicate!
         Weapon weaponTest;
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Sledgehammer", weaponsJSON);
         } catch (FileNotFoundException e) {
             Assert.fail();

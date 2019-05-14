@@ -32,7 +32,7 @@ public class PowerUpDeck {
         this.powerUpList = new ArrayList<>();
 
         try{
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject();
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
             JsonObject jsonPowerupsDeck = jsonDecks.get("Powerups").getAsJsonObject();
             Set<String> keys = jsonPowerupsDeck.keySet();
 

@@ -476,7 +476,7 @@ public class PlayerTest {
 
         //copy from gameTest.Java see there for explanations
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("LockRifle", weaponsJSON);
         }
         catch (FileNotFoundException e){

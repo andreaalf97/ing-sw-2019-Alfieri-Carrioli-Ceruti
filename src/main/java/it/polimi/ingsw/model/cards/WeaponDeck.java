@@ -23,7 +23,7 @@ public class WeaponDeck{
         this.weaponList = new ArrayList<>();
 
         try {
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader("resources/effects.json")).getAsJsonObject();
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
             JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
             Set<String> keys = jsonWeaponsDeck.keySet();
 

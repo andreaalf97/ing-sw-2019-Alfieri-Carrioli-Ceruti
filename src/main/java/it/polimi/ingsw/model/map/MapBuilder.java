@@ -28,7 +28,7 @@ public class MapBuilder {
 
 
         try {
-            JsonElement jsonElement = new JsonParser().parse(new FileReader("resources/maps.json"));
+            JsonElement jsonElement = new JsonParser().parse(new FileReader("src/main/resources/maps.json"));
 
             JsonObject jsonObjectMyMap = jsonElement.getAsJsonObject().get(mapName.toString()).getAsJsonObject(); //the map selected is saved in jsonObjectMymap
 
