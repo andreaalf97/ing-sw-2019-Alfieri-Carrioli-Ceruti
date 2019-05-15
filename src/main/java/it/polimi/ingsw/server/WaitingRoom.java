@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.util.*;
@@ -173,6 +173,6 @@ public class WaitingRoom {
     }
 
     private void startGame(){
-        Server.startGame(this);
+        Main.startGame(this);
     }
 }

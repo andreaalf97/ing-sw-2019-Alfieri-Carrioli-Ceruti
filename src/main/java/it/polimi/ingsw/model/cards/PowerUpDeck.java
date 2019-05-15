@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.Log;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

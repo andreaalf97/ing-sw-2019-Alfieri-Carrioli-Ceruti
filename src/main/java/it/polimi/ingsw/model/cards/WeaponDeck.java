@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import com.google.gson.*;
-import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.Log;
 
 public class WeaponDeck{
 

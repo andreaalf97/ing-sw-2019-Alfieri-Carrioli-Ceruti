@@ -47,11 +47,11 @@ public class ClientVotesHandler implements Runnable {
             String line = receiver.in.readLine();
 
             //Keeps asking if the nickname is wrong
-            if(Server.activeUsername(line)){
+            if(Main.activeUsername(line)){
                 receiver.out.println("The given username is already logged in");
                 receiver.out.flush();
 
-                Server.reinsert(receiver, line);
+                Main.reinsert(receiver, line);
             }
 
 
@@ -91,7 +91,7 @@ public class ClientVotesHandler implements Runnable {
             int votedSkulls = nextInt;
 
             try {
-                Server.addPlayerToWaitingRoom(receiver, this.nickname, votedMap, votedSkulls);
+                Main.addPlayerToWaitingRoom(receiver, this.nickname, votedMap, votedSkulls);
             }
             catch (RuntimeException e){
                 receiver.out.println("Invalid username");
@@ -106,7 +106,7 @@ public class ClientVotesHandler implements Runnable {
         }
         catch (IOException | NoSuchElementException e){
             System.out.println("Disconnected while voting");
-            Server.disconnected(this.nickname);
+            Main.disconnected(this.nickname);
         }
     }
 

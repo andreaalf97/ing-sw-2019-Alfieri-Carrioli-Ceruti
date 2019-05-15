@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.io.*;
@@ -14,7 +14,7 @@ import java.util.logging.Level;
  *      It starts the server on the given port
  *      It keeps accepting new connections from new clients
  */
-public class Server {
+public class Main {
 
     /**
      * The port where the server is running
@@ -41,7 +41,7 @@ public class Server {
     /**
      * Basic constructor
      */
-    private Server(int port){
+    private Main(int port){
         this.port = port;
     }
 
@@ -52,7 +52,7 @@ public class Server {
      * @param nSkullsToVote the amount of skulls he voted for
      */
     /* TODO
-    Attualmente se una waiting room è piena (5 players) e non si connettono più nuovi giocatori al Server,
+    Attualmente se una waiting room è piena (5 players) e non si connettono più nuovi giocatori al Main,
     la partita non parte:
     questo perchè il controllo viene fatto quando aggiungo un giocatore alla waiting room
     (Se l'ultima waiting room è piena, inizio la partita e creo una nuova room per il giocatore nuovo)
@@ -212,7 +212,7 @@ public class Server {
      */
     public static void main(String[] args){
 
-        Server server = new Server(2345);
+        Main server = new Main(2345);
         server.startServer();
 
     }

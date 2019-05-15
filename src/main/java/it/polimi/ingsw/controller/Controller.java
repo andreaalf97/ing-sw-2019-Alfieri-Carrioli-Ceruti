@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.view.ClientAnswer;
 import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.server.VirtualView;
