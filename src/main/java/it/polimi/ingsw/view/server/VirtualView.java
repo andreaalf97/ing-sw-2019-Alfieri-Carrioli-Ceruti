@@ -1,18 +1,18 @@
 package it.polimi.ingsw.view.server;
 
-import it.polimi.ingsw.main.Receiver;
-import it.polimi.ingsw.model.Game;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import it.polimi.ingsw.view.ClientAnswer;
+import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.GameView;
-import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.view.QuestionType;
 
-import java.io.*;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
 
 /*
     THE VIEW:
@@ -110,20 +110,26 @@ public class VirtualView extends Observable implements Observer {
 
     public void notify(String nickname, String stringMessage){
 
-        //TODO this is now just an echo server
+        JsonElement jsonElement = new JsonParser().parse(stringMessage);
 
-        Message message = null;
+        //Reading the question type from the json file
+        QuestionType questionType = QuestionType.valueOf(jsonElement.getAsJsonObject().get("QuestionType").getAsString());
 
-        try {
-            message = new Message(nickname, stringMessage);
-        }
-        catch (IllegalArgumentException e){
-            sendMessage(nickname, "Invalid command");
-            return;
-        }
+
+        //Reading the list of possible answers from the json file
+        JsonArray possibleAnswersJsonArray = jsonElement.getAsJsonObject().get("PossibleAnswer").getAsJsonArray();
+        ArrayList<String> possibleAnswer = new ArrayList<>();
+
+        for(int i = 0; i < possibleAnswersJsonArray.size(); i++)
+            possibleAnswer.add(possibleAnswersJsonArray.get(i).getAsString());
+
+        //Reading the chosen index from the list
+        int index = jsonElement.getAsJsonObject().get("Index").getAsInt();
+
+        ClientAnswer clientAnswer = new ClientAnswer(nickname, questionType, possibleAnswer, index);
 
         setChanged();
-        notifyObservers(message);
+        notifyObservers(clientAnswer);
     }
 
     private Receiver getReceiverByNickname(String nickname) {

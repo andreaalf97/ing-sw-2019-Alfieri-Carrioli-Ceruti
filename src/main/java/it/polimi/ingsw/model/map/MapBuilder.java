@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.map;
 import com.google.gson.*;
 import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.WeaponDeck;
-import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.Log;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

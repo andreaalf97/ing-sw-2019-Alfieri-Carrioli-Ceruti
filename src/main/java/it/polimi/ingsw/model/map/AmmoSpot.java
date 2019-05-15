@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 

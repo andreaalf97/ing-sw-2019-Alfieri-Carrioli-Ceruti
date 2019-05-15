@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.client;
 
-import it.polimi.ingsw.model.Log;
+import it.polimi.ingsw.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;

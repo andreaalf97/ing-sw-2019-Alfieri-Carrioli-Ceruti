@@ -1,11 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.main.Receiver;
+import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Log;
-import it.polimi.ingsw.view.server.Message;
+import it.polimi.ingsw.Log;
+import it.polimi.ingsw.view.ClientAnswer;
+import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
@@ -292,19 +293,20 @@ public class Controller implements Observer {
         if( !(o instanceof VirtualView) )
             throw new RuntimeException("The observable is not a virtual view");
 
-        if(arg != null && !(arg instanceof Message))
-            throw new RuntimeException("The arg should be a Message class");
+        if(arg != null && !(arg instanceof ClientAnswer))
+            throw new RuntimeException("The arg should be a ClientAnswer class");
 
-        Log.LOGGER.log(Level.INFO, "Controller class received a new message");
+        Log.LOGGER.log(Level.INFO, "Controller class received a new clientAnswer");
 
-        Message message = (Message) arg;
+        ClientAnswer clientAnswer = (ClientAnswer) arg;
 
-        String nickname = message.getSender();
-        ArrayList<String> defenders = message.getDefenders();
-        int answerIndex = message.getAnswerIndex();
+        String nickname = clientAnswer.sender;
+        QuestionType questionType = clientAnswer.questionType;
+        ArrayList<String> possibleAnswers = clientAnswer.possibleAnswers;
+        int answerIndex = clientAnswer.index;
 
-        System.out.println("Message received from " + nickname);
-        virtualView.sendMessage(nickname, "MESSAGE RECEIVED BY CONTROLLER " + this);
+        System.out.println("ClientAnswer received from " + nickname);
+        virtualView.sendMessage(nickname, "The controller received question " + questionType.toString() + "\nAnswers: " + possibleAnswers.toString() + "\nIndex: " + answerIndex);
     }
 
     /**

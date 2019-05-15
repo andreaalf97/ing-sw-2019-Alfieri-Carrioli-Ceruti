@@ -1,11 +1,10 @@
-package it.polimi.ingsw.main;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.view.server.VirtualView;
 
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

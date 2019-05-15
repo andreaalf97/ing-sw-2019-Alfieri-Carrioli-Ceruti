@@ -1,4 +1,4 @@
-package it.polimi.ingsw.main;
+package it.polimi.ingsw.server;
 
 public interface Questioner {
 
