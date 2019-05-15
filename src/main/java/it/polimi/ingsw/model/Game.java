@@ -994,7 +994,13 @@ public class Game extends Observable {
                 if( this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMoves()) ) {
                     movePlayer(playerWhoReceiveEffect.getNickname(), xPos, yPos);
                 }else
-                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves o nMovesOtherPlayer");
+                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves");
+            }
+            if ( effect.getnMovesOtherPlayer() != 0){
+                if( this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer()) ) {
+                    movePlayer(playerWhoReceiveEffect.getNickname(), xPos, yPos);
+                }else
+                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
             }
 
         }
