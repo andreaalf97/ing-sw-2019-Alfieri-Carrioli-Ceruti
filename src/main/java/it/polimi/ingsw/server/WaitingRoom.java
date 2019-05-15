@@ -1,9 +1,8 @@
-package it.polimi.ingsw.main;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
 
-import java.net.Socket;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -91,8 +90,9 @@ public class WaitingRoom {
                 else
                     Log.LOGGER.warning("Room has not been filled in time! Not doing anything tho");
             }
-        }, TIMERMINUTES * 60 * 1000);
+        }, 30 * 1000);
 
+            //TODO change timer to TIMERMINUTES * 60 * 1000
     }
 
     /**

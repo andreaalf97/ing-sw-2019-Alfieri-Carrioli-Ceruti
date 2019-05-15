@@ -1,4 +1,4 @@
-package it.polimi.ingsw.main;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.model.Log;
 import it.polimi.ingsw.model.map.MapName;
@@ -207,7 +207,7 @@ public class Server {
 
 
     /**
-     * The main funtion just chooses the port and starts a server there
+     * The server funtion just chooses the port and starts a server there
      * @param args not used
      */
     public static void main(String[] args){

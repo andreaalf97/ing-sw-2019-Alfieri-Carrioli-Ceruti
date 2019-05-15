@@ -1,4 +1,4 @@
-package it.polimi.ingsw.main;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.model.map.MapName;
 
