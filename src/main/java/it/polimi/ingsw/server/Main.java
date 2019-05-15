@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Log;
+import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.io.*;
@@ -65,16 +65,16 @@ public class Main {
         //If there is no room yet or all the rooms are empty --> create a new room
         if(waitingRooms.isEmpty() || waitingRooms.get(waitingRooms.size() - 1).nPlayers() >= WaitingRoom.MAXPLAYERS){
 
-            Log.LOGGER.log(Level.INFO, "Creating waiting room #" + waitingRooms.size());
+            MyLogger.LOGGER.log(Level.INFO, "Creating waiting room #" + waitingRooms.size());
             WaitingRoom newWaitingRoom = new WaitingRoom();
             newWaitingRoom.addPlayer(receiver, nickname, mapToVote, nSkullsToVote);
-            Log.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + waitingRooms.size());
+            MyLogger.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + waitingRooms.size());
             waitingRooms.add(newWaitingRoom);
         }
 
         //If there is a spot for a new player in the current room
         else{
-            Log.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + (waitingRooms.size() - 1));
+            MyLogger.LOGGER.log(Level.INFO, "Adding " + nickname + " to waiting Room #" + (waitingRooms.size() - 1));
             waitingRooms.get(waitingRooms.size() - 1).addPlayer(receiver, nickname, mapToVote, nSkullsToVote);
         }
 
@@ -133,10 +133,10 @@ public class Main {
         try {
             //Opens a new server on the specified port
             serverSocket = new ServerSocket(port);
-            Log.LOGGER.log(Level.INFO,"Opened new server on port 2345");
+            MyLogger.LOGGER.log(Level.INFO,"Opened new server on port 2345");
         }
         catch (IOException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
 
@@ -146,7 +146,7 @@ public class Main {
             while (true) {
                 //Accept a new connection
                 Socket socket = serverSocket.accept();
-                Log.LOGGER.log(Level.INFO, "New connection accepted from " + socket.getRemoteSocketAddress());
+                MyLogger.LOGGER.log(Level.INFO, "New connection accepted from " + socket.getRemoteSocketAddress());
 
                 //Creates a new receiver (the handler of the streams) but does not run it
                 Receiver receiver = new Receiver(
@@ -165,7 +165,7 @@ public class Main {
             }
         }
         catch (IOException | NullPointerException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
         finally {
@@ -173,7 +173,7 @@ public class Main {
                 serverSocket.close();
             }
             catch (IOException | NullPointerException h) {
-                Log.LOGGER.log(Level.SEVERE, h.getMessage());
+                MyLogger.LOGGER.log(Level.SEVERE, h.getMessage());
                 h.printStackTrace();
             }
         }

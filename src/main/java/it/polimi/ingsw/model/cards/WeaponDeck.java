@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import com.google.gson.*;
-import it.polimi.ingsw.Log;
+import it.polimi.ingsw.MyLogger;
 
 public class WeaponDeck{
 
@@ -39,7 +39,7 @@ public class WeaponDeck{
 
         }
         catch(FileNotFoundException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
 

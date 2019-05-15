@@ -8,14 +8,16 @@ public class PlayerStatus {
      * true if it's this player's first turn in the game
      */
     protected boolean isFirstTurn;
+
     /**
      * true during this player's turn
      */
     protected boolean isActive;
 
-    protected int nMovesDone;
-
-    //todo manca la frenesia?
+    /**
+     * How many actions this player has done during his turn
+     */
+    protected int nActionsDone;
 
     /**
      * The type of answer the controller is waiting for
@@ -31,13 +33,16 @@ public class PlayerStatus {
         this.isFirstTurn = playerStatus.isFirstTurn;
         this.isActive = playerStatus.isActive;
         this.waitingForAnswerToThisQuestion = playerStatus.waitingForAnswerToThisQuestion;
-        this.nMovesDone = playerStatus.nMovesDone;
+        this.nActionsDone = playerStatus.nActionsDone;
         this.waitingForShootingOrder = playerStatus.waitingForShootingOrder;
     }
 
     public PlayerStatus(){
 
         this.isFirstTurn = true;
+        this.isActive = false;
+        this.nActionsDone = 0;
+        this.waitingForAnswerToThisQuestion = null;
 
     }
 }

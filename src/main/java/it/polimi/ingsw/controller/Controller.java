@@ -1,10 +1,10 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.Log;
 import it.polimi.ingsw.view.ClientAnswer;
 import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.server.VirtualView;
@@ -45,15 +45,15 @@ public class Controller implements Observer {
      * This method implements the void run() method from Runnable and is used to process the entire Game by pausing when waiting for data from the virtualView
      */
     public void runGame(){
-        Log.LOGGER.info("Game starting");
-        Log.LOGGER.warning("The map has been chosen by polling");
-        Log.LOGGER.warning("The KST has been set up after polling");
+        MyLogger.LOGGER.info("Game starting");
+        MyLogger.LOGGER.warning("The map has been chosen by polling");
+        MyLogger.LOGGER.warning("The KST has been set up after polling");
 
         boolean endOfTurns = false;
 
         //Runs the first turn for all players
         for(String currentPlayer : gameModel.getPlayerNames()){
-            Log.LOGGER.log(Level.INFO, "IT IS {0} TURN", currentPlayer);
+            MyLogger.LOGGER.log(Level.INFO, "IT IS {0} TURN", currentPlayer);
 
             //Spawn player by choosing 2 powerups!
             //At this point the player should have nothing in his hands
@@ -67,7 +67,7 @@ public class Controller implements Observer {
             //SHOOTING
 
             //con che arma vuoi sparare?
-            Log.LOGGER.log(Level.INFO, "Which weapon you want to shoot with?", currentPlayer);
+            MyLogger.LOGGER.log(Level.INFO, "Which weapon you want to shoot with?", currentPlayer);
 
             boolean isMove = false;
             //scorro gli effetti dell'arma scelta, se c'è un effetto di movimento esco dal loop e chiamo gameModel.ShootWithMovement
@@ -97,7 +97,7 @@ public class Controller implements Observer {
         while(!endOfTurns){
 
             for(String currentPlayer : gameModel.getPlayerNames()) {
-                Log.LOGGER.log(Level.INFO, "IT IS {0} TURN", currentPlayer);
+                MyLogger.LOGGER.log(Level.INFO, "IT IS {0} TURN", currentPlayer);
 
                 runTurn(currentPlayer);
 
@@ -114,14 +114,14 @@ public class Controller implements Observer {
 
         //Set up each player for frenzy round
         for(String currentPlayer : gameModel.getPlayerNames()){
-            Log.LOGGER.log(Level.INFO, "SETTING UP {0} FOR FRENZY", currentPlayer);
+            MyLogger.LOGGER.log(Level.INFO, "SETTING UP {0} FOR FRENZY", currentPlayer);
 
             //gameModel.setupForFrenzy(currentPlayer);
         }
 
         //Run the frenzy round
         for(String currentPlayer : gameModel.getPlayerNames()){
-            Log.LOGGER.log(Level.INFO, "IT IS {0} FRENZY TURN", currentPlayer);
+            MyLogger.LOGGER.log(Level.INFO, "IT IS {0} FRENZY TURN", currentPlayer);
 
             //TODO make sure the round continues from the last player
             runTurn(currentPlayer);
@@ -296,7 +296,7 @@ public class Controller implements Observer {
         if(arg != null && !(arg instanceof ClientAnswer))
             throw new RuntimeException("The arg should be a ClientAnswer class");
 
-        Log.LOGGER.log(Level.INFO, "Controller class received a new clientAnswer");
+        MyLogger.LOGGER.log(Level.INFO, "Controller class received a new clientAnswer");
 
         ClientAnswer clientAnswer = (ClientAnswer) arg;
 

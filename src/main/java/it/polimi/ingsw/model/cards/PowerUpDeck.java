@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.Log;
+import it.polimi.ingsw.MyLogger;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -47,7 +47,7 @@ public class PowerUpDeck {
 
         }
         catch(FileNotFoundException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
     }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Log;
+import it.polimi.ingsw.MyLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class Receiver implements Runnable {
                 if(line == null)
                     throw new IOException("Received null from client --> disconnecting");
 
-                Log.LOGGER.log(Level.INFO, "Receiver class received a new line");
+                MyLogger.LOGGER.log(Level.INFO, "Receiver class received a new line");
                 questioner.answer(nickname, line);
             }
 

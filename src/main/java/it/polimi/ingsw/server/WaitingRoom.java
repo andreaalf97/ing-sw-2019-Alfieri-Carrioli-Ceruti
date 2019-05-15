@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Log;
+import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.util.*;
@@ -84,11 +84,11 @@ public class WaitingRoom {
             public void run() {
                 if(players.size() >= MINPLAYERS) {
                     isReady = true;
-                    Log.LOGGER.log(Level.INFO, "The timer is starting the game");
+                    MyLogger.LOGGER.log(Level.INFO, "The timer is starting the game");
                     startGame();
                 }
                 else
-                    Log.LOGGER.warning("Room has not been filled in time! Not doing anything tho");
+                    MyLogger.LOGGER.warning("Room has not been filled in time! Not doing anything tho");
             }
         }, 30 * 1000);
 

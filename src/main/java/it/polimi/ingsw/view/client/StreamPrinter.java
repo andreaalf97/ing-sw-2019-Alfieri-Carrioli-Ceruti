@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.client;
 
-import it.polimi.ingsw.Log;
+import it.polimi.ingsw.MyLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class StreamPrinter implements Runnable {
 
         }
         catch (IOException e){
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
             return;
         }

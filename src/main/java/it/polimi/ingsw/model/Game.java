@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.Log;
+import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.GameMap;
@@ -169,7 +169,7 @@ public class Game extends Observable {
             p.setNMovesBeforeGrabbing(2);
             p.setCanReloadBeforeShooting(true);
             p.setNMovesBeforeShooting(1);
-            p.getPlayerStatus().nMovesDone = 0;
+            p.getPlayerStatus().nActionsDone = 0;
 
         }
 
@@ -180,7 +180,7 @@ public class Game extends Observable {
             p.setNMovesBeforeGrabbing(3);
             p.setCanReloadBeforeShooting(true);
             p.setNMovesBeforeShooting(2);
-            p.getPlayerStatus().nMovesDone = 1;
+            p.getPlayerStatus().nActionsDone = 1;
         }
 
 
@@ -200,7 +200,7 @@ public class Game extends Observable {
         else {
             //if deck is empty i reload it from json instead shuffle the old one
 
-            Log.LOGGER.log(Level.INFO, "deck is empty, reloading it from json");
+            MyLogger.LOGGER.log(Level.INFO, "deck is empty, reloading it from json");
             this.powerupDeck = new PowerUpDeck();
             p.givePowerUp(this.powerupDeck.drawCard());
         }
@@ -223,7 +223,7 @@ public class Game extends Observable {
      * It is usually executed at the end of each turn
      */
     public void checkDeaths() {
-        //Log.LOGGER.info("Checking deaths...");
+        //MyLogger.LOGGER.info("Checking deaths...");
 
         for(Player i : players){
             if(i.isDead()){
@@ -864,7 +864,7 @@ public class Game extends Observable {
             this.gameMap = new GameMap(backUpMap);
             //resetto tutti i players in this game
             this.players = new ArrayList<>(backUpPlayers);
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
 
             return false;
@@ -944,7 +944,7 @@ public class Game extends Observable {
             this.gameMap = new GameMap(backUpMap);
             //resetto tutti i players in this game
             this.players = new ArrayList<>(backUpPlayers);
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
 
             return false;

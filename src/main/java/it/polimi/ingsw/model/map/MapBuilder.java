@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.map;
 
 import com.google.gson.*;
+import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.WeaponDeck;
-import it.polimi.ingsw.Log;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -88,7 +88,7 @@ public class MapBuilder {
         }
         catch (FileNotFoundException e){
             //If the file does not exist || we have problems with the file
-            Log.LOGGER.log(Level.SEVERE, e.getMessage());
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
 
