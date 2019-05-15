@@ -639,16 +639,28 @@ public class Game extends Observable {
                         throw new InvalidChoiceException("cercando di sparare ad un giocatore già colpito, non permesso in questo attacco  -MUSTSHOOTOTHERPLAYERS");
                     }
                 }
-            }else if(effect.mustShootSamePlayers()){  //caso in cui devo sparare ai polayer a cui ho già sparato
+            }else if(effect.mustShootSamePlayers()){  //caso in cui devo sparare ai players a cui ho già sparato
 
                 if (playersHit.isEmpty()) {
                     throw new InvalidChoiceException("playersHit is empty and mustShootSamePlayers = 1");
                 }
-                for (int k = 0; k < playersHit.size(); k++) {
-                    if (defenders.get(i) != playersHit.get(k)) {
-                        throw new InvalidChoiceException("cercando di sparare ad un giocatore che non ho mai colpito, non permesso in questo attacco -MUSTSHOOTSAMEPLAYER");
+                if ( effect.getnPlayerAttackable() != 0 ){
+
+                    for ( int j = 0; j < effect.getnPlayerAttackable(); j++) {
+                        if (!playersHit.contains(defenders.get(j))) {
+                            throw new InvalidChoiceException("cercando di sparare ad un giocatore che non ho mai colpito, non permesso in questo attacco -MUSTSHOOTSAMEPLAYER");
+                        }
                     }
                 }
+                if ( effect.getnPlayerMarkable() != 0 ){
+
+                    for ( int j = 0; j < effect.getnPlayerMarkable(); j++) {
+                        if (!playersHit.contains(defenders.get(j))) {
+                            throw new InvalidChoiceException("cercando di sparare ad un giocatore che non ho mai colpito, non permesso in questo attacco -MUSTSHOOTSAMEPLAYER");
+                        }
+                    }
+                }
+
             }
             if( effect.mustBeOtherRoom()) {
                 if ( this.gameMap.getPlayerRoom(offendername) == this.gameMap.getPlayerRoom(defenders.get(i).getNickname())) {
