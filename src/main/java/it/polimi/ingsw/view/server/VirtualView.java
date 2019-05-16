@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.view.QuestionType;
+import it.polimi.ingsw.view.ServerQuestion;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -100,33 +101,17 @@ public class VirtualView extends Observable implements Observer {
         return 0;
     }
 
-    public void sendAll(String message) {
+    public void sendAll(ServerQuestion serverQuestion) {
         //TODO
         for(Receiver r : receivers){
-            r.sendMessage(message);
+            r.sendMessage(serverQuestion.toJSON());
         }
 
     }
 
     public void notify(String nickname, String stringMessage){
 
-        JsonElement jsonElement = new JsonParser().parse(stringMessage);
-
-        //Reading the question type from the json file
-        QuestionType questionType = QuestionType.valueOf(jsonElement.getAsJsonObject().get("QuestionType").getAsString());
-
-
-        //Reading the list of possible answers from the json file
-        JsonArray possibleAnswersJsonArray = jsonElement.getAsJsonObject().get("PossibleAnswer").getAsJsonArray();
-        ArrayList<String> possibleAnswer = new ArrayList<>();
-
-        for(int i = 0; i < possibleAnswersJsonArray.size(); i++)
-            possibleAnswer.add(possibleAnswersJsonArray.get(i).getAsString());
-
-        //Reading the chosen index from the list
-        int index = jsonElement.getAsJsonObject().get("Index").getAsInt();
-
-        ClientAnswer clientAnswer = new ClientAnswer(nickname, questionType, possibleAnswer, index);
+        ClientAnswer clientAnswer = new ClientAnswer(nickname, stringMessage);
 
         setChanged();
         notifyObservers(clientAnswer);
@@ -141,9 +126,9 @@ public class VirtualView extends Observable implements Observer {
         return receivers.get(index);
     }
 
-    public void sendMessage(String nickname, String message){
+    public void sendQuestion(String nickname, ServerQuestion serverQuestion){
         Receiver r = getReceiverByNickname(nickname);
-        r.sendMessage(message);
+        r.sendMessage(serverQuestion.toJSON());
     }
 
     /**

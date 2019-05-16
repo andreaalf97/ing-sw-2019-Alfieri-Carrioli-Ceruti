@@ -96,7 +96,7 @@ public class Player {
     /**
      * The current state of this player
      */
-    private PlayerStatus playerStatus;
+    public PlayerStatus playerStatus;
 
 
     /**
@@ -164,7 +164,7 @@ public class Player {
     protected ArrayList<String> getMarks(){ return this.marks; }
     protected void setPoints(int points){ this.points = points; }
     protected int getPoints(){ return this.points; }
-    protected String getNickname() {
+    public String getNickname() {
         return nickname;
     }
     public int getnRedAmmo() {

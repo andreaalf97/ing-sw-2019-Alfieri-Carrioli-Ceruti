@@ -2,6 +2,8 @@ package it.polimi.ingsw.view;
 
 public enum QuestionType {
 
+    textMessage,
+
     action,
 
     whereToMove,

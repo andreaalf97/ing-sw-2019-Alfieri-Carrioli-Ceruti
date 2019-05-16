@@ -3,6 +3,8 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameView;
+import it.polimi.ingsw.view.QuestionType;
+import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class GamesHandler implements Questioner {
             t.start();
         }
 
-        controller.virtualView.sendAll("GAME STARTED");
+        controller.startGame();
 
     }
 
@@ -77,7 +79,11 @@ public class GamesHandler implements Questioner {
     public void lostConnection(String nickname) {
 
         Controller controller = nicknameControllers.get(nickname);
-        controller.virtualView.sendAll(nickname + " DISCONNECTED");
+
+        ArrayList<String> messages = new ArrayList<>();
+        messages.add(nickname + " DISCONNECTED");
+
+        controller.virtualView.sendAll(new ServerQuestion(QuestionType.textMessage, messages));
 
         System.out.println("LOST CONNECTION with " + nickname);
     }
