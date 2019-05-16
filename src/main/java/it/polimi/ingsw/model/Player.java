@@ -602,4 +602,13 @@ public class Player {
 
         return actions;
     }
+
+    /**
+     * Removes the given power up
+     * @param index
+     */
+    public void removePowerUpByIndex(int index) {
+        powerUpList.remove(index);
+        return;
+    }
 }

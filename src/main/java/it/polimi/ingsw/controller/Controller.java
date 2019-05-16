@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
@@ -343,6 +344,7 @@ public class Controller implements Observer {
                 return;
             }
 
+            //RESPAWN
             if(action == Actions.Respawn){
 
                 //Draws a weapon and gives it to the player
@@ -360,6 +362,8 @@ public class Controller implements Observer {
                     powerUpsToRespawn.add(p.toString());
 
                 virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.ChoosePowerUpToRespawn, powerUpsToRespawn));
+
+                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToRespawn;
 
                 return;
             }
@@ -380,10 +384,6 @@ public class Controller implements Observer {
                 return;
             }
 
-            if(action == Actions.Respawn){
-                return;
-            }
-
             if(action == Actions.ReloadAndEndTurn){
                 return;
             }
@@ -391,6 +391,34 @@ public class Controller implements Observer {
             if(action == Actions.EndTurn){
                 return;
             }
+        }
+
+        if(questionType == QuestionType.ChoosePowerUpToRespawn){
+
+            String powerUpName = answer.split(":")[0];
+            Color color = Color.valueOf(answer.split(":")[1].toUpperCase());
+
+            int powerUpIndex = -1;
+
+            ArrayList<PowerUp> powerUpList = player.getPowerUpList();
+            for(int i = 0; i < powerUpList.size(); i++){
+
+                PowerUp tempPowerUp = powerUpList.get(i);
+
+                if(tempPowerUp.getColor().equals(color) && tempPowerUp.getPowerUpName().equals(powerUpName)) {
+                    powerUpIndex = i;
+                    break;
+                }
+                else {
+                    if(i == powerUpList.size() - 1)
+                        throw new RuntimeException("The PowerUp was not in the powerUpList");
+                }
+            }
+
+            gameModel.respawn(player.getNickname(), powerUpIndex);
+
+
+            return;
         }
 
         ArrayList<String> message = new ArrayList<>();
