@@ -1309,9 +1309,5 @@ public class Game extends Observable {
         return gameMap.getSpotByIndex(x, y);
     }
 
-
-
-
-
 }
 

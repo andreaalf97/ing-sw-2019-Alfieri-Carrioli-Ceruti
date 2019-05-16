@@ -302,19 +302,35 @@ public class Controller implements Observer {
 
         ClientAnswer clientAnswer = (ClientAnswer) arg;
 
-        String nickname = clientAnswer.sender;
+        Player player = gameModel.getPlayerByNickname(clientAnswer.sender);
         QuestionType questionType = clientAnswer.questionType;
         ArrayList<String> possibleAnswers = clientAnswer.possibleAnswers;
         int answerIndex = clientAnswer.index;
 
-        System.out.println("ClientAnswer received from " + nickname);
+        System.out.println("ClientAnswer received from " + player.getNickname());
 
-        ArrayList<String> messages = new ArrayList<>();
+        ArrayList<String> messages;
+
+        if(questionType != player.playerStatus.waitingForAnswerToThisQuestion){
+            messages = new ArrayList<>();
+            messages.add("This is not the answer I was waiting for");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.textMessage, messages));
+            return;
+        }
+
+        if(!player.playerStatus.isActive){
+            messages = new ArrayList<>();
+            messages.add("This is not your turn");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.textMessage, messages));
+            return;
+        }
+
+        //TODO insert switch-case here
+
+        messages = new ArrayList<>();
         messages.add("The controller received your answer");
-        messages.add("Answers: " + possibleAnswers.toString());
-        messages.add("Index: " + answerIndex);
 
-        virtualView.sendQuestion(nickname,  new ServerQuestion(QuestionType.textMessage, messages));
+        virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.textMessage, messages));
     }
 
     /**
@@ -336,8 +352,13 @@ public class Controller implements Observer {
 
     public void startGame() {
 
+        ArrayList<String> message = new ArrayList<>();
+        message.add("GAME STARTED");
+        virtualView.sendAll(new ServerQuestion(QuestionType.textMessage, message));
+
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
+        /*
         for(String i : playerNames){
 
             Player tempPlayer = gameModel.getPlayerByNickname(i);
@@ -346,7 +367,10 @@ public class Controller implements Observer {
             tempPlayer.playerStatus.waitingForAnswerToThisQuestion = null;
             tempPlayer.playerStatus.isFirstTurn = true;
             tempPlayer.playerStatus.nActionsDone = 0;
+            tempPlayer.playerStatus.nActions = 2;
+            tempPlayer.playerStatus.isFrenzyTurn = false;
         }
+        */
 
         Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
@@ -358,6 +382,9 @@ public class Controller implements Observer {
 
         virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.textMessage, messages));
 
+        messages = firstPlayer.generatePossibleActions();
+        virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.action, messages));
+        firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.action;
 
     }
 }

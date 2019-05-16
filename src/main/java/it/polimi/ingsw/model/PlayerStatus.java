@@ -20,9 +20,19 @@ public class PlayerStatus {
     public int nActionsDone;
 
     /**
+     * How many actions this player is allowed to do during his turn
+     */
+    public int nActions;
+
+    /**
      * The type of answer the controller is waiting for
      */
     public QuestionType waitingForAnswerToThisQuestion;
+
+    /**
+     * If the player is in frenzy
+     */
+    public boolean isFrenzyTurn;
 
 
     public PlayerStatus(PlayerStatus playerStatus){
@@ -30,6 +40,8 @@ public class PlayerStatus {
         this.isActive = playerStatus.isActive;
         this.waitingForAnswerToThisQuestion = playerStatus.waitingForAnswerToThisQuestion;
         this.nActionsDone = playerStatus.nActionsDone;
+        this.isFrenzyTurn = playerStatus.isFrenzyTurn;
+        this.nActions = playerStatus.nActions;
     }
 
     public PlayerStatus(){
@@ -38,6 +50,8 @@ public class PlayerStatus {
         this.isActive = false;
         this.nActionsDone = 0;
         this.waitingForAnswerToThisQuestion = null;
+        this.isFrenzyTurn = false;
+        this.nActions = 2;
 
     }
 }

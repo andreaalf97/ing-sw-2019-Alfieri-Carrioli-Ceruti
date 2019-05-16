@@ -102,7 +102,6 @@ public class VirtualView extends Observable implements Observer {
     }
 
     public void sendAll(ServerQuestion serverQuestion) {
-        //TODO
         for(Receiver r : receivers){
             r.sendMessage(serverQuestion.toJSON());
         }
@@ -111,7 +110,19 @@ public class VirtualView extends Observable implements Observer {
 
     public void notify(String nickname, String stringMessage){
 
-        ClientAnswer clientAnswer = new ClientAnswer(nickname, stringMessage);
+        ClientAnswer clientAnswer = null;
+        try {
+            clientAnswer = new ClientAnswer(nickname, stringMessage);
+        }
+        catch (IllegalArgumentException e){
+
+            ArrayList<String> errorMessage = new ArrayList<>();
+            errorMessage.add("Error while parsing the json message");
+
+            ServerQuestion serverQuestion = new ServerQuestion(QuestionType.textMessage, errorMessage);
+            sendQuestion(nickname, serverQuestion);
+            return;
+        }
 
         setChanged();
         notifyObservers(clientAnswer);

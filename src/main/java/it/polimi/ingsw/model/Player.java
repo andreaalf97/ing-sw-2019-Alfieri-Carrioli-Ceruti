@@ -571,4 +571,36 @@ public class Player {
     public void setNMovesBeforeShooting(int NMovesBeforeShooting) {
         this.nMovesBeforeShooting = NMovesBeforeShooting;
     }
+
+    public ArrayList<String> generatePossibleActions() {
+
+        ArrayList<String> actions = new ArrayList<>();
+
+        if(isDead){
+            actions.add("Respawn");
+            return actions;
+        }
+
+        if(playerStatus.nActionsDone < playerStatus.nActions){
+            actions.add("Move");
+            actions.add("Move&Grab");
+            actions.add("Attack");
+        }
+
+        if(hasTurnPowerUp()){
+            actions.add("UsePowerUp");
+        }
+
+        for(Weapon w : weaponList){
+            if(!w.isLoaded()) {
+                actions.add("Reload&EndTurn");
+                break;
+            }
+
+        }
+
+        actions.add("EndTurn");
+
+        return actions;
+    }
 }

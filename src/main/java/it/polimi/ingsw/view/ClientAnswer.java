@@ -17,25 +17,31 @@ public class ClientAnswer {
     public final int index;
 
 
-    public ClientAnswer(String nickname, String json){
+    public ClientAnswer(String nickname, String json) throws IllegalArgumentException{
 
-        JsonElement jsonElement = new JsonParser().parse(json);
+        try {
+            JsonElement jsonElement = new JsonParser().parse(json);
 
-        //Reading the question type from the json file
-        this.questionType = QuestionType.valueOf(jsonElement.getAsJsonObject().get("QuestionType").getAsString());
+            //Reading the question type from the json file
+            this.questionType = QuestionType.valueOf(jsonElement.getAsJsonObject().get("QuestionType").getAsString());
 
 
-        //Reading the list of possible answers from the json file
-        JsonArray possibleAnswersJsonArray = jsonElement.getAsJsonObject().get("PossibleAnswers").getAsJsonArray();
-        this.possibleAnswers = new ArrayList<>();
+            //Reading the list of possible answers from the json file
+            JsonArray possibleAnswersJsonArray = jsonElement.getAsJsonObject().get("PossibleAnswers").getAsJsonArray();
+            this.possibleAnswers = new ArrayList<>();
 
-        for(int i = 0; i < possibleAnswersJsonArray.size(); i++)
-            this.possibleAnswers.add(possibleAnswersJsonArray.get(i).getAsString());
+            for(int i = 0; i < possibleAnswersJsonArray.size(); i++)
+                this.possibleAnswers.add(possibleAnswersJsonArray.get(i).getAsString());
 
-        //Reading the chosen index from the list
-        this.index = jsonElement.getAsJsonObject().get("Index").getAsInt();
+            //Reading the chosen index from the list
+            this.index = jsonElement.getAsJsonObject().get("Index").getAsInt();
 
-        this.sender = nickname;
+            this.sender = nickname;
+
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException("Error while parsing json message");
+        }
     }
 
 }
