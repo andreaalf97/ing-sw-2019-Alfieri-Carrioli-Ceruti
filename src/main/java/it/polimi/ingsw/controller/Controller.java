@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -289,6 +290,11 @@ public class Controller implements Observer {
         gameModel.refillAllSpawnSpots();
     }
 
+    /**
+     * Every message coming from a client arrives here
+     * @param o the VirtualView
+     * @param arg the ClientAnswer
+     */
     @Override
     public void update(Observable o, Object arg) {
 
@@ -304,33 +310,93 @@ public class Controller implements Observer {
 
         Player player = gameModel.getPlayerByNickname(clientAnswer.sender);
         QuestionType questionType = clientAnswer.questionType;
-        ArrayList<String> possibleAnswers = clientAnswer.possibleAnswers;
-        int answerIndex = clientAnswer.index;
+        String answer = clientAnswer.possibleAnswers.get(clientAnswer.index);
 
         System.out.println("ClientAnswer received from " + player.getNickname());
 
-        ArrayList<String> messages;
-
         if(questionType != player.playerStatus.waitingForAnswerToThisQuestion){
-            messages = new ArrayList<>();
-            messages.add("This is not the answer I was waiting for");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.textMessage, messages));
+            ArrayList<String> message = new ArrayList<>();
+            message.add("This is not the answer I was waiting for");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
             return;
         }
 
         if(!player.playerStatus.isActive){
-            messages = new ArrayList<>();
-            messages.add("This is not your turn");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.textMessage, messages));
+            ArrayList<String> message = new ArrayList<>();
+            message.add("This is not your turn");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
             return;
         }
 
-        //TODO insert switch-case here
+        //If the player responded with an Action to do
+        if(questionType == QuestionType.Action){
 
-        messages = new ArrayList<>();
-        messages.add("The controller received your answer");
+            //Reads what Action the player decided to do
+            Actions action = null;
+            try {
+                action = Actions.valueOf(answer);
+            }
+            catch (IllegalArgumentException e){
+                ArrayList<String> message = new ArrayList<>();
+                message.add("Invalid Action response");
+                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+                return;
+            }
 
-        virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.textMessage, messages));
+            if(action == Actions.Respawn){
+
+                //Draws a weapon and gives it to the player
+                gameModel.givePowerUp(player.getNickname());
+
+                //If it's this player's first turn, I give him another powerup
+                if(player.playerStatus.isFirstTurn){
+                    gameModel.givePowerUp(player.getNickname());
+                }
+
+                //Creates the list of powerups to discard
+                ArrayList<String> powerUpsToRespawn = new ArrayList<>();
+
+                for(PowerUp p : player.getPowerUpList())
+                    powerUpsToRespawn.add(p.toString());
+
+                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.ChoosePowerUpToRespawn, powerUpsToRespawn));
+
+                return;
+            }
+
+            if(action == Actions.Move){
+                return;
+            }
+
+            if(action == Actions.MoveAndGrab){
+                return;
+            }
+
+            if(action == Actions.Attack){
+                return;
+            }
+
+            if(action == Actions.UsePowerUp){
+                return;
+            }
+
+            if(action == Actions.Respawn){
+                return;
+            }
+
+            if(action == Actions.ReloadAndEndTurn){
+                return;
+            }
+
+            if(action == Actions.EndTurn){
+                return;
+            }
+        }
+
+        ArrayList<String> message = new ArrayList<>();
+        message.add("The controller received your answer");
+
+        virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
     }
 
     /**
@@ -344,7 +410,7 @@ public class Controller implements Observer {
         ArrayList<String> messages = new ArrayList<>();
         messages.add(nickname + " reconnected");
 
-        ServerQuestion serverQuestion = new ServerQuestion(QuestionType.textMessage, messages);
+        ServerQuestion serverQuestion = new ServerQuestion(QuestionType.TextMessage, messages);
 
         virtualView.sendAll(serverQuestion);
 
@@ -354,7 +420,7 @@ public class Controller implements Observer {
 
         ArrayList<String> message = new ArrayList<>();
         message.add("GAME STARTED");
-        virtualView.sendAll(new ServerQuestion(QuestionType.textMessage, message));
+        virtualView.sendAll(new ServerQuestion(QuestionType.TextMessage, message));
 
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
@@ -375,16 +441,16 @@ public class Controller implements Observer {
         Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
         firstPlayer.playerStatus.isActive = true;
-        firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.action;
+        firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
         ArrayList<String> messages = new ArrayList<>();
         messages.add(firstPlayer.getNickname() + ": It is your turn");
 
-        virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.textMessage, messages));
+        virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.TextMessage, messages));
 
         messages = firstPlayer.generatePossibleActions();
-        virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.action, messages));
-        firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.action;
+        virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
     }
 }

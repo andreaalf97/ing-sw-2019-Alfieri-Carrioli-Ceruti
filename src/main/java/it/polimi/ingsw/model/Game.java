@@ -350,7 +350,7 @@ public class Game extends Observable {
         int[] coord = gameMap.getPlayerSpotCoord(player);
 
         Player p = getPlayerByNickname(player);
-        //last action is modifing the player coordinates
+        //last Action is modifing the player coordinates
         p.moveTo(coord[0], coord[1]);
     }
 
@@ -704,7 +704,7 @@ public class Game extends Observable {
      */
     public boolean payCostEffect( Effect effect, String player ) {
 
-        if (effect.getCost() != null) {       //if there is a cost I pay it ( for example an optional shooting action )
+        if (effect.getCost() != null) {       //if there is a cost I pay it ( for example an optional shooting Action )
             try{
                 pay( player, effect.getCost() );
                 return true;

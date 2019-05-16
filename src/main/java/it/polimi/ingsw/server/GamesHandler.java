@@ -83,7 +83,7 @@ public class GamesHandler implements Questioner {
         ArrayList<String> messages = new ArrayList<>();
         messages.add(nickname + " DISCONNECTED");
 
-        controller.virtualView.sendAll(new ServerQuestion(QuestionType.textMessage, messages));
+        controller.virtualView.sendAll(new ServerQuestion(QuestionType.TextMessage, messages));
 
         System.out.println("LOST CONNECTION with " + nickname);
     }

@@ -2,26 +2,27 @@ package it.polimi.ingsw.view;
 
 public enum QuestionType {
 
-    textMessage,
+    TextMessage,
 
-    action,
+    Action,
 
-    whereToMove,
-    whereToMoveAndGrab,
+    WhereToMove,
+    WhereToMoveAndGrab,
 
-    choosePowerUpToDiscard,
-    choosePowerUpToAttack,
+    ChoosePowerUpToRespawn,
+    ChoosePowerUpToDiscard,
+    ChoosePowerUpToAttack,
 
-    chooseWeaponToAttack,
-    chooseWeaponToPick,
-    chooseWeaponToSwitch,
-    chooseWeaponToReload,
+    ChooseWeaponToAttack,
+    ChooseWeaponToPick,
+    ChooseWeaponToSwitch,
+    ChooseWeaponToReload,
 
-    payWith,
+    PayWith,
 
-    addDefender,
-    addCoords,
-    addMover,
-    chooseOrder;
+    AddDefender,
+    AddCoords,
+    AddMover,
+    ChooseOrder;
 
 }

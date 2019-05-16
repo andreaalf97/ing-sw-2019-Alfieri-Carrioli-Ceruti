@@ -583,7 +583,7 @@ public class Player {
 
         if(playerStatus.nActionsDone < playerStatus.nActions){
             actions.add("Move");
-            actions.add("Move&Grab");
+            actions.add("MoveAndGrab");
             actions.add("Attack");
         }
 
@@ -593,10 +593,9 @@ public class Player {
 
         for(Weapon w : weaponList){
             if(!w.isLoaded()) {
-                actions.add("Reload&EndTurn");
+                actions.add("ReloadAndEndTurn");
                 break;
             }
-
         }
 
         actions.add("EndTurn");

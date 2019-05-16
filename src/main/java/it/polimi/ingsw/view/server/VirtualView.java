@@ -1,8 +1,5 @@
 package it.polimi.ingsw.view.server;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.view.ClientAnswer;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.GameView;
@@ -119,7 +116,7 @@ public class VirtualView extends Observable implements Observer {
             ArrayList<String> errorMessage = new ArrayList<>();
             errorMessage.add("Error while parsing the json message");
 
-            ServerQuestion serverQuestion = new ServerQuestion(QuestionType.textMessage, errorMessage);
+            ServerQuestion serverQuestion = new ServerQuestion(QuestionType.TextMessage, errorMessage);
             sendQuestion(nickname, serverQuestion);
             return;
         }
