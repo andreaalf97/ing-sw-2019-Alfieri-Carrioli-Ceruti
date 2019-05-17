@@ -185,17 +185,7 @@ public class GameTest {
 
         Assert.assertTrue(temp[0][0]);
         Assert.assertTrue(temp[0][1]);
-        Assert.assertTrue(temp[1][0]);
 
-
-        gameTest.movePlayer("andreaalf", 0, 0);
-        boolean[][] temp2 = gameTest.wherePlayerCanMoveAndGrab("andreaalf", 10);
-
-
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 4; j++)
-                if (gameTest.validSpot(i, j))
-                    Assert.assertTrue(temp2[i][j]);
 
     }
 
