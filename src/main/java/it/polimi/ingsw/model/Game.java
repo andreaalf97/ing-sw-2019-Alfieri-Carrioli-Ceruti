@@ -736,18 +736,11 @@ public class Game extends Observable {
      */
     public int typeOfEffect( Effect effect ){
 
-        int type = 0;
+        if(effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0)
+            return 0;
+        else
+            return 1;
 
-        if (effect.getnMoves() != 0) {      //this.player movement
-            type = 0;
-        }
-        if (effect.getnMovesOtherPlayer() != 0) {      //other player movement
-            type = 0;
-        }
-        if (effect.getnPlayerAttackable() != 0 || effect.getnPlayerMarkable() != 0) {      //damage effect
-            type = 1;
-        }
-        return type;
     }
 
     /**
@@ -906,7 +899,55 @@ public class Game extends Observable {
                     if(playersWhoMoveNames.isEmpty())
                         return true;
 
+                    //se l'effetto è linear devo fare un controllo sulla direzione cardinale in cui voglio sparare
+                    if(effetto.isLinear){
+
+                        Direction cardinalDirection = Direction.NONE;
+
+                        //di seguito calcolo la direzione cardinale confrontando il primo player che voglio spostare in playersWhoMoveNames e dove voglio spostarlo successivamente guardando xPos e yPos
+                        if(xPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition() && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
+
+                            if (yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+                                cardinalDirection = Direction.EAST;
+                            else if(yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+                                cardinalDirection = Direction.WEST;
+
+                        }
+                        else if(xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition() && yPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
+
+                            if (xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
+                                cardinalDirection = Direction.SOUTH;
+                            else if(xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
+                                cardinalDirection = Direction.NORTH;
+
+                        }
+                        else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition() && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+                            throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------NON LINEAR");
+
+
+                        //una volta calcolata la direzione cardinale controllo che tutti i movers rispettino questa direzione
+                        for (int cont = 0; cont < playersWhoMoveNames.size(); cont++){
+                            if(cardinalDirection == Direction.NORTH){
+                                if(yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont)).getyPosition() || xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont)).getxPosition())
+                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------1");
+                            }
+                            if(cardinalDirection == Direction.SOUTH){
+                                if(yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont)).getyPosition() || xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont)).getxPosition())
+                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------2");
+                            }
+                            if(cardinalDirection == Direction.EAST){
+                                if(xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont)).getxPosition() || yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont)).getyPosition())
+                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------3");
+                            }
+                            if(cardinalDirection == Direction.WEST){
+                                if(xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont)).getxPosition() || yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont)).getyPosition())
+                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------4");
+                            }
+                        }
+                    }
+
                     makeMovementEffect(playersWhoMoveNames, effetto, xPosition, yPosition, playersHit, offenderName);
+
 
                     if (!payCostEffect(effetto, offenderName)) {   //if the effect has a cost, the player pays it
                         throw new InvalidChoiceException("Cannot pay");

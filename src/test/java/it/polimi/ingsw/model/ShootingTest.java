@@ -3504,7 +3504,6 @@ public class ShootingTest {
 
     }
 
-    //TODO NOT WORKS, GINO IS TWICE IN THE DEFENDERS LIST AND I HIT HIM TWICE
     @Test
     public void shootPlayerFurnaceSecondEffectSamePlayersInTheDefenderList() {
 
@@ -6349,25 +6348,6 @@ public class ShootingTest {
         boolean result = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
 
         Assert.assertFalse(result);
-
-        /*ArrayList<String> testArray = new ArrayList<>();
-        testArray.add("andreaalf");
-
-        //Testing if I added the correct damages to gino
-        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
-
-        ArrayList<String> testArray1 = new ArrayList<>();
-        testArray1.add("andreaalf");
-
-        //Testing if I added the correct damages to gino
-        Assert.assertEquals(testArray1, gameTest.getPlayerByNickname("meme").getMarks());
-
-        ArrayList<String> testArray2 = new ArrayList<>();
-        testArray2.add("andreaalf");
-
-        //Testing if I added the correct damages to gino
-        Assert.assertEquals(testArray2, gameTest.getPlayerByNickname("ingConti").getMarks());*/
-
     }
 
     @Test
