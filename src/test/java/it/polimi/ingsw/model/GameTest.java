@@ -42,6 +42,10 @@ public class GameTest {
         gameTest.getPlayerByNickname("gino").revive();
         gameTest.getPlayerByNickname("andreaalf").revive();
 
+        gameTest.getPlayerByNickname("meme").playerStatus.isFirstTurn = false;
+        gameTest.getPlayerByNickname("gino").playerStatus.isFirstTurn = false;
+        gameTest.getPlayerByNickname("andreaalf").playerStatus.isFirstTurn = false;
+
         gameTest.getPlayerByNickname("gino").giveDamage("andreaalf", 6);
         gameTest.getPlayerByNickname("gino").giveDamage("meme", 5);
 
@@ -105,6 +109,10 @@ public class GameTest {
         gameTest.getPlayerByNickname("gino").revive();
         gameTest.getPlayerByNickname("andreaalf").revive();
         gameTest.getPlayerByNickname("meme").revive();
+
+        gameTest.getPlayerByNickname("meme").playerStatus.isFirstTurn = false;
+        gameTest.getPlayerByNickname("gino").playerStatus.isFirstTurn = false;
+        gameTest.getPlayerByNickname("andreaalf").playerStatus.isFirstTurn = false;
 
         // 3 segnalini per meme
         gameTest.getPlayerByNickname("gino").giveDamage("meme", 12);
@@ -402,6 +410,13 @@ public class GameTest {
         gameTest.movePlayer("gino", 1 , 0);
         gameTest.pickWeapon("gino", 0);
         Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getWeaponList().size());
+    }
+
+    @Test
+    public void getNextPlayer(){
+        Assert.assertEquals("andreaalf", gameTest.getNextPlayer("gino"));
+        Assert.assertEquals("meme", gameTest.getNextPlayer("andreaalf"));
+        Assert.assertEquals("gino", gameTest.getNextPlayer("meme"));
     }
 
 }

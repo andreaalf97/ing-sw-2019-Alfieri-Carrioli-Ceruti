@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.controller.Actions;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.GameMap;
@@ -226,7 +227,7 @@ public class Game extends Observable {
         //MyLogger.LOGGER.info("Checking deaths...");
 
         for(Player i : players){
-            if(i.isDead()){
+            if(!i.playerStatus.isFirstTurn && i.isDead()){
                 giveBoardPointsAndModifyKST(i);
             }
         }
@@ -1257,7 +1258,7 @@ public class Game extends Observable {
 
     }
 
-    public void endTurnUpdateStatus() {
+    public Player endTurnUpdateStatus() {
 
         Player current = getCurrentPlayer();
 
@@ -1266,16 +1267,18 @@ public class Game extends Observable {
         current.endTurnCurrent();
 
         getPlayerByNickname(next).startTurn();
+
+        return getPlayerByNickname(next);
     }
 
-    private String getNextPlayer(String current) {
+    protected String getNextPlayer(String current) {
 
-        int currentIndex = players.indexOf(current);
+        int currentIndex = playerNames.indexOf(current);
 
         if(currentIndex == players.size() - 1)
-            return players.get(0).getNickname();
+            return playerNames.get(0);
         else
-            return players.get(currentIndex + 1).getNickname();
+            return playerNames.get(currentIndex + 1);
 
     }
 
@@ -1307,6 +1310,50 @@ public class Game extends Observable {
      */
     public Spot getSpotByIndex(int x, int y){
         return gameMap.getSpotByIndex(x, y);
+    }
+
+    public ArrayList<String> generatePossibleActions(String nickname) {
+
+        Player player = getPlayerByNickname(nickname);
+        ArrayList<String> actions = new ArrayList<>();
+
+        if(player.isDead()){
+            actions.add(Actions.Respawn.toString());
+            return actions;
+        }
+
+        if(isOnSpawnSpot(player))
+            actions.add(Actions.PickWeapon.toString());
+
+        if(player.playerStatus.nActionsDone < player.playerStatus.nActions){
+            actions.add(Actions.Move.toString());
+            actions.add(Actions.MoveAndGrab.toString());
+            actions.add(Actions.Attack.toString());
+        }
+
+        if(player.hasTurnPowerUp()){
+            actions.add(Actions.UsePowerUp.toString());
+        }
+
+        for(Weapon w : player.getWeaponList()){
+            if(!w.isLoaded()) {
+                actions.add(Actions.ReloadAndEndTurn.toString());
+                break;
+            }
+        }
+
+        actions.add(Actions.EndTurn.toString());
+
+        return actions;
+    }
+
+    private boolean isOnSpawnSpot(Player player) {
+
+        int x = player.getxPosition();
+        int y = player.getyPosition();
+
+        return gameMap.isSpawnSpot(x, y);
+
     }
 
 }

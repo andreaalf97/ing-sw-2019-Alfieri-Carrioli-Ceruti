@@ -4,6 +4,8 @@ public enum Actions {
 
     Respawn,
 
+    PickWeapon,
+
     Move,
 
     MoveAndGrab,

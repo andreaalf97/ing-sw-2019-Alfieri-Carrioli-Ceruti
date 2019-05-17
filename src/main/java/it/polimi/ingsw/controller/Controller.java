@@ -282,13 +282,18 @@ public class Controller implements Observer {
      */
     private void endTurn(){
 
-        gameModel.endTurnUpdateStatus();
+        Player nextPlayer = gameModel.endTurnUpdateStatus();
 
         gameModel.checkDeaths();
 
         gameModel.refillAllAmmoSpots();
 
         gameModel.refillAllSpawnSpots();
+
+        ArrayList<String> messages = gameModel.generatePossibleActions(nextPlayer.getNickname());
+        virtualView.sendQuestion(nextPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        nextPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
     }
 
     /**
@@ -309,13 +314,20 @@ public class Controller implements Observer {
 
         ClientAnswer clientAnswer = (ClientAnswer) arg;
 
+        if(clientAnswer.index > clientAnswer.possibleAnswers.size() - 1 || clientAnswer.index < 0){
+            ArrayList<String> message = new ArrayList<>();
+            message.add("Index out of bound");
+            virtualView.sendQuestion(clientAnswer.sender,  new ServerQuestion(QuestionType.TextMessage, message));
+            return;
+        }
+
         Player player = gameModel.getPlayerByNickname(clientAnswer.sender);
         QuestionType questionType = clientAnswer.questionType;
         String answer = clientAnswer.possibleAnswers.get(clientAnswer.index);
 
         System.out.println("ClientAnswer received from " + player.getNickname());
 
-        if(questionType != player.playerStatus.waitingForAnswerToThisQuestion){
+        if(player.playerStatus.waitingForAnswerToThisQuestion == null || questionType != player.playerStatus.waitingForAnswerToThisQuestion){
             ArrayList<String> message = new ArrayList<>();
             message.add("This is not the answer I was waiting for");
             virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
@@ -368,6 +380,10 @@ public class Controller implements Observer {
                 return;
             }
 
+            if(action == Actions.PickWeapon){
+                return;
+            }
+
             if(action == Actions.Move){
                 return;
             }
@@ -389,6 +405,18 @@ public class Controller implements Observer {
             }
 
             if(action == Actions.EndTurn){
+
+                //Ends the turn and sends a question to the next player
+                endTurn();
+
+                player.playerStatus.waitingForAnswerToThisQuestion = null;
+
+                ArrayList<String> message = new ArrayList<>();
+                message.add("Your turn is over");
+                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+
+
+
                 return;
             }
         }
@@ -417,6 +445,9 @@ public class Controller implements Observer {
 
             gameModel.respawn(player.getNickname(), powerUpIndex);
 
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
         }
@@ -476,7 +507,7 @@ public class Controller implements Observer {
 
         virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.TextMessage, messages));
 
-        messages = firstPlayer.generatePossibleActions();
+        messages = gameModel.generatePossibleActions(firstPlayer.getNickname());
         virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 

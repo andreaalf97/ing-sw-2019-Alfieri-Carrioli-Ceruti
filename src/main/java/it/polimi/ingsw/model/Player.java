@@ -572,37 +572,6 @@ public class Player {
         this.nMovesBeforeShooting = NMovesBeforeShooting;
     }
 
-    public ArrayList<String> generatePossibleActions() {
-
-        ArrayList<String> actions = new ArrayList<>();
-
-        if(isDead){
-            actions.add("Respawn");
-            return actions;
-        }
-
-        if(playerStatus.nActionsDone < playerStatus.nActions){
-            actions.add("Move");
-            actions.add("MoveAndGrab");
-            actions.add("Attack");
-        }
-
-        if(hasTurnPowerUp()){
-            actions.add("UsePowerUp");
-        }
-
-        for(Weapon w : weaponList){
-            if(!w.isLoaded()) {
-                actions.add("ReloadAndEndTurn");
-                break;
-            }
-        }
-
-        actions.add("EndTurn");
-
-        return actions;
-    }
-
     /**
      * Removes the given power up
      * @param index
