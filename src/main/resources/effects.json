@@ -1081,24 +1081,6 @@
     "Cyberblade": {
       "Effects": {
         "Effect0": {
-          "nDamages": 0,
-          "nMarks": 0,
-          "nPlayersAttackable": 0,
-          "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": false,
-          "cost": [],
-          "nMoves": 1,
-          "minDistance": 0,
-          "maxDistance": 0,
-          "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,
-          "mustBeDifferentSpots": false,
-          "isLinear": false,
-          "visibleByWho": 0,
-          "mustBeSameSpots": false,
-          "mustShootSamePlayers": false
-        },
-        "Effect1": {
           "nDamages": 2,
           "nMarks": 0,
           "nPlayersAttackable": 1,
@@ -1113,6 +1095,24 @@
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
+        },
+        "Effect1": {
+          "nDamages": 0,
+          "nMarks": 0,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": false,
+          "cost": [],
+          "nMoves": 1,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 0,
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1144,11 +1144,6 @@
           2
         ],
         "Order1": [
-          1,
-          2,
-          0
-        ],
-        "Order2": [
           1,
           0,
           2
@@ -1274,10 +1269,6 @@
           1
         ],
         "Order1": [
-          1,
-          0
-        ],
-        "Order2": [
           2
         ]
       },
@@ -1509,7 +1500,7 @@
           "nMovesOtherPlayer": 2,
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
-          "isLinear": false,
+          "isLinear": true,
           "visibleByWho": 0,
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
@@ -1522,11 +1513,6 @@
         "Order1": [
           1,
           2
-        ],
-        "Order2": [
-          0,
-          2,
-          1
         ]
       },
       "Cost": [
