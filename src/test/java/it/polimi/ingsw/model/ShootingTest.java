@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+//TODO ricordarsi che in lanciarazzi (rocketlauncher) bisogna passare solo una volta il primo defender. In fucile al plasma invece (plasmagun) bisogna passare due volte il defender!
+
 public class ShootingTest {
     private Game gameTest;
 
@@ -1295,7 +1297,6 @@ public class ShootingTest {
 
     }
 
-    //TODO i shouldn't move a defender, only attacker can move
     @Test
     public void shootPlayerPlasmaGunTryMoveOffender() {
 
@@ -1328,6 +1329,8 @@ public class ShootingTest {
         //Array to pass to the shootPlayer method
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add("gino");
+        defenders.add("gino");
+
 
         ArrayList<Integer> xArray = new ArrayList<>();
         xArray.add(1);
@@ -2154,11 +2157,10 @@ public class ShootingTest {
 
     }
 
-    //TODO I SHOULD GIVE DAMAGES TO ALL PLAYERS IN THE SPOT EVEN IF I ADD ONE PLAYER TO DEFENDERS LIST, SO IT SHOULD RETURN FALSE
     @Test
     public void shootPlayerElectroscytheSecondEffectOneDefender() {
 
-        //Testing if attacking with Thor works as expected
+        //Testing if attacking with Electroscythe works as expected
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2190,16 +2192,14 @@ public class ShootingTest {
         defenders.add("gino");
 
         boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
-        Assert.assertTrue(b);
+        Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
         Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
-        testArray.add("andreaalf");
-        testArray.add("andreaalf");
 
         //Testing if I added the correct damages to gino and meme
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
@@ -2985,7 +2985,6 @@ public class ShootingTest {
 
     }
 
-    //TODO I CAN SHOOT TWO TIMES AT THE SAME PLAYER!
     @Test
     public void shootPlayerVortexCannonSamePlayersException() {
 
@@ -3572,7 +3571,6 @@ public class ShootingTest {
 
     }
 
-    //TODO NOT WORKS, I SHOULD ATTACK ALL THE PLAYERS IN THAT SPOT, NOT ONLY THE ONES I CHOOSE
     @Test
     public void shootPlayerFurnaceSecondEffectCheckIfICanShootToAllPlayersInTheSpot() {
 
