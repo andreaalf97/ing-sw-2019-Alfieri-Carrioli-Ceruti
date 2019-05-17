@@ -24,7 +24,7 @@ public class AmmoSpot extends Spot {
     /**
      * A random seed for refilling this spot
      */
-    private Random rand = new Random();
+    private transient Random rand = new Random();
 
     /**
      * Basic constructor used when building a new map

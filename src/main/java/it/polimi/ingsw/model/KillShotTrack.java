@@ -38,11 +38,16 @@ public class KillShotTrack {
     public KillShotTrack(int nSkulls){
 
         this.skullList = new ArrayList<>();
+
         for(int i = 0; i < nSkulls; i++){
             this.skullList.add("SKULL");
         }
 
-        this.isOverkill = new ArrayList<>(nSkulls);
+        this.isOverkill = new ArrayList<>();
+
+        for(int i = 0; i < nSkulls; i++) {
+            this.isOverkill.add(false);
+        }
     }
 
     /**
@@ -72,11 +77,12 @@ public class KillShotTrack {
      * @param isOverkill True if it was an overkill
      */
     //TODO what if it's a multiple kill??
-    public void addKill(String player, boolean isOverkill){
+    public void addKill(String player, boolean isOverkill)
+    {
         for(int i = 0; i < this.skullList.size(); i++){     //TODO what are you doing here? what if it's the last skull? the frenzy turn begins!
             if( skullList.get(i).equals("SKULL") ){
                 this.skullList.set(i, player);
-                this.isOverkill.add(isOverkill);
+                this.isOverkill.set(i, isOverkill);
                 return;
             }
         }

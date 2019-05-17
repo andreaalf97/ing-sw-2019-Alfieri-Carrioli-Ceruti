@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.cards.*;
@@ -26,6 +28,11 @@ public class GameTest {
         playersNamesTest.add("meme");
 
         gameTest = new Game(playersNamesTest, MapName.FIRE, 6);
+    }
+
+    @Test
+    public void verifyJson(){
+        String modelSnapshot = gameTest.modelSnapshot();
     }
 
     @Test
