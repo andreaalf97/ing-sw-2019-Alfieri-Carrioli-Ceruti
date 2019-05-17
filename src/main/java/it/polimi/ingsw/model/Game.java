@@ -378,7 +378,7 @@ public class Game extends Observable {
      * @param x the position of the spot on the x-axis
      * @param y the position of the spot on the y-axis
      */
-    protected void movePlayer(String player, int x, int y){
+    public void movePlayer(String player, int x, int y){
 
         Player p = getPlayerByNickname(player);
 

@@ -349,7 +349,7 @@ public class GameMap {
         //Check all spots
         for(int i = 0; i < temp.length; i++)
             for(int j = 0; j < temp[i].length; j++) //for every spot
-                if (validSpot(i, j)) {
+                if (validSpot(i, j) && isAmmoSpot(i, j)) {
                     if (canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves) && !emptySpot(i, j)) //if the player can move from his spot to the <i, j> spot
                         temp[i][j] = true; //temp<i, j> is true --> the player can move there
                 }
