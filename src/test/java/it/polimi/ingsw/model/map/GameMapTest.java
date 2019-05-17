@@ -204,7 +204,6 @@ public class GameMapTest {
         //normal check
         Assert.assertTrue(tempMap[0][0]);
         Assert.assertTrue(tempMap[0][1]);
-        Assert.assertTrue(tempMap[1][0]);
         Assert.assertTrue(tempMap[1][1]);
 
         gameMapTestFire.map[2][3].addPlayer("nogi");
@@ -213,7 +212,7 @@ public class GameMapTest {
         //check all true
         for (int i = 0; i < tempMap2.length ; i++)
             for (int j = 0; j < tempMap2[i].length; j++)
-                if (gameMapTestFire.map[i][j] != null) {
+                if (gameMapTestFire.map[i][j] != null && gameMapTestFire.map[i][j].isAmmoSpot()) {
                     Assert.assertTrue(tempMap2[i][j]);
                 }
 

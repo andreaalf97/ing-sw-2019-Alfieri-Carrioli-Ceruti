@@ -569,4 +569,25 @@ public class GameMap {
 
     }
 
+    public int indexOfWeapon(int x, int y, String weaponName) {
+
+        if(!isSpawnSpot(x, y))
+            throw new RuntimeException("This is not a spawn spot");
+
+        SpawnSpot spot = (SpawnSpot)getSpotByIndex(x, y);
+
+        return spot.indexOfWeapon(weaponName);
+
+    }
+
+    public void addWeaponToSpawn(int x, int y, Weapon weapon) {
+
+        if(!isSpawnSpot(x, y))
+            throw new RuntimeException("This is not a spawn spot");
+
+        SpawnSpot spawnSpot = (SpawnSpot)getSpotByIndex(x, y);
+
+        spawnSpot.addWeapon(weapon);
+
+    }
 }

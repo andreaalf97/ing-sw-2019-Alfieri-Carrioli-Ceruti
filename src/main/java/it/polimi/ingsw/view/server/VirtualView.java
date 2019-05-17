@@ -66,38 +66,6 @@ public class VirtualView extends Observable implements Observer {
 
     }
 
-    public int askForIndexPowerupToDiscard(String currentPlayer, ArrayList<PowerUp> playerPowerUps) {
-        //TODO Ask the correct player which powerup he wants to discard and return the index
-        return 0;
-    }
-    public int askForIndexPowerupToUse(String currentPlayer, ArrayList<PowerUp> playerPowerUps){
-        //TODO ask the correct player which powerup he wants to use and return the index
-        return 0;
-    }
-
-    public int askForIndexWeaponToReload(ArrayList <Weapon> rechargeableWeapons){
-        //TODO  return -1 if i don't want to reload, otherwise i return the index of the weapon that i want to reload
-        return 0;
-    }
-
-    public String askForPlayerNameToAttackPowerup(ArrayList<String> attackablePlayers) {
-        //TODO
-        return "NONE";
-    }
-    public int askForXpos() {
-        //TODO
-        return 0;
-    }
-    public int askForYpos() {
-        //TODO
-        return 0;
-    }
-
-    public int askForIndexMoveToDo(String player){
-        //TODO ask the move to do to the player and it will be better to do a representation of the map and the players on the map
-        return 0;
-    }
-
     public void sendAll(ServerQuestion serverQuestion) {
         for(Receiver r : receivers){
             r.sendMessage(serverQuestion.toJSON());
@@ -141,8 +109,8 @@ public class VirtualView extends Observable implements Observer {
 
     /**
      * Updates the receiver of the given nickname
-     * @param nickname
-     * @param receiver
+     * @param nickname the player
+     * @param receiver the new receiver
      */
     public void updateReceiver(String nickname, Receiver receiver) {
         int index = players.indexOf(nickname);

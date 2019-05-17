@@ -1,17 +1,12 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
-import it.polimi.ingsw.model.map.AmmoSpot;
 import it.polimi.ingsw.model.map.MapName;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 public class GameTest {
@@ -185,17 +180,7 @@ public class GameTest {
 
         Assert.assertTrue(temp[0][0]);
         Assert.assertTrue(temp[0][1]);
-        Assert.assertTrue(temp[1][0]);
 
-
-        gameTest.movePlayer("andreaalf", 0, 0);
-        boolean[][] temp2 = gameTest.wherePlayerCanMoveAndGrab("andreaalf", 10);
-
-
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 4; j++)
-                if (gameTest.validSpot(i, j))
-                    Assert.assertTrue(temp2[i][j]);
 
     }
 

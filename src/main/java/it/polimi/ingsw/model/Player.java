@@ -194,10 +194,10 @@ public class Player {
     protected int getnDeaths() {
         return nDeaths;
     }
-    protected int getxPosition() {
+    public int getxPosition() {
         return xPosition;
     }
-    protected int getyPosition() {
+    public int getyPosition() {
         return yPosition;
     }
     public int getnMoves() {
@@ -582,5 +582,27 @@ public class Player {
     public void removePowerUpByIndex(int index) {
         powerUpList.remove(index);
         return;
+    }
+
+    public boolean fullWeapon() {
+        return (weaponList.size() > 2);
+    }
+
+    /**
+     * Removes the weapon and returns it
+     * @param weaponName the name of the weapon
+     * @return the weapon object
+     */
+    public Weapon removeWeaponByName(String weaponName) {
+
+        for(Weapon w : weaponList){
+            if(w.getWeaponName().equals(weaponName)){
+                weaponList.remove(w);
+                return w;
+            }
+        }
+
+        throw new RuntimeException("This weapon is not present in the weaponList");
+
     }
 }
