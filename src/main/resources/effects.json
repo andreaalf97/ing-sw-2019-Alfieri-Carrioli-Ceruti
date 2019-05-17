@@ -1330,7 +1330,7 @@
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
-          "isLinear": false,
+          "isLinear": true,
           "visibleByWho": 0,
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
