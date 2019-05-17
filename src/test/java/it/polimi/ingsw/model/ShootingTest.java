@@ -957,6 +957,158 @@ public class ShootingTest {
     }
 
     @Test
+    public void shootPlayerThorSamePlayersException() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Thor", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        ArrayList<Color> colors = new ArrayList<>();
+
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+
+        gameTest.getPlayerByNickname("andreaalf").giveAmmos(colors);
+
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 1);
+        gameTest.movePlayer("meme", 2, 1);
+        gameTest.movePlayer("ingConti", 0, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("gino");
+        defenders.add("meme");
+
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+        //Testing if I added the correct marks to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+
+    }
+
+    @Test
+    public void shootPlayerThorFirstAndThirdPlayerEquals() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Thor", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        ArrayList<Color> colors = new ArrayList<>();
+
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+
+        gameTest.getPlayerByNickname("andreaalf").giveAmmos(colors);
+
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 1);
+        gameTest.movePlayer("meme", 2, 1);
+        gameTest.movePlayer("ingConti", 0, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("gino");
+
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+        //Testing if I added the correct marks to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+
+    }
+
+    @Test
     public void shootPlayerPlasmaGunRegular() {
 
         //Testing if attacking with Thor works as expected
@@ -1143,6 +1295,72 @@ public class ShootingTest {
 
     }
 
+    //TODO i shouldn't move a defender, only attacker can move
+    @Test
+    public void shootPlayerPlasmaGunTryMoveOffender() {
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 0, 1);
+        gameTest.movePlayer("meme", 0, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        xArray.add(1);
+
+        ArrayList<Integer> yArray = new ArrayList<>();
+        yArray.add(2);
+
+        ArrayList<String> movingPlayers = new ArrayList<>();
+        movingPlayers.add("gino");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 2, xArray, yArray, movingPlayers);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getxPosition());
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("andreaalf").getyPosition());
+
+        //shouldn't move gino
+        Assert.assertEquals(0, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getyPosition());
+
+        //Testing if I added the correct damages to meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+
+    }
+
     @Test
     public void shootPlayerPlasmaGunOneMove() {
 
@@ -1273,9 +1491,8 @@ public class ShootingTest {
 
     }
 
-    //TODO view this
     @Test
-    public void shootPlayerPlasmaGunTooManyPlayersException() {
+    public void shootPlayerPlasmaGunDifferentPlayersException() {
 
         //Testing if attacking with PlasmaGun works as expected
 
@@ -1309,23 +1526,22 @@ public class ShootingTest {
         defenders.add("meme");
 
         ArrayList<Integer> xArray = new ArrayList<>();
+        xArray.add(0);
 
         ArrayList<Integer> yArray = new ArrayList<>();
+        yArray.add(2);
 
         ArrayList<String> movingPlayers = new ArrayList<>();
+        movingPlayers.add("andreaalf");
 
         boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movingPlayers);
 
-        //TODO talk about this
-
-        /*Assert.assertTrue(b);
+        Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
         Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
-        testArray.add("andreaalf");
-        testArray.add("andreaalf");
 
         //Testing if I added the correct damages to gino
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
@@ -1336,7 +1552,7 @@ public class ShootingTest {
         testArray = new ArrayList<>();
 
         //Testing if I added the correct damages to meme
-        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());*/
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
 
     }
 
@@ -1432,6 +1648,65 @@ public class ShootingTest {
 
         //Moving these players to the testing spots
         gameTest.movePlayer("andreaalf", 1, 2);
+        gameTest.movePlayer("gino", 1, 1);
+        gameTest.movePlayer("meme", 0, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 0);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to gino
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        //Testing if I added the correct marks to gino
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+
+        testArray = new ArrayList<>();
+
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+
+        //Testing if I added the correct marks to gino
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+
+    }
+
+    @Test
+    public void shootPlayerWhisperTooCloseDifferentRoom() {
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Whisper", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 2, 1);
         gameTest.movePlayer("gino", 1, 1);
         gameTest.movePlayer("meme", 0, 1);
 
@@ -1879,6 +2154,7 @@ public class ShootingTest {
 
     }
 
+    //TODO I SHOULD GIVE DAMAGES TO ALL PLAYERS IN THE SPOT EVEN IF I ADD ONE PLAYER TO DEFENDERS LIST, SO IT SHOULD RETURN FALSE
     @Test
     public void shootPlayerElectroscytheSecondEffectOneDefender() {
 
@@ -1912,7 +2188,6 @@ public class ShootingTest {
         //Array to pass to the shootPlayer method
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add("gino");
-        defenders.add("meme");
 
         boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
         Assert.assertTrue(b);
@@ -1929,7 +2204,7 @@ public class ShootingTest {
         //Testing if I added the correct damages to gino and meme
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
 
-        //Testing if meme has no damage
+        //Testing if meme has damage
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
 
         testArray = new ArrayList<>();
@@ -2071,6 +2346,70 @@ public class ShootingTest {
     }
 
     @Test
+    public void shootPlayerTractorBeamFirstEffectShootingANonVisiblePlayer() {
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("TractorBeam", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 1);
+        gameTest.movePlayer("gino", 1, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(1);
+        yArray.add(0);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getyPosition());
+
+        testArray = new ArrayList<>();
+
+        //Testing if I added the correct marks to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+
+    }
+
+    @Test
     public void shootPlayerTractorBeamSecondEffect() {
 
         //Testing if attacking with Thor works as expected
@@ -2200,6 +2539,71 @@ public class ShootingTest {
     }
 
     @Test
+    public void shootPlayerTractorBeamSecondEffectMovingDifferentThanShooting() {
+
+        //Testing if attacking with Thor works as expected
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("TractorBeam", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 1);
+        gameTest.movePlayer("gino", 1, 2);
+        gameTest.movePlayer("meme", 0, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("meme");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(0);
+        yArray.add(1);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 1, xArray, yArray, movers);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getyPosition());
+
+
+        //Testing if I added the correct marks to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+
+    }
+
+    @Test
     public void shootPlayerVortexCannon() {
 
         ArrayList<String > players = new ArrayList<>();
@@ -2293,7 +2697,6 @@ public class ShootingTest {
 
     }
 
-    //TODO Removing red ammo even if it shouldn't
     @Test
     public void shootPlayerVortexCannonMainEffectOnly() {
 
@@ -2350,6 +2753,65 @@ public class ShootingTest {
 
         Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
         Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getyPosition());
+
+    }
+
+    @Test
+    public void shootPlayerVortexCannonMainEffectOnlyDefenderNotVisible() {
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("VortexCannon", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 1, 0);
+        gameTest.movePlayer("gino", 2, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(1);
+        yArray.add(1);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertTrue(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getyPosition());
 
     }
 
@@ -2441,6 +2903,348 @@ public class ShootingTest {
 
         testArray = new ArrayList<>();
 
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+    }
+
+    @Test
+    public void shootPlayerVortexCannonPlayerInitiallyNotVisible() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("VortexCannon", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 2, 2);
+        gameTest.movePlayer("gino", 1, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(1);
+        yArray.add(3);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertTrue(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+        testArray.add("andreaalf");
+        testArray.add("andreaalf");
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(3, gameTest.getPlayerByNickname("gino").getyPosition());
+
+        testArray = new ArrayList<>();
+
+        //Testing if I added the correct marks to gino and ingConti
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+
+        testArray = new ArrayList<>();
+
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+    }
+
+    //TODO I CAN SHOOT TWO TIMES AT THE SAME PLAYER!
+    @Test
+    public void shootPlayerVortexCannonSamePlayersException() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("VortexCannon", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 2);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("gino");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(1);
+        yArray.add(1);
+
+        xArray.add(1);
+        yArray.add(1);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+        movers.add("gino");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getyPosition());
+
+        testArray = new ArrayList<>();
+
+        //Testing if I added the correct marks to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+
+        testArray = new ArrayList<>();
+
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+    }
+
+    @Test
+    public void shootPlayerVortexCannonVortexNonVisibleException() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("VortexCannon", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 1);
+        gameTest.movePlayer("meme", 1, 1);
+        gameTest.movePlayer("ingConti", 2, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(2);
+        yArray.add(1);
+
+        xArray.add(2);
+        yArray.add(1);
+
+        xArray.add(2);
+        yArray.add(1);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+        movers.add("meme");
+        movers.add("ingConti");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getyPosition());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("meme").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("meme").getyPosition());
+
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("ingConti").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("ingConti").getyPosition());
+
+        testArray = new ArrayList<>();
+
+        //Testing if I added the correct marks to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+    }
+
+    @Test
+    public void shootPlayerVortexCannonVortexFarFromDefender() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("VortexCannon", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 2);
+        gameTest.movePlayer("meme", 1, 2);
+        gameTest.movePlayer("ingConti", 1, 1);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("ingConti");
+
+        ArrayList<Integer> xArray = new ArrayList<>();
+        ArrayList<Integer> yArray = new ArrayList<>();
+
+        xArray.add(1);
+        yArray.add(0);
+
+        xArray.add(1);
+        yArray.add(0);
+
+        xArray.add(1);
+        yArray.add(0);
+
+        ArrayList<String> movers = new ArrayList<>();
+        movers.add("gino");
+        movers.add("meme");
+        movers.add("ingConti");
+
+        boolean b = gameTest.shootWithMovement("andreaalf", defenders, weaponTest, 0, xArray, yArray, movers);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("gino").getxPosition());
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("gino").getyPosition());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("meme").getxPosition());
+        Assert.assertEquals(2, gameTest.getPlayerByNickname("meme").getyPosition());
+
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("ingConti").getxPosition());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("ingConti").getyPosition());
+
+        testArray = new ArrayList<>();
+
+        //Testing if I added the correct marks to gino and meme
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
 
     }
@@ -2541,7 +3345,7 @@ public class ShootingTest {
 
         //Moving these players to the testing spots
         gameTest.movePlayer("andreaalf", 0, 0);
-        gameTest.movePlayer("gino", 0, 0);
+        gameTest.movePlayer("gino", 0, 1);
         gameTest.movePlayer("meme", 0, 1);
         gameTest.movePlayer("ingConti", 0, 2);
 
@@ -2678,6 +3482,139 @@ public class ShootingTest {
         defenders.add("gino");
         defenders.add("meme");
         defenders.add("ingConti");
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+        //Testing if I'm assigning the correct amount of marks to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getMarks());
+
+    }
+
+    //TODO NOT WORKS, GINO IS TWICE IN THE DEFENDERS LIST AND I HIT HIM TWICE
+    @Test
+    public void shootPlayerFurnaceSecondEffectSamePlayersInTheDefenderList() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Furnace", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 0);
+        gameTest.movePlayer("meme", 1, 0);
+        gameTest.movePlayer("ingConti", 1, 0);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
+        defenders.add("gino");
+
+        boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
+        Assert.assertFalse(b);
+
+        //Testing if I removed the right ammos
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnYellowAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnBlueAmmo());
+        Assert.assertEquals(1, gameTest.getPlayerByNickname("andreaalf").getnRedAmmo());
+
+        ArrayList<String> testArray = new ArrayList<>();
+
+        //Testing if I added the correct damages to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getDamages());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getDamages());
+
+        //Testing if I'm assigning the correct amount of marks to everyone
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("gino").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("meme").getMarks());
+        Assert.assertEquals(testArray, gameTest.getPlayerByNickname("ingConti").getMarks());
+
+    }
+
+    //TODO NOT WORKS, I SHOULD ATTACK ALL THE PLAYERS IN THAT SPOT, NOT ONLY THE ONES I CHOOSE
+    @Test
+    public void shootPlayerFurnaceSecondEffectCheckIfICanShootToAllPlayersInTheSpot() {
+
+        ArrayList<String > players = new ArrayList<>();
+        players.add("andreaalf");
+        players.add("gino");
+        players.add("meme");
+        players.add("ingConti");
+
+        gameTest = new Game(players, MapName.FIRE, 6);
+
+        //Creates a new weapon by reading from the JSON file
+        //The weapon I'm giving to the player is a duplicate!
+        Weapon weaponTest;
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon("Furnace", weaponsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+        gameTest.revive("ingConti");
+
+        //Giving the duplicate to the player
+        gameTest.giveWeaponToPlayer("andreaalf", weaponTest);
+        //Testing if this player receives a drawn weapon from the deck
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("andreaalf", 0, 0);
+        gameTest.movePlayer("gino", 1, 0);
+        gameTest.movePlayer("meme", 1, 0);
+        gameTest.movePlayer("ingConti", 1, 0);
+
+        //Array to pass to the shootPlayer method
+        ArrayList<String> defenders = new ArrayList<>();
+        defenders.add("gino");
+        defenders.add("meme");
 
         boolean b = gameTest.shootWithoutMovement("andreaalf", defenders, weaponTest, 1);
         Assert.assertFalse(b);
