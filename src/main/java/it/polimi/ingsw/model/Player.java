@@ -200,7 +200,10 @@ public class Player {
     protected int getyPosition() {
         return yPosition;
     }
-    protected int getnMovesBeforeGrabbing() {
+    public int getnMoves() {
+        return nMoves;
+    }
+    public int getnMovesBeforeGrabbing() {
         return nMovesBeforeGrabbing;
     }
     protected int getnMovesBeforeShooting() {

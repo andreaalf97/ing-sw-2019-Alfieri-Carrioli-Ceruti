@@ -40,6 +40,8 @@ public class Controller implements Observer {
      */
     public VirtualView virtualView;
 
+    private final String SPLITTER = ":";
+
     public Controller(Game gameModel, VirtualView virtualView){
         this.gameModel = gameModel;
         this.virtualView = virtualView;
@@ -385,10 +387,34 @@ public class Controller implements Observer {
             }
 
             if(action == Actions.Move){
+
+                ArrayList<String> spots = new ArrayList<>();
+                boolean[][] allowedSpots = gameModel.wherePlayerCanMove(player.getNickname(), player.getnMoves());
+
+                for(int i = 0; i < allowedSpots.length; i++)
+                    for (int j = 0; j < allowedSpots[i].length; j++)
+                        if(allowedSpots[i][j])
+                            spots.add(i + SPLITTER + j);
+
+                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMove, spots));
+                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMove;
+
                 return;
             }
 
             if(action == Actions.MoveAndGrab){
+
+                ArrayList<String> spots = new ArrayList<>();
+                boolean[][] allowedSpots = gameModel.wherePlayerCanMoveAndGrab(player.getNickname(), player.getnMovesBeforeGrabbing());
+
+                for(int i = 0; i < allowedSpots.length; i++)
+                    for (int j = 0; j < allowedSpots[i].length; j++)
+                        if(allowedSpots[i][j])
+                            spots.add(i + SPLITTER + j);
+
+                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMoveAndGrab, spots));
+                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMoveAndGrab;
+
                 return;
             }
 
@@ -423,8 +449,8 @@ public class Controller implements Observer {
 
         if(questionType == QuestionType.ChoosePowerUpToRespawn){
 
-            String powerUpName = answer.split(":")[0];
-            Color color = Color.valueOf(answer.split(":")[1].toUpperCase());
+            String powerUpName = answer.split(SPLITTER)[0];
+            Color color = Color.valueOf(answer.split(SPLITTER)[1].toUpperCase());
 
             int powerUpIndex = -1;
 
@@ -452,10 +478,81 @@ public class Controller implements Observer {
             return;
         }
 
+        if(questionType == QuestionType.WhereToMove){
+
+            //Reads what spot the player decided to move to
+
+            int xCoord;
+            int yCoord;
+
+            try {
+                int[] coords = parseSpot(answer);
+                xCoord = coords[0];
+                yCoord = coords[1];
+            }
+            catch (IllegalArgumentException e){
+                ArrayList<String> message = new ArrayList<>();
+                message.add("Invalid spot response");
+                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+                return;
+            }
+
+            gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
+
+            player.playerStatus.nActionsDone += 1;
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+            return;
+        }
+
+        if(questionType == QuestionType.WhereToMoveAndGrab){
+
+            //Reads what spot the player decided to move to
+            int xCoord;
+            int yCoord;
+
+            try {
+                int[] coords = parseSpot(answer);
+                xCoord = coords[0];
+                yCoord = coords[1];
+            }
+            catch (IllegalArgumentException e){
+                ArrayList<String> message = new ArrayList<>();
+                message.add("Invalid spot response");
+                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+                return;
+            }
+
+            gameModel.moveAndGrab(player.getNickname(), xCoord, yCoord, -1);
+
+            player.playerStatus.nActionsDone += 1;
+
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+
+            return;
+        }
+
         ArrayList<String> message = new ArrayList<>();
         message.add("The controller received your answer");
 
         virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+    }
+
+    private int[] parseSpot(String answer) {
+
+        int[] coords = new int[2];
+
+        coords[0] = Integer.parseInt(answer.split(SPLITTER)[0]);
+        coords[1] = Integer.parseInt(answer.split(SPLITTER)[1]);
+
+        return coords;
     }
 
     /**
