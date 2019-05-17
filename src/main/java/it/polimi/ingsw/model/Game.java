@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model;
 
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.controller.Actions;
 import it.polimi.ingsw.model.cards.*;
@@ -1393,6 +1398,11 @@ public class Game extends Observable {
 
     }
 
+    //TESTED
+    /**
+     * update status of current and next player
+     * @return the next player
+     */
     public Player endTurnUpdateStatus() {
 
         Player current = getCurrentPlayer();
@@ -1406,6 +1416,11 @@ public class Game extends Observable {
         return getPlayerByNickname(next);
     }
 
+    //TESTED
+    /**
+     * @param current current player
+     * @return the nickname of the next player
+     */
     protected String getNextPlayer(String current) {
 
         int currentIndex = playerNames.indexOf(current);
@@ -1417,6 +1432,11 @@ public class Game extends Observable {
 
     }
 
+    //TESTED
+    /**
+     *
+     * @return the current player
+     */
     private Player getCurrentPlayer() {
         for(Player i : players){
             if(i.isCurrentPlayer())
@@ -1436,7 +1456,7 @@ public class Game extends Observable {
         return gameMap.validSpot(x , y);
     }
 
-    //TESTED  todo i have create this for testing in refillAllAmmoSpot and refillallSpawnSpot
+    //ONLY USED IN TESTS
     /**
      * this method returns a spot by using index
      * @param x the x of the spot
@@ -1447,6 +1467,11 @@ public class Game extends Observable {
         return gameMap.getSpotByIndex(x, y);
     }
 
+    /**
+     * based on the playerStatus, generate the possible actions of the player
+     * @param nickname the nickname of the player
+     * @return possible player actions
+     */
     public ArrayList<String> generatePossibleActions(String nickname) {
 
         Player player = getPlayerByNickname(nickname);
@@ -1482,12 +1507,92 @@ public class Game extends Observable {
         return actions;
     }
 
+    //TESTED
+    /**
+     * tells if player is on a spawnspot
+     * @param player the player to check
+     * @return true if player is on a spawnspot
+     */
     private boolean isOnSpawnSpot(Player player) {
 
         int x = player.getxPosition();
         int y = player.getyPosition();
 
         return gameMap.isSpawnSpot(x, y);
+
+    }
+
+    //TESTED
+    /**
+     * this method creates a snapshot of the game in a string representing a json file
+     * @return the string containing json game
+     */
+    public String modelSnapshot(){
+        Gson gson = new Gson();
+
+        //saving player nicknames
+        String jsonPlayerNames = gson.toJson(playerNames.toArray());
+
+        //saving players
+        String jsonPlayers = gson.toJson(players.toArray());
+
+        //saving kst
+        String jsonKST = gson.toJson(kst);
+
+        //saving powerUpDeck
+        String jsonPowerUpDeck = gson.toJson(powerupDeck);
+
+        //saving weaponDeck
+        String jsonWeaponDeck = gson.toJson(weaponDeck);
+
+        //saving GameMap
+        String jsonGameMap = gameMapSnapshot(gson);
+
+        //create a json that stores all the information of the game in a string with json format
+        String modelSnapshot = "{ \"player\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + "," + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"jsonWeaponDeck\":" + jsonWeaponDeck + "," + "\"kst\":" + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "}" ;
+
+        return modelSnapshot;
+    }
+
+    //TESTED
+    /**
+     * this method create the snapshot of the gameMap and returns it to above method
+     * @param gson the gson of the above method
+     * @return the gameMap snapshot
+     */
+    private String gameMapSnapshot(Gson gson) {
+        String jsonGameMap = "{";
+        String jsonSpot;
+
+        for(int i = 0; i < 3; i++){
+
+            jsonGameMap += "\"row" + i + "\": {";
+
+            for (int j = 0; j < 4; j++){
+
+                jsonGameMap += "\"col" + j + "\": {";
+
+                if(gameMap.validSpot(i, j))
+                    jsonSpot = "\"spot\" :" + gson.toJson(gameMap.getSpotByIndex(i, j));
+                else
+                    jsonSpot = "\"spot\" :" + "{}";
+
+                jsonGameMap += jsonSpot;
+
+                if (j < 3)
+                    jsonGameMap += "},";
+                else
+                    jsonGameMap += "}";
+            }
+            if( i < 2)
+                jsonGameMap += "},";
+            else
+                jsonGameMap += "}";
+        }
+
+        jsonGameMap += "}";
+
+        return jsonGameMap;
 
     }
 
