@@ -59,13 +59,13 @@
           "nMarks": 0,
           "nPlayersAttackable": 2,
           "nPlayersMarkable": 0,
-          "mustShootOtherPlayers": false,
+          "mustShootOtherPlayers": true,
           "cost": [],
           "nMoves": 0,
           "minDistance": 0,
           "maxDistance": 100,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,
+          "mustBeOtherRoom": true,
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
@@ -381,7 +381,7 @@
         "Effect0": {
           "nDamages": 1,
           "nMarks": 0,
-          "nPlayersAttackable": 4,
+          "nPlayersAttackable": 50,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
           "cost": [],
@@ -399,7 +399,7 @@
         "Effect1": {
           "nDamages": 2,
           "nMarks": 0,
-          "nPlayersAttackable": 4,
+          "nPlayersAttackable": 50,
           "nPlayersMarkable": 0,
           "mustShootOtherPlayers": false,
           "cost": [
@@ -597,6 +597,24 @@
           "visibleByWho": 2,
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
+        },
+        "Effect4": {
+          "nDamages": 0,
+          "nMarks": 0,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": true,
+          "cost": [],
+          "nMoves": 0,
+          "minDistance": 0,
+          "maxDistance": 0,
+          "nMovesOtherPlayer": 1,
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 1,
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
         }
       },
       "Orders": {
@@ -605,7 +623,7 @@
           1,
           2,
           3,
-          0,
+          4,
           3
         ]
       },
@@ -637,15 +655,15 @@
         "Effect1": {
           "nDamages": 1,
           "nMarks": 1,
-          "nPlayersAttackable": 4,
+          "nPlayersAttackable": 50,
           "nPlayersMarkable": 4,
-          "mustShootOtherPlayers": false,
+          "mustShootOtherPlayers": true,
           "cost": [],
           "nMoves": 0,
           "minDistance": 1,
           "maxDistance": 1,
           "nMovesOtherPlayer": 0,
-          "mustBeOtherRoom": false,
+          "mustBeOtherRoom": true,
           "mustBeDifferentSpots": false,
           "isLinear": false,
           "visibleByWho": 2,
@@ -702,9 +720,27 @@
       "Effects": {
         "Effect0": {
           "nDamages": 1,
-          "nMarks": 1,
+          "nMarks": 0,
           "nPlayersAttackable": 1,
-          "nPlayersMarkable": 4,
+          "nPlayersMarkable": 0,
+          "mustShootOtherPlayers": false,
+          "cost": [],
+          "nMoves": 0,
+          "minDistance": 1,
+          "maxDistance": 100,
+          "nMovesOtherPlayer": 0,
+          "mustBeOtherRoom": false,
+          "mustBeDifferentSpots": false,
+          "isLinear": false,
+          "visibleByWho": 2,
+          "mustBeSameSpots": false,
+          "mustShootSamePlayers": false
+        },
+        "Effect1": {
+          "nDamages": 0,
+          "nMarks": 1,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable":50,
           "mustShootOtherPlayers": false,
           "cost": [],
           "nMoves": 0,
@@ -718,11 +754,11 @@
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         },
-        "Effect1": {
-          "nDamages": 1,
+        "Effect2": {
+          "nDamages": 0,
           "nMarks": 2,
-          "nPlayersAttackable": 1,
-          "nPlayersMarkable": 4,
+          "nPlayersAttackable": 0,
+          "nPlayersMarkable":50,
           "mustShootOtherPlayers": false,
           "cost": [
             "Red"
@@ -741,10 +777,12 @@
       },
       "Orders": {
         "Order0": [
-          0
+          0,
+          1
         ],
         "Order1": [
-          1
+          0,
+          2
         ]
       },
       "Cost": [
@@ -1366,7 +1404,7 @@
           "nMovesOtherPlayer": 0,
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
-          "isLinear": true,
+          "isLinear": false,
           "visibleByWho": 0,
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false

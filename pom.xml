@@ -19,7 +19,7 @@
     <maven.compiler.target>12</maven.compiler.target>
 
     <!-- Integrating Sonar with Jacoco -->
-    <sonar.projectKey>AM29</sonar.projectKey>
+    <sonar.projectKey>it.polimi.ingsw:AM29</sonar.projectKey>
     <sonar.projectName>AM29</sonar.projectName>
     <sonar.projectVersion>1.0</sonar.projectVersion>
     <sonar.sources>src/main/java</sonar.sources>
@@ -31,8 +31,8 @@
     <sonar.language>java</sonar.language>
 
     <sonar.host.url>http://localhost:9000/</sonar.host.url>
-    <!--sonar.login>admin</sonar.login>
-    <sonar.password>admin</sonar.password-->
+    <sonar.login>admin</sonar.login>
+    <sonar.password>admin</sonar.password>
 
   </properties>
 
@@ -81,7 +81,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.0.2</version>
           <configuration>
             <archive>
               <manifest>

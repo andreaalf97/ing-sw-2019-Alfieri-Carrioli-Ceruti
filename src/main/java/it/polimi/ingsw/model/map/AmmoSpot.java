@@ -174,4 +174,8 @@ public class AmmoSpot extends Spot {
     public ArrayList<Weapon> getSpawnWeapons() throws RuntimeException{
         throw new RuntimeException("This should never be called!");
     }
+
+    public ArrayList<String> getSpawnWeaponNames() {
+        throw new RuntimeException("This should never be called!");
+    }
 }

@@ -349,7 +349,7 @@ public class GameMap {
         //Check all spots
         for(int i = 0; i < temp.length; i++)
             for(int j = 0; j < temp[i].length; j++) //for every spot
-                if (validSpot(i, j)) {
+                if (validSpot(i, j) && isAmmoSpot(i, j)) {
                     if (canMoveFromTo(playerSpotX, playerSpotY, i, j, nMoves) && !emptySpot(i, j)) //if the player can move from his spot to the <i, j> spot
                         temp[i][j] = true; //temp<i, j> is true --> the player can move there
                 }
@@ -569,4 +569,25 @@ public class GameMap {
 
     }
 
+    public int indexOfWeapon(int x, int y, String weaponName) {
+
+        if(!isSpawnSpot(x, y))
+            throw new RuntimeException("This is not a spawn spot");
+
+        SpawnSpot spot = (SpawnSpot)getSpotByIndex(x, y);
+
+        return spot.indexOfWeapon(weaponName);
+
+    }
+
+    public void addWeaponToSpawn(int x, int y, Weapon weapon) {
+
+        if(!isSpawnSpot(x, y))
+            throw new RuntimeException("This is not a spawn spot");
+
+        SpawnSpot spawnSpot = (SpawnSpot)getSpotByIndex(x, y);
+
+        spawnSpot.addWeapon(weapon);
+
+    }
 }

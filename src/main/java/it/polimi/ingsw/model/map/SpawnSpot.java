@@ -9,7 +9,7 @@ public class SpawnSpot extends Spot {
     /**
      * The list of weapons on this spot
      */
-    private ArrayList<Weapon> weaponList;
+    protected ArrayList<Weapon> weaponList;
 
     /**
      * A basic constructor
@@ -151,5 +151,29 @@ public class SpawnSpot extends Spot {
     @Override
     public ArrayList<Weapon> getSpawnWeapons(){
         return new ArrayList<>(weaponList);
+    }
+
+    public ArrayList<String> getSpawnWeaponNames() {
+        ArrayList<String> weaponNames = new ArrayList<>();
+
+        for(Weapon w : weaponList)
+            weaponNames.add(w.getWeaponName());
+
+        return weaponNames;
+    }
+
+    /**
+     * Searches for the weapon in the list and return the index
+     * @param weaponName the name of the weapon
+     * @return the index
+     */
+    public int indexOfWeapon(String weaponName) {
+
+        for(int i = 0; i < weaponList.size(); i++)
+            if( weaponList.get(i).getWeaponName().equals(weaponName) )
+                return i;
+
+        throw new RuntimeException("This weapon is not on this spot");
+
     }
 }
