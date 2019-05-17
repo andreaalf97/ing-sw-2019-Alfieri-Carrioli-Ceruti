@@ -1241,7 +1241,30 @@ public class Game extends Observable {
     /**
      * pick a weapon from the spawnspot where the player is
      * @param nickname the player who wants to pick the weapon
-     * @param index index of the weapon to pick in the spawnspot weapon list
+     * @param weaponName the name of the weapon to pick in the spawnspot weapon list
+     * @throws RuntimeException if this is not a spawn spot
+     */
+    public void pickWeaponFromSpawn(String nickname, String weaponName) throws RuntimeException{
+
+        Player p = getPlayerByNickname(nickname);
+
+        int x = p.getxPosition();
+        int y = p.getyPosition();
+
+        if (!gameMap.isSpawnSpot(x, y))
+            throw new RuntimeException("this is not a spawn spot");
+
+        int index = gameMap.indexOfWeapon(x, y, weaponName);
+
+        gameMap.grabSomething(x, y, p, index);
+
+    }
+
+    //TESTED
+    /**
+     * pick a weapon from the spawnspot where the player is
+     * @param nickname the player who wants to pick the weapon
+     * @param index the index of the weapon to pick in the spawnspot weapon list
      * @throws RuntimeException if this is not a spawn spot
      */
     public void pickWeapon(String nickname, int index) throws RuntimeException{
@@ -1385,5 +1408,20 @@ public class Game extends Observable {
 
     }
 
+    public ArrayList<String> weaponsToPick(String nickname) {
+
+        Player p = getPlayerByNickname(nickname);
+
+        Spot playerSpot = getSpotByIndex(p.getxPosition(), p.getyPosition());
+
+        return playerSpot.getSpawnWeaponNames();
+
+    }
+
+    public void addWeaponToSpawnSpot(int x, int y, Weapon weapon) {
+
+        gameMap.addWeaponToSpawn(x, y, weapon);
+
+    }
 }
 

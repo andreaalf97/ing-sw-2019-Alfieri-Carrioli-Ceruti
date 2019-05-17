@@ -14,7 +14,6 @@ public enum QuestionType {
     ChoosePowerUpToAttack,
 
     ChooseWeaponToAttack,
-    ChooseWeaponToPick,
     ChooseWeaponToSwitch,
     ChooseWeaponToReload,
 

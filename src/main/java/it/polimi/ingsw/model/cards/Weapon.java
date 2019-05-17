@@ -125,6 +125,10 @@ public class Weapon {
         return new ArrayList<>(effects);
     }
 
+    public String getWeaponName(){
+        return weaponName;
+    }
+
 
     /**
      * getter for order arraylist

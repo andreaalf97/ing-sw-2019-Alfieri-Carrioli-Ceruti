@@ -1,17 +1,12 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
-import it.polimi.ingsw.model.map.AmmoSpot;
 import it.polimi.ingsw.model.map.MapName;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 public class GameTest {
