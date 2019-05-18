@@ -590,4 +590,24 @@ public class GameMap {
         spawnSpot.addWeapon(weapon);
 
     }
+
+    /**
+     * Grabs the given weapon from the spot and gives it to the player
+     * @param x
+     * @param y
+     * @param p
+     * @param weaponToPick
+     */
+    public void grabWeapon(int x, int y, Player p, String weaponToPick) {
+
+        Spot s = getSpotByIndex(x, y);
+
+        if(s.isAmmoSpot())
+            throw new RuntimeException("This player is on an ammo spot");
+
+        int indexOfWeapon = s.getSpawnWeaponNames().indexOf(weaponToPick);
+
+        s.grabSomething(p, indexOfWeapon);
+
+    }
 }

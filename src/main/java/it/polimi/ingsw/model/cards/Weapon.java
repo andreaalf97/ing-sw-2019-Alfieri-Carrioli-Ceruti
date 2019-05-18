@@ -1,26 +1,30 @@
 package it.polimi.ingsw.model.cards;
 
 import com.google.gson.*;
+import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.Color;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 public class Weapon {
 
     /**
      * The name of the weapon as addressed on the JSON file
      */
-    private String weaponName; //TODO might not need this for model, but might need for testing
+    private final String weaponName;
 
     /**
      * The cost of this weapon
      */
-    private ArrayList<Color> cost;
+    private final ArrayList<Color> cost;
 
     /**
      * The list of the weapon's effects
      */
-    private ArrayList<Effect> effects;
+    private final ArrayList<Effect> effects;
 
     public void setLoaded(boolean loaded) {
         isLoaded = loaded;
@@ -51,25 +55,42 @@ public class Weapon {
         isLoaded = true;
     }
 
+    public Weapon(String weaponName){
+
+        this.weaponName = weaponName;
+        this.effects = new ArrayList<>();
+        this.order = new ArrayList<>();
+        this.cost = new ArrayList<>();
+        this.isLoaded = true;
+
+    }
+
     /**
      * A basic constructor only used in tests
      * @param weaponName The name of the weapon to read from the JSON file
      */
-    public Weapon(String weaponName){
-        this.weaponName = weaponName;
-        isLoaded = true;
-        this.cost = new ArrayList<>();
-        this.effects = new ArrayList<>();
-        this.order = new ArrayList<>();
+    public static Weapon getWeapon(String weaponName){
+
+        try {
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
+            JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
+
+            return new Weapon(weaponName, jsonWeaponsDeck);
+        }
+        catch (IOException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while reading JSON");
+            return null;
+        }
+
     }
 
     /**
      * this method returns a weapon from a JsonObject
      * @param weaponName  the name of the weapon to load
-     * @param jsonWeapons the jsonObject that contains all the weapons
+     * @param jsonDeck the jsonObject that contains all the weapons
      * @return the weapon correctly filled
      */
-    public Weapon(String weaponName, JsonObject jsonWeapons)
+    public Weapon(String weaponName, JsonObject jsonDeck)
     {
 
         //support variables
@@ -77,7 +98,7 @@ public class Weapon {
         ArrayList<Integer []> ordersTemp = new ArrayList<>();
         ArrayList<Color> colorsTemp = new ArrayList<>();
 
-        JsonObject jsonWeaponLoaded = jsonWeapons.get(weaponName).getAsJsonObject(); //this is my weapon in json, inside i have all my attributes
+        JsonObject jsonWeaponLoaded = jsonDeck.get(weaponName).getAsJsonObject(); //this is my weapon in json, inside i have all my attributes
         JsonObject jsonEffect = jsonWeaponLoaded.get("Effects").getAsJsonObject();
 
         for (int i = 0; i <= jsonEffect.size() - 1; i++){

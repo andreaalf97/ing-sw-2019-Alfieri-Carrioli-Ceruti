@@ -185,9 +185,6 @@ public class Player {
     protected void setnYellowAmmo(int nYellowAmmo) {
         this.nYellowAmmo = nYellowAmmo;
     }
-    protected ArrayList<Weapon> getWeaponList() {
-        return weaponList;
-    }
     public ArrayList<PowerUp> getPowerUpList() {
         return new ArrayList<>(powerUpList);
     }
@@ -228,8 +225,8 @@ public class Player {
      * getter for weaponlist
      * @return the weaponList of the player
      */
-    public ArrayList<Weapon> getWeaponListCopy(){
-        return getWeaponList();
+    public ArrayList<Weapon> getWeaponList(){
+        return new ArrayList<>(weaponList);
     }
 
     //TESTED

@@ -109,7 +109,7 @@ public class SpawnSpotTest {
         Player playerTest = new Player("gino", 1, 0);
         spawnSpotTest.grabSomething(playerTest, 0);
 
-        Assert.assertTrue(playerTest.getWeaponListCopy().contains(w1));
+        Assert.assertTrue(playerTest.getWeaponList().contains(w1));
 
     }
 }

@@ -116,7 +116,7 @@ public class GameMapTest {
         gameMapTestFire.grabSomething(1, 0, player, 0);
 
         //check player has taken the weapon
-        Assert.assertTrue(player.getWeaponListCopy().size() != 0);
+        Assert.assertTrue(player.getWeaponList().size() != 0);
 
 
 
@@ -280,7 +280,7 @@ public class GameMapTest {
         gameMapTestFire.grabSomething(0, 2 , playerTest, 0);
         gameMapTestFire.grabSomething(2, 3 , playerTest, 0);
 
-        Assert.assertEquals(3, playerTest.getWeaponListCopy().size());
+        Assert.assertEquals(3, playerTest.getWeaponList().size());
 
         WeaponDeck weaponDeckTest = new WeaponDeck();
         gameMapTestFire.refillAllSpawns(weaponDeckTest);

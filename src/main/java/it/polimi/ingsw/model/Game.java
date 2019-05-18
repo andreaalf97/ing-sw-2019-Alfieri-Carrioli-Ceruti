@@ -1269,7 +1269,7 @@ public class Game extends Observable {
      * @param nickname the nickname
      * @param cost the cost to pay
      */
-    public void pay(String nickname, ArrayList<Color> cost) throws InvalidChoiceException, RuntimeException{
+    public void pay(String nickname, ArrayList<Color> cost) throws InvalidChoiceException{
 
         Player p = getPlayerByNickname(nickname);
 
@@ -1372,11 +1372,10 @@ public class Game extends Observable {
     /**
      * switch a weapon of the player with a weapon on the spawnspot
      * @param player the player who switch the weapon
-     * @param indexToDiscard index of the weapon to discard from player hand
-     * @param indexToPick index of the weapon to pick from the spawn spot weapon list
-     * @throws RuntimeException if the spot isn't a spawn spot
+     * @param weaponToPick index of the weapon to pick from the spawn spot weapon list
+     * @param weaponToDiscard index of the weapon to discard from player hand
      */
-    public void switchWeapons (String player, int indexToDiscard, int indexToPick) throws RuntimeException{
+    public void switchWeapons (String player, String weaponToPick, String weaponToDiscard){
 
         Player p = getPlayerByNickname(player);
 
@@ -1386,12 +1385,11 @@ public class Game extends Observable {
         if(!gameMap.isSpawnSpot(x, y))
             throw new RuntimeException("This is not a spawn spot");
 
-        Weapon toDiscard = p.removeWeaponByIndex(indexToDiscard);
+        Weapon toDiscard = p.removeWeaponByName(weaponToDiscard);
 
         toDiscard.reload();
 
-        gameMap.grabSomething(x, y, p, indexToPick);
-
+        gameMap.grabWeapon(x, y, p, weaponToPick);
 
         gameMap.refill(x, y, toDiscard);
 
@@ -1610,6 +1608,15 @@ public class Game extends Observable {
 
         gameMap.addWeaponToSpawn(x, y, weapon);
 
+    }
+
+    /**
+     * Creates a new weapon based on the name
+     * @param weaponName the name of the weapon
+     * @return the weaponName object
+     */
+    public Weapon getWeaponByName(String weaponName) {
+        return Weapon.getWeapon(weaponName);
     }
 }
 

@@ -10,6 +10,11 @@ public class PlayerStatus {
     public boolean isFirstTurn;
 
     /**
+     * If the player is in frenzy
+     */
+    public boolean isFrenzyTurn;
+
+    /**
      * true during this player's turn
      */
     public boolean isActive;
@@ -29,10 +34,7 @@ public class PlayerStatus {
      */
     public QuestionType waitingForAnswerToThisQuestion;
 
-    /**
-     * If the player is in frenzy
-     */
-    public boolean isFrenzyTurn;
+
 
 
     public PlayerStatus(PlayerStatus playerStatus){

@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -253,7 +254,24 @@ public class Controller implements Observer {
 
                 ArrayList<String> weaponsToPick = gameModel.weaponsToPick(player.getNickname());
 
-                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToSwitch, weaponsToPick));
+                ArrayList<Weapon> playerWeapons = player.getWeaponList();
+
+                ArrayList<String> possibleAnswers = new ArrayList<>();
+
+                //If the player has to choose which weapon to discard
+                if(playerWeapons.size() > 2){
+
+                    for(String i : weaponsToPick)
+                        for(Weapon j : playerWeapons)
+                            possibleAnswers.add(i + SPLITTER + j.getWeaponName());
+
+                }
+                else {
+                    //If the player only has to choose which weapon to pick
+                    possibleAnswers = weaponsToPick;
+                }
+
+                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToSwitch, possibleAnswers));
                 player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToSwitch;
                 return;
             }
@@ -413,15 +431,47 @@ public class Controller implements Observer {
 
         if(questionType == QuestionType.ChooseWeaponToSwitch){
 
-            //TODO review this
+            //This means the player is also telling which weapon he wants to discard
+            if(answer.contains(SPLITTER)){
+                String[] weapons = parseWeaponToSwitch(answer);
 
-            //The message should look like "WeaponToPick:WeaponToDiscard"
-            String[] weapons = parseWeaponToSwitch(answer);
+                try {
+                    payToPick(player.getNickname(), weapons[0]);
+                }
+                catch (InvalidChoiceException e){
+                    ArrayList<String> message = new ArrayList<>();
+                    message.add("Not enough ammo!");
 
-            Weapon removedFromPlayer = player.removeWeaponByName(weapons[1]);
-            gameModel.pickWeaponFromSpawn(player.getNickname(), weapons[0]);
+                    virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+                    return;
+                }
 
-            gameModel.addWeaponToSpawnSpot(player.getxPosition(), player.getyPosition(), removedFromPlayer);
+                gameModel.switchWeapons(player.getNickname(), weapons[0], weapons[1]);
+
+
+            }
+            else {
+
+                try {
+                    payToPick(player.getNickname(), answer);
+                }
+                catch (InvalidChoiceException e){
+                    ArrayList<String> message = new ArrayList<>();
+                    message.add("Not enough ammo!");
+
+                    virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+                    return;
+                }
+
+                gameModel.pickWeaponFromSpawn(player.getNickname(), answer);
+
+            }
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+            return;
         }
 
         ArrayList<String> message = new ArrayList<>();
@@ -429,4 +479,19 @@ public class Controller implements Observer {
 
         virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
     }
+
+    private void payToPick(String nickname, String weaponName) throws InvalidChoiceException{
+
+        Weapon toPick = gameModel.getWeaponByName(weaponName);
+
+        ArrayList<Color> price = toPick.getCost();
+        price.remove(0);
+
+        //If the weapon has more than one cost I try to make the player pay
+        if(!price.isEmpty()) {
+                gameModel.pay(nickname, price);
+        }
+
+    }
+
 }
