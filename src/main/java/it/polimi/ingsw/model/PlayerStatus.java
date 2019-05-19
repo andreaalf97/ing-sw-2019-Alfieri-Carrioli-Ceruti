@@ -34,7 +34,15 @@ public class PlayerStatus {
      */
     public QuestionType waitingForAnswerToThisQuestion;
 
+    /**
+     * The question asked before the current one
+     */
+    public QuestionType lastQuestion;
 
+    /**
+     * The answer given before the current one
+     */
+    public String lastAnswer;
 
 
     public PlayerStatus(PlayerStatus playerStatus){
@@ -44,6 +52,8 @@ public class PlayerStatus {
         this.nActionsDone = playerStatus.nActionsDone;
         this.isFrenzyTurn = playerStatus.isFrenzyTurn;
         this.nActions = playerStatus.nActions;
+        this.lastQuestion = playerStatus.lastQuestion;
+        this.lastAnswer = playerStatus.lastAnswer;
     }
 
     public PlayerStatus(){
@@ -54,6 +64,8 @@ public class PlayerStatus {
         this.waitingForAnswerToThisQuestion = null;
         this.isFrenzyTurn = false;
         this.nActions = 2;
+        this.lastQuestion = null;
+        this.lastAnswer = null;
 
     }
 }

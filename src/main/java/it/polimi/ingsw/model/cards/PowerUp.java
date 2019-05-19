@@ -48,6 +48,16 @@ public class PowerUp {
     }
 
     /**
+     * Constructor only used in tests
+     */
+    public PowerUp(String name, Color color){
+        this.isTurnPowerup = false;
+        this.powerUpName = name;
+        this.color = color;
+        this.effect = null;
+    }
+
+    /**
      * Getter
      * @return this.effect
      */
