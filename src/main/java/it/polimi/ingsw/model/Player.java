@@ -531,10 +531,10 @@ public class Player {
     //TESTED
     /**
      * Removes the chosen ammo color from this player's wallet
-     * @param i the color of the ammo to remove
+     * @param color the color of the ammo to remove
      */
-    public void removeAmmo(Color i) throws RuntimeException{
-        switch (i){
+    public void removeAmmo(Color color) throws RuntimeException{
+        switch (color){
             case RED:
                 nRedAmmo--;
                 break;
@@ -647,6 +647,55 @@ public class Player {
         }
 
         throw new RuntimeException("This weapon is not present in the weaponList");
+
+    }
+
+    public boolean canPay(ArrayList<Color> tempWeaponCost) {
+
+        int playerRed = nRedAmmo;
+        int playerBlue = nBlueAmmo;
+        int playerYellow = nYellowAmmo;
+
+        for(PowerUp p : powerUpList){
+
+            switch (p.getColor()){
+                case RED: {
+                    playerRed++;
+                    break;
+                }
+                case BLUE: {
+                    playerBlue++;
+                }
+                case YELLOW:{
+                    playerYellow++;
+                }
+            }
+
+        }
+
+        for(Color c : tempWeaponCost){
+            if(c == Color.RED)
+                playerRed--;
+            else if(c == Color.BLUE)
+                playerBlue--;
+            else if(c == Color.YELLOW)
+                playerYellow--;
+        }
+
+        return playerRed >= 0 && playerBlue >= 0 && playerYellow >= 0;
+
+    }
+
+    public void removePowerUpByName(String chosenPowerUpToPay, Color color) {
+
+        for(PowerUp p : powerUpList){
+            if(p.getColor() == color && p.getPowerUpName() == chosenPowerUpToPay){
+                powerUpList.remove(p);
+                return;
+            }
+        }
+
+        throw new RuntimeException("This player doesn't have this power up");
 
     }
 }

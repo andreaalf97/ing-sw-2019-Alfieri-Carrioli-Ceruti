@@ -35,6 +35,15 @@ public class PlayerStatus {
      */
     public QuestionType waitingForAnswerToThisQuestion;
 
+    /**
+     * The question asked before the current one
+     */
+    public QuestionType lastQuestion;
+
+    /**
+     * The answer given before the current one
+     */
+    public String lastAnswer;
 
     public PlayerStatus(JsonObject jsonPlayerStatus){
         this.isActive = jsonPlayerStatus.get("isActive").getAsBoolean();
@@ -44,7 +53,9 @@ public class PlayerStatus {
         this.nActionsDone = jsonPlayerStatus.get("nActionsDone").getAsInt();
         if (jsonPlayerStatus.get("waitingForAnswerToThisQuestion") != null)
              this.waitingForAnswerToThisQuestion = QuestionType.valueOf(jsonPlayerStatus.get("waitingForAnswerToThisQuestion").getAsString());
-
+        this.lastAnswer = jsonPlayerStatus.get("lastAnswer").getAsString();
+        if (jsonPlayerStatus.get("lastQuestion") != null)
+            this.lastQuestion = QuestionType.valueOf(jsonPlayerStatus.get("lastQuestion").getAsString());
     }
 
 
@@ -55,6 +66,8 @@ public class PlayerStatus {
         this.nActionsDone = playerStatus.nActionsDone;
         this.isFrenzyTurn = playerStatus.isFrenzyTurn;
         this.nActions = playerStatus.nActions;
+        this.lastQuestion = playerStatus.lastQuestion;
+        this.lastAnswer = playerStatus.lastAnswer;
     }
 
     public PlayerStatus(){
@@ -65,6 +78,8 @@ public class PlayerStatus {
         this.waitingForAnswerToThisQuestion = null;
         this.isFrenzyTurn = false;
         this.nActions = 2;
+        this.lastQuestion = null;
+        this.lastAnswer = null;
 
     }
 }
