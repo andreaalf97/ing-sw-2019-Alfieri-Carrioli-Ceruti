@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model.map;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SpawnSpot extends Spot {
@@ -31,6 +34,31 @@ public class SpawnSpot extends Spot {
     public SpawnSpot(ArrayList<Weapon> weaponList){
         super();
         this.weaponList = weaponList;
+    }
+
+    public SpawnSpot(JsonObject jsonSpot){
+        this.weaponList = new ArrayList<>();
+        JsonArray jsonWeaponList = jsonSpot.get("weaponList").getAsJsonArray();
+        for (int i = 0; i < jsonWeaponList.size(); i++){
+            Weapon w = new Weapon(jsonWeaponList.get(i).getAsJsonObject());
+            this.weaponList.add(w);
+        }
+
+        this.doors = new ArrayList<>();
+        JsonArray jsonDoors = jsonSpot.get("doors").getAsJsonArray();
+        for (int i = 0; i < jsonDoors.size(); i++){
+            Boolean b = jsonDoors.get(i).getAsBoolean();
+            this.doors.add(b);
+        }
+
+        this.playersHere = new ArrayList<>();
+        JsonArray jsonPlayersHere = jsonSpot.get("playersHere").getAsJsonArray();
+        for (int i = 0; i < jsonPlayersHere.size(); i++){
+            String s = jsonPlayersHere.get(i).getAsString();
+            this.playersHere.add(s);
+        }
+
+        this.room = Room.valueOf(jsonSpot.get("room").getAsString());
     }
 
     /**

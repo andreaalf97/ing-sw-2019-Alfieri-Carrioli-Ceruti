@@ -20,12 +20,12 @@ public class Effect {
     /**
      * Players receiving damages by this single effect
      */
-    public final int nPlayerMarkable;       //can be 0 to 4
+    public final int nPlayersMarkable;       //can be 0 to 4
 
     /**
      * Players receiving mark by this single effect
      */
-    public final int nPlayerAttackable;       //can be 0 to 4
+    public final int nPlayersAttackable;       //can be 0 to 4
 
     /**
      * Refers to the player the offender attacked in the last effect.
@@ -72,12 +72,12 @@ public class Effect {
     public final boolean mustBeOtherRoom;
 
     /**
-     * True if nPlayerAttackable > 1 && all the defenders must be in different spots
+     * True if nPlayersAttackable > 1 && all the defenders must be in different spots
      */
     public final boolean mustBeDifferentSpots;
 
     /**
-     * True if nPlayerAttackable > 1 && all the defenders must be in same spots
+     * True if nPlayersAttackable > 1 && all the defenders must be in same spots
      */
     public final boolean mustBeSameSpots;
 
@@ -109,12 +109,12 @@ public class Effect {
         return nMovesOtherPlayer;
     }
 
-    public int getnPlayerMarkable() {
-        return nPlayerMarkable;
+    public int getnPlayersMarkable() {
+        return nPlayersMarkable;
     }
 
-    public int getnPlayerAttackable() {
-        return nPlayerAttackable;
+    public int getnPlayersAttackable() {
+        return nPlayersAttackable;
     }
 
     public boolean mustShootOtherPlayers() {
@@ -169,8 +169,8 @@ public class Effect {
     protected Effect (JsonObject jsonEffect){
         this.nDamages = jsonEffect.get("nDamages").getAsInt();
         this.nMarks = jsonEffect.get("nMarks").getAsInt();
-        this.nPlayerAttackable = jsonEffect.get("nPlayersAttackable").getAsInt();
-        this.nPlayerMarkable = jsonEffect.get("nPlayersMarkable").getAsInt();
+        this.nPlayersAttackable = jsonEffect.get("nPlayersAttackable").getAsInt();
+        this.nPlayersMarkable = jsonEffect.get("nPlayersMarkable").getAsInt();
         this.mustShootOtherPlayers = jsonEffect.get("mustShootOtherPlayers").getAsBoolean();
         this.mustShootSamePlayers = jsonEffect.get("mustShootSamePlayers").getAsBoolean();
         this.nMoves = jsonEffect.get("nMoves").getAsInt();
@@ -181,7 +181,7 @@ public class Effect {
         this.mustBeSameSpots = jsonEffect.get("mustBeSameSpots").getAsBoolean();
         this.mustBeDifferentSpots= jsonEffect.get("mustBeDifferentSpots").getAsBoolean();
         this.isLinear = jsonEffect.get("isLinear").getAsBoolean();
-        this.visibleByWho = Visibility.values()[jsonEffect.get("visibleByWho").getAsInt()];
+        this.visibleByWho = Visibility.valueOf(jsonEffect.get("visibleByWho").getAsString());
 
         //Creating the cost ArrayList
         this.cost = new ArrayList<>();
@@ -198,8 +198,8 @@ public class Effect {
     protected Effect(Effect effectToCopy){
         this.nDamages = effectToCopy.nDamages;
         this.nMarks = effectToCopy.nMarks;
-        this.nPlayerAttackable = effectToCopy.nPlayerAttackable;
-        this.nPlayerMarkable = effectToCopy.nPlayerMarkable;
+        this.nPlayersAttackable = effectToCopy.nPlayersAttackable;
+        this.nPlayersMarkable = effectToCopy.nPlayersMarkable;
         this.mustShootOtherPlayers = effectToCopy.mustShootOtherPlayers;
         this.mustShootSamePlayers = effectToCopy.mustShootSamePlayers;
         this.nMoves = effectToCopy.nMoves;

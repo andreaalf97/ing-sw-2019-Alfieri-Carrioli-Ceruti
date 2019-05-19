@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.map;
 
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.cards.WeaponDeck;
@@ -17,6 +18,36 @@ public class GameMap {
     protected  Spot[][] map;
 
     private static Random rand;
+
+    public GameMap(JsonObject jsonMap){
+        this.rand = new Random();
+
+        Spot[][] spotMatrix = new Spot[3][4];
+
+        for(int i = 0; i < spotMatrix.length; i++) {
+            JsonObject jsonRow = jsonMap.get("row" + i).getAsJsonObject();
+
+            for (int j = 0; j < spotMatrix[i].length; j++) {
+                JsonObject jsonSpot = jsonRow.get("col" + j).getAsJsonObject().get("spot").getAsJsonObject(); // <== jsonSpot
+
+                if(!jsonSpot.toString().equals("{}")){ //appena sono sicuro di avere uno spot valido nel json posso istanziare uno spawnspot o un ammo spot
+
+                    if(jsonSpot.get("ammoColorList") != null){
+                        //devo istanziare un AmmoSpot
+                        spotMatrix[i][j] = new AmmoSpot(jsonSpot);
+                    }
+                    else //devo istanziare uno spawnSpot
+                        spotMatrix[i][j] = new SpawnSpot(jsonSpot);
+
+                }
+
+            }
+        }
+
+        this.map = spotMatrix;
+
+
+    }
 
     /**
      * Only constructor

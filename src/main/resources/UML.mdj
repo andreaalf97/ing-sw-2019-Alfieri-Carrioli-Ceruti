@@ -2859,7 +2859,7 @@
 											"top": 1531,
 											"width": 199.087890625,
 											"height": 13,
-											"text": "+nPlayerMarkable",
+											"text": "+nPlayersMarkable",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2876,7 +2876,7 @@
 											"top": 1546,
 											"width": 199.087890625,
 											"height": 13,
-											"text": "+nPlayerAttackable",
+											"text": "+nPlayersAttackable",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11833,7 +11833,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqWsEpuCxdqzg="
 											},
-											"name": "nPlayerMarkable",
+											"name": "nPlayersMarkable",
 											"type": ""
 										},
 										{
@@ -11842,7 +11842,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqWsEpuCxdqzg="
 											},
-											"name": "nPlayerAttackable",
+											"name": "nPlayersAttackable",
 											"type": ""
 										},
 										{

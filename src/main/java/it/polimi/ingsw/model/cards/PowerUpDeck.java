@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.MyLogger;
@@ -21,6 +22,16 @@ public class PowerUpDeck {
      */
     public PowerUpDeck(ArrayList<PowerUp> powerUpListTemp){
         this.powerUpList = powerUpListTemp;
+    }
+
+    public PowerUpDeck(JsonObject jsonPowerUpDeck){
+        JsonArray jsonPowerUpList = jsonPowerUpDeck.get("powerUpList").getAsJsonArray();
+
+        this.powerUpList = new ArrayList<>();
+        for(int i = 0; i < jsonPowerUpList.size(); i++){
+            PowerUp p = new PowerUp(jsonPowerUpList.get(i).getAsJsonObject());
+            this.powerUpList.add(p);
+        }
     }
 
     /**

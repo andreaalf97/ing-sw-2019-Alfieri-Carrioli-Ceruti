@@ -404,4 +404,12 @@ public class GameTest {
         Assert.assertEquals("gino", gameTest.getNextPlayer("meme"));
     }
 
+    @Test
+    public void verifyDeserialization(){
+        String jsonModelSnapshot = gameTest.modelSnapshot();
+
+        Game newGame = new Game(jsonModelSnapshot);
+
+        Assert.assertTrue(true);
+    }
 }

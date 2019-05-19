@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.map;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
@@ -54,6 +56,34 @@ public class AmmoSpot extends Spot {
         this.ammoColorList = new ArrayList<>();
         this.powerup = null;
 
+    }
+
+    public AmmoSpot(JsonObject jsonSpot){
+        this.doors = new ArrayList<>();
+        JsonArray jsonDoors = jsonSpot.get("doors").getAsJsonArray();
+        for (int i = 0; i < jsonDoors.size(); i++){
+            Boolean b = jsonDoors.get(i).getAsBoolean();
+            this.doors.add(b);
+        }
+
+        this.playersHere = new ArrayList<>();
+        JsonArray jsonPlayersHere = jsonSpot.get("playersHere").getAsJsonArray();
+        for (int i = 0; i < jsonPlayersHere.size(); i++){
+            String s = jsonPlayersHere.get(i).getAsString();
+            this.playersHere.add(s);
+        }
+
+        this.room = Room.valueOf(jsonSpot.get("room").getAsString());
+
+        this.ammoColorList = new ArrayList<>();
+        JsonArray jsonAmmo = jsonSpot.get("ammoColorList").getAsJsonArray();
+        for (int i = 0; i < jsonAmmo.size(); i++){
+            Color c = Color.valueOf(jsonAmmo.get(i).getAsString());
+            this.ammoColorList.add(c);
+        }
+
+        if(jsonSpot.get("powerup") != null)
+            this.powerup = new PowerUp(jsonSpot.get("powerup").getAsJsonObject());
     }
 
 

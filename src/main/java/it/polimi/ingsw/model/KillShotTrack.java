@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +50,22 @@ public class KillShotTrack {
 
         for(int i = 0; i < nSkulls; i++) {
             this.isOverkill.add(false);
+        }
+    }
+
+    public KillShotTrack(JsonObject jsonKST){
+        this.skullList = new ArrayList<>();
+        JsonArray jsonSkullList = jsonKST.get("skullList").getAsJsonArray();
+        for(int i = 0; i < jsonSkullList.size(); i++){
+            String s = jsonSkullList.get(i).getAsString();
+            this.skullList.add(s);
+        }
+
+        this.isOverkill = new ArrayList<>();
+        JsonArray jsonIsOverkill = jsonKST.get("isOverkill").getAsJsonArray();
+        for(int i = 0; i < jsonIsOverkill.size(); i++){
+            Boolean b = jsonIsOverkill.get(i).getAsBoolean();
+            this.isOverkill.add(b);
         }
     }
 

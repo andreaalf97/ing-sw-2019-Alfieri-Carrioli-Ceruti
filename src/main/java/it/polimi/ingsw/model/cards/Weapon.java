@@ -65,6 +65,39 @@ public class Weapon {
 
     }
 
+    public Weapon(JsonObject jsonWeapon){
+        this.weaponName = jsonWeapon.get("weaponName").getAsString();
+
+        this.effects = new ArrayList<>();
+        JsonArray jsonEffects = jsonWeapon.get("effects").getAsJsonArray();
+        for (int i = 0; i < jsonEffects.size(); i++){
+            Effect effectTemp = new Effect(jsonEffects.get(i).getAsJsonObject());
+            this.effects.add(effectTemp);
+        }
+
+        this.cost = new ArrayList<>();
+        JsonArray jsonCost = jsonWeapon.get("cost").getAsJsonArray();
+        for(int i = 0; i < jsonCost.size(); i++){
+            Color colortemp = Color.valueOf(jsonCost.get(i).getAsString());
+            this.cost.add(colortemp);
+        }
+
+        this.order = new ArrayList<>();
+        JsonArray jsonOrder = jsonWeapon.get("order").getAsJsonArray();
+        for(int i = 0; i < jsonOrder.size(); i++){
+            JsonArray jsonSingleOrder = jsonOrder.get(i).getAsJsonArray();
+
+            Integer [] weaponOrderTemp = new Integer[jsonSingleOrder.size()];
+            for(int j = 0; j < jsonSingleOrder.size(); j++){
+                weaponOrderTemp[j] = jsonSingleOrder.get(j).getAsInt();
+            }
+
+            this.order.add(weaponOrderTemp);
+        }
+
+        this.isLoaded = jsonWeapon.get("isLoaded").getAsBoolean();
+    }
+
     /**
      * A basic constructor only used in tests
      * @param weaponName The name of the weapon to read from the JSON file

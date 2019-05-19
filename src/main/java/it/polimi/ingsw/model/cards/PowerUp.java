@@ -84,6 +84,13 @@ public class PowerUp {
         this.color = Color.randomColor();
     }
 
+    public PowerUp(JsonObject jsonPowerUp){
+        this.isTurnPowerup = jsonPowerUp.get("isTurnPowerup").getAsBoolean();
+        this.color = Color.valueOf(jsonPowerUp.get("color").getAsString());
+        this.powerUpName = jsonPowerUp.get("powerUpName").getAsString();
+        this.effect = new Effect(jsonPowerUp.get("effect").getAsJsonObject());
+    }
+
     /**
      * Returns the color of this powerup
      * @return the color of the powerup

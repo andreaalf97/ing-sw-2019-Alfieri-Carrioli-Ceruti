@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.view.QuestionType;
 
 public class PlayerStatus {
@@ -35,6 +36,16 @@ public class PlayerStatus {
     public QuestionType waitingForAnswerToThisQuestion;
 
 
+    public PlayerStatus(JsonObject jsonPlayerStatus){
+        this.isActive = jsonPlayerStatus.get("isActive").getAsBoolean();
+        this.isFirstTurn = jsonPlayerStatus.get("isFirstTurn").getAsBoolean();
+        this.isFrenzyTurn = jsonPlayerStatus.get("isFrenzyTurn").getAsBoolean();
+        this.nActions = jsonPlayerStatus.get("nActions").getAsInt();
+        this.nActionsDone = jsonPlayerStatus.get("nActionsDone").getAsInt();
+        if (jsonPlayerStatus.get("waitingForAnswerToThisQuestion") != null)
+             this.waitingForAnswerToThisQuestion = QuestionType.valueOf(jsonPlayerStatus.get("waitingForAnswerToThisQuestion").getAsString());
+
+    }
 
 
     public PlayerStatus(PlayerStatus playerStatus){

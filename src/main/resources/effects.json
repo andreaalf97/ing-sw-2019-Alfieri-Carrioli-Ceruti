@@ -18,7 +18,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -36,7 +36,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -68,7 +68,7 @@
           "mustBeOtherRoom": true,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -88,7 +88,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": true
         },
@@ -108,7 +108,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -126,7 +126,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -146,7 +146,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -208,7 +208,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 3,
+          "visibleByWho": "LASTONEATTACKED",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -228,7 +228,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 3,
+          "visibleByWho": "LASTONEATTACKED",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -246,7 +246,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -279,7 +279,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -297,7 +297,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -317,7 +317,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": true
         }
@@ -360,7 +360,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -392,7 +392,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         },
@@ -413,7 +413,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         }
@@ -446,7 +446,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -464,7 +464,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": true
         },
@@ -485,7 +485,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -503,7 +503,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": true
         }
@@ -538,7 +538,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -556,7 +556,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -576,7 +576,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -594,7 +594,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -612,7 +612,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -648,7 +648,7 @@
           "mustBeOtherRoom": true,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -666,7 +666,7 @@
           "mustBeOtherRoom": true,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         }
@@ -700,7 +700,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -732,7 +732,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -750,7 +750,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         },
@@ -770,7 +770,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         }
@@ -806,7 +806,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": true,
           "isLinear": true,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -827,7 +827,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": true,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         },
@@ -845,7 +845,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         }
@@ -879,7 +879,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -897,7 +897,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -917,7 +917,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": false
         }
@@ -959,7 +959,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -977,7 +977,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -997,7 +997,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": true,
           "mustShootSamePlayers": true
         },
@@ -1016,7 +1016,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false
         },
         "Effect4": {
@@ -1036,7 +1036,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false
         }
       },
@@ -1079,7 +1079,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": true,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1097,7 +1097,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": true,
-          "visibleByWho": 1,
+          "visibleByWho": "DONTCARE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -1132,7 +1132,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1150,7 +1150,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1170,7 +1170,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -1208,7 +1208,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1226,7 +1226,7 @@
           "mustBeOtherRoom": true,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -1260,7 +1260,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1278,7 +1278,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1296,7 +1296,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -1331,7 +1331,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1349,7 +1349,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1369,7 +1369,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": true,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1387,7 +1387,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1405,7 +1405,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -1448,7 +1448,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": true,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1468,7 +1468,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -1501,7 +1501,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1521,7 +1521,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": false,
-          "visibleByWho": 2,
+          "visibleByWho": "OFFENDER",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         },
@@ -1539,7 +1539,7 @@
           "mustBeOtherRoom": false,
           "mustBeDifferentSpots": false,
           "isLinear": true,
-          "visibleByWho": 0,
+          "visibleByWho": "NONE",
           "mustBeSameSpots": false,
           "mustShootSamePlayers": false
         }
@@ -1575,7 +1575,7 @@
         "mustBeOtherRoom": false,
         "mustBeDifferentSpots": false,
         "isLinear": false,
-        "visibleByWho": 0,
+        "visibleByWho": "NONE",
         "mustBeSameSpots": false,
         "mustShootSamePlayers": false
       }
@@ -1598,7 +1598,7 @@
         "mustBeOtherRoom": false,
         "mustBeDifferentSpots": false,
         "isLinear": false,
-        "visibleByWho": 1,
+        "visibleByWho": "DONTCARE",
         "mustBeSameSpots": false,
         "mustShootSamePlayers": false
       }
@@ -1619,7 +1619,7 @@
         "mustBeOtherRoom": false,
         "mustBeDifferentSpots": false,
         "isLinear": true,
-        "visibleByWho": 0,
+        "visibleByWho": "NONE",
         "mustBeSameSpots": false,
         "mustShootSamePlayers": false
       }
@@ -1640,7 +1640,7 @@
         "mustBeOtherRoom": false,
         "mustBeDifferentSpots": false,
         "isLinear": false,
-        "visibleByWho": 1,
+        "visibleByWho": "DONTCARE",
         "mustBeSameSpots": false,
         "mustShootSamePlayers": false
       }

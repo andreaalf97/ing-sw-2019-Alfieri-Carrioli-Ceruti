@@ -12,7 +12,7 @@ public class Spot {
     /**
      * The list of players' nicknames on this spot
      */
-    private ArrayList<String> playersHere;
+    protected ArrayList<String> playersHere;
 
     /**
      * A list of boolean that are true only if the is a door
@@ -21,12 +21,12 @@ public class Spot {
      * South --> 2
      * West --> 3
      */
-    private ArrayList<Boolean> doors;
+    protected ArrayList<Boolean> doors;
 
     /**
      * The room of this spot
      */
-    private Room room;
+    protected Room room;
 
     public Spot(Spot spot){
         this.playersHere = new ArrayList<>(spot.playersHere);

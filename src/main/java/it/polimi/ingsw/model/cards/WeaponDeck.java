@@ -15,6 +15,16 @@ public class WeaponDeck{
      */
     private ArrayList<Weapon> weaponList;
 
+    public WeaponDeck(JsonObject jsonWeaponDeck){
+        JsonArray jsonWeaponList = jsonWeaponDeck.get("weaponList").getAsJsonArray();
+
+        this.weaponList = new ArrayList<>();
+        for(int i = 0; i < jsonWeaponList.size(); i++){
+            Weapon w = new Weapon(jsonWeaponList.get(i).getAsJsonObject());
+            this.weaponList.add(w);
+        }
+    }
+
     /**
      * This constructor build the complete weapon deck
      */

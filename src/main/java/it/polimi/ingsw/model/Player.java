@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 
@@ -132,6 +134,51 @@ public class Player {
      */
     public Player(String nickname){
         this(nickname, -1, -1);
+    }
+
+    public Player(JsonObject jsonPlayer){
+        this.nickname = jsonPlayer.get("nickname").getAsString();
+        this.nRedAmmo = jsonPlayer.get("nRedAmmo").getAsInt();
+        this.nBlueAmmo = jsonPlayer.get("nBlueAmmo").getAsInt();
+        this.nYellowAmmo = jsonPlayer.get("nYellowAmmo").getAsInt();
+        this.points = jsonPlayer.get("points").getAsInt();
+
+        this.weaponList = new ArrayList<>();
+        JsonArray jsonWeaponList = jsonPlayer.get("weaponList").getAsJsonArray();
+        for(int i = 0; i < jsonWeaponList.size(); i++){
+            Weapon w = new Weapon(jsonWeaponList.get(i).getAsJsonObject());
+            this.weaponList.add(w);
+        }
+
+        this.powerUpList = new ArrayList<>();
+        JsonArray jsonPowerUpList = jsonPlayer.get("powerUpList").getAsJsonArray();
+        for(int i = 0; i < jsonPowerUpList.size(); i++){
+            PowerUp p = new PowerUp(jsonPowerUpList.get(i).getAsJsonObject());
+            this.powerUpList.add(p);
+        }
+
+        this.damages = new ArrayList<>();
+        JsonArray jsonDamages = jsonPlayer.get("damages").getAsJsonArray();
+        for(int i = 0; i < jsonDamages.size(); i++){
+            String s = jsonDamages.get(i).getAsString();
+            this.damages.add(s);
+        }
+
+        this.marks = new ArrayList<>();
+        JsonArray jsonMarks = jsonPlayer.get("marks").getAsJsonArray();
+        for(int i = 0; i < jsonMarks.size(); i++){
+            String s = jsonMarks.get(i).getAsString();
+            this.marks.add(s);
+        }
+
+        this.nDeaths = jsonPlayer.get("nDeaths").getAsInt();
+        this.xPosition = jsonPlayer.get("xPosition").getAsInt();
+        this.yPosition = jsonPlayer.get("yPosition").getAsInt();
+        this.isDead = jsonPlayer.get("isDead").getAsBoolean();
+        this.nMoves = jsonPlayer.get("nMoves").getAsInt();
+        this.nMovesBeforeGrabbing = jsonPlayer.get("nMovesBeforeGrabbing").getAsInt();
+        this.nMovesBeforeShooting = jsonPlayer.get("nMovesBeforeShooting").getAsInt();
+        this.playerStatus = new PlayerStatus(jsonPlayer.get("playerStatus").getAsJsonObject());
     }
 
     public Player(Player player){
