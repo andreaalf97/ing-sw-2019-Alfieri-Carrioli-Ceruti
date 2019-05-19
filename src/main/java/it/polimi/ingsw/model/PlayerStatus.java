@@ -53,7 +53,8 @@ public class PlayerStatus {
         this.nActionsDone = jsonPlayerStatus.get("nActionsDone").getAsInt();
         if (jsonPlayerStatus.get("waitingForAnswerToThisQuestion") != null)
              this.waitingForAnswerToThisQuestion = QuestionType.valueOf(jsonPlayerStatus.get("waitingForAnswerToThisQuestion").getAsString());
-        this.lastAnswer = jsonPlayerStatus.get("lastAnswer").getAsString();
+        if (jsonPlayerStatus.get("lastAnswer") != null)
+            this.lastAnswer = jsonPlayerStatus.get("lastAnswer").getAsString();
         if (jsonPlayerStatus.get("lastQuestion") != null)
             this.lastQuestion = QuestionType.valueOf(jsonPlayerStatus.get("lastQuestion").getAsString());
     }
