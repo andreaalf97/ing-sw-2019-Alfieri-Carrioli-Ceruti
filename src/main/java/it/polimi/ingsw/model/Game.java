@@ -1140,18 +1140,18 @@ public class Game extends Observable {
      * @param effect is the effect of the power up
      * @throws InvalidChoiceException
      */
-    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ) throws InvalidChoiceException{
+    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, ArrayList<Color> playerAmmo ) throws InvalidChoiceException{
 
-        Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
+        Player  defender = getPlayerByNickname(playerWhoReceiveEffectName);
 
         //creo un ArrayList<Player> in cui ci sarà solo un player per passarlo a makeDamageEffect
-        ArrayList<Player> singlePlayerArray = new ArrayList<>();
-        singlePlayerArray.add(playerWhoReceiveEffect);
+        ArrayList<Player> defenders = new ArrayList<>();
+        defenders.add(defender);
 
         if (!payCostEffect(effect, currentPlayerName)) {   //if the effect has a cost, the player pays it
             throw new InvalidChoiceException("Cannot pay");
         }
-        makeDamageEffect( currentPlayerName, singlePlayerArray, effect );
+        makeDamageEffect( currentPlayerName, defenders, effect );
     }
 
     /**
