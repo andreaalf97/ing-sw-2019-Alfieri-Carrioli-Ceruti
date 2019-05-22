@@ -207,12 +207,8 @@ public class Controller implements Observer {
 
         //TODO might need to remove this for asynchronous power ups
         //If it wasn't the player's turn
-        if(!player.playerStatus.isActive){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("This is not your turn");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+        if ( isNotThisPlayersTurn(player) )
             return;
-        }
 
         //If the player responded with an Action to do
         if(questionType == QuestionType.Action){
@@ -261,6 +257,17 @@ public class Controller implements Observer {
         message.add("The controller received your answer (MISSING RETURN SOMEWHERE");
 
         virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+    }
+
+    private boolean isNotThisPlayersTurn(Player player){
+
+        if(!player.playerStatus.isActive){
+            ArrayList<String> message = new ArrayList<>();
+            message.add("This is not your turn");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            return true;
+        }
+        return false;
     }
 
     private void handleChooseWeaponToReload(String nickname, String answer) {
