@@ -821,7 +821,7 @@ public class Game extends Observable {
     }
 
     /**
-     * This method is called by ShootWithMovemente() and makes the actual effect of movement
+     * This method is called by ShootWithMovement() and makes the actual effect of movement
      * @param playersWhoMoveNames is the player being moved
      * @param effect is the movement effect we have to look at
      * @param xPos is the  x position of the player after he moved
@@ -1659,6 +1659,30 @@ public class Game extends Observable {
 
         return jsonGameMap;
 
+    }
+
+    /**
+     *
+     * @param nickname the nickname of the player
+     * @return all the names of the weapons loaded the player has
+     */
+    public ArrayList<String> getLoadedWeapons(String nickname){
+
+        Player player = getPlayerByNickname(nickname);
+
+        //These are the weapons the player has
+        ArrayList<Weapon> weapons = player.getWeaponList();
+
+        //These are the weapons loaded, these are the weapons the player can choose to shoot
+        ArrayList<String> weaponsLoaded = new ArrayList<>();
+
+        for(Weapon w : weapons){
+
+            if( w.isLoaded() )
+                weaponsLoaded.add(w.getWeaponName());
+        }
+
+        return weaponsLoaded;
     }
 
     /**
