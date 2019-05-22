@@ -53,6 +53,10 @@ public class KillShotTrack {
         }
     }
 
+    /**
+     * this method creatre a jst by deserializing it from json
+     * @param jsonKST the kst in json
+     */
     public KillShotTrack(JsonObject jsonKST){
         this.skullList = new ArrayList<>();
         JsonArray jsonSkullList = jsonKST.get("skullList").getAsJsonArray();

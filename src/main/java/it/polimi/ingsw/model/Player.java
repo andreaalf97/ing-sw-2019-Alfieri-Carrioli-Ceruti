@@ -136,6 +136,10 @@ public class Player {
         this(nickname, -1, -1);
     }
 
+    /**
+     * constructs a new player by reading its parameter in the json file
+     * @param jsonPlayer the json file
+     */
     public Player(JsonObject jsonPlayer){
         this.nickname = jsonPlayer.get("nickname").getAsString();
         this.nRedAmmo = jsonPlayer.get("nRedAmmo").getAsInt();

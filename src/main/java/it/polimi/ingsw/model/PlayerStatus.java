@@ -45,6 +45,10 @@ public class PlayerStatus {
      */
     public String lastAnswer;
 
+    /**
+     * creates the playerStatus reading it by json
+     * @param jsonPlayerStatus the status of the player in jsom
+     */
     public PlayerStatus(JsonObject jsonPlayerStatus){
         this.isActive = jsonPlayerStatus.get("isActive").getAsBoolean();
         this.isFirstTurn = jsonPlayerStatus.get("isFirstTurn").getAsBoolean();
@@ -58,7 +62,6 @@ public class PlayerStatus {
         if (jsonPlayerStatus.get("lastQuestion") != null)
             this.lastQuestion = QuestionType.valueOf(jsonPlayerStatus.get("lastQuestion").getAsString());
     }
-
 
     public PlayerStatus(PlayerStatus playerStatus){
         this.isFirstTurn = playerStatus.isFirstTurn;

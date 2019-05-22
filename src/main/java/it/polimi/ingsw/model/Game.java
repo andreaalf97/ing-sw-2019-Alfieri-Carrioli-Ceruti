@@ -79,7 +79,10 @@ public class Game extends Observable {
         this.kst = new KillShotTrack(nSkulls);
     }
 
-
+    /**
+     * creates a new game by deserializing it from parametere modelSnapshot
+     * @param modelSnapshot the json in which we have all the model
+     */
     public Game(String modelSnapshot){
         JsonObject jsonRoot = new JsonParser().parse(modelSnapshot).getAsJsonObject();
 
@@ -97,6 +100,11 @@ public class Game extends Observable {
 
     }
 
+    /**
+     * this method deserialize Player Names objects
+     * @param jsonPlayerNames the json of the players
+     * @return the Players ArrayList
+     */
     private ArrayList<String> deserializePlayerNamesObject(JsonArray jsonPlayerNames) {
 
         ArrayList<String> playerNames = new ArrayList<>();
@@ -107,6 +115,11 @@ public class Game extends Observable {
         return playerNames;
     }
 
+    /**
+     * this method deserialize Players
+     * @param jsonPlayers the json that represents the players
+     * @return the corrresponding ArrayList
+     */
     private ArrayList<Player> deserializePlayerObject(JsonArray jsonPlayers) {
         ArrayList<Player> players = new ArrayList<>();
 

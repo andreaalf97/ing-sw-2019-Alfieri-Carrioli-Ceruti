@@ -42,8 +42,8 @@ public class AmmoSpot extends Spot {
 
     /**
      * Constructor used in tests
-     * @param ammoColorList
-     * @param powerup
+     * @param ammoColorList the list of ammos in the spot
+     * @param powerup the powerup in the spot
      */
     public AmmoSpot(ArrayList<Color> ammoColorList, PowerUp powerup){
         super();
@@ -51,6 +51,9 @@ public class AmmoSpot extends Spot {
         this.powerup = powerup;
     }
 
+    /**
+     * basic constructor
+     */
     public AmmoSpot(){
         super();
         this.ammoColorList = new ArrayList<>();
@@ -58,6 +61,10 @@ public class AmmoSpot extends Spot {
 
     }
 
+    /**
+     * creates an ammospot by reading it from jsonObject
+     * @param jsonSpot the spot to deserialize
+     */
     public AmmoSpot(JsonObject jsonSpot){
         this.doors = new ArrayList<>();
         JsonArray jsonDoors = jsonSpot.get("doors").getAsJsonArray();
@@ -85,7 +92,6 @@ public class AmmoSpot extends Spot {
         if(jsonSpot.get("powerup") != null)
             this.powerup = new PowerUp(jsonSpot.get("powerup").getAsJsonObject());
     }
-
 
     /**
      * getter for ammoColorList

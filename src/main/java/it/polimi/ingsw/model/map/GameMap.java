@@ -19,6 +19,10 @@ public class GameMap {
 
     private static Random rand;
 
+    /**
+     * creates a gameMap by reading it from json
+     * @param jsonMap the map to create
+     */
     public GameMap(JsonObject jsonMap){
         this.rand = new Random();
 
@@ -51,13 +55,17 @@ public class GameMap {
 
     /**
      * Only constructor
-     * @param spotMatrix
+     * @param spotMatrix the matrix corresponding to gameMap.map
      */
     protected GameMap(Spot[][] spotMatrix){
         this.map = spotMatrix;
         this.rand = new Random();
     }
 
+    /**
+     * creates a GameMap by parsing the gameMap parameter
+     * @param gameMap the map to copy
+     */
     public GameMap(GameMap gameMap){
 
         this.map = new Spot[3][4];

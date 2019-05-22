@@ -36,6 +36,10 @@ public class SpawnSpot extends Spot {
         this.weaponList = weaponList;
     }
 
+    /**
+     * creates a spawnspot by reading from json
+     * @param jsonSpot the spot to deserialize
+     */
     public SpawnSpot(JsonObject jsonSpot){
         this.weaponList = new ArrayList<>();
         JsonArray jsonWeaponList = jsonSpot.get("weaponList").getAsJsonArray();

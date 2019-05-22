@@ -55,6 +55,10 @@ public class Weapon {
         isLoaded = true;
     }
 
+    /**
+     * test constructor for a weapon
+     * @param weaponName the weapon name
+     */
     public Weapon(String weaponName){
 
         this.weaponName = weaponName;
@@ -65,6 +69,10 @@ public class Weapon {
 
     }
 
+    /**
+     * creates a weapon by reading the jsonObject
+     * @param jsonWeapon the weapon in json format
+     */
     public Weapon(JsonObject jsonWeapon){
         this.weaponName = jsonWeapon.get("weaponName").getAsString();
 
@@ -121,7 +129,6 @@ public class Weapon {
      * this method returns a weapon from a JsonObject
      * @param weaponName  the name of the weapon to load
      * @param jsonDeck the jsonObject that contains all the weapons
-     * @return the weapon correctly filled
      */
     public Weapon(String weaponName, JsonObject jsonDeck)
     {

@@ -15,6 +15,10 @@ public class WeaponDeck{
      */
     private ArrayList<Weapon> weaponList;
 
+    /**
+     * creates a weapon deck by reading the json object
+     * @param jsonWeaponDeck the weapon deck in json format
+     */
     public WeaponDeck(JsonObject jsonWeaponDeck){
         JsonArray jsonWeaponList = jsonWeaponDeck.get("weaponList").getAsJsonArray();
 
