@@ -20,7 +20,7 @@ import java.util.ArrayList;
         - Template Engines
  */
 
-@Deprecated
+
 public class VirtualView extends Observable implements Observer {
 
     /**
