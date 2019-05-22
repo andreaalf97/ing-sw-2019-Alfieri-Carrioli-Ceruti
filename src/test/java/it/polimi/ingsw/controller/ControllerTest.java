@@ -1,51 +1,39 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.PowerUp;
+import it.polimi.ingsw.model.map.MapName;
+import it.polimi.ingsw.view.server.VirtualView;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 public class ControllerTest {
-    /*
-    @Test
-    public void generatePaymentChoice(){
 
-        Player testPlayer = new Player("andreaalf");
+    @Before
+    public void setup(){
 
-        ArrayList<Color> ammoToGive = new ArrayList<>();
-        ammoToGive.add(Color.BLUE);
-        ammoToGive.add(Color.BLUE);
-        ammoToGive.add(Color.BLUE);
-        ammoToGive.add(Color.RED);
-        ammoToGive.add(Color.RED);
-        ammoToGive.add(Color.RED);
-        ammoToGive.add(Color.YELLOW);
-        ammoToGive.add(Color.YELLOW);
-        ammoToGive.add(Color.YELLOW);
+        ArrayList<String> playerNicknames = new ArrayList<>();
+        playerNicknames.add("andreaalf");
+        playerNicknames.add("gino");
+        playerNicknames.add("meme");
 
-        testPlayer.giveAmmos(ammoToGive);
+        Game game = new Game(playerNicknames, MapName.FIRE, 5);
+        //VirtualView virtualView = new VirtualView();
 
-        testPlayer.givePowerUp(new PowerUp("Torpedine", Color.BLUE));
-        testPlayer.givePowerUp(new PowerUp("Cazzimmo", Color.BLUE));
-        testPlayer.givePowerUp(new PowerUp("Culo", Color.RED));
-
-        ArrayList<Color> payment = new ArrayList<>();
-        payment.add(Color.BLUE);
-        payment.add(Color.BLUE);
-        payment.add(Color.BLUE);
-        payment.add(Color.RED);
-        payment.add(Color.RED);
-
-        ArrayList<String> paymentOptions = Controller.generatePaymentChoice(testPlayer, payment);
-
-        for(String option : paymentOptions)
-            System.out.println(option);
+        //Controller controller = new Controller();
 
     }
 
-     */
+    @Test
+    public void update(){
+
+        Player testPlayer = new Player("andreaalf");
+
+
+
+    }
+
 }
