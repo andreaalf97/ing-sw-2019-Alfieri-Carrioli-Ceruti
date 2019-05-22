@@ -5,9 +5,9 @@ import java.util.regex.Pattern;
 
 public class Cli {
 
-    private final static String validUsername = "^[a-zA-Z0-9]*$";
+    private final String validUsername = "^[a-zA-Z0-9]*$";
 
-    public static void main(String[] args){
+    private void start(){
 
         Scanner scanner = new Scanner(System.in);
 
@@ -52,6 +52,28 @@ public class Cli {
             nSkulls = scanner.nextInt();
         }
 
+        System.out.println("Choose network type:");
+        System.out.println("0 -- Socket");
+        System.out.println("1 -- RMI");
+
+        int chosenIndex = scanner.nextInt();
+
+        while (chosenIndex != 0 && chosenIndex != 1){
+            System.out.println("Choose network type:");
+            System.out.println("0 -- Socket");
+            System.out.println("1 -- RMI");
+
+            chosenIndex = scanner.nextInt();
+        }
+
+        return;
+    }
+
+    public static void main(String[] args){
+
+        Cli cli = new Cli();
+
+        cli.start();
 
     }
 

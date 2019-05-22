@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,64 +18,64 @@ import java.util.Map;
  * Every Receiver has 1 nickname
  * Every Controller has multiple nicknames
  */
-public class GamesHandler implements Questioner {
+public class GamesHandler implements Observer {
 
     /**
      * A map that connects every nickname to its Controller
      */
     private Map<String, Controller> nicknameControllers;
 
-    private ArrayList<Receiver> receivers;
+    ServerProxy serverProxy;
 
-    private ArrayList<String> nicknames;
+    static final String SPLITTER = "$";
 
-    public GamesHandler(){
+    protected GamesHandler() {
         this.nicknameControllers = new HashMap<>();
-        this.receivers = new ArrayList<>();
-        this.nicknames = new ArrayList<>();
+        this.serverProxy = new ServerProxy();
     }
 
-
-    public boolean hasNickname(String username) {
-        return nicknames.contains(username);
-    }
 
     public void startGame(WaitingRoom waitingRoom) {
         Game game = new Game(waitingRoom.players, waitingRoom.getVotedMap(), waitingRoom.getVotedSkulls());
 
-        VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.receivers);
+        VirtualView virtualView = new VirtualView(waitingRoom.players, serverProxy);
 
         Controller controller = new Controller(game, virtualView);
 
         virtualView.addObserver(controller);
         game.addObserver(virtualView);
 
-        for(String player : waitingRoom.players) {
-            nicknames.add(player);
+        for(String player : waitingRoom.players)
             nicknameControllers.put(player, controller);
 
-            Receiver receiver = waitingRoom.receivers.get(waitingRoom.players.indexOf(player));
-
-            receivers.add(receiver);
-
-            Thread t = new Thread(receiver);
-            t.start();
-        }
 
         controller.startGame();
 
     }
 
     @Override
-    public void answer(String nickname, String answer) {
+    public void notifyObserver(Object obj){
+
+        if(! (obj instanceof String))
+            throw new RuntimeException("This should be a String object");
+
+        String nicknameAndAnswer = (String) obj;
+
+        if(nicknameAndAnswer.split(SPLITTER).length == 1){
+            String nickname = nicknameAndAnswer.split(SPLITTER)[0];
+            lostConnection(nickname);
+        }
+
+        String nickname = nicknameAndAnswer.split(SPLITTER)[0];
+        String answer = nicknameAndAnswer.split(SPLITTER)[1];
+
         Controller controller = nicknameControllers.get(nickname);
 
         controller.virtualView.notify(nickname, answer);
     }
 
 
-    @Override
-    public void lostConnection(String nickname) {
+    private void lostConnection(String nickname) {
 
         Controller controller = nicknameControllers.get(nickname);
 
@@ -93,9 +95,24 @@ public class GamesHandler implements Questioner {
 
         int index = nickname.indexOf(nickname);
 
-        receivers.set(index, receiver);
+        //receivers.set(index, receiver);
 
         nicknameControllers.get(nickname).reinsert(nickname, receiver);
+
+    }
+
+    public void addSocket(String nickname, Socket socket) {
+
+        //TODO
+        //serverProxy.addSocket(nickname, socket);
+
+    }
+
+    public void removeWaitingRoomPlayer(String player) {
+
+        //TODO
+        //This should send a goodbye to the player and close the connection
+        //serverProxy.removeWaitingRoomPlayer(player);
 
     }
 }

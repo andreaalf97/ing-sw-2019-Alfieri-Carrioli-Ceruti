@@ -24,7 +24,7 @@ import java.util.logging.Level;
         - Data related logic
         - Interaction with Database or JSON file
         - Communicates with controller
-        - Can sometimes update the view (depends on framework)
+        - Can sometimes notify the view (depends on framework)
  */
 
 public class Game extends Observable {
@@ -1455,7 +1455,7 @@ public class Game extends Observable {
 
     //TESTED
     /**
-     * update status of current and next player
+     * notify status of current and next player
      * @return the next player
      */
     public Player endTurnUpdateStatus() {

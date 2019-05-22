@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.Observable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,17 +11,12 @@ import java.util.logging.Level;
 /**
  * This class runs on its own thread and handles receiving every message from the specific player
  */
-public class Receiver implements Runnable {
+public class Receiver extends Observable implements Runnable {
 
     /**
      * The nickname of the owner of this stream
      */
     private String nickname;
-
-    /**
-     * The questioner is the class allowed to ask a question to this object
-     */
-    private Questioner questioner;
 
     /**
      * The stream coming FROM THE CLIENT
@@ -35,9 +31,8 @@ public class Receiver implements Runnable {
     /**
      * The constructor
      */
-    Receiver(String nickname, Questioner questioner, BufferedReader in, PrintWriter out){
+    Receiver(String nickname, BufferedReader in, PrintWriter out){
         this.nickname = nickname;
-        this.questioner = questioner;
         this.in = in;
         this.out = out;
     }
@@ -58,12 +53,12 @@ public class Receiver implements Runnable {
                     throw new IOException("Received null from client --> disconnecting");
 
                 MyLogger.LOGGER.log(Level.INFO, "Receiver class received a new line");
-                questioner.answer(nickname, line);
+                notifyObservers(nickname + GamesHandler.SPLITTER + line);
             }
 
         }
         catch (IOException e){
-            questioner.lostConnection(nickname);
+            notifyObservers(nickname + GamesHandler.SPLITTER); //if the client disconnected, I just send an empty message
         }
     }
 

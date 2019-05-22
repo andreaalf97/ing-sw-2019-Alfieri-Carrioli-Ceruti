@@ -66,7 +66,7 @@ public class Controller implements Observer {
 
     /**
      * This method:
-     *      - update the current player status
+     *      - notify the current player status
      *      - checks all deaths
      *      - refills
      */
@@ -116,7 +116,8 @@ public class Controller implements Observer {
      */
     public void reinsert(String nickname, Receiver receiver) {
 
-        virtualView.updateReceiver(nickname, receiver);
+        //TODO
+        //virtualView.updateReceiver(nickname, receiver);
 
         ArrayList<String> messages = new ArrayList<>();
         messages.add(nickname + " reconnected");
@@ -173,7 +174,7 @@ public class Controller implements Observer {
      * @param arg the ClientAnswer
      */
     @Override
-    public void update(Object arg) {
+    public void notifyObserver(Object arg) {
         //This should never happen
         if(arg != null && !(arg instanceof ClientAnswer))
             throw new RuntimeException("The arg should be a ClientAnswer class");

@@ -54,6 +54,7 @@ public class ClientView extends Observable implements Runnable, Observer {
             e.printStackTrace();
         }
 
+        /*
         StreamPrinter stdinToSocket = new StreamPrinter(stdin, socketout);
         StreamPrinter socketToStdout = new StreamPrinter(socketin, stdout);
 
@@ -62,6 +63,8 @@ public class ClientView extends Observable implements Runnable, Observer {
 
         t1.start();
         t2.start();
+
+         */
 
         /*
         try {
@@ -76,7 +79,7 @@ public class ClientView extends Observable implements Runnable, Observer {
     }
 
     @Override
-    public void update(Object arg) {
+    public void notifyObserver(Object arg) {
         //TODO
     }
 
