@@ -19,9 +19,11 @@ public enum QuestionType {
 
     PayWith,
 
-    AddDefender,
+    Shoot,      //double splitters tra i defenders e movers ecc, single splitters tra i singoli defenders per esempio
+
+    /*AddDefender,
     AddCoords,
     AddMover,
-    ChooseOrder;
+    ChooseOrder; */
 
 }

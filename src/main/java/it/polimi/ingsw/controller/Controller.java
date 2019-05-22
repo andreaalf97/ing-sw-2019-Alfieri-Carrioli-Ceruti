@@ -206,12 +206,8 @@ public class Controller implements Observer {
 
         //TODO might need to remove this for asynchronous power ups
         //If it wasn't the player's turn
-        if(!player.playerStatus.isActive){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("This is not your turn");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+        if ( isNotThisPlayersTurn(player) )
             return;
-        }
 
         //If the player responded with an Action to do
         if(questionType == QuestionType.Action){
@@ -222,7 +218,6 @@ public class Controller implements Observer {
         if(questionType == QuestionType.ChoosePowerUpToRespawn){
 
             handleChoosePowerUpToRespawn(player, answer);
-
         }
 
         //If the player responded with the coords to move
@@ -230,29 +225,23 @@ public class Controller implements Observer {
 
             handleWhereToMove(player, answer);
             //Reads what spot the player decided to move to
-
-
         }
 
         //If the player responded with the coords to move and grab
         if(questionType == QuestionType.WhereToMoveAndGrab){
 
             handleWhereToMoveAndGrab(player, answer);
-
         }
 
         if(questionType == QuestionType.PayWith){
 
             handlePayWith(player, answer);
-
-
         }
 
         //If the player responded with a weapon to switch with the spawn spot
         if(questionType == QuestionType.ChooseWeaponToSwitch){
 
             handleChooseWeaponToSwitch(player, answer);
-
         }
 
         //This is printed if I'm missing a return statement in the previous questions
@@ -260,6 +249,17 @@ public class Controller implements Observer {
         message.add("The controller received your answer (MISSING RETURN SOMEWHERE");
 
         virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+    }
+
+    private boolean isNotThisPlayersTurn(Player player){
+
+        if(!player.playerStatus.isActive){
+            ArrayList<String> message = new ArrayList<>();
+            message.add("This is not your turn");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            return true;
+        }
+        return false;
     }
 
     private void handleChooseWeaponToSwitch(Player player, String answer) {
