@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.exception.InvalidChoiceException;
+import it.polimi.ingsw.model.cards.Effect;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -66,7 +66,7 @@ public class Controller implements Observer {
 
     /**
      * This method:
-     *      - update the current player status
+     *      - notify the current player status
      *      - checks all deaths
      *      - refills
      */
@@ -116,7 +116,8 @@ public class Controller implements Observer {
      */
     public void reinsert(String nickname, Receiver receiver) {
 
-        virtualView.updateReceiver(nickname, receiver);
+        //TODO
+        //virtualView.updateReceiver(nickname, receiver);
 
         ArrayList<String> messages = new ArrayList<>();
         messages.add(nickname + " reconnected");
@@ -173,7 +174,7 @@ public class Controller implements Observer {
      * @param arg the ClientAnswer
      */
     @Override
-    public void update(Object arg) {
+    public void notifyObserver(Object arg) {
         //This should never happen
         if(arg != null && !(arg instanceof ClientAnswer))
             throw new RuntimeException("The arg should be a ClientAnswer class");
@@ -309,8 +310,60 @@ public class Controller implements Observer {
         return;
     }
 
-    private void handleShoot(String nickname, String answer){
-        
+    private void handleShoot(String nickname, String answer) {
+
+        Player player = gameModel.getPlayerByNickname(nickname);
+
+        //eventuale costo che ci sarà da pagare
+        ArrayList<Color> cost = new ArrayList<>();
+
+        Weapon weapon = gameModel.getWeaponByName(player.playerStatus.lastAnswer);
+
+        //in answer c'è ci sono le informazioni per sparare in questo modo  OrderIndex :: Defender0:Defender1:Defender2 :: Mover0:Mover2 :: x0,y0 : x1,y1
+        String[] info = answer.split(DOUBLESPLITTER);
+
+        String defender = info[1];
+
+        //Questo è l'ordine scelto dall'utente
+        int orderNumber = Integer.parseInt(info[0]);
+
+        //Questo è un array di stringhe contenente i defenders
+        String[] defenders = defender.split(SPLITTER);
+
+        //Questa è la variabile ausiliaria che mi permette di sapere fin dove scorrere gli effetti in base a quanti giocatori mi ha passato l'utente e quanti giocatori permettono di colpire gli effetti
+        int nPlayersInThisAttack = 0;
+
+        for (int i : weapon.getOrder().get(orderNumber)) {  //scorro gli effetti nell'ordine scelto
+
+            Effect effect = weapon.getEffects().get(i);
+
+            cost.addAll(effect.getCost());
+
+            nPlayersInThisAttack += effect.getnPlayersAttackable();
+            nPlayersInThisAttack += effect.getnPlayersMarkable();
+
+            //se ci sono meno defender che persone da attaccare all'effetto a cui siamo arrivati, devo fermarmi qui, esco
+            if (defenders.length <= nPlayersInThisAttack)
+                break;
+        }
+
+        //Se c'è un costo da pagare, devo chiedere all'utente come vuole pagarlo
+        if( !cost.isEmpty() ){
+
+            ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
+
+            virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
+
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
+
+            //aggiorno la risposta in modo da salvare anche il nome dell'arma, al primo posto, che servirà al prossimo giro, per sparare, dopo aver pagato
+            answer = player.playerStatus.lastAnswer + DOUBLESPLITTER + answer;
+            player.playerStatus.lastQuestion = QuestionType.Shoot;
+            player.playerStatus.lastAnswer = answer;
+        }else{
+            //TODO sparo!!
+        }
+
     }
 
     private void handleChooseWeaponToReload(String nickname, String answer) {
@@ -323,6 +376,7 @@ public class Controller implements Observer {
         player.playerStatus.lastAnswer = answer;
 
         ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
+
         virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
 
@@ -421,6 +475,11 @@ public class Controller implements Observer {
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
+        }
+
+        if ( player.playerStatus.lastQuestion == QuestionType.Shoot ){
+
+            //TODO ho appena pagato, sparo!!
         }
 
         if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToReload){

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.server;
 
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.server.ServerProxy;
 import it.polimi.ingsw.view.ClientAnswer;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.view.QuestionType;
@@ -28,37 +29,34 @@ public class VirtualView extends Observable implements Observer {
      */
     ArrayList<String> players;
 
-    /**
-     * The channels to communicate with the player
-     */
-    ArrayList<Receiver> receivers;
+    ServerProxy serverProxy;
 
     /**
      * Only constructor
      * @param players players nicknames
      */
-    public VirtualView(ArrayList<String> players, ArrayList<Receiver> receivers){
+    public VirtualView(ArrayList<String> players, ServerProxy serverProxy){
 
         this.players = players;
-        this.receivers = receivers;
+        this.serverProxy = serverProxy;
     }
 
     @Override
-    public void update(Object arg) {
+    public void notifyObserver(Object arg) {
         //TODO here the view needs to show to all clients that the model is changed by sending custom messages to each one of them
 
     }
 
     public void sendAll(ServerQuestion serverQuestion) {
-        for(Receiver r : receivers){
-            r.sendMessage(serverQuestion.toJSON());
+        for(String player : players){
+            serverProxy.send(player, serverQuestion.toJSON());
         }
 
     }
 
     public void notify(String nickname, String stringMessage){
 
-        ClientAnswer clientAnswer = null;
+        ClientAnswer clientAnswer;
         try {
             clientAnswer = new ClientAnswer(nickname, stringMessage);
         }
@@ -76,27 +74,15 @@ public class VirtualView extends Observable implements Observer {
         notifyObservers(clientAnswer);
     }
 
-    private Receiver getReceiverByNickname(String nickname) {
-
-        if(!players.contains(nickname))
-            throw new RuntimeException(nickname + " is not a valid nickname");
-
-        int index = players.indexOf(nickname);
-        return receivers.get(index);
-    }
 
     public void sendQuestion(String nickname, ServerQuestion serverQuestion){
-        Receiver r = getReceiverByNickname(nickname);
-        r.sendMessage(serverQuestion.toJSON());
+        serverProxy.send(nickname, serverQuestion.toJSON());
     }
 
-    /**
-     * Updates the receiver of the given nickname
-     * @param nickname the player
-     * @param receiver the new receiver
-     */
-    public void updateReceiver(String nickname, Receiver receiver) {
-        int index = players.indexOf(nickname);
-        receivers.set(index, receiver);
+
+    public void lostConnection(String nickname) {
+
+        //TODO
+
     }
 }
