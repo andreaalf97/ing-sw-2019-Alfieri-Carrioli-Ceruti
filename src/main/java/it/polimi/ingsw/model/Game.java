@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.*;
 import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.controller.Actions;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
@@ -14,7 +15,7 @@ import it.polimi.ingsw.model.map.Spot;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Observable;
+
 import java.util.logging.Level;
 
 /*

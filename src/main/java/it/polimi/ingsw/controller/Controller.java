@@ -1,9 +1,8 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -14,9 +13,6 @@ import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.logging.Level;
 
 /*
     THE CONTROLLER:
@@ -173,15 +169,10 @@ public class Controller implements Observer {
 
     /**
      * Every message coming from a client arrives here
-     * @param o the VirtualView
      * @param arg the ClientAnswer
      */
     @Override
-    public void update(Observable o, Object arg) {
-
-        //This should never happen
-        if( !(o instanceof VirtualView) )
-            throw new RuntimeException("The observable is not a virtual view");
+    public void update(Object arg) {
 
         //This should never happen
         if(arg != null && !(arg instanceof ClientAnswer))
@@ -224,338 +215,44 @@ public class Controller implements Observer {
 
         //If the player responded with an Action to do
         if(questionType == QuestionType.Action){
-
-            //Reads what Action the player decided to do
-            Actions action = null;
-            try {
-                action = Actions.valueOf(answer);
-            }
-            catch (IllegalArgumentException e){
-                ArrayList<String> message = new ArrayList<>();
-                message.add("Invalid Action response");
-                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
-                return;
-            }
-
-            //RESPAWN
-            if(action == Actions.Respawn){
-
-                //Draws a weapon and gives it to the player
-                gameModel.givePowerUp(player.getNickname());
-
-                //If it's this player's first turn, I give him another powerup
-                if(player.playerStatus.isFirstTurn){
-                    gameModel.givePowerUp(player.getNickname());
-                }
-
-                //Creates the list of powerups to discard
-                ArrayList<String> powerUpsToRespawn = new ArrayList<>();
-
-                for(PowerUp p : player.getPowerUpList())
-                    powerUpsToRespawn.add(p.toString());
-
-                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.ChoosePowerUpToRespawn, powerUpsToRespawn));
-
-                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToRespawn;
-
-                return;
-            }
-
-            if(action == Actions.PickWeapon){
-
-                //I read all the weapons on the spawn spot where the player is
-                ArrayList<String> weaponsOnTheSpawnSpot = gameModel.weaponsToPick(player.getNickname());
-                //I create an array to fill with only the weapon he can pay for
-                ArrayList<String> weaponsToPick = new ArrayList<>();
-
-                //I read the weapon in the player's hand
-                ArrayList<Weapon> playerWeapons = player.getWeaponList();
-
-                //For each weapon on the spot, I check if the player is able to pay for it
-                for(String weapon : weaponsOnTheSpawnSpot){
-
-                    Weapon tempWeapon = gameModel.getWeaponByName(weapon);  //From a string to a weapon object
-
-                    //I read the cost of the weapon and remove the first cost (don't have to pay for it to pick)
-                    ArrayList<Color> tempWeaponCost = tempWeapon.getCost();
-                    tempWeaponCost.remove(0);
-
-                    //If the player can pay for it, good
-                    if(player.canPay(tempWeaponCost))
-                        weaponsToPick.add(weapon);
-
-                }
-
-                //The list for the messages to send the player
-                ArrayList<String> possibleAnswers = new ArrayList<>();
-
-                //If the player has to choose which weapon to discard
-                if(playerWeapons.size() > 2){
-
-                    for(String i : weaponsToPick)
-                        for(Weapon j : playerWeapons)
-                            possibleAnswers.add(i + SPLITTER + j.getWeaponName());
-
-                }
-                else {
-                    //If the player only has to choose which weapon to pick
-                    possibleAnswers = weaponsToPick;
-                }
-
-                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToSwitch, possibleAnswers));
-                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToSwitch;
-                return;
-            }
-
-            if(action == Actions.Move){
-
-                ArrayList<String> spots = new ArrayList<>();
-                boolean[][] allowedSpots = gameModel.wherePlayerCanMove(player.getNickname(), player.getnMoves());
-
-                for(int i = 0; i < allowedSpots.length; i++)
-                    for (int j = 0; j < allowedSpots[i].length; j++)
-                        if(allowedSpots[i][j])
-                            spots.add(i + SPLITTER + j);
-
-                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMove, spots));
-                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMove;
-
-                return;
-            }
-
-            if(action == Actions.MoveAndGrab){
-
-                ArrayList<String> spots = new ArrayList<>();
-                boolean[][] allowedSpots = gameModel.wherePlayerCanMoveAndGrab(player.getNickname(), player.getnMovesBeforeGrabbing());
-
-                for(int i = 0; i < allowedSpots.length; i++)
-                    for (int j = 0; j < allowedSpots[i].length; j++)
-                        if(allowedSpots[i][j])
-                            spots.add(i + SPLITTER + j);
-
-                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMoveAndGrab, spots));
-                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMoveAndGrab;
-
-                return;
-            }
-
-            if(action == Actions.Attack){
-                return;
-            }
-
-            if(action == Actions.UsePowerUp){
-                return;
-            }
-
-            if(action == Actions.ReloadAndEndTurn){
-                return;
-            }
-
-            if(action == Actions.EndTurn){
-
-                //Ends the turn and sends a question to the next player
-                endTurn();
-
-                player.playerStatus.waitingForAnswerToThisQuestion = null;
-
-                ArrayList<String> message = new ArrayList<>();
-                message.add("Your turn is over");
-                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
-
-
-
-                return;
-            }
+            handleAction(player, answer);
         }
 
         //If the player responded with a power up to respawn
         if(questionType == QuestionType.ChoosePowerUpToRespawn){
 
-            String powerUpName = answer.split(SPLITTER)[0];
-            Color color = Color.valueOf(answer.split(SPLITTER)[1].toUpperCase());
+            handleChoosePowerUpToRespawn(player, answer);
 
-            int powerUpIndex = -1;
-
-            ArrayList<PowerUp> powerUpList = player.getPowerUpList();
-            for(int i = 0; i < powerUpList.size(); i++){
-
-                PowerUp tempPowerUp = powerUpList.get(i);
-
-                if(tempPowerUp.getColor().equals(color) && tempPowerUp.getPowerUpName().equals(powerUpName)) {
-                    powerUpIndex = i;
-                    break;
-                }
-                else {
-                    if(i == powerUpList.size() - 1)
-                        throw new RuntimeException("The PowerUp was not in the powerUpList");
-                }
-            }
-
-            gameModel.respawn(player.getNickname(), powerUpIndex);
-
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-            return;
         }
 
         //If the player responded with the coords to move
         if(questionType == QuestionType.WhereToMove){
 
+            handleWhereToMove(player, answer);
             //Reads what spot the player decided to move to
 
-            int xCoord;
-            int yCoord;
 
-            try {
-                int[] coords = parseSpot(answer);
-                xCoord = coords[0];
-                yCoord = coords[1];
-            }
-            catch (IllegalArgumentException e){
-                ArrayList<String> message = new ArrayList<>();
-                message.add("Invalid spot response");
-                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
-                return;
-            }
-
-            gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
-
-            player.playerStatus.nActionsDone += 1;
-
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-            return;
         }
 
         //If the player responded with the coords to move and grab
         if(questionType == QuestionType.WhereToMoveAndGrab){
 
-            //Reads what spot the player decided to move to
-            int xCoord;
-            int yCoord;
+            handleWhereToMoveAndGrab(player, answer);
 
-            try {
-                int[] coords = parseSpot(answer);
-                xCoord = coords[0];
-                yCoord = coords[1];
-            }
-            catch (IllegalArgumentException e){
-                ArrayList<String> message = new ArrayList<>();
-                message.add("Invalid spot response");
-                virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
-                return;
-            }
-
-            gameModel.moveAndGrab(player.getNickname(), xCoord, yCoord, -1);
-
-            player.playerStatus.nActionsDone += 1;
-
-
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-
-            return;
         }
 
         if(questionType == QuestionType.PayWith){
 
-            String[] paymentChosen = answer.split(DOUBLESPLITTER);
+            handlePayWith(player, answer);
 
-            for(String s : paymentChosen){
-
-                //This means I'm paying with a power up
-                if(s.contains(SPLITTER)){
-                    String chosenPowerUpToPay = s.split(SPLITTER)[0];
-                    player.removePowerUpByName(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
-                }
-                else {
-                    Color chosenColorToPay = Color.valueOf(s);
-                    player.removeAmmo(chosenColorToPay);
-                }
-
-            }
-
-            //If I'm waiting on how to pay for the weapon he wants to grab from the ground
-            if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToSwitch){
-
-
-
-                //This means the player is also telling which weapon he wants to discard
-                if(player.playerStatus.lastAnswer.contains(SPLITTER)){
-
-                    String[] weapons = parseWeaponToSwitch(player.playerStatus.lastAnswer);
-                    gameModel.switchWeapons(player.getNickname(), weapons[0], weapons[1]);
-
-                }
-                else {
-
-                    gameModel.pickWeaponFromSpawn(player.getNickname(), player.playerStatus.lastAnswer);
-
-                }
-
-                player.playerStatus.lastAnswer = null;
-                player.playerStatus.lastQuestion = null;
-
-                ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-                return;
-
-            }
 
         }
 
         //If the player responded with a weapon to switch with the spawn spot
         if(questionType == QuestionType.ChooseWeaponToSwitch){
 
-            Weapon weaponToPick;
+            handleChooseWeaponToSwitch(player, answer);
 
-            if(answer.contains(SPLITTER))
-                weaponToPick = gameModel.getWeaponByName(answer.split(SPLITTER)[0]);
-            else
-                weaponToPick = gameModel.getWeaponByName(answer);
-
-            ArrayList<Color> weaponCost = weaponToPick.getCost();
-            weaponCost.remove(0);
-
-            if(weaponCost.isEmpty()){
-
-                //This means the player is also telling which weapon he wants to discard
-                if(answer.contains(SPLITTER)){
-
-                    String[] weapons = parseWeaponToSwitch(answer);
-                    gameModel.switchWeapons(player.getNickname(), weapons[0], weapons[1]);
-
-                }
-                else {
-
-                    gameModel.pickWeaponFromSpawn(player.getNickname(), answer);
-
-                }
-
-                ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-                return;
-
-            }
-
-            ArrayList<String> messages = generatePaymentChoice(player, weaponCost);
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
-
-            player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToSwitch;
-            player.playerStatus.lastAnswer = answer;
-
-            return;
         }
 
         //This is printed if I'm missing a return statement in the previous questions
@@ -563,6 +260,338 @@ public class Controller implements Observer {
         message.add("The controller received your answer (MISSING RETURN SOMEWHERE");
 
         virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+    }
+
+    private void handleChooseWeaponToSwitch(Player player, String answer) {
+
+        Weapon weaponToPick;
+
+        if(answer.contains(SPLITTER))
+            weaponToPick = gameModel.getWeaponByName(answer.split(SPLITTER)[0]);
+        else
+            weaponToPick = gameModel.getWeaponByName(answer);
+
+        ArrayList<Color> weaponCost = weaponToPick.getCost();
+        weaponCost.remove(0);
+
+        if(weaponCost.isEmpty()){
+
+            //This means the player is also telling which weapon he wants to discard
+            if(answer.contains(SPLITTER)){
+
+                String[] weapons = parseWeaponToSwitch(answer);
+                gameModel.switchWeapons(player.getNickname(), weapons[0], weapons[1]);
+
+            }
+            else {
+
+                gameModel.pickWeaponFromSpawn(player.getNickname(), answer);
+
+            }
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+            return;
+
+        }
+
+        ArrayList<String> messages = generatePaymentChoice(player, weaponCost);
+        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
+
+        player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToSwitch;
+        player.playerStatus.lastAnswer = answer;
+
+        return;
+
+    }
+
+    private void handlePayWith(Player player, String answer) {
+
+        String[] paymentChosen = answer.split(DOUBLESPLITTER);
+
+        for(String s : paymentChosen){
+
+            //This means I'm paying with a power up
+            if(s.contains(SPLITTER)){
+                String chosenPowerUpToPay = s.split(SPLITTER)[0];
+                player.removePowerUpByName(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
+            }
+            else {
+                Color chosenColorToPay = Color.valueOf(s);
+                player.removeAmmo(chosenColorToPay);
+            }
+
+        }
+
+        //If I'm waiting on how to pay for the weapon he wants to grab from the ground
+        if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToSwitch){
+
+
+
+            //This means the player is also telling which weapon he wants to discard
+            if(player.playerStatus.lastAnswer.contains(SPLITTER)){
+
+                String[] weapons = parseWeaponToSwitch(player.playerStatus.lastAnswer);
+                gameModel.switchWeapons(player.getNickname(), weapons[0], weapons[1]);
+
+            }
+            else {
+
+                gameModel.pickWeaponFromSpawn(player.getNickname(), player.playerStatus.lastAnswer);
+
+            }
+
+            player.playerStatus.lastAnswer = null;
+            player.playerStatus.lastQuestion = null;
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+            return;
+
+        }
+
+    }
+
+    private void handleWhereToMoveAndGrab(Player player, String answer) {
+
+        //Reads what spot the player decided to move to
+        int xCoord;
+        int yCoord;
+
+        try {
+            int[] coords = parseSpot(answer);
+            xCoord = coords[0];
+            yCoord = coords[1];
+        }
+        catch (IllegalArgumentException e){
+            ArrayList<String> message = new ArrayList<>();
+            message.add("Invalid spot response");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            return;
+        }
+
+        gameModel.moveAndGrab(player.getNickname(), xCoord, yCoord, -1);
+
+        player.playerStatus.nActionsDone += 1;
+
+
+        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+
+        return;
+
+    }
+
+    private void handleWhereToMove(Player player, String answer) {
+        int xCoord;
+        int yCoord;
+
+        try {
+            int[] coords = parseSpot(answer);
+            xCoord = coords[0];
+            yCoord = coords[1];
+        }
+        catch (IllegalArgumentException e){
+            ArrayList<String> message = new ArrayList<>();
+            message.add("Invalid spot response");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            return;
+        }
+
+        gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
+
+        player.playerStatus.nActionsDone += 1;
+
+        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+        return;
+    }
+
+    private void handleChoosePowerUpToRespawn(Player player, String answer) {
+
+        String powerUpName = answer.split(SPLITTER)[0];
+        Color color = Color.valueOf(answer.split(SPLITTER)[1].toUpperCase());
+
+        int powerUpIndex = -1;
+
+        ArrayList<PowerUp> powerUpList = player.getPowerUpList();
+        for(int i = 0; i < powerUpList.size(); i++){
+
+            PowerUp tempPowerUp = powerUpList.get(i);
+
+            if(tempPowerUp.getColor().equals(color) && tempPowerUp.getPowerUpName().equals(powerUpName)) {
+                powerUpIndex = i;
+                break;
+            }
+            else {
+                if(i == powerUpList.size() - 1)
+                    throw new RuntimeException("The PowerUp was not in the powerUpList");
+            }
+        }
+
+        gameModel.respawn(player.getNickname(), powerUpIndex);
+
+        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+        return;
+
+    }
+
+    private void handleAction(Player player, String answer) {
+
+        //Reads what Action the player decided to do
+        Actions action = null;
+        try {
+            action = Actions.valueOf(answer);
+        }
+        catch (IllegalArgumentException e){
+            ArrayList<String> message = new ArrayList<>();
+            message.add("Invalid Action response");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            return;
+        }
+
+        //RESPAWN
+        if(action == Actions.Respawn){
+
+            //Draws a weapon and gives it to the player
+            gameModel.givePowerUp(player.getNickname());
+
+            //If it's this player's first turn, I give him another powerup
+            if(player.playerStatus.isFirstTurn){
+                gameModel.givePowerUp(player.getNickname());
+            }
+
+            //Creates the list of powerups to discard
+            ArrayList<String> powerUpsToRespawn = new ArrayList<>();
+
+            for(PowerUp p : player.getPowerUpList())
+                powerUpsToRespawn.add(p.toString());
+
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.ChoosePowerUpToRespawn, powerUpsToRespawn));
+
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToRespawn;
+
+            return;
+        }
+
+        if(action == Actions.PickWeapon){
+
+            //I read all the weapons on the spawn spot where the player is
+            ArrayList<String> weaponsOnTheSpawnSpot = gameModel.weaponsToPick(player.getNickname());
+            //I create an array to fill with only the weapon he can pay for
+            ArrayList<String> weaponsToPick = new ArrayList<>();
+
+            //I read the weapon in the player's hand
+            ArrayList<Weapon> playerWeapons = player.getWeaponList();
+
+            //For each weapon on the spot, I check if the player is able to pay for it
+            for(String weapon : weaponsOnTheSpawnSpot){
+
+                Weapon tempWeapon = gameModel.getWeaponByName(weapon);  //From a string to a weapon object
+
+                //I read the cost of the weapon and remove the first cost (don't have to pay for it to pick)
+                ArrayList<Color> tempWeaponCost = tempWeapon.getCost();
+                tempWeaponCost.remove(0);
+
+                //If the player can pay for it, good
+                if(player.canPay(tempWeaponCost))
+                    weaponsToPick.add(weapon);
+
+            }
+
+            //The list for the messages to send the player
+            ArrayList<String> possibleAnswers = new ArrayList<>();
+
+            //If the player has to choose which weapon to discard
+            if(playerWeapons.size() > 2){
+
+                for(String i : weaponsToPick)
+                    for(Weapon j : playerWeapons)
+                        possibleAnswers.add(i + SPLITTER + j.getWeaponName());
+
+            }
+            else {
+                //If the player only has to choose which weapon to pick
+                possibleAnswers = weaponsToPick;
+            }
+
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToSwitch, possibleAnswers));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToSwitch;
+            return;
+        }
+
+        if(action == Actions.Move){
+
+            ArrayList<String> spots = new ArrayList<>();
+            boolean[][] allowedSpots = gameModel.wherePlayerCanMove(player.getNickname(), player.getnMoves());
+
+            for(int i = 0; i < allowedSpots.length; i++)
+                for (int j = 0; j < allowedSpots[i].length; j++)
+                    if(allowedSpots[i][j])
+                        spots.add(i + SPLITTER + j);
+
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMove, spots));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMove;
+
+            return;
+        }
+
+        if(action == Actions.MoveAndGrab){
+
+            ArrayList<String> spots = new ArrayList<>();
+            boolean[][] allowedSpots = gameModel.wherePlayerCanMoveAndGrab(player.getNickname(), player.getnMovesBeforeGrabbing());
+
+            for(int i = 0; i < allowedSpots.length; i++)
+                for (int j = 0; j < allowedSpots[i].length; j++)
+                    if(allowedSpots[i][j])
+                        spots.add(i + SPLITTER + j);
+
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMoveAndGrab, spots));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMoveAndGrab;
+
+            return;
+        }
+
+        if(action == Actions.Attack){
+            return;
+        }
+
+        if(action == Actions.UsePowerUp){
+            return;
+        }
+
+        if(action == Actions.ReloadAndEndTurn){
+            return;
+        }
+
+        if(action == Actions.EndTurn){
+
+            //Ends the turn and sends a question to the next player
+            endTurn();
+
+            player.playerStatus.waitingForAnswerToThisQuestion = null;
+
+            ArrayList<String> message = new ArrayList<>();
+            message.add("Your turn is over");
+            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+
+
+
+            return;
+        }
+
     }
 
     private ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost) {

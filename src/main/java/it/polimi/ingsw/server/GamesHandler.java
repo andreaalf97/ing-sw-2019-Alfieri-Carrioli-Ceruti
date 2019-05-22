@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameView;
 import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
@@ -46,10 +45,8 @@ public class GamesHandler implements Questioner {
 
         Controller controller = new Controller(game, virtualView);
 
-        GameView gameView = new GameView();
-
         virtualView.addObserver(controller);
-        gameView.addObserver(virtualView);
+        game.addObserver(virtualView);
 
         for(String player : waitingRoom.players) {
             nicknames.add(player);

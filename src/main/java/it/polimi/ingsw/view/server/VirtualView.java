@@ -1,16 +1,15 @@
 package it.polimi.ingsw.view.server;
 
+import it.polimi.ingsw.Observable;
+import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.view.ClientAnswer;
 import it.polimi.ingsw.server.Receiver;
-import it.polimi.ingsw.model.GameView;
-import it.polimi.ingsw.model.cards.PowerUp;
-import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+
+
 
 /*
     THE VIEW:
@@ -45,24 +44,8 @@ public class VirtualView extends Observable implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Object arg) {
         //TODO here the view needs to show to all clients that the model is changed by sending custom messages to each one of them
-        //e.g. It shouldn't tell player X which powerups Player Y has in his hands
-
-        if(!(o instanceof GameView))
-            throw new IllegalArgumentException("Illegal update argument for the VirtualView");
-
-        GameView gameView = (GameView) o;
-
-        /*
-            I can now work with:
-                gameView.gameMap;
-                gameView.kst;
-                gameView.players;
-        */
-
-
-        //TODO implement network logic
 
     }
 
@@ -89,7 +72,7 @@ public class VirtualView extends Observable implements Observer {
             return;
         }
 
-        setChanged();
+
         notifyObservers(clientAnswer);
     }
 

@@ -1,14 +1,16 @@
 package it.polimi.ingsw.view.client;
 
 import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.Observable;
+import it.polimi.ingsw.Observer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Observable;
-import java.util.Observer;
+
+
 import java.util.logging.Level;
 
 public class ClientView extends Observable implements Runnable, Observer {
@@ -74,7 +76,7 @@ public class ClientView extends Observable implements Runnable, Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Object arg) {
         //TODO
     }
 
