@@ -1,22 +1,18 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.util.*;
 import java.util.logging.Level;
 
-public class WaitingRoom {
+public class WaitingRoom extends Observable {
 
     /**
      * The list of connected player
      */
     protected ArrayList<String> players;
-
-    /**
-     * The list of connections for this room
-     */
-    protected ArrayList<Receiver> receivers;
 
     /**
      * Votes for each map:
@@ -27,16 +23,6 @@ public class WaitingRoom {
      * Votes for amount of skulls to use
      */
     private Map skullVotes;
-
-    /**
-     * Timer
-     */
-    private Timer timer;
-
-    /**
-     * Used to define when the room is ready to start
-     */
-    private boolean isReady;
 
     /**
      * The length of the timer
@@ -60,7 +46,6 @@ public class WaitingRoom {
      */
     public WaitingRoom(){
         this.players = new ArrayList<>();
-        this.receivers = new ArrayList<>();
 
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
         this.mapVotes.put(MapName.FIRE, 0);
@@ -76,31 +61,17 @@ public class WaitingRoom {
         this.skullVotes.put(7, 0);
         this.skullVotes.put(8, 0);
 
-        this.isReady = false;
-
-        this.timer = new Timer();
-        this.timer.schedule(new TimerTask() {
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                if(players.size() >= MINPLAYERS) {
-                    isReady = true;
-                    MyLogger.LOGGER.log(Level.INFO, "The timer is starting the game");
-                    startGame();
-                }
-                else
-                    MyLogger.LOGGER.warning("Room has not been filled in time! Not doing anything tho");
+                closeThisRoom();
             }
-        }, 30 * 1000);
+        }, TIMERMINUTES * 60 * 1000);
 
-            //TODO change timer to TIMERMINUTES * 60 * 1000
     }
 
-    /**
-     * Returns the amount of players registered into this room
-     * @return this.players.size()
-     */
-    public synchronized int nPlayers(){
-        return this.players.size();
+    private void notFilledInTime() {
+        closeThisRoom();
     }
 
     /**
@@ -109,14 +80,11 @@ public class WaitingRoom {
      * @param mapToVote the map chosen by the new player
      * @param nSkullsToVote the desired amount of skulls
      */
-    protected synchronized void addPlayer(Receiver receiver, String nickname, MapName mapToVote, int nSkullsToVote) {
+    protected synchronized void addPlayer(String nickname, MapName mapToVote, int nSkullsToVote) {
+
         if(players.contains(nickname))
             throw new RuntimeException("This waitingRoom already contains this player");
 
-        if(isReady)
-            throw new RuntimeException("This room was ready but you tried to add a new player");
-
-        receivers.add(receiver);
         players.add(nickname);
 
         int tempVotes = (int) (mapVotes.get(mapToVote));
@@ -129,7 +97,7 @@ public class WaitingRoom {
         skullVotes.put(nSkullsToVote, tempVotes + 1);
 
         if(players.size() == MAXPLAYERS)
-            isReady = true;
+            closeThisRoom();
 
     }
 
@@ -165,14 +133,7 @@ public class WaitingRoom {
         return maxSkulls;
     }
 
-    /**
-     * @return if this room is ready or not
-     */
-    protected boolean isReady(){
-        return isReady;
-    }
-
-    private void startGame(){
-        Main.startGame(this);
+    private void closeThisRoom(){
+        notifyObservers(this);
     }
 }

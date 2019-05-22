@@ -4,7 +4,6 @@ import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Effect;
-import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -67,7 +66,7 @@ public class Controller implements Observer {
 
     /**
      * This method:
-     *      - update the current player status
+     *      - notify the current player status
      *      - checks all deaths
      *      - refills
      */
@@ -117,7 +116,8 @@ public class Controller implements Observer {
      */
     public void reinsert(String nickname, Receiver receiver) {
 
-        virtualView.updateReceiver(nickname, receiver);
+        //TODO
+        //virtualView.updateReceiver(nickname, receiver);
 
         ArrayList<String> messages = new ArrayList<>();
         messages.add(nickname + " reconnected");
@@ -174,7 +174,7 @@ public class Controller implements Observer {
      * @param arg the ClientAnswer
      */
     @Override
-    public void update(Object arg) {
+    public void notifyObserver(Object arg) {
         //This should never happen
         if(arg != null && !(arg instanceof ClientAnswer))
             throw new RuntimeException("The arg should be a ClientAnswer class");
@@ -454,7 +454,6 @@ public class Controller implements Observer {
         if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToSwitch){
 
 
-
             //This means the player is also telling which weapon he wants to discard
             if(player.playerStatus.lastAnswer.contains(SPLITTER)){
 
@@ -482,6 +481,23 @@ public class Controller implements Observer {
 
             //TODO ho appena pagato, sparo!!
         }
+
+        if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToReload){
+
+           for(int i = 0; i < player.getWeaponList().size(); i++)
+               if(player.playerStatus.lastAnswer.equals(player.getWeaponList().get(i).getWeaponName()))
+                   gameModel.reloadWeapon(nickname, i);
+
+            player.playerStatus.lastAnswer = null;
+            player.playerStatus.lastQuestion = null;
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+            return;
+        }
+
 
     }
 

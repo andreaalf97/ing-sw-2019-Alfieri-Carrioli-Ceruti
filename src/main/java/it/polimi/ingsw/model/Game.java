@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
+import it.polimi.ingsw.view.QuestionType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +25,7 @@ import java.util.logging.Level;
         - Data related logic
         - Interaction with Database or JSON file
         - Communicates with controller
-        - Can sometimes update the view (depends on framework)
+        - Can sometimes notify the view (depends on framework)
  */
 
 public class Game extends Observable {
@@ -1455,7 +1456,7 @@ public class Game extends Observable {
 
     //TESTED
     /**
-     * update status of current and next player
+     * notify status of current and next player
      * @return the next player
      */
     public Player endTurnUpdateStatus() {
@@ -1537,6 +1538,14 @@ public class Game extends Observable {
             return actions;
         }
 
+        //when a player has reloaded a weapon he can only reload another weapon or end turn
+        if(player.playerStatus.lastQuestion.equals(QuestionType.ChooseWeaponToReload)) {
+            actions = new ArrayList<>();
+            actions.add(Actions.Reload.toString());
+            actions.add(Actions.EndTurn.toString());
+            return actions;
+        }
+
         if(isOnSpawnSpot(player))
             actions.add(Actions.PickWeapon.toString());
 
@@ -1556,6 +1565,7 @@ public class Game extends Observable {
                 break;
             }
         }
+
 
         actions.add(Actions.EndTurn.toString());
 
@@ -1718,7 +1728,7 @@ public class Game extends Observable {
      * @param cost the cost that player has to pay
      * @return all the possible combinations of payment
      */
-    public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost) {
+    public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost){
 
         if(!player.canPay(cost))
             throw new RuntimeException("This cost can't be payed from this player");
