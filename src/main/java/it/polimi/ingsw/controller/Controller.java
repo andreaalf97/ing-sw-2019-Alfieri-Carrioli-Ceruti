@@ -356,7 +356,6 @@ public class Controller implements Observer {
         if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToSwitch){
 
 
-
             //This means the player is also telling which weapon he wants to discard
             if(player.playerStatus.lastAnswer.contains(SPLITTER)){
 
@@ -379,6 +378,23 @@ public class Controller implements Observer {
 
             return;
         }
+
+        if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToReload){
+
+           for(int i = 0; i < player.getWeaponList().size(); i++)
+               if(player.playerStatus.lastAnswer.equals(player.getWeaponList().get(i).getWeaponName()))
+                   gameModel.reloadWeapon(nickname, i);
+
+            player.playerStatus.lastAnswer = null;
+            player.playerStatus.lastQuestion = null;
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+            return;
+        }
+
 
     }
 
