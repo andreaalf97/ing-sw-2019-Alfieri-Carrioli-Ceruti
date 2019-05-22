@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
+import it.polimi.ingsw.view.QuestionType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -820,7 +821,7 @@ public class Game extends Observable {
     }
 
     /**
-     * This method is called by ShootWithMovemente() and makes the actual effect of movement
+     * This method is called by ShootWithMovement() and makes the actual effect of movement
      * @param playersWhoMoveNames is the player being moved
      * @param effect is the movement effect we have to look at
      * @param xPos is the  x position of the player after he moved
@@ -1537,6 +1538,14 @@ public class Game extends Observable {
             return actions;
         }
 
+        //when a player has reloaded a weapon he can only reload another weapon or end turn
+        if(player.playerStatus.lastQuestion.equals(QuestionType.ChooseWeaponToReload)) {
+            actions = new ArrayList<>();
+            actions.add(Actions.Reload.toString());
+            actions.add(Actions.EndTurn.toString());
+            return actions;
+        }
+
         if(isOnSpawnSpot(player))
             actions.add(Actions.PickWeapon.toString());
 
@@ -1556,6 +1565,7 @@ public class Game extends Observable {
                 break;
             }
         }
+
 
         actions.add(Actions.EndTurn.toString());
 
@@ -1652,6 +1662,30 @@ public class Game extends Observable {
     }
 
     /**
+     *
+     * @param nickname the nickname of the player
+     * @return all the names of the weapons loaded the player has
+     */
+    public ArrayList<String> getLoadedWeapons(String nickname){
+
+        Player player = getPlayerByNickname(nickname);
+
+        //These are the weapons the player has
+        ArrayList<Weapon> weapons = player.getWeaponList();
+
+        //These are the weapons loaded, these are the weapons the player can choose to shoot
+        ArrayList<String> weaponsLoaded = new ArrayList<>();
+
+        for(Weapon w : weapons){
+
+            if( w.isLoaded() )
+                weaponsLoaded.add(w.getWeaponName());
+        }
+
+        return weaponsLoaded;
+    }
+
+    /**
      * generate all the possible weapons that player can pick in a spawnSpot
      * @param nickname the nickname of the player
      * @return all the names of the weapons
@@ -1694,7 +1728,7 @@ public class Game extends Observable {
      * @param cost the cost that player has to pay
      * @return all the possible combinations of payment
      */
-    public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost) {
+    public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost){
 
         if(!player.canPay(cost))
             throw new RuntimeException("This cost can't be payed from this player");

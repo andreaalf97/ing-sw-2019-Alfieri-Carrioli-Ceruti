@@ -252,6 +252,25 @@ public class Controller implements Observer {
             handleChooseWeaponToReload(clientAnswer.sender, answer);
 
         }
+        //TODO
+        if(questionType == QuestionType.ChoosePowerUpToDiscard){
+
+        }
+        //TODO
+        if(questionType == QuestionType.ChoosePowerUpToAttack){
+
+        }
+
+        if(questionType == QuestionType.ChooseWeaponToAttack) {
+
+            handleChooseWeaponToAttack(clientAnswer.sender, answer);
+
+        }
+
+        if (questionType == QuestionType.Shoot) {
+
+            handleShoot(clientAnswer.sender, answer);
+        }
 
         //This is printed if I'm missing a return statement in the previous questions
         ArrayList<String> message = new ArrayList<>();
@@ -271,7 +290,32 @@ public class Controller implements Observer {
         return false;
     }
 
+    private void handleChooseWeaponToAttack(String nickname, String answer){
+
+        Player player = gameModel.getPlayerByNickname(nickname);
+
+        Weapon weaponToShootWith = gameModel.getWeaponByName(answer);
+
+        player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToAttack;
+        player.playerStatus.lastAnswer = answer;
+
+        ArrayList<String> messages = new ArrayList<>();
+
+        messages.add("Choose the index of the order, the players you want to shoot and eventually who and where you want to move");
+
+        virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.Shoot, messages));
+
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Shoot;
+
+        return;
+    }
+
+    private void handleShoot(String nickname, String answer){
+        
+    }
+
     private void handleChooseWeaponToReload(String nickname, String answer) {
+
         Player player = gameModel.getPlayerByNickname(nickname);
 
         ArrayList<Color> cost = gameModel.getWeaponByName(answer).getCost();
@@ -357,7 +401,6 @@ public class Controller implements Observer {
         if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToSwitch){
 
 
-
             //This means the player is also telling which weapon he wants to discard
             if(player.playerStatus.lastAnswer.contains(SPLITTER)){
 
@@ -380,6 +423,23 @@ public class Controller implements Observer {
 
             return;
         }
+
+        if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToReload){
+
+           for(int i = 0; i < player.getWeaponList().size(); i++)
+               if(player.playerStatus.lastAnswer.equals(player.getWeaponList().get(i).getWeaponName()))
+                   gameModel.reloadWeapon(nickname, i);
+
+            player.playerStatus.lastAnswer = null;
+            player.playerStatus.lastQuestion = null;
+
+            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+            return;
+        }
+
 
     }
 
@@ -518,6 +578,17 @@ public class Controller implements Observer {
             return;
         }
 
+        if(action == Actions.Attack){
+
+            ArrayList<String> weaponsLoaded = gameModel.getLoadedWeapons(nickname);
+
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToAttack, weaponsLoaded));
+
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToAttack;
+
+            return;
+        }
+
         if(action == Actions.PickWeapon){
 
             //I read all the weapons on the spawn spot where the player is
@@ -596,9 +667,6 @@ public class Controller implements Observer {
             return;
         }
 
-        if(action == Actions.Attack){
-            return;
-        }
 
         if(action == Actions.UsePowerUp){
             return;
