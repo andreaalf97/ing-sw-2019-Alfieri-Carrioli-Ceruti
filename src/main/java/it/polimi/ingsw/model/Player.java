@@ -702,4 +702,14 @@ public class Player {
         throw new RuntimeException("This player doesn't have this power up");
 
     }
+
+    public ArrayList<Color> getPowerUpColors(){
+        ArrayList<Color> powerUpColors = new ArrayList<>();
+
+        for (int i = 0; i < powerUpList.size(); i++){
+            powerUpColors.add(powerUpList.get(i).getColor());
+        }
+
+        return powerUpColors;
+    }
 }

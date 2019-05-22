@@ -14,7 +14,7 @@ public enum Actions {
 
     UsePowerUp,
 
-    ReloadAndEndTurn,
+    Reload,
 
     EndTurn
 

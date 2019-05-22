@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -39,12 +40,12 @@ public class Controller implements Observer {
     /**
      * The char used to divide information into a single message
      */
-    private final String SPLITTER = ":";
+    public final static String SPLITTER = ":";
 
     /**
      * The char used to divide multiple leveled information into a single message
      */
-    private final String DOUBLESPLITTER = "::";
+    public final static String DOUBLESPLITTER = "::";
 
     /**
      * Constructor
@@ -173,13 +174,14 @@ public class Controller implements Observer {
      */
     @Override
     public void update(Object arg) {
-
         //This should never happen
         if(arg != null && !(arg instanceof ClientAnswer))
             throw new RuntimeException("The arg should be a ClientAnswer class");
 
         //The arg is always a ClientAnswer!
         ClientAnswer clientAnswer = (ClientAnswer) arg;
+
+        Player player = gameModel.getPlayerByNickname(clientAnswer.sender);
 
         //The index must be correct for the possible answer array
         if(clientAnswer.index > clientAnswer.possibleAnswers.size() - 1 || clientAnswer.index < 0){
@@ -189,8 +191,7 @@ public class Controller implements Observer {
             return;
         }
 
-        //Reading info from the client answer
-        Player player = gameModel.getPlayerByNickname(clientAnswer.sender);
+        //Reading info from the client answer;
         QuestionType questionType = clientAnswer.questionType;
         String answer = clientAnswer.possibleAnswers.get(clientAnswer.index);
 
@@ -215,43 +216,43 @@ public class Controller implements Observer {
 
         //If the player responded with an Action to do
         if(questionType == QuestionType.Action){
-            handleAction(player, answer);
+            handleAction(clientAnswer.sender, answer);
         }
 
         //If the player responded with a power up to respawn
         if(questionType == QuestionType.ChoosePowerUpToRespawn){
 
-            handleChoosePowerUpToRespawn(player, answer);
+            handleChoosePowerUpToRespawn(clientAnswer.sender, answer);
 
         }
 
         //If the player responded with the coords to move
         if(questionType == QuestionType.WhereToMove){
 
-            handleWhereToMove(player, answer);
+            handleWhereToMove(clientAnswer.sender, answer);
             //Reads what spot the player decided to move to
-
-
         }
 
         //If the player responded with the coords to move and grab
         if(questionType == QuestionType.WhereToMoveAndGrab){
 
-            handleWhereToMoveAndGrab(player, answer);
-
+            handleWhereToMoveAndGrab(clientAnswer.sender, answer);
         }
 
         if(questionType == QuestionType.PayWith){
 
-            handlePayWith(player, answer);
-
-
+            handlePayWith(clientAnswer.sender, answer);
         }
 
         //If the player responded with a weapon to switch with the spawn spot
         if(questionType == QuestionType.ChooseWeaponToSwitch){
 
-            handleChooseWeaponToSwitch(player, answer);
+            handleChooseWeaponToSwitch(clientAnswer.sender, answer);
+        }
+
+        if(questionType == QuestionType.ChooseWeaponToReload){
+
+            handleChooseWeaponToReload(clientAnswer.sender, answer);
 
         }
 
@@ -262,7 +263,23 @@ public class Controller implements Observer {
         virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
     }
 
-    private void handleChooseWeaponToSwitch(Player player, String answer) {
+    private void handleChooseWeaponToReload(String nickname, String answer) {
+        Player player = gameModel.getPlayerByNickname(nickname);
+
+        ArrayList<Color> cost = gameModel.getWeaponByName(answer).getCost();
+
+        player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToReload;
+        player.playerStatus.lastAnswer = answer;
+
+        ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
+        virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
+
+    }
+
+    private void handleChooseWeaponToSwitch(String nickname, String answer) {
+
+        Player player = gameModel.getPlayerByNickname(nickname);
 
         Weapon weaponToPick;
 
@@ -297,7 +314,7 @@ public class Controller implements Observer {
 
         }
 
-        ArrayList<String> messages = generatePaymentChoice(player, weaponCost);
+        ArrayList<String> messages = gameModel.generatePaymentChoice(player, weaponCost);
         virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
 
@@ -308,7 +325,9 @@ public class Controller implements Observer {
 
     }
 
-    private void handlePayWith(Player player, String answer) {
+    private void handlePayWith(String nickname, String answer) {
+
+        Player player = gameModel.getPlayerByNickname(nickname);
 
         String[] paymentChosen = answer.split(DOUBLESPLITTER);
 
@@ -352,12 +371,13 @@ public class Controller implements Observer {
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
-
         }
 
     }
 
-    private void handleWhereToMoveAndGrab(Player player, String answer) {
+    private void handleWhereToMoveAndGrab(String nickname, String answer) {
+
+        Player player = gameModel.getPlayerByNickname(nickname);
 
         //Reads what spot the player decided to move to
         int xCoord;
@@ -389,7 +409,9 @@ public class Controller implements Observer {
 
     }
 
-    private void handleWhereToMove(Player player, String answer) {
+    private void handleWhereToMove(String nickname, String answer) {
+        Player player = gameModel.getPlayerByNickname(nickname);
+
         int xCoord;
         int yCoord;
 
@@ -416,7 +438,8 @@ public class Controller implements Observer {
         return;
     }
 
-    private void handleChoosePowerUpToRespawn(Player player, String answer) {
+    private void handleChoosePowerUpToRespawn(String nickname, String answer) {
+        Player player = gameModel.getPlayerByNickname(nickname);
 
         String powerUpName = answer.split(SPLITTER)[0];
         Color color = Color.valueOf(answer.split(SPLITTER)[1].toUpperCase());
@@ -448,7 +471,8 @@ public class Controller implements Observer {
 
     }
 
-    private void handleAction(Player player, String answer) {
+    private void handleAction(String nickname, String answer) {
+        Player player = gameModel.getPlayerByNickname(nickname);
 
         //Reads what Action the player decided to do
         Actions action = null;
@@ -572,7 +596,19 @@ public class Controller implements Observer {
             return;
         }
 
-        if(action == Actions.ReloadAndEndTurn){
+        if(action == Actions.Reload){
+
+            ArrayList<String> weapons = new ArrayList<>();
+
+            ArrayList<Weapon> rechargeableWeapons =  gameModel.checkRechargeableWeapons(player.getNickname());
+
+            for(Weapon w : rechargeableWeapons)
+                weapons.add(w.getWeaponName());
+
+            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToReload, weapons));
+
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToReload;
+
             return;
         }
 
@@ -591,140 +627,6 @@ public class Controller implements Observer {
 
             return;
         }
-
-    }
-
-    private ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost) {
-
-        if(!player.canPay(cost))
-            throw new RuntimeException("This cost can't be payed from this player");
-
-        //Counting each cost occurrence in the cost array
-        int redCost = 0;
-        int blueCost = 0;
-        int yellowCost = 0;
-        for(Color c : cost){
-            if(c == Color.RED)
-                redCost++;
-            if(c == Color.BLUE)
-                blueCost++;
-            if(c == Color.YELLOW)
-                yellowCost++;
-        }
-
-        ArrayList<PowerUp> playerPowerUps = player.getPowerUpList(); //all the player power ups
-
-        //Creating a list for each power up color
-        ArrayList<PowerUp> redPowerUps = new ArrayList<>();
-        ArrayList<PowerUp> bluePowerUps = new ArrayList<>();
-        ArrayList<PowerUp> yellowPowerUps = new ArrayList<>();
-
-        for(PowerUp p : playerPowerUps){
-
-            if(p.getColor() == Color.RED)
-                redPowerUps.add(p);
-
-            if(p.getColor() == Color.BLUE)
-                bluePowerUps.add(p);
-
-            if(p.getColor() == Color.YELLOW)
-                yellowPowerUps.add(p);
-
-        }
-
-        int nRedPowerUps = redPowerUps.size();
-        int nBluePowerUps = bluePowerUps.size();
-        int nYellowPowerUps = yellowPowerUps.size();
-
-
-        //*************** RED *****************
-
-        //Counting how many red ammo the player has
-        int nRedAmmo = player.getnRedAmmo();
-        //All the options I have to pay for the red cost
-        ArrayList<String> redPaymentOptions = new ArrayList<>();
-
-        //I try adding 0 red and all power up, then 1 red and x power ups ecc.....
-        for( int tempRedAmmoInPayment = 0; tempRedAmmoInPayment <= nRedAmmo && tempRedAmmoInPayment <= redCost; tempRedAmmoInPayment++ ){
-
-            //This means I have enough power ups to get to this color cost
-            if(nRedPowerUps + tempRedAmmoInPayment >= redCost){
-
-                String paymentOption = "";
-                for(int i = 0; i < tempRedAmmoInPayment; i++)
-                    paymentOption += "RED" + DOUBLESPLITTER;
-                for(int i = 0; i < redCost - tempRedAmmoInPayment; i++)
-                    paymentOption += redPowerUps.get(i).toString() + DOUBLESPLITTER;
-
-                redPaymentOptions.add(paymentOption);
-            }
-
-        }
-
-
-        //*************** BLUE *****************
-
-        //Counting how many Blue ammo the player has
-        int nBlueAmmo = player.getnBlueAmmo();
-        //All the options I have to pay for the Blue cost
-        ArrayList<String> bluePaymentOptions = new ArrayList<>();
-
-        //I try adding 0 Blue and all power up, then 1 Blue and x power ups ecc.....
-        for( int tempBlueAmmoInPayment = 0; tempBlueAmmoInPayment <= nBlueAmmo && tempBlueAmmoInPayment <= blueCost; tempBlueAmmoInPayment++ ){
-
-            //This means I have enough power ups to get to this color cost
-            if(nBluePowerUps + tempBlueAmmoInPayment >= blueCost){
-
-                String paymentOption = "";
-                for(int i = 0; i < tempBlueAmmoInPayment; i++)
-                    paymentOption += "BLUE" + DOUBLESPLITTER;
-                for(int i = 0; i < blueCost - tempBlueAmmoInPayment; i++)
-                    paymentOption += bluePowerUps.get(i).toString() + DOUBLESPLITTER;
-
-                bluePaymentOptions.add(paymentOption);
-            }
-
-        }
-
-        //*************** YELLOW *****************
-
-        //Counting how many yellow ammo the player has
-        int nYellowAmmo = player.getnYellowAmmo();
-        //All the options I have to pay for the yellow cost
-        ArrayList<String> yellowPaymentOptions = new ArrayList<>();
-
-        //I try adding 0 yellow and all power up, then 1 yellow and x power ups ecc.....
-        for( int tempYellowAmmoInPayment = 0; tempYellowAmmoInPayment <= nYellowAmmo && tempYellowAmmoInPayment <= yellowCost; tempYellowAmmoInPayment++ ){
-
-            //This means I have enough power ups to get to this color cost
-            if(nYellowPowerUps + tempYellowAmmoInPayment >= yellowCost){
-
-                String paymentOption = "";
-                for(int i = 0; i < tempYellowAmmoInPayment; i++)
-                    paymentOption += "YELLOW" + DOUBLESPLITTER;
-                for(int i = 0; i < yellowCost - tempYellowAmmoInPayment; i++)
-                    paymentOption += yellowPowerUps.get(i).toString() + DOUBLESPLITTER;
-
-                yellowPaymentOptions.add(paymentOption);
-            }
-
-        }
-
-        ArrayList<String> finalAnswer = new ArrayList<>();
-
-        for(int i = 0; i < redPaymentOptions.size(); i++)
-            for(int j = 0; j < bluePaymentOptions.size(); j++)
-                for(int k = 0; k < yellowPaymentOptions.size(); k++){
-
-                    finalAnswer.add(
-                            redPaymentOptions.get(i) +
-                            bluePaymentOptions.get(j) +
-                            yellowPaymentOptions.get(k)
-                    );
-
-                }
-
-        return finalAnswer;
 
     }
 

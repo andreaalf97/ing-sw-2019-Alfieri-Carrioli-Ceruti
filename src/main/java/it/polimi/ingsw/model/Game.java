@@ -5,6 +5,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.controller.Actions;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.GameMap;
@@ -1202,6 +1203,11 @@ public class Game extends Observable {
         Player currentPlayer = getPlayerByNickname(player);
         ArrayList<Weapon> rechargeableWeapons = new ArrayList<>();
 
+        int nRedPowerUp = Collections.frequency(currentPlayer.getPowerUpColors() , Color.RED);
+        int nBluePowerUp = Collections.frequency(currentPlayer.getPowerUpColors(), Color.BLUE);
+        int nYellowPowerUp = Collections.frequency(currentPlayer.getPowerUpColors() , Color.YELLOW);
+
+
         for (int i = 0; i < currentPlayer.getWeaponList().size(); i++){
             //first i need the cost of the weapon unloaded
             if (!currentPlayer.getWeaponList().get(i).isLoaded()) {
@@ -1212,8 +1218,9 @@ public class Game extends Observable {
                 int nBlueAmmoWeapon = Collections.frequency(weaponCost, Color.BLUE);
                 int nYellowAmmoWeapon = Collections.frequency(weaponCost, Color.YELLOW);
 
+
                 //add in the list the weapons that the player can reload with his ammo
-                if (nRedAmmoWeapon < currentPlayer.getnRedAmmo() && nYellowAmmoWeapon < currentPlayer.getnYellowAmmo() && nBlueAmmoWeapon < currentPlayer.getnBlueAmmo())
+                if ( (nRedAmmoWeapon < currentPlayer.getnRedAmmo() + nRedPowerUp) && (nYellowAmmoWeapon < currentPlayer.getnYellowAmmo() + nYellowPowerUp) && (nBlueAmmoWeapon < currentPlayer.getnBlueAmmo() + nBluePowerUp))
                     rechargeableWeapons.add(currentPlayer.getWeaponList().get(i));
             }
         }
@@ -1545,7 +1552,7 @@ public class Game extends Observable {
 
         for(Weapon w : player.getWeaponList()){
             if(!w.isLoaded()) {
-                actions.add(Actions.ReloadAndEndTurn.toString());
+                actions.add(Actions.Reload.toString());
                 break;
             }
         }
@@ -1644,6 +1651,11 @@ public class Game extends Observable {
 
     }
 
+    /**
+     * generate all the possible weapons that player can pick in a spawnSpot
+     * @param nickname the nickname of the player
+     * @return all the names of the weapons
+     */
     public ArrayList<String> weaponsToPick(String nickname) {
 
         Player p = getPlayerByNickname(nickname);
@@ -1654,6 +1666,12 @@ public class Game extends Observable {
 
     }
 
+    /**
+     * add a weapon to a spawnspot
+     * @param x the x of the spawnspot
+     * @param y the y of the spawnspot
+     * @param weapon the weapon to add
+     */
     public void addWeaponToSpawnSpot(int x, int y, Weapon weapon) {
 
         gameMap.addWeaponToSpawn(x, y, weapon);
@@ -1668,5 +1686,147 @@ public class Game extends Observable {
     public Weapon getWeaponByName(String weaponName) {
         return Weapon.getWeapon(weaponName);
     }
+
+    //TODO TEST
+    /**
+     * generate all the possible combinations for a player to pay something
+     * @param player the player to check
+     * @param cost the cost that player has to pay
+     * @return all the possible combinations of payment
+     */
+    public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost) {
+
+        if(!player.canPay(cost))
+            throw new RuntimeException("This cost can't be payed from this player");
+
+        //Counting each cost occurrence in the cost array
+        int redCost = 0;
+        int blueCost = 0;
+        int yellowCost = 0;
+        for(Color c : cost){
+            if(c == Color.RED)
+                redCost++;
+            if(c == Color.BLUE)
+                blueCost++;
+            if(c == Color.YELLOW)
+                yellowCost++;
+        }
+
+        ArrayList<PowerUp> playerPowerUps = player.getPowerUpList(); //all the player power ups
+
+        //Creating a list for each power up color
+        ArrayList<PowerUp> redPowerUps = new ArrayList<>();
+        ArrayList<PowerUp> bluePowerUps = new ArrayList<>();
+        ArrayList<PowerUp> yellowPowerUps = new ArrayList<>();
+
+        for(PowerUp p : playerPowerUps){
+
+            if(p.getColor() == Color.RED)
+                redPowerUps.add(p);
+
+            if(p.getColor() == Color.BLUE)
+                bluePowerUps.add(p);
+
+            if(p.getColor() == Color.YELLOW)
+                yellowPowerUps.add(p);
+
+        }
+
+        int nRedPowerUps = redPowerUps.size();
+        int nBluePowerUps = bluePowerUps.size();
+        int nYellowPowerUps = yellowPowerUps.size();
+
+
+        //*************** RED *****************
+
+        //Counting how many red ammo the player has
+        int nRedAmmo = player.getnRedAmmo();
+        //All the options I have to pay for the red cost
+        ArrayList<String> redPaymentOptions = new ArrayList<>();
+
+        //I try adding 0 red and all power up, then 1 red and x power ups ecc.....
+        for( int tempRedAmmoInPayment = 0; tempRedAmmoInPayment <= nRedAmmo && tempRedAmmoInPayment <= redCost; tempRedAmmoInPayment++ ){
+
+            //This means I have enough power ups to get to this color cost
+            if(nRedPowerUps + tempRedAmmoInPayment >= redCost){
+
+                String paymentOption = "";
+                for(int i = 0; i < tempRedAmmoInPayment; i++)
+                    paymentOption += "RED" + Controller.DOUBLESPLITTER;
+                for(int i = 0; i < redCost - tempRedAmmoInPayment; i++)
+                    paymentOption += redPowerUps.get(i).toString() + Controller.DOUBLESPLITTER;
+
+                redPaymentOptions.add(paymentOption);
+            }
+
+        }
+
+
+        //*************** BLUE *****************
+
+        //Counting how many Blue ammo the player has
+        int nBlueAmmo = player.getnBlueAmmo();
+        //All the options I have to pay for the Blue cost
+        ArrayList<String> bluePaymentOptions = new ArrayList<>();
+
+        //I try adding 0 Blue and all power up, then 1 Blue and x power ups ecc.....
+        for( int tempBlueAmmoInPayment = 0; tempBlueAmmoInPayment <= nBlueAmmo && tempBlueAmmoInPayment <= blueCost; tempBlueAmmoInPayment++ ){
+
+            //This means I have enough power ups to get to this color cost
+            if(nBluePowerUps + tempBlueAmmoInPayment >= blueCost){
+
+                String paymentOption = "";
+                for(int i = 0; i < tempBlueAmmoInPayment; i++)
+                    paymentOption += "BLUE" + Controller.DOUBLESPLITTER;
+                for(int i = 0; i < blueCost - tempBlueAmmoInPayment; i++)
+                    paymentOption += bluePowerUps.get(i).toString() + Controller.DOUBLESPLITTER;
+
+                bluePaymentOptions.add(paymentOption);
+            }
+
+        }
+
+        //*************** YELLOW *****************
+
+        //Counting how many yellow ammo the player has
+        int nYellowAmmo = player.getnYellowAmmo();
+        //All the options I have to pay for the yellow cost
+        ArrayList<String> yellowPaymentOptions = new ArrayList<>();
+
+        //I try adding 0 yellow and all power up, then 1 yellow and x power ups ecc.....
+        for( int tempYellowAmmoInPayment = 0; tempYellowAmmoInPayment <= nYellowAmmo && tempYellowAmmoInPayment <= yellowCost; tempYellowAmmoInPayment++ ){
+
+            //This means I have enough power ups to get to this color cost
+            if(nYellowPowerUps + tempYellowAmmoInPayment >= yellowCost){
+
+                String paymentOption = "";
+                for(int i = 0; i < tempYellowAmmoInPayment; i++)
+                    paymentOption += "YELLOW" + Controller.DOUBLESPLITTER;
+                for(int i = 0; i < yellowCost - tempYellowAmmoInPayment; i++)
+                    paymentOption += yellowPowerUps.get(i).toString() + Controller.DOUBLESPLITTER;
+
+                yellowPaymentOptions.add(paymentOption);
+            }
+
+        }
+
+        ArrayList<String> finalAnswer = new ArrayList<>();
+
+        for(int i = 0; i < redPaymentOptions.size(); i++)
+            for(int j = 0; j < bluePaymentOptions.size(); j++)
+                for(int k = 0; k < yellowPaymentOptions.size(); k++){
+
+                    finalAnswer.add(
+                            redPaymentOptions.get(i) +
+                                    bluePaymentOptions.get(j) +
+                                    yellowPaymentOptions.get(k)
+                    );
+
+                }
+
+        return finalAnswer;
+
+    }
+
 }
 
