@@ -52,7 +52,9 @@ public class PowerUpShootingTest {
 
         ArrayList<Color> costChosen = new ArrayList<>();
         costChosen.add(Color.BLUE);
-        try {
+
+        //TODO
+        /*try {
             gameTest.useDamagePowerUp("gino", "andreaalf", gameTest.getPlayerByNickname("gino").getPowerUpList().get(0).getEffect(), costChosen );
         }
         catch(InvalidChoiceException e){
@@ -61,7 +63,9 @@ public class PowerUpShootingTest {
 
         //TODO
         //Assert.assertEquals("gino", gameTest.getPlayerByNickname("amdreaalf").getDamages().get(0));
+    */
     }
+
 
     @Test
     public void shoot(){}
