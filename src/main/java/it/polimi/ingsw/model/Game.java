@@ -794,9 +794,9 @@ public class Game extends Observable {
     public int typeOfEffect( Effect effect ){
 
         if(effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0)
-            return 0;
+            return 0;       //movement effect
         else
-            return 1;
+            return 1;       //damage effect
 
     }
 
