@@ -1,14 +1,13 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
-import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.model.map.MapName;
+import it.polimi.ingsw.view.client.RemoteViewRmi;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -16,111 +15,119 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 
-public class Main implements Observer {
+/**
+ * This class starts the server and listens for new socket connections from the clients
+ */
+public class Main {
 
+    /**
+     * The port that is listening for new socket connections
+     */
     final static int socketPort = 2345;
 
-    static ArrayList<WaitingRoom> waitingRooms = new ArrayList<>();
+    /**
+     * The port where the server launches the rmi registry
+     */
+    final static int rmiPort = 5432;
 
+    /**
+     * The list of all connected users
+     * TODO might need to move this to the games handler, or even completely remove it
+     */
     static ArrayList<String> allConnectedUsernames = new ArrayList<>();
 
+    /**
+     * The handler of all new connections and waiting rooms
+     */
     static GamesHandler gamesHandler = new GamesHandler();
 
-    static void addSocketConnection(String nickname, Socket socket){
+    /**
+     * Starts the server by creating a new registry and a new server socket
+     */
+    private void start(){
 
-        gamesHandler.addSocket(nickname, socket);
+        ServerSocket serverSocket = null;
+        RmiServer rmiServer = null;
 
-    }
-
-    @Override
-    public synchronized void notifyObserver(Object obj) {
-
-        if(! (obj instanceof WaitingRoom))
-            throw new RuntimeException("This must be a waiting room object");
-
-        WaitingRoom waitingRoom = (WaitingRoom)obj;
-
-        //If the waiting room has not been filled in time
-        if(waitingRoom.players.size() < 3) {
-            for (String player : waitingRoom.players) {
-                gamesHandler.removeWaitingRoomPlayer(player);
-            }
-
-            waitingRooms.remove(waitingRoom);
-
+        try {
+            rmiServer = new RmiServer();    //tries to create a new rmi server, to which the clients will call the connect() method
+        }
+        catch (RemoteException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while creating rmi server");
             return;
         }
 
-        waitingRooms.add(new WaitingRoom());
+        try {
+            serverSocket = new ServerSocket(socketPort);    //Opens a new socket server
+        }
+        catch (IOException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while opening server socket");
+            return;
+        }
 
-        gamesHandler.startGame(waitingRoom);
+        MyLogger.LOGGER.log(Level.INFO, "Server is open on port " + socketPort);
 
-    }
+        try {
 
-    public static void main(String[] args) throws RemoteException, AlreadyBoundException {
+            //Creates the registry on the rmi port
+            Registry registry = LocateRegistry.createRegistry(rmiPort);
+            //binds the name "server" with the server object
+            registry.rebind("server", rmiServer);
 
-        new Thread( () -> {
+            while (true) {
 
-            ServerSocket serverSocket = null;
+                Socket socket = serverSocket.accept(); //Keeps waiting for new connections
 
-            try {
-                serverSocket = new ServerSocket(Main.socketPort);
-            }
-            catch (IOException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while opening socket server");
-            }
+                //Used to send messages through the socket
+                PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
 
-            try {
-                while (true){
+                //Reads the first line from the socket
+                String connectionMessage = new Scanner(socket.getInputStream()).nextLine();
 
-                    Socket newSocket = serverSocket.accept();
+                //connectionMessage should look like USERNAME:MAP:SKULLS
 
-                    String jsonStart = new Scanner(newSocket.getInputStream()).nextLine();
+                //Extracts all parts of the connection message
+                String username = connectionMessage.split(":")[0];
+                MapName votedMap = MapName.valueOf(connectionMessage.split(":")[1]);
+                int votedSkulls = Integer.parseInt(connectionMessage.split(":")[2]);
 
-                    //This message should look like USERNAME:MAP:SKULLS
-
-                    String username = jsonStart.split(":")[0];
-                    String votedMap = jsonStart.split(":")[1];
-                    String votedSkulls = jsonStart.split(":")[2];
-
-                    PrintWriter printWriter = new PrintWriter(newSocket.getOutputStream());
-
-
-                    if(allConnectedUsernames.contains(username))
-                        printWriter.println("{\"Message\": \"ERROR\"}");
-                    else {
-                        printWriter.println("{\"Message\": \"OK\"}");
-                        allConnectedUsernames.add(username);
-                    }
-
-
-                    addSocketConnection(username, newSocket);
-
-                    addPlayerToWaitingRoom(username, votedMap, votedSkulls);
+                //FIXME
+                if(allConnectedUsernames.contains(username)){
+                    printWriter.println("Username already connected");
+                    printWriter.flush();
+                    continue;
                 }
+
+                //System.out.println("Message --> " + connectionMessage );
+                //System.out.println("connectionType --> " + connectionType );
+                //System.out.println("username --> " + username );
+                //System.out.println("votedMap --> " + votedMap );
+                //System.out.println("nskulls --> " + votedSkulls);
+
+                MyLogger.LOGGER.log(Level.INFO, "Starting new socket connection with " + socket.getRemoteSocketAddress());
+
+                //handles the new socket connection
+                gamesHandler.newConnection(socket, username, votedMap, votedSkulls);
+                printWriter.println("OK");
+                printWriter.flush();
+
             }
-            catch (IOException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while accepting new socket connections");
-            }
-
-        }).start();
-
-        MyLogger.LOGGER.log(Level.INFO, "Creating rmiReceiverServer");
-        RmiReceiverServerImpl rmiReceiverServer = new RmiReceiverServerImpl(gamesHandler.serverProxy);
-
-        MyLogger.LOGGER.log(Level.INFO, "Creating new Registry");
-        Registry registry = LocateRegistry.getRegistry();
-
-        MyLogger.LOGGER.log(Level.INFO, "Binding String \"rmi_server\" to RMI Server object");
-        registry.bind("rmi_server", rmiReceiverServer);
-
-        MyLogger.LOGGER.log(Level.INFO, "Waiting for new invocations from the clients");
+        }
+        catch (IOException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while accepting new connections");
+        }
+        catch (NumberFormatException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while parsing voted skulls");
+        }
 
     }
 
-    static void addPlayerToWaitingRoom(String username, String votedMap, String votedSkulls) {
 
-        waitingRooms.get(waitingRooms.size() - 1).addPlayer(username, MapName.valueOf(votedMap), Integer.parseInt(votedSkulls));
+    public static void main(String[] args) {
+
+        Main main = new Main();
+
+        main.start();
 
     }
 }

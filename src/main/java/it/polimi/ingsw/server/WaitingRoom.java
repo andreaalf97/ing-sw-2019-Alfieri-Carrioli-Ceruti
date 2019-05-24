@@ -4,10 +4,13 @@ import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.model.map.MapName;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.*;
 import java.util.logging.Level;
 
-public class WaitingRoom extends Observable {
+public class WaitingRoom {
 
     /**
      * The list of connected player
@@ -23,6 +26,11 @@ public class WaitingRoom extends Observable {
      * Votes for amount of skulls to use
      */
     private Map skullVotes;
+
+    /**
+     * All the open sockets
+     */
+    protected ArrayList<Socket> sockets;
 
     /**
      * The length of the timer
@@ -46,6 +54,7 @@ public class WaitingRoom extends Observable {
      */
     public WaitingRoom(){
         this.players = new ArrayList<>();
+        this.sockets = new ArrayList<>();
 
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
         this.mapVotes.put(MapName.FIRE, 0);
@@ -66,12 +75,8 @@ public class WaitingRoom extends Observable {
             public void run() {
                 closeThisRoom();
             }
-        }, TIMERMINUTES * 60 * 1000);
+        }, 30 * 1000); //This should be TIMERMINUTES * 60 * 1000
 
-    }
-
-    private void notFilledInTime() {
-        closeThisRoom();
     }
 
     /**
@@ -80,7 +85,9 @@ public class WaitingRoom extends Observable {
      * @param mapToVote the map chosen by the new player
      * @param nSkullsToVote the desired amount of skulls
      */
-    protected synchronized void addPlayer(String nickname, MapName mapToVote, int nSkullsToVote) {
+    protected synchronized void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
+
+
 
         if(players.contains(nickname))
             throw new RuntimeException("This waitingRoom already contains this player");
@@ -96,8 +103,31 @@ public class WaitingRoom extends Observable {
         tempVotes = (int) skullVotes.get(nSkullsToVote);
         skullVotes.put(nSkullsToVote, tempVotes + 1);
 
+        sockets.add(socket);
+
+        try {
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+            printWriter.println("You have been added to a waiting room, timer is set to " + TIMERMINUTES +  " minutes");
+            printWriter.flush();
+        }
+        catch (IOException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message through socket");
+        }
+
+
         if(players.size() == MAXPLAYERS)
             closeThisRoom();
+
+    }
+
+    private void closeThisRoom() {
+
+        if(players.size() < MINPLAYERS){
+            GamesHandler.roomNotFilledInTime(this);
+            return;
+        }
+
+        GamesHandler.startGame(this);
 
     }
 
@@ -133,7 +163,4 @@ public class WaitingRoom extends Observable {
         return maxSkulls;
     }
 
-    private void closeThisRoom(){
-        notifyObservers(this);
-    }
 }

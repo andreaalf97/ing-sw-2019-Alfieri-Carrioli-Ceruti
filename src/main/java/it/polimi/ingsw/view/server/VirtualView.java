@@ -2,12 +2,11 @@ package it.polimi.ingsw.view.server;
 
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
-import it.polimi.ingsw.server.ServerProxy;
 import it.polimi.ingsw.view.ClientAnswer;
-import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 
@@ -29,16 +28,15 @@ public class VirtualView extends Observable implements Observer {
      */
     ArrayList<String> players;
 
-    ServerProxy serverProxy;
+
 
     /**
      * Only constructor
      * @param players players nicknames
      */
-    public VirtualView(ArrayList<String> players, ServerProxy serverProxy){
+    public VirtualView(ArrayList<String> players, ArrayList<Socket> sockets){
 
         this.players = players;
-        this.serverProxy = serverProxy;
     }
 
     @Override
@@ -49,7 +47,7 @@ public class VirtualView extends Observable implements Observer {
 
     public void sendAll(ServerQuestion serverQuestion) {
         for(String player : players){
-            serverProxy.send(player, serverQuestion.toJSON());
+            //serverProxy.send(player, serverQuestion.toJSON());
         }
 
     }
@@ -76,7 +74,7 @@ public class VirtualView extends Observable implements Observer {
 
 
     public void sendQuestion(String nickname, ServerQuestion serverQuestion){
-        serverProxy.send(nickname, serverQuestion.toJSON());
+        //serverProxy.send(nickname, serverQuestion.toJSON());
     }
 
 

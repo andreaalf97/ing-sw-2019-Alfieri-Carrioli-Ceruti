@@ -53,12 +53,12 @@ public class Receiver extends Observable implements Runnable {
                     throw new IOException("Received null from client --> disconnecting");
 
                 MyLogger.LOGGER.log(Level.INFO, "Receiver class received a new line");
-                notifyObservers(nickname + GamesHandler.SPLITTER + line);
+                notifyObservers(nickname + "$" + line);
             }
 
         }
         catch (IOException e){
-            notifyObservers(nickname + GamesHandler.SPLITTER); //if the client disconnected, I just send an empty message
+            notifyObservers(nickname + "$"); //if the client disconnected, I just send an empty message
         }
     }
 
