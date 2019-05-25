@@ -17,8 +17,6 @@ public interface RemoteViewInterface extends Remote {
 
     int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) throws RemoteException;
 
-    int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) throws RemoteException;
-
     int askQuestionChoosePowerUpToAttack(String[] possibleAnswers) throws RemoteException;
 
     int askQuestionChooseWeaponToAttack(String[] possibleAnswers) throws RemoteException;
@@ -30,4 +28,8 @@ public interface RemoteViewInterface extends Remote {
     int askQuestionPayWith(String[] possibleAnswers) throws RemoteException;
 
     int askQuestionShoot(String[] possibleAnswers) throws RemoteException;
+
+    int askQuestionUseTurnPowerUp(String[] possibleAnswers) throws  RemoteException;
+
+    int askQuestionUseAsyncPowerUp(String[] possibleAnswers) throws  RemoteException;
 }

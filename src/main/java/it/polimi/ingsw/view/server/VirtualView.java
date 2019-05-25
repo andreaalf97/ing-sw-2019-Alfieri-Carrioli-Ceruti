@@ -101,11 +101,15 @@ public class VirtualView extends Observable implements Observer {
                         answer = remoteView.askQuestionChoosePowerUpToRespawn(possibleAnswers);
                         break;
 
-                    case ChoosePowerUpToDiscard:
-                        answer = remoteView.askQuestionChoosePowerUpToDiscard(possibleAnswers);
+                    case UseTurnPowerUp:
+                        answer = remoteView.askQuestionUseTurnPowerUp(possibleAnswers);
                         break;
 
-                    case ChoosePowerUpToAttack:
+                    case UseAsyncPowerUp:
+                        answer = remoteView.askQuestionUseAsyncPowerUp(possibleAnswers);
+                        break;
+
+                    case ChoosePowerUpToUse:
                         answer = remoteView.askQuestionChoosePowerUpToAttack(possibleAnswers);
                         break;
 
