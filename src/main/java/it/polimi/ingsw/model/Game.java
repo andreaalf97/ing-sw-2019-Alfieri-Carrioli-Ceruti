@@ -65,7 +65,7 @@ public class Game extends Observable {
     //##########################################################################################################
 
     /**
-     * This constructor instantiates a new Game by knowing the list of nicknames and the first player
+     * This constructor instantiates a new Game by knowing the list of nicknames
      * @param playerNames ArrayList of all the players names
      *
      */
@@ -1140,7 +1140,7 @@ public class Game extends Observable {
      * @param effect is the effect of the power up
      * @throws InvalidChoiceException
      */
-    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, ArrayList<Color> playerAmmo ) throws InvalidChoiceException{
+    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ){
 
         Player  defender = getPlayerByNickname(playerWhoReceiveEffectName);
 
@@ -1148,9 +1148,6 @@ public class Game extends Observable {
         ArrayList<Player> defenders = new ArrayList<>();
         defenders.add(defender);
 
-        if (!payCostEffect(effect, currentPlayerName)) {   //if the effect has a cost, the player pays it
-            throw new InvalidChoiceException("Cannot pay");
-        }
         makeDamageEffect( currentPlayerName, defenders, effect );
     }
 
@@ -1166,11 +1163,6 @@ public class Game extends Observable {
     public void useMovementPowerUp ( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect, int xPos, int yPos )throws InvalidChoiceException{
 
         Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
-
-        if (!payCostEffect(effect, currentPlayerName)) {   //if the effect has a cost, the player pays it
-            throw new InvalidChoiceException("Cannot pay");
-        }
-
 
         if (effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0) {
             if ( effect.getnMoves() != 0){
@@ -1556,7 +1548,7 @@ public class Game extends Observable {
         }
 
         if(player.hasTurnPowerUp()){
-            actions.add(Actions.UsePowerUp.toString());
+            actions.add(Actions.UseTurnPowerUp.toString());
         }
 
         for(Weapon w : player.getWeaponList()){
@@ -1721,7 +1713,14 @@ public class Game extends Observable {
         return Weapon.getWeapon(weaponName);
     }
 
-    //TODO TEST
+    /**
+     * Creates a new powerUp based on the name
+     * @param powerUpName the name of the weapon
+     * @return the powerUpName object
+     */
+    public PowerUp getPowerUpByName(String powerUpName){ return PowerUp.getPowerUp(powerUpName);}
+
+    //TODO TEST AND ADD THE PAYMENT FOR THE TARGETING SCOPE, IF COST CONTAINS COLOR.ANY I SHOULD GENERATE ALL POSSIBLE PAYMENTS
     /**
      * generate all the possible combinations for a player to pay something
      * @param player the player to check
@@ -1729,7 +1728,6 @@ public class Game extends Observable {
      * @return all the possible combinations of payment
      */
     public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost){
-
         if(!player.canPay(cost))
             throw new RuntimeException("This cost can't be payed from this player");
 
@@ -1862,5 +1860,8 @@ public class Game extends Observable {
 
     }
 
+    public boolean p1SeeP2(int x1, int y1, int x2, int y2){
+        return gameMap.see(x1, y1, x2, y2);
+    }
 }
 

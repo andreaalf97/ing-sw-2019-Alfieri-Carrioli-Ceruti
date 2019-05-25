@@ -24,11 +24,13 @@ public class Cli implements UserInterface {
 
     private void start(){
 
+        //creates a scanner to read from the stdin
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to ADRENALINA");
         System.out.println("Insert username:");
 
+        //reads the username from the user
         String username = scanner.nextLine();
 
         while (!Pattern.matches(validUsername, username)){
@@ -43,6 +45,7 @@ public class Cli implements UserInterface {
         System.out.println("2 -- WIND");
         System.out.println("3 -- WATER");
 
+        //reads the chose map
         int votedMapNumber = scanner.nextInt();
 
         while (votedMapNumber < 0 || votedMapNumber > 3){
@@ -56,10 +59,12 @@ public class Cli implements UserInterface {
             votedMapNumber = scanner.nextInt();
         }
 
+        //Retrieves the enum from the index value
         MapName votedMap = MapName.values()[votedMapNumber];
 
         System.out.println("Choose the amount of skulls you want to play with: (5 to 8)");
 
+        //Reads the vote for the skulls
         int nSkulls = scanner.nextInt();
 
         while (nSkulls < 5 || nSkulls > 8){
@@ -73,6 +78,7 @@ public class Cli implements UserInterface {
         System.out.println("0 -- Socket");
         System.out.println("1 -- RMI");
 
+        //reads if the player wants to use rmi or socket
         int chosenIndex = scanner.nextInt();
 
         while (chosenIndex != 0 && chosenIndex != 1){
@@ -93,18 +99,29 @@ public class Cli implements UserInterface {
         return;
     }
 
+    /**
+     * Starts an rmi connection with the server
+     * @param username the username of the player
+     * @param votedMap the voted map
+     * @param nSkulls the voted skulls
+     */
     private void startRmiConnection(String username, MapName votedMap, int nSkulls) {
 
         try {
 
+            //Creates the remote view object to send to the server for callbacks
             RemoteViewRmiImpl remoteView = new RemoteViewRmiImpl(this);
 
+            //Searches for the registry
             Registry registry = LocateRegistry.getRegistry(serverAddress, rmiPort);
 
+            //Looks for the 'server' object (only has one method called connect())
             ServerInterface server = (ServerInterface)registry.lookup("server");
 
+            //Sends the connection message (USERNAME:VOTEDMAP:VOTEDSKULLS)
             String connectionMessage = username + ":" + votedMap + ":" + nSkulls;
 
+            //Call the remote method CONNECT
             server.connect(remoteView, connectionMessage);
 
             return;
@@ -121,52 +138,43 @@ public class Cli implements UserInterface {
 
     }
 
+    /**
+     * Starts a new socket connection with the server
+     * @param username the username of the player
+     * @param votedMap the voted map
+     * @param nSkulls the voted skulls
+     */
     private void startSocketConnection(String username, MapName votedMap, int nSkulls) {
 
         Socket serverSocket = null;
         try {
+            //Connects with the server through socket
             serverSocket = new Socket(serverAddress, socketPort);
         }
         catch (IOException e){
             System.err.println(e.getMessage());
         }
 
+        //Creates a new RemoteViewSocket object which is used to keep the connection open and read all new messages
         RemoteViewSocket remoteViewSocket = new RemoteViewSocket(serverSocket);
+
+        //sends the connection message to the server
         remoteViewSocket.sendMessage(username + ":" + votedMap + ":" + nSkulls);
 
+        //runs the remoteViewSocket on a new thread to keep it open
         new Thread(remoteViewSocket).run();
-
-        return;
 
     }
 
+    /**
+     * Starts the CLI
+     * @param args not used
+     */
     public static void main(String[] args){
 
         Cli cli = new Cli();
 
         cli.start();
-
-    }
-
-    public String askQuestion(String questionMessage, String[] possibleAnswer) {
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("QUESTION --> " + questionMessage);
-
-        for (int i = 0; i < possibleAnswer.length; i++)
-            System.out.println("[" + i + "] " + possibleAnswer[i]);
-
-        int answer = scanner.nextInt();
-
-        while(answer < 0 || answer >= possibleAnswer.length ) {
-
-            System.out.println("Invalid choice, choose again:");
-
-            answer = scanner.nextInt();
-        }
-
-        return possibleAnswer[answer];
 
     }
 
@@ -176,57 +184,57 @@ public class Cli implements UserInterface {
     }
 
     @Override
-    public String askQuestionAction(String[] possibleAnswers) {
-        return null;
+    public int askQuestionAction(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionWhereToMove(String[] possibleAnswers) {
-        return null;
+    public int askQuestionWhereToMove(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
-        return null;
+    public int askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
-        return null;
+    public int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChooseWeaponToReload(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChooseWeaponToReload(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionPayWith(String[] possibleAnswers) {
-        return null;
+    public int askQuestionPayWith(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionShoot(String[] possibleAnswers) {
-        return null;
+    public int askQuestionShoot(String[] possibleAnswers) {
+        return 0;
     }
 }

@@ -8,8 +8,7 @@ public enum QuestionType {
     WhereToMoveAndGrab,
 
     ChoosePowerUpToRespawn,
-    ChoosePowerUpToDiscard,
-    ChoosePowerUpToAttack,
+    ChoosePowerUpToUse,
 
     ChooseWeaponToAttack,
     ChooseWeaponToSwitch,
@@ -18,5 +17,6 @@ public enum QuestionType {
     PayWith,
 
     Shoot,      //double splitters tra i defenders e movers ecc, single splitters tra i singoli defenders per esempio
-
+    UseTurnPowerUp, //double splitters tra i diversi parametri del metodo da chiamare, nessun singolo splitter poichè non passo nessun array!!
+    UseAsyncPowerUp;
 }

@@ -12,7 +12,9 @@ public enum Actions {
 
     Attack,
 
-    UsePowerUp,
+    UseTurnPowerUp,
+
+    UseAsyncPowerUp,
 
     Reload,
 

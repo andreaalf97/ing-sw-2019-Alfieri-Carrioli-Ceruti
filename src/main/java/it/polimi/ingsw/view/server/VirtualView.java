@@ -35,10 +35,19 @@ public class VirtualView extends Observable implements Observer {
      */
     ArrayList<String> players;
 
-    ArrayList<Socket> sockets;
+    /**
+     * The list of all open sockets
+     */
+    ArrayList<SocketHandler> socketHandlers;
 
+    /**
+     * The list of all remote view objects
+     */
     ArrayList<RemoteViewInterface> remoteViews;
 
+    /**
+     * The splitter used to send socket messages to the client
+     */
     final String SPLITTER = "$";
 
     /**
@@ -48,38 +57,63 @@ public class VirtualView extends Observable implements Observer {
     public VirtualView(ArrayList<String> players, ArrayList<Socket> sockets, ArrayList<RemoteViewInterface> remoteViews){
 
         this.players = players;
-        this.sockets = sockets;
         this.remoteViews = remoteViews;
+        this.socketHandlers = new ArrayList<>();
+
+        //For every element in these arrays
+        for(int i = 0; i < players.size(); i++){
+
+            if(sockets.get(i) != null){     //If this player is using a socket connection
+
+                //Creating a new socket handler for this player
+                this.socketHandlers.add(new SocketHandler(
+                        players.get(i),
+                        sockets.get(i),
+                        this
+                ));
+
+                //Launching the socket handler to be able to receive messages
+                new Thread(
+                        this.socketHandlers.get(i)
+                ).start();
+
+            }
+            else {
+                this.socketHandlers.add(null);
+            }
+        }
 
     }
 
+    /**
+     * Notify of changes coming from the model
+     * @param arg the new json snapshot
+     */
     @Override
     public void notifyObserver(Object arg) {
         //TODO here the view needs to show to all clients that the model is changed by sending custom messages to each one of them
 
     }
 
+    /**
+     * Sends a question to the player
+     * @param nickname the nickname of the player
+     * @param serverQuestion the question
+     */
     public void sendQuestion(String nickname, ServerQuestion serverQuestion){
 
         int i = players.indexOf(nickname);
 
         //If the player is running on socket
-        if(sockets.get(i) != null){
+        if(remoteViews.get(i) == null){
 
-            try {
-                PrintWriter printWriter = new PrintWriter(sockets.get(i).getOutputStream());
-                printWriter.println("QUESTION" + SPLITTER + serverQuestion.toJSON());
-                printWriter.flush();
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
+            socketHandlers.get(i).send("QUESTION" + SPLITTER + serverQuestion.toJSON());
 
         }
         else {
 
             RemoteViewInterface remoteView = remoteViews.get(i);
-            String answer = null;
+            int answer = 0;
             String[] possibleAnswers = (String[])serverQuestion.possibleAnswers.toArray();
 
             try {
@@ -101,11 +135,15 @@ public class VirtualView extends Observable implements Observer {
                         answer = remoteView.askQuestionChoosePowerUpToRespawn(possibleAnswers);
                         break;
 
-                    case ChoosePowerUpToDiscard:
-                        answer = remoteView.askQuestionChoosePowerUpToDiscard(possibleAnswers);
+                    case UseTurnPowerUp:
+                        answer = remoteView.askQuestionUseTurnPowerUp(possibleAnswers);
                         break;
 
-                    case ChoosePowerUpToAttack:
+                    case UseAsyncPowerUp:
+                        answer = remoteView.askQuestionUseAsyncPowerUp(possibleAnswers);
+                        break;
+
+                    case ChoosePowerUpToUse:
                         answer = remoteView.askQuestionChoosePowerUpToAttack(possibleAnswers);
                         break;
 
@@ -133,7 +171,7 @@ public class VirtualView extends Observable implements Observer {
                         throw new RuntimeException("Invalid question");
                 }
 
-                ClientAnswer clientAnswer = new ClientAnswer(nickname, serverQuestion, serverQuestion.possibleAnswers.indexOf(answer));
+                ClientAnswer clientAnswer = new ClientAnswer(nickname, serverQuestion, answer);
                 notifyObservers(clientAnswer);
             }
             catch (RemoteException e){
@@ -156,16 +194,9 @@ public class VirtualView extends Observable implements Observer {
 
         int index = players.indexOf(nickname);
 
-        if(sockets.get(index) != null){
+        if(remoteViews.get(index) == null){
 
-            try {
-                PrintWriter printWriter = new PrintWriter(sockets.get(index).getOutputStream());
-                printWriter.println("MESSAGE" + SPLITTER + message );
-                printWriter.flush();
-            }
-            catch (IOException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message");
-            }
+            socketHandlers.get(index).send("MESSAGE" + SPLITTER + message );
 
         }
         else {
@@ -186,6 +217,12 @@ public class VirtualView extends Observable implements Observer {
 
         for(String player : players)
             sendMessage(player, message);
+
+    }
+
+    protected void socketAnswer(ClientAnswer clientAnswer){
+
+        notifyObservers(clientAnswer);
 
     }
 }

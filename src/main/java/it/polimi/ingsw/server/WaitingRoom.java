@@ -11,12 +11,12 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.util.logging.Level;
 
-public class WaitingRoom {
+class WaitingRoom {
 
     /**
      * The list of connected player
      */
-    protected ArrayList<String> players;
+    ArrayList<String> players;
 
     /**
      * Votes for each map:
@@ -31,38 +31,39 @@ public class WaitingRoom {
     /**
      * All the open sockets
      */
-    protected ArrayList<Socket> sockets;
+    ArrayList<Socket> sockets;
 
     /**
      * All the open rmi connections
      */
-    protected ArrayList<RemoteViewInterface> remoteViews;
+    ArrayList<RemoteViewInterface> remoteViews;
 
     /**
      * The length of the timer
      */
-    protected final static long TIMERMINUTES = (long) 1;
+    private final static long TIMERMINUTES = (long) 1;
 
     /**
      * Maximum amount of players for a single game
      */
-    protected final static int MAXPLAYERS = 5;
+    private final static int MAXPLAYERS = 5;
 
     /**
      * Minimum amount of players for a single game
      */
-    protected final static int MINPLAYERS = 3;
+    private final static int MINPLAYERS = 3;
 
 
 
     /**
      * Basic constructor
      */
-    public WaitingRoom(){
+    WaitingRoom(){
         this.players = new ArrayList<>();
         this.sockets = new ArrayList<>();
         this.remoteViews = new ArrayList<>();
 
+        //Puts 0 votes to each map
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
         this.mapVotes.put(MapName.FIRE, 0);
         this.mapVotes.put(MapName.EARTH, 0);
@@ -87,13 +88,17 @@ public class WaitingRoom {
     }
 
     /**
-     * Adds a player to the players list and registers their votes
-     * @param nickname The nickname of the new player
-     * @param mapToVote the map chosen by the new player
-     * @param nSkullsToVote the desired amount of skulls
+     * Adds a new player to this waiting room
+     * @param socket the socket of the new player
+     * @param nickname the nicknamen of the new player
+     * @param mapToVote the map vote
+     * @param nSkullsToVote the skulls vote
      */
-    protected synchronized void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
+    synchronized void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
 
+
+
+        //Adds the player to the player list and all of his votes
         addVote(nickname, mapToVote, nSkullsToVote);
 
         remoteViews.add(null);
@@ -101,19 +106,27 @@ public class WaitingRoom {
 
         try {
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-            printWriter.println("You have been added to a waiting room, timer is set to " + TIMERMINUTES +  " minutes");
+            printWriter.println("MESSAGE" + "$" + "You have been added to a waiting room, timer is set to " + TIMERMINUTES +  " minutes");
             printWriter.flush();
+            printWriter.close();
         }
         catch (IOException e){
             MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message through socket");
         }
 
 
-        if(players.size() == MAXPLAYERS)
+        if(players.size() >= MAXPLAYERS)
             closeThisRoom();
 
     }
 
+    /**
+     * Adds the votes of the new player to all the maps
+     * @param remoteView the remote view object used to communicate with the client
+     * @param nickname the nickname of the player
+     * @param mapToVote the voted map
+     * @param nSkullsToVote the voted skulls
+     */
     protected synchronized void addPlayer(RemoteViewInterface remoteView, String nickname, MapName mapToVote, int nSkullsToVote){
 
         addVote(nickname, mapToVote, nSkullsToVote);
@@ -129,38 +142,36 @@ public class WaitingRoom {
         }
 
 
-        if(players.size() == MAXPLAYERS)
+        if(players.size() >= MAXPLAYERS)
             closeThisRoom();
 
     }
 
+    /**
+     * Adds the votes of the new player to all the maps
+     * @param nickname the nickname of the player
+     * @param mapToVote the voted map
+     * @param nSkullsToVote the voted skulls
+     */
     private synchronized void addVote(String nickname, MapName mapToVote, int nSkullsToVote){
 
         if(players.contains(nickname))
             throw new RuntimeException("This waitingRoom already contains this player");
 
+        //Adds the player to the player list
         players.add(nickname);
 
-        int tempVotes = (int) (mapVotes.get(mapToVote));
-        mapVotes.put(mapToVote, tempVotes + 1);
+        //Adds a vote to the correct map
+        int currentVotes = (int) (mapVotes.get(mapToVote));
+        mapVotes.put(mapToVote, currentVotes + 1);
+
 
         if (nSkullsToVote < 5 || nSkullsToVote > 8)
             throw new RuntimeException("nSkullsToVote must be between 5 and 8");
 
-
-        tempVotes = (int) skullVotes.get(nSkullsToVote);
-        skullVotes.put(nSkullsToVote, tempVotes + 1);
-
-    }
-
-    private void closeThisRoom() {
-
-        if(players.size() < MINPLAYERS){
-            GamesHandler.roomNotFilledInTime(this);
-            return;
-        }
-
-        GamesHandler.startGame(this);
+        //Adds a vote to the correct amount of skulls
+        currentVotes = (int) skullVotes.get(nSkullsToVote);
+        skullVotes.put(nSkullsToVote, currentVotes + 1);
 
     }
 
@@ -194,6 +205,20 @@ public class WaitingRoom {
         }
 
         return maxSkulls;
+    }
+
+    /**
+     * It closes the room once the timer has expired or the room reached its maximum capacity
+     */
+    private void closeThisRoom() {
+
+        if(players.size() < MINPLAYERS){
+            GamesHandler.roomNotFilledInTime(this);
+            return;
+        }
+
+        GamesHandler.startGame(this);
+
     }
 
 }

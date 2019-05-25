@@ -71,57 +71,57 @@ public class Gui extends Application implements UserInterface {
     }
 
     @Override
-    public String askQuestionAction(String[] possibleAnswers) {
-        return null;
+    public int askQuestionAction(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionWhereToMove(String[] possibleAnswers) {
-        return null;
+    public int askQuestionWhereToMove(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
-        return null;
+    public int askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
-        return null;
+    public int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionChooseWeaponToReload(String[] possibleAnswers) {
-        return null;
+    public int askQuestionChooseWeaponToReload(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionPayWith(String[] possibleAnswers) {
-        return null;
+    public int askQuestionPayWith(String[] possibleAnswers) {
+        return 0;
     }
 
     @Override
-    public String askQuestionShoot(String[] possibleAnswers) {
-        return null;
+    public int askQuestionShoot(String[] possibleAnswers) {
+        return 0;
     }
 }

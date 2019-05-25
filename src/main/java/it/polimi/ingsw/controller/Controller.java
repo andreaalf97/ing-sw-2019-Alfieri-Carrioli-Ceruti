@@ -4,6 +4,7 @@ import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Effect;
+import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 
 /*
     THE CONTROLLER:
@@ -261,13 +263,19 @@ public class Controller implements Observer {
 
             return;
         }
-        //TODO
-        if(questionType == QuestionType.ChoosePowerUpToDiscard){
+
+        if(questionType == QuestionType.ChoosePowerUpToUse){
+
+            handleChoosePowerUpToUse(clientAnswer.sender, answer);
+
             return;
         }
-        //TODO
-        if(questionType == QuestionType.ChoosePowerUpToAttack){
-            return;
+
+        if(questionType == QuestionType.UseTurnPowerUp){
+
+            handlePowerUp(clientAnswer.sender, answer);
+
+            return ;
         }
 
         if(questionType == QuestionType.ChooseWeaponToAttack) {
@@ -290,6 +298,49 @@ public class Controller implements Observer {
         virtualView.sendMessage(player.getNickname(),  message);
     }
 
+    private void handlePowerUp(String nickname, String answer) {
+        Player player = gameModel.getPlayerByNickname(nickname);
+
+        PowerUp powerUpToUse = gameModel.getPowerUpByName(player.playerStatus.lastAnswer); //this is the powerup to use
+
+        String [] info = answer.split(DOUBLESPLITTER);
+
+        String offenderName = info[0];
+
+        int x = Integer.parseInt(info[1]);
+
+        int y = Integer.parseInt(info[2]);
+
+        try {
+            gameModel.useMovementPowerUp(nickname, offenderName, powerUpToUse.getEffect(), x, y);
+            player.removePowerUpByName(powerUpToUse.getPowerUpName(), powerUpToUse.getColor());
+        }
+        catch(InvalidChoiceException e){
+            virtualView.sendMessage(player.getNickname(),"you can't use this powerUp like this bro");
+        }
+
+        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
+        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+
+    }
+
+    private void handleChoosePowerUpToUse(String nickname, String answer){
+        Player player = gameModel.getPlayerByNickname(nickname);
+
+        player.playerStatus.lastQuestion = QuestionType.ChoosePowerUpToUse;
+        player.playerStatus.lastAnswer = answer;
+
+        ArrayList<String> messages = new ArrayList<>();
+
+        messages.add("Choose the player you want to move, the x and the y where do you want to move him");
+
+        virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.UseTurnPowerUp, messages));
+
+        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseTurnPowerUp;
+    }
+
+
     private boolean isNotThisPlayersTurn(Player player){
 
         if(!player.playerStatus.isActive){
@@ -304,8 +355,6 @@ public class Controller implements Observer {
 
         Player player = gameModel.getPlayerByNickname(nickname);
 
-        Weapon weaponToShootWith = gameModel.getWeaponByName(answer);
-
         player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToAttack;
         player.playerStatus.lastAnswer = answer;
 
@@ -317,7 +366,6 @@ public class Controller implements Observer {
 
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Shoot;
 
-        return;
     }
 
     private void handleShoot(String nickname, String answer) {
@@ -428,16 +476,37 @@ public class Controller implements Observer {
                 gameModel.shootWithoutMovement(nickname, arrayListdefenders, weapon, orderNumber);
             }
 
+            checkAsynchronousPowerUp(nickname, arrayListdefenders);
+
 
             //Ho finito di sparare, genero le possibili azioni successive tra cui può scegliere l'utente
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
             virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
-            return;
-
         }
 
+    }
+
+    private void checkAsynchronousPowerUp(String nickname, ArrayList<String> arrayListdefenders) {
+        Player player = gameModel.getPlayerByNickname(nickname);
+
+        for(PowerUp p : player.getPowerUpList())
+            if(p.getPowerUpName().equals("TargetingScope")){
+                ArrayList<String> message = new ArrayList<>();
+                message.add("You have a targeting Scope, write the nickname of the player you want to add a damage or write NONE");
+                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
+                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
+            }
+
+        for( String s : arrayListdefenders)
+            for(PowerUp p : gameModel.getPlayerByNickname(s).getPowerUpList())
+                if(p.getPowerUpName().equals("TagbackGrenade") && gameModel.p1SeeP2(gameModel.getPlayerByNickname(s).getxPosition(), gameModel.getPlayerByNickname(s).getyPosition(), player.getxPosition(), player.getyPosition())){
+                    ArrayList<String> message = new ArrayList<>();
+                    message.add("You have a tagback grenade, write the nickname of the player you want to add a damage or write NONE");
+                    virtualView.sendQuestion(s, new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
+                    gameModel.getPlayerByNickname(s).playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
+                }
     }
 
     private void handleChooseWeaponToReload(String nickname, String answer) {
@@ -632,6 +701,8 @@ public class Controller implements Observer {
             }else {
                 gameModel.shootWithoutMovement(nickname, arrayListdefenders, weapon, orderNumber);
             }
+
+            checkAsynchronousPowerUp(nickname, arrayListdefenders);
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
             virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
@@ -880,9 +951,23 @@ public class Controller implements Observer {
             return;
         }
 
+        if(action == Actions.UseTurnPowerUp){
 
-        if(action == Actions.UsePowerUp){
+            ArrayList<String> messages = new ArrayList<>();
+
+            for (PowerUp p : player.getPowerUpList())
+                if(p.isTurnPowerup())
+                    messages.add(p.getPowerUpName());
+
+            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToUse;
+
+            virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.ChoosePowerUpToUse, messages));
+
             return;
+        }
+
+        if(action == Actions.UseAsyncPowerUp){
+            //TODO
         }
 
         if(action == Actions.Reload){

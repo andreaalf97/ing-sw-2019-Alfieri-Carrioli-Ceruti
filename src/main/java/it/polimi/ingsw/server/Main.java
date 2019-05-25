@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.io.IOException;
@@ -33,20 +34,25 @@ public class Main {
      * The list of all connected users
      * TODO might need to move this to the games handler, or even completely remove it
      */
-    static ArrayList<String> allConnectedUsernames = new ArrayList<>();
+    static ArrayList<String> allConnectedUsernames;
 
     /**
      * The handler of all new connections and waiting rooms
      */
-    static GamesHandler gamesHandler = new GamesHandler();
+    static GamesHandler gamesHandler;
+
+    private Main(){
+        this.allConnectedUsernames = new ArrayList<>();
+        this.gamesHandler = new GamesHandler();
+    }
 
     /**
      * Starts the server by creating a new registry and a new server socket
      */
     private void start(){
 
-        ServerSocket serverSocket = null;
-        RmiServer rmiServer = null;
+        ServerSocket serverSocket = null; //The socket for new socket connections
+        RmiServer rmiServer = null; //The server for new rmi connections
 
         try {
             rmiServer = new RmiServer();    //tries to create a new rmi server, to which the clients will call the connect() method
@@ -71,11 +77,15 @@ public class Main {
             //Creates the registry on the rmi port
             Registry registry = LocateRegistry.createRegistry(rmiPort);
             //binds the name "server" with the server object
+            MyLogger.LOGGER.log(Level.INFO, "Binding the name 'server' with the rmi server object...");
             registry.rebind("server", rmiServer);
+            MyLogger.LOGGER.log(Level.INFO, "Bound OK");
+
 
             while (true) {
 
                 Socket socket = serverSocket.accept(); //Keeps waiting for new connections
+                MyLogger.LOGGER.log(Level.INFO, "Accepted new socket connection from " + socket.getRemoteSocketAddress());
 
                 //Used to send messages through the socket
                 PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
@@ -97,18 +107,11 @@ public class Main {
                     continue;
                 }
 
-                //System.out.println("Message --> " + connectionMessage );
-                //System.out.println("connectionType --> " + connectionType );
-                //System.out.println("username --> " + username );
-                //System.out.println("votedMap --> " + votedMap );
-                //System.out.println("nskulls --> " + votedSkulls);
-
-                MyLogger.LOGGER.log(Level.INFO, "Starting new socket connection with " + socket.getRemoteSocketAddress());
-
                 //handles the new socket connection
                 gamesHandler.newConnection(socket, username, votedMap, votedSkulls);
-                printWriter.println("OK");
+                printWriter.println("MESSAGE$OK");
                 printWriter.flush();
+                printWriter.close();
 
             }
         }
@@ -121,7 +124,9 @@ public class Main {
 
     }
 
-
+    /**
+     * Starts the server
+     */
     public static void main(String[] args) {
 
         Main main = new Main();

@@ -1,7 +1,13 @@
 package it.polimi.ingsw.model.cards;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.Color;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
 
 
 public class PowerUp {
@@ -57,6 +63,19 @@ public class PowerUp {
         this.effect = null;
     }
 
+    public static PowerUp getPowerUp(String powerUpName) {
+        try {
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
+            JsonObject jsonPowerUpsDeck = jsonDecks.get("Powerups").getAsJsonObject();
+
+            return new PowerUp(powerUpName, jsonPowerUpsDeck);
+        }
+        catch (IOException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while reading JSON");
+            return null;
+        }
+    }
+
     /**
      * Getter
      * @return this.effect
@@ -92,6 +111,16 @@ public class PowerUp {
         this.powerUpName = powerUpName;
         this.effect = effectTemp;
         this.color = Color.randomColor();
+    }
+
+    /**
+     * tells if this powerUp is a damagePowerUp or a movementPowerUp
+     * @return true if it's a damagePowerUp
+     */
+    public boolean isDamagePowerUp(){
+        if(this.getEffect().getnDamages() > 0)
+            return true;
+        return false;
     }
 
     /**
