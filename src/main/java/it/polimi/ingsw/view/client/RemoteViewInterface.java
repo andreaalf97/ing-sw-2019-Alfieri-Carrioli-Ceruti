@@ -5,9 +5,9 @@ import java.rmi.RemoteException;
 
 public interface RemoteViewInterface extends Remote {
 
-    public void notifyRemoteView(String message) throws RemoteException;
+    void notifyRemoteView(String message) throws RemoteException;
 
-    public void sendMessage(String message) throws RemoteException;
+    void sendMessage(String message) throws RemoteException;
 
     int askQuestionAction(String[] possibleAnswers) throws RemoteException;
 

@@ -79,6 +79,7 @@ public class RemoteViewSocket implements Runnable {
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
             printWriter.println(message);
             printWriter.flush();
+            printWriter.close();
         }
         catch (IOException e){
             System.err.println(e.getMessage());
