@@ -65,7 +65,7 @@ public class Game extends Observable {
     //##########################################################################################################
 
     /**
-     * This constructor instantiates a new Game by knowing the list of nicknames and the first player
+     * This constructor instantiates a new Game by knowing the list of nicknames
      * @param playerNames ArrayList of all the players names
      *
      */

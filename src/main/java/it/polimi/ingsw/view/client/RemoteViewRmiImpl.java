@@ -28,57 +28,57 @@ public class RemoteViewRmiImpl extends UnicastRemoteObject implements RemoteView
     }
 
     @Override
-    public String askQuestionAction(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionAction(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionAction(possibleAnswers);
     }
 
     @Override
-    public String askQuestionWhereToMove(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionWhereToMove(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionWhereToMove(possibleAnswers);
     }
 
     @Override
-    public String askQuestionWhereToMoveAndGrab(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionWhereToMoveAndGrab(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionWhereToMoveAndGrab(possibleAnswers);
     }
 
     @Override
-    public String askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionChoosePowerUpToRespawn(possibleAnswers);
     }
 
     @Override
-    public String askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionChoosePowerUpToDiscard(possibleAnswers);
     }
 
     @Override
-    public String askQuestionChoosePowerUpToAttack(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionChoosePowerUpToAttack(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionActionChoosePowerUpToAttack(possibleAnswers);
     }
 
     @Override
-    public String askQuestionChooseWeaponToAttack(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionChooseWeaponToAttack(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionChooseWeaponToAttack(possibleAnswers);
     }
 
     @Override
-    public String askQuestionChooseWeaponToSwitch(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionChooseWeaponToSwitch(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionChooseWeaponToSwitch(possibleAnswers);
     }
 
     @Override
-    public String askQuestionChooseWeaponToReload(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionChooseWeaponToReload(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionChooseWeaponToReload(possibleAnswers);
     }
 
     @Override
-    public String askQuestionPayWith(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionPayWith(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionPayWith(possibleAnswers);
     }
 
     @Override
-    public String askQuestionShoot(String[] possibleAnswers) throws RemoteException {
+    public int askQuestionShoot(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionShoot(possibleAnswers);
     }
 }

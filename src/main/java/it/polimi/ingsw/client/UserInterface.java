@@ -1,29 +1,45 @@
 package it.polimi.ingsw.client;
 
-
+/**
+ * The interface used to communicate between the real user and the network
+ */
 public interface UserInterface {
 
+    /**
+     * Notifies changes in the model
+     * @param json a JSON file containing only the model changes
+     */
     void notify(String json);
 
-    String askQuestionAction(String[] possibleAnswers);
+    /**
+     * Asks the player which action he wants to make
+     * @param possibleAnswers all the possible actions
+     * @return the index of the answer
+     */
+    int askQuestionAction(String[] possibleAnswers);
 
-    String askQuestionWhereToMove(String[] possibleAnswers);
+    /**
+     * Asks the player where he wants to move
+     * @param possibleAnswers the possible spots
+     * @return
+     */
+    int askQuestionWhereToMove(String[] possibleAnswers);
 
-    String askQuestionWhereToMoveAndGrab(String[] possibleAnswers);
+    int askQuestionWhereToMoveAndGrab(String[] possibleAnswers);
 
-    String askQuestionChoosePowerUpToRespawn(String[] possibleAnswers);
+    int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers);
 
-    String askQuestionChoosePowerUpToDiscard(String[] possibleAnswers);
+    int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers);
 
-    String askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers);
+    int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers);
 
-    String askQuestionChooseWeaponToAttack(String[] possibleAnswers);
+    int askQuestionChooseWeaponToAttack(String[] possibleAnswers);
 
-    String askQuestionChooseWeaponToSwitch(String[] possibleAnswers);
+    int askQuestionChooseWeaponToSwitch(String[] possibleAnswers);
 
-    String askQuestionChooseWeaponToReload(String[] possibleAnswers);
+    int askQuestionChooseWeaponToReload(String[] possibleAnswers);
 
-    String askQuestionPayWith(String[] possibleAnswers);
+    int askQuestionPayWith(String[] possibleAnswers);
 
-    String askQuestionShoot(String[] possibleAnswers);
+    int askQuestionShoot(String[] possibleAnswers);
 }

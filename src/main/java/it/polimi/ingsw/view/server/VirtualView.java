@@ -79,7 +79,7 @@ public class VirtualView extends Observable implements Observer {
         else {
 
             RemoteViewInterface remoteView = remoteViews.get(i);
-            String answer = null;
+            int answer = 0;
             String[] possibleAnswers = (String[])serverQuestion.possibleAnswers.toArray();
 
             try {
