@@ -1,16 +1,14 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
-import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
-import it.polimi.ingsw.view.client.RemoteView;
+import it.polimi.ingsw.view.client.RemoteViewInterface;
 import it.polimi.ingsw.view.server.VirtualView;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class GamesHandler {
     static void startGame(WaitingRoom waitingRoom) {
         Game game = new Game(waitingRoom.players, waitingRoom.getVotedMap(), waitingRoom.getVotedSkulls());
 
-        VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.sockets);
+        VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.sockets, waitingRoom.remoteViews);
 
         Controller controller = new Controller(game, virtualView);
 
@@ -65,13 +63,23 @@ public class GamesHandler {
         for (int i = 0; i < waitingRoom.players.size(); i++) {
 
             try {
-                PrintWriter printWriter = new PrintWriter(waitingRoom.sockets.get(i).getOutputStream());
-                printWriter.println("You are being disconnected from the server due to lack of players");
-                printWriter.flush();
-                Main.allConnectedUsernames.remove(waitingRoom.players.get(i));
+                if(waitingRoom.sockets.get(i) != null) {
+                    System.out.println("Notifying socket connection '" + waitingRoom.players.get(i) + "' that he's being disconnected");
 
-                waitingRoom.sockets.get(i).close();
-            } catch (IOException e) {
+                    PrintWriter printWriter = new PrintWriter(waitingRoom.sockets.get(i).getOutputStream());
+                    printWriter.println("You are being disconnected from the server due to lack of players");
+                    printWriter.flush();
+                    Main.allConnectedUsernames.remove(waitingRoom.players.get(i));
+
+                    waitingRoom.sockets.get(i).close();
+                }
+                else {
+                    System.out.println("Notifying rmi connection '" + waitingRoom.players.get(i) + "' that he's being disconnected");
+
+                    RemoteViewInterface remoteView = waitingRoom.remoteViews.get(i);
+                    remoteView.sendMessage("You are being disconnected from the server due to lack of players");
+                }
+            } catch (Exception e) {
                 MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
                 e.printStackTrace();
             }
@@ -90,15 +98,8 @@ public class GamesHandler {
         ArrayList<String> messages = new ArrayList<>();
         messages.add(nickname + " DISCONNECTED");
 
-        controller.virtualView.sendAll(new ServerQuestion(QuestionType.TextMessage, messages));
-
         System.out.println("LOST CONNECTION with " + nickname);
     }
-
-    public void reinsert(Receiver receiver, String nickname) {
-
-    }
-
 
     public void newConnection(Socket socket, String username, MapName votedMap, int votedSkulls) {
 
@@ -114,8 +115,15 @@ public class GamesHandler {
 
     }
 
-    public void newConnection(RemoteView remoteView, String username, MapName votedMap, int votedSkulls) {
+    public void newConnection(RemoteViewInterface remoteView, String username, MapName votedMap, int votedSkulls) {
 
+        if(waitingRooms.isEmpty())
+            waitingRooms.add(new WaitingRoom());
+
+        if(nicknameControllers.containsKey(username))   //TODO
+            return;
+
+        waitingRooms.get(waitingRooms.size() - 1).addPlayer(remoteView, username, votedMap, votedSkulls);
 
     }
 

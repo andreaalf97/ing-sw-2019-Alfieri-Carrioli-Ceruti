@@ -4,7 +4,6 @@ import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Effect;
-import it.polimi.ingsw.server.Receiver;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
@@ -119,7 +118,7 @@ public class Controller implements Observer {
      * Reinserts the player in the game
      * @param nickname the nickname of the player I want to put back into the game
      */
-    public void reinsert(String nickname, Receiver receiver) {
+    public void reinsert(String nickname) {
 
         //TODO
         //virtualView.updateReceiver(nickname, receiver);
@@ -127,9 +126,6 @@ public class Controller implements Observer {
         ArrayList<String> messages = new ArrayList<>();
         messages.add(nickname + " reconnected");
 
-        ServerQuestion serverQuestion = new ServerQuestion(QuestionType.TextMessage, messages);
-
-        virtualView.sendAll(serverQuestion);
 
     }
 
@@ -138,9 +134,8 @@ public class Controller implements Observer {
      */
     public void startGame() {
 
-        ArrayList<String> message = new ArrayList<>();
-        message.add("GAME STARTED");
-        virtualView.sendAll(new ServerQuestion(QuestionType.TextMessage, message));
+        String message = "GAME STARTED";
+        virtualView.sendAllMessage(message);
 
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
@@ -163,12 +158,11 @@ public class Controller implements Observer {
         firstPlayer.playerStatus.isActive = true;
         firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
-        ArrayList<String> messages = new ArrayList<>();
-        messages.add(firstPlayer.getNickname() + ": It is your turn");
+        String newMessage = firstPlayer.getNickname() + ": It is your turn";
 
-        virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.TextMessage, messages));
+        virtualView.sendMessage(firstPlayer.getNickname(), newMessage);
 
-        messages = gameModel.generatePossibleActions(firstPlayer.getNickname());
+        ArrayList<String> messages = gameModel.generatePossibleActions(firstPlayer.getNickname());
         virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
@@ -191,9 +185,8 @@ public class Controller implements Observer {
 
         //The index must be correct for the possible answer array
         if(clientAnswer.index > clientAnswer.possibleAnswers.size() - 1 || clientAnswer.index < 0){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("Index out of bound");
-            virtualView.sendQuestion(clientAnswer.sender,  new ServerQuestion(QuestionType.TextMessage, message));
+            String message = "Index out of bound";
+            virtualView.sendMessage(clientAnswer.sender,  message);
             return;
         }
 
@@ -205,9 +198,8 @@ public class Controller implements Observer {
 
         //If the controller wasn't waiting for this answer
         if(player.playerStatus.waitingForAnswerToThisQuestion == null || questionType != player.playerStatus.waitingForAnswerToThisQuestion){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("This is not the answer I was waiting for");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            String message = "This is not the answer I was waiting for";
+            virtualView.sendMessage(player.getNickname(),  message);
             return;
         }
 
@@ -293,18 +285,16 @@ public class Controller implements Observer {
         }
 
         //This is printed if I'm missing a return statement in the previous questions
-        ArrayList<String> message = new ArrayList<>();
-        message.add("The controller received your answer (MISSING RETURN SOMEWHERE");
+        String message = "The controller received your answer (MISSING RETURN SOMEWHERE)";
 
-        virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+        virtualView.sendMessage(player.getNickname(),  message);
     }
 
     private boolean isNotThisPlayersTurn(Player player){
 
         if(!player.playerStatus.isActive){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("This is not your turn");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            String message = "This is not your turn";
+            virtualView.sendMessage(player.getNickname(),  message);
             return true;
         }
         return false;
@@ -683,9 +673,8 @@ public class Controller implements Observer {
             yCoord = coords[1];
         }
         catch (IllegalArgumentException e){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("Invalid spot response");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            String message = "Invalid spot response";
+            virtualView.sendMessage(player.getNickname(),  message);
             return;
         }
 
@@ -715,9 +704,8 @@ public class Controller implements Observer {
             yCoord = coords[1];
         }
         catch (IllegalArgumentException e){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("Invalid spot response");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            String message = "Invalid spot response";
+            virtualView.sendMessage(player.getNickname(),  message);
             return;
         }
 
@@ -774,9 +762,8 @@ public class Controller implements Observer {
             action = Actions.valueOf(answer);
         }
         catch (IllegalArgumentException e){
-            ArrayList<String> message = new ArrayList<>();
-            message.add("Invalid Action response");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            String message = "Invalid Action response";
+            virtualView.sendMessage(player.getNickname(),  message);
             return;
         }
 
@@ -921,9 +908,8 @@ public class Controller implements Observer {
 
             player.playerStatus.waitingForAnswerToThisQuestion = null;
 
-            ArrayList<String> message = new ArrayList<>();
-            message.add("Your turn is over");
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.TextMessage, message));
+            String message = "Your turn is over";
+            virtualView.sendMessage(player.getNickname(),  message);
 
 
 

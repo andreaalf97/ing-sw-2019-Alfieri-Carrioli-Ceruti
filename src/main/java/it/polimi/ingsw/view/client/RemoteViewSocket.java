@@ -9,6 +9,8 @@ public class RemoteViewSocket implements Runnable {
 
     Socket socket;
 
+    final String SPLITTER = "$";
+
     public RemoteViewSocket(Socket socket){
         this.socket = socket;
     }
@@ -29,12 +31,31 @@ public class RemoteViewSocket implements Runnable {
             Scanner scanner = new Scanner(socket.getInputStream());
 
             while (true){
+
                 String line = scanner.nextLine();
-                System.out.println("[*socket] server said -> " + line);
-                sendMessage(line.toUpperCase());
+
+                String messageType = line.split(SPLITTER)[0];
+
+                String message = line.split(SPLITTER)[1];
+
+                if(messageType == "MESSAGE") {
+                    System.out.println("[*] Server MESSAGE: " + message);
+                }
+                else if(messageType == "QUESTION"){
+
+                    System.out.println("[*] Server QUESTION: " + message);
+
+                }
+                else if(messageType == "NOTIFY") {
+                    System.out.println("[*] Server NOTIFY: " + message);
+                }
+                else {
+                    throw new RuntimeException("Not a valid message");
+                }
+
             }
         }
-        catch (IOException e){
+        catch (Exception e){
             System.err.println("DISCONNECTED FROM SERVER");
         }
 

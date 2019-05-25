@@ -2,19 +2,17 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
-import it.polimi.ingsw.view.ServerQuestion;
-import it.polimi.ingsw.view.client.RemoteViewRmi;
+import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
 import it.polimi.ingsw.view.client.RemoteViewSocket;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Cli implements Interface{
+public class Cli implements UserInterface {
 
     private final String validUsername = "^[a-zA-Z0-9]*$";
 
@@ -99,7 +97,7 @@ public class Cli implements Interface{
 
         try {
 
-            RemoteViewRmi remoteView = new RemoteViewRmi(this);
+            RemoteViewRmiImpl remoteView = new RemoteViewRmiImpl(this);
 
             Registry registry = LocateRegistry.getRegistry(serverAddress, rmiPort);
 
@@ -133,9 +131,10 @@ public class Cli implements Interface{
             System.err.println(e.getMessage());
         }
 
-        RemoteViewSocket remoteView = new RemoteViewSocket(serverSocket);
-        remoteView.sendMessage(username + ":" + votedMap + ":" + nSkulls);
+        RemoteViewSocket remoteViewSocket = new RemoteViewSocket(serverSocket);
+        remoteViewSocket.sendMessage(username + ":" + votedMap + ":" + nSkulls);
 
+        new Thread(remoteViewSocket).run();
 
         return;
 
@@ -149,32 +148,85 @@ public class Cli implements Interface{
 
     }
 
-    public void handleQuestion(ServerQuestion question) {
+    public String askQuestion(String questionMessage, String[] possibleAnswer) {
 
-        System.out.println("[*] NEW QUESTION:");
-        System.out.println(question.questionType);
-        System.out.println(question.possibleAnswers);
+        Scanner scanner = new Scanner(System.in);
 
-    }
+        System.out.println("QUESTION --> " + questionMessage);
 
+        for (int i = 0; i < possibleAnswer.length; i++)
+            System.out.println("[" + i + "] " + possibleAnswer[i]);
 
-    public void notifyMe(String message) {
+        int answer = scanner.nextInt();
 
-        System.out.println("[*] NEW NOTIFY:");
-        System.out.println(message);
+        while(answer < 0 || answer >= possibleAnswer.length ) {
 
+            System.out.println("Invalid choice, choose again:");
 
+            answer = scanner.nextInt();
+        }
+
+        return possibleAnswer[answer];
 
     }
 
     @Override
-    public String askQuestion(String question) {
-        System.out.println("[*] Server question -> " + question);
-        return question.toUpperCase();
+    public void notify(String json) {
+        System.out.println("[*] Server notify -> " + json);
     }
 
     @Override
-    public void notify(String message) {
-        System.out.println("[*] Server message -> " + message);
+    public String askQuestionAction(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionWhereToMove(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionChooseWeaponToReload(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionPayWith(String[] possibleAnswers) {
+        return null;
+    }
+
+    @Override
+    public String askQuestionShoot(String[] possibleAnswers) {
+        return null;
     }
 }

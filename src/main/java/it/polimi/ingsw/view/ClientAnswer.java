@@ -16,6 +16,13 @@ public class ClientAnswer {
 
     public final int index;
 
+    public ClientAnswer(String nickname, ServerQuestion serverQuestion, int index){
+        this.sender = nickname;
+        this.questionType = serverQuestion.questionType;
+        this.possibleAnswers = serverQuestion.possibleAnswers;
+        this.index = index;
+    }
+
 
     public ClientAnswer(String nickname, String json) throws IllegalArgumentException{
 

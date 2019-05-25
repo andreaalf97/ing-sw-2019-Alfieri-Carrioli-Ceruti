@@ -8,7 +8,7 @@ public class ServerQuestion {
 
     public final ArrayList<String> possibleAnswers;
 
-    public ServerQuestion(QuestionType questionType, ArrayList<String> possibleAnswers){
+    public ServerQuestion(QuestionType questionType, ArrayList<String> possibleAnswers) {
         this.questionType = questionType;
         this.possibleAnswers = new ArrayList<>(possibleAnswers);
     }

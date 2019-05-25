@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.view.client.RemoteViewRmi;
 
 import java.io.IOException;
 import java.io.PrintWriter;

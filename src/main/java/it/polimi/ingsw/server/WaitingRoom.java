@@ -1,12 +1,13 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
-import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.model.map.MapName;
+import it.polimi.ingsw.view.client.RemoteViewInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -33,6 +34,11 @@ public class WaitingRoom {
     protected ArrayList<Socket> sockets;
 
     /**
+     * All the open rmi connections
+     */
+    protected ArrayList<RemoteViewInterface> remoteViews;
+
+    /**
      * The length of the timer
      */
     protected final static long TIMERMINUTES = (long) 1;
@@ -55,6 +61,7 @@ public class WaitingRoom {
     public WaitingRoom(){
         this.players = new ArrayList<>();
         this.sockets = new ArrayList<>();
+        this.remoteViews = new ArrayList<>();
 
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
         this.mapVotes.put(MapName.FIRE, 0);
@@ -75,7 +82,7 @@ public class WaitingRoom {
             public void run() {
                 closeThisRoom();
             }
-        }, 30 * 1000); //This should be TIMERMINUTES * 60 * 1000
+        }, 10 * 1000); //This should be TIMERMINUTES * 60 * 1000
 
     }
 
@@ -87,22 +94,9 @@ public class WaitingRoom {
      */
     protected synchronized void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
 
+        addVote(nickname, mapToVote, nSkullsToVote);
 
-
-        if(players.contains(nickname))
-            throw new RuntimeException("This waitingRoom already contains this player");
-
-        players.add(nickname);
-
-        int tempVotes = (int) (mapVotes.get(mapToVote));
-        mapVotes.put(mapToVote, tempVotes + 1);
-
-        if (nSkullsToVote < 5 || nSkullsToVote > 8)
-            throw new RuntimeException("nSkullsToVote must be between 5 and 8");
-
-        tempVotes = (int) skullVotes.get(nSkullsToVote);
-        skullVotes.put(nSkullsToVote, tempVotes + 1);
-
+        remoteViews.add(null);
         sockets.add(socket);
 
         try {
@@ -117,6 +111,45 @@ public class WaitingRoom {
 
         if(players.size() == MAXPLAYERS)
             closeThisRoom();
+
+    }
+
+    protected synchronized void addPlayer(RemoteViewInterface remoteView, String nickname, MapName mapToVote, int nSkullsToVote){
+
+        addVote(nickname, mapToVote, nSkullsToVote);
+
+        remoteViews.add(remoteView);
+        sockets.add(null);
+
+        try {
+            remoteView.sendMessage("You have been added to a waiting room, timer is set to " + TIMERMINUTES +  " minutes");
+        }
+        catch (RemoteException e){
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message from waiting room through rmi");
+        }
+
+
+        if(players.size() == MAXPLAYERS)
+            closeThisRoom();
+
+    }
+
+    private synchronized void addVote(String nickname, MapName mapToVote, int nSkullsToVote){
+
+        if(players.contains(nickname))
+            throw new RuntimeException("This waitingRoom already contains this player");
+
+        players.add(nickname);
+
+        int tempVotes = (int) (mapVotes.get(mapToVote));
+        mapVotes.put(mapToVote, tempVotes + 1);
+
+        if (nSkullsToVote < 5 || nSkullsToVote > 8)
+            throw new RuntimeException("nSkullsToVote must be between 5 and 8");
+
+
+        tempVotes = (int) skullVotes.get(nSkullsToVote);
+        skullVotes.put(nSkullsToVote, tempVotes + 1);
 
     }
 
