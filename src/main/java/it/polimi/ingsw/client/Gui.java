@@ -91,11 +91,6 @@ public class Gui extends Application implements UserInterface {
     }
 
     @Override
-    public int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) {
-        return 0;
-    }
-
-    @Override
     public int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
         return 0;
     }
@@ -124,4 +119,10 @@ public class Gui extends Application implements UserInterface {
     public int askQuestionShoot(String[] possibleAnswers) {
         return 0;
     }
+
+    @Override
+    public int askQuestionUseTurnPowerUp(String[] possibleAnswers){return 0;}
+
+    @Override
+    public int askQuestionUseAsyncPowerUp(String[] possibleAnswers){return 0;}
 }

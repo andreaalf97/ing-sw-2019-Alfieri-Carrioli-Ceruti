@@ -50,24 +50,39 @@ public class PowerUpShootingTest {
         gameTest.movePlayer("gino", 0, 0);
         gameTest.movePlayer("andreaalf", 1, 0);
 
-        ArrayList<Color> costChosen = new ArrayList<>();
-        costChosen.add(Color.BLUE);
+        gameTest.useDamagePowerUp("gino", "andreaalf", gameTest.getPlayerByNickname("gino").getPowerUpList().get(0).getEffect());
 
-        //TODO
-        /*try {
-            gameTest.useDamagePowerUp("gino", "andreaalf", gameTest.getPlayerByNickname("gino").getPowerUpList().get(0).getEffect(), costChosen );
-        }
-        catch(InvalidChoiceException e){
-            Assert.fail();
-        }
+        Assert.assertEquals("gino", gameTest.getPlayerByNickname("andreaalf").getDamages().get(0));
 
-        //TODO
-        //Assert.assertEquals("gino", gameTest.getPlayerByNickname("amdreaalf").getDamages().get(0));
-    */
     }
 
-
     @Test
-    public void shoot(){}
+    public void shootWithTargetingScopeToMyself(){
+        PowerUp powerUpTest;
+        try {
+            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
+            powerUpTest = new PowerUp("TargetingScope", powerupsJSON);
+        } catch (FileNotFoundException e) {
+            Assert.fail();
+            return;
+        }
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive("andreaalf");
+        gameTest.revive("gino");
+        gameTest.revive("meme");
+
+        gameTest.getPlayerByNickname("gino").givePowerUp(powerUpTest);
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer("gino", 0, 0);
+        gameTest.movePlayer("andreaalf", 1, 0);
+
+        gameTest.useDamagePowerUp("gino", "gino", gameTest.getPlayerByNickname("gino").getPowerUpList().get(0).getEffect());
+
+        //TODO
+        Assert.assertNotEquals("gino", gameTest.getPlayerByNickname("gino").getDamages().get(0));
+
+    }
 
 }
