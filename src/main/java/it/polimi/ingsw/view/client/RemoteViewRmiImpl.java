@@ -48,11 +48,6 @@ public class RemoteViewRmiImpl extends UnicastRemoteObject implements RemoteView
     }
 
     @Override
-    public int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) throws RemoteException {
-        return clientUserInterface.askQuestionChoosePowerUpToDiscard(possibleAnswers);
-    }
-
-    @Override
     public int askQuestionChoosePowerUpToAttack(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionActionChoosePowerUpToAttack(possibleAnswers);
     }
@@ -80,5 +75,16 @@ public class RemoteViewRmiImpl extends UnicastRemoteObject implements RemoteView
     @Override
     public int askQuestionShoot(String[] possibleAnswers) throws RemoteException {
         return clientUserInterface.askQuestionShoot(possibleAnswers);
+    }
+
+    @Override
+    public int askQuestionUseTurnPowerUp(String[] possibleAnswers) throws RemoteException {
+        return 0;
+
+    }
+
+    @Override
+    public int askQuestionUseAsyncPowerUp(String[] possibleAnswers) throws RemoteException {
+        return 0;
     }
 }
