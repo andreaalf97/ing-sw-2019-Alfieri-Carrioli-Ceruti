@@ -29,8 +29,6 @@ public interface UserInterface {
 
     int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers);
 
-    int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers);
-
     int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers);
 
     int askQuestionChooseWeaponToAttack(String[] possibleAnswers);
@@ -42,4 +40,9 @@ public interface UserInterface {
     int askQuestionPayWith(String[] possibleAnswers);
 
     int askQuestionShoot(String[] possibleAnswers);
+
+    int askQuestionUseTurnPowerUp(String [] possibleAnswers);
+
+    int askQuestionUseAsyncPowerUp(String [] possibleAnswers);
+
 }
