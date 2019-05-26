@@ -30,22 +30,32 @@ public class Gui extends Application implements UserInterface {
     @Override
     public void start(Stage window) throws Exception {
 
-        //Setting up window
+        //First window
         window.setTitle("Adrenalina");
 
         //Setting up startscene
-        BorderPane StartLayout = new BorderPane();
-        Scene startGameScene = new Scene(StartLayout, 750, 500);
+        GridPane startLayout = new GridPane();
+        startLayout.setPadding( new Insets(20, 20, 20, 20));
+        startLayout.setHgap(40);
+        startLayout.setVgap(25);
+
+        Scene startGameScene = new Scene(startLayout, 750, 500);
+
+        Label welcomeLabel = new Label("Welcome to Adrenalina");
+        GridPane.setConstraints(welcomeLabel, 0, 0);
 
         Button startGameButton = new Button("Start game");
-        Label label1 = new Label("Welcome to Adrenalina");
+        GridPane.setConstraints(startGameButton, 0, 1);
+
+        startLayout.setAlignment(Pos.CENTER);
+
+
+        //close button
         Button closeButton = new Button("Exit");
+        GridPane.setConstraints(closeButton, 0, 2);
 
-        closeButton.setOnAction(e -> ClosingBox.display( window ));
+        startLayout.getChildren().addAll(welcomeLabel, startGameButton, closeButton);
 
-        StartLayout.setTop(label1);
-        StartLayout.setCenter(startGameButton);
-        StartLayout.setBottom(closeButton);
 
 
         //Login scene
@@ -83,8 +93,8 @@ public class Gui extends Application implements UserInterface {
 
         Button loginButton = new Button("Login");
         GridPane.setConstraints(loginButton, 2, 4);
-
-        loginLayout.getChildren().addAll(usernameLabel, usernameInput, choosingMapLabel, choosingMapInput, numberOfSkullsLabel, numberOfSkullsInput, loginButton);
+        GridPane.setConstraints(closeButton, 2, 8);
+        loginLayout.getChildren().addAll(usernameLabel, usernameInput, choosingMapLabel, choosingMapInput, numberOfSkullsLabel, numberOfSkullsInput, loginButton, closeButton);
 
         Scene loginScene = new Scene(loginLayout, 750, 500);
 
@@ -98,8 +108,12 @@ public class Gui extends Application implements UserInterface {
         VBox boardSceneLayout = new VBox(20);
         Scene boardScene = new Scene(boardSceneLayout, 750, 500);
 
+        TextField text = new TextField("afammoc mammt' ancur sa da fà");
+        boardSceneLayout.getChildren().addAll(text);
+
         loginButton.setOnAction(e -> window.setScene(boardScene));
 
+        closeButton.setOnAction(e -> ClosingBox.display(window));
 
         window.setScene(startGameScene);
         window.show();
