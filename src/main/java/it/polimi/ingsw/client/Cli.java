@@ -156,7 +156,7 @@ public class Cli implements UserInterface {
         }
 
         //Creates a new RemoteViewSocket object which is used to keep the connection open and read all new messages
-        RemoteViewSocket remoteViewSocket = new RemoteViewSocket(serverSocket);
+        RemoteViewSocket remoteViewSocket = new RemoteViewSocket(serverSocket, this);
 
         //sends the connection message to the server
         remoteViewSocket.sendMessage(username + ":" + votedMap + ":" + nSkulls);
@@ -185,56 +185,118 @@ public class Cli implements UserInterface {
 
     @Override
     public int askQuestionAction(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("Action question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionWhereToMove(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("WhereToMove question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("WhereToMoveAndGrab question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
-        return 0;
-    }
 
-    @Override
-    public int askQuestionChoosePowerUpToDiscard(String[] possibleAnswers) {
-        return 0;
+        System.out.println("ChoosePowerUpToRespawn question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("ChoosePowerUpToAttack question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("ChooseWeaponToAttack question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("ChooseWeaponToSwitch question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionChooseWeaponToReload(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("ChooseWeaponToReload question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionPayWith(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("PayWith question:");
+        return chooseAnswer(possibleAnswers);
+
     }
 
     @Override
     public int askQuestionShoot(String[] possibleAnswers) {
-        return 0;
+
+        System.out.println("Shoot question:");
+        return chooseAnswer(possibleAnswers);
+
+    }
+
+    @Override
+    public int askQuestionChoosePowerUpToUse(String[] possibleAnswers) {
+
+        System.out.println("ChoosePowerUpToUse question:");
+        return chooseAnswer(possibleAnswers);
+
+    }
+
+    @Override
+    public int askQuestionUseTurnPowerUp(String[] possibleAnswers) {
+
+        System.out.println("UseTurnPowerUp question:");
+        return chooseAnswer(possibleAnswers);
+
+    }
+
+    @Override
+    public int askQuestionUseAsyncPowerUp(String[] possibleAnswers) {
+
+        System.out.println("UseAsyncPowerUp question:");
+        return chooseAnswer(possibleAnswers);
+
+    }
+
+
+    private int chooseAnswer(String[] possibleAnswers){
+
+        for(int i = 0; i < possibleAnswers.length; i++)
+            System.out.println(possibleAnswers[i]);
+
+        Scanner scanner = new Scanner(System.in);
+
+        int answer = scanner.nextInt();
+
+        return answer;
     }
 }

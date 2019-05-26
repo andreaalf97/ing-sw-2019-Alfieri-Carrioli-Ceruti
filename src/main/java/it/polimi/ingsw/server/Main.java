@@ -111,7 +111,6 @@ public class Main {
                 gamesHandler.newConnection(socket, username, votedMap, votedSkulls);
                 printWriter.println("MESSAGE$OK");
                 printWriter.flush();
-                printWriter.close();
 
             }
         }

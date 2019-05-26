@@ -19,12 +19,11 @@ public class RemoteViewRmiImpl extends UnicastRemoteObject implements RemoteView
 
         clientUserInterface.notify(message);
 
-
     }
 
     @Override
     public void sendMessage(String message) throws RemoteException {
-        System.out.println("[*] Server message --> " + message);
+        System.out.println("[*] Server MESSAGE --> " + message);
     }
 
     @Override

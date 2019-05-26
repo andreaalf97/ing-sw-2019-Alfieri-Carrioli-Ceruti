@@ -85,7 +85,6 @@ public class GamesHandler {
                     PrintWriter printWriter = new PrintWriter(waitingRoom.sockets.get(i).getOutputStream());
                     printWriter.println("MESSAGE" + "$" + "You are being disconnected from the server due to lack of players");
                     printWriter.flush();
-                    printWriter.close();
                     Main.allConnectedUsernames.remove(waitingRoom.players.get(i));
 
                     waitingRoom.sockets.get(i).close();
