@@ -175,6 +175,11 @@ public class Gui extends Application implements UserInterface {
     }
 
     @Override
+    public int askQuestionChoosePowerUpToUse(String[] possibleAnswers) {
+        return 0;
+    }
+
+    @Override
     public int askQuestionUseTurnPowerUp(String[] possibleAnswers){return 0;}
 
     @Override
