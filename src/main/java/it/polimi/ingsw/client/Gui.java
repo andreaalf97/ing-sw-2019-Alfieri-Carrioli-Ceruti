@@ -112,7 +112,7 @@ public class Gui extends Application implements UserInterface {
 
         Scene boardScene = new Scene(boardSceneLayout, 1000, 700);
 
-        Image mapImage = new Image(new FileInputStream("C:\\Users\\ameeo\\IdeaProjects\\ing-sw-2019-Alfieri-Carrioli-Ceruti\\src\\main\\resources\\Grafica\\Mappe\\Mappe\\Mappa_1.png"));
+        Image mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
 
         ImageView imageView = new ImageView(mapImage);
 
