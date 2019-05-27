@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,12 +14,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Window;
 import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class Gui extends Application implements UserInterface {
@@ -102,14 +107,34 @@ public class Gui extends Application implements UserInterface {
 
 
 
-
-
         //Board scene (first scene after logging in)
-        VBox boardSceneLayout = new VBox(20);
-        Scene boardScene = new Scene(boardSceneLayout, 750, 500);
+        BorderPane boardSceneLayout = new BorderPane();
 
-        TextField text = new TextField("afammoc mammt' ancur sa da fà");
-        boardSceneLayout.getChildren().addAll(text);
+        Scene boardScene = new Scene(boardSceneLayout, 1000, 700);
+
+        Image mapImage = new Image(new FileInputStream("C:\\Users\\ameeo\\IdeaProjects\\ing-sw-2019-Alfieri-Carrioli-Ceruti\\src\\main\\resources\\Grafica\\Mappe\\Mappe\\Mappa_1.png"));
+
+        ImageView imageView = new ImageView(mapImage);
+
+        imageView.setFitHeight(boardScene.getHeight());
+        imageView.setFitWidth(boardScene.getWidth());
+
+        boardSceneLayout.getChildren().addAll(imageView);
+
+
+        //imageView.fitWidthProperty().bind(window.widthProperty());
+
+        //boardSceneLayout.setCenter(imageView);
+
+
+        //Questi sono per settare la grandezza della scena a screen size!
+        /*Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        //set Stage boundaries to visible bounds of the main screen
+        window.setX(primaryScreenBounds.getMinX());
+        window.setY(primaryScreenBounds.getMinY());
+        window.setWidth(primaryScreenBounds.getWidth());
+        window.setHeight(primaryScreenBounds.getHeight());*/
+
 
         loginButton.setOnAction(e -> window.setScene(boardScene));
 
