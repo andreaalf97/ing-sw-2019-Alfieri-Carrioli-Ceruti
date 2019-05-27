@@ -144,7 +144,7 @@ public class Cli implements UserInterface {
      * @param votedMap the voted map
      * @param nSkulls the voted skulls
      */
-    private void startSocketConnection(String username, MapName votedMap, int nSkulls) {
+    protected void startSocketConnection(String username, MapName votedMap, int nSkulls) {
 
         Socket serverSocket = null;
         try {

@@ -68,22 +68,17 @@ public class Gui extends Application implements UserInterface {
 
         startLayout.setAlignment(Pos.CENTER);
 
-
         //close button
         Button closeButton = new Button("Exit");
         GridPane.setConstraints(closeButton, 0, 2);
 
         startLayout.getChildren().addAll(welcomeLabel, startGameButton, closeButton);
 
-
-
         //Login scene
         GridPane loginLayout = new GridPane();
         loginLayout.setPadding( new Insets(20, 20, 20, 20));
-
         loginLayout.setVgap(10);
         loginLayout.setHgap(8);
-
         //username input
         Label usernameLabel = new Label("Username:");
         //set the username label in the top left
@@ -91,7 +86,6 @@ public class Gui extends Application implements UserInterface {
         //insert the username
         TextField usernameInput = new TextField();
         GridPane.setConstraints(usernameInput, 2, 1);
-
         //choosing map input
         Label choosingMapLabel = new Label("Choose the map you want to play in:");
         GridPane.setConstraints(choosingMapLabel, 1, 2);
@@ -99,9 +93,6 @@ public class Gui extends Application implements UserInterface {
         TextField choosingMapInput = new TextField();
         choosingMapInput.setPromptText("Fire, Earth, Wind, Water");
         GridPane.setConstraints(choosingMapInput, 2, 2);
-
-
-
         //choosing number of skull input
         Label numberOfSkullsLabel = new Label("Choose the number of skulls you want to play with:");
         GridPane.setConstraints(numberOfSkullsLabel, 1, 3);
@@ -149,35 +140,54 @@ public class Gui extends Application implements UserInterface {
         window.setWidth(primaryScreenBounds.getWidth());
         window.setHeight(primaryScreenBounds.getHeight());*/
 
+        //connection scene: sockets or rmi?
+        VBox connectionLayout = new VBox();
+        connectionLayout.setSpacing(20);
+        connectionLayout.setPadding( new Insets(30, 30, 30,30));
+        Label connectionLabel = new Label("Choose the type of connection:");
+        connectionLabel.setAlignment(Pos.TOP_CENTER);
+        HBox HboxConnections = new HBox();
+        HboxConnections.setAlignment(Pos.CENTER);
+        HboxConnections.setSpacing(30);
+        Button socketButton = new Button("Socket");
+        Button RMIButton = new Button("RMI");
+        HboxConnections.getChildren().addAll(socketButton, RMIButton);
+        connectionLayout.getChildren().addAll(connectionLabel, HboxConnections);
+        Scene connectionScene = new Scene(connectionLayout, 750, 500);
 
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
 
                 try{
-                    //username non valido, mando messaggio e ritorno alla login
-                    if (!Pattern.matches(validUsername, usernameInput.getText())) {
-                        TextBox.display("The username can only contain letters and numbers");
-                        window.setScene(loginScene);
-                    }
-                    if (usernameInput.getText().isEmpty()) {
-                        TextBox.display("Username can't be empty. Please enter a valid one");
-                        window.setScene(loginScene);
-                    }
-                    if (choosingMapInput.getText().isEmpty() || !choosingMapInput.getText().equals(MapName.FIRE.toString()) || !choosingMapInput.getText().equals(MapName.WATER.toString()) || !choosingMapInput.getText().equals(MapName.WIND.toString()) || !choosingMapInput.getText().equals(MapName.EARTH.toString())) {
-                        TextBox.display("Map not valid: choose between 'FIRE', 'WIND', 'WATER'. 'EARTH'");
-                        window.setScene(loginScene);
-                    }
-                    if (numberOfSkullsInput.getText().isEmpty() || Integer.parseInt(numberOfSkullsInput.getText()) < 5 || Integer.parseInt(numberOfSkullsInput.getText()) > 8) {
-                        TextBox.display("Number of skulls not valid");
-                        window.setScene(loginScene);
-                    }
 
+                    Boolean ok = true;
                     int nSkulls = Integer.parseInt(numberOfSkullsInput.getText());
                     String username = usernameInput.getText();
-                    String votedMap = choosingMapInput.getText();
+                    MapName votedMap = MapName.valueOf(choosingMapInput.getText());
 
-                    window.setScene(boardScene);
+                    //username non valido, mando messaggio e ritorno alla login
+                    if (!Pattern.matches(validUsername, username)) {
+                        TextBox.display("The username can only contain letters and numbers");
+                        ok = false;
+                    }
+                    if (username.isEmpty()) {
+                        TextBox.display("Username can't be empty. Please enter a valid one");
+                        ok = false;
+                    }
+                    if (choosingMapInput.getText().isEmpty() || (votedMap != MapName.FIRE && votedMap != MapName.WATER && votedMap != MapName.WIND && votedMap != MapName.EARTH)) {
+                        TextBox.display("Map not valid: choose between 'FIRE', 'WIND', 'WATER'. 'EARTH'");
+                        ok = false;
+                    }
+                    if (numberOfSkullsInput.getText().isEmpty() || nSkulls < 5 || nSkulls > 8) {
+                        TextBox.display("Number of skulls not valid");
+                        ok = false;
+                    }
+
+                    if( !ok )
+                        window.setScene(loginScene);
+                    else
+                        window.setScene(connectionScene);
 
                 } catch (Exception e) {
                     //TODO senza la try catch da un sacco di errori
@@ -186,6 +196,15 @@ public class Gui extends Application implements UserInterface {
         });
 
 
+        /*socketButton.setOnAction( event -> {
+            Cli.startSocketConnection(username, votedMap, nSkulls);
+            beginSocketConnection(username, votedMap, nSkulls);
+            window.setScene(boardScene);
+        });
+        RMIButton.setOnAction( event -> {
+            Cli.startRmiConnection(username, votedMap, nSkulls);
+            window.setScene(boardScene);
+        });*/
 
 
         closeButton.setOnAction(e -> ClosingBox.display(window));
@@ -194,9 +213,9 @@ public class Gui extends Application implements UserInterface {
         window.show();
     }
 
-    public void setUsername(String username){
-
-    }
+    /*private void beginSocketConnection( String username, MapName votedMap, int nSkulls){
+        Cli.startSocketConnection(username, votedMap, nSkulls);
+    }*/
 
     @Override
     public void notify(String json) {
