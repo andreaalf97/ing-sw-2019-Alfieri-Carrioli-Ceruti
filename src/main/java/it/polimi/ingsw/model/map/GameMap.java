@@ -308,6 +308,9 @@ public class GameMap {
         if(nMoves == 0)
             return false;
 
+        if(nMoves > 10)
+            return true;
+
         Spot spot1 = getSpotByIndex(spot1X, spot1Y);
 
         //North == true if the player can move north

@@ -1640,7 +1640,7 @@
         "mustBeOtherRoom": false,
         "mustBeDifferentSpots": false,
         "isLinear": false,
-        "visibleByWho": "DONTCARE",
+        "visibleByWho": "OFFENDER",
         "mustBeSameSpots": false,
         "mustShootSamePlayers": false
       }

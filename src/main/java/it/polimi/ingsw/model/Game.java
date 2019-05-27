@@ -1140,9 +1140,17 @@ public class Game extends Observable {
      * @param effect is the effect of the power up
      * @throws InvalidChoiceException
      */
-    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ){
+    public void useDamagePowerUp( String currentPlayerName, String playerWhoReceiveEffectName, Effect effect ) throws InvalidChoiceException{
+
+        if(currentPlayerName.equals(playerWhoReceiveEffectName))
+            throw  new InvalidChoiceException("you can't shoot to yourself");
 
         Player  defender = getPlayerByNickname(playerWhoReceiveEffectName);
+
+        Player currentPlayer = getPlayerByNickname(currentPlayerName);
+
+        if(effect.getVisibleByWho() == Visibility.OFFENDER && !gameMap.see(currentPlayer.getxPosition(), currentPlayer.getyPosition(), defender.getxPosition(), defender.getyPosition()) )
+            throw new InvalidChoiceException("you can't see the defender");
 
         //creo un ArrayList<Player> in cui ci sarà solo un player per passarlo a makeDamageEffect
         ArrayList<Player> defenders = new ArrayList<>();
@@ -1164,21 +1172,24 @@ public class Game extends Observable {
 
         Player  playerWhoReceiveEffect = getPlayerByNickname(playerWhoReceiveEffectName);
 
-        if (effect.getnMoves() != 0 || effect.getnMovesOtherPlayer() != 0) {
-            if ( effect.getnMoves() != 0){
-                if( this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMoves()) ) {
-                    movePlayer(playerWhoReceiveEffect.getNickname(), xPos, yPos);
-                }else
-                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMoves");
-            }
-            if ( effect.getnMovesOtherPlayer() != 0){
-                if( this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer()) ) {
-                    movePlayer(playerWhoReceiveEffect.getNickname(), xPos, yPos);
-                }else
-                    throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
+            if ( effect.getnMoves() != 0) {
+                if (currentPlayerName != playerWhoReceiveEffectName)
+                    throw new InvalidChoiceException("you can't move another player");
+                else
+                    movePlayer(playerWhoReceiveEffectName, xPos, yPos);
+
             }
 
-        }
+            if ( effect.getnMovesOtherPlayer() != 0) {
+                if (currentPlayerName == playerWhoReceiveEffectName)
+                    throw new InvalidChoiceException("you can't move yourself");
+                else {
+                    if (this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(), playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer())) {
+                        movePlayer(playerWhoReceiveEffectName, xPos, yPos);
+                    } else
+                        throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
+                }
+            }
     }
 
     public ArrayList<String> getAttackablePlayersPowerUp(String player, PowerUp powerUpToUse) {
