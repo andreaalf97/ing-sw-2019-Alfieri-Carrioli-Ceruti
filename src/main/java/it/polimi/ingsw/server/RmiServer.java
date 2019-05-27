@@ -23,8 +23,6 @@ public class RmiServer extends UnicastRemoteObject implements ServerInterface {
     @Override
     public void connect(RemoteViewInterface remoteView, String connectionMessage) throws RemoteException {
 
-        remoteView.sendMessage("The RmiServer received your connection message: " + connectionMessage);
-
         //Extracts the correct information from the connection message
         String username = connectionMessage.split(":")[0];
         MapName votedMap = MapName.valueOf(connectionMessage.split(":")[1]);

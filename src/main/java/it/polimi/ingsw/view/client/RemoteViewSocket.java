@@ -62,11 +62,9 @@ public class RemoteViewSocket implements Runnable {
                 String message = line.split(SPLITTER)[1];
 
                 if(messageType.equals("MESSAGE")) {
-                    System.out.println("[*] Server MESSAGE --> " + message);
+                    System.out.println("[*] NEW MESSAGE --> " + message);
                 }
                 else if(messageType.equals("QUESTION")){
-
-                    System.out.println("[*] Server QUESTION --> " + message);
 
                     //Creates a server question object from the JSON message
                     ServerQuestion serverQuestion = new ServerQuestion(message);

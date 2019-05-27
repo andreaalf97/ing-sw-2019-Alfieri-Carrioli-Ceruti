@@ -186,7 +186,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionAction(String[] possibleAnswers) {
 
-        System.out.println("Action question:");
+        System.out.println("*******************************************");
+        System.out.println("What action do you want to take?");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -194,7 +195,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionWhereToMove(String[] possibleAnswers) {
 
-        System.out.println("WhereToMove question:");
+        System.out.println("*******************************************");
+        System.out.println("Where do you want to move?");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -202,7 +204,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
 
-        System.out.println("WhereToMoveAndGrab question:");
+        System.out.println("*******************************************");
+        System.out.println("Where do you want to move and grab?");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -210,7 +213,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
 
-        System.out.println("ChoosePowerUpToRespawn question:");
+        System.out.println("*******************************************");
+        System.out.println("Choose a power up to respawn:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -218,7 +222,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
 
-        System.out.println("ChoosePowerUpToAttack question:");
+        System.out.println("*******************************************");
+        System.out.println("Choose a power up to attack:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -226,7 +231,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
 
-        System.out.println("ChooseWeaponToAttack question:");
+        System.out.println("*******************************************");
+        System.out.println("Choose a weapon to attack:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -234,7 +240,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
 
-        System.out.println("ChooseWeaponToSwitch question:");
+        System.out.println("*******************************************");
+        System.out.println("Choose the weapons to switch:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -242,7 +249,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionChooseWeaponToReload(String[] possibleAnswers) {
 
-        System.out.println("ChooseWeaponToReload question:");
+        System.out.println("*******************************************");
+        System.out.println("Choose the weapon to reload:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -250,7 +258,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionPayWith(String[] possibleAnswers) {
 
-        System.out.println("PayWith question:");
+        System.out.println("*******************************************");
+        System.out.println("Choose how to pay");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -258,7 +267,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionShoot(String[] possibleAnswers) {
 
-        System.out.println("Shoot question:");
+        System.out.println("*******************************************");
+        System.out.println("Shoot:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -266,7 +276,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionChoosePowerUpToUse(String[] possibleAnswers) {
 
-        System.out.println("ChoosePowerUpToUse question:");
+        System.out.println("*******************************************");
+        System.out.println("Choose the power up to use:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -274,7 +285,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionUseTurnPowerUp(String[] possibleAnswers) {
 
-        System.out.println("UseTurnPowerUp question:");
+        System.out.println("*******************************************");
+        System.out.println("Use a turn power up:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -282,7 +294,8 @@ public class Cli implements UserInterface {
     @Override
     public int askQuestionUseAsyncPowerUp(String[] possibleAnswers) {
 
-        System.out.println("UseAsyncPowerUp question:");
+        System.out.println("*******************************************");
+        System.out.println("Use an async power up:");
         return chooseAnswer(possibleAnswers);
 
     }
@@ -291,7 +304,7 @@ public class Cli implements UserInterface {
     private int chooseAnswer(String[] possibleAnswers){
 
         for(int i = 0; i < possibleAnswers.length; i++)
-            System.out.println(possibleAnswers[i]);
+            System.out.println("[" + i + "] " + possibleAnswers[i]);
 
         Scanner scanner = new Scanner(System.in);
 

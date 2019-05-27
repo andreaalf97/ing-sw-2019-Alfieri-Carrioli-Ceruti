@@ -83,7 +83,7 @@ class WaitingRoom {
             public void run() {
                 closeThisRoom();
             }
-        }, 10 * 1000); //This should be TIMERMINUTES * 60 * 1000
+        }, TIMERMINUTES * 30 * 1000); //This should be TIMERMINUTES * 60 * 1000
 
     }
 
