@@ -114,7 +114,8 @@ public class VirtualView extends Observable implements Observer {
 
             RemoteViewInterface remoteView = remoteViews.get(i);
             int answer = 0;
-            String[] possibleAnswers = (String[])serverQuestion.possibleAnswers.toArray();
+            String[] possibleAnswers = arrayListToArray(serverQuestion.possibleAnswers);
+
 
             try {
                 switch (serverQuestion.questionType) {
@@ -181,6 +182,17 @@ public class VirtualView extends Observable implements Observer {
 
 
         }
+
+    }
+
+    private String[] arrayListToArray(ArrayList<String> possibleAnswers) {
+
+        String[] tempString = new String[possibleAnswers.size()];
+
+        for(int i = 0; i < possibleAnswers.size(); i++)
+            tempString[i] = possibleAnswers.get(i);
+
+        return tempString;
 
     }
 

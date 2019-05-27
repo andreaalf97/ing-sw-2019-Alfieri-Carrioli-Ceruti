@@ -108,7 +108,6 @@ class WaitingRoom {
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
             printWriter.println("MESSAGE" + "$" + "You have been added to a waiting room, timer is set to " + TIMERMINUTES +  " minutes");
             printWriter.flush();
-            printWriter.close();
         }
         catch (IOException e){
             MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message through socket");

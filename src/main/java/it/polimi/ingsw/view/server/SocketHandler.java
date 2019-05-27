@@ -70,7 +70,6 @@ public class SocketHandler implements Runnable{
         try {
             printWriter.println(message);
             printWriter.flush();
-            printWriter.close();
         }
         catch (Exception e){
             MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message through socket");

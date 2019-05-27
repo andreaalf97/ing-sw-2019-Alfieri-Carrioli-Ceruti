@@ -41,8 +41,9 @@ public interface UserInterface {
 
     int askQuestionShoot(String[] possibleAnswers);
 
-    int askQuestionUseTurnPowerUp(String [] possibleAnswers);
+    int askQuestionChoosePowerUpToUse(String[] possibleAnswers);
 
-    int askQuestionUseAsyncPowerUp(String [] possibleAnswers);
+    int askQuestionUseTurnPowerUp(String[] possibleAnswers);
 
+    int askQuestionUseAsyncPowerUp(String[] possibleAnswers);
 }
