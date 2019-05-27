@@ -31,7 +31,10 @@ public class RemoteViewSocket implements Runnable {
      * @param socket the open socket with the server
      */
     public RemoteViewSocket(Socket socket, UserInterface userInterface){
+
         this.socket = socket;
+        this.userInterface = userInterface;
+
     }
 
     @Override

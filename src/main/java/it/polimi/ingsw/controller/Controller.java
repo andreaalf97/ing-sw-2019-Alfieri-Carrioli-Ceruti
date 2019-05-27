@@ -87,7 +87,7 @@ public class Controller implements Observer {
         gameModel.refillAllSpawnSpots();
 
         ArrayList<String> messages = gameModel.generatePossibleActions(nextPlayer.getNickname());
-        virtualView.sendQuestion(nextPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        sendQuestion(nextPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         nextPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
     }
@@ -136,6 +136,7 @@ public class Controller implements Observer {
      */
     public void startGame() {
 
+        //Sends GAME STARTED to all players
         String message = "GAME STARTED";
         virtualView.sendAllMessage(message);
 
@@ -165,7 +166,7 @@ public class Controller implements Observer {
         virtualView.sendMessage(firstPlayer.getNickname(), newMessage);
 
         ArrayList<String> messages = gameModel.generatePossibleActions(firstPlayer.getNickname());
-        virtualView.sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
     }
@@ -298,6 +299,14 @@ public class Controller implements Observer {
         virtualView.sendMessage(player.getNickname(),  message);
     }
 
+    private void sendQuestion(String nickname, ServerQuestion serverQuestion){
+
+        ParallelAsker parallelAsker = new ParallelAsker(virtualView, nickname, serverQuestion);
+
+        new Thread(parallelAsker).start();
+
+    }
+
     private void handlePowerUp(String nickname, String answer) {
         Player player = gameModel.getPlayerByNickname(nickname);
 
@@ -320,7 +329,7 @@ public class Controller implements Observer {
         }
 
         ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
     }
@@ -335,7 +344,7 @@ public class Controller implements Observer {
 
         messages.add("Choose the player you want to move, the x and the y where do you want to move him");
 
-        virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.UseTurnPowerUp, messages));
+        sendQuestion(nickname, new ServerQuestion(QuestionType.UseTurnPowerUp, messages));
 
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseTurnPowerUp;
     }
@@ -362,7 +371,7 @@ public class Controller implements Observer {
 
         messages.add("Choose the index of the order, the players you want to shoot and eventually who and where you want to move");
 
-        virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.Shoot, messages));
+        sendQuestion(nickname, new ServerQuestion(QuestionType.Shoot, messages));
 
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Shoot;
 
@@ -415,7 +424,7 @@ public class Controller implements Observer {
 
             ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
 
-            virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
+            sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
 
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
 
@@ -481,7 +490,7 @@ public class Controller implements Observer {
 
             //Ho finito di sparare, genero le possibili azioni successive tra cui può scegliere l'utente
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
         }
@@ -495,7 +504,7 @@ public class Controller implements Observer {
             if(p.getPowerUpName().equals("TargetingScope")){
                 ArrayList<String> message = new ArrayList<>();
                 message.add("You have a targeting Scope, write the nickname of the player you want to add a damage or write NONE");
-                virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
+                sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
                 player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
             }
 
@@ -504,7 +513,7 @@ public class Controller implements Observer {
                 if(p.getPowerUpName().equals("TagbackGrenade") && gameModel.p1SeeP2(gameModel.getPlayerByNickname(s).getxPosition(), gameModel.getPlayerByNickname(s).getyPosition(), player.getxPosition(), player.getyPosition())){
                     ArrayList<String> message = new ArrayList<>();
                     message.add("You have a tagback grenade, write the nickname of the player you want to add a damage or write NONE");
-                    virtualView.sendQuestion(s, new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
+                    sendQuestion(s, new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
                     gameModel.getPlayerByNickname(s).playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
                 }
     }
@@ -520,7 +529,7 @@ public class Controller implements Observer {
 
         ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
 
-        virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
+        sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
 
     }
@@ -555,7 +564,7 @@ public class Controller implements Observer {
             }
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -563,7 +572,7 @@ public class Controller implements Observer {
         }
 
         ArrayList<String> messages = gameModel.generatePaymentChoice(player, weaponCost);
-        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
+        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
 
         player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToSwitch;
@@ -614,7 +623,7 @@ public class Controller implements Observer {
             player.playerStatus.lastQuestion = null;
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -705,7 +714,7 @@ public class Controller implements Observer {
             checkAsynchronousPowerUp(nickname, arrayListdefenders);
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -721,7 +730,7 @@ public class Controller implements Observer {
             player.playerStatus.lastQuestion = null;
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -755,7 +764,7 @@ public class Controller implements Observer {
 
 
         ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
 
@@ -785,7 +794,7 @@ public class Controller implements Observer {
         player.playerStatus.nActionsDone += 1;
 
         ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
         return;
@@ -817,7 +826,7 @@ public class Controller implements Observer {
         gameModel.respawn(player.getNickname(), powerUpIndex);
 
         ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
         return;
@@ -855,7 +864,7 @@ public class Controller implements Observer {
             for(PowerUp p : player.getPowerUpList())
                 powerUpsToRespawn.add(p.toString());
 
-            virtualView.sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.ChoosePowerUpToRespawn, powerUpsToRespawn));
+            sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.ChoosePowerUpToRespawn, powerUpsToRespawn));
 
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToRespawn;
 
@@ -866,7 +875,7 @@ public class Controller implements Observer {
 
             ArrayList<String> weaponsLoaded = gameModel.getLoadedWeapons(nickname);
 
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToAttack, weaponsLoaded));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToAttack, weaponsLoaded));
 
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToAttack;
 
@@ -914,7 +923,7 @@ public class Controller implements Observer {
                 possibleAnswers = weaponsToPick;
             }
 
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToSwitch, possibleAnswers));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToSwitch, possibleAnswers));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToSwitch;
             return;
         }
@@ -929,7 +938,7 @@ public class Controller implements Observer {
                     if(allowedSpots[i][j])
                         spots.add(i + SPLITTER + j);
 
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMove, spots));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMove, spots));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMove;
 
             return;
@@ -945,7 +954,7 @@ public class Controller implements Observer {
                     if(allowedSpots[i][j])
                         spots.add(i + SPLITTER + j);
 
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMoveAndGrab, spots));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMoveAndGrab, spots));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMoveAndGrab;
 
             return;
@@ -961,7 +970,7 @@ public class Controller implements Observer {
 
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToUse;
 
-            virtualView.sendQuestion(nickname, new ServerQuestion(QuestionType.ChoosePowerUpToUse, messages));
+            sendQuestion(nickname, new ServerQuestion(QuestionType.ChoosePowerUpToUse, messages));
 
             return;
         }
@@ -979,7 +988,7 @@ public class Controller implements Observer {
             for(Weapon w : rechargeableWeapons)
                 weapons.add(w.getWeaponName());
 
-            virtualView.sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToReload, weapons));
+            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToReload, weapons));
 
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToReload;
 

@@ -214,8 +214,7 @@ public class VirtualView extends Observable implements Observer {
         else {
 
             try {
-                RemoteViewInterface remoteView = remoteViews.get(index);
-                remoteView.sendMessage(message);
+                remoteViews.get(index).sendMessage(message);
             }
             catch (RemoteException e){
                 MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message");

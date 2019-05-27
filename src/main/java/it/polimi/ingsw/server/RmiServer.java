@@ -23,8 +23,7 @@ public class RmiServer extends UnicastRemoteObject implements ServerInterface {
     @Override
     public void connect(RemoteViewInterface remoteView, String connectionMessage) throws RemoteException {
 
-        MyLogger.LOGGER.log(Level.INFO, "[*] Client -> " + connectionMessage);
-        remoteView.sendMessage("The RmiServer received your connection message --> " + connectionMessage);
+        remoteView.sendMessage("The RmiServer received your connection message: " + connectionMessage);
 
         //Extracts the correct information from the connection message
         String username = connectionMessage.split(":")[0];

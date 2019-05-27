@@ -13,28 +13,35 @@ public class SocketHandler implements Runnable{
 
     private final String nickname;
 
-    private final Socket socket;
+    private final PrintWriter printWriter;
+
+    private final Scanner scanner;
 
     private final VirtualView virtualView;
 
     SocketHandler(String nickname, Socket socket, VirtualView virtualView){
-        this.socket = socket;
-        this.nickname = nickname;
-        this.virtualView = virtualView;
-    }
 
-    public void run(){
-
-        Scanner scanner;
+        PrintWriter printWriter = null;
+        Scanner scanner = null;
 
         try {
+            printWriter = new PrintWriter(socket.getOutputStream());
             scanner = new Scanner(socket.getInputStream());
         }
         catch (IOException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while creating a new scanner for the server SocketHandler");
-            return;
+            MyLogger.LOGGER.log(Level.SEVERE, "Error while creating the streams for the server SocketHandler");
+        }
+        finally {
+            this.printWriter = printWriter;
+            this.scanner = scanner;
+            this.nickname = nickname;
+            this.virtualView = virtualView;
         }
 
+
+    }
+
+    public void run(){
 
         try {
 
@@ -56,16 +63,6 @@ public class SocketHandler implements Runnable{
     }
 
     void send(String message){
-
-        PrintWriter printWriter;
-
-        try {
-            printWriter = new PrintWriter(socket.getOutputStream());
-        }
-        catch (IOException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while creating a new print writer to send a message");
-            return;
-        }
 
         try {
             printWriter.println(message);

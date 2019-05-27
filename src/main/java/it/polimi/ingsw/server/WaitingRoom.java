@@ -99,7 +99,7 @@ class WaitingRoom {
 
 
         //Adds the player to the player list and all of his votes
-        addVote(nickname, mapToVote, nSkullsToVote);
+        addVoteAndNickname(nickname, mapToVote, nSkullsToVote);
 
         remoteViews.add(null);
         sockets.add(socket);
@@ -128,7 +128,7 @@ class WaitingRoom {
      */
     protected synchronized void addPlayer(RemoteViewInterface remoteView, String nickname, MapName mapToVote, int nSkullsToVote){
 
-        addVote(nickname, mapToVote, nSkullsToVote);
+        addVoteAndNickname(nickname, mapToVote, nSkullsToVote);
 
         remoteViews.add(remoteView);
         sockets.add(null);
@@ -152,7 +152,7 @@ class WaitingRoom {
      * @param mapToVote the voted map
      * @param nSkullsToVote the voted skulls
      */
-    private synchronized void addVote(String nickname, MapName mapToVote, int nSkullsToVote){
+    private synchronized void addVoteAndNickname(String nickname, MapName mapToVote, int nSkullsToVote){
 
         if(players.contains(nickname))
             throw new RuntimeException("This waitingRoom already contains this player");

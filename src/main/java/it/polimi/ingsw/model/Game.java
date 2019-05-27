@@ -1541,8 +1541,10 @@ public class Game extends Observable {
             return actions;
         }
 
+
+
         //when a player has reloaded a weapon he can only reload another weapon or end turn
-        if(player.playerStatus.lastQuestion.equals(QuestionType.ChooseWeaponToReload)) {
+        if(player.playerStatus.lastQuestion != null && player.playerStatus.lastQuestion.equals(QuestionType.ChooseWeaponToReload)) {
             actions = new ArrayList<>();
             actions.add(Actions.Reload.toString());
             actions.add(Actions.EndTurn.toString());
