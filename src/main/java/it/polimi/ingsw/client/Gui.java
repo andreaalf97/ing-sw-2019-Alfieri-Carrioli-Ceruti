@@ -1,7 +1,11 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.exception.InvalidChoiceException;
+import it.polimi.ingsw.model.map.MapName;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,6 +29,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class Gui extends Application implements UserInterface {
 
@@ -34,6 +39,15 @@ public class Gui extends Application implements UserInterface {
 
     @Override
     public void start(Stage window) throws Exception {
+
+        final String validUsername = "^[a-zA-Z0-9]*$";
+
+        final String serverAddress = "127.0.0.1";
+
+        final int rmiPort = 5432;
+
+        final int socketPort = 2345;
+
 
         //First window
         window.setTitle("Adrenalina");
@@ -136,12 +150,52 @@ public class Gui extends Application implements UserInterface {
         window.setHeight(primaryScreenBounds.getHeight());*/
 
 
-        loginButton.setOnAction(e -> window.setScene(boardScene));
+        loginButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                try{
+                    //username non valido, mando messaggio e ritorno alla login
+                    if (!Pattern.matches(validUsername, usernameInput.getText())) {
+                        TextBox.display("The username can only contain letters and numbers");
+                        window.setScene(loginScene);
+                    }
+                    if (usernameInput.getText().isEmpty()) {
+                        TextBox.display("Username can't be empty. Please enter a valid one");
+                        window.setScene(loginScene);
+                    }
+                    if (choosingMapInput.getText().isEmpty() || !choosingMapInput.getText().equals(MapName.FIRE.toString()) || !choosingMapInput.getText().equals(MapName.WATER.toString()) || !choosingMapInput.getText().equals(MapName.WIND.toString()) || !choosingMapInput.getText().equals(MapName.EARTH.toString())) {
+                        TextBox.display("Map not valid: choose between 'FIRE', 'WIND', 'WATER'. 'EARTH'");
+                        window.setScene(loginScene);
+                    }
+                    if (numberOfSkullsInput.getText().isEmpty() || Integer.parseInt(numberOfSkullsInput.getText()) < 5 || Integer.parseInt(numberOfSkullsInput.getText()) > 8) {
+                        TextBox.display("Number of skulls not valid");
+                        window.setScene(loginScene);
+                    }
+
+                    int nSkulls = Integer.parseInt(numberOfSkullsInput.getText());
+                    String username = usernameInput.getText();
+                    String votedMap = choosingMapInput.getText();
+
+                    window.setScene(boardScene);
+
+                } catch (Exception e) {
+                    //TODO senza la try catch da un sacco di errori
+                }
+            }
+        });
+
+
+
 
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
         window.setScene(startGameScene);
         window.show();
+    }
+
+    public void setUsername(String username){
+
     }
 
     @Override
