@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.server;
 
+import com.google.gson.*;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
@@ -36,6 +37,11 @@ public class VirtualView extends Observable implements Observer {
     ArrayList<String> players;
 
     /**
+     * last snapshot received from model for every player
+     */
+    String[] lastClientSnapshot;
+
+    /**
      * The list of all open sockets
      */
     ArrayList<SocketHandler> socketHandlers;
@@ -50,6 +56,7 @@ public class VirtualView extends Observable implements Observer {
      */
     final String SPLITTER = "$";
 
+
     /**
      * Only constructor
      * @param players players nicknames
@@ -59,6 +66,9 @@ public class VirtualView extends Observable implements Observer {
         this.players = players;
         this.remoteViews = remoteViews;
         this.socketHandlers = new ArrayList<>();
+        this.lastClientSnapshot = new String[2];
+        lastClientSnapshot[0] = "";
+        lastClientSnapshot[1] = "";
 
         //For every element in these arrays
         for(int i = 0; i < players.size(); i++){
@@ -81,19 +91,98 @@ public class VirtualView extends Observable implements Observer {
             else {
                 this.socketHandlers.add(null);
             }
+
         }
 
     }
 
     /**
-     * Notify of changes coming from the model
+     * Everytime that model changes, it sends all the information to the virtual view through a jsonString.
+     * The virtual view will deserialize jsonString to see what is changed and will send changes to players.
      * @param arg the new json snapshot
      */
     @Override
     public void notifyObserver(Object arg) {
-        //TODO here the view needs to show to all clients that the model is changed by sending custom messages to each one of them
+
+        //this is the casting from object to String[]  --> https://stackoverflow.com/questions/1611735/java-casting-object-to-array-type
+        String[] clientSnapshot = (String[])((Object[])arg)[0];
+
+        for(String s : players){
+            String customMessageForPlayer = elaborateJsonPlayersForClient(s, clientSnapshot[1]);
+
+            String message = clientSnapshot[0] + customMessageForPlayer ;
+
+            notifyClient(s, message);
+        }
+
 
     }
+
+    /**
+     * this method elaborate the players json, a player shouldn't see powerUps/weapons/
+     * @param clientNickname the client nickname that i am processing
+     * @param allClientSnapshot all the representation of the players
+     * @return the string with all the fields to hide of the other players to the single client
+     */
+    private String elaborateJsonPlayersForClient(String clientNickname, String allClientSnapshot) {
+         String players = "{" + allClientSnapshot;  //"players : {all json players}"
+
+         //here i have all the jsonObject that represents players
+         JsonArray jsonplayers = new JsonParser().parse(players).getAsJsonObject().get("players").getAsJsonArray();
+
+         //in jsonPlayers i have the array of the information of the players
+
+
+         String customMessage = "\"players\": [";
+
+         //for every player in the list, the json will have a different construction based on the name of the player i am looking
+         for(int i = 0; i < jsonplayers.size(); i++){
+             customMessage += elaborateSingleJsonObjectForClient(jsonplayers.get(i).getAsJsonObject(), clientNickname);
+         }
+
+         customMessage += "]}";
+
+         return customMessage;
+
+    }
+
+    private String elaborateSingleJsonObjectForClient(JsonObject jsonPlayer, String clientNickname) {
+
+        String jsonPlayers = "{\"nickname\":" + jsonPlayer.get("nickname").getAsString() + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
+
+
+        //****************************************************************************************************
+        //adding damages manually
+        JsonArray jsonDamages = jsonPlayer.get("damages").getAsJsonArray();
+        jsonPlayers += "\"damages\": [";
+
+        if(jsonDamages != null) {
+            for (int i = 0; i < jsonDamages.size(); i++) {
+                jsonPlayers += jsonDamages.get(i).getAsString();
+                if( i != jsonDamages.size() - 1)
+                     jsonPlayers += ",";
+            }
+        }
+        jsonPlayers += "]";
+
+        //*************************************************************************************************
+        //adding marks manually
+        JsonArray jsonMarks = jsonPlayer.get("marks").getAsJsonArray();
+        jsonPlayers += "\"marks\": [";
+
+        if(jsonMarks != null) {
+            for (int i = 0; i < jsonMarks.size(); i++) {
+                jsonPlayers += jsonMarks.get(i).getAsString();
+                if( i != jsonMarks.size() - 1)
+                    jsonPlayers += ",";
+            }
+        }
+        jsonPlayers += "]";
+
+        //FIXME
+        return jsonPlayers;
+    }
+
 
     /**
      * Sends a question to the player
@@ -234,6 +323,28 @@ public class VirtualView extends Observable implements Observer {
     protected void socketAnswer(ClientAnswer clientAnswer){
 
         notifyObservers(clientAnswer);
+
+    }
+
+    public void notifyClient(String nickname, String message){
+
+        int index = players.indexOf(nickname);
+
+        if(remoteViews.get(index) == null){
+
+            socketHandlers.get(index).send("NOTIFY" + SPLITTER + message);
+
+        }
+        else {
+
+            try {
+                remoteViews.get(index).notifyRemoteView(message);
+            }
+            catch (RemoteException e){
+                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message");
+            }
+
+        }
 
     }
 }

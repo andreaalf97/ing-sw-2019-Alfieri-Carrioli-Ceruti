@@ -1592,6 +1592,29 @@ public class Game extends Observable {
 
     }
 
+    /**
+     * this method creates a snapshot for the client, the first string is what all the players see: kst, gameMap,playernames. The second string represent the players object
+     * the return type of the method is an array, if you want the json you need to stick the two String
+     * @return the client snapshot
+     */
+    public String[] clientSnapshot(){
+        Gson gson = new Gson();
+
+        //in clientSnaphot i will save all the infos: clientSnap[0] contains info equals for all players and clientSnap[1] contains info that are "protected"
+        String[] clientSnapshot = new String[2];
+
+        //clientSnapshot[0]
+        String jsonPlayerNames = gson.toJson(playerNames.toArray());
+        String jsonKST = gson.toJson(kst);
+        String jsonGameMap = gameMapSnapshot(gson);
+
+        clientSnapshot[0] = "{ \"playerNames\":" + jsonPlayerNames + "," + "\"kst\":" + jsonKST + "," + "\"gameMap\":" + jsonGameMap + ",";
+
+        clientSnapshot[1] = "\"players\":" + gson.toJson(players.toArray()) + "}";
+
+        return clientSnapshot;
+    }
+
     //TESTED
     /**
      * this method creates a snapshot of the game in a string representing a json file
