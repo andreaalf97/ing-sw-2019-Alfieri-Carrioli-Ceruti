@@ -1,12 +1,10 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.client.RemoteViewInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Level;
 
 public class RmiServer extends UnicastRemoteObject implements ServerInterface {
 

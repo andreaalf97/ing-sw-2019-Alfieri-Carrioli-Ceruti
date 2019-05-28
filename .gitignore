@@ -3,6 +3,9 @@
 !.gitignore
 !README.md
 !pom.xml
-!resources/
+!resources/misc
+!resources/effects.json
+!resources/maps.json
+!resources/mapFire.jpeg
 !src/
 

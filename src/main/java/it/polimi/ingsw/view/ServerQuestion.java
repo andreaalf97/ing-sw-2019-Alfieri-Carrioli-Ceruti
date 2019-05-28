@@ -2,12 +2,9 @@ package it.polimi.ingsw.view;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.MyLogger;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class ServerQuestion {
 

@@ -31,6 +31,11 @@ public class PlayerStatus {
     public int nActions;
 
     /**
+     * This is false if the player disconnected after the game started
+     */
+    public boolean isConnected;
+
+    /**
      * The type of answer the controller is waiting for
      */
     public QuestionType waitingForAnswerToThisQuestion;

@@ -57,7 +57,9 @@ public class SocketHandler implements Runnable{
 
         }
         catch (Exception e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while reading from socket handler");
+
+            virtualView.lostConnection(nickname);
+            MyLogger.LOGGER.log(Level.INFO, "Lost connection with " + nickname);
             return;
         }
     }
@@ -71,6 +73,28 @@ public class SocketHandler implements Runnable{
         catch (Exception e){
             MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message through socket");
         }
+
+    }
+
+    void ping(){
+
+        //FIXME
+
+        try {
+            send("PING");
+
+            String line = scanner.nextLine();
+
+            if( ! line.equals("PONG")){
+                throw new RuntimeException("I received a message which was not a PONG asnwer");
+            }
+
+
+        }
+        catch (Exception e){
+
+        }
+
 
     }
 

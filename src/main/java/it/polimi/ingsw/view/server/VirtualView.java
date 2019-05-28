@@ -4,14 +4,10 @@ import com.google.gson.*;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
-import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.view.ClientAnswer;
-import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.client.RemoteViewInterface;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -265,8 +261,9 @@ public class VirtualView extends Observable implements Observer {
                 notifyObservers(clientAnswer);
             }
             catch (RemoteException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending question");
-                e.printStackTrace();
+                MyLogger.LOGGER.log(Level.INFO, nickname + " disconnected");
+                lostConnection(nickname);
+                return;
             }
 
 
@@ -287,7 +284,15 @@ public class VirtualView extends Observable implements Observer {
 
     public void lostConnection(String nickname) {
 
-        //TODO
+        int index = players.indexOf(nickname);
+
+        remoteViews.remove(index);
+        socketHandlers.remove(index);
+        players.remove(index);
+
+        notifyObserver("LOSTCONNECTION:" + nickname);
+
+        sendAllMessage(nickname + " DISCONNECTED");
 
     }
 
@@ -306,7 +311,9 @@ public class VirtualView extends Observable implements Observer {
                 remoteViews.get(index).sendMessage(message);
             }
             catch (RemoteException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message");
+                MyLogger.LOGGER.log(Level.INFO, nickname + " disconnected");
+                lostConnection(nickname);
+                return;
             }
 
         }
@@ -347,4 +354,7 @@ public class VirtualView extends Observable implements Observer {
         }
 
     }
+
+
+
 }
