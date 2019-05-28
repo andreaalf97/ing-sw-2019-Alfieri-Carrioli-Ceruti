@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 
-import javax.management.relation.RoleUnresolved;
 import java.util.ArrayList;
 
 public class Spot {

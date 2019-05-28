@@ -4,8 +4,6 @@ import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.view.QuestionType;
-import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.client.RemoteViewInterface;
 import it.polimi.ingsw.view.server.VirtualView;
 

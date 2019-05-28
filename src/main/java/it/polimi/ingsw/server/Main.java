@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.MyLogger;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
 
 import java.io.IOException;

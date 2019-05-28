@@ -3,14 +3,10 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
-import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.view.ClientAnswer;
-import it.polimi.ingsw.view.QuestionType;
 import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.client.RemoteViewInterface;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;

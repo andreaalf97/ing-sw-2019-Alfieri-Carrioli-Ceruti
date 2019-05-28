@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SpawnSpot extends Spot {
