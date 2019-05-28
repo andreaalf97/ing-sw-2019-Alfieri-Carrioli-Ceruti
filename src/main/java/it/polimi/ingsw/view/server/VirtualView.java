@@ -172,8 +172,9 @@ public class VirtualView extends Observable implements Observer {
                 notifyObservers(clientAnswer);
             }
             catch (RemoteException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending question");
-                e.printStackTrace();
+                MyLogger.LOGGER.log(Level.INFO, nickname + " disconnected");
+                lostConnection(nickname);
+                return;
             }
 
 
@@ -194,7 +195,15 @@ public class VirtualView extends Observable implements Observer {
 
     public void lostConnection(String nickname) {
 
-        //TODO
+        int index = players.indexOf(nickname);
+
+        remoteViews.remove(index);
+        socketHandlers.remove(index);
+        players.remove(index);
+
+        notifyObserver("LOSTCONNECTION:" + nickname);
+
+        sendAllMessage(nickname + " DISCONNECTED");
 
     }
 
@@ -213,7 +222,9 @@ public class VirtualView extends Observable implements Observer {
                 remoteViews.get(index).sendMessage(message);
             }
             catch (RemoteException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message");
+                MyLogger.LOGGER.log(Level.INFO, nickname + " disconnected");
+                lostConnection(nickname);
+                return;
             }
 
         }
@@ -232,4 +243,7 @@ public class VirtualView extends Observable implements Observer {
         notifyObservers(clientAnswer);
 
     }
+
+
+
 }

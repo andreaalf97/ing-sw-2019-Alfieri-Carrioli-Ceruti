@@ -14,7 +14,6 @@ import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
-import java.util.InvalidPropertiesFormatException;
 
 /*
     THE CONTROLLER:
@@ -176,7 +175,27 @@ public class Controller implements Observer {
      * @param arg the ClientAnswer
      */
     @Override
-    public void notifyObserver(Object arg) {
+    public synchronized void notifyObserver(Object arg) {
+
+
+        if(arg instanceof String){
+
+            String lostConnectionMessage = (String)arg;
+
+            String value = lostConnectionMessage.split(":")[0];
+
+            if(!value.equals("LOSTCONNECTION"))
+                throw new RuntimeException("I received a string message which was not a LOSTCONNECTION message");
+
+            String nickname = lostConnectionMessage.split(":")[1];
+
+            lostConnection(nickname);
+
+            return;
+
+        }
+
+
         //This should never happen
         if(arg != null && !(arg instanceof ClientAnswer))
             throw new RuntimeException("The arg should be a ClientAnswer class");
@@ -297,6 +316,12 @@ public class Controller implements Observer {
         String message = "The controller received your answer (MISSING RETURN SOMEWHERE)";
 
         virtualView.sendMessage(player.getNickname(),  message);
+    }
+
+    private void lostConnection(String nickname) {
+
+        virtualView.sendAllMessage(nickname + " DISCONNECTED");
+
     }
 
     private void sendQuestion(String nickname, ServerQuestion serverQuestion){

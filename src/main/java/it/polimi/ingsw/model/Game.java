@@ -1483,11 +1483,17 @@ public class Game extends Observable {
     protected String getNextPlayer(String current) {
 
         int currentIndex = playerNames.indexOf(current);
+        Player nextPlayer;
 
         if(currentIndex == players.size() - 1)
-            return playerNames.get(0);
+            nextPlayer = players.get(0);
         else
-            return playerNames.get(currentIndex + 1);
+            nextPlayer = players.get(currentIndex + 1);
+
+        if( ! (nextPlayer.playerStatus.isConnected) )
+            return getNextPlayer(nextPlayer.getNickname());
+
+        return nextPlayer.getNickname();
 
     }
 
