@@ -463,7 +463,6 @@ public class Game extends Observable {
         }
     }
 
-    //TODO TEST
     /**
      * Tells if player offender can shoot player defenders with the selected weapon
      * @param offendername The nickname of the player who shoots
@@ -1192,11 +1191,6 @@ public class Game extends Observable {
             }
     }
 
-    public ArrayList<String> getAttackablePlayersPowerUp(String player, PowerUp powerUpToUse) {
-        //TODO
-        return new ArrayList<>();
-    }
-
     //TESTED
     /**
      * check the weapons that player has unloaded
@@ -1232,20 +1226,6 @@ public class Game extends Observable {
         return rechargeableWeapons;
     }
 
-    //todo i don't think that a return boolean method like this need to be tested
-    /**
-     * Tells if the player has any power up that can be used at any time during the turn
-     * @param player the player to chech
-     * @return
-     */
-    public boolean playerHasTurnPowerUp(String player) {
-        Player p = getPlayerByNickname(player);
-
-        if(p.hasTurnPowerUp())
-            return true;
-        return false;
-    }
-
     //TESTED
     /**
      * reload the weapon of the player corresponding to index , i am sure that i can reload that weapon -> see ReloadWeapon in controller.java
@@ -1275,16 +1255,6 @@ public class Game extends Observable {
                 realIndex = i;
 
         return realIndex;
-    }
-
-    //TODO MAKE THE CONTROLLER SEND THE INDEX CORRESPONDING TO MOVE
-    /**
-     * method that execute the move corresponding to index
-     * @param index the move representation
-     */
-    public void executeMove(int index){
-        //todo 0->move 1->move&grab 2->shoot
-        //might be better to create an enum for this
     }
 
     //ONLY USED IN TESTS
@@ -1598,25 +1568,26 @@ public class Game extends Observable {
 
     }
 
+    //TESTED
     /**
      * this method creates a snapshot for the client, the first string is what all the players see: kst, gameMap,playernames. The second string represent the players object
      * the return type of the method is an array, if you want the json you need to stick the two String
      * @return the client snapshot
      */
-    public String[] clientSnapshot(){
+    public String clientSnapshot(){
         Gson gson = new Gson();
 
         //in clientSnaphot i will save all the infos: clientSnap[0] contains info equals for all players and clientSnap[1] contains info that are "protected"
-        String[] clientSnapshot = new String[2];
+        String clientSnapshot;
 
         //clientSnapshot[0]
         String jsonPlayerNames = gson.toJson(playerNames.toArray());
         String jsonKST = gson.toJson(kst);
         String jsonGameMap = gameMapSnapshot(gson);
 
-        clientSnapshot[0] = "{ \"playerNames\":" + jsonPlayerNames + "," + "\"kst\":" + jsonKST + "," + "\"gameMap\":" + jsonGameMap + ",";
+        clientSnapshot = "{ \"playerNames\":" + jsonPlayerNames + "," + "\"kst\":" + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "," + "PORCODUE";
 
-        clientSnapshot[1] = "\"players\":" + gson.toJson(players.toArray()) + "}";
+        clientSnapshot += "\"players\":" + gson.toJson(players.toArray()) + "}";
 
         return clientSnapshot;
     }
@@ -1902,6 +1873,14 @@ public class Game extends Observable {
 
     }
 
+    /**
+     * tells if p1 on spot(x1,y1) can see p2 on (x2,y2)
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return true if p1 can see p2
+     */
     public boolean p1SeeP2(int x1, int y1, int x2, int y2){
         return gameMap.see(x1, y1, x2, y2);
     }

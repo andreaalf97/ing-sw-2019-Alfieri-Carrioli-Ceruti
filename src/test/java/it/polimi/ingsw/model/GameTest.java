@@ -475,7 +475,7 @@ public class GameTest {
 
     @Test
     public void verifySerializationClientSnapshot(){
-        String[] clientSnapshot = gameTest.clientSnapshot();
+        String clientSnapshot = gameTest.clientSnapshot();
 
         Assert.assertTrue(true);
     }

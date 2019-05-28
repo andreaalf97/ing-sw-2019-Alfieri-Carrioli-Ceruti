@@ -33,11 +33,6 @@ public class VirtualView extends Observable implements Observer {
     ArrayList<String> players;
 
     /**
-     * last snapshot received from model for every player
-     */
-    String[] lastClientSnapshot;
-
-    /**
      * The list of all open sockets
      */
     ArrayList<SocketHandler> socketHandlers;
@@ -52,6 +47,8 @@ public class VirtualView extends Observable implements Observer {
      */
     final String SPLITTER = "$";
 
+    final String CLIENTSNAPSHOTSPLITTER = "PORCODUE";
+
 
     /**
      * Only constructor
@@ -62,9 +59,6 @@ public class VirtualView extends Observable implements Observer {
         this.players = players;
         this.remoteViews = remoteViews;
         this.socketHandlers = new ArrayList<>();
-        this.lastClientSnapshot = new String[2];
-        lastClientSnapshot[0] = "";
-        lastClientSnapshot[1] = "";
 
         //For every element in these arrays
         for(int i = 0; i < players.size(); i++){
@@ -100,13 +94,17 @@ public class VirtualView extends Observable implements Observer {
     @Override
     public void notifyObserver(Object arg) {
 
-        //this is the casting from object to String[]  --> https://stackoverflow.com/questions/1611735/java-casting-object-to-array-type
-        String[] clientSnapshot = (String[])((Object[])arg)[0];
+        String clientSnapshot = (String) arg;
+        String[] clientSnapshotSplitted = clientSnapshot.split(CLIENTSNAPSHOTSPLITTER);
+
+        String invariableInfo = clientSnapshotSplitted[0];
+        String customInfo = clientSnapshotSplitted[1];
 
         for(String s : players){
-            String customMessageForPlayer = elaborateJsonPlayersForClient(s, clientSnapshot[1]);
+            String customMessageForPlayer = elaborateJsonPlayersForClient(s, customInfo);
 
-            String message = clientSnapshot[0] + customMessageForPlayer ;
+            //message contains the json to send to the client
+            String message = invariableInfo + customMessageForPlayer ;
 
             notifyClient(s, message);
         }
@@ -121,10 +119,10 @@ public class VirtualView extends Observable implements Observer {
      * @return the string with all the fields to hide of the other players to the single client
      */
     private String elaborateJsonPlayersForClient(String clientNickname, String allClientSnapshot) {
-         String players = "{" + allClientSnapshot;  //"players : {all json players}"
+         String root = "{" + allClientSnapshot;  //"players : {all json players}"
 
          //here i have all the jsonObject that represents players
-         JsonArray jsonplayers = new JsonParser().parse(players).getAsJsonObject().get("players").getAsJsonArray();
+         JsonArray jsonplayers = new JsonParser().parse(root).getAsJsonObject().get("players").getAsJsonArray();
 
          //in jsonPlayers i have the array of the information of the players
 
@@ -134,6 +132,8 @@ public class VirtualView extends Observable implements Observer {
          //for every player in the list, the json will have a different construction based on the name of the player i am looking
          for(int i = 0; i < jsonplayers.size(); i++){
              customMessage += elaborateSingleJsonObjectForClient(jsonplayers.get(i).getAsJsonObject(), clientNickname);
+             if(i != jsonplayers.size() - 1)
+                 customMessage += ",";
          }
 
          customMessage += "]}";
@@ -142,10 +142,17 @@ public class VirtualView extends Observable implements Observer {
 
     }
 
+    /**
+     * this method elaborates the single  player (JsonObject) in the players JsonArray
+     * @param jsonPlayer the player to serialize
+     * @param clientNickname the nickname to which i have ti send the json
+     * @return an elaboration of the player to serialize
+     */
     private String elaborateSingleJsonObjectForClient(JsonObject jsonPlayer, String clientNickname) {
 
-        String jsonPlayers = "{\"nickname\":" + jsonPlayer.get("nickname").getAsString() + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
+        String jsonPlayers = "{\"nickname\":" + "\"" + jsonPlayer.get("nickname").getAsString() + "\"" + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
 
+        Gson gson = new Gson();
 
         //****************************************************************************************************
         //adding damages manually
@@ -159,7 +166,7 @@ public class VirtualView extends Observable implements Observer {
                      jsonPlayers += ",";
             }
         }
-        jsonPlayers += "]";
+        jsonPlayers += "],";
 
         //*************************************************************************************************
         //adding marks manually
@@ -175,7 +182,15 @@ public class VirtualView extends Observable implements Observer {
         }
         jsonPlayers += "]";
 
-        //FIXME
+
+        if (jsonPlayer.get("nickname").getAsString().equals(clientNickname)){
+            jsonPlayers += ", \"nMoves\" :" + jsonPlayer.get("nMoves").getAsString() + "," + "\"nMovesBeforeGrabbing\" :" + jsonPlayer.get("nMovesBeforeGrabbing").getAsString() + "," + "\"nMovesBeforeShooting\":" + jsonPlayer.get("nMovesBeforeShooting").getAsString() + "," + "\"canReloadBeforeShooting\" :" + jsonPlayer.get("canReloadBeforeShooting").getAsString() + ",";
+
+            jsonPlayers += "\"playerStatus\" :" + gson.toJson(jsonPlayer.get("playerStatus").getAsJsonObject())  + ","  + "\"weaponList\" :" + gson.toJson(jsonPlayer.get("weaponList").getAsJsonArray()) + "," + "\"powerUpList\" :" + gson.toJson(jsonPlayer.get("powerUpList").getAsJsonArray()) ;
+        }
+
+        jsonPlayers += "}";
+
         return jsonPlayers;
     }
 
