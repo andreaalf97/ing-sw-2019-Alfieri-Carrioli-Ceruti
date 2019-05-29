@@ -15,8 +15,8 @@ public class TextBox {
 
         window.initModality(Modality.APPLICATION_MODAL);
 
-        window.setMinWidth(350);
-        window.setMinHeight(350);
+        window.setMinWidth(300);
+        window.setMinHeight(200);
 
         Label label = new Label(message);
 

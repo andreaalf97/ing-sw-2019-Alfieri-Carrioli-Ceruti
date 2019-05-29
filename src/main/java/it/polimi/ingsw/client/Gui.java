@@ -5,35 +5,46 @@ import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
 import it.polimi.ingsw.view.client.RemoteViewSocket;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Gui extends Application implements UserInterface {
 
-    final String validUsername = "^[a-zA-Z0-9]*$";
+    final private String validUsername = "^[a-zA-Z0-9]*$";
 
-    final String serverAddress = "127.0.0.1";
+    static private String serverAddress = "127.0.0.1";
 
-    final int rmiPort = 5432;
+    static private int rmiPort = 5432;
 
-    final int socketPort = 2345;
+    static private int socketPort = 2345;
+
+    static private boolean RMI;
+
+    static private MapName nameOfMap ;
+    static private int NumberOfSkulls;
+    static private String Username;
+    static private Image mapImage ;
+    static private String playerColor;
+    static private Image planciaGiocatoreImage = null;
 
     public static void main(String[] args) {
         launch(args);
@@ -42,183 +53,369 @@ public class Gui extends Application implements UserInterface {
     @Override
     public void start(Stage window) throws Exception {
 
-        //First window
-        window.setTitle("Adrenalina");
+        Scene gameScene = setGameScene(window);
 
-        //Setting up startscene
-        GridPane startLayout = new GridPane();
-        startLayout.setPadding( new Insets(20, 20, 20, 20));
-        startLayout.setHgap(40);
-        startLayout.setVgap(25);
+        Scene loginScene = setLoginScene(window, gameScene);
 
-        Scene startGameScene = new Scene(startLayout, 750, 500);
+        Scene port_and_IP_scene = setPort_and_IP_scene(window, loginScene);
 
-        Label welcomeLabel = new Label("Welcome to Adrenalina");
-        GridPane.setConstraints(welcomeLabel, 0, 0);
+        Scene connectionScene = setConnectionScene(window, port_and_IP_scene);
 
-        Button startGameButton = new Button("Start game");
-        GridPane.setConstraints(startGameButton, 0, 1);
+        Scene startScene = setStartScene(window, connectionScene);
 
-        startLayout.setAlignment(Pos.CENTER);
-
-        //close button
-        Button closeButton = new Button("Exit");
-        GridPane.setConstraints(closeButton, 0, 2);
-
-        startLayout.getChildren().addAll(welcomeLabel, startGameButton, closeButton);
-
-        //Login scene
-        GridPane loginLayout = new GridPane();
-        loginLayout.setPadding( new Insets(20, 20, 20, 20));
-        loginLayout.setVgap(10);
-        loginLayout.setHgap(8);
-        //username input
-        Label usernameLabel = new Label("Username:");
-        //set the username label in the top left
-        GridPane.setConstraints( usernameLabel, 1, 1);
-        //insert the username
-        TextField usernameInput = new TextField();
-
-        GridPane.setConstraints(usernameInput, 2, 1);
-        //choosing map input
-        Label choosingMapLabel = new Label("Choose the map you want to play in:");
-        GridPane.setConstraints(choosingMapLabel, 1, 2);
-        //insert the input
-        TextField choosingMapInput = new TextField();
-        choosingMapInput.setPromptText("Fire, Earth, Wind, Water");
-        GridPane.setConstraints(choosingMapInput, 2, 2);
-        //choosing number of skull input
-        Label numberOfSkullsLabel = new Label("Choose the number of skulls you want to play with:");
-        GridPane.setConstraints(numberOfSkullsLabel, 1, 3);
-        //insert the input
-        TextField numberOfSkullsInput = new TextField();
-        numberOfSkullsInput.setPromptText("between 5 and 8");
-        GridPane.setConstraints(numberOfSkullsInput, 2, 3);
-
-        Button loginButton = new Button("Login");
-        GridPane.setConstraints(loginButton, 2, 4);
-        GridPane.setConstraints(closeButton, 2, 8);
-        loginLayout.getChildren().addAll(usernameLabel, usernameInput, choosingMapLabel, choosingMapInput, numberOfSkullsLabel, numberOfSkullsInput, loginButton, closeButton);
-
-        Scene loginScene = new Scene(loginLayout, 750, 500);
-
-        startGameButton.setOnAction(e -> window.setScene(loginScene));
-
-        //Questi sono per settare la grandezza della scena a screen size!
-        /*Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        /*//Questi sono per settare la grandezza della scena a screen size!
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         //set Stage boundaries to visible bounds of the main screen
         window.setX(primaryScreenBounds.getMinX());
         window.setY(primaryScreenBounds.getMinY());
         window.setWidth(primaryScreenBounds.getWidth());
         window.setHeight(primaryScreenBounds.getHeight());*/
 
+        window.setScene(gameScene);
+        window.show();
+    }
+
+
+    private Scene setStartScene(Stage window, Scene connectionScene) throws FileNotFoundException {
+
+        //close button
+        Button closeButton = new Button("Exit");
+        closeButton.setTextFill(Color.BLACK);
+        closeButton.setOnAction(e -> ClosingBox.display(window));
+
+        //First window
+        window.setTitle("Adrenalina");
+
+        //Setting up startscene
+        VBox startLayout = new VBox(20);
+
+        Label welcomeLabel = new Label("Welcome to Adrenalina");
+        welcomeLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 20));
+        welcomeLabel.setTextFill(Color.WHITE);
+
+        Button startGameButton = new Button("Start game");
+        startGameButton.setTextFill(Color.BLACK);
+        startLayout.setAlignment(Pos.CENTER);
+        Scene startGameScene = new Scene(startLayout, 750, 500);
+
+        //background image
+        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
+        Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(startGameScene.getHeight(), startGameScene.getWidth(), true, true, true, true)));
+
+        startLayout.getChildren().addAll(welcomeLabel, startGameButton);
+        startLayout.setBackground(Background);
+
+        startGameButton.setOnAction(e -> window.setScene(connectionScene));
+
+        return startGameScene;
+    }
+
+    private Scene setConnectionScene(Stage window, Scene port_and_IP_scene) throws FileNotFoundException {
+
+        //background image
+        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
+        Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
+
         //connection scene: sockets or rmi?
-        VBox connectionLayout = new VBox();
+        VBox connectionLayout = new VBox(20);
+        connectionLayout.setBackground(Background);
         connectionLayout.setSpacing(20);
         connectionLayout.setPadding( new Insets(30, 30, 30,30));
         Label connectionLabel = new Label("Choose the type of connection:");
+        connectionLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        connectionLabel.setTextFill(Color.WHITE);
         connectionLabel.setAlignment(Pos.TOP_CENTER);
         HBox HboxConnections = new HBox();
         HboxConnections.setAlignment(Pos.CENTER);
         HboxConnections.setSpacing(30);
         Button socketButton = new Button("Socket");
         Button RMIButton = new Button("RMI");
+        socketButton.setStyle("-fx-background-color: grey; -fx-text-fill: white;");
+        //socketButton.setTextFill(Color.BLACK);
+        //RMIButton.setTextFill(Color.BLACK);
+        connectionLayout.setAlignment(Pos.CENTER);
         HboxConnections.getChildren().addAll(socketButton, RMIButton);
         connectionLayout.getChildren().addAll(connectionLabel, HboxConnections);
         Scene connectionScene = new Scene(connectionLayout, 750, 500);
 
-        //Board scene (Shows the map)
-        BorderPane boardSceneLayout = new BorderPane();
-
-        Scene boardScene = new Scene(boardSceneLayout, 1000, 700);
-
-        loginButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-                try{
-
-                    boolean ok = true;
-
-                    //username non valido, mando messaggio e ritorno alla login
-                    if (!Pattern.matches(validUsername, usernameInput.getText())) {
-                        TextBox.display("The username can only contain letters and numbers");
-                        ok = false;
-                    }
-                    if (usernameInput.getText().isEmpty()) {
-                        TextBox.display("Username can't be empty. Please enter a valid one");
-                        ok = false;
-                    }
-                    if (choosingMapInput.getText().isEmpty() || (MapName.valueOf(choosingMapInput.getText()) != MapName.FIRE && MapName.valueOf(choosingMapInput.getText()) != MapName.WATER && MapName.valueOf(choosingMapInput.getText()) != MapName.WIND && MapName.valueOf(choosingMapInput.getText()) != MapName.EARTH)) {
-                        TextBox.display("Map not valid: choose between 'FIRE', 'WIND', 'WATER'. 'EARTH'");
-                        ok = false;
-                    }else {
-                        if(MapName.valueOf(choosingMapInput.getText()) == MapName.FIRE ) {
-                            Image mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
-                            ImageView imageView = new ImageView(mapImage);
-                            imageView.setFitHeight(boardScene.getHeight());
-                            imageView.setFitWidth(boardScene.getWidth());
-                            boardSceneLayout.getChildren().addAll(imageView);
-
-                        }
-                        if(MapName.valueOf(choosingMapInput.getText()) == MapName.WATER) {
-                            Image mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_2.png"));
-                            ImageView imageView = new ImageView(mapImage);
-                            imageView.setFitHeight(boardScene.getHeight());
-                            imageView.setFitWidth(boardScene.getWidth());
-                            boardSceneLayout.getChildren().addAll(imageView);
-
-                        }
-                        if(MapName.valueOf(choosingMapInput.getText()) == MapName.WIND) {
-                            Image mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_3.png"));
-                            ImageView imageView = new ImageView(mapImage);
-                            imageView.setFitHeight(boardScene.getHeight());
-                            imageView.setFitWidth(boardScene.getWidth());
-                            boardSceneLayout.getChildren().addAll(imageView);
-
-                        }
-                        if(MapName.valueOf(choosingMapInput.getText()) == MapName.EARTH) {
-                            Image mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_4.png"));
-                            ImageView imageView = new ImageView(mapImage);
-                            imageView.setFitHeight(boardScene.getHeight());
-                            imageView.setFitWidth(boardScene.getWidth());
-                            boardSceneLayout.getChildren().addAll(imageView);
-                        }
-                    }
-                    if (numberOfSkullsInput.getText().isEmpty() || Integer.parseInt(numberOfSkullsInput.getText()) < 5 || Integer.parseInt(numberOfSkullsInput.getText()) > 8) {
-                        TextBox.display("Number of skulls not valid");
-                        ok = false;
-                    }
-
-                    if( !ok )
-                        window.setScene(loginScene);
-                    else
-                        window.setScene(connectionScene);
-
-                } catch (Exception e) {
-                    //TODO senza la try catch da un sacco di errori
-                }
-            }
-        });
-
-
-
         socketButton.setOnAction( event -> {
-
-            startSocketConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
-            window.setScene(boardScene);
+            Gui.RMI = false;
+            window.setScene(port_and_IP_scene);
+            //startSocketConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
         });
         RMIButton.setOnAction( event -> {
-
-            startRmiConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
-            window.setScene(boardScene);
+            Gui.RMI = true;
+            window.setScene(port_and_IP_scene);
+            //startRmiConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
         });
 
+        return connectionScene;
+    }
 
+    private Scene setPort_and_IP_scene(Stage window, Scene loginScene) throws FileNotFoundException {
+
+        //close button
+        Button closeButton = new Button("Exit");
+        closeButton.setTextFill(Color.BLACK);
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
-        window.setScene(startGameScene);
-        window.show();
+        //background image
+        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
+        Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
+
+        //Port and IP scene
+        GridPane port_and_IP_Layout = new GridPane();
+        port_and_IP_Layout.setPadding( new Insets(20, 20, 20, 20));
+        port_and_IP_Layout.setVgap(10);
+        port_and_IP_Layout.setHgap(8);
+        port_and_IP_Layout.setBackground(Background);
+        //Port number Input
+        Label port_number_label = new Label("Choose port number:");
+        port_number_label.setTextFill(Color.WHITE);
+        port_number_label.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        //set the port number label in the top left
+        GridPane.setConstraints( port_number_label, 1, 10);
+        //insert the username
+        TextField port_number_input = new TextField();
+
+        GridPane.setConstraints(port_number_input, 2, 10);
+        //choosing IP address input
+        Label IP_address_label = new Label("Choose IP address:");
+        IP_address_label.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        IP_address_label.setTextFill(Color.WHITE);
+        GridPane.setConstraints(IP_address_label, 1, 11);
+        //insert the input
+        TextField IP_address_input = new TextField();
+        GridPane.setConstraints(IP_address_input, 2, 11);
+
+        Button nextButton = new Button("Next");
+        nextButton.setTextFill(Color.BLACK);
+        GridPane.setConstraints(nextButton, 2, 13);
+        GridPane.setConstraints(closeButton, 2, 17);
+        port_and_IP_Layout.getChildren().addAll(port_number_label, port_number_input, IP_address_label, IP_address_input, nextButton, closeButton);
+
+        Scene setPort_and_IP_scene = new Scene(port_and_IP_Layout, 750, 500);
+
+        nextButton.setOnAction(actionEvent -> {
+
+            Gui.serverAddress = IP_address_input.getText();
+
+            if (port_number_input.getText().isEmpty()) {
+                TextBox.display("Enter a valid port number");
+                window.setScene(setPort_and_IP_scene);
+            }
+            if (IP_address_input.getText().isEmpty()) {
+                TextBox.display("Enter a valid IP address");
+                window.setScene(setPort_and_IP_scene);
+            }
+
+            if( Gui.RMI ) {
+                Gui.rmiPort = Integer.parseInt(port_number_input.getText());
+            } else
+                Gui.socketPort = Integer.parseInt(port_number_input.getText());
+
+            window.setScene(loginScene);
+
+        });
+
+        return setPort_and_IP_scene;
+    }
+
+    private Scene setLoginScene(Stage window, Scene gameScene) throws FileNotFoundException {
+
+        //close button
+        Button closeButton = new Button("Exit");
+        closeButton.setTextFill(Color.BLACK);
+        closeButton.setOnAction(e -> ClosingBox.display(window));
+
+        //background image
+        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
+        Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
+
+        //Login scene
+        GridPane loginLayout = new GridPane();
+        loginLayout.setPadding( new Insets(20, 20, 20, 20));
+        loginLayout.setVgap(15);
+        loginLayout.setHgap(12);
+        loginLayout.setBackground(Background);
+        //username input
+        Label usernameLabel = new Label("Username:");
+        usernameLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        usernameLabel.setTextFill(Color.WHITE);
+        //set the username label in the top left
+        GridPane.setConstraints( usernameLabel, 1, 8);
+        //insert the username
+        TextField usernameInput = new TextField();
+        GridPane.setConstraints(usernameInput, 2, 8);
+
+        //choosing map input
+        Label choosingMapLabel = new Label("Choose the map you want to play in:");
+        choosingMapLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        choosingMapLabel.setTextFill(Color.WHITE);
+        GridPane.setConstraints(choosingMapLabel, 1, 9);
+
+        //insert the map input
+        ChoiceBox<String> mapChoiceBox = new ChoiceBox<>();
+        mapChoiceBox.getItems().addAll("FIRE", "WATER", "WIND", "EARTH");
+        mapChoiceBox.setValue("FIRE");
+        GridPane.setConstraints(mapChoiceBox, 2, 9);
+
+        //choosing number of skull input
+        Label numberOfSkullsLabel = new Label("Choose the number of skulls you want to play with:");
+        numberOfSkullsLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        numberOfSkullsLabel.setTextFill(Color.WHITE);
+        GridPane.setConstraints(numberOfSkullsLabel, 1, 10);
+
+        //insert the input
+        ChoiceBox<String> skullsChoiceBox = new ChoiceBox<>();
+        skullsChoiceBox.getItems().addAll("5", "6", "7", "8");
+        skullsChoiceBox.setValue("5");
+        GridPane.setConstraints(skullsChoiceBox, 2, 10);
+
+        //Player color
+        Label playerColorLabel = new Label("Choose the color of your pawn:");
+        playerColorLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        playerColorLabel.setTextFill(Color.WHITE);
+        GridPane.setConstraints(playerColorLabel, 1, 11);
+
+        //Player color input
+        ChoiceBox<String> playerColorChoiceBox = new ChoiceBox<>();
+        playerColorChoiceBox.getItems().addAll("Yellow", "Blue", "Green", "Grey", "Purple");
+        playerColorChoiceBox.setValue("Yellow");
+        GridPane.setConstraints(playerColorChoiceBox, 2, 11);
+
+        Button loginButton = new Button("Login");
+        loginButton.setTextFill(Color.BLACK);
+        GridPane.setConstraints(loginButton, 2, 15);
+        GridPane.setConstraints(closeButton, 1, 15);
+        loginLayout.getChildren().addAll(usernameLabel, usernameInput, choosingMapLabel, mapChoiceBox, numberOfSkullsLabel, skullsChoiceBox, playerColorLabel, playerColorChoiceBox, loginButton, closeButton);
+
+        Scene loginScene = new Scene(loginLayout, 750, 500);
+
+        loginButton.setOnAction(actionEvent -> {
+            ArrayList<String> info = handleLoginButton(usernameInput.getText(), mapChoiceBox.getValue(), skullsChoiceBox.getValue(), playerColorChoiceBox.getValue(), window,  loginScene, gameScene);
+
+            if(!info.isEmpty()) {
+                Gui.Username = info.get(0);
+                Gui.nameOfMap = MapName.valueOf(info.get(1));
+                Gui.NumberOfSkulls = Integer.parseInt(info.get(2));
+                Gui.playerColor = info.get(3);
+            }
+
+        });
+
+        return loginScene;
+    }
+
+    /*CSS examples
+    *button2.setStyle("-fx-background-color: darkslateblue; -fx-text-fill: white;");
+     text2.setStyle("-fx-font: normal bold 20px 'serif' ");
+     gridPane.setStyle("-fx-background-color: BEIGE;"); */
+
+    private ArrayList<String> handleLoginButton(String username, String mapName, String numberOfSkulls, String playerColor,  Stage window, Scene loginScene, Scene gameScene){
+
+        ArrayList<String> answer = new ArrayList<>();
+        try{
+
+            boolean ok = true;
+
+            //username non valido, mando messaggio e ritorno alla login
+            if (!Pattern.matches(validUsername, username)) {
+                TextBox.display("The username can only contain letters and numbers");
+                ok = false;
+            }
+            if (username.isEmpty()) {
+                TextBox.display("Username can't be empty. Please enter a valid one");
+                ok = false;
+            }
+            if( !ok )
+                window.setScene(loginScene);
+            else {
+                window.setScene(gameScene);
+                answer.add(username);
+                answer.add(mapName);
+                answer.add(numberOfSkulls);
+                answer.add(playerColor);
+                window.setScene(gameScene);
+            }
+
+        } catch (Exception e) {
+            //TODO senza la try catch da un sacco di errori
+        }
+        return answer;
+    }
+
+
+    private Scene setGameScene(Stage window) throws FileNotFoundException {
+
+        /*if(Gui.nameOfMap == MapName.FIRE ) {
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
+        }
+        if(Gui.nameOfMap == MapName.WATER) {
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_2.png"));
+        }
+        if(Gui.nameOfMap == MapName.WIND) {
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_3.png"));
+        }
+        if(Gui.nameOfMap == MapName.EARTH) {
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_4.png"));
+        }
+        if(mapImage == null)
+            TextBox.display("map null");*/
+
+        /*if(Gui.playerColor.equals("Yellow") ) {
+            Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Yellow/Yellow_front.png"));
+        }
+        if(Gui.playerColor.equals("Green")) {
+            Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Green/Green_front.png"));
+        }
+        if(Gui.playerColor.equals("Grey")) {
+            Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Grey/Grey_front.png"));
+        }
+        if(Gui.playerColor.equals("Purple")) {
+            Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Purple/Purple_front.png"));
+        }
+        if(Gui.playerColor.equals("Blue")) {
+            Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Blue/Blue_front.png"));
+        }*/
+
+        Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
+        Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Yellow/Yellow_front.png"));
+
+        GridPane mapGridPane = new GridPane();
+        mapGridPane.maxWidthProperty().bind(Bindings.divide(window.widthProperty(), 1.25));
+        mapGridPane.maxHeightProperty().bind(Bindings.divide(window.heightProperty(), 1.25));
+        mapGridPane.setPadding(new Insets(0, 0, 0, 0));
+        GridPane.setMargin(mapGridPane, new Insets(0, 0, 0, 0));
+        mapGridPane.setGridLinesVisible(true);
+
+        //In questa GridPane, posta sul Bottom, ci sarà la plancia giocatore
+        GridPane planciaPlayerGridPane = new GridPane();
+        planciaPlayerGridPane.maxWidthProperty().bind(Bindings.divide(window.widthProperty(), 1.50));
+        planciaPlayerGridPane.maxHeightProperty().bind(Bindings.divide(window.heightProperty(), 1.50));
+        planciaPlayerGridPane.setPadding(new Insets(0, 0, 0, 0));
+        GridPane.setMargin(planciaPlayerGridPane, new Insets(0, 0, 0, 0));
+        planciaPlayerGridPane.setGridLinesVisible(true);
+
+        BackgroundImage image = new BackgroundImage(Gui.mapImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(mapGridPane.getWidth(), mapGridPane.getHeight(), false, false, true, false));
+        Background BackgroundMapImage = new Background(image);
+        mapGridPane.setBackground(BackgroundMapImage);
+
+        BackgroundImage planciaImage = new BackgroundImage(Gui.planciaGiocatoreImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(planciaPlayerGridPane.getWidth(), planciaPlayerGridPane.getHeight(), false, false, true, false));
+        Background BackgroundPlanciaImage = new Background(planciaImage);
+        planciaPlayerGridPane.setBackground(BackgroundPlanciaImage);
+
+        BorderPane gameBorderPane = new BorderPane(mapGridPane);
+        BorderPane.setMargin(gameBorderPane, new Insets(0, 0, 0, 0));
+        gameBorderPane.setPadding(new Insets(0, 0, 0, 0));
+        gameBorderPane.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600)");
+        gameBorderPane.setPrefSize(1000, 800);
+        BorderPane.setAlignment(mapGridPane, Pos.TOP_LEFT);
+        BorderPane.setAlignment(planciaPlayerGridPane, Pos.BOTTOM_LEFT);
+
+        Scene gameScene = new Scene(gameBorderPane);
+
+        return gameScene;
     }
 
 
@@ -246,9 +443,6 @@ public class Gui extends Application implements UserInterface {
 
             //Call the remote method CONNECT
             server.connect(remoteView, connectionMessage);
-
-            return;
-
 
         }
         catch (Exception e){
