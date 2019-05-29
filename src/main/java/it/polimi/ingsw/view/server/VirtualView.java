@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.server;
 
+import com.google.gson.*;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
@@ -46,6 +47,9 @@ public class VirtualView extends Observable implements Observer {
      */
     final String SPLITTER = "$";
 
+    final String CLIENTSNAPSHOTSPLITTER = "PORCODUE";
+
+
     /**
      * Only constructor
      * @param players players nicknames
@@ -77,19 +81,119 @@ public class VirtualView extends Observable implements Observer {
             else {
                 this.socketHandlers.add(null);
             }
+
         }
 
     }
 
     /**
-     * Notify of changes coming from the model
+     * Everytime that model changes, it sends all the information to the virtual view through a jsonString.
+     * The virtual view will deserialize jsonString to see what is changed and will send changes to players.
      * @param arg the new json snapshot
      */
     @Override
     public void notifyObserver(Object arg) {
-        //TODO here the view needs to show to all clients that the model is changed by sending custom messages to each one of them
+
+        String clientSnapshot = (String) arg;
+        String[] clientSnapshotSplitted = clientSnapshot.split(CLIENTSNAPSHOTSPLITTER);
+
+        String invariableInfo = clientSnapshotSplitted[0];
+        String customInfo = clientSnapshotSplitted[1];
+
+        for(String s : players){
+            String customMessageForPlayer = elaborateJsonPlayersForClient(s, customInfo);
+
+            //message contains the json to send to the client
+            String message = invariableInfo + customMessageForPlayer ;
+
+            notifyClient(s, message);
+        }
+
 
     }
+
+    /**
+     * this method elaborate the players json, a player shouldn't see powerUps/weapons/
+     * @param clientNickname the client nickname that i am processing
+     * @param allClientSnapshot all the representation of the players
+     * @return the string with all the fields to hide of the other players to the single client
+     */
+    private String elaborateJsonPlayersForClient(String clientNickname, String allClientSnapshot) {
+         String root = "{" + allClientSnapshot;  //"players : {all json players}"
+
+         //here i have all the jsonObject that represents players
+         JsonArray jsonplayers = new JsonParser().parse(root).getAsJsonObject().get("players").getAsJsonArray();
+
+         //in jsonPlayers i have the array of the information of the players
+
+
+         String customMessage = "\"players\": [";
+
+         //for every player in the list, the json will have a different construction based on the name of the player i am looking
+         for(int i = 0; i < jsonplayers.size(); i++){
+             customMessage += elaborateSingleJsonObjectForClient(jsonplayers.get(i).getAsJsonObject(), clientNickname);
+             if(i != jsonplayers.size() - 1)
+                 customMessage += ",";
+         }
+
+         customMessage += "]}";
+
+         return customMessage;
+
+    }
+
+    /**
+     * this method elaborates the single  player (JsonObject) in the players JsonArray
+     * @param jsonPlayer the player to serialize
+     * @param clientNickname the nickname to which i have ti send the json
+     * @return an elaboration of the player to serialize
+     */
+    private String elaborateSingleJsonObjectForClient(JsonObject jsonPlayer, String clientNickname) {
+
+        String jsonPlayers = "{\"nickname\":" + "\"" + jsonPlayer.get("nickname").getAsString() + "\"" + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
+
+        Gson gson = new Gson();
+
+        //****************************************************************************************************
+        //adding damages manually
+        JsonArray jsonDamages = jsonPlayer.get("damages").getAsJsonArray();
+        jsonPlayers += "\"damages\": [";
+
+        if(jsonDamages != null) {
+            for (int i = 0; i < jsonDamages.size(); i++) {
+                jsonPlayers += jsonDamages.get(i).getAsString();
+                if( i != jsonDamages.size() - 1)
+                     jsonPlayers += ",";
+            }
+        }
+        jsonPlayers += "],";
+
+        //*************************************************************************************************
+        //adding marks manually
+        JsonArray jsonMarks = jsonPlayer.get("marks").getAsJsonArray();
+        jsonPlayers += "\"marks\": [";
+
+        if(jsonMarks != null) {
+            for (int i = 0; i < jsonMarks.size(); i++) {
+                jsonPlayers += jsonMarks.get(i).getAsString();
+                if( i != jsonMarks.size() - 1)
+                    jsonPlayers += ",";
+            }
+        }
+        jsonPlayers += "]";
+
+
+        if (jsonPlayer.get("nickname").getAsString().equals(clientNickname)){
+            jsonPlayers += ", \"nMoves\" :" + jsonPlayer.get("nMoves").getAsString() + "," + "\"nMovesBeforeGrabbing\" :" + jsonPlayer.get("nMovesBeforeGrabbing").getAsString() + "," + "\"nMovesBeforeShooting\":" + jsonPlayer.get("nMovesBeforeShooting").getAsString() + "," + "\"canReloadBeforeShooting\" :" + jsonPlayer.get("canReloadBeforeShooting").getAsString() + ",";
+
+            jsonPlayers += "\"playerStatus\" :" + gson.toJson(jsonPlayer.get("playerStatus").getAsJsonObject())  + ","  + "\"weaponList\" :" + gson.toJson(jsonPlayer.get("weaponList").getAsJsonArray()) + "," + "\"powerUpList\" :" + gson.toJson(jsonPlayer.get("powerUpList").getAsJsonArray()) ;
+        }
+
+        jsonPlayers += "}";
+
+        return jsonPlayers;
+    }
+
 
     /**
      * Sends a question to the player
@@ -241,6 +345,28 @@ public class VirtualView extends Observable implements Observer {
     protected void socketAnswer(ClientAnswer clientAnswer){
 
         notifyObservers(clientAnswer);
+
+    }
+
+    public void notifyClient(String nickname, String message){
+
+        int index = players.indexOf(nickname);
+
+        if(remoteViews.get(index) == null){
+
+            socketHandlers.get(index).send("NOTIFY" + SPLITTER + message);
+
+        }
+        else {
+
+            try {
+                remoteViews.get(index).notifyRemoteView(message);
+            }
+            catch (RemoteException e){
+                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message");
+            }
+
+        }
 
     }
 

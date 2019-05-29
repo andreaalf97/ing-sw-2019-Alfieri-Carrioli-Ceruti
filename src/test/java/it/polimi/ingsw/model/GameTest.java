@@ -473,5 +473,12 @@ public class GameTest {
         //todo don't work choices with TagbackGrenade
     }
 
+    @Test
+    public void verifySerializationClientSnapshot(){
+        String clientSnapshot = gameTest.clientSnapshot();
+
+        Assert.assertTrue(true);
+    }
+
 
 }

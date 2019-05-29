@@ -180,6 +180,8 @@ public class Cli implements UserInterface {
 
     @Override
     public void notify(String json) {
+        //devo aggiornatre il json salvato in locale(come jsonObject)
+        //stampa mappa, stampa plancia giocatore,
         System.out.println("[*] Server notify -> " + json);
     }
 
