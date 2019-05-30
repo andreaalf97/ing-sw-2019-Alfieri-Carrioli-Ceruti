@@ -1,5 +1,9 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.cli;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
@@ -11,12 +15,14 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
+//TODO FARE I METODI SHOW
 public class Cli implements UserInterface {
 
     private final String validUsername = "^[a-zA-Z0-9]*$";
 
     private final String serverAddress = "127.0.0.1";
+
+    private JsonObject lastSnapshotReceived;
 
     private final int rmiPort = 5432;
 
@@ -178,10 +184,15 @@ public class Cli implements UserInterface {
 
     }
 
+    public Cli(){
+        this.lastSnapshotReceived = new JsonObject();
+    }
+
     @Override
     public void notify(String json) {
-        //devo aggiornatre il json salvato in locale(come jsonObject)
-        //stampa mappa, stampa plancia giocatore,
+        JsonParser jsonParser = new JsonParser();
+        this.lastSnapshotReceived = (JsonObject) jsonParser.parse(json);
+
         System.out.println("[*] Server notify -> " + json);
     }
 
@@ -314,4 +325,52 @@ public class Cli implements UserInterface {
 
         return answer;
     }
+
+    public void showAll(){
+        showKst();
+        showGameMap();
+        showPlayerNames();
+        showPlayers();
+    }
+
+    public void showKst(){
+        JsonArray jsonKstKills = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
+        JsonArray jsonKstIsOverKill = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
+
+        System.out.println("THIS IS THE KILLSHOT TRACK: \n");
+        for(int i = 0; i < jsonKstKills.size(); i++){
+            System.out.println("[" + i + "] : " + jsonKstKills.get(i).getAsString());
+
+            if(jsonKstIsOverKill.get(i).getAsBoolean()){
+                System.out.println("\t with Overkill");
+            }
+
+            System.out.println("\n");
+        }
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+
+    }
+
+    public void showGameMap(){}
+
+    public void showPlayers(){}
+
+    public void showPlayerNames(){
+        JsonArray jsonPlayerNames = lastSnapshotReceived.get("playerNames").getAsJsonArray();
+
+        System.out.println("PLAYERS NAMES: \n");
+
+        for(int i = 0; i < jsonPlayerNames.size(); i++){
+            System.out.println("[" + i + "] : " + jsonPlayerNames.get(i).getAsString() + "\n");
+        }
+
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+
+    }
+
+    public void showPlayer(String nickname){}
 }

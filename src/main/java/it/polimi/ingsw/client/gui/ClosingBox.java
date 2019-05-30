@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.gui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
