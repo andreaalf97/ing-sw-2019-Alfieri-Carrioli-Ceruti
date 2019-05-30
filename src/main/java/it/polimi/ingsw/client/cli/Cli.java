@@ -380,6 +380,8 @@ public class Cli implements QuestionEventHandler {
 
         clearScreen();
 
+        System.out.println("****************************************");
+
         System.out.println("GAME STARTED");
 
         System.out.println("The payers are:");
@@ -387,7 +389,11 @@ public class Cli implements QuestionEventHandler {
         for(String player : event.playerNames)
             System.out.println(player);
 
+        System.out.println("****************************************");
+
         System.out.println(event.firstPlayer + " will be the first player");
+
+        System.out.println("****************************************");
 
 
     }
@@ -570,6 +576,8 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(TextMessage event) {
+
+        System.out.println("[*] NEW MESSAGE: " + event.message);
 
     }
 

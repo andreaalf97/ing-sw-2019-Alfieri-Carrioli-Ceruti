@@ -35,13 +35,16 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
     @Override
     public void sendQuestionEvent(QuestionEvent questionEvent) {
 
-        try {
-            remoteViewInterface.receiveQuestionEvent(questionEvent);
-        }
-        catch (RemoteException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message from ServerProxyRmi");
-            e.printStackTrace();
-        }
+        new Thread( () -> {
+            try {
+                remoteViewInterface.receiveQuestionEvent(questionEvent);
+            }
+            catch (RemoteException e){
+                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message from ServerProxyRmi");
+                e.printStackTrace();
+            }
+        }).start();
+
     }
 
     @Override

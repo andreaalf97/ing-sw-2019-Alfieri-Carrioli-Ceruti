@@ -85,7 +85,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>it.polimi.AM29.App</mainClass>
+                <mainClass>it.polimi.ingsw.server.Main</mainClass>
               </manifest>
             </archive>
           </configuration>

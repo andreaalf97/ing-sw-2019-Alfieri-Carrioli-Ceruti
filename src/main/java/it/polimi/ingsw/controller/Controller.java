@@ -51,13 +51,6 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     /**
-     * This finds the winner, and tells everyone the game is over
-     */
-    private void endGame() {
-        //TODO
-    }
-
-    /**
      * This method:
      *      - notify the current player status
      *      - checks all deaths
@@ -128,14 +121,6 @@ public class Controller implements Observer, AnswerEventHandler {
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(firstPlayer.getNickname());
         sendQuestionEvent(firstPlayer.getNickname(), new ActionQuestion(possibleActions));
-
-    }
-
-    private void sendAllMessage(String message){
-
-        virtualView.sendAllQuestionEvent(
-                new TextMessage(message)
-        );
 
     }
 
