@@ -3,7 +3,9 @@ package it.polimi.ingsw.view.server;
 import com.google.gson.*;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.serverToClient.ModelUpdate;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ import java.util.ArrayList;
  */
 
 
-public class VirtualView extends Observable implements Observer {
+public class VirtualView extends Observable implements Observer, AnswerEventReceiver {
 
     /**
      * Player nicknames
@@ -35,6 +37,8 @@ public class VirtualView extends Observable implements Observer {
      * The list of all open connections
      */
     ArrayList<ServerProxy> serverProxies;
+
+    final String CLIENTSNAPSHOTSPLITTER = "PORCODUE";
 
     /**
      * Only constructor
@@ -60,16 +64,31 @@ public class VirtualView extends Observable implements Observer {
     @Override
     public void notifyObserver(Object arg) {
 
-        //this is the casting from object to String[]  --> https://stackoverflow.com/questions/1611735/java-casting-object-to-array-type
-        String[] clientSnapshot = (String[])((Object[])arg)[0];
+        String clientSnapshot = (String) arg;
+        String[] clientSnapshotSplitted = clientSnapshot.split(CLIENTSNAPSHOTSPLITTER);
+
+        String invariableInfo = clientSnapshotSplitted[0];
+        String customInfo = clientSnapshotSplitted[1];
 
         for(String s : playersNicknames){
-            String customMessageForPlayer = elaborateJsonPlayersForClient(s, clientSnapshot[1]);
+            String customMessageForPlayer = elaborateJsonPlayersForClient(s, customInfo);
 
-            String message = clientSnapshot[0] + customMessageForPlayer ;
+            //message contains the json to send to the client
+            String message = invariableInfo + customMessageForPlayer ;
 
+            notifyClient(s, message);
         }
 
+
+    }
+
+    private void notifyClient(String nickname, String message) {
+
+        int index = playersNicknames.indexOf(nickname);
+
+        serverProxies.get(index).sendQuestionEvent(
+                new ModelUpdate(message)
+        );
 
     }
 
@@ -80,24 +99,24 @@ public class VirtualView extends Observable implements Observer {
      * @return the string with all the fields to hide of the other playersNicknames to the single client
      */
     private String elaborateJsonPlayersForClient(String clientNickname, String allClientSnapshot) {
-         String players = "{" + allClientSnapshot;  //"playersNicknames : {all json playersNicknames}"
+        String players = "{" + allClientSnapshot;  //"playersNicknames : {all json playersNicknames}"
 
-         //here i have all the jsonObject that represents playersNicknames
-         JsonArray jsonplayers = new JsonParser().parse(players).getAsJsonObject().get("playersNicknames").getAsJsonArray();
+        //here i have all the jsonObject that represents playersNicknames
+        JsonArray jsonplayers = new JsonParser().parse(players).getAsJsonObject().get("playersNicknames").getAsJsonArray();
 
-         //in jsonPlayers i have the array of the information of the playersNicknames
+        //in jsonPlayers i have the array of the information of the playersNicknames
 
 
-         String customMessage = "\"playersNicknames\": [";
+        String customMessage = "\"playersNicknames\": [";
 
-         //for every player in the list, the json will have a different construction based on the name of the player i am looking
-         for(int i = 0; i < jsonplayers.size(); i++){
-             customMessage += elaborateSingleJsonObjectForClient(jsonplayers.get(i).getAsJsonObject(), clientNickname);
-         }
+        //for every player in the list, the json will have a different construction based on the name of the player i am looking
+        for(int i = 0; i < jsonplayers.size(); i++){
+            customMessage += elaborateSingleJsonObjectForClient(jsonplayers.get(i).getAsJsonObject(), clientNickname);
+        }
 
-         customMessage += "]}";
+        customMessage += "]}";
 
-         return customMessage;
+        return customMessage;
 
     }
 
@@ -115,7 +134,7 @@ public class VirtualView extends Observable implements Observer {
             for (int i = 0; i < jsonDamages.size(); i++) {
                 jsonPlayers += jsonDamages.get(i).getAsString();
                 if( i != jsonDamages.size() - 1)
-                     jsonPlayers += ",";
+                    jsonPlayers += ",";
             }
         }
         jsonPlayers += "]";
@@ -170,4 +189,10 @@ public class VirtualView extends Observable implements Observer {
 
     }
 
+    @Override
+    public void receiveAnswer(AnswerEvent answerEvent) {
+
+        notifyObservers(answerEvent);
+
+    }
 }

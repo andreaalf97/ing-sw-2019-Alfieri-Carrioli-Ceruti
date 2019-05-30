@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.controller.AnswerEventHandler;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.events.AnswerEvent;
@@ -11,17 +10,13 @@ import it.polimi.ingsw.events.serverToClient.InvalidUsernameQuestion;
 import it.polimi.ingsw.events.serverToClient.TextMessage;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.view.client.RemoteViewInterface;
 import it.polimi.ingsw.view.server.AnswerEventReceiver;
 import it.polimi.ingsw.view.server.ServerProxy;
 import it.polimi.ingsw.view.server.VirtualView;
 
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * This class waits for user input and sends it to the right controller
@@ -83,6 +78,9 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         //Adding each player to the PLAYER - CONTROLLER map
         for (String player : waitingRoom.players)
             nicknamesControllers.put(player, controller);
+
+        for(ServerProxy proxy : waitingRoom.serverProxies)
+            proxy.setReceiver(controller.virtualView);
 
         //Deleting the waiting room
         waitingRooms.remove(waitingRoom);
@@ -149,6 +147,8 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         ServerProxy proxy = temporaryProxies.remove(temporaryId);
 
+        proxy.setNickname(nickname);
+
         if (waitingRooms.isEmpty())
             waitingRooms.add(new WaitingRoom());
 
@@ -168,7 +168,11 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
      */
     private boolean notAValidUsername(String nickname) {
 
-        return  nicknamesControllers.containsKey(nickname);
+        for(WaitingRoom w : waitingRooms)
+            if(w.players.contains(nickname))
+                return true;
+
+        return nicknamesControllers.containsKey(nickname);
 
     }
 
