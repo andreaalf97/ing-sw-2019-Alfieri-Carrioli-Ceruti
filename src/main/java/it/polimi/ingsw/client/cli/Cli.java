@@ -2,12 +2,10 @@ package it.polimi.ingsw.client.cli;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.RemoteView;
@@ -25,16 +23,8 @@ import java.util.regex.Pattern;
 import static java.lang.Thread.sleep;
 
 public class Cli implements QuestionEventHandler {
-//TODO FARE I METODI SHOW
-public class Cli implements UserInterface {
 
     private final String validUsername = "^[a-zA-Z0-9]*$";
-
-    private final String serverAddress = "127.0.0.1";
-
-    private JsonObject lastSnapshotReceived;
-
-    private final int rmiPort = 5432;
 
     private final int socketPort = 2345;
 
@@ -52,6 +42,9 @@ public class Cli implements UserInterface {
 
     private Scanner sysin;
 
+    private JsonObject lastSnapshotReceived;
+
+
     private Cli(){
 
         this.username = null;
@@ -59,6 +52,7 @@ public class Cli implements UserInterface {
         this.currentSkulls = 0;
         this.remoteView = null;
         this.sysin = new Scanner(System.in);
+        this.lastSnapshotReceived = new JsonObject();
     }
 
     private void start(){
@@ -269,14 +263,59 @@ public class Cli implements UserInterface {
         System.out.flush();
     }
 
+//********************************** PRINTING ********************************************
+
+    public void showAll(){
+        showKst();
+        showGameMap();
+        showPlayerNames();
+        showPlayers();
+    }
+
+    public void showKst(){
+        JsonArray jsonKstKills = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
+        JsonArray jsonKstIsOverKill = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
+
+        System.out.println("THIS IS THE KILLSHOT TRACK: \n");
+        for(int i = 0; i < jsonKstKills.size(); i++){
+            System.out.println("[" + i + "] : " + jsonKstKills.get(i).getAsString());
+
+            if(jsonKstIsOverKill.get(i).getAsBoolean()){
+                System.out.println("\t with Overkill");
+            }
+
+            System.out.println("\n");
+        }
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+
+    }
+
+    public void showGameMap(){}
+
+    public void showPlayers(){}
+
+    public void showPlayerNames(){
+        JsonArray jsonPlayerNames = lastSnapshotReceived.get("playerNames").getAsJsonArray();
+
+        System.out.println("PLAYERS NAMES: \n");
+
+        for(int i = 0; i < jsonPlayerNames.size(); i++){
+            System.out.println("[" + i + "] : " + jsonPlayerNames.get(i).getAsString() + "\n");
+        }
+
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+
+    }
+
+    public void showPlayer(String nickname){}
+
 //*********************** NETWORK EVENTS *************************************************
 
     @Override
-    public void notify(String json) {
-        JsonParser jsonParser = new JsonParser();
-        this.lastSnapshotReceived = (JsonObject) jsonParser.parse(json);
-
-        System.out.println("[*] Server notify -> " + json);
     public void handleEvent(TemporaryIdQuestion event) {
 
         temporaryId = event.temporaryId;
@@ -553,52 +592,5 @@ public class Cli implements UserInterface {
     public void receiveEvent(QuestionEvent questionEvent) {
         questionEvent.acceptEventHandler(this);
     }
-
-    public void showAll(){
-        showKst();
-        showGameMap();
-        showPlayerNames();
-        showPlayers();
-    }
-
-    public void showKst(){
-        JsonArray jsonKstKills = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
-        JsonArray jsonKstIsOverKill = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
-
-        System.out.println("THIS IS THE KILLSHOT TRACK: \n");
-        for(int i = 0; i < jsonKstKills.size(); i++){
-            System.out.println("[" + i + "] : " + jsonKstKills.get(i).getAsString());
-
-            if(jsonKstIsOverKill.get(i).getAsBoolean()){
-                System.out.println("\t with Overkill");
-            }
-
-            System.out.println("\n");
-        }
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-
-    }
-
-    public void showGameMap(){}
-
-    public void showPlayers(){}
-
-    public void showPlayerNames(){
-        JsonArray jsonPlayerNames = lastSnapshotReceived.get("playerNames").getAsJsonArray();
-
-        System.out.println("PLAYERS NAMES: \n");
-
-        for(int i = 0; i < jsonPlayerNames.size(); i++){
-            System.out.println("[" + i + "] : " + jsonPlayerNames.get(i).getAsString() + "\n");
-        }
-
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-
-    }
-
-    public void showPlayer(String nickname){}
 }
+

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.QuestionEventHandler;
+import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
@@ -29,7 +31,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class Gui extends Application implements UserInterface {
+public class Gui extends Application implements QuestionEventHandler {
 
     final private String validUsername = "^[a-zA-Z0-9]*$";
 
@@ -438,132 +440,119 @@ public class Gui extends Application implements UserInterface {
         return gameScene;
     }
 
-
-    /**
-     * Starts an rmi connection with the server
-     * @param username the username of the player
-     * @param votedMap the voted map
-     * @param nSkulls the voted skulls
-     */
-    private void startRmiConnection(String username, MapName votedMap, int nSkulls) {
-
-        try {
-
-            //Creates the remote view object to send to the server for callbacks
-            RemoteViewRmiImpl remoteView = new RemoteViewRmiImpl(this);
-
-            //Searches for the registry
-            Registry registry = LocateRegistry.getRegistry(serverAddress, rmiPort);
-
-            //Looks for the 'server' object (only has one method called connect())
-            ServerInterface server = (ServerInterface)registry.lookup("server");
-
-            //Sends the connection message (USERNAME:VOTEDMAP:VOTEDSKULLS)
-            String connectionMessage = username + ":" + votedMap + ":" + nSkulls;
-
-            //Call the remote method CONNECT
-            server.connect(remoteView, connectionMessage);
-
-        }
-        catch (Exception e){
-            TextBox.display("Error while connecting to server");
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Starts a new socket connection with the server
-     * @param username the username of the player
-     * @param votedMap the voted map
-     * @param nSkulls the voted skulls
-     */
-    private void startSocketConnection(String username, MapName votedMap, int nSkulls) {
-
-        Socket serverSocket = null;
-        try {
-            //Connects with the server through socket
-            serverSocket = new Socket(serverAddress, socketPort);
-        }
-        catch (IOException e){
-            System.err.println(e.getMessage());
-        }
-
-        //Creates a new RemoteViewSocket object which is used to keep the connection open and read all new messages
-        RemoteViewSocket remoteViewSocket = new RemoteViewSocket(serverSocket, this);
-
-        //sends the connection message to the server
-        remoteViewSocket.sendMessage(username + ":" + votedMap + ":" + nSkulls);
-
-        //runs the remoteViewSocket on a new thread to keep it open
-        new Thread(remoteViewSocket).run();
+    @Override
+    public void receiveEvent(QuestionEvent questionEvent) {
 
     }
 
     @Override
-    public void notify(String json) {
+    public void handleEvent(TemporaryIdQuestion event) {
 
     }
 
     @Override
-    public int askQuestionAction(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(InvalidUsernameQuestion event) {
+
     }
 
     @Override
-    public int askQuestionWhereToMove(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(AddedToWaitingRoomQuestion event) {
+
     }
 
     @Override
-    public int askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(NewPlayerConnectedQuestion event) {
+
     }
 
     @Override
-    public int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(DisconnectQuestion event) {
+
     }
 
     @Override
-    public int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(GameStartedQuestion event) {
+
     }
 
     @Override
-    public int askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(ActionQuestion event) {
+
     }
 
     @Override
-    public int askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(ChooseHowToPayForAttackingQuestion event) {
+
     }
 
     @Override
-    public int askQuestionChooseWeaponToReload(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(ChooseHowToPayToReloadQuestion event) {
+
     }
 
     @Override
-    public int askQuestionPayWith(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(ChooseHowToShootQuestion event) {
+
     }
 
     @Override
-    public int askQuestionShoot(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(ChooseHowToUseTurnPowerUpQuestion event) {
+
     }
 
     @Override
-    public int askQuestionChoosePowerUpToUse(String[] possibleAnswers) {
-        return 0;
+    public void handleEvent(ChooseIfToUseAsyncPowerUpQuestion event) {
+
     }
 
     @Override
-    public int askQuestionUseTurnPowerUp(String[] possibleAnswers){return 0;}
+    public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
+
+    }
 
     @Override
-    public int askQuestionUseAsyncPowerUp(String[] possibleAnswers){return 0;}
+    public void handleEvent(ChoosePowerUpToUseQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToAttackQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToPickQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToReloadQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToSwitchQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ModelUpdate event) {
+
+    }
+
+    @Override
+    public void handleEvent(TextMessage event) {
+
+    }
+
+    @Override
+    public void handleEvent(WhereToMoveAndGrabQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(WhereToMoveQuestion event) {
+
+    }
 }
+
