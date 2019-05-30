@@ -615,12 +615,15 @@ public class Controller implements Observer, AnswerEventHandler {
         Player player = gameModel.getPlayerByNickname(event.nickname);
 
         ArrayList<String> powerUpToUse = new ArrayList<>();
+        ArrayList<Color> colors = new ArrayList<>();
 
         for (PowerUp p : player.getPowerUpList())
-            if(p.isTurnPowerup())
+            if(p.isTurnPowerup()) {
                 powerUpToUse.add(p.getPowerUpName());
+                colors.add(p.getColor());
+            }
 
-        sendQuestionEvent(event.nickname, new ChoosePowerUpToUseQuestion(powerUpToUse));
+        sendQuestionEvent(event.nickname, new ChoosePowerUpToUseQuestion(powerUpToUse, colors));
 
     }
 
