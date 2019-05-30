@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -71,7 +72,7 @@ public class Gui extends Application implements UserInterface {
         window.setWidth(primaryScreenBounds.getWidth());
         window.setHeight(primaryScreenBounds.getHeight());*/
 
-        window.setScene(gameScene);
+        window.setScene(startScene);
         window.show();
     }
 
@@ -169,16 +170,7 @@ public class Gui extends Application implements UserInterface {
         port_and_IP_Layout.setVgap(10);
         port_and_IP_Layout.setHgap(8);
         port_and_IP_Layout.setBackground(Background);
-        //Port number Input
-        Label port_number_label = new Label("Choose port number:");
-        port_number_label.setTextFill(Color.WHITE);
-        port_number_label.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
-        //set the port number label in the top left
-        GridPane.setConstraints( port_number_label, 1, 10);
-        //insert the username
-        TextField port_number_input = new TextField();
 
-        GridPane.setConstraints(port_number_input, 2, 10);
         //choosing IP address input
         Label IP_address_label = new Label("Choose IP address:");
         IP_address_label.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
@@ -192,7 +184,7 @@ public class Gui extends Application implements UserInterface {
         nextButton.setTextFill(Color.BLACK);
         GridPane.setConstraints(nextButton, 2, 13);
         GridPane.setConstraints(closeButton, 2, 17);
-        port_and_IP_Layout.getChildren().addAll(port_number_label, port_number_input, IP_address_label, IP_address_input, nextButton, closeButton);
+        port_and_IP_Layout.getChildren().addAll( IP_address_label, IP_address_input, nextButton, closeButton);
 
         Scene setPort_and_IP_scene = new Scene(port_and_IP_Layout, 750, 500);
 
@@ -200,21 +192,13 @@ public class Gui extends Application implements UserInterface {
 
             Gui.serverAddress = IP_address_input.getText();
 
-            if (port_number_input.getText().isEmpty()) {
-                TextBox.display("Enter a valid port number");
-                window.setScene(setPort_and_IP_scene);
-            }
             if (IP_address_input.getText().isEmpty()) {
                 TextBox.display("Enter a valid IP address");
                 window.setScene(setPort_and_IP_scene);
+            }else{
+                window.setScene(loginScene);
             }
 
-            if( Gui.RMI ) {
-                Gui.rmiPort = Integer.parseInt(port_number_input.getText());
-            } else
-                Gui.socketPort = Integer.parseInt(port_number_input.getText());
-
-            window.setScene(loginScene);
 
         });
 
@@ -348,6 +332,8 @@ public class Gui extends Application implements UserInterface {
 
     private Scene setGameScene(Stage window) throws FileNotFoundException {
 
+
+
         /*if(Gui.nameOfMap == MapName.FIRE ) {
             Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
         }
@@ -380,38 +366,71 @@ public class Gui extends Application implements UserInterface {
         }*/
 
         Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
+
         Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Yellow/Yellow_front.png"));
 
+        Image purple_plancia = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Purple/Purple_front.png"));
+        Image green_plancia = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Green/Green_front.png"));
+        Image grey_plancia =  new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Grey/Grey_front.png"));
+        Image blue_plancia = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Blue/Blue_front.png"));
+
+        ImageView purple_plancia_imageView = new ImageView(purple_plancia);
+        ImageView green_plancia_imageView = new ImageView(green_plancia);
+        ImageView grey_plancia_imageView = new ImageView(grey_plancia);
+        ImageView blue_plancia_imageView = new ImageView(blue_plancia);
+        purple_plancia_imageView.setFitWidth(300);
+        purple_plancia_imageView.setFitHeight(75);
+        green_plancia_imageView.setFitWidth(300);
+        green_plancia_imageView.setFitHeight(75);
+        grey_plancia_imageView.setFitWidth(300);
+        grey_plancia_imageView.setFitHeight(75);
+        blue_plancia_imageView.setFitWidth(300);
+        blue_plancia_imageView.setFitHeight(75);
+
+        VBox Plance_altri_giocatori = new VBox();
+        Plance_altri_giocatori.setStyle("-fx-border-color: white");
+        Plance_altri_giocatori.setSpacing(35);
+        Plance_altri_giocatori.getChildren().addAll(purple_plancia_imageView, green_plancia_imageView, grey_plancia_imageView, blue_plancia_imageView);
+
+
         GridPane mapGridPane = new GridPane();
-        mapGridPane.maxWidthProperty().bind(Bindings.divide(window.widthProperty(), 1.25));
-        mapGridPane.maxHeightProperty().bind(Bindings.divide(window.heightProperty(), 1.25));
-        mapGridPane.setPadding(new Insets(0, 0, 0, 0));
-        GridPane.setMargin(mapGridPane, new Insets(0, 0, 0, 0));
+        mapGridPane.setStyle("-fx-border-color: black");
+        mapGridPane.maxWidthProperty().bind(Bindings.divide(window.widthProperty(), 1.45));
+        mapGridPane.maxHeightProperty().bind(Bindings.divide(window.heightProperty(), 1.00));
+        mapGridPane.minWidthProperty().bind(Bindings.divide(window.widthProperty(), 1.45));
+        mapGridPane.minHeightProperty().bind(Bindings.divide(window.heightProperty(), 1.00));
         mapGridPane.setGridLinesVisible(true);
 
         //In questa GridPane, posta sul Bottom, ci sarà la plancia giocatore
         GridPane planciaPlayerGridPane = new GridPane();
-        planciaPlayerGridPane.maxWidthProperty().bind(Bindings.divide(window.widthProperty(), 1.50));
-        planciaPlayerGridPane.maxHeightProperty().bind(Bindings.divide(window.heightProperty(), 1.50));
-        planciaPlayerGridPane.setPadding(new Insets(0, 0, 0, 0));
-        GridPane.setMargin(planciaPlayerGridPane, new Insets(0, 0, 0, 0));
+        planciaPlayerGridPane.setStyle("-fx-border-color: blue");
+        planciaPlayerGridPane.setPadding(new Insets(50, 0, 0, 50));
+        planciaPlayerGridPane.maxWidthProperty().bind(Bindings.divide(window.widthProperty(), 3.00));
+        //planciaPlayerGridPane.maxHeightProperty().bind(Bindings.divide(window.heightProperty(), 3.00));
+        planciaPlayerGridPane.minWidthProperty().bind(Bindings.divide(window.widthProperty(), 3.00));
+        planciaPlayerGridPane.minHeightProperty().bind(Bindings.divide(window.heightProperty(), 6.00));
         planciaPlayerGridPane.setGridLinesVisible(true);
 
-        BackgroundImage image = new BackgroundImage(Gui.mapImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(mapGridPane.getWidth(), mapGridPane.getHeight(), false, false, true, false));
+        BackgroundImage image = new BackgroundImage(Gui.mapImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(mapGridPane.getWidth(), mapGridPane.getHeight(), true, true, true, false));
         Background BackgroundMapImage = new Background(image);
         mapGridPane.setBackground(BackgroundMapImage);
 
-        BackgroundImage planciaImage = new BackgroundImage(Gui.planciaGiocatoreImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(planciaPlayerGridPane.getWidth(), planciaPlayerGridPane.getHeight(), false, false, true, false));
+        BackgroundImage planciaImage = new BackgroundImage(Gui.planciaGiocatoreImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(planciaPlayerGridPane.getWidth(), planciaPlayerGridPane.getHeight(), true, true, true, false));
         Background BackgroundPlanciaImage = new Background(planciaImage);
         planciaPlayerGridPane.setBackground(BackgroundPlanciaImage);
 
-        BorderPane gameBorderPane = new BorderPane(mapGridPane);
-        BorderPane.setMargin(gameBorderPane, new Insets(0, 0, 0, 0));
-        gameBorderPane.setPadding(new Insets(0, 0, 0, 0));
+        BorderPane gameBorderPane = new BorderPane();
+        gameBorderPane.setStyle("-fx-border-color: green");
         gameBorderPane.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600)");
         gameBorderPane.setPrefSize(1000, 800);
-        BorderPane.setAlignment(mapGridPane, Pos.TOP_LEFT);
-        BorderPane.setAlignment(planciaPlayerGridPane, Pos.BOTTOM_LEFT);
+        BorderPane.setAlignment(mapGridPane, Pos.CENTER);
+        BorderPane.setAlignment(planciaPlayerGridPane, Pos.TOP_LEFT);
+        BorderPane.setAlignment(Plance_altri_giocatori, Pos.TOP_RIGHT);
+        gameBorderPane.setCenter(mapGridPane);
+        gameBorderPane.setTop(planciaPlayerGridPane);
+        gameBorderPane.setRight(Plance_altri_giocatori);
+
+
 
         Scene gameScene = new Scene(gameBorderPane);
 
