@@ -1,7 +1,13 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.clientToServer.*;
+import it.polimi.ingsw.events.serverToClient.*;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
+import it.polimi.ingsw.view.client.RemoteView;
+import it.polimi.ingsw.view.client.RemoteViewInterface;
 import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
 import it.polimi.ingsw.view.client.RemoteViewSocket;
 
@@ -12,31 +18,55 @@ import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Cli implements UserInterface {
+import static java.lang.Thread.sleep;
+
+public class Cli implements QuestionEventHandler {
 
     private final String validUsername = "^[a-zA-Z0-9]*$";
 
-    private final String serverAddress = "127.0.0.1";
+    private final int socketPort = 2345;
 
     private final int rmiPort = 5432;
 
-    private final int socketPort = 2345;
+    private String username;
+
+    private MapName currentMap;
+
+    private int currentSkulls;
+
+    private Integer temporaryId;
+
+    RemoteView remoteView;
+
+    private Scanner sysin;
+
+    private Cli(){
+
+        this.username = null;
+        this.currentMap = null;
+        this.currentSkulls = 0;
+        this.remoteView = null;
+        this.sysin = new Scanner(System.in);
+    }
 
     private void start(){
 
-        //creates a scanner to read from the stdin
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome to ADRENALINA");
+        System.out.println("*************************");
+        System.out.println("*       WELCOME TO      *");
+        System.out.println("*       ADRENALINA      *");
+        System.out.println("*************************");
+        System.out.println();
+
         System.out.println("Insert username:");
 
         //reads the username from the user
-        String username = scanner.nextLine();
+        String username = sysin.nextLine();
 
         while (!Pattern.matches(validUsername, username)){
             System.out.println("The username can only contain letters and numbers");
             System.out.println("Insert username:");
-            username = scanner.nextLine();
+            username = sysin.nextLine();
         }
 
         System.out.println("Choose Map:");
@@ -46,7 +76,8 @@ public class Cli implements UserInterface {
         System.out.println("3 -- WATER");
 
         //reads the chose map
-        int votedMapNumber = scanner.nextInt();
+        String nextLine = sysin.nextLine();
+        int votedMapNumber = Integer.parseInt(nextLine);
 
         while (votedMapNumber < 0 || votedMapNumber > 3){
             System.out.println("Select a number between 0 and 3");
@@ -56,7 +87,8 @@ public class Cli implements UserInterface {
             System.out.println("2 -- WIND");
             System.out.println("3 -- WATER");
 
-            votedMapNumber = scanner.nextInt();
+            nextLine = sysin.nextLine();
+            votedMapNumber = Integer.parseInt(nextLine);
         }
 
         //Retrieves the enum from the index value
@@ -65,13 +97,15 @@ public class Cli implements UserInterface {
         System.out.println("Choose the amount of skulls you want to play with: (5 to 8)");
 
         //Reads the vote for the skulls
-        int nSkulls = scanner.nextInt();
+        nextLine = sysin.nextLine();
+        int nSkulls = Integer.parseInt(nextLine);
 
         while (nSkulls < 5 || nSkulls > 8){
             System.out.println("Select a number between 5 and 8");
             System.out.println("Choose the amount of skulls you want to play with: (5 to 8)");
 
-            nSkulls = scanner.nextInt();
+            nextLine = sysin.nextLine();
+            nSkulls = Integer.parseInt(nextLine);
         }
 
         System.out.println("Choose network type:");
@@ -79,53 +113,85 @@ public class Cli implements UserInterface {
         System.out.println("1 -- RMI");
 
         //reads if the player wants to use rmi or socket
-        int chosenIndex = scanner.nextInt();
+        nextLine = sysin.nextLine();
+        int chosenIndex = Integer.parseInt(nextLine);
 
         while (chosenIndex != 0 && chosenIndex != 1){
             System.out.println("Choose network type:");
             System.out.println("0 -- Socket");
             System.out.println("1 -- RMI");
 
-            chosenIndex = scanner.nextInt();
+            nextLine = sysin.nextLine();
+            chosenIndex = Integer.parseInt(nextLine);
         }
+
+        System.out.println("Insert remote IP address");
+
+        String ipAddress = sysin.nextLine();
+
+        while( ! validIp(ipAddress) ){
+
+            System.out.println("Not a valid IP address");
+            System.out.println("Insert remote IP address");
+            ipAddress = sysin.nextLine();
+
+        }
+
+        this.username = username;
+        this.currentMap = votedMap;
+        this.currentSkulls = nSkulls;
+
+        try {
+            sleep(20);
+        }
+        catch (InterruptedException e){
+            System.err.println("Error while sleeping");
+        }
+
+
+        clearScreen();
 
         //SOCKET
         if(chosenIndex == 0)
-            startSocketConnection(username, votedMap, nSkulls);
+            startSocketConnection(ipAddress, socketPort);
         else if(chosenIndex == 1)   //RMI
-            startRmiConnection(username, votedMap, nSkulls);
+            startRmiConnection(ipAddress, rmiPort);
 
+    }
 
-        return;
+    private boolean validPort(int port) {
+
+        return (port > 1000 && port < 10000);
+
+    }
+
+    private boolean validIp(String ipAddress) {
+        //TODO andreaalf
+        return true;
     }
 
     /**
-     * Starts an rmi connection with the server
-     * @param username the username of the player
-     * @param votedMap the voted map
-     * @param nSkulls the voted skulls
+     * Starts a new rmi connection with the server by sending a connection event
+     * @param ipAddress the address of the server
+     * @param port the port running an rmi registry
      */
-    private void startRmiConnection(String username, MapName votedMap, int nSkulls) {
+    private void startRmiConnection(String ipAddress, int port) {
 
         try {
 
             //Creates the remote view object to send to the server for callbacks
-            RemoteViewRmiImpl remoteView = new RemoteViewRmiImpl(this);
+            RemoteViewInterface remoteView = new RemoteViewRmiImpl(this);
+
+            this.remoteView = (RemoteViewRmiImpl)remoteView;
 
             //Searches for the registry
-            Registry registry = LocateRegistry.getRegistry(serverAddress, rmiPort);
+            Registry registry = LocateRegistry.getRegistry(ipAddress, port);
 
             //Looks for the 'server' object (only has one method called connect())
-            ServerInterface server = (ServerInterface)registry.lookup("server");
+            ServerInterface rmiRemoteServer = (ServerInterface)registry.lookup("server");
 
-            //Sends the connection message (USERNAME:VOTEDMAP:VOTEDSKULLS)
-            String connectionMessage = username + ":" + votedMap + ":" + nSkulls;
-
-            //Call the remote method CONNECT
-            server.connect(remoteView, connectionMessage);
-
-            return;
-
+            //Sends the remote view to the server and then waits for a TemporaryIdQuestion
+            rmiRemoteServer.connect(remoteView);
 
         }
         catch (Exception e){
@@ -134,22 +200,19 @@ public class Cli implements UserInterface {
             e.printStackTrace();
         }
 
-        return;
-
     }
 
     /**
-     * Starts a new socket connection with the server
-     * @param username the username of the player
-     * @param votedMap the voted map
-     * @param nSkulls the voted skulls
+     * Starts a new socket connection with the server by sending a connection event
+     * @param ipAddress the address of the server
+     * @param port the port running an rmi registry
      */
-    private void startSocketConnection(String username, MapName votedMap, int nSkulls) {
+    private void startSocketConnection(String ipAddress, int port) {
 
         Socket serverSocket = null;
         try {
             //Connects with the server through socket
-            serverSocket = new Socket(serverAddress, socketPort);
+            serverSocket = new Socket(ipAddress, port);
         }
         catch (IOException e){
             System.err.println(e.getMessage());
@@ -158,8 +221,7 @@ public class Cli implements UserInterface {
         //Creates a new RemoteViewSocket object which is used to keep the connection open and read all new messages
         RemoteViewSocket remoteViewSocket = new RemoteViewSocket(serverSocket, this);
 
-        //sends the connection message to the server
-        remoteViewSocket.sendMessage(username + ":" + votedMap + ":" + nSkulls);
+        this.remoteView = remoteViewSocket;
 
         //runs the remoteViewSocket on a new thread to keep it open
         new Thread(remoteViewSocket).run();
@@ -178,129 +240,6 @@ public class Cli implements UserInterface {
 
     }
 
-    @Override
-    public void notify(String json) {
-        System.out.println("[*] Server notify -> " + json);
-    }
-
-    @Override
-    public int askQuestionAction(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("What action do you want to take?");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionWhereToMove(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Where do you want to move?");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionWhereToMoveAndGrab(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Where do you want to move and grab?");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionChoosePowerUpToRespawn(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Choose a power up to respawn:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionActionChoosePowerUpToAttack(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Choose a power up to attack:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionChooseWeaponToAttack(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Choose a weapon to attack:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionChooseWeaponToSwitch(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Choose the weapons to switch:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionChooseWeaponToReload(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Choose the weapon to reload:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionPayWith(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Choose how to pay");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionShoot(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Shoot:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionChoosePowerUpToUse(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Choose the power up to use:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionUseTurnPowerUp(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Use a turn power up:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-    @Override
-    public int askQuestionUseAsyncPowerUp(String[] possibleAnswers) {
-
-        System.out.println("*******************************************");
-        System.out.println("Use an async power up:");
-        return chooseAnswer(possibleAnswers);
-
-    }
-
-
     private int chooseAnswer(String[] possibleAnswers){
 
         for(int i = 0; i < possibleAnswers.length; i++)
@@ -311,5 +250,290 @@ public class Cli implements UserInterface {
         int answer = scanner.nextInt();
 
         return answer;
+    }
+
+    private void clearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+//*********************** NETWORK EVENTS *************************************************
+
+    @Override
+    public void handleEvent(TemporaryIdQuestion event) {
+
+        temporaryId = event.temporaryId;
+
+        //I'm sending the current values of the votes because initially the are the voted values, then
+        //they become the actual values as voted by all players
+        remoteView.sendAnswerEvent(
+                new NewConnectionAnswer(temporaryId, username, currentMap, currentSkulls)
+        );
+
+    }
+
+    @Override
+    public void handleEvent(InvalidUsernameQuestion event) {
+
+        System.out.println("Invalid username, please enter a new one");
+
+        Scanner scanner = new Scanner(System.in);
+
+        String newUsername = scanner.nextLine();
+
+        while (!Pattern.matches(validUsername, newUsername)){
+            System.out.println("The username can only contain letters and numbers");
+            System.out.println("Enter username:");
+            username = scanner.nextLine();
+        }
+
+        this.username = newUsername;
+
+        clearScreen();
+
+        remoteView.sendAnswerEvent(
+                new NewConnectionAnswer(temporaryId, username, currentMap, currentSkulls)
+        );
+
+    }
+
+    @Override
+    public void handleEvent(AddedToWaitingRoomQuestion event) {
+        clearScreen();
+        System.out.println("You have been added to a waiting room");
+        System.out.println("Connected players:");
+        for(String player : event.players)
+            System.out.println(player);
+    }
+
+    @Override
+    public void handleEvent(NewPlayerConnectedQuestion event) {
+
+        System.out.println(event.nickname);
+
+    }
+
+    @Override
+    public void handleEvent(DisconnectQuestion event) {
+        System.err.println("DISCONNECTED FROM SERVER");
+        remoteView = null;
+    }
+
+    @Override
+    public void handleEvent(GameStartedQuestion event) {
+
+        clearScreen();
+
+        System.out.println("GAME STARTED");
+
+        System.out.println("The payers are:");
+
+        for(String player : event.playerNames)
+            System.out.println(player);
+
+        System.out.println(event.firstPlayer + " will be the first player");
+
+
+    }
+
+//*****************************************************************************************
+
+    @Override
+    public void handleEvent(ActionQuestion event) {
+
+        System.out.println("****************************************");
+        System.out.println("Choose action:");
+        for(String action : event.possibleAction)
+            System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
+
+        String nextLine = sysin.nextLine();
+        int answer = Integer.parseInt(nextLine);
+
+        String stringAnswer = event.possibleAction.get(answer);
+
+        switch (stringAnswer){
+
+            case "Attack":
+                remoteView.sendAnswerEvent(new ActionAttackAnswer(username));
+                break;
+
+            case "EndTurn":
+                remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
+                break;
+
+            case "MoveAndGrab":
+                remoteView.sendAnswerEvent(new ActionMoveAndGrabAnswer(username));
+                break;
+
+            case "Move":
+                remoteView.sendAnswerEvent(new ActionMoveAnswer(username));
+                break;
+
+            case "PickWeapon":
+                remoteView.sendAnswerEvent(new ActionPickWeaponAnswer(username));
+                break;
+
+            case "Reload":
+                remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
+                break;
+
+            case "Respawn":
+                remoteView.sendAnswerEvent(new ActionRespawnAnswer(username));
+                break;
+
+            case "UseTurnPowerUp":
+                remoteView.sendAnswerEvent(new ActionUseTurnPowerUpAnswer(username));
+                break;
+
+            default:
+                throw new RuntimeException("No such action --> " + stringAnswer);
+
+        }
+
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayForAttackingQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToReloadQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToShootQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToUseTurnPowerUpQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseIfToUseAsyncPowerUpQuestion event) {
+
+        System.out.println("****************************************");
+        System.out.println(event.powerUpName + ": do you want to use this power up?");
+
+        System.out.println("[0] YES");
+        System.out.println("[1] NO");
+
+        String nextLine = sysin.nextLine();
+        int answer = Integer.parseInt(nextLine);
+
+        if(answer == 0){
+            remoteView.sendAnswerEvent(
+                    new ChooseIfToUseAsyncPowerUpAnswer(username, true, event)
+            );
+        }
+        else{
+            remoteView.sendAnswerEvent(
+                    new ChooseIfToUseAsyncPowerUpAnswer(username, false, event)
+            );
+        }
+    }
+
+    @Override
+    public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
+
+        System.out.println("****************************************");
+        System.out.println("Choose power up to respawn:");
+
+        for(String powerUp : event.powerUpToRespawn)
+            System.out.println("[" + event.powerUpToRespawn.indexOf(powerUp) + "] " + powerUp + " " + event.colors.get(event.powerUpToRespawn.indexOf(powerUp)));
+
+        String line = sysin.nextLine();
+        int answer = Integer.parseInt(line);
+
+        remoteView.sendAnswerEvent(
+                new ChoosePowerUpToRespawnAnswer(username, event.powerUpToRespawn.get(answer), event.colors.get(answer))
+        );
+
+    }
+
+    @Override
+    public void handleEvent(ChoosePowerUpToUseQuestion event) {
+
+        System.out.println("****************************************");
+        System.out.println("Choose power up to use:");
+
+        for(String powerUp : event.powerUpNames)
+            System.out.println("[" + event.powerUpNames.indexOf(powerUp) + "] " + powerUp + " " + event.colors.get(event.powerUpNames.indexOf(powerUp)));
+
+        String line = sysin.nextLine();
+        int answer = Integer.parseInt(line);
+
+        remoteView.sendAnswerEvent(
+                new ChoosePowerUpToUseAnswer(username, event.powerUpNames.get(answer), event.colors.get(answer))
+        );
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToAttackQuestion event) {
+
+        System.out.println("****************************************");
+        System.out.println("Choose weapon to use:");
+
+        for(String weaponName : event.weaponsLoaded)
+            System.out.println("[" + event.weaponsLoaded.indexOf(weaponName) + "] " + weaponName);
+
+        String line = sysin.nextLine();
+        int answer = Integer.parseInt(line);
+
+        remoteView.sendAnswerEvent(
+                new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
+        );
+
+
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToPickQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToReloadQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToSwitchQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ModelUpdate event) {
+
+    }
+
+    @Override
+    public void handleEvent(TextMessage event) {
+
+    }
+
+    @Override
+    public void handleEvent(WhereToMoveAndGrabQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(WhereToMoveQuestion event) {
+
+    }
+
+
+
+
+
+
+    @Override
+    public void receiveEvent(QuestionEvent questionEvent) {
+        questionEvent.acceptEventHandler(this);
     }
 }

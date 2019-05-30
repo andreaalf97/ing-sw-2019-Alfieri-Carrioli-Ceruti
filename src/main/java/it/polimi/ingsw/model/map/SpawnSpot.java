@@ -122,7 +122,7 @@ public class SpawnSpot extends Spot {
      */
     @Override
     public void refill(Object objToAdd) {
-        if(!(objToAdd instanceof Weapon)) //TODO shouldn't use instanceof
+        if(!(objToAdd instanceof Weapon))
             throw new RuntimeException("objToAdd should be a Weapon object");
 
         if(weaponList.size() > 2) //The caller must check before calling

@@ -1,15 +1,11 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.events.serverToClient.NewPlayerConnectedQuestion;
+import it.polimi.ingsw.events.serverToClient.TextMessage;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.view.client.RemoteViewInterface;
+import it.polimi.ingsw.view.server.ServerProxy;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.*;
-import java.util.logging.Level;
 
 class WaitingRoom {
 
@@ -29,14 +25,9 @@ class WaitingRoom {
     private Map skullVotes;
 
     /**
-     * All the open sockets
+     * The list of all open connections
      */
-    ArrayList<Socket> sockets;
-
-    /**
-     * All the open rmi connections
-     */
-    ArrayList<RemoteViewInterface> remoteViews;
+    ArrayList<ServerProxy> serverProxies;
 
     /**
      * The length of the timer
@@ -60,8 +51,7 @@ class WaitingRoom {
      */
     WaitingRoom(){
         this.players = new ArrayList<>();
-        this.sockets = new ArrayList<>();
-        this.remoteViews = new ArrayList<>();
+        this.serverProxies = new ArrayList<>();
 
         //Puts 0 votes to each map
         this.mapVotes = new EnumMap<MapName, Integer>(MapName.class);
@@ -89,62 +79,26 @@ class WaitingRoom {
 
     /**
      * Adds a new player to this waiting room
-     * @param socket the socket of the new player
+     * @param proxy the proxy of the new player
      * @param nickname the nicknamen of the new player
      * @param mapToVote the map vote
      * @param nSkullsToVote the skulls vote
      */
-    synchronized void addPlayer(Socket socket, String nickname, MapName mapToVote, int nSkullsToVote) {
+    synchronized void addPlayer(ServerProxy proxy, String nickname, MapName mapToVote, int nSkullsToVote) {
 
-
+        for(ServerProxy p : serverProxies)
+            p.sendQuestionEvent(new NewPlayerConnectedQuestion(nickname));
 
         //Adds the player to the player list and all of his votes
         addVoteAndNickname(nickname, mapToVote, nSkullsToVote);
 
-        remoteViews.add(null);
-        sockets.add(socket);
-
-        try {
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-            printWriter.println("MESSAGE" + "$" + "You have been added to a waiting room, timer is set to " + TIMERMINUTES +  " minutes");
-            printWriter.flush();
-        }
-        catch (IOException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message through socket");
-        }
-
+        this.serverProxies.add(proxy);
 
         if(players.size() >= MAXPLAYERS)
             closeThisRoom();
 
     }
 
-    /**
-     * Adds the votes of the new player to all the maps
-     * @param remoteView the remote view object used to communicate with the client
-     * @param nickname the nickname of the player
-     * @param mapToVote the voted map
-     * @param nSkullsToVote the voted skulls
-     */
-    protected synchronized void addPlayer(RemoteViewInterface remoteView, String nickname, MapName mapToVote, int nSkullsToVote){
-
-        addVoteAndNickname(nickname, mapToVote, nSkullsToVote);
-
-        remoteViews.add(remoteView);
-        sockets.add(null);
-
-        try {
-            remoteView.sendMessage("You have been added to a waiting room, timer is set to " + TIMERMINUTES +  " minutes");
-        }
-        catch (RemoteException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message from waiting room through rmi");
-        }
-
-
-        if(players.size() >= MAXPLAYERS)
-            closeThisRoom();
-
-    }
 
     /**
      * Adds the votes of the new player to all the maps

@@ -1,6 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.events.AnswerEvent;
+import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.clientToServer.*;
+import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Effect;
@@ -8,12 +12,11 @@ import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.view.ClientAnswer;
-import it.polimi.ingsw.view.QuestionType;
-import it.polimi.ingsw.view.ServerQuestion;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /*
     THE CONTROLLER:
@@ -23,7 +26,7 @@ import java.util.ArrayList;
         - Passes data to the virtualView
  */
 
-public class Controller implements Observer {
+public class Controller implements Observer, AnswerEventHandler {
 
     /**
      * The MODEL
@@ -36,21 +39,6 @@ public class Controller implements Observer {
      * This is here because the Controller might need to send messages to the clients through the Virtual View
      */
     public VirtualView virtualView;
-
-    /**
-     * The char used to divide information into a single message
-     */
-    public final static String SPLITTER = ":";
-
-    /**
-     * The char used to divide x and y of in coordinates
-     */
-    public final static String COMMA = ",";
-
-    /**
-     * The char used to divide multiple leveled information into a single message
-     */
-    public final static String DOUBLESPLITTER = "::";
 
     /**
      * Constructor
@@ -85,33 +73,8 @@ public class Controller implements Observer {
 
         gameModel.refillAllSpawnSpots();
 
-        ArrayList<String> messages = gameModel.generatePossibleActions(nextPlayer.getNickname());
-        sendQuestion(nextPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-        nextPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-    }
-
-    /**
-     * Returns the coordinates of the spot from the string message
-     */
-    private int[] parseSpot(String answer) {
-
-        int[] coords = new int[2];
-
-        coords[0] = Integer.parseInt(answer.split(SPLITTER)[0]);
-        coords[1] = Integer.parseInt(answer.split(SPLITTER)[1]);
-
-        return coords;
-    }
-
-    private String[] parseWeaponToSwitch(String answer){
-
-        String[] weapons = new String[2];
-
-        weapons[0] = answer.split(SPLITTER)[0];
-        weapons[1] = answer.split(SPLITTER)[1];
-
-        return weapons;
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(nextPlayer.getNickname());
+        sendQuestionEvent(nextPlayer.getNickname(), new ActionQuestion(possibleActions));
 
     }
 
@@ -135,10 +98,6 @@ public class Controller implements Observer {
      */
     public void startGame() {
 
-        //Sends GAME STARTED to all players
-        String message = "GAME STARTED";
-        virtualView.sendAllMessage(message);
-
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
         /*
@@ -157,370 +116,67 @@ public class Controller implements Observer {
 
         Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
+        virtualView.sendAllQuestionEvent(
+                new GameStartedQuestion(playerNames, firstPlayer.getNickname())
+        );
+
         firstPlayer.playerStatus.isActive = true;
-        firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
         String newMessage = firstPlayer.getNickname() + ": It is your turn";
 
-        virtualView.sendMessage(firstPlayer.getNickname(), newMessage);
+        sendMessage(firstPlayer.getNickname(), newMessage);
 
-        ArrayList<String> messages = gameModel.generatePossibleActions(firstPlayer.getNickname());
-        sendQuestion(firstPlayer.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-        firstPlayer.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(firstPlayer.getNickname());
+        sendQuestionEvent(firstPlayer.getNickname(), new ActionQuestion(possibleActions));
 
     }
 
-    /**
-     * Every message coming from a client arrives here
-     * @param arg the ClientAnswer
-     */
+    private void sendAllMessage(String message){
+
+        virtualView.sendAllQuestionEvent(
+                new TextMessage(message)
+        );
+
+    }
+
+    private void sendMessage(String nickname, String message){
+
+        virtualView.sendQuestionEvent(
+                nickname,
+                new TextMessage(message)
+        );
+
+    }
+
     @Override
-    public synchronized void notifyObserver(Object arg) {
+    public void notifyObserver(Object arg){
 
+        if( ! (arg instanceof AnswerEvent))
+            throw new RuntimeException("This must be an AnswerEvent object");
 
-        if(arg instanceof String){
+        AnswerEvent answerEvent = (AnswerEvent) arg;
 
-            String lostConnectionMessage = (String)arg;
-
-            String value = lostConnectionMessage.split(":")[0];
-
-            if(!value.equals("LOSTCONNECTION"))
-                throw new RuntimeException("I received a string message which was not a LOSTCONNECTION message");
-
-            String nickname = lostConnectionMessage.split(":")[1];
-
-            lostConnection(nickname);
-
-            return;
-
-        }
-
-
-        //This should never happen
-        if(arg != null && !(arg instanceof ClientAnswer))
-            throw new RuntimeException("The arg should be a ClientAnswer class");
-
-        //The arg is always a ClientAnswer!
-        ClientAnswer clientAnswer = (ClientAnswer) arg;
-
-        Player player = gameModel.getPlayerByNickname(clientAnswer.sender);
-
-        //The index must be correct for the possible answer array
-        if(clientAnswer.index > clientAnswer.possibleAnswers.size() - 1 || clientAnswer.index < 0){
-            String message = "Index out of bound";
-            virtualView.sendMessage(clientAnswer.sender,  message);
-            return;
-        }
-
-        //Reading info from the client answer;
-        QuestionType questionType = clientAnswer.questionType;
-        String answer = clientAnswer.possibleAnswers.get(clientAnswer.index);
-
-        System.out.println("ClientAnswer received from " + player.getNickname());
-
-        //If the controller wasn't waiting for this answer
-        if(player.playerStatus.waitingForAnswerToThisQuestion == null || questionType != player.playerStatus.waitingForAnswerToThisQuestion){
-            String message = "This is not the answer I was waiting for";
-            virtualView.sendMessage(player.getNickname(),  message);
-            return;
-        }
-
-        //TODO might need to remove this for asynchronous power ups
-        //If it wasn't the player's turn
-        if ( isNotThisPlayersTurn(player) )
-            return;
-
-        //If the player responded with an Action to do
-        if(questionType == QuestionType.Action){
-
-            handleAction(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        //If the player responded with a power up to respawn
-        if(questionType == QuestionType.ChoosePowerUpToRespawn){
-
-            handleChoosePowerUpToRespawn(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        //If the player responded with the coords to move
-        if(questionType == QuestionType.WhereToMove){
-
-            handleWhereToMove(clientAnswer.sender, answer);
-            //Reads what spot the player decided to move to
-            return;
-        }
-
-        //If the player responded with the coords to move and grab
-        if(questionType == QuestionType.WhereToMoveAndGrab){
-
-            handleWhereToMoveAndGrab(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        if(questionType == QuestionType.PayWith){
-
-            handlePayWith(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        //If the player responded with a weapon to switch with the spawn spot
-        if(questionType == QuestionType.ChooseWeaponToSwitch){
-
-            handleChooseWeaponToSwitch(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        if(questionType == QuestionType.ChooseWeaponToReload){
-
-            handleChooseWeaponToReload(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        if(questionType == QuestionType.ChoosePowerUpToUse){
-
-            handleChoosePowerUpToUse(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        if(questionType == QuestionType.UseTurnPowerUp){
-
-            handlePowerUp(clientAnswer.sender, answer);
-
-            return ;
-        }
-
-        if(questionType == QuestionType.ChooseWeaponToAttack) {
-
-            handleChooseWeaponToAttack(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        if (questionType == QuestionType.Shoot) {
-
-            handleShoot(clientAnswer.sender, answer);
-
-            return;
-        }
-
-        //This is printed if I'm missing a return statement in the previous questions
-        String message = "The controller received your answer (MISSING RETURN SOMEWHERE)";
-
-        virtualView.sendMessage(player.getNickname(),  message);
-    }
-
-    private void lostConnection(String nickname) {
-
-        virtualView.sendAllMessage(nickname + " DISCONNECTED");
+        answerEvent.acceptEventHandler(this);
 
     }
 
-    private void sendQuestion(String nickname, ServerQuestion serverQuestion){
+    private void sendQuestionEvent(String nickname, QuestionEvent event){
 
-        ParallelAsker parallelAsker = new ParallelAsker(virtualView, nickname, serverQuestion);
-
-        new Thread(parallelAsker).start();
+        virtualView.sendQuestionEvent(nickname, event);
 
     }
-
-    private void handlePowerUp(String nickname, String answer) {
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        PowerUp powerUpToUse = gameModel.getPowerUpByName(player.playerStatus.lastAnswer); //this is the powerup to use
-
-        String [] info = answer.split(DOUBLESPLITTER);
-
-        String offenderName = info[0];
-
-        int x = Integer.parseInt(info[1]);
-
-        int y = Integer.parseInt(info[2]);
-
-        try {
-            gameModel.useMovementPowerUp(nickname, offenderName, powerUpToUse.getEffect(), x, y);
-            player.removePowerUpByName(powerUpToUse.getPowerUpName(), powerUpToUse.getColor());
-        }
-        catch(InvalidChoiceException e){
-            virtualView.sendMessage(player.getNickname(),"you can't use this powerUp like this bro");
-        }
-
-        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-    }
-
-    private void handleChoosePowerUpToUse(String nickname, String answer){
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        player.playerStatus.lastQuestion = QuestionType.ChoosePowerUpToUse;
-        player.playerStatus.lastAnswer = answer;
-
-        ArrayList<String> messages = new ArrayList<>();
-
-        messages.add("Choose the player you want to move, the x and the y where do you want to move him");
-
-        sendQuestion(nickname, new ServerQuestion(QuestionType.UseTurnPowerUp, messages));
-
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseTurnPowerUp;
-    }
-
 
     private boolean isNotThisPlayersTurn(Player player){
 
         if(!player.playerStatus.isActive){
             String message = "This is not your turn";
-            virtualView.sendMessage(player.getNickname(),  message);
+            sendMessage(player.getNickname(),  message);
             return true;
         }
         return false;
     }
 
-    private void handleChooseWeaponToAttack(String nickname, String answer){
-
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToAttack;
-        player.playerStatus.lastAnswer = answer;
-
-        ArrayList<String> messages = new ArrayList<>();
-
-        messages.add("Choose the index of the order, the players you want to shoot and eventually who and where you want to move");
-
-        sendQuestion(nickname, new ServerQuestion(QuestionType.Shoot, messages));
-
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Shoot;
-
-    }
-
-    private void handleShoot(String nickname, String answer) {
-
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        //eventuale costo che ci sarà da pagare
-        ArrayList<Color> cost = new ArrayList<>();
-
-        Weapon weapon = gameModel.getWeaponByName(player.playerStatus.lastAnswer);
-
-        //in answer ci sono le informazioni per sparare in questo modo  OrderIndex :: Defender0:Defender1:Defender2 :: Mover0:Mover2 :: x0,y0 : x1,y1
-        String[] info = answer.split(DOUBLESPLITTER);
-
-        String defender = info[1];
-
-        //Questo è l'ordine scelto dall'utente
-        int orderNumber = Integer.parseInt(info[0]);
-
-        //Questo è un array di stringhe contenente i defenders
-        String[] defenders = defender.split(SPLITTER);
-
-        //Questa è la variabile ausiliaria che mi permette di sapere fin dove scorrere gli effetti in base a quanti giocatori mi ha passato l'utente e quanti giocatori permettono di colpire gli effetti
-        int nPlayersInThisAttack = 0;
-
-        boolean shootWithMovement = false;
-
-        for (int i : weapon.getOrder().get(orderNumber)) {  //scorro gli effetti nell'ordine scelto per vedere se c'è un costo aggiuntivc da pagare e per capire se chiamare ShootWith or ShootWithout movement
-
-            Effect effect = weapon.getEffects().get(i);
-
-            if(gameModel.typeOfEffect(effect) == 0)     //movement effect
-                shootWithMovement = true;
-
-            cost.addAll(effect.getCost());
-
-            nPlayersInThisAttack += effect.getnPlayersAttackable();
-            nPlayersInThisAttack += effect.getnPlayersMarkable();
-
-            //se ci sono meno defender che persone da attaccare all'effetto a cui siamo arrivati, devo fermarmi qui, esco
-            if (defenders.length <= nPlayersInThisAttack)
-                break;
-        }
-
-        //Se c'è un costo da pagare, devo chiedere all'utente come vuole pagarlo
-        if( !cost.isEmpty() ){
-
-            ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
-
-            sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
-
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
-
-            //aggiorno la risposta in modo da salvare anche il nome dell'arma, al primo posto, che servirà al prossimo giro, per sparare, dopo aver pagato
-            answer = player.playerStatus.lastAnswer + DOUBLESPLITTER + answer;
-            player.playerStatus.lastQuestion = QuestionType.Shoot;
-            player.playerStatus.lastAnswer = answer;
-
-            return;
-        }else{
-            //Caso in cui non devo pagare più nulla, quindi sparo!
-
-            //Creo un arrayList<String> defenders da passare a ShootWithMovement
-            ArrayList<String> arrayListdefenders = new ArrayList<>();
-            for(String d : defenders )
-                arrayListdefenders.add(d);
-
-            if (shootWithMovement) {
-
-                //Creo un arrayList<String> dmovers da passare a ShootWithMovement
-                ArrayList<String> arrayListMovers = new ArrayList<>();
-                //Stringa in cui ho tutti i movers:       mover0 : mover1 : mover2
-                String mov = info[2];
-                //Ho diviso la stringa mov in piccole stringhe ognuna contenente un mover
-                String[] movers = mov.split(SPLITTER);
-
-                for( String string : movers)
-                    arrayListMovers.add(string);
-
-
-                //Questa è la stringa contenente tutte le coordinate:        x0,y0 : x1,y1
-                String coord = info[3];
-
-                //Ho diviso la stringa coord in piccole stringhe ognuna contenente una posizione es: coordinates[0] = x0,y0  coordinates[1] = x1,y1
-                String[] coordinates = coord.split(SPLITTER);
-
-                //Questi sono gli arrayList di interi che devo passare a ShootWithMovement
-                ArrayList<Integer> xPositions = new ArrayList<>();
-                ArrayList<Integer> yPositions = new ArrayList<>();
-
-                String[] position;
-
-                int xPos, yPos;
-
-                for (String s : coordinates ){
-                    //divido la posizione (inizialmente divisa da una virgola) in due stringhe, la prima contenente la x e la seconda la y
-                    position = s.split(COMMA);
-                    //trasformo la x e y in interi
-                    xPos = Integer.parseInt(position[0]);
-                    yPos = Integer.parseInt(position[1]);
-                    //aggiungo la x e y agli arrayList da passare a ShootWithMovement
-                    xPositions.add(xPos);
-                    yPositions.add(yPos);
-                }
-
-                gameModel.shootWithMovement(nickname, arrayListdefenders, weapon, orderNumber, xPositions, yPositions, arrayListMovers);
-            }else {
-                gameModel.shootWithoutMovement(nickname, arrayListdefenders, weapon, orderNumber);
-            }
-
-            checkAsynchronousPowerUp(nickname, arrayListdefenders);
-
-
-            //Ho finito di sparare, genero le possibili azioni successive tra cui può scegliere l'utente
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-        }
-
-    }
+    /*
 
     private void checkAsynchronousPowerUp(String nickname, ArrayList<String> arrayListdefenders) {
         Player player = gameModel.getPlayerByNickname(nickname);
@@ -529,7 +185,7 @@ public class Controller implements Observer {
             if(p.getPowerUpName().equals("TargetingScope")){
                 ArrayList<String> message = new ArrayList<>();
                 message.add("You have a targeting Scope, write the nickname of the player you want to add a damage or write NONE");
-                sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
+                sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
                 player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
             }
 
@@ -538,27 +194,13 @@ public class Controller implements Observer {
                 if(p.getPowerUpName().equals("TagbackGrenade") && gameModel.p1SeeP2(gameModel.getPlayerByNickname(s).getxPosition(), gameModel.getPlayerByNickname(s).getyPosition(), player.getxPosition(), player.getyPosition())){
                     ArrayList<String> message = new ArrayList<>();
                     message.add("You have a tagback grenade, write the nickname of the player you want to add a damage or write NONE");
-                    sendQuestion(s, new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
+                    sendQuestionEvent(s, new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
                     gameModel.getPlayerByNickname(s).playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
                 }
     }
+     */
 
-    private void handleChooseWeaponToReload(String nickname, String answer) {
-
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        ArrayList<Color> cost = gameModel.getWeaponByName(answer).getCost();
-
-        player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToReload;
-        player.playerStatus.lastAnswer = answer;
-
-        ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
-
-        sendQuestion(nickname, new ServerQuestion(QuestionType.PayWith, messages));
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
-
-    }
-
+    /*
     private void handleChooseWeaponToSwitch(String nickname, String answer) {
 
         Player player = gameModel.getPlayerByNickname(nickname);
@@ -589,7 +231,7 @@ public class Controller implements Observer {
             }
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -597,7 +239,7 @@ public class Controller implements Observer {
         }
 
         ArrayList<String> messages = gameModel.generatePaymentChoice(player, weaponCost);
-        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
+        sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
 
         player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToSwitch;
@@ -606,7 +248,9 @@ public class Controller implements Observer {
         return;
 
     }
+     */
 
+    /*
     private void handlePayWith(String nickname, String answer) {
 
         Player player = gameModel.getPlayerByNickname(nickname);
@@ -648,7 +292,7 @@ public class Controller implements Observer {
             player.playerStatus.lastQuestion = null;
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -700,7 +344,7 @@ public class Controller implements Observer {
                 ArrayList<String> arrayListMovers = new ArrayList<>();
                 //Stringa in cui ho tutti i movers:       mover0 : mover1 : mover2
                 String mov = info[3];
-                //Ho diviso la stringa mov in piccole stringhe ognuna contenente un mover
+                //Ho diviso la stringa mov in piccole stringhe ognuna contenente un movers
                 String[] movers = mov.split(SPLITTER);
 
                 for( String string : movers)
@@ -739,7 +383,7 @@ public class Controller implements Observer {
             checkAsynchronousPowerUp(nickname, arrayListdefenders);
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -755,7 +399,7 @@ public class Controller implements Observer {
             player.playerStatus.lastQuestion = null;
 
             ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
             player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
             return;
@@ -763,8 +407,11 @@ public class Controller implements Observer {
 
 
     }
+    */
 
+    /*
     private void handleWhereToMoveAndGrab(String nickname, String answer) {
+
 
         Player player = gameModel.getPlayerByNickname(nickname);
 
@@ -789,47 +436,319 @@ public class Controller implements Observer {
 
 
         ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
+        sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
         player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
 
         return;
 
     }
+    */
 
-    private void handleWhereToMove(String nickname, String answer) {
+    /*
+    private void handleAction(String nickname, String answer) {
+
         Player player = gameModel.getPlayerByNickname(nickname);
 
-        int xCoord;
-        int yCoord;
-
+        //Reads what Action the player decided to do
+        Actions action = null;
         try {
-            int[] coords = parseSpot(answer);
-            xCoord = coords[0];
-            yCoord = coords[1];
+            action = Actions.valueOf(answer);
         }
         catch (IllegalArgumentException e){
-            String message = "Invalid spot response";
+            String message = "Invalid Action response";
             virtualView.sendMessage(player.getNickname(),  message);
             return;
         }
 
-        gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
 
-        player.playerStatus.nActionsDone += 1;
+        if(action == Actions.UseAsyncPowerUp){
+            //TODO
+        }
 
-        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
 
-        return;
+    }
+    */
+
+    @Override
+    public void receiveEvent(AnswerEvent answerEvent) {
+        answerEvent.acceptEventHandler(this);
     }
 
-    private void handleChoosePowerUpToRespawn(String nickname, String answer) {
-        Player player = gameModel.getPlayerByNickname(nickname);
+    @Override
+    public void handleEvent(NewConnectionAnswer event) {
+        throw new RuntimeException("Connection messages should not arrive to the controller");
+    }
 
-        String powerUpName = answer.split(SPLITTER)[0];
-        Color color = Color.valueOf(answer.split(SPLITTER)[1].toUpperCase());
+    @Override
+    public void handleEvent(ActionAttackAnswer event) {
+
+        List<String> weaponsLoaded = gameModel.getLoadedWeapons(event.nickname);
+
+        sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(weaponsLoaded));
+
+    }
+
+    @Override
+    public void handleEvent(ActionEndTurnAnswer event) {
+
+        //Ends the turn and sends a question to the next player
+        endTurn();
+
+        String message = "Your turn is over";
+        TextMessage textMessage = new TextMessage(message);
+
+        sendQuestionEvent(event.nickname, textMessage);
+
+    }
+
+    @Override
+    public void handleEvent(ActionMoveAndGrabAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        ArrayList<String> spots = new ArrayList<>();
+        boolean[][] allowedSpots = gameModel.wherePlayerCanMoveAndGrab(event.nickname, player.getnMovesBeforeGrabbing());
+
+        sendQuestionEvent(event.nickname, new WhereToMoveAndGrabQuestion(allowedSpots));
+
+    }
+
+    @Override
+    public void handleEvent(ActionMoveAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        boolean[][] allowedSpots = gameModel.wherePlayerCanMove(event.nickname, player.getnMoves());
+
+        sendQuestionEvent(event.nickname, new WhereToMoveQuestion(allowedSpots));
+
+    }
+
+    @Override
+    public void handleEvent(ActionPickWeaponAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        //I read all the weapons on the spawn spot where the player is
+        ArrayList<String> weaponsOnTheSpawnSpot = gameModel.weaponsToPick(event.nickname);
+
+        //I create an array to fill with only the weapon he can pay for
+        ArrayList<String> weaponsToPick = new ArrayList<>();
+
+        //I read the weapon in the player's hand
+        ArrayList<Weapon> playerWeapons = player.getWeaponList();
+
+        //For each weapon on the spot, I check if the player is able to pay for it
+        for(String weapon : weaponsOnTheSpawnSpot){
+
+            Weapon tempWeapon = gameModel.getWeaponByName(weapon);  //From a string to a weapon object
+
+            //I read the cost of the weapon and remove the first cost (don't have to pay for it to pick)
+            ArrayList<Color> tempWeaponCost = tempWeapon.getCost();
+            tempWeaponCost.remove(0);
+
+            //If the player can pay for it, good
+            if(player.canPay(tempWeaponCost))
+                weaponsToPick.add(weapon);
+
+        }
+
+        //If the player has to choose which weapon to discard
+        if(playerWeapons.size() > 2){
+
+            ArrayList<String> weaponNames = new ArrayList<>();
+
+            for(Weapon w : playerWeapons)
+                weaponNames.add(w.getWeaponName());
+
+            sendQuestionEvent(event.nickname, new ChooseWeaponToSwitchQuestion(weaponsToPick, weaponNames));
+        }
+        else {
+            sendQuestionEvent(event.nickname, new ChooseWeaponToPickQuestion(weaponsToPick));
+        }
+
+    }
+
+    @Override
+    public void handleEvent(ActionReloadAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        ArrayList<String> weapons = new ArrayList<>();
+
+        ArrayList<Weapon> rechargeableWeapons =  gameModel.checkRechargeableWeapons(player.getNickname());
+
+        for(Weapon w : rechargeableWeapons)
+            weapons.add(w.getWeaponName());
+
+        sendQuestionEvent(player.getNickname(), new ChooseWeaponToReloadQuestion(weapons));
+
+    }
+
+    @Override
+    public void handleEvent(ActionRespawnAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        //Draws a weapon and gives it to the player
+        gameModel.givePowerUp(player.getNickname());
+
+        //If it's this player's first turn, I give him another powerup
+        if(player.playerStatus.isFirstTurn){
+            gameModel.givePowerUp(player.getNickname());
+        }
+
+        //Creates the list of powerups to discard
+        ArrayList<String> powerUpsToRespawn = new ArrayList<>();
+
+        for(PowerUp p : player.getPowerUpList())
+            powerUpsToRespawn.add(p.toString());
+
+        sendQuestionEvent(event.nickname,  new ChoosePowerUpToRespawnQuestion(powerUpsToRespawn));
+
+    }
+
+    @Override
+    public void handleEvent(ActionUseTurnPowerUpAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        ArrayList<String> powerUpToUse = new ArrayList<>();
+
+        for (PowerUp p : player.getPowerUpList())
+            if(p.isTurnPowerup())
+                powerUpToUse.add(p.getPowerUpName());
+
+        sendQuestionEvent(event.nickname, new ChoosePowerUpToUseQuestion(powerUpToUse));
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayAnswer event) {
+
+    }
+
+
+    @Override
+    public void handleEvent(ChooseHowToShootAnswer event) {
+        /*
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        //eventuale costo che ci sarà da pagare
+        ArrayList<Color> cost = new ArrayList<>();
+
+        Weapon weapon = gameModel.getWeaponByName(event.weapon);
+
+        //Questo è l'ordine scelto dall'utente
+        int orderNumber = event.orderNumber;
+
+        //Questo è un array di stringhe contenente i defenders
+        String[] defenders = (String[]) event.defenders.toArray();
+
+        //Questa è la variabile ausiliaria che mi permette di sapere fin dove scorrere gli effetti in base a quanti giocatori mi ha passato l'utente e quanti giocatori permettono di colpire gli effetti
+        int nPlayersInThisAttack = 0;
+
+        boolean shootWithMovement = false;
+
+        for (int i : weapon.getOrder().get(orderNumber)) {  //scorro gli effetti nell'ordine scelto per vedere se c'è un costo aggiuntivc da pagare e per capire se chiamare ShootWith or ShootWithout movement
+
+            Effect effect = weapon.getEffects().get(i);
+
+            if(gameModel.typeOfEffect(effect) == 0)     //movement effect
+                shootWithMovement = true;
+
+            cost.addAll(effect.getCost());
+
+            nPlayersInThisAttack += effect.getnPlayersAttackable();
+            nPlayersInThisAttack += effect.getnPlayersMarkable();
+
+            //se ci sono meno defender che persone da attaccare all'effetto a cui siamo arrivati, devo fermarmi qui, esco
+            if (defenders.length <= nPlayersInThisAttack)
+                break;
+        }
+
+        //Se c'è un costo da pagare, devo chiedere all'utente come vuole pagarlo
+        if( !cost.isEmpty() ){
+
+            ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
+
+            sendQuestionEvent(event.nickname, new ChooseHowToPayForAttackingQuestion(event, cost));
+
+            return;
+        }else{
+            //Caso in cui non devo pagare più nulla, quindi sparo!
+
+            //Creo un arrayList<String> defenders da passare a ShootWithMovement
+            ArrayList<String> arrayListdefenders = (ArrayList<String>)event.defenders;
+
+            if (shootWithMovement) {
+
+                String[] movers = (String[]) event.movers.toArray();
+
+                //Questi sono gli arrayList di interi che devo passare a ShootWithMovement
+                ArrayList<Integer> xPositions = (ArrayList<Integer>)event.xCoords;
+                ArrayList<Integer> yPositions = (ArrayList<Integer>)event.yCoords;
+
+
+                gameModel.shootWithMovement(event.nickname, arrayListdefenders, weapon, orderNumber, xPositions, yPositions, (ArrayList<String>)Arrays.asList(movers));
+
+
+            }else {
+                gameModel.shootWithoutMovement(event.nickname, arrayListdefenders, weapon, orderNumber);
+            }
+
+            checkAsynchronousPowerUp(event.nickname, arrayListdefenders);
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+
+            sendQuestionEvent(event.nickname, new ActionQuestion(possibleActions));
+
+        }
+
+
+         */
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToUseTurnPowerUpAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        PowerUp powerUpToUse = gameModel.getPowerUpByName(event.powerUpToUse); //this is the powerup to use
+
+        String offenderName = event.nickname;
+
+        int x = event.x;
+
+        int y = event.y;
+
+        try {
+            gameModel.useMovementPowerUp(event.nickname, offenderName, powerUpToUse.getEffect(), x, y);
+            player.removePowerUpByName(powerUpToUse.getPowerUpName(), powerUpToUse.getColor());
+        }
+        catch(InvalidChoiceException e){
+            sendMessage(event.nickname,"you can't use this powerUp like this bro");
+        }
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
+
+    }
+
+    @Override
+    public void handleEvent(ChooseIfToUseAsyncPowerUpAnswer event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChoosePowerUpToRespawnAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        String powerUpName = event.powerUpToRespawn;
+        Color color = event.color;
 
         int powerUpIndex = -1;
 
@@ -850,207 +769,87 @@ public class Controller implements Observer {
 
         gameModel.respawn(player.getNickname(), powerUpIndex);
 
-        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-        return;
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
 
     }
 
-    private void handleAction(String nickname, String answer) {
-        Player player = gameModel.getPlayerByNickname(nickname);
+    @Override
+    public void handleEvent(ChoosePowerUpToUseAnswer event) {
 
-        //Reads what Action the player decided to do
-        Actions action = null;
-        try {
-            action = Actions.valueOf(answer);
-        }
-        catch (IllegalArgumentException e){
-            String message = "Invalid Action response";
-            virtualView.sendMessage(player.getNickname(),  message);
-            return;
-        }
+        Player player = gameModel.getPlayerByNickname(event.nickname);
 
-        //RESPAWN
-        if(action == Actions.Respawn){
-
-            //Draws a weapon and gives it to the player
-            gameModel.givePowerUp(player.getNickname());
-
-            //If it's this player's first turn, I give him another powerup
-            if(player.playerStatus.isFirstTurn){
-                gameModel.givePowerUp(player.getNickname());
-            }
-
-            //Creates the list of powerups to discard
-            ArrayList<String> powerUpsToRespawn = new ArrayList<>();
-
-            for(PowerUp p : player.getPowerUpList())
-                powerUpsToRespawn.add(p.toString());
-
-            sendQuestion(player.getNickname(),  new ServerQuestion(QuestionType.ChoosePowerUpToRespawn, powerUpsToRespawn));
-
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToRespawn;
-
-            return;
-        }
-
-        if(action == Actions.Attack){
-
-            ArrayList<String> weaponsLoaded = gameModel.getLoadedWeapons(nickname);
-
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToAttack, weaponsLoaded));
-
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToAttack;
-
-            return;
-        }
-
-        if(action == Actions.PickWeapon){
-
-            //I read all the weapons on the spawn spot where the player is
-            ArrayList<String> weaponsOnTheSpawnSpot = gameModel.weaponsToPick(player.getNickname());
-            //I create an array to fill with only the weapon he can pay for
-            ArrayList<String> weaponsToPick = new ArrayList<>();
-
-            //I read the weapon in the player's hand
-            ArrayList<Weapon> playerWeapons = player.getWeaponList();
-
-            //For each weapon on the spot, I check if the player is able to pay for it
-            for(String weapon : weaponsOnTheSpawnSpot){
-
-                Weapon tempWeapon = gameModel.getWeaponByName(weapon);  //From a string to a weapon object
-
-                //I read the cost of the weapon and remove the first cost (don't have to pay for it to pick)
-                ArrayList<Color> tempWeaponCost = tempWeapon.getCost();
-                tempWeaponCost.remove(0);
-
-                //If the player can pay for it, good
-                if(player.canPay(tempWeaponCost))
-                    weaponsToPick.add(weapon);
-
-            }
-
-            //The list for the messages to send the player
-            ArrayList<String> possibleAnswers = new ArrayList<>();
-
-            //If the player has to choose which weapon to discard
-            if(playerWeapons.size() > 2){
-
-                for(String i : weaponsToPick)
-                    for(Weapon j : playerWeapons)
-                        possibleAnswers.add(i + SPLITTER + j.getWeaponName());
-
-            }
-            else {
-                //If the player only has to choose which weapon to pick
-                possibleAnswers = weaponsToPick;
-            }
-
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToSwitch, possibleAnswers));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToSwitch;
-            return;
-        }
-
-        if(action == Actions.Move){
-
-            ArrayList<String> spots = new ArrayList<>();
-            boolean[][] allowedSpots = gameModel.wherePlayerCanMove(player.getNickname(), player.getnMoves());
-
-            for(int i = 0; i < allowedSpots.length; i++)
-                for (int j = 0; j < allowedSpots[i].length; j++)
-                    if(allowedSpots[i][j])
-                        spots.add(i + SPLITTER + j);
-
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMove, spots));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMove;
-
-            return;
-        }
-
-        if(action == Actions.MoveAndGrab){
-
-            ArrayList<String> spots = new ArrayList<>();
-            boolean[][] allowedSpots = gameModel.wherePlayerCanMoveAndGrab(player.getNickname(), player.getnMovesBeforeGrabbing());
-
-            for(int i = 0; i < allowedSpots.length; i++)
-                for (int j = 0; j < allowedSpots[i].length; j++)
-                    if(allowedSpots[i][j])
-                        spots.add(i + SPLITTER + j);
-
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.WhereToMoveAndGrab, spots));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.WhereToMoveAndGrab;
-
-            return;
-        }
-
-        if(action == Actions.UseTurnPowerUp){
-
-            ArrayList<String> messages = new ArrayList<>();
-
-            for (PowerUp p : player.getPowerUpList())
-                if(p.isTurnPowerup())
-                    messages.add(p.getPowerUpName());
-
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChoosePowerUpToUse;
-
-            sendQuestion(nickname, new ServerQuestion(QuestionType.ChoosePowerUpToUse, messages));
-
-            return;
-        }
-
-        if(action == Actions.UseAsyncPowerUp){
-            //TODO
-        }
-
-        if(action == Actions.Reload){
-
-            ArrayList<String> weapons = new ArrayList<>();
-
-            ArrayList<Weapon> rechargeableWeapons =  gameModel.checkRechargeableWeapons(player.getNickname());
-
-            for(Weapon w : rechargeableWeapons)
-                weapons.add(w.getWeaponName());
-
-            sendQuestion(player.getNickname(), new ServerQuestion(QuestionType.ChooseWeaponToReload, weapons));
-
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.ChooseWeaponToReload;
-
-            return;
-        }
-
-        if(action == Actions.EndTurn){
-
-            //Ends the turn and sends a question to the next player
-            endTurn();
-
-            player.playerStatus.waitingForAnswerToThisQuestion = null;
-
-            String message = "Your turn is over";
-            virtualView.sendMessage(player.getNickname(),  message);
-
-
-
-            return;
-        }
+        sendQuestionEvent(event.nickname, new ChooseHowToUseTurnPowerUpQuestion(event.powerUpToUse));
 
     }
 
-    /*
-    private void payToPick(String nickname, String weaponName) throws InvalidChoiceException{
+    @Override
+    public void handleEvent(ChooseWeaponToAttackAnswer event) {
 
-        Weapon toPick = gameModel.getWeaponByName(weaponName);
+        Player player = gameModel.getPlayerByNickname(event.nickname);
 
-        ArrayList<Color> price = toPick.getCost();
-        price.remove(0);
-
-        //If the weapon has more than one cost I try to make the player pay
-        if(!price.isEmpty()) {
-                gameModel.pay(nickname, price);
-        }
+        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.chosenWeapon));
 
     }
-    */
+
+    @Override
+    public void handleEvent(ChooseWeaponToPickAnswer event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToReloadAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
+
+        ArrayList<String> paymentChoices = gameModel.generatePaymentChoice(player, cost);
+
+        sendQuestionEvent(event.nickname, new ChooseHowToPayToReloadQuestion(event.weaponToReload, paymentChoices));
+
+    }
+
+    @Override
+    public void handleEvent(ChooseWeaponToSwitchAnswer event) {
+
+    }
+
+    @Override
+    public void handleEvent(WhereToMoveAndGrabAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        //Reads what spot the player decided to move to
+        int xCoord = event.xCoord;
+        int yCoord = event.yCoord;
+
+
+        gameModel.moveAndGrab(player.getNickname(), xCoord, yCoord, -1);
+
+        player.playerStatus.nActionsDone += 1;
+
+
+        List<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
+
+    }
+
+    @Override
+    public void handleEvent(WhereToMoveAnswer event) {
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        int xCoord = event.xCoord;
+        int yCoord = event.yCoord;
+
+        gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
+
+        player.playerStatus.nActionsDone += 1;
+
+        List<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+
+        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
+
+    }
 
 }

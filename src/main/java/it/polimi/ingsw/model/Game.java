@@ -4,7 +4,6 @@ package it.polimi.ingsw.model;
 import com.google.gson.*;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
-import it.polimi.ingsw.controller.Actions;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
@@ -13,7 +12,6 @@ import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
-import it.polimi.ingsw.view.QuestionType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1490,9 +1488,6 @@ public class Game extends Observable {
         else
             nextPlayer = players.get(currentIndex + 1);
 
-        if( ! (nextPlayer.playerStatus.isConnected) )
-            return getNextPlayer(nextPlayer.getNickname());
-
         return nextPlayer.getNickname();
 
     }
@@ -1543,42 +1538,31 @@ public class Game extends Observable {
         ArrayList<String> actions = new ArrayList<>();
 
         if(player.isDead()){
-            actions.add(Actions.Respawn.toString());
-            return actions;
-        }
-
-
-
-        //when a player has reloaded a weapon he can only reload another weapon or end turn
-        if(player.playerStatus.lastQuestion != null && player.playerStatus.lastQuestion.equals(QuestionType.ChooseWeaponToReload)) {
-            actions = new ArrayList<>();
-            actions.add(Actions.Reload.toString());
-            actions.add(Actions.EndTurn.toString());
+            actions.add("Respawn");
             return actions;
         }
 
         if(isOnSpawnSpot(player))
-            actions.add(Actions.PickWeapon.toString());
+            actions.add("PickWeapon");
 
         if(player.playerStatus.nActionsDone < player.playerStatus.nActions){
-            actions.add(Actions.Move.toString());
-            actions.add(Actions.MoveAndGrab.toString());
-            actions.add(Actions.Attack.toString());
+            actions.add("Move");
+            actions.add("MoveAndGrab");
+            actions.add("Attack");
         }
 
         if(player.hasTurnPowerUp()){
-            actions.add(Actions.UseTurnPowerUp.toString());
+            actions.add("UseTurnPowerUp");
         }
 
         for(Weapon w : player.getWeaponList()){
             if(!w.isLoaded()) {
-                actions.add(Actions.Reload.toString());
+                actions.add("Reload");
                 break;
             }
         }
 
-
-        actions.add(Actions.EndTurn.toString());
+        actions.add("EndTurn");
 
         return actions;
     }
@@ -1770,6 +1754,11 @@ public class Game extends Observable {
      * @return all the possible combinations of payment
      */
     public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost){
+
+        //TODO andreaalf
+        //Remove doubleSplitters --> ::
+        //Return an ArrayList<String[]>
+
         if(!player.canPay(cost))
             throw new RuntimeException("This cost can't be payed from this player");
 
@@ -1826,9 +1815,9 @@ public class Game extends Observable {
 
                 String paymentOption = "";
                 for(int i = 0; i < tempRedAmmoInPayment; i++)
-                    paymentOption += "RED" + Controller.DOUBLESPLITTER;
+                    paymentOption += "RED" + "::";
                 for(int i = 0; i < redCost - tempRedAmmoInPayment; i++)
-                    paymentOption += redPowerUps.get(i).toString() + Controller.DOUBLESPLITTER;
+                    paymentOption += redPowerUps.get(i).toString() + "::";
 
                 redPaymentOptions.add(paymentOption);
             }
@@ -1851,9 +1840,9 @@ public class Game extends Observable {
 
                 String paymentOption = "";
                 for(int i = 0; i < tempBlueAmmoInPayment; i++)
-                    paymentOption += "BLUE" + Controller.DOUBLESPLITTER;
+                    paymentOption += "BLUE" + "::";
                 for(int i = 0; i < blueCost - tempBlueAmmoInPayment; i++)
-                    paymentOption += bluePowerUps.get(i).toString() + Controller.DOUBLESPLITTER;
+                    paymentOption += bluePowerUps.get(i).toString() + "::";
 
                 bluePaymentOptions.add(paymentOption);
             }
@@ -1875,9 +1864,9 @@ public class Game extends Observable {
 
                 String paymentOption = "";
                 for(int i = 0; i < tempYellowAmmoInPayment; i++)
-                    paymentOption += "YELLOW" + Controller.DOUBLESPLITTER;
+                    paymentOption += "YELLOW" + "::";
                 for(int i = 0; i < yellowCost - tempYellowAmmoInPayment; i++)
-                    paymentOption += yellowPowerUps.get(i).toString() + Controller.DOUBLESPLITTER;
+                    paymentOption += yellowPowerUps.get(i).toString() + "::";
 
                 yellowPaymentOptions.add(paymentOption);
             }
