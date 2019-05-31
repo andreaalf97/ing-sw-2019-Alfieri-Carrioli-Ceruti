@@ -12,11 +12,13 @@ public interface QuestionEventHandler {
     void handleEvent(InvalidUsernameQuestion event);
     void handleEvent(AddedToWaitingRoomQuestion event);
     void handleEvent(NewPlayerConnectedQuestion event);
-    void handleEvent(DisconnectQuestion event);
+    void handleEvent(DisconnectedQuestion event);
     void handleEvent(GameStartedQuestion event);
+    void handleEvent(PlayerDisconnectedQuestion event);
 
     void handleEvent(ActionQuestion event);
     void handleEvent(ChooseHowToPayForAttackingQuestion event);
+    void handleEvent(ChooseHowToPayToPickWeaponQuestion event);
     void handleEvent(ChooseHowToPayToReloadQuestion event);
     void handleEvent(ChooseHowToShootQuestion event);
     void handleEvent(ChooseHowToUseTurnPowerUpQuestion event);
@@ -30,6 +32,6 @@ public interface QuestionEventHandler {
     void handleEvent(ModelUpdate event);
     void handleEvent(TextMessage event);
     void handleEvent(WhereToMoveAndGrabQuestion event);
-    void handleEvent(WhereToMoveQuestion event);
 
+    void handleEvent(WhereToMoveQuestion event);
 }

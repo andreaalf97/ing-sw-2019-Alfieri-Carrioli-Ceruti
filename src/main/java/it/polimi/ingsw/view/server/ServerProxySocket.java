@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.clientToServer.DisconnectedAnswer;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -94,7 +95,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
         }
         catch (IOException e){
             System.err.println("Error while sending answer to server");
-            e.printStackTrace();
+            receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
     }
@@ -117,8 +118,8 @@ public class ServerProxySocket implements ServerProxy, Runnable {
 
         }
         catch (IOException | ClassNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while deserializing answer object");
-            e.printStackTrace();
+            MyLogger.LOGGER.log(Level.SEVERE, "Error on readObject server side answer object");
+            receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
     }

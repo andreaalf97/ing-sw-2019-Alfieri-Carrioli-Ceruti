@@ -54,7 +54,7 @@ public class Controller implements Observer, AnswerEventHandler {
      * This method:
      *      - notify the current player status
      *      - checks all deaths
-     *      - refills
+     *      - refills all spots
      */
     private void endTurn(){
 
@@ -149,16 +149,6 @@ public class Controller implements Observer, AnswerEventHandler {
 
         virtualView.sendQuestionEvent(nickname, event);
 
-    }
-
-    private boolean isNotThisPlayersTurn(Player player){
-
-        if(!player.playerStatus.isActive){
-            String message = "This is not your turn";
-            sendMessage(player.getNickname(),  message);
-            return true;
-        }
-        return false;
     }
 
     /*
@@ -466,6 +456,25 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     @Override
+    public synchronized void handleEvent(DisconnectedAnswer event) {
+
+        Player p = gameModel.getPlayerByNickname(event.nickname);
+
+        if(p.playerStatus.isActive)
+            endTurn();
+
+
+
+        gameModel.disconnectPlayer(event.nickname);
+
+        virtualView.disconnectPlayer(event.nickname);
+
+        virtualView.sendAllQuestionEvent(
+                new PlayerDisconnectedQuestion(event.nickname)
+        );
+    }
+
+    @Override
     public void handleEvent(ActionAttackAnswer event) {
 
         List<String> weaponsLoaded = gameModel.getLoadedWeapons(event.nickname);
@@ -586,11 +595,14 @@ public class Controller implements Observer, AnswerEventHandler {
 
         //Creates the list of powerups to discard
         ArrayList<String> powerUpsToRespawn = new ArrayList<>();
+        ArrayList<Color> colors = new ArrayList<>();
 
-        for(PowerUp p : player.getPowerUpList())
-            powerUpsToRespawn.add(p.toString());
+        for(PowerUp p : player.getPowerUpList()) {
+            powerUpsToRespawn.add(p.getPowerUpName());
+            colors.add(p.getColor());
+        }
 
-        sendQuestionEvent(event.nickname,  new ChoosePowerUpToRespawnQuestion(powerUpsToRespawn));
+        sendQuestionEvent(event.nickname,  new ChoosePowerUpToRespawnQuestion(powerUpsToRespawn, colors));
 
     }
 
@@ -613,7 +625,34 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     @Override
-    public void handleEvent(ChooseHowToPayAnswer event) {
+    public void handleEvent(ChooseHowToPayToPickWeaponAnswer event) {
+
+        List<String> chosenPayment = event.chosenPayment;
+        String SPLITTER = ":";
+        Player playerObject = gameModel.getPlayerByNickname(event.nickname);
+
+        //First, I make the player pay
+        for(String s : chosenPayment){
+
+            //This means I'm paying with a power up
+            if(s.contains(SPLITTER)){
+                String chosenPowerUpToPay = s.split(SPLITTER)[0];
+                playerObject.removePowerUpByName(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
+            }
+            else {
+                Color chosenColorToPay = Color.valueOf(s);
+                playerObject.removeAmmo(chosenColorToPay);
+            }
+
+        }
+
+        //I pick the weapon and give it to the player
+        gameModel.pickWeaponFromSpawn(playerObject.getNickname(), event.weaponToPick);
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname,
+            new ActionQuestion(possibleActions)
+        );
 
     }
 
@@ -783,6 +822,29 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(ChooseWeaponToPickAnswer event) {
 
+        Weapon weaponToPick = gameModel.getWeaponByName(event.weaponToPick);
+
+        ArrayList<Color> weaponCost = weaponToPick.getCost();
+        weaponCost.remove(0);
+
+        if(weaponCost.isEmpty()){
+
+            gameModel.pickWeaponFromSpawn(event.nickname, event.nickname);
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
+
+        Player p = gameModel.getPlayerByNickname(event.nickname);
+
+        sendQuestionEvent(event.nickname,
+                new ChooseHowToPayToPickWeaponQuestion(event.weaponToPick, weaponCost)
+        );
+
     }
 
     @Override
@@ -792,9 +854,7 @@ public class Controller implements Observer, AnswerEventHandler {
 
         ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
 
-        ArrayList<String> paymentChoices = gameModel.generatePaymentChoice(player, cost);
-
-        sendQuestionEvent(event.nickname, new ChooseHowToPayToReloadQuestion(event.weaponToReload, paymentChoices));
+        sendQuestionEvent(event.nickname, new ChooseHowToPayToReloadQuestion(event.weaponToReload));
 
     }
 

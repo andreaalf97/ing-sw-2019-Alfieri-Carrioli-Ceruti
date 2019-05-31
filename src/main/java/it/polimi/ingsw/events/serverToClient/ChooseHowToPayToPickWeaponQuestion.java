@@ -7,15 +7,15 @@ import it.polimi.ingsw.model.Color;
 import java.io.Serializable;
 import java.util.List;
 
-public class ChoosePowerUpToRespawnQuestion implements QuestionEvent, Serializable {
+public class ChooseHowToPayToPickWeaponQuestion implements QuestionEvent, Serializable {
 
-    public List<String> powerUpToRespawn;
+    public String weaponName;
 
-    public List<Color> colors;
+    public List<Color> cost;
 
-    public ChoosePowerUpToRespawnQuestion(List<String> powerUpToRespawn, List<Color> colors) {
-        this.powerUpToRespawn = powerUpToRespawn;
-        this.colors = colors;
+    public ChooseHowToPayToPickWeaponQuestion(String weaponToPick, List<Color> cost) {
+        this.weaponName = weaponToPick;
+        this.cost = cost;
     }
 
     @Override

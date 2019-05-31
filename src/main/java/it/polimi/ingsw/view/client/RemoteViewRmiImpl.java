@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.client;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.serverToClient.DisconnectedQuestion;
 import it.polimi.ingsw.view.server.ServerProxyRmiInterface;
 
 import java.io.Serializable;
@@ -40,7 +41,7 @@ public class RemoteViewRmiImpl extends UnicastRemoteObject implements RemoteView
                 server.receiveAnswerEvent(event);
             } catch (RemoteException e) {
                 System.err.println("Error while sending answer to the server");
-                e.printStackTrace();
+                clientUserInterface.receiveEvent(new DisconnectedQuestion());
             }
 
         }).start();

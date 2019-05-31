@@ -8,6 +8,7 @@ public interface AnswerEventHandler {
     void receiveEvent(AnswerEvent answerEvent);
 
     void handleEvent(NewConnectionAnswer event);
+    void handleEvent(DisconnectedAnswer event);
 
     void handleEvent(ActionAttackAnswer event);
     void handleEvent(ActionEndTurnAnswer event);
@@ -17,7 +18,7 @@ public interface AnswerEventHandler {
     void handleEvent(ActionReloadAnswer event);
     void handleEvent(ActionRespawnAnswer event);
     void handleEvent(ActionUseTurnPowerUpAnswer event);
-    void handleEvent(ChooseHowToPayAnswer event);
+    void handleEvent(ChooseHowToPayToPickWeaponAnswer event);
     void handleEvent(ChooseHowToShootAnswer event);
     void handleEvent(ChooseHowToUseTurnPowerUpAnswer event);
     void handleEvent(ChooseIfToUseAsyncPowerUpAnswer event);
@@ -28,7 +29,7 @@ public interface AnswerEventHandler {
     void handleEvent(ChooseWeaponToReloadAnswer event);
     void handleEvent(ChooseWeaponToSwitchAnswer event);
     void handleEvent(WhereToMoveAndGrabAnswer event);
-    void handleEvent(WhereToMoveAnswer event);
 
+    void handleEvent(WhereToMoveAnswer event);
 
 }

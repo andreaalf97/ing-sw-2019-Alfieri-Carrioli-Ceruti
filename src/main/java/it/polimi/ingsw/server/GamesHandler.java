@@ -5,7 +5,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.AddedToWaitingRoomQuestion;
-import it.polimi.ingsw.events.serverToClient.DisconnectQuestion;
+import it.polimi.ingsw.events.serverToClient.DisconnectedQuestion;
 import it.polimi.ingsw.events.serverToClient.InvalidUsernameQuestion;
 import it.polimi.ingsw.events.serverToClient.TextMessage;
 import it.polimi.ingsw.model.Game;
@@ -105,7 +105,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
             );
 
             p.sendQuestionEvent(
-                    new DisconnectQuestion()
+                    new DisconnectedQuestion()
             );
 
         }
@@ -158,6 +158,13 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         proxy.sendQuestionEvent(new AddedToWaitingRoomQuestion(waitingRoom.players));
 
+
+    }
+
+    @Override
+    public void handleEvent(DisconnectedAnswer event) {
+
+        //TODO andreaalf
 
     }
 
@@ -225,10 +232,11 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
     }
 
     @Override
-    public void handleEvent(ChooseHowToPayAnswer event) {
+    public void handleEvent(ChooseHowToPayToPickWeaponAnswer event) {
         throw new RuntimeException("The GamesHandler received an unexpected event during connection");
 
     }
+
 
     @Override
     public void handleEvent(ChooseHowToShootAnswer event) {

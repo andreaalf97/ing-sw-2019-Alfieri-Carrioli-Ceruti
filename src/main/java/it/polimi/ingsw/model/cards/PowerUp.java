@@ -142,8 +142,4 @@ public class PowerUp {
         return this.color;
     }
 
-    public String toString(){
-        return powerUpName + ":" + color.toString();
-    }
-
 }

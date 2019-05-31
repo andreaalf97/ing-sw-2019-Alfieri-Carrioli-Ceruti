@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.server;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.clientToServer.DisconnectedAnswer;
 import it.polimi.ingsw.view.client.RemoteViewInterface;
 
 import java.rmi.RemoteException;
@@ -40,8 +41,7 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
                 remoteViewInterface.receiveQuestionEvent(questionEvent);
             }
             catch (RemoteException e){
-                MyLogger.LOGGER.log(Level.SEVERE, "Error while sending message from ServerProxyRmi");
-                e.printStackTrace();
+                receiver.receiveAnswer(new DisconnectedAnswer(nickname));
             }
         }).start();
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.client;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.serverToClient.DisconnectedQuestion;
 
 import java.io.*;
 import java.net.Socket;
@@ -59,6 +60,7 @@ public class RemoteViewSocket implements Runnable, RemoteView {
         }
         catch (IOException | ClassNotFoundException e){
             System.err.println("Error while receiving new Question object through SOCKET");
+            userInterface.receiveEvent(new DisconnectedQuestion());
         }
 
     }
@@ -75,7 +77,8 @@ public class RemoteViewSocket implements Runnable, RemoteView {
             out.flush();
         }
         catch (IOException e){
-            System.err.println(e.getMessage());
+            System.err.println("Error while trying writeObject on client side");
+            userInterface.receiveEvent(new DisconnectedQuestion());
         }
 
     }

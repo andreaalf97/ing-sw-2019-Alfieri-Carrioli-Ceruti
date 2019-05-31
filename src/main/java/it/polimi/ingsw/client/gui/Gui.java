@@ -4,9 +4,6 @@ import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.server.ServerInterface;
-import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
-import it.polimi.ingsw.view.client.RemoteViewSocket;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
@@ -24,10 +21,6 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.Socket;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -466,12 +459,17 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
     @Override
-    public void handleEvent(DisconnectQuestion event) {
+    public void handleEvent(DisconnectedQuestion event) {
 
     }
 
     @Override
     public void handleEvent(GameStartedQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(PlayerDisconnectedQuestion event) {
 
     }
 
@@ -482,6 +480,11 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToPayForAttackingQuestion event) {
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
 
     }
 

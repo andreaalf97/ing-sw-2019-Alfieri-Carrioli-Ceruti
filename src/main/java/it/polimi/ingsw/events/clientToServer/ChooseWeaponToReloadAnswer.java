@@ -11,6 +11,11 @@ public class ChooseWeaponToReloadAnswer implements AnswerEvent, Serializable {
 
     public String weaponToReload;
 
+    public ChooseWeaponToReloadAnswer(String nickname, String weaponToReload) {
+        this.nickname = nickname;
+        this.weaponToReload = weaponToReload;
+    }
+
     @Override
     public void acceptEventHandler(AnswerEventHandler handler) {
         handler.handleEvent(this);

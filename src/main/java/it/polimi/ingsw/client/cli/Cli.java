@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.RemoteView;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -24,27 +27,60 @@ import static java.lang.Thread.sleep;
 
 public class Cli implements QuestionEventHandler {
 
+    /**
+     * Regex used to check on player's nickname
+     */
     private final String validUsername = "^[a-zA-Z0-9]*$";
 
+    /**
+     * The port for the socket connections
+     */
     private final int socketPort = 2345;
 
+    /**
+     * The port for RMI connections
+     */
     private final int rmiPort = 5432;
 
+    /**
+     * The player's username
+     */
     private String username;
 
+    /**
+     * Initially, this attribute contains the chosen map, then it conains the actual map the game is played on
+     */
     private MapName currentMap;
 
+    /**
+     * Works the same as the currentMap attribute, but with kst skulls
+     */
     private int currentSkulls;
 
+    /**
+     * A temporary ID given by the server during the first stage of connection
+     */
     private Integer temporaryId;
 
+    /**
+     * The client proxy, used to receive and send messages
+     */
     RemoteView remoteView;
 
+    /**
+     * The system input stream
+     */
     private Scanner sysin;
 
+    /**
+     * The most updated snapshot of the game
+     */
     private JsonObject lastSnapshotReceived;
 
 
+    /**
+     * Constructor
+     */
     private Cli(){
 
         this.username = null;
@@ -55,6 +91,9 @@ public class Cli implements QuestionEventHandler {
         this.lastSnapshotReceived = new JsonObject();
     }
 
+    /**
+     * Asks the player to vote and then starts the connection
+     */
     private void start(){
 
 
@@ -165,12 +204,11 @@ public class Cli implements QuestionEventHandler {
 
     }
 
-    private boolean validPort(int port) {
-
-        return (port > 1000 && port < 10000);
-
-    }
-
+    /**
+     * Checks if the ip is valid
+     * @param ipAddress the IP under test
+     * @return true if it's a valid IP
+     */
     private boolean validIp(String ipAddress) {
         //TODO andreaalf
         return true;
@@ -202,8 +240,6 @@ public class Cli implements QuestionEventHandler {
         }
         catch (Exception e){
             System.err.println("Error while connecting to server");
-            System.err.println(e.getMessage());
-            e.printStackTrace();
         }
 
     }
@@ -246,18 +282,26 @@ public class Cli implements QuestionEventHandler {
 
     }
 
-    private int chooseAnswer(String[] possibleAnswers){
+    private int chooseAnswer(List<String> possibleAnswers){
 
-        for(int i = 0; i < possibleAnswers.length; i++)
-            System.out.println("[" + i + "] " + possibleAnswers[i]);
+        for(String possibleAnswer : possibleAnswers)
+            System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
 
-        Scanner scanner = new Scanner(System.in);
+        String nextLine = sysin.nextLine();
 
-        int answer = scanner.nextInt();
+        try {
+             return Integer.parseInt(nextLine);
+        }
+        catch (NumberFormatException e){
+            System.out.println("WRONG FORMAT, PLEASE ENTER AGAIN");
+            return chooseAnswer(possibleAnswers);
+        }
 
-        return answer;
     }
 
+    /**
+     * Clears the console
+     */
     private void clearScreen(){
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -370,9 +414,11 @@ public class Cli implements QuestionEventHandler {
     }
 
     @Override
-    public void handleEvent(DisconnectQuestion event) {
+    public void handleEvent(DisconnectedQuestion event) {
+
         System.err.println("DISCONNECTED FROM SERVER");
         remoteView = null;
+
     }
 
     @Override
@@ -395,6 +441,13 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("****************************************");
 
+
+    }
+
+    @Override
+    public void handleEvent(PlayerDisconnectedQuestion event) {
+
+        System.out.println(event.nickname + " DISCONNECTED FROM THE GAME");
 
     }
 
@@ -461,6 +514,29 @@ public class Cli implements QuestionEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
+
+        System.out.println("****************************************");
+        System.out.println("Choose how to pay to pick " + event.weaponName);
+
+        String cost = "";
+        for(Color c : event.cost)
+            cost += c.toString() + " ";
+
+        System.out.println("You have to pay --> " + cost);
+
+        ArrayList<String> playerPaymentOptions = new ArrayList<>(); //FIXME this should read all the player options to pay
+        ArrayList<String> playerChoices = new ArrayList<>();
+
+        //FIXME the player should autonomously select how to pay
+
+        remoteView.sendAnswerEvent(
+                new ChooseHowToPayToPickWeaponAnswer(username, event.weaponName, playerChoices)
+        );
+
+    }
+
+    @Override
     public void handleEvent(ChooseHowToPayToReloadQuestion event) {
 
     }
@@ -505,8 +581,17 @@ public class Cli implements QuestionEventHandler {
         System.out.println("****************************************");
         System.out.println("Choose power up to respawn:");
 
-        for(String powerUp : event.powerUpToRespawn)
-            System.out.println("[" + event.powerUpToRespawn.indexOf(powerUp) + "] " + powerUp + " " + event.colors.get(event.powerUpToRespawn.indexOf(powerUp)));
+        for(String powerUp : event.powerUpToRespawn){
+
+            int index = event.powerUpToRespawn.indexOf(powerUp);
+
+            String printing = "";
+            printing += "[" + index + "] ";
+            printing += powerUp + " " + event.colors.get(index).toString();
+
+            System.out.println(printing);
+
+        }
 
         String line = sysin.nextLine();
         int answer = Integer.parseInt(line);
@@ -557,10 +642,22 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChooseWeaponToPickQuestion event) {
 
+        int answer = chooseAnswer(event.weaponsToPick);
+
+        remoteView.sendAnswerEvent(
+                new ChooseWeaponToPickAnswer(username, event.weaponsToPick.get(answer))
+        );
+
     }
 
     @Override
     public void handleEvent(ChooseWeaponToReloadQuestion event) {
+
+        int answer = chooseAnswer(event.weaponsToReload);
+
+        remoteView.sendAnswerEvent(
+                new ChooseWeaponToReloadAnswer(username, event.weaponsToReload.get(answer))
+        );
 
     }
 

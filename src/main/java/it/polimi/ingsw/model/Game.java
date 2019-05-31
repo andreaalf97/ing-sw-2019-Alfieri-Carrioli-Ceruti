@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 import java.util.logging.Level;
@@ -33,6 +34,11 @@ public class Game extends Observable {
      * The players must in the same order of the round, so the first player must be in position 0 !!
      */
     private ArrayList<Player> players;
+
+    /**
+     * The list of all player who disconnected during the game
+     */
+    private ArrayList<Player> disconnectedPlayers;
 
     /**
      * This ArrayList contains the nicknames of the players
@@ -69,6 +75,7 @@ public class Game extends Observable {
      */
     public Game(ArrayList<String> playerNames, MapName chosenMap, int nSkulls){
         this.players = new ArrayList<>();
+        this.disconnectedPlayers = new ArrayList<>();
         this.playerNames = playerNames;
         this.powerupDeck = new PowerUpDeck();
         this.weaponDeck = new WeaponDeck();
@@ -294,14 +301,17 @@ public class Game extends Observable {
      */
     protected void giveBoardPointsAndModifyKST ( Player player  ) throws RuntimeException {
         if(!player.isDead())
-            throw new RuntimeException("This player is not dead");
+            System.err.println("This player is not dead");
+
+        if(player.getDamages().isEmpty())
+            return;
 
         //at this point i am sure that player is dead, so i can modify kst and give one mark to the last player
         if (player.getDamages().size() == 12) {
             this.kst.addKill(player.getDamages().get(11), true);
             getPlayerByNickname(player.getDamages().get(11)).giveMarks(player.getNickname(), 1);
         }
-        else
+        else if(player.getDamages().size() == 11)
             this.kst.addKill(player.getDamages().get(10), false);
 
         ArrayList<Integer> pointValues = new ArrayList<>();
@@ -1448,7 +1458,7 @@ public class Game extends Observable {
      * @param current current player
      * @return the nickname of the next player
      */
-    protected String getNextPlayer(String current) {
+    public String getNextPlayer(String current) {
 
         int currentIndex = playerNames.indexOf(current);
         Player nextPlayer;
@@ -1724,11 +1734,10 @@ public class Game extends Observable {
      * @param cost the cost that player has to pay
      * @return all the possible combinations of payment
      */
-    public ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost){
+    /*
+    private ArrayList<String> generatePaymentChoice(Player player, ArrayList<Color> cost){
 
         //TODO andreaalf
-        //Remove doubleSplitters --> ::
-        //Return an ArrayList<String[]>
 
         if(!player.canPay(cost))
             throw new RuntimeException("This cost can't be payed from this player");
@@ -1861,6 +1870,42 @@ public class Game extends Observable {
         return finalAnswer;
 
     }
+    */
+
+    public ArrayList<ArrayList<String>> generatePaymentChoice(Player player, ArrayList<Color> cost){
+        //TODO andreaalf
+
+
+        if(!player.canPay(cost))
+            throw new RuntimeException("This player can't pay this cost");
+
+        //The total cost for this color
+        int redCost = Collections.frequency(cost, Color.RED);
+        //The amount of ammo of this color this player has
+        int playerReds = player.getnRedAmmo();
+        //All the power ups of this color this player has
+        ArrayList<String> playerRedPowerUp = null; //should be --> player.getColorPowerUps(Color.RED);
+
+        //All the possible combinations for this color
+        ArrayList<ArrayList<String>> redCombination = new ArrayList<>();
+
+        if(playerReds >= redCost){
+
+            ArrayList<String> combination = new ArrayList<>();
+            for(int i = 0; i < redCost; i++)
+                combination.add(Color.RED.toString());
+
+            redCombination.add(combination);
+        }
+
+        if(playerRedPowerUp.size() >= redCost){
+
+            ArrayList<String> combination = new ArrayList<>();
+
+        }
+
+        return null;
+    }
 
     /**
      * tells if p1 on spot(x1,y1) can see p2 on (x2,y2)
@@ -1872,6 +1917,17 @@ public class Game extends Observable {
      */
     public boolean p1SeeP2(int x1, int y1, int x2, int y2){
         return gameMap.see(x1, y1, x2, y2);
+    }
+
+    public void disconnectPlayer(String nickname) {
+
+        Player p = getPlayerByNickname(nickname);
+
+        players.remove(p);
+        disconnectedPlayers.add(p);
+
+        gameMap.removePlayer(nickname);
+
     }
 }
 

@@ -8,6 +8,7 @@ import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.serverToClient.ModelUpdate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 
@@ -178,21 +179,41 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
     }
 
-    private String[] arrayListToArray(ArrayList<String> possibleAnswers) {
-
-        String[] tempString = new String[possibleAnswers.size()];
-
-        for(int i = 0; i < possibleAnswers.size(); i++)
-            tempString[i] = possibleAnswers.get(i);
-
-        return tempString;
-
-    }
-
     @Override
     public void receiveAnswer(AnswerEvent answerEvent) {
 
         notifyObservers(answerEvent);
+
+    }
+
+    /**
+     * Disconnects the given player by deleting all of his attributes
+     * @param nickname the name of the player
+     */
+    public void disconnectPlayer(String nickname) {
+
+        //Finds the index of this player
+        int index = playersNicknames.indexOf(nickname);
+
+        //Removes this player from the nickname list
+        playersNicknames.remove(index);
+
+        //Creates a copy of the array
+        ArrayList<String> lastClientSnapshotCopy = new ArrayList<>(Arrays.asList(lastClientSnapshot));
+
+        //Removes the player from the copy
+        lastClientSnapshotCopy.remove(index);
+
+        //Creates a new array and assigns it to the attribute
+        String[] tempArray = new String[lastClientSnapshotCopy.size()];
+
+        for(int i = 0; i < tempArray.length; i++)
+            tempArray[i] = lastClientSnapshotCopy.get(i);
+
+        this.lastClientSnapshot = tempArray;
+
+        //Removes the player's proxy from the list
+        serverProxies.remove(index);
 
     }
 }

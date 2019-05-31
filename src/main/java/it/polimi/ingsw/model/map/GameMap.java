@@ -652,4 +652,14 @@ public class GameMap {
         s.grabSomething(p, indexOfWeapon);
 
     }
+
+    public void removePlayer(String nickname) {
+
+        for(int i = 0; i < map.length; i++)
+            for(int j = 0; j < map[i].length; j++)
+                if(map[i][j] != null && map[i][j].playersHere.contains(nickname)) {
+                    map[i][j].removePlayer(nickname);
+                    return;
+                }
+    }
 }
