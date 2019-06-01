@@ -198,22 +198,16 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         //Removes this player from the nickname list
         playersNicknames.remove(index);
 
-        //Creates a copy of the array
-        ArrayList<String> lastClientSnapshotCopy = new ArrayList<>(Arrays.asList(lastClientSnapshot));
-
-        //Removes the player from the copy
-        lastClientSnapshotCopy.remove(index);
-
-        //Creates a new array and assigns it to the attribute
-        String[] tempArray = new String[lastClientSnapshotCopy.size()];
-
-        for(int i = 0; i < tempArray.length; i++)
-            tempArray[i] = lastClientSnapshotCopy.get(i);
-
-        this.lastClientSnapshot = tempArray;
-
         //Removes the player's proxy from the list
         serverProxies.remove(index);
+
+    }
+
+    public void reconnectPlayer(String nickname, ServerProxy proxy) {
+
+        playersNicknames.add(nickname);
+
+        serverProxies.add(proxy);
 
     }
 }

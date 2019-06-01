@@ -135,17 +135,31 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         int votedSkulls = event.votedSkulls;
 
-        //If this is not a valid username, I ask the player to choose another one
-        if( notAValidUsername(nickname)){
+        ServerProxy proxy = temporaryProxies.get(temporaryId);
 
-            temporaryProxies.get(temporaryId).sendQuestionEvent(
-                    new InvalidUsernameQuestion()
-            );
+        //This means the player was already playing in a game
+        if( nicknamesControllers.containsKey(nickname) ){
+            Controller controller = nicknamesControllers.get(nickname);
 
+            proxy.setNickname(nickname);
+            proxy.setReceiver(controller.virtualView);
+
+            controller.reinsert(nickname, proxy);
             return;
         }
 
-        ServerProxy proxy = temporaryProxies.remove(temporaryId);
+        //This means the player has chosen an username which was already connected into a waiting room, so he has to choose a new username
+        for(WaitingRoom w : waitingRooms){
+            if(w.players.contains(nickname)){
+                proxy.sendQuestionEvent(
+                        new InvalidUsernameQuestion()
+                );
+                return;
+            }
+        }
+
+        temporaryProxies.remove(proxy);
+
 
         proxy.setNickname(nickname);
 
@@ -164,25 +178,10 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
     @Override
     public void handleEvent(DisconnectedAnswer event) {
 
-        //TODO andreaalf
+        temporaryProxies.remove(Integer.parseInt(event.nickname));
+        System.out.println("Removing temporary ID " + event.nickname + " from temporaryProxies hash map");
 
     }
-
-    /**
-     * Checks if the hashmap already contains the given username to validate it
-     * @param nickname the username
-     * @return
-     */
-    private boolean notAValidUsername(String nickname) {
-
-        for(WaitingRoom w : waitingRooms)
-            if(w.players.contains(nickname))
-                return true;
-
-        return nicknamesControllers.containsKey(nickname);
-
-    }
-
 
     @Override
     public void handleEvent(ActionAttackAnswer event) {

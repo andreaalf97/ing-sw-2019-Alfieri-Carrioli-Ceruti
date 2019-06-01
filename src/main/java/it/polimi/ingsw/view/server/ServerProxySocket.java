@@ -118,7 +118,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
 
         }
         catch (IOException | ClassNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error on readObject server side answer object");
+            MyLogger.LOGGER.log(Level.SEVERE, "Error on readObject server side answer object --> " + nickname);
             receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 

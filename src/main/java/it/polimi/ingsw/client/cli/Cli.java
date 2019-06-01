@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.cli;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
@@ -9,10 +11,7 @@ import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
-import it.polimi.ingsw.view.client.RemoteView;
-import it.polimi.ingsw.view.client.RemoteViewInterface;
-import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
-import it.polimi.ingsw.view.client.RemoteViewSocket;
+import it.polimi.ingsw.view.client.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -31,6 +30,12 @@ public class Cli implements QuestionEventHandler {
      * Regex used to check on player's nickname
      */
     private final String validUsername = "^[a-zA-Z0-9]*$";
+
+    /**
+     * Regex used to validate the ip address
+     */
+    private final String validIpAddress = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
 
     /**
      * The port for the socket connections
@@ -76,6 +81,11 @@ public class Cli implements QuestionEventHandler {
      * The most updated snapshot of the game
      */
     private JsonObject lastSnapshotReceived;
+
+    /**
+     * All of this player's info
+     */
+    private PlayerInfo playerInfo;
 
 
     /**
@@ -210,8 +220,7 @@ public class Cli implements QuestionEventHandler {
      * @return true if it's a valid IP
      */
     private boolean validIp(String ipAddress) {
-        //TODO andreaalf
-        return true;
+        return Pattern.matches(validIpAddress, ipAddress);
     }
 
     /**
@@ -516,6 +525,7 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
 
+        System.out.println();
         System.out.println("****************************************");
         System.out.println("Choose how to pay to pick " + event.weaponName);
 
@@ -525,15 +535,61 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("You have to pay --> " + cost);
 
-        ArrayList<String> playerPaymentOptions = new ArrayList<>(); //FIXME this should read all the player options to pay
-        ArrayList<String> playerChoices = new ArrayList<>();
+        ArrayList<String> paymentChosen = new ArrayList<>();
 
-        //FIXME the player should autonomously select how to pay
+        for(Color colorToPay : event.cost){
+
+            System.out.println("How would you like to pay for " + colorToPay);
+
+            ArrayList<String> possibleChoice = new ArrayList<>();
+
+            switch (colorToPay){
+
+                case RED:
+                    if(playerInfo.nRedAmmo > 0)
+                        possibleChoice.add(colorToPay.toString());
+                    break;
+
+                case BLUE:
+                    if(playerInfo.nBlueAmmo > 0)
+                        possibleChoice.add(colorToPay.toString());
+                    break;
+
+                case YELLOW:
+                    if(playerInfo.nYellowAmmo > 0)
+                        possibleChoice.add(colorToPay.toString());
+                    break;
+
+                case ANY:
+                    if(playerInfo.nRedAmmo > 0)
+                        possibleChoice.add(colorToPay.toString());
+                    if(playerInfo.nBlueAmmo > 0)
+                        possibleChoice.add(colorToPay.toString());
+                    if(playerInfo.nYellowAmmo > 0)
+                        possibleChoice.add(colorToPay.toString());
+                    break;
+            }
+
+            for(Color powerUpColor : playerInfo.powerUpColors){
+
+                if(powerUpColor.equals(colorToPay)){
+                    int index = playerInfo.powerUpColors.indexOf(powerUpColor);
+                    possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
+                }
+
+            }
+
+            int answer = chooseAnswer(possibleChoice);
+
+            paymentChosen.add(possibleChoice.get(answer));
+
+        }
 
         remoteView.sendAnswerEvent(
-                new ChooseHowToPayToPickWeaponAnswer(username, event.weaponName, playerChoices)
+                new ChooseHowToPayToPickWeaponAnswer(username, event.weaponName, paymentChosen)
         );
 
+        System.out.println();
     }
 
     @Override
@@ -668,6 +724,12 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ModelUpdate event) {
+
+        this.lastSnapshotReceived = new JsonParser().parse(event.json).getAsJsonObject();
+
+        System.out.println("[!] NOTIFY : New JSON received");
+
+        this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
 
     }
 
