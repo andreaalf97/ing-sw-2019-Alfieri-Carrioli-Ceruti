@@ -1929,5 +1929,24 @@ public class Game extends Observable {
         gameMap.removePlayer(nickname);
 
     }
+
+    public void reconnectPlayer(String nickname) {
+
+        Player reconnectedPlayer = null;
+
+        for(Player p : disconnectedPlayers)
+            if(p.getNickname().equals(nickname)){
+                reconnectedPlayer = p;
+                disconnectedPlayers.remove(p);
+                break;
+            }
+
+        if(reconnectedPlayer == null)
+            throw new RuntimeException("This player was not found in the disconnectedPlayer array");
+
+        players.add(reconnectedPlayer);
+        reconnectedPlayer.setIsDead(true);
+
+    }
 }
 

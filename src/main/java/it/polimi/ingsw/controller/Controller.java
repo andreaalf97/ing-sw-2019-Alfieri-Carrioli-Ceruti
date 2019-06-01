@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.view.server.ServerProxy;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
@@ -75,14 +76,15 @@ public class Controller implements Observer, AnswerEventHandler {
      * Reinserts the player in the game
      * @param nickname the nickname of the player I want to put back into the game
      */
-    public void reinsert(String nickname) {
+    public void reinsert(String nickname, ServerProxy proxy) {
 
-        //TODO
-        //virtualView.updateReceiver(nickname, receiver);
+        virtualView.sendAllQuestionEvent(
+                new TextMessage(nickname + " RECONNECTED")
+        );
 
-        ArrayList<String> messages = new ArrayList<>();
-        messages.add(nickname + " reconnected");
+        gameModel.reconnectPlayer(nickname);
 
+        virtualView.reconnectPlayer(nickname, proxy);
 
     }
 
@@ -462,8 +464,6 @@ public class Controller implements Observer, AnswerEventHandler {
 
         if(p.playerStatus.isActive)
             endTurn();
-
-
 
         gameModel.disconnectPlayer(event.nickname);
 

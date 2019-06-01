@@ -37,18 +37,11 @@ public class Main {
     final static Random rand = new Random();
 
     /**
-     * The list of all connected users
-     * TODO might need to move this to the games handler, or even completely remove it
-     */
-    static ArrayList<String> allConnectedUsernames;
-
-    /**
      * The handler of all new connections and waiting rooms
      */
     static GamesHandler gamesHandler;
 
     private Main(){
-        this.allConnectedUsernames = new ArrayList<>();
         this.gamesHandler = new GamesHandler();
     }
 
@@ -61,13 +54,15 @@ public class Main {
         RmiServer rmiServer = null; //The server for new rmi connections
 
         try {
-            rmiServer = new RmiServer(gamesHandler);    //tries to create a new rmi server, to which the clients will call the connect() method
+            rmiServer = new RmiServer();    //tries to create a new rmi server, to which the clients will call the connect() method
         }
         catch (RemoteException e){
             MyLogger.LOGGER.log(Level.SEVERE, "Error while creating rmi server");
             e.printStackTrace();
             return;
         }
+
+        System.out.println("RMI server is UP");
 
         try {
             serverSocket = new ServerSocket(socketPort);    //Opens a new socket server
@@ -78,7 +73,7 @@ public class Main {
             return;
         }
 
-        System.out.println("Server is open on port " + socketPort);
+        System.out.println("SOCKET SERVER is UP on port " + socketPort);
 
         try {
 
@@ -95,14 +90,14 @@ public class Main {
                 Socket socket = serverSocket.accept(); //Keeps waiting for new connections
                 System.out.println("Accepted new socket connection from " + socket.getRemoteSocketAddress());
 
-                //Creates a new server proxy for this client
-                ServerProxySocket serverProxySocket = new ServerProxySocket("", gamesHandler, socket);
-
                 //Creates a new temporary ID and keeps checking until it's a valid id
                 Integer temporaryId = rand.nextInt(100000);
 
                 while ( ! gamesHandler.isAValidTemporaryId(temporaryId))
                     temporaryId = rand.nextInt(100000);
+
+                //Creates a new server proxy for this client
+                ServerProxySocket serverProxySocket = new ServerProxySocket(temporaryId.toString(), gamesHandler, socket);
 
                 gamesHandler.addTemporaryId(temporaryId, serverProxySocket);
 
