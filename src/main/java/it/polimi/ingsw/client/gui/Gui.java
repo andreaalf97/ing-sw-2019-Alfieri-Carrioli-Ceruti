@@ -408,16 +408,16 @@ public class Gui extends Application implements QuestionEventHandler {
 
 
         /*if(Gui.nameOfMap == MapName.FIRE ) {
-            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/WIND.png"));
         }
         if(Gui.nameOfMap == MapName.WATER) {
             Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/FIRE.png"));
         }
         if(Gui.nameOfMap == MapName.WIND) {
-            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_3.png"));
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/WATER.png"));
         }
         if(Gui.nameOfMap == MapName.EARTH) {
-            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_4.png"));
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/EARTH.png"));
         }
         if(mapImage == null)
             TextBox.display("map null");*/
@@ -438,7 +438,7 @@ public class Gui extends Application implements QuestionEventHandler {
             Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Blue/Blue_front.png"));
         }*/
 
-        mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
+        mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/WIND.png"));
 
         planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Yellow/Yellow_front.png"));
 
