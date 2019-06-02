@@ -440,10 +440,6 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(GameStartedQuestion event) {
 
-        clearScreen();
-
-        System.out.println("****************************************");
-
         System.out.println("GAME STARTED");
 
         System.out.println("The payers are:");
@@ -481,7 +477,6 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ActionQuestion event) {
 
-        System.out.println("****************************************");
         System.out.println("Choose action:");
         for(String action : event.possibleAction)
             System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
@@ -541,8 +536,6 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
 
-        System.out.println();
-        System.out.println("****************************************");
         System.out.println("Choose how to pay to pick " + event.weaponName);
 
         String cost = "";
@@ -727,7 +720,6 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChooseIfToUseAsyncPowerUpQuestion event) {
 
-        System.out.println("****************************************");
         System.out.println(event.powerUpName + ": do you want to use this power up?");
 
         System.out.println("[0] YES");
@@ -751,7 +743,6 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
 
-        System.out.println("****************************************");
         System.out.println("Choose power up to respawn:");
 
         for(String powerUp : event.powerUpToRespawn){
@@ -778,7 +769,6 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChoosePowerUpToUseQuestion event) {
 
-        System.out.println("****************************************");
         System.out.println("Choose power up to use:");
 
         for(String powerUp : event.powerUpNames)
@@ -795,7 +785,6 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChooseWeaponToAttackQuestion event) {
 
-        System.out.println("****************************************");
         System.out.println("Choose weapon to use:");
 
         int answer = chooseAnswer(event.weaponsLoaded);
@@ -854,13 +843,64 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(WhereToMoveAndGrabQuestion event) {
 
+        System.out.println("Choose where to move and grab:");
+
+        int[] coords = askForCoords(event.possibleSpots);
+
+        remoteView.sendAnswerEvent(
+                new WhereToMoveAndGrabAnswer(username, coords[0], coords[1])
+        );
     }
 
     @Override
     public void handleEvent(WhereToMoveQuestion event) {
 
+        System.out.println("Choose where to move:");
+
+        int[] coords = askForCoords(event.possibleSpots);
+
+        remoteView.sendAnswerEvent(
+                new WhereToMoveAnswer(username, coords[0], coords[1])
+        );
+
     }
 
+    /**
+     * This method receives a list of possible coords and returns the chosen ones
+     * @param possibleSpots the list of spots
+     * @return the chosen coordinates
+     */
+    private int[] askForCoords(boolean[][] possibleSpots){
+
+        //The list with all the possible coords
+        ArrayList<int[]> possibleCoords = new ArrayList<>();
+
+        //Fills the list with all possible coords
+        for(int i = 0; i < possibleSpots.length; i++) {
+            for (int j = 0; j < possibleSpots[i].length; j++) {
+                if (possibleSpots[i][j] == true) {
+                    int[] newCoord = new int[2];
+                    newCoord[0] = i;
+                    newCoord[1] = j;
+                    possibleCoords.add(newCoord);
+                }
+            }
+        }
+
+        //Transforms all the coord into strings to print to the user
+        ArrayList<String> possibleCoordsString = new ArrayList<>();
+
+
+        for(int[] coords : possibleCoords){
+            String newString = "(" + coords[0] + ", " +  coords[1] + ")";
+            possibleCoordsString.add(newString);
+        }
+
+        int answer = chooseAnswer(possibleCoordsString);
+
+        return possibleCoords.get(answer);
+
+    }
 
 
 
@@ -868,7 +908,16 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void receiveEvent(QuestionEvent questionEvent) {
+
+        clearScreen();
+        System.out.println();
+        System.out.println("____________________________________________");
+        System.out.println();
+
         questionEvent.acceptEventHandler(this);
+
+        System.out.println();
+
     }
 }
 
