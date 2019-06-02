@@ -415,67 +415,6 @@ public class GameTest {
         Assert.assertTrue(true);
     }
 
-    //FIXME after changing method
-    /*
-    @Test
-    public void generatePossiblePaymentChoice(){
-        ArrayList<Color> costTest = new ArrayList<>();
-        costTest.add(Color.BLUE);
-        costTest.add(Color.BLUE);
-        costTest.add(Color.BLUE);
-
-        PowerUp p1Test = new PowerUp("Teleporter", Color.BLUE);
-        PowerUp p2Test = new PowerUp("TagbackGrenade", Color.BLUE);
-
-        gameTest.getPlayerByNickname("gino").givePowerUp(p1Test);
-        gameTest.getPlayerByNickname("gino").givePowerUp(p2Test);
-
-        ArrayList<String> payment = gameTest.generatePaymentChoice(gameTest.getPlayerByNickname("gino"), costTest);
-
-
-        //simple check with only one choice
-        Assert.assertTrue(payment.contains("BLUE::Teleporter:BLUE::TagbackGrenade:BLUE::"));
-
-
-        costTest = new ArrayList<>();
-        costTest.add(Color.BLUE);
-        costTest.add(Color.BLUE);
-
-        payment = gameTest.generatePaymentChoice(gameTest.getPlayerByNickname("gino"), costTest);
-
-        System.out.println("SHOULD PAY 2 BLUE");
-        for (String s : payment){
-            System.out.println(s);
-        }
-        //TODO DON'T WORK "BLUE::TagbackGrenade:BLUE::"
-
-        costTest = new ArrayList<>();
-        costTest.add(Color.BLUE);
-        payment = gameTest.generatePaymentChoice(gameTest.getPlayerByNickname("gino"), costTest);
-
-        System.out.println("SHOULD PAY 1 BLUE");
-        for (String s : payment){
-            System.out.println(s);
-        }
-        //TODO DON'T WORK "TagbackGrenade:BLUE::"
-
-        costTest.add(Color.YELLOW);
-
-        ArrayList<Color> ammoTest = new ArrayList<>();
-        ammoTest.add(Color.YELLOW);
-
-        gameTest.getPlayerByNickname("gino").giveAmmos(ammoTest);
-        gameTest.getPlayerByNickname("gino").givePowerUp(new PowerUp("Teleporter", Color.YELLOW));
-
-        payment = gameTest.generatePaymentChoice(gameTest.getPlayerByNickname("gino"), costTest);
-        System.out.println("SHOULD PAY 1 BLUE AND 1 YELLOW");
-        for (String s : payment){
-            System.out.println(s);
-        }
-        //todo don't work choices with TagbackGrenade
-    }
-    */
-
     @Test
     public void verifySerializationClientSnapshot(){
         String clientSnapshot = gameTest.clientSnapshot();

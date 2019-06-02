@@ -1,16 +1,24 @@
 package it.polimi.ingsw.client.gui;
 
+import com.google.gson.JsonObject;
+import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.map.MapName;
+import it.polimi.ingsw.server.ServerInterface;
+import it.polimi.ingsw.view.client.RemoteView;
+import it.polimi.ingsw.view.client.RemoteViewInterface;
+import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
+import it.polimi.ingsw.view.client.RemoteViewSocket;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,46 +27,98 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
+
+import javax.swing.tree.ExpandVetoException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.Socket;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Gui extends Application implements QuestionEventHandler {
 
+    private Stage window;
+
+    private WaitingRoomGui waitingRoomGui;
+
+
     final private String validUsername = "^[a-zA-Z0-9]*$";
 
-    static private String serverAddress = "127.0.0.1";
+    private final String validIpAddress = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-    static private int rmiPort = 5432;
+    private int rmiPort = 5432;
 
-    static private int socketPort = 2345;
+    private int socketPort = 2345;
 
-    static private boolean RMI;
+    private String chosenIp;
 
-    static private MapName nameOfMap ;
-    static private int NumberOfSkulls;
-    static private String Username;
-    static private Image mapImage ;
-    static private String playerColor;
-    static private Image planciaGiocatoreImage = null;
+    private Image mapImage;
+    private String playerColor;
+    private Image planciaGiocatoreImage = null;
+
+    /**
+     * The player's username
+     */
+    private String username;
+
+    /**
+     * Initially, this attribute contains the chosen map, then it conains the actual map the game is played on
+     */
+    private MapName currentMap;
+
+    /**
+     * Works the same as the currentMap attribute, but with kst skulls
+     */
+    private int currentSkulls;
+
+    /**
+     * A temporary ID given by the server during the first stage of connection
+     */
+    private Integer temporaryId;
+
+    /**
+     * The client proxy, used to receive and send messages
+     */
+    RemoteView remoteView;
+
+    /**
+     * The most updated snapshot of the game
+     */
+    private JsonObject lastSnapshotReceived;
+
+    /**
+     * All of this player's info
+     */
+    private PlayerInfo playerInfo;
 
     public static void main(String[] args) {
+
+        //Loads the window and starts the gui
         launch(args);
     }
 
     @Override
-    public void start(Stage window) throws Exception {
+    public void start(Stage givenWindow) throws Exception {
 
-        Scene gameScene = setGameScene(window);
+        this.window = givenWindow;
 
-        Scene loginScene = setLoginScene(window, gameScene);
+        //First window
+        window.setTitle("Adrenalina");
 
-        Scene port_and_IP_scene = setPort_and_IP_scene(window, loginScene);
+        //Setting all the scenes
 
-        Scene connectionScene = setConnectionScene(window, port_and_IP_scene);
+        Scene gameScene = setGameScene();
 
-        Scene startScene = setStartScene(window, connectionScene);
+        Scene connectionScene = setConnectionScene(gameScene);
+
+        Scene port_and_IP_scene = setIP_scene(connectionScene);
+
+        Scene loginScene = setLoginScene(port_and_IP_scene);
+
+        Scene startScene = setStartScene(loginScene);
 
         /*//Questi sono per settare la grandezza della scena a screen size!
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -73,18 +133,15 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
 
-    private Scene setStartScene(Stage window, Scene connectionScene) throws FileNotFoundException {
-
-        //close button
-        Button closeButton = new Button("Exit");
-        closeButton.setTextFill(Color.BLACK);
-        closeButton.setOnAction(e -> ClosingBox.display(window));
-
-        //First window
-        window.setTitle("Adrenalina");
+    /**
+     * Sets up the start scene
+     * This scene only has the START GAME button
+     */
+    private Scene setStartScene(Scene nextScene)  {
 
         //Setting up startscene
         VBox startLayout = new VBox(20);
+        startLayout.setAlignment(Pos.CENTER);
 
         Label welcomeLabel = new Label("Welcome to Adrenalina");
         welcomeLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 20));
@@ -92,64 +149,39 @@ public class Gui extends Application implements QuestionEventHandler {
 
         Button startGameButton = new Button("Start game");
         startGameButton.setTextFill(Color.BLACK);
-        startLayout.setAlignment(Pos.CENTER);
         Scene startGameScene = new Scene(startLayout, 750, 500);
 
         //background image
-        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
-        Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(startGameScene.getHeight(), startGameScene.getWidth(), true, true, true, true)));
+        Image backgroundImage = loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
+
+        //Setting up the image as background
+        Background Background = new Background(
+                new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                        new BackgroundSize(startGameScene.getHeight(), startGameScene.getWidth(),
+                        true, true, true, true)));
 
         startLayout.getChildren().addAll(welcomeLabel, startGameButton);
         startLayout.setBackground(Background);
 
-        startGameButton.setOnAction(e -> window.setScene(connectionScene));
+        startGameButton.setOnAction(e -> window.setScene(nextScene));
 
         return startGameScene;
     }
 
-    private Scene setConnectionScene(Stage window, Scene port_and_IP_scene) throws FileNotFoundException {
+    private Image loadImage(String fileName) {
 
-        //background image
-        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
-        Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
+        try {
+            return new Image(new FileInputStream(fileName));
+        }
+        catch (FileNotFoundException e){
+            System.err.println("File not found");
+            e.printStackTrace();
+            return null;
+        }
 
-        //connection scene: sockets or rmi?
-        VBox connectionLayout = new VBox(20);
-        connectionLayout.setBackground(Background);
-        connectionLayout.setSpacing(20);
-        connectionLayout.setPadding( new Insets(30, 30, 30,30));
-        Label connectionLabel = new Label("Choose the type of connection:");
-        connectionLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
-        connectionLabel.setTextFill(Color.WHITE);
-        connectionLabel.setAlignment(Pos.TOP_CENTER);
-        HBox HboxConnections = new HBox();
-        HboxConnections.setAlignment(Pos.CENTER);
-        HboxConnections.setSpacing(30);
-        Button socketButton = new Button("Socket");
-        Button RMIButton = new Button("RMI");
-        socketButton.setStyle("-fx-background-color: grey; -fx-text-fill: white;");
-        //socketButton.setTextFill(Color.BLACK);
-        //RMIButton.setTextFill(Color.BLACK);
-        connectionLayout.setAlignment(Pos.CENTER);
-        HboxConnections.getChildren().addAll(socketButton, RMIButton);
-        connectionLayout.getChildren().addAll(connectionLabel, HboxConnections);
-        Scene connectionScene = new Scene(connectionLayout, 750, 500);
-
-        socketButton.setOnAction( event -> {
-            Gui.RMI = false;
-            window.setScene(port_and_IP_scene);
-            //startSocketConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
-        });
-        RMIButton.setOnAction( event -> {
-            Gui.RMI = true;
-            window.setScene(port_and_IP_scene);
-            //startRmiConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
-        });
-
-        return connectionScene;
     }
 
-    private Scene setPort_and_IP_scene(Stage window, Scene loginScene) throws FileNotFoundException {
+    private Scene setIP_scene(Scene nextScene) {
 
         //close button
         Button closeButton = new Button("Exit");
@@ -157,7 +189,7 @@ public class Gui extends Application implements QuestionEventHandler {
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
         //background image
-        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
+        Image backgroundImage = loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
         Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
 
         //Port and IP scene
@@ -182,34 +214,34 @@ public class Gui extends Application implements QuestionEventHandler {
         GridPane.setConstraints(closeButton, 2, 17);
         port_and_IP_Layout.getChildren().addAll( IP_address_label, IP_address_input, nextButton, closeButton);
 
-        Scene setPort_and_IP_scene = new Scene(port_and_IP_Layout, 750, 500);
+        Scene setIP_scene = new Scene(port_and_IP_Layout, 750, 500);
 
         nextButton.setOnAction(actionEvent -> {
 
-            Gui.serverAddress = IP_address_input.getText();
+            chosenIp = IP_address_input.getText();
 
-            if (IP_address_input.getText().isEmpty()) {
-                TextBox.display("Enter a valid IP address");
-                window.setScene(setPort_and_IP_scene);
+            if ( ! Pattern.matches(validIpAddress, chosenIp)) {
+                Modal.display("Enter a valid IP address");
+                window.setScene(setIP_scene);
             }else{
-                window.setScene(loginScene);
+                window.setScene(nextScene);
             }
 
 
         });
 
-        return setPort_and_IP_scene;
+        return setIP_scene;
     }
 
-    private Scene setLoginScene(Stage window, Scene gameScene) throws FileNotFoundException {
+    private Scene setLoginScene(Scene nextScene) {
 
         //close button
         Button closeButton = new Button("Exit");
         closeButton.setTextFill(Color.BLACK);
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
-        //background image
-        Image backgroundImage = new Image(new FileInputStream("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg"));
+        Image backgroundImage = loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
+
         Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
 
         //Login scene
@@ -252,34 +284,21 @@ public class Gui extends Application implements QuestionEventHandler {
         skullsChoiceBox.setValue("5");
         GridPane.setConstraints(skullsChoiceBox, 2, 10);
 
-        //Player color
-        Label playerColorLabel = new Label("Choose the color of your pawn:");
-        playerColorLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
-        playerColorLabel.setTextFill(Color.WHITE);
-        GridPane.setConstraints(playerColorLabel, 1, 11);
-
-        //Player color input
-        ChoiceBox<String> playerColorChoiceBox = new ChoiceBox<>();
-        playerColorChoiceBox.getItems().addAll("Yellow", "Blue", "Green", "Grey", "Purple");
-        playerColorChoiceBox.setValue("Yellow");
-        GridPane.setConstraints(playerColorChoiceBox, 2, 11);
-
         Button loginButton = new Button("Login");
         loginButton.setTextFill(Color.BLACK);
         GridPane.setConstraints(loginButton, 2, 15);
         GridPane.setConstraints(closeButton, 1, 15);
-        loginLayout.getChildren().addAll(usernameLabel, usernameInput, choosingMapLabel, mapChoiceBox, numberOfSkullsLabel, skullsChoiceBox, playerColorLabel, playerColorChoiceBox, loginButton, closeButton);
+        loginLayout.getChildren().addAll(usernameLabel, usernameInput, choosingMapLabel, mapChoiceBox, numberOfSkullsLabel, skullsChoiceBox, loginButton, closeButton);
 
         Scene loginScene = new Scene(loginLayout, 750, 500);
 
         loginButton.setOnAction(actionEvent -> {
-            ArrayList<String> info = handleLoginButton(usernameInput.getText(), mapChoiceBox.getValue(), skullsChoiceBox.getValue(), playerColorChoiceBox.getValue(), window,  loginScene, gameScene);
+            ArrayList<String> info = handleLoginButton(usernameInput.getText(), mapChoiceBox.getValue(), skullsChoiceBox.getValue(), window,  loginScene, nextScene);
 
             if(!info.isEmpty()) {
-                Gui.Username = info.get(0);
-                Gui.nameOfMap = MapName.valueOf(info.get(1));
-                Gui.NumberOfSkulls = Integer.parseInt(info.get(2));
-                Gui.playerColor = info.get(3);
+                username = info.get(0);
+                currentMap = MapName.valueOf(info.get(1));
+                currentSkulls = Integer.parseInt(info.get(2));
             }
 
         });
@@ -287,37 +306,32 @@ public class Gui extends Application implements QuestionEventHandler {
         return loginScene;
     }
 
+
     /*CSS examples
     *button2.setStyle("-fx-background-color: darkslateblue; -fx-text-fill: white;");
      text2.setStyle("-fx-font: normal bold 20px 'serif' ");
      gridPane.setStyle("-fx-background-color: BEIGE;"); */
-
-    private ArrayList<String> handleLoginButton(String username, String mapName, String numberOfSkulls, String playerColor,  Stage window, Scene loginScene, Scene gameScene){
+    private ArrayList<String> handleLoginButton(String username, String mapName, String numberOfSkulls,  Stage window, Scene loginScene, Scene gameScene){
 
         ArrayList<String> answer = new ArrayList<>();
         try{
 
-            boolean ok = true;
 
             //username non valido, mando messaggio e ritorno alla login
             if (!Pattern.matches(validUsername, username)) {
-                TextBox.display("The username can only contain letters and numbers");
-                ok = false;
+                Modal.display("The username can only contain letters and numbers", this);
             }
             if (username.isEmpty()) {
-                TextBox.display("Username can't be empty. Please enter a valid one");
-                ok = false;
+                Modal.display("Username can't be empty. Please enter a valid one", this);
             }
-            if( !ok )
-                window.setScene(loginScene);
-            else {
-                window.setScene(gameScene);
-                answer.add(username);
-                answer.add(mapName);
-                answer.add(numberOfSkulls);
-                answer.add(playerColor);
-                window.setScene(gameScene);
-            }
+
+            window.setScene(gameScene);
+            answer.add(username);
+            answer.add(mapName);
+            answer.add(numberOfSkulls);
+            answer.add(playerColor);
+            window.setScene(gameScene);
+
 
         } catch (Exception e) {
             //TODO senza la try catch da un sacco di errori
@@ -326,21 +340,84 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
 
-    private Scene setGameScene(Stage window) throws FileNotFoundException {
+    private Scene setConnectionScene(Scene nextScene) {
+
+        //background image
+        //background image
+        Image backgroundImage = loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
+
+        Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
+
+        //connection scene: sockets or rmi?
+        VBox connectionLayout = new VBox();
+
+
+        connectionLayout.setBackground(Background);
+        connectionLayout.setSpacing(20);
+        connectionLayout.setPadding( new Insets(30));
+        connectionLayout.setAlignment(Pos.CENTER);
+
+        Label connectionLabel = new Label("Choose the type of connection:");
+        connectionLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
+        connectionLabel.setTextFill(Color.WHITE);
+        connectionLabel.setAlignment(Pos.TOP_CENTER);
+
+        HBox HboxConnections = new HBox();
+        HboxConnections.setAlignment(Pos.CENTER);
+        HboxConnections.setSpacing(30);
+        Button socketButton = new Button("Socket");
+        Button RMIButton = new Button("RMI");
+
+        HboxConnections.getChildren().addAll(socketButton, RMIButton);
+        connectionLayout.getChildren().addAll(connectionLabel, HboxConnections);
+        Scene connectionScene = new Scene(connectionLayout, 750, 500);
+
+        /*
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() ->  {
+                    HboxConnections.getChildren().remove(RMIButton);
+                });
+            }
+        }, 5000);
+        */
+
+        socketButton.setOnAction( event -> {
+            //TODO andreaalf
+
+            startSocketConnection(chosenIp, socketPort);
+
+            window.setScene(nextScene);
+            //startSocketConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
+        });
+        RMIButton.setOnAction( event -> {
+            //TODO andreaalf
+
+            startRmiConnection(chosenIp, rmiPort);
+
+            window.setScene(nextScene);
+            //startRmiConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
+        });
+
+        return connectionScene;
+    }
+
+    private Scene setGameScene() throws FileNotFoundException {
 
 
 
         /*if(Gui.nameOfMap == MapName.FIRE ) {
-            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/WIND.png"));
         }
         if(Gui.nameOfMap == MapName.WATER) {
-            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_2.png"));
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/FIRE.png"));
         }
         if(Gui.nameOfMap == MapName.WIND) {
-            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_3.png"));
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/WATER.png"));
         }
         if(Gui.nameOfMap == MapName.EARTH) {
-            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_4.png"));
+            Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/EARTH.png"));
         }
         if(mapImage == null)
             TextBox.display("map null");*/
@@ -361,9 +438,9 @@ public class Gui extends Application implements QuestionEventHandler {
             Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Blue/Blue_front.png"));
         }*/
 
-        Gui.mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/Mappa_1.png"));
+        mapImage = new Image(new FileInputStream("src/main/resources/Grafica/Mappe/Mappe/WIND.png"));
 
-        Gui.planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Yellow/Yellow_front.png"));
+        planciaGiocatoreImage = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Yellow/Yellow_front.png"));
 
         Image purple_plancia = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Purple/Purple_front.png"));
         Image green_plancia = new Image(new FileInputStream("src/main/resources/Grafica/Plance_giocatori/Green/Green_front.png"));
@@ -502,11 +579,11 @@ public class Gui extends Application implements QuestionEventHandler {
         planciaPlayerGridPane.minHeightProperty().bind(Bindings.divide(window.heightProperty(), 6.00));
         planciaPlayerGridPane.setGridLinesVisible(true);
 
-        BackgroundImage image = new BackgroundImage(Gui.mapImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(mapGridPane.getWidth(), mapGridPane.getHeight(), true, true, true, false));
+        BackgroundImage image = new BackgroundImage(mapImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(mapGridPane.getWidth(), mapGridPane.getHeight(), true, true, true, false));
         Background BackgroundMapImage = new Background(image);
         mapGridPane.setBackground(BackgroundMapImage);
 
-        BackgroundImage planciaImage = new BackgroundImage(Gui.planciaGiocatoreImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(planciaPlayerGridPane.getWidth(), planciaPlayerGridPane.getHeight()*0.9, true, true, true, false));
+        BackgroundImage planciaImage = new BackgroundImage(planciaGiocatoreImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(planciaPlayerGridPane.getWidth(), planciaPlayerGridPane.getHeight()*0.9, true, true, true, false));
         Background BackgroundPlanciaImage = new Background(planciaImage);
         planciaPlayerGridPane.setBackground(BackgroundPlanciaImage);
 
@@ -527,39 +604,131 @@ public class Gui extends Application implements QuestionEventHandler {
         return gameScene;
     }
 
-    @Override
-    public void receiveEvent(QuestionEvent questionEvent) {
+
+
+
+    public void receiveNewUsername(String username) {
+
+        this.username = username;
+
+        if( ! Pattern.matches(validUsername, username)){
+            Modal.display("Username not valid! Insert a new one:", this);
+        }
 
     }
 
+
+    /**
+     * Starts a new rmi connection with the server by sending a connection event
+     * @param ipAddress the address of the server
+     * @param port the port running an rmi registry
+     */
+    private void startRmiConnection(String ipAddress, int port) {
+
+        try {
+
+            //Creates the remote view object to send to the server for callbacks
+            RemoteViewInterface remoteView = new RemoteViewRmiImpl(this);
+
+            this.remoteView = (RemoteViewRmiImpl)remoteView;
+
+            //Searches for the registry
+            Registry registry = LocateRegistry.getRegistry(ipAddress, port);
+
+            //Looks for the 'server' object (only has one method called connect())
+            ServerInterface rmiRemoteServer = (ServerInterface)registry.lookup("server");
+
+            //Sends the remote view to the server and then waits for a TemporaryIdQuestion
+            rmiRemoteServer.connect(remoteView);
+
+        }
+        catch (Exception e){
+            System.err.println("Error while connecting to server");
+        }
+
+    }
+
+
+    /**
+     * Starts a new socket connection with the server by sending a connection event
+     * @param ipAddress the address of the server
+     * @param port the port running an rmi registry
+     */
+    private void startSocketConnection(String ipAddress, int port) {
+
+        Socket serverSocket = null;
+        try {
+            //Connects with the server through socket
+            serverSocket = new Socket(ipAddress, port);
+        }
+        catch (IOException e){
+            System.err.println(e.getMessage());
+        }
+
+        //Creates a new RemoteViewSocket object which is used to keep the connection open and read all new messages
+        RemoteViewSocket remoteViewSocket = new RemoteViewSocket(serverSocket, this);
+
+        this.remoteView = remoteViewSocket;
+
+        //runs the remoteViewSocket on a new thread to keep it open
+        new Thread(remoteViewSocket).run();
+
+    }
+
+
+
+
+
+
     @Override
     public void handleEvent(TemporaryIdQuestion event) {
+        temporaryId = event.temporaryId;
 
+        //I'm sending the current values of the votes because initially they are the voted values, then
+        //they become the actual values as voted by all players
+        remoteView.sendAnswerEvent(
+                new NewConnectionAnswer(temporaryId, username, currentMap, currentSkulls)
+        );
     }
 
     @Override
     public void handleEvent(InvalidUsernameQuestion event) {
+
+        Modal.display("Username not valid! Insert a new one:", this);
 
     }
 
     @Override
     public void handleEvent(AddedToWaitingRoomQuestion event) {
 
+        waitingRoomGui = new WaitingRoomGui(event.players);
+        waitingRoomGui.display();
+
     }
 
     @Override
     public void handleEvent(NewPlayerConnectedQuestion event) {
-
+        waitingRoomGui.addPlayer(event.nickname);
     }
 
     @Override
     public void handleEvent(DisconnectedQuestion event) {
+
+        waitingRoomGui.close();
+
+        window.close();
+
+        Modal.display("YOU HAVE BEEN DISCONECTED");
 
     }
 
     @Override
     public void handleEvent(GameStartedQuestion event) {
 
+        waitingRoomGui.close();
+
+        //TODO andreaalf
+        //Settare game scene e iniziare la partita
     }
 
     @Override
@@ -649,6 +818,18 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(WhereToMoveQuestion event) {
+
+    }
+
+
+
+
+
+    @Override
+    public void receiveEvent(QuestionEvent questionEvent) {
+
+        Platform.runLater( () -> questionEvent.acceptEventHandler(this));
+
 
     }
 }

@@ -20,16 +20,16 @@ public class ChooseHowToShootAnswer implements AnswerEvent, Serializable {
 
     public List<Integer> yCoords;
 
-    public int orderNumber;
+    public int[] chosenOrder;
 
-    public ChooseHowToShootAnswer(String nickname, String weapon, List<String> defenders, List<String> mover, List<Integer> xCoords, List<Integer> yCoords, int orderNumber) {
+    public ChooseHowToShootAnswer(String nickname, int[] chosenOrder, String weapon, List<String> defenders, List<String> mover, List<Integer> xCoords, List<Integer> yCoords) {
         this.nickname = nickname;
         this.weapon = weapon;
         this.defenders = defenders;
         this.movers = mover;
         this.xCoords = xCoords;
         this.yCoords = yCoords;
-        this.orderNumber = orderNumber;
+        this.chosenOrder = chosenOrder;
     }
 
     @Override

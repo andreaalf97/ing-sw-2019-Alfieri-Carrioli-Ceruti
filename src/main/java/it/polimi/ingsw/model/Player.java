@@ -574,6 +574,7 @@ public class Player {
      * this method sets player status for end turn
      */
     public void endTurnCurrent() {
+        playerStatus.nActionsDone = 0;
         playerStatus.isActive = false;
         playerStatus.isFirstTurn = false;
     }
