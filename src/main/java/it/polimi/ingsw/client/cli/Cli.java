@@ -450,6 +450,10 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("****************************************");
 
+        System.out.println("The chosen map is " +  event.mapName);
+        System.out.println("We are playing with " + event.votedSkulls + " skulls");
+
+        System.out.println("****************************************");
 
     }
 

@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.server.ServerProxy;
 import it.polimi.ingsw.view.server.VirtualView;
 
@@ -91,7 +92,7 @@ public class Controller implements Observer, AnswerEventHandler {
     /**
      * Starts the game for all players
      */
-    public void startGame() {
+    public void startGame(MapName votedMap, int votedSkulls) {
 
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
@@ -112,7 +113,7 @@ public class Controller implements Observer, AnswerEventHandler {
         Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
         virtualView.sendAllQuestionEvent(
-                new GameStartedQuestion(playerNames, firstPlayer.getNickname())
+                new GameStartedQuestion(playerNames, firstPlayer.getNickname(), votedMap, votedSkulls)
         );
 
         firstPlayer.playerStatus.isActive = true;
