@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.client.RemoteViewInterface;
 import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
 import it.polimi.ingsw.view.client.RemoteViewSocket;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,6 +27,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
+
+import javax.swing.tree.ExpandVetoException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,8 +52,6 @@ public class Gui extends Application implements QuestionEventHandler {
     private int rmiPort = 5432;
 
     private int socketPort = 2345;
-
-    private boolean RMI;
 
     private String chosenIp;
 
@@ -393,7 +394,7 @@ public class Gui extends Application implements QuestionEventHandler {
         RMIButton.setOnAction( event -> {
             //TODO andreaalf
 
-            startRmiConnection(chosenIp, socketPort);
+            startRmiConnection(chosenIp, rmiPort);
 
             window.setScene(nextScene);
             //startRmiConnection(usernameInput.getText(), MapName.valueOf(choosingMapInput.getText()), Integer.parseInt(numberOfSkullsInput.getText()));
@@ -713,10 +714,17 @@ public class Gui extends Application implements QuestionEventHandler {
     @Override
     public void handleEvent(DisconnectedQuestion event) {
 
+        waitingRoomGui.close();
+
+        window.close();
+
+        Modal.display("YOU HAVE BEEN DISCONECTED");
+
     }
 
     @Override
     public void handleEvent(GameStartedQuestion event) {
+
         waitingRoomGui.close();
 
         //TODO andreaalf
@@ -819,7 +827,10 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void receiveEvent(QuestionEvent questionEvent) {
-        questionEvent.acceptEventHandler(this);
+
+        Platform.runLater( () -> questionEvent.acceptEventHandler(this));
+
+
     }
 }
 

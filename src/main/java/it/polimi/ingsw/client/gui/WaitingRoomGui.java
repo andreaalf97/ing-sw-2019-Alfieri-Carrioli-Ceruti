@@ -30,7 +30,7 @@ public class WaitingRoomGui {
 
         window.initModality(Modality.APPLICATION_MODAL);
 
-        window.initStyle(StageStyle.UNDECORATED);
+        //window.initStyle(StageStyle.UNDECORATED);
 
         window.setMinWidth(300);
         window.setMinHeight(200);
