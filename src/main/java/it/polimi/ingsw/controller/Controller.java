@@ -480,6 +480,18 @@ public class Controller implements Observer, AnswerEventHandler {
 
         List<String> weaponsLoaded = gameModel.getLoadedWeapons(event.nickname);
 
+        if(weaponsLoaded.isEmpty()){
+            sendMessage(event.nickname, "You have no loaded weapon");
+
+            //Regenerates all the possible actions this player can make
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
+
         sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(weaponsLoaded));
 
     }
@@ -814,9 +826,12 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(ChooseWeaponToAttackAnswer event) {
 
-        Player player = gameModel.getPlayerByNickname(event.nickname);
+        //FIXME
+        //This needs the possible orders and a boolean to tell if it needs movement
 
-        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.chosenWeapon));
+        ArrayList<int[]> possibleOrders = new ArrayList<>();
+
+        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.chosenWeapon, possibleOrders, true));
 
     }
 
