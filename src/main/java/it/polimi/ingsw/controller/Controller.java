@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.server.ServerProxy;
 import it.polimi.ingsw.view.server.VirtualView;
 
@@ -91,7 +92,7 @@ public class Controller implements Observer, AnswerEventHandler {
     /**
      * Starts the game for all players
      */
-    public void startGame() {
+    public void startGame(MapName votedMap, int votedSkulls) {
 
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
@@ -112,7 +113,7 @@ public class Controller implements Observer, AnswerEventHandler {
         Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
         virtualView.sendAllQuestionEvent(
-                new GameStartedQuestion(playerNames, firstPlayer.getNickname())
+                new GameStartedQuestion(playerNames, firstPlayer.getNickname(), votedMap, votedSkulls)
         );
 
         firstPlayer.playerStatus.isActive = true;
@@ -479,6 +480,18 @@ public class Controller implements Observer, AnswerEventHandler {
 
         List<String> weaponsLoaded = gameModel.getLoadedWeapons(event.nickname);
 
+        if(weaponsLoaded.isEmpty()){
+            sendMessage(event.nickname, "You have no loaded weapon");
+
+            //Regenerates all the possible actions this player can make
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
+
         sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(weaponsLoaded));
 
     }
@@ -813,9 +826,12 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(ChooseWeaponToAttackAnswer event) {
 
-        Player player = gameModel.getPlayerByNickname(event.nickname);
+        //FIXME
+        //This needs the possible orders and a boolean to tell if it needs movement
 
-        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.chosenWeapon));
+        ArrayList<int[]> possibleOrders = new ArrayList<>();
+
+        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.chosenWeapon, possibleOrders, true));
 
     }
 

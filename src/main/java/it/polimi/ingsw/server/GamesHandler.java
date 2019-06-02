@@ -62,8 +62,11 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     static void startGame(WaitingRoom waitingRoom) {
 
+        MapName votedMap = waitingRoom.getVotedMap();
+        int votedSkulls = waitingRoom.getVotedSkulls();
+
         //Creates a new Game
-        Game game = new Game(waitingRoom.players, waitingRoom.getVotedMap(), waitingRoom.getVotedSkulls());
+        Game game = new Game(waitingRoom.players, votedMap, votedSkulls);
 
         //Creates a new virtual view
         VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.serverProxies);
@@ -86,7 +89,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         waitingRooms.remove(waitingRoom);
 
         //Starting the game
-        controller.startGame();
+        controller.startGame(votedMap, votedSkulls);
 
     }
 

@@ -86,6 +86,11 @@ public class Cli implements QuestionEventHandler {
      */
     private PlayerInfo playerInfo;
 
+    /**
+     * The list of all players in the game
+     */
+    private ArrayList<String> otherPlayers;
+
 
     /**
      * Constructor
@@ -98,6 +103,8 @@ public class Cli implements QuestionEventHandler {
         this.remoteView = null;
         this.sysin = new Scanner(System.in);
         this.lastSnapshotReceived = new JsonObject();
+        this.playerInfo = null;
+        this.otherPlayers = new ArrayList<>();
     }
 
     /**
@@ -440,6 +447,11 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("The payers are:");
 
+        //adds all the other players to the list
+        for(String player : event.playerNames)
+            if( ! player.equals(this.username))
+                this.otherPlayers.add(player);
+
         for(String player : event.playerNames)
             System.out.println(player);
 
@@ -449,6 +461,10 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("****************************************");
 
+        System.out.println("The chosen map is " +  event.mapName);
+        System.out.println("We are playing with " + event.votedSkulls + " skulls");
+
+        System.out.println("****************************************");
 
     }
 
@@ -599,6 +615,107 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChooseHowToShootQuestion event) {
 
+        System.out.println("Choose how to shoot:");
+
+        System.out.println("Let's start with the order");
+
+        ArrayList<String> stringOrders = toStringArray(event.possibleOrders);
+
+        int answer = chooseAnswer(stringOrders);
+
+        int[] chosenOrder = event.possibleOrders.get(answer);
+
+        System.out.println("Now the defenders");
+
+        //The list of chosen defenders
+        ArrayList<String> defenders = new ArrayList<>();
+
+        //The possible choices is the list of other players + the STOP choice
+        ArrayList<String> possibleChoices = new ArrayList<>(this.otherPlayers);
+        possibleChoices.add("STOP");
+
+        //The index of the STOP choice
+        int indexOfStopAnswer = possibleChoices.indexOf("STOP");
+
+        System.out.println("Choose a defender");
+
+        answer = chooseAnswer(possibleChoices);
+
+        //Adding the first defender
+        if(answer != indexOfStopAnswer)
+            defenders.add(possibleChoices.get(answer));
+
+        //Keeps adding defenders until the user chooses STOP
+        while ( answer != indexOfStopAnswer ){
+
+            System.out.println("Next:");
+            answer = chooseAnswer(possibleChoices);
+
+            if(answer != indexOfStopAnswer)
+                defenders.add(possibleChoices.get(answer));
+        }
+
+
+        if( ! event.needsMovement){
+            remoteView.sendAnswerEvent(
+                    new ChooseHowToShootAnswer(username, chosenOrder, event.chosenWeapon, defenders, null, null, null)
+            );
+        }
+
+        possibleChoices.remove("STOP");
+        possibleChoices.add(this.username);
+        possibleChoices.add("STOP");
+
+        ArrayList<String> movers = new ArrayList<>();
+        ArrayList<Integer> xCoords = new ArrayList<>();
+        ArrayList<Integer> yCoords = new ArrayList<>();
+
+        indexOfStopAnswer = possibleChoices.indexOf("STOP");
+
+        System.out.println("Now the movers:");
+
+        answer = chooseAnswer(possibleChoices);
+
+        while ( answer != indexOfStopAnswer ){
+
+            System.out.println("Insert X for this player");
+            String line = sysin.nextLine();
+            xCoords.add(Integer.parseInt(line));
+
+            System.out.println("Insert Y for this player");
+            line = sysin.nextLine();
+            yCoords.add(Integer.parseInt(line));
+
+            System.out.println("Next mover:");
+            answer = chooseAnswer(possibleChoices);
+
+        }
+
+        remoteView.sendAnswerEvent(
+                new ChooseHowToShootAnswer(username, chosenOrder, event.chosenWeapon, defenders, movers, xCoords, yCoords)
+        );
+
+    }
+
+    private ArrayList<String> toStringArray(ArrayList<int[]> possibleOrders) {
+
+        ArrayList<String> returnValue = new ArrayList<>();
+
+        for(int[] order : possibleOrders){
+
+            String stringOrder = "[";
+
+            for(int i = 0; i < order.length - 1; i++)
+                stringOrder += order[i] + ", ";
+
+            stringOrder += order[order.length - 1] + "]";
+
+            returnValue.add(stringOrder);
+
+        }
+
+        return returnValue;
+
     }
 
     @Override
@@ -680,17 +797,11 @@ public class Cli implements QuestionEventHandler {
         System.out.println("****************************************");
         System.out.println("Choose weapon to use:");
 
-        for(String weaponName : event.weaponsLoaded)
-            System.out.println("[" + event.weaponsLoaded.indexOf(weaponName) + "] " + weaponName);
-
-        String line = sysin.nextLine();
-        int answer = Integer.parseInt(line);
+        int answer = chooseAnswer(event.weaponsLoaded);
 
         remoteView.sendAnswerEvent(
                 new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
         );
-
-
 
     }
 
