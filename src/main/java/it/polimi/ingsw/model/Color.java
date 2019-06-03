@@ -6,10 +6,24 @@ import java.util.List;
 import java.util.Random;
 
 public enum Color {
-    RED,
-    YELLOW,
-    BLUE,
-    ANY;
+    RED("\u001b[31m"),
+    YELLOW("\u001B[33m"),
+    BLUE("\u001B[34m"),
+    ANY("\u001B[0m"),
+    WHITE("\u001b[37m"),
+    BLACK("\u001b[30m");
+
+    public static final String RESET = "\u001B[0m";
+
+    private String escape;
+
+    Color(String escape){
+        this.escape = escape;
+    }
+
+    public String escape(){
+        return escape;
+    }
 
     /**
      * The list of all possible values
