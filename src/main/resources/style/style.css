@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "COD";
+    src: url('/fonts/Exo2-BlackItalic.ttf');
+}
+
+.label {
+    -fx-padding: 200;
+    -fx-font-family: "COD";
+}
+
+.button {
+    -fx-font-family: "COD";
+}
