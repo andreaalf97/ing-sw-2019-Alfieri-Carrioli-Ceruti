@@ -351,6 +351,10 @@ public class Cli implements QuestionEventHandler {
 
     }
 
+    public void buildCliMap(){
+        MapPrinting.fillMap(currentMap);
+    }
+
     public void showGameMap(){}
 
     public void showPlayers(){}

@@ -10,8 +10,14 @@ public enum Color {
     YELLOW("\u001B[33m"),
     BLUE("\u001B[34m"),
     ANY("\u001B[0m"),
+
+
+
+
+    GREEN("\u001b[32m"),
     WHITE("\u001b[37m"),
-    BLACK("\u001b[30m");
+    BLACK("\u001b[30m"),
+    PURPLE("\u001b[35m");
 
     public static final String RESET = "\u001B[0m";
 
