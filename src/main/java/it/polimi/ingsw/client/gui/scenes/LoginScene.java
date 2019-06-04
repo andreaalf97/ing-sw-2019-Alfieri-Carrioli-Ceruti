@@ -36,7 +36,7 @@ public class LoginScene implements MyScene {
 
         //close button
         Button closeButton = new Button("Exit");
-        closeButton.setTextFill(Color.BLACK);
+        closeButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
         Image backgroundImage = Gui.loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
@@ -49,41 +49,45 @@ public class LoginScene implements MyScene {
         loginLayout.setVgap(15);
         loginLayout.setHgap(12);
         loginLayout.setBackground(Background);
+
         //username input
         Label usernameLabel = new Label("Username:");
-        usernameLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
-        usernameLabel.setTextFill(Color.WHITE);
+        usernameLabel.setStyle("-fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
+
         //set the username label in the top left
         GridPane.setConstraints( usernameLabel, 1, 8);
         //insert the username
         TextField usernameInput = new TextField();
+        usernameInput.setStyle("-fx-background-color: #E94B2B; -fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
+
         GridPane.setConstraints(usernameInput, 2, 8);
 
         //choosing map input
         Label choosingMapLabel = new Label("Choose the map you want to play in:");
-        choosingMapLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
-        choosingMapLabel.setTextFill(Color.WHITE);
+        choosingMapLabel.setStyle("-fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
         GridPane.setConstraints(choosingMapLabel, 1, 9);
 
         //insert the map input
         ChoiceBox<String> mapChoiceBox = new ChoiceBox<>();
+        mapChoiceBox.setStyle("-fx-background-color: #E94B2B; -fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
         mapChoiceBox.getItems().addAll("FIRE", "WATER", "WIND", "EARTH");
         mapChoiceBox.setValue("FIRE");
         GridPane.setConstraints(mapChoiceBox, 2, 9);
 
         //choosing number of skull input
         Label numberOfSkullsLabel = new Label("Choose the number of skulls you want to play with:");
-        numberOfSkullsLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
-        numberOfSkullsLabel.setTextFill(Color.WHITE);
+        numberOfSkullsLabel.setStyle("-fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
         GridPane.setConstraints(numberOfSkullsLabel, 1, 10);
 
         //insert the input
         ChoiceBox<String> skullsChoiceBox = new ChoiceBox<>();
+        skullsChoiceBox.setStyle("-fx-background-color: #E94B2B; -fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
         skullsChoiceBox.getItems().addAll("5", "6", "7", "8");
         skullsChoiceBox.setValue("5");
         GridPane.setConstraints(skullsChoiceBox, 2, 10);
 
         Button loginButton = new Button("Login");
+        loginButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         loginButton.setTextFill(Color.BLACK);
         GridPane.setConstraints(loginButton, 2, 15);
         GridPane.setConstraints(closeButton, 1, 15);

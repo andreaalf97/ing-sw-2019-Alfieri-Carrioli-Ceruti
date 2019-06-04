@@ -43,8 +43,6 @@ public class ConnectionScene implements MyScene {
         this.votedSkulls = votedSkulls;
         this.chosenIp = chosenIp;
 
-
-        //background image
         //background image
         Image backgroundImage = Gui.loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
 
@@ -53,26 +51,26 @@ public class ConnectionScene implements MyScene {
         //connection scene: sockets or rmi?
         VBox connectionLayout = new VBox();
 
-
         connectionLayout.setBackground(Background);
         connectionLayout.setSpacing(20);
         connectionLayout.setPadding( new Insets(30));
         connectionLayout.setAlignment(Pos.CENTER);
 
         Label connectionLabel = new Label("Choose the type of connection:");
-        connectionLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 14));
-        connectionLabel.setTextFill(Color.WHITE);
+        connectionLabel.setStyle("-fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
         connectionLabel.setAlignment(Pos.TOP_CENTER);
 
         HBox HboxConnections = new HBox();
         HboxConnections.setAlignment(Pos.CENTER);
         HboxConnections.setSpacing(30);
         Button socketButton = new Button("Socket");
+        socketButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         Button RMIButton = new Button("RMI");
+        RMIButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+
 
         HboxConnections.getChildren().addAll(socketButton, RMIButton);
         connectionLayout.getChildren().addAll(connectionLabel, HboxConnections);
-
 
         this.scene = new Scene(connectionLayout, 750, 500);
 
