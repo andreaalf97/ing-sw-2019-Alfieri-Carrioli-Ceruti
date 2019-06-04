@@ -11,19 +11,19 @@ import it.polimi.ingsw.model.map.Room;
 public class MapPrinting {
 
     //attributes valid for all spots length
-    public static final int horizontalSpotStandard = 13;
+    public static final int horizontalSpotStandard = 15;
     public static final int verticalSpotStandard = 7;
 
     //attributes for ammo label in each spot
-    public static final int horizontalAmmoStandard = 2;
+    public static final int horizontalAmmoStandard = 3;
     public static final int verticalAmmoStandard = 1;
 
     //attributes for coord label
-    public static final int horizontalCoordStandard = 5;
+    public static final int horizontalCoordStandard = 8;
     public static final int verticalCoordStandard = 5;
 
     //attributes fro map building
-    private static final int maxHorizontalLength = 53; //53 - 5 separazioni = 48 che diviso 4 fa 12 caselle a spot
+    private static final int maxHorizontalLength = 61; //53 - 5 separazioni = 48 che diviso 4 fa 12 caselle a spot
     private  static final int maxVerticalLength = 21; //7 caselle di altezza
     public static String[][] map = new String[maxVerticalLength][maxHorizontalLength];
 
@@ -113,13 +113,13 @@ public class MapPrinting {
 
         map[0][0] = Color.BLUE.escape() + "╔" + Color.RESET;
 
-        for(int c = 1; c < maxHorizontalLength - 14; c++){
+        for(int c = 1; c < maxHorizontalLength - 16; c++){
             map[0][c] = Color.BLUE.escape() + "═" + Color.RESET;
         }
 
-        map[0][maxHorizontalLength - 14] = Color.BLUE.escape() + "╗" + Color.RESET;
+        map[0][maxHorizontalLength - 16] = Color.BLUE.escape() + "╗" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 13; c < maxHorizontalLength; c++){
+        for(int c = maxHorizontalLength - 15; c < maxHorizontalLength; c++){
             map[0][c] = "";
         }  //first line filled
 
@@ -127,9 +127,9 @@ public class MapPrinting {
 
             map[r][0] = Color.BLUE.escape() + "║" + Color.RESET;
 
-            for(int c = 1 ; c < maxHorizontalLength - 14; c++){
+            for(int c = 1 ; c < maxHorizontalLength - 16; c++){
 
-                if(c == 13 || c == 26){
+                if(c == 15 || c == 30){
                     map[r][c] = Color.BLUE.escape() + "│" + Color.RESET;
                 }
                 else {
@@ -138,23 +138,23 @@ public class MapPrinting {
 
             }
 
-            map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "║" + Color.RESET;
+            map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "║" + Color.RESET;
 
-            for(int c = maxHorizontalLength - 13; c < maxHorizontalLength; c++)
+            for(int c = maxHorizontalLength - 15; c < maxHorizontalLength; c++)
                 map[r][c] = "";
         }
         //first row with all columns
 
         map[6][0] =Color.BLUE.escape() + "╚" + Color.RESET;
 
-        for(int c = 1; c < maxHorizontalLength - 14; c++) {
-            if(c == 6 || c == 33){
+        for(int c = 1; c < maxHorizontalLength - 16; c++) {
+            if(c == 8 || c == 35){
                 map[6][c] = Color.BLUE.escape() + "╕" + Color.RESET;
             }
-            else if (c == 7 || c == 34){
+            else if (c == 9 || c == 36){
                 map[6][c] = " ";
             }
-            else if(c == 8 || c == 35){
+            else if(c == 10 || c == 37){
                 map[6][c] = Color.BLUE.escape() + "╒" + Color.RESET;
             }
             else{
@@ -162,9 +162,9 @@ public class MapPrinting {
             }
         }
 
-        map[6][maxHorizontalLength - 14] = Color.BLUE.escape() + "╝" + Color.RESET;
+        map[6][maxHorizontalLength - 16] = Color.BLUE.escape() + "╝" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 13; c < maxHorizontalLength; c++)
+        for(int c = maxHorizontalLength - 15; c < maxHorizontalLength; c++)
             map[6][c] = "";
 
         //finish blue room
@@ -172,14 +172,14 @@ public class MapPrinting {
 
         map[7][0] = Color.RED.escape() + "╔" + Color.RESET;
 
-        for(int c = 1; c < maxHorizontalLength - 14; c++){
-            if(c == 6 || c == 33){
+        for(int c = 1; c < maxHorizontalLength - 16; c++){
+            if(c == 8 || c == 35){
                 map[7][c] = Color.RED.escape() + "╛" + Color.RESET;
             }
-            else if( c == 7 || c == 34){
+            else if( c == 9 || c == 36){
                 map[7][c] = " ";
             }
-            else if (c == 8 || c == 35){
+            else if (c == 10 || c == 37){
                 map[7][c] = Color.RED.escape() + "╘" + Color.RESET;
             }
             else{
@@ -187,10 +187,10 @@ public class MapPrinting {
             }
         }
 
-        map[7][maxHorizontalLength - 14] = Color.RED.escape() + "╗" + Color.RESET;
-        map[7][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╔" + Color.RESET;
+        map[7][maxHorizontalLength - 16] = Color.RED.escape() + "╗" + Color.RESET;
+        map[7][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╔" + Color.RESET;
 
-        for ( int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++){
+        for ( int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++){
             map[7][c] = Color.YELLOW.escape() + "═" + Color.RESET;
         }
         map[7][maxHorizontalLength - 1] = Color.YELLOW.escape() + "╗" + Color.RESET;
@@ -199,8 +199,8 @@ public class MapPrinting {
 
             map[r][0] = Color.RED.escape() + "║" + Color.RESET;
 
-            for(int c = 1; c < maxHorizontalLength - 14; c++){
-                if (c == 13 || c == 26){
+            for(int c = 1; c < maxHorizontalLength - 16; c++){
+                if (c == 15 || c == 30){
                     map[r][c] = Color.RED.escape() + "│" + Color.RESET;
                 }
                 else{
@@ -209,19 +209,19 @@ public class MapPrinting {
             }
 
             if( r == 9) {
-                map[r][maxHorizontalLength - 14] = Color.RED.escape() + "╙" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╜" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.RED.escape() + "╙" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╜" + Color.RESET;
             }
             else if(r == 10){
-                map[r][maxHorizontalLength - 14] = Color.RED.escape() + "╓" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╖" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.RED.escape() + "╓" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╖" + Color.RESET;
             }
             else{
-                map[r][maxHorizontalLength - 14] = Color.RED.escape() + "║" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.RED.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
             }
 
-            for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
+            for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
                 map[r][c] = " ";
 
             map[r][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
@@ -229,14 +229,14 @@ public class MapPrinting {
         }
 
         map[13][0] = Color.RED.escape() + "╚" + Color.RESET;
-        for(int c = 1 ; c < maxHorizontalLength - 14; c++){
-            if( c == 17){
+        for(int c = 1 ; c < maxHorizontalLength - 16; c++){
+            if( c == 19){
                 map[13][c] = Color.RED.escape() + "╕" + Color.RESET;
             }
-            else if( c == 18){
+            else if( c == 20){
                 map[13][c] = " ";
             }
-            else if (c == 19){
+            else if (c == 21){
                 map[13][c] = Color.RED.escape() + "╒" + Color.RESET;
 
             }
@@ -245,307 +245,22 @@ public class MapPrinting {
             }
         }
 
-        map[13][maxHorizontalLength - 14] = Color.RED.escape() + "╝" + Color.RESET;
-        map[13][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
+        map[13][maxHorizontalLength - 16] = Color.RED.escape() + "╝" + Color.RESET;
+        map[13][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++ ){
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++ ){
             map[13][c] =  Color.YELLOW.escape() + "_" + Color.RESET;
         }
 
         map[13][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
 
         //14 row
-        for (int c = 0; c < 13; c++){
+        for (int c = 0; c < 15; c++){
             map[14][c] = " ";
         }
 
-        map[14][13] = Color.WHITE.escape() + "╔" + Color.RESET;
-        for(int c = 14; c < maxHorizontalLength - 14; c++){
-            if (c == 17){
-                map[14][c] = Color.WHITE.escape() + "╛" + Color.RESET;
-            }
-            else if( c == 18){
-                map[14][c] = Color.WHITE.escape() + " " + Color.RESET;
-            }
-            else if( c == 19){
-                map[14][c] = Color.WHITE.escape() + "╘" + Color.RESET;
-            }
-            else
-                map[14][c] = Color.WHITE.escape() + "═" + Color.RESET;
-        }
-
-        map[14][maxHorizontalLength - 14] = Color.WHITE.escape() + "╗" + Color.RESET;
-        map[14][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
-
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++){
-            map[14][c] = " ";
-        }
-        map[14][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
-
-        for(int r = 15; r < 20; r++){
-            for(int c = 0; c < 13; c++){
-                map[r][c] = " ";
-            }
-
-            map[r][13] = Color.WHITE.escape() + "║" + Color.RESET;
-
-            for(int c = 14; c < maxHorizontalLength - 14; c++){
-                if (c == 26){
-                    map[r][c] = Color.WHITE.escape() + "│" + Color.RESET;
-                }
-                else{
-                    map[r][c] = " ";
-                }
-            }
-
-            if( r == 16) {
-                map[r][maxHorizontalLength - 14] = Color.WHITE.escape() + "╙" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╜" + Color.RESET;
-            }
-            else if(r == 17){
-                map[r][maxHorizontalLength - 14] = Color.WHITE.escape() + "╓" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╖" + Color.RESET;
-            }
-            else{
-                map[r][maxHorizontalLength - 14] = Color.WHITE.escape() + "║" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
-            }
-
-            for (int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
-                map[r][c] = " ";
-
-            map[r][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
-        }
-
-
-        for (int c = 0; c < 13; c++){
-            map[20][c] = " ";
-        }
-
-        map[20][13] = Color.WHITE.escape() + "╚" + Color.RESET;
-
-        for(int c = 14; c < maxHorizontalLength - 14; c++)
-            map[20][c] = Color.WHITE.escape() + "═" + Color.RESET;
-
-        map[20][maxHorizontalLength - 14] = Color.WHITE.escape() + "╝" + Color.RESET;
-
-        map[20][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╚" + Color.RESET;
-
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
-            map[20][c] = Color.YELLOW.escape() + "═" + Color.RESET;
-
-        map[20][maxHorizontalLength - 1] = Color.YELLOW.escape() + "╝" + Color.RESET;
-    }
-
-    private static void fillMapWater(){
-
-        map[0][0] = Color.RED.escape() + "╔" + Color.RESET;
-
-        for(int c = 1; c < 13; c++){
-            map[0][c] = Color.RED.escape() + "═" + Color.RESET;
-        }
-
-        map[0][13] = Color.RED.escape() + "╗" + Color.RESET;
-        map[0][14] = Color.BLUE.escape() + "╔" + Color.RESET;
-
-        for(int c = 15; c < maxHorizontalLength - 14; c++){
-            map[0][c] = Color.BLUE.escape() + "═" + Color.RESET;
-        }  //first line filled
-
-        for(int r = 1 ; r < 6; r++){
-
-            map[r][0] = Color.RED.escape() + "║" + Color.RESET;
-
-            for(int c = 1 ; c < maxHorizontalLength - 14; c++){
-                if(c == 13){
-                    map[r][c] = Color.RED.escape() + "║" + Color.RESET;
-                }
-                else if(c == 14){
-                    map[r][c] = Color.BLUE.escape() + "║" + Color.RESET;
-                }
-                else if(c == 26){
-                    map[r][c] = Color.BLUE.escape() + "│" + Color.RESET;
-                }
-                else {
-                    map[r][c] = " ";
-                }
-
-                //ADDING DOORS TO FIRST SPOTS ROW
-                if(r == 2){
-                    if(c == 13)
-                        map[r][c] = Color.RED.escape() + "╙" + Color.RESET;
-                    else if(c == 14)
-                        map[r][c] = Color.BLUE.escape() + "╜" + Color.RESET;
-                }
-                else if (r == 3){
-                    if (c == 13)
-                        map[r][c] = Color.RED.escape() + "╓" + Color.RESET;
-                    else if(c == 14)
-                        map[r][c] = Color.BLUE.escape() + "╖" + Color.RESET;
-                }
-
-            }
-
-            map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "║" + Color.RESET;
-
-            for(int c = maxHorizontalLength - 13; c < maxHorizontalLength; c++)
-                map[r][c] = "";
-        }
-        //first row with all columns
-
-        map[6][0] = Color.RED.escape() + "║" + Color.RESET;
-
-        for(int c = 1; c < 13; c++) {
-            map[6][c] = Color.RED.escape() + "_" + Color.RESET;
-        }
-
-        map[6][13] =  Color.RED.escape() + "║" + Color.RESET;
-        map[6][14] =  Color.BLUE.escape() + "╚" + Color.RESET;
-
-        for(int c = 15; c < maxHorizontalLength - 14; c++ ) {
-            if (c == 19 || c == 32)
-                map[6][c] = Color.BLUE.escape() + "╕" + Color.RESET;
-            else if (c == 20 || c == 33)
-                map[6][c] = " ";
-            else if (c == 21 || c == 34)
-                map[6][c] = Color.BLUE.escape() + "╒" + Color.RESET;
-            else
-                 map[6][c] = Color.BLUE.escape() + "═" + Color.RESET;
-        }
-
-        map[6][maxHorizontalLength - 14] = Color.BLUE.escape() + "╝" + Color.RESET;
-
-        for(int c = maxHorizontalLength - 13; c < maxHorizontalLength; c++)
-            map[6][c] = "";
-
-        map[7][0] = Color.RED.escape() + "║" + Color.RESET;
-
-        for(int c = 1; c < 13; c++)
-            map[7][c] = " ";
-
-        map[7][13] = Color.RED.escape() + "║" + Color.RESET;
-        map[7][14] = Color.PURPLE.escape() + "╔" + Color.RESET;
-
-        for(int c = 15; c < maxHorizontalLength - 14; c++){
-            if(c == 19 || c == 32)
-                map[7][c] = Color.PURPLE.escape() + "╛" + Color.RESET;
-            else if (c == 20 || c == 33)
-                map[7][c] = " ";
-            else if( c == 21 || c == 34)
-                map[7][c] = Color.PURPLE.escape() + "╘" + Color.RESET;
-            else
-                map[7][c] = Color.PURPLE.escape() + "═" + Color.RESET;
-        }
-
-        map[7][maxHorizontalLength - 14] = Color.PURPLE.escape() + "╗" + Color.RESET;
-        map[7][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╔" + Color.RESET;
-
-        for ( int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++){
-            map[7][c] = Color.YELLOW.escape() + "═" + Color.RESET;
-        }
-        map[7][maxHorizontalLength - 1] = Color.YELLOW.escape() + "╗" + Color.RESET;
-
-
-
-        for(int r = 8 ; r < 13 ; r++ ){
-
-            map[r][0] = Color.RED.escape() + "║" + Color.RESET;
-
-            for(int c = 1; c < 13; c++)
-                    map[r][c] = " ";
-
-            if( r == 9) {
-                map[r][13] = Color.RED.escape() + "╙" + Color.RESET;
-                map[r][14] = Color.PURPLE.escape() + "╜" + Color.RESET;
-            }
-            else if(r == 10){
-                map[r][13] = Color.RED.escape() + "╓" + Color.RESET;
-                map[r][14] = Color.PURPLE.escape() + "╖" + Color.RESET;
-            }
-            else{
-                map[r][13] = Color.RED.escape() + "║" + Color.RESET;
-                map[r][14] = Color.PURPLE.escape() + "║" + Color.RESET;
-            }
-
-            for(int c = 15; c < maxHorizontalLength - 14; c++) {
-                if (c == 26)
-                    map[r][c] = Color.PURPLE.escape() + "│" + Color.RESET;
-                else
-                    map[r][c] = " ";
-            }
-
-            if( r == 9) {
-                map[r][maxHorizontalLength - 14] = Color.PURPLE.escape() + "╙" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╜" + Color.RESET;
-            }
-            else if ( r == 10){
-                map[r][maxHorizontalLength - 14] = Color.PURPLE.escape() + "╓" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╖" + Color.RESET;
-            }
-            else {
-                map[r][maxHorizontalLength - 14] = Color.PURPLE.escape() + "║" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
-            }
-
-            for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
-                map[r][c] = " ";
-
-            map[r][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
-        }
-
-        map[13][0] = Color.RED.escape() + "╚" + Color.RESET;
-
-        for(int c = 1 ; c < 13; c++){
-            if(c == 5)
-                map[13][c] = Color.RED.escape() + "╕" + Color.RESET;
-            else if ( c == 6)
-                map[13][c] = " ";
-            else if ( c == 7)
-                map[13][c] = Color.RED.escape() + "╒" + Color.RESET;
-            else
-                map[13][c] = Color.RED.escape() + "═" + Color.RESET;
-        }
-
-        map[13][13] = Color.RED.escape() + "╝" + Color.RESET;
-        map[13][14] = Color.RED.escape() + "╚" + Color.RESET;
-
-        for(int c = 15; c < maxHorizontalLength - 14; c ++) {
-            if ( c == 19)
-                map[13][c] = Color.PURPLE.escape() + "╕" + Color.RESET;
-            else if (c == 20)
-                map[13][c] = " ";
-            else if( c == 21)
-                map[13][c] = Color.PURPLE.escape() + "╒" + Color.RESET;
-            else
-                map[13][c] = Color.PURPLE.escape() + "═" + Color.RESET;
-
-        }
-
-        map[13][maxHorizontalLength - 14] = Color.PURPLE.escape() + "╝" + Color.RESET;
-        map[13][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
-
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++ ){
-            map[13][c] =  Color.YELLOW.escape() + "_" + Color.RESET;
-        }
-
-        map[13][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
-
-        //14 row
-
-        map[14][0] = Color.WHITE.escape() + "╔" + Color.RESET;
-        for (int c = 1; c < 14; c++){
-            if(c == 5)
-                map[14][c] = Color.WHITE.escape() + "╛" + Color.RESET;
-            else if (c == 6)
-                map[14][c] = " ";
-            else if (c == 7)
-                map[14][c] = Color.WHITE.escape() + "╘" + Color.RESET;
-            else
-            map[14][c] = "═";
-        }
-
-
-        for(int c = 15; c < maxHorizontalLength - 14; c++){
+        map[14][15] = Color.WHITE.escape() + "╔" + Color.RESET;
+        for(int c = 16; c < maxHorizontalLength - 16; c++){
             if (c == 19){
                 map[14][c] = Color.WHITE.escape() + "╛" + Color.RESET;
             }
@@ -559,27 +274,23 @@ public class MapPrinting {
                 map[14][c] = Color.WHITE.escape() + "═" + Color.RESET;
         }
 
-        map[14][maxHorizontalLength - 14] = Color.WHITE.escape() + "╗" + Color.RESET;
-        map[14][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
+        map[14][maxHorizontalLength - 16] = Color.WHITE.escape() + "╗" + Color.RESET;
+        map[14][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++){
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++){
             map[14][c] = " ";
         }
         map[14][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
 
         for(int r = 15; r < 20; r++){
-
-            map[r][0] = Color.WHITE.escape() + "║" + Color.RESET;
-
-            for(int c = 1; c < 13; c++){
-
+            for(int c = 0; c < 15; c++){
                 map[r][c] = " ";
             }
 
-            map[r][13] = Color.WHITE.escape() + "│" + Color.RESET;
+            map[r][15] = Color.WHITE.escape() + "║" + Color.RESET;
 
-            for(int c = 14; c < maxHorizontalLength - 14; c++){
-                if (c == 26){
+            for(int c = 16; c < maxHorizontalLength - 16; c++){
+                if (c == 30){
                     map[r][c] = Color.WHITE.escape() + "│" + Color.RESET;
                 }
                 else{
@@ -588,19 +299,299 @@ public class MapPrinting {
             }
 
             if( r == 16) {
-                map[r][maxHorizontalLength - 14] = Color.WHITE.escape() + "╙" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╜" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.WHITE.escape() + "╙" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╜" + Color.RESET;
             }
             else if(r == 17){
-                map[r][maxHorizontalLength - 14] = Color.WHITE.escape() + "╓" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╖" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.WHITE.escape() + "╓" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╖" + Color.RESET;
             }
             else{
-                map[r][maxHorizontalLength - 14] = Color.WHITE.escape() + "║" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.YELLOW.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.WHITE.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
             }
 
-            for (int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
+            for (int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
+                map[r][c] = " ";
+
+            map[r][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
+        }
+
+
+        for (int c = 0; c < 15; c++){
+            map[20][c] = " ";
+        }
+
+        map[20][15] = Color.WHITE.escape() + "╚" + Color.RESET;
+
+        for(int c = 16; c < maxHorizontalLength - 16; c++)
+            map[20][c] = Color.WHITE.escape() + "═" + Color.RESET;
+
+        map[20][maxHorizontalLength - 16] = Color.WHITE.escape() + "╝" + Color.RESET;
+
+        map[20][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╚" + Color.RESET;
+
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
+            map[20][c] = Color.YELLOW.escape() + "═" + Color.RESET;
+
+        map[20][maxHorizontalLength - 1] = Color.YELLOW.escape() + "╝" + Color.RESET;
+    }
+
+    private static void fillMapWater(){
+
+        map[0][0] = Color.RED.escape() + "╔" + Color.RESET;
+
+        for(int c = 1; c < 15; c++){
+            map[0][c] = Color.RED.escape() + "═" + Color.RESET;
+        }
+
+        map[0][15] = Color.RED.escape() + "╗" + Color.RESET;
+        map[0][16] = Color.BLUE.escape() + "╔" + Color.RESET;
+
+        for(int c = 17; c < maxHorizontalLength - 16; c++){
+            map[0][c] = Color.BLUE.escape() + "═" + Color.RESET;
+        }  //first line filled
+
+        for(int r = 1 ; r < 6; r++){
+
+            map[r][0] = Color.RED.escape() + "║" + Color.RESET;
+
+            for(int c = 1 ; c < maxHorizontalLength - 16; c++){
+                if(c == 15){
+                    map[r][c] = Color.RED.escape() + "║" + Color.RESET;
+                }
+                else if(c == 16){
+                    map[r][c] = Color.BLUE.escape() + "║" + Color.RESET;
+                }
+                else if(c == 30){
+                    map[r][c] = Color.BLUE.escape() + "│" + Color.RESET;
+                }
+                else {
+                    map[r][c] = " ";
+                }
+
+                //ADDING DOORS TO FIRST SPOTS ROW
+                if(r == 2){
+                    if(c == 15)
+                        map[r][c] = Color.RED.escape() + "╙" + Color.RESET;
+                    else if(c == 16)
+                        map[r][c] = Color.BLUE.escape() + "╜" + Color.RESET;
+                }
+                else if (r == 3){
+                    if (c == 15)
+                        map[r][c] = Color.RED.escape() + "╓" + Color.RESET;
+                    else if(c == 16)
+                        map[r][c] = Color.BLUE.escape() + "╖" + Color.RESET;
+                }
+
+            }
+
+            map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "║" + Color.RESET;
+
+            for(int c = maxHorizontalLength - 15; c < maxHorizontalLength; c++)
+                map[r][c] = "";
+        }
+        //first row with all columns
+
+        map[6][0] = Color.RED.escape() + "║" + Color.RESET;
+
+        for(int c = 1; c < 15; c++) {
+            map[6][c] = Color.RED.escape() + "_" + Color.RESET;
+        }
+
+        map[6][15] =  Color.RED.escape() + "║" + Color.RESET;
+        map[6][16] =  Color.BLUE.escape() + "╚" + Color.RESET;
+
+        for(int c = 17; c < maxHorizontalLength - 16; c++ ) {
+            if (c == 21 || c == 34)
+                map[6][c] = Color.BLUE.escape() + "╕" + Color.RESET;
+            else if (c == 22 || c == 35)
+                map[6][c] = " ";
+            else if (c == 23 || c == 36)
+                map[6][c] = Color.BLUE.escape() + "╒" + Color.RESET;
+            else
+                 map[6][c] = Color.BLUE.escape() + "═" + Color.RESET;
+        }
+
+        map[6][maxHorizontalLength - 16] = Color.BLUE.escape() + "╝" + Color.RESET;
+
+        for(int c = maxHorizontalLength - 15; c < maxHorizontalLength; c++)
+            map[6][c] = "";
+
+        map[7][0] = Color.RED.escape() + "║" + Color.RESET;
+
+        for(int c = 1; c < 15; c++)
+            map[7][c] = " ";
+
+        map[7][15] = Color.RED.escape() + "║" + Color.RESET;
+        map[7][16] = Color.PURPLE.escape() + "╔" + Color.RESET;
+
+        for(int c = 17; c < maxHorizontalLength - 16; c++){
+            if(c == 21 || c == 34)
+                map[7][c] = Color.PURPLE.escape() + "╛" + Color.RESET;
+            else if (c == 22 || c == 35)
+                map[7][c] = " ";
+            else if( c == 23 || c == 36)
+                map[7][c] = Color.PURPLE.escape() + "╘" + Color.RESET;
+            else
+                map[7][c] = Color.PURPLE.escape() + "═" + Color.RESET;
+        }
+
+        map[7][maxHorizontalLength - 16] = Color.PURPLE.escape() + "╗" + Color.RESET;
+        map[7][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╔" + Color.RESET;
+
+        for ( int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++){
+            map[7][c] = Color.YELLOW.escape() + "═" + Color.RESET;
+        }
+        map[7][maxHorizontalLength - 1] = Color.YELLOW.escape() + "╗" + Color.RESET;
+
+
+
+        for(int r = 8 ; r < 13 ; r++ ){
+
+            map[r][0] = Color.RED.escape() + "║" + Color.RESET;
+
+            for(int c = 1; c < 15; c++)
+                    map[r][c] = " ";
+
+
+            map[r][15] = Color.RED.escape() + "║" + Color.RESET;
+            map[r][16] = Color.PURPLE.escape() + "║" + Color.RESET;
+
+            for(int c = 17; c < maxHorizontalLength - 16; c++) {
+                if (c == 30)
+                    map[r][c] = Color.PURPLE.escape() + "│" + Color.RESET;
+                else
+                    map[r][c] = " ";
+            }
+
+            if( r == 9) {
+                map[r][maxHorizontalLength - 16] = Color.PURPLE.escape() + "╙" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╜" + Color.RESET;
+            }
+            else if ( r == 10){
+                map[r][maxHorizontalLength - 16] = Color.PURPLE.escape() + "╓" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╖" + Color.RESET;
+            }
+            else {
+                map[r][maxHorizontalLength - 16] = Color.PURPLE.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
+            }
+
+            for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
+                map[r][c] = " ";
+
+            map[r][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
+        }
+
+        map[13][0] = Color.RED.escape() + "╚" + Color.RESET;
+
+        for(int c = 1 ; c < 15; c++){
+            if(c == 7)
+                map[13][c] = Color.RED.escape() + "╕" + Color.RESET;
+            else if ( c == 8)
+                map[13][c] = " ";
+            else if ( c == 9)
+                map[13][c] = Color.RED.escape() + "╒" + Color.RESET;
+            else
+                map[13][c] = Color.RED.escape() + "═" + Color.RESET;
+        }
+
+        map[13][15] = Color.RED.escape() + "╝" + Color.RESET;
+        map[13][16] = Color.PURPLE.escape() + "╚" + Color.RESET;
+
+        for(int c = 17; c < maxHorizontalLength - 16; c ++) {
+            if ( c == 21)
+                map[13][c] = Color.PURPLE.escape() + "╕" + Color.RESET;
+            else if (c == 22)
+                map[13][c] = " ";
+            else if( c == 23)
+                map[13][c] = Color.PURPLE.escape() + "╒" + Color.RESET;
+            else
+                map[13][c] = Color.PURPLE.escape() + "═" + Color.RESET;
+
+        }
+
+        map[13][maxHorizontalLength - 16] = Color.PURPLE.escape() + "╝" + Color.RESET;
+        map[13][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
+
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++ ){
+            map[13][c] =  Color.YELLOW.escape() + "_" + Color.RESET;
+        }
+
+        map[13][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
+
+        //14 row
+
+        map[14][0] = Color.WHITE.escape() + "╔" + Color.RESET;
+        for (int c = 1; c < 15; c++){
+            if(c == 7)
+                map[14][c] = Color.WHITE.escape() + "╛" + Color.RESET;
+            else if (c == 8)
+                map[14][c] = " ";
+            else if (c == 9)
+                map[14][c] = Color.WHITE.escape() + "╘" + Color.RESET;
+            else
+            map[14][c] = "═";
+        }
+
+
+        for(int c = 15; c < maxHorizontalLength - 16; c++){
+            if (c == 21){
+                map[14][c] = Color.WHITE.escape() + "╛" + Color.RESET;
+            }
+            else if( c == 22){
+                map[14][c] = Color.WHITE.escape() + " " + Color.RESET;
+            }
+            else if( c == 23){
+                map[14][c] = Color.WHITE.escape() + "╘" + Color.RESET;
+            }
+            else
+                map[14][c] = Color.WHITE.escape() + "═" + Color.RESET;
+        }
+
+        map[14][maxHorizontalLength - 16] = Color.WHITE.escape() + "╗" + Color.RESET;
+        map[14][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
+
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++){
+            map[14][c] = " ";
+        }
+        map[14][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
+
+        for(int r = 15; r < 20; r++){
+
+            map[r][0] = Color.WHITE.escape() + "║" + Color.RESET;
+
+            for(int c = 1; c < 15; c++){
+
+                map[r][c] = " ";
+            }
+
+            map[r][15] = Color.WHITE.escape() + "│" + Color.RESET;
+
+            for(int c = 16; c < maxHorizontalLength - 16; c++){
+                if (c == 30){
+                    map[r][c] = Color.WHITE.escape() + "│" + Color.RESET;
+                }
+                else{
+                    map[r][c] = " ";
+                }
+            }
+
+            if( r == 16) {
+                map[r][maxHorizontalLength - 16] = Color.WHITE.escape() + "╙" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╜" + Color.RESET;
+            }
+            else if(r == 17){
+                map[r][maxHorizontalLength - 16] = Color.WHITE.escape() + "╓" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╖" + Color.RESET;
+            }
+            else{
+                map[r][maxHorizontalLength - 16] = Color.WHITE.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.YELLOW.escape() + "║" + Color.RESET;
+            }
+
+            for (int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
                 map[r][c] = " ";
 
             map[r][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
@@ -609,14 +600,14 @@ public class MapPrinting {
 
         map[20][0] = Color.WHITE.escape() + "╚" + Color.RESET;
 
-        for(int c = 1; c < maxHorizontalLength - 14; c++)
+        for(int c = 1; c < maxHorizontalLength - 16; c++)
             map[20][c] = Color.WHITE.escape() + "═" + Color.RESET;
 
-        map[20][maxHorizontalLength - 14] = Color.WHITE.escape() + "╝" + Color.RESET;
+        map[20][maxHorizontalLength - 16] = Color.WHITE.escape() + "╝" + Color.RESET;
 
-        map[20][maxHorizontalLength - 13] = Color.YELLOW.escape() + "╚" + Color.RESET;
+        map[20][maxHorizontalLength - 15] = Color.YELLOW.escape() + "╚" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
             map[20][c] = Color.YELLOW.escape() + "═" + Color.RESET;
 
         map[20][maxHorizontalLength - 1] = Color.YELLOW.escape() + "╝" + Color.RESET;
@@ -626,20 +617,20 @@ public class MapPrinting {
 
         map[0][0] = Color.RED.escape() + "╔" + Color.RESET;
 
-        for(int c = 1; c < 13; c++){
+        for(int c = 1; c < 15; c++){
             map[0][c] = Color.RED.escape() + "═" + Color.RESET;
         }
 
-        map[0][13] = Color.RED.escape() + "╗" + Color.RESET;
+        map[0][15] = Color.RED.escape() + "╗" + Color.RESET;
 
-        map[0][14] = Color.BLUE.escape() + "╔" + Color.RESET;
-        for(int c = 15; c < maxHorizontalLength - 14; c++){
+        map[0][16] = Color.BLUE.escape() + "╔" + Color.RESET;
+        for(int c = 17; c < maxHorizontalLength - 16; c++){
             map[0][c] = Color.BLUE.escape() + "═" + Color.RESET;
         }  //first line filled
-        map[0][maxHorizontalLength - 14] = Color.BLUE.escape() + "╗" + Color.RESET;
+        map[0][maxHorizontalLength - 16] = Color.BLUE.escape() + "╗" + Color.RESET;
 
-        map[0][maxHorizontalLength - 13] = Color.GREEN.escape() + "╔" + Color.RESET;
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++){
+        map[0][maxHorizontalLength - 15] = Color.GREEN.escape() + "╔" + Color.RESET;
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++){
             map[0][c] = Color.GREEN.escape() + "═" + Color.RESET;
         }  //first line filled
         map[0][maxHorizontalLength - 1] = Color.GREEN.escape() + "╗" + Color.RESET;
@@ -647,27 +638,27 @@ public class MapPrinting {
         for(int r = 1 ; r < 6; r++){
 
             map[r][0] = Color.RED.escape() + "║" + Color.RESET;
-            for(int c = 1; c < 13; c++) {
+            for(int c = 1; c < 15; c++) {
                 map[r][c] = " ";
             }
 
             if( r == 2) {
-                map[r][13] = Color.RED.escape() + "╙" + Color.RESET;
-                map[r][14] = Color.BLUE.escape() + "╜" + Color.RESET;
+                map[r][15] = Color.RED.escape() + "╙" + Color.RESET;
+                map[r][16] = Color.BLUE.escape() + "╜" + Color.RESET;
             }
             else if(r == 3){
-                map[r][13] = Color.RED.escape() + "╓" + Color.RESET;
-                map[r][14] = Color.BLUE.escape() + "╖" + Color.RESET;
+                map[r][15] = Color.RED.escape() + "╓" + Color.RESET;
+                map[r][16] = Color.BLUE.escape() + "╖" + Color.RESET;
             }
             else{
-                map[r][13] = Color.RED.escape() + "║" + Color.RESET;
-                map[r][14] = Color.BLUE.escape() + "║" + Color.RESET;
+                map[r][15] = Color.RED.escape() + "║" + Color.RESET;
+                map[r][16] = Color.BLUE.escape() + "║" + Color.RESET;
             }
 
 
-            for(int c = 15 ; c < maxHorizontalLength - 14; c++){
+            for(int c = 17 ; c < maxHorizontalLength - 16; c++){
 
-                if( c == 26){
+                if( c == 30){
                     map[r][c] = Color.BLUE.escape() + "│" + Color.RESET;
                 }
                 else {
@@ -677,19 +668,19 @@ public class MapPrinting {
             }
 
             if( r == 2) {
-                map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "╙" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.GREEN.escape() + "╜" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "╙" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.GREEN.escape() + "╜" + Color.RESET;
             }
             else if(r == 3){
-                map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "╓" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.GREEN.escape() + "╖" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "╓" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.GREEN.escape() + "╖" + Color.RESET;
             }
             else{
-                map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "║" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.GREEN.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.GREEN.escape() + "║" + Color.RESET;
             }
 
-            for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
+            for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
                 map[r][c] = " ";
 
             map[r][maxHorizontalLength - 1] = Color.GREEN.escape() + "║" + Color.RESET;
@@ -700,19 +691,19 @@ public class MapPrinting {
         //first row with all columns
 
         map[6][0] = Color.RED.escape() + "║" + Color.RESET;
-        for(int c = 1; c < 13; c++)
+        for(int c = 1; c < 15; c++)
             map[6][c] = Color.RED.escape() + "_" + Color.RESET;
-        map[6][13] =  Color.RED.escape() + "║" + Color.RESET;
+        map[6][15] =  Color.RED.escape() + "║" + Color.RESET;
 
-        map[6][14] =  Color.BLUE.escape() + "╚" + Color.RESET;
-        for(int c = 15; c < maxHorizontalLength - 14; c++) {
-            if(c == 19 || c == 33){
+        map[6][16] =  Color.BLUE.escape() + "╚" + Color.RESET;
+        for(int c = 17; c < maxHorizontalLength - 16; c++) {
+            if(c == 21 || c == 37){
                 map[6][c] = Color.BLUE.escape() + "╕" + Color.RESET;
             }
-            else if (c == 20 || c == 34){
+            else if (c == 22 || c == 38){
                 map[6][c] = " ";
             }
-            else if(c == 21 || c == 35){
+            else if(c == 23 || c == 39){
                 map[6][c] = Color.BLUE.escape() + "╒" + Color.RESET;
             }
             else{
@@ -720,17 +711,17 @@ public class MapPrinting {
             }
         }
 
-        map[6][maxHorizontalLength - 14] = Color.BLUE.escape() + "╝" + Color.RESET;
-        map[6][maxHorizontalLength - 13] = Color.GREEN.escape() + "╚" + Color.RESET;
+        map[6][maxHorizontalLength - 16] = Color.BLUE.escape() + "╝" + Color.RESET;
+        map[6][maxHorizontalLength - 15] = Color.GREEN.escape() + "╚" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++) {
-            if ( c == 46){
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++) {
+            if ( c == 52){
                 map[6][c] = Color.GREEN.escape() + "╕" + Color.RESET;
             }
-            else if ( c == 47){
+            else if ( c == 53){
                 map[6][c] = " ";
             }
-            else if ( c == 48){
+            else if ( c == 54){
                 map[6][c] = Color.GREEN.escape() + "╒" + Color.RESET;
             }
             else {
@@ -743,19 +734,19 @@ public class MapPrinting {
 
 
         map[7][0] = Color.RED.escape() + "║" + Color.RESET;
-        for(int c = 1; c < 13; c++)
+        for(int c = 1; c < 15; c++)
             map[7][c] = " ";
-        map[7][13] = Color.RED.escape() + "║" + Color.RESET;
+        map[7][15] = Color.RED.escape() + "║" + Color.RESET;
 
-        map[7][14] = Color.PURPLE.escape() + "╒" + Color.RESET;
-        for(int c = 15; c < 26; c++){
-            if(c == 19 ){
+        map[7][16] = Color.PURPLE.escape() + "╒" + Color.RESET;
+        for(int c = 17; c < 30; c++){
+            if(c == 21 ){
                 map[7][c] = Color.PURPLE.escape() + "╛" + Color.RESET;
             }
-            else if( c == 20){
+            else if( c == 22){
                 map[7][c] = " ";
             }
-            else if (c == 21){
+            else if (c == 23){
                 map[7][c] = Color.PURPLE.escape() + "╘" + Color.RESET;
             }
             else{
@@ -763,18 +754,18 @@ public class MapPrinting {
             }
         }
 
-        map[7][26] = Color.PURPLE.escape() + "╗" + Color.RESET;
-        map[7][27] = Color.YELLOW.escape() + "╔" + Color.RESET;
+        map[7][30] = Color.PURPLE.escape() + "╗" + Color.RESET;
+        map[7][31] = Color.YELLOW.escape() + "╔" + Color.RESET;
 
-        for ( int c = 28; c < maxHorizontalLength - 1; c++){
-            if (c == 33 || c == 46){
+        for ( int c = 32; c < maxHorizontalLength - 1; c++){
+            if (c == 37 || c == 52){
                 map[7][c] = Color.YELLOW.escape() + "╛" + Color.RESET;
             }
-            else if (c == 34 || c == 47){
+            else if (c == 38 || c == 53){
                 map[7][c] = " ";
 
             }
-            else if (c == 35 || c == 48){
+            else if (c == 39 || c == 54){
                 map[7][c] =  Color.YELLOW.escape() + "╘" + Color.RESET;
             }
             else {
@@ -787,19 +778,19 @@ public class MapPrinting {
         for(int r = 8 ; r < 13 ; r++ ){
 
             map[r][0] = Color.RED.escape() + "║" + Color.RESET;
-            for(int c = 1; c < 13; c++){
+            for(int c = 1; c < 15; c++){
                     map[r][c] = " ";
             }
-            map[r][13] = Color.RED.escape() + "║" + Color.RESET;
+            map[r][15] = Color.RED.escape() + "║" + Color.RESET;
 
-            map[r][14] = Color.PURPLE.escape() + "║" + Color.RESET;
-            for(int c = 15; c < 26; c++)
+            map[r][16] = Color.PURPLE.escape() + "║" + Color.RESET;
+            for(int c = 17; c < 30; c++)
                 map[r][c] = " ";
-            map[r][26] = Color.PURPLE.escape() + "║" + Color.RESET;
+            map[r][30] = Color.PURPLE.escape() + "║" + Color.RESET;
 
-            map[r][27] = Color.YELLOW.escape() + "║" + Color.RESET;
-            for(int c = 28; c < maxHorizontalLength - 1; c++) {
-                if ( c == 39){
+            map[r][31] = Color.YELLOW.escape() + "║" + Color.RESET;
+            for(int c = 32; c < maxHorizontalLength - 1; c++) {
+                if ( c == 45){
                     map[r][c] = Color.YELLOW.escape() + "│" + Color.RESET;
                 }
                 else {
@@ -813,14 +804,14 @@ public class MapPrinting {
 
 
         map[13][0] = Color.RED.escape() + "╚" + Color.RESET;
-        for(int c = 1; c < 13; c++){
-            if( c == 5){
+        for(int c = 1; c < 15; c++){
+            if( c == 7){
                 map[13][c] = Color.RED.escape() + "╕" + Color.RESET;
             }
-            else if( c == 6){
+            else if( c == 8){
                 map[13][c] = " ";
             }
-            else if (c == 7){
+            else if (c == 9){
                 map[13][c] = Color.RED.escape() + "╒" + Color.RESET;
 
             }
@@ -828,17 +819,17 @@ public class MapPrinting {
                 map[13][c] = Color.RED.escape() + "═" + Color.RESET;
             }
         }
-        map[13][13] = Color.RED.escape() + "╝" + Color.RESET;
+        map[13][15] = Color.RED.escape() + "╝" + Color.RESET;
 
-        map[13][14] = Color.PURPLE.escape() + "╚" + Color.RESET;
-        for(int c = 15 ; c < 26; c++){
-            if( c == 17){
+        map[13][16] = Color.PURPLE.escape() + "╚" + Color.RESET;
+        for(int c = 17 ; c < 30; c++){
+            if( c == 21){
                 map[13][c] = Color.PURPLE.escape() + "╕" + Color.RESET;
             }
-            else if( c == 18){
+            else if( c == 22){
                 map[13][c] = " ";
             }
-            else if (c == 19){
+            else if (c == 23){
                 map[13][c] = Color.PURPLE.escape() + "╒" + Color.RESET;
 
             }
@@ -847,11 +838,11 @@ public class MapPrinting {
             }
         }
 
-        map[13][26] = Color.PURPLE.escape() + "╝" + Color.RESET;
+        map[13][30] = Color.PURPLE.escape() + "╝" + Color.RESET;
 
-        map[13][27] = Color.YELLOW.escape() + "║" + Color.RESET;
-        for(int c = 28; c < maxHorizontalLength - 1; c++ ){
-            if ( c == 39){
+        map[13][31] = Color.YELLOW.escape() + "║" + Color.RESET;
+        for(int c = 32; c < maxHorizontalLength - 1; c++ ){
+            if ( c == 45){
                 map[13][c] = Color.YELLOW.escape() + "│" + Color.RESET;
             }
             else {
@@ -864,15 +855,15 @@ public class MapPrinting {
 
         map[14][0] = Color.WHITE.escape() + "╔" + Color.RESET;
 
-        for (int c = 1; c < 26; c++){
+        for (int c = 1; c < 30; c++){
 
-        if (c == 5 || c == 17){
+        if (c == 7 || c == 21){
             map[14][c] = Color.WHITE.escape() + "╛" + Color.RESET;
         }
-        else if( c == 6 || c == 18){
+        else if( c == 8 || c == 22){
             map[14][c] = Color.WHITE.escape() + " " + Color.RESET;
         }
-        else if( c == 7 || c == 19){
+        else if( c == 9 || c == 23){
             map[14][c] = Color.WHITE.escape() + "╘" + Color.RESET;
         }
         else
@@ -880,11 +871,11 @@ public class MapPrinting {
         }
 
 
-        map[14][26] = Color.WHITE.escape() + "╗" + Color.RESET;
-        map[14][27] = Color.YELLOW.escape() + "║" + Color.RESET;
+        map[14][30] = Color.WHITE.escape() + "╗" + Color.RESET;
+        map[14][31] = Color.YELLOW.escape() + "║" + Color.RESET;
 
-        for(int c = 28; c < maxHorizontalLength - 1; c++){
-            if ( c == 39){
+        for(int c = 32; c < maxHorizontalLength - 1; c++){
+            if ( c == 45){
                 map[14][c] = Color.YELLOW.escape() + "│" + Color.RESET;
             }
             else {
@@ -896,31 +887,31 @@ public class MapPrinting {
         for(int r = 15; r < 20; r++){
 
             map[r][0] = Color.WHITE.escape() + "║" + Color.RESET;
-            for(int c = 1; c < 13; c++){
+            for(int c = 1; c < 15; c++){
                 map[r][c] = " ";
             }
 
-            map[r][13] = Color.WHITE.escape() + "│" + Color.RESET;
+            map[r][15] = Color.WHITE.escape() + "│" + Color.RESET;
 
-            for(int c = 14; c < 26; c++){
+            for(int c = 14; c < 30; c++){
                 map[r][c] = " ";
             }
 
             if( r == 16) {
-                map[r][26] = Color.WHITE.escape() + "╙" + Color.RESET;
-                map[r][27] = Color.YELLOW.escape() + "╜" + Color.RESET;
+                map[r][30] = Color.WHITE.escape() + "╙" + Color.RESET;
+                map[r][31] = Color.YELLOW.escape() + "╜" + Color.RESET;
             }
             else if(r == 17){
-                map[r][26] = Color.WHITE.escape() + "╓" + Color.RESET;
-                map[r][27] = Color.YELLOW.escape() + "╖" + Color.RESET;
+                map[r][30] = Color.WHITE.escape() + "╓" + Color.RESET;
+                map[r][31] = Color.YELLOW.escape() + "╖" + Color.RESET;
             }
             else{
-                map[r][26] = Color.WHITE.escape() + "║" + Color.RESET;
-                map[r][27] = Color.YELLOW.escape() + "║" + Color.RESET;
+                map[r][30] = Color.WHITE.escape() + "║" + Color.RESET;
+                map[r][31] = Color.YELLOW.escape() + "║" + Color.RESET;
             }
 
-            for (int c = 28; c < maxHorizontalLength - 1; c++) {
-                if(c == 39){
+            for (int c = 32; c < maxHorizontalLength - 1; c++) {
+                if(c == 45){
                     map[r][c] = Color.YELLOW.escape() + "│" + Color.RESET;
                 }
                 else {
@@ -934,15 +925,15 @@ public class MapPrinting {
 
         map[20][0] = Color.WHITE.escape() + "╚" + Color.RESET;
 
-        for (int c = 1; c < 26; c++){
+        for (int c = 1; c < 30; c++){
             map[20][c] = Color.WHITE.escape() + "═" + Color.RESET;;
         }
 
-        map[20][26] = Color.WHITE.escape() + "╝" + Color.RESET;
+        map[20][30] = Color.WHITE.escape() + "╝" + Color.RESET;
 
-        map[20][27] = Color.YELLOW.escape() + "╚" + Color.RESET;
+        map[20][31] = Color.YELLOW.escape() + "╚" + Color.RESET;
 
-        for(int c = 28; c < maxHorizontalLength - 1; c++) {
+        for(int c = 32; c < maxHorizontalLength - 1; c++) {
             map[20][c] = Color.YELLOW.escape() + "═" + Color.RESET;
         }
 
@@ -953,14 +944,14 @@ public class MapPrinting {
 
         map[0][0] = Color.BLUE.escape() + "╔" + Color.RESET;
 
-        for(int c = 1; c < maxHorizontalLength - 14; c++){
+        for(int c = 1; c < maxHorizontalLength - 16; c++){
             map[0][c] = Color.BLUE.escape() + "═" + Color.RESET;
         }
 
-        map[0][maxHorizontalLength - 14] = Color.BLUE.escape() + "╗" + Color.RESET;
-        map[0][maxHorizontalLength - 13] = Color.GREEN.escape() + "╔" + Color.RESET;
+        map[0][maxHorizontalLength - 16] = Color.BLUE.escape() + "╗" + Color.RESET;
+        map[0][maxHorizontalLength - 15] = Color.GREEN.escape() + "╔" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++){
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++){
             map[0][c] = Color.GREEN.escape() + "═" + Color.RESET;
         }  //first line filled
 
@@ -970,9 +961,9 @@ public class MapPrinting {
 
             map[r][0] = Color.BLUE.escape() + "║" + Color.RESET;
 
-            for(int c = 1 ; c < maxHorizontalLength - 14; c++){
+            for(int c = 1 ; c < maxHorizontalLength - 16; c++){
 
-                if(c == 13 || c == 26){
+                if(c == 15 || c == 30){
                     map[r][c] = Color.BLUE.escape() + "│" + Color.RESET;
                 }
                 else {
@@ -982,19 +973,19 @@ public class MapPrinting {
             }
 
             if( r == 2) {
-                map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "╙" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.GREEN.escape() + "╜" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "╙" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.GREEN.escape() + "╜" + Color.RESET;
             }
             else if(r == 3){
-                map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "╓" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.GREEN.escape() + "╖" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "╓" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.GREEN.escape() + "╖" + Color.RESET;
             }
             else{
-                map[r][maxHorizontalLength - 14] = Color.BLUE.escape() + "║" + Color.RESET;
-                map[r][maxHorizontalLength - 13] = Color.GREEN.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 16] = Color.BLUE.escape() + "║" + Color.RESET;
+                map[r][maxHorizontalLength - 15] = Color.GREEN.escape() + "║" + Color.RESET;
             }
 
-            for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++)
+            for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++)
                 map[r][c] = " ";
 
             map[r][maxHorizontalLength - 1] = Color.GREEN.escape() + "║" + Color.RESET;
@@ -1004,16 +995,16 @@ public class MapPrinting {
         }
         //first row with all columns
 
-        map[6][0] =Color.BLUE.escape() + "╚" + Color.RESET;
+        map[6][0] = Color.BLUE.escape() + "╚" + Color.RESET;
 
-        for(int c = 1; c < maxHorizontalLength - 14; c++) {
-            if(c == 6 || c == 33){
+        for(int c = 1; c < maxHorizontalLength - 16; c++) {
+            if(c == 8 || c == 37){
                 map[6][c] = Color.BLUE.escape() + "╕" + Color.RESET;
             }
-            else if (c == 7 || c == 34){
+            else if (c == 9 || c == 38){
                 map[6][c] = " ";
             }
-            else if(c == 8 || c == 35){
+            else if(c == 10 || c == 39){
                 map[6][c] = Color.BLUE.escape() + "╒" + Color.RESET;
             }
             else{
@@ -1021,17 +1012,17 @@ public class MapPrinting {
             }
         }
 
-        map[6][maxHorizontalLength - 14] = Color.BLUE.escape() + "╝" + Color.RESET;
-        map[6][maxHorizontalLength - 13] = Color.GREEN.escape() + "╚" + Color.RESET;
+        map[6][maxHorizontalLength - 16] = Color.BLUE.escape() + "╝" + Color.RESET;
+        map[6][maxHorizontalLength - 15] = Color.GREEN.escape() + "╚" + Color.RESET;
 
-        for(int c = maxHorizontalLength - 12; c < maxHorizontalLength - 1; c++) {
-            if ( c == 46){
+        for(int c = maxHorizontalLength - 14; c < maxHorizontalLength - 1; c++) {
+            if ( c == 52){
                 map[6][c] = Color.GREEN.escape() + "╕" + Color.RESET;
             }
-            else if ( c == 47){
+            else if ( c == 53){
                 map[6][c] = " ";
             }
-            else if ( c == 48){
+            else if ( c == 54){
                 map[6][c] = Color.GREEN.escape() + "╒" + Color.RESET;
             }
             else {
@@ -1045,14 +1036,14 @@ public class MapPrinting {
 
         map[7][0] = Color.RED.escape() + "╔" + Color.RESET;
 
-        for(int c = 1; c < 26; c++){
-            if(c == 6 ){
+        for(int c = 1; c < 30; c++){
+            if(c == 8 ){
                 map[7][c] = Color.RED.escape() + "╛" + Color.RESET;
             }
-            else if( c == 7){
+            else if( c == 9){
                 map[7][c] = " ";
             }
-            else if (c == 8){
+            else if (c == 10){
                 map[7][c] = Color.RED.escape() + "╘" + Color.RESET;
             }
             else{
@@ -1060,18 +1051,18 @@ public class MapPrinting {
             }
         }
 
-        map[7][26] = Color.RED.escape() + "╗" + Color.RESET;
-        map[7][27] = Color.YELLOW.escape() + "╔" + Color.RESET;
+        map[7][30] = Color.RED.escape() + "╗" + Color.RESET;
+        map[7][31] = Color.YELLOW.escape() + "╔" + Color.RESET;
 
-        for ( int c = 28; c < maxHorizontalLength - 1; c++){
-            if (c == 33 || c == 46){
+        for ( int c = 32; c < maxHorizontalLength - 1; c++){
+            if (c == 37 || c == 52){
                 map[7][c] = Color.YELLOW.escape() + "╛" + Color.RESET;
             }
-            else if (c == 34 || c == 47){
+            else if (c == 38 || c == 53){
                 map[7][c] = " ";
 
             }
-            else if (c == 35 || c == 48){
+            else if (c == 39 || c == 54){
                 map[7][c] =  Color.YELLOW.escape() + "╘" + Color.RESET;
             }
             else {
@@ -1085,8 +1076,8 @@ public class MapPrinting {
 
             map[r][0] = Color.RED.escape() + "║" + Color.RESET;
 
-            for(int c = 1; c < 26; c++){
-                if (c == 13 ){
+            for(int c = 1; c < 30; c++){
+                if (c == 17 ){
                     map[r][c] = Color.RED.escape() + "│" + Color.RESET;
                 }
                 else{
@@ -1094,11 +1085,11 @@ public class MapPrinting {
                 }
             }
 
-            map[r][26] = Color.RED.escape() + "║" + Color.RESET;
-            map[r][27] = Color.YELLOW.escape() + "║" + Color.RESET;
+            map[r][30] = Color.RED.escape() + "║" + Color.RESET;
+            map[r][31] = Color.YELLOW.escape() + "║" + Color.RESET;
 
-            for(int c = 28; c < maxHorizontalLength - 1; c++) {
-                if ( c == 39){
+            for(int c = 32; c < maxHorizontalLength - 1; c++) {
+                if ( c == 45){
                     map[r][c] = Color.YELLOW.escape() + "│" + Color.RESET;
                 }
                 else {
@@ -1112,14 +1103,14 @@ public class MapPrinting {
 
 
         map[13][0] = Color.RED.escape() + "╚" + Color.RESET;
-        for(int c = 1 ; c < 26; c++){
-            if( c == 17){
+        for(int c = 1 ; c < 30; c++){
+            if( c == 21){
                 map[13][c] = Color.RED.escape() + "╕" + Color.RESET;
             }
-            else if( c == 18){
+            else if( c == 22){
                 map[13][c] = " ";
             }
-            else if (c == 19){
+            else if (c == 23){
                 map[13][c] = Color.RED.escape() + "╒" + Color.RESET;
 
             }
@@ -1128,11 +1119,11 @@ public class MapPrinting {
             }
         }
 
-        map[13][26] = Color.RED.escape() + "╝" + Color.RESET;
-        map[13][27] = Color.YELLOW.escape() + "║" + Color.RESET;
+        map[13][30] = Color.RED.escape() + "╝" + Color.RESET;
+        map[13][31] = Color.YELLOW.escape() + "║" + Color.RESET;
 
-        for(int c = 28; c < maxHorizontalLength - 1; c++ ){
-            if ( c == 39){
+        for(int c = 32; c < maxHorizontalLength - 1; c++ ){
+            if ( c == 45){
                 map[13][c] = Color.YELLOW.escape() + "│" + Color.RESET;
             }
             else {
@@ -1143,31 +1134,31 @@ public class MapPrinting {
         map[13][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
 
         //14 row
-        for (int c = 0; c < 13; c++){
+        for (int c = 0; c < 15; c++){
             map[14][c] = " ";
         }
 
-        map[14][13] = Color.WHITE.escape() + "╔" + Color.RESET;
+        map[14][15] = Color.WHITE.escape() + "╔" + Color.RESET;
 
-        for(int c = 14; c < 26; c++){
-            if (c == 17){
+        for(int c = 16; c < 30; c++){
+            if (c == 21){
                 map[14][c] = Color.WHITE.escape() + "╛" + Color.RESET;
             }
-            else if( c == 18){
+            else if( c == 22){
                 map[14][c] = Color.WHITE.escape() + " " + Color.RESET;
             }
-            else if( c == 19){
+            else if( c == 23){
                 map[14][c] = Color.WHITE.escape() + "╘" + Color.RESET;
             }
             else
                 map[14][c] = Color.WHITE.escape() + "═" + Color.RESET;
         }
 
-        map[14][26] = Color.WHITE.escape() + "╗" + Color.RESET;
-        map[14][27] = Color.YELLOW.escape() + "║" + Color.RESET;
+        map[14][30] = Color.WHITE.escape() + "╗" + Color.RESET;
+        map[14][31] = Color.YELLOW.escape() + "║" + Color.RESET;
 
-        for(int c = 28; c < maxHorizontalLength - 1; c++){
-            if ( c == 39){
+        for(int c = 32; c < maxHorizontalLength - 1; c++){
+            if ( c == 45){
                 map[14][c] = Color.YELLOW.escape() + "│" + Color.RESET;
             }
             else {
@@ -1177,31 +1168,32 @@ public class MapPrinting {
         map[14][maxHorizontalLength - 1] = Color.YELLOW.escape() + "║" + Color.RESET;
 
         for(int r = 15; r < 20; r++){
-            for(int c = 0; c < 13; c++){
+
+            for(int c = 0; c < 15; c++){
                 map[r][c] = " ";
             }
 
-            map[r][13] = Color.WHITE.escape() + "║" + Color.RESET;
+            map[r][15] = Color.WHITE.escape() + "║" + Color.RESET;
 
-            for(int c = 14; c < 26; c++){
+            for(int c = 16; c < 30; c++){
                     map[r][c] = " ";
             }
 
             if( r == 16) {
-                map[r][26] = Color.WHITE.escape() + "╙" + Color.RESET;
-                map[r][27] = Color.YELLOW.escape() + "╜" + Color.RESET;
+                map[r][30] = Color.WHITE.escape() + "╙" + Color.RESET;
+                map[r][31] = Color.YELLOW.escape() + "╜" + Color.RESET;
             }
             else if(r == 17){
-                map[r][26] = Color.WHITE.escape() + "╓" + Color.RESET;
-                map[r][27] = Color.YELLOW.escape() + "╖" + Color.RESET;
+                map[r][30] = Color.WHITE.escape() + "╓" + Color.RESET;
+                map[r][31] = Color.YELLOW.escape() + "╖" + Color.RESET;
             }
             else{
-                map[r][26] = Color.WHITE.escape() + "║" + Color.RESET;
-                map[r][27] = Color.YELLOW.escape() + "║" + Color.RESET;
+                map[r][30] = Color.WHITE.escape() + "║" + Color.RESET;
+                map[r][31] = Color.YELLOW.escape() + "║" + Color.RESET;
             }
 
-            for (int c = 28; c < maxHorizontalLength - 1; c++) {
-                if(c == 39){
+            for (int c = 32; c < maxHorizontalLength - 1; c++) {
+                if(c == 45){
                     map[r][c] = Color.YELLOW.escape() + "│" + Color.RESET;
                 }
                 else {
@@ -1213,20 +1205,20 @@ public class MapPrinting {
         }
 
 
-        for (int c = 0; c < 13; c++){
+        for (int c = 0; c < 15; c++){
             map[20][c] = " ";
         }
 
-        map[20][13] = Color.WHITE.escape() + "╚" + Color.RESET;
+        map[20][15] = Color.WHITE.escape() + "╚" + Color.RESET;
 
-        for(int c = 14; c < 26; c++)
+        for(int c = 16; c < 30; c++)
             map[20][c] = Color.WHITE.escape() + "═" + Color.RESET;
 
-        map[20][26] = Color.WHITE.escape() + "╝" + Color.RESET;
+        map[20][30] = Color.WHITE.escape() + "╝" + Color.RESET;
 
-        map[20][27] = Color.YELLOW.escape() + "╚" + Color.RESET;
+        map[20][31] = Color.YELLOW.escape() + "╚" + Color.RESET;
 
-        for(int c = 28; c < maxHorizontalLength - 1; c++) {
+        for(int c = 32; c < maxHorizontalLength - 1; c++) {
             map[20][c] = Color.YELLOW.escape() + "═" + Color.RESET;
         }
 
@@ -1280,11 +1272,13 @@ public class MapPrinting {
         fillMapEarth();
         printMyShit();
     }
+    
     public static void main(String[] args){
-        //printMapFire();
-        //printMapWater();
-        //printMapWind();
+        printMapFire();
+        printMapWater();
         printMapEarth();
+        printMapWind();
+
     }
 
 }
