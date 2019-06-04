@@ -1,0 +1,14 @@
+*{
+    -fx-border: 1px;
+    -fx-border-color: black;
+
+}
+
+.mapGridPane{
+
+    -fx-background-image: url("/Grafica/Mappe/Parti/Part_1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 100%;
+    -fx-background-position: center center;
+
+}

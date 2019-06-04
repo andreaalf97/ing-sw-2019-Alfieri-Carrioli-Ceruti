@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.client.gui.scenes.*;
@@ -46,6 +47,12 @@ public class Gui extends Application implements QuestionEventHandler {
     protected Stage window;
 
     private WaitingRoomGui waitingRoomGui;
+
+    public static final String loginBackgroundImagePath = "src/main/resources/Grafica/Images/Adrenalina_front_image.jpg";
+
+    public static final String loginCssPath = "/style/style.css";
+
+
 
 
 
@@ -103,14 +110,14 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
     @Override
-    public void start(Stage givenWindow) throws Exception {
+    public void start(Stage givenWindow) {
 
         this.window = givenWindow;
 
         //First window
         window.setTitle("Adrenalina");
 
-
+        /*
         //Questi sono per settare la grandezza della scena a screen size!
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         //set Stage boundaries to visible bounds of the main screen
@@ -118,10 +125,14 @@ public class Gui extends Application implements QuestionEventHandler {
         window.setY(primaryScreenBounds.getMinY());
         window.setWidth(primaryScreenBounds.getWidth());
         window.setHeight(primaryScreenBounds.getHeight());
+         */
 
+
+
+        GameStartedQuestion event = fakeGameStartedEvent();
 
         //Sets the Start Scene and shows it
-        MyScene next = new StartScene(this, this.window);
+        MyScene next = new GameScene("meme", event);
         Scene nextScene = next.getScene();
 
         window.setScene(
@@ -130,6 +141,29 @@ public class Gui extends Application implements QuestionEventHandler {
 
 
         window.show();
+
+        window.setFullScreen(true);
+    }
+
+    private GameStartedQuestion fakeGameStartedEvent() {
+
+        ArrayList<String> playerNames = new ArrayList<>();
+        playerNames.add("meme");
+        playerNames.add("andreaalf");
+        playerNames.add("gino");
+        playerNames.add("ingConti");
+        playerNames.add("keni");
+
+        String firstPlayer = "meme";
+
+        ArrayList<PlayerColor> playerColors = PlayerColor.getRandomArray(5);
+
+        MapName mapName = MapName.EARTH;
+
+        int votedSkulls = 7;
+
+        return new GameStartedQuestion(playerNames, playerColors, firstPlayer, mapName, votedSkulls);
+
     }
 
 

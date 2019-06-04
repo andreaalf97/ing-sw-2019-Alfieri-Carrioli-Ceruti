@@ -45,7 +45,7 @@ public class ConnectionScene implements MyScene {
         this.chosenIp = chosenIp;
 
         //background image
-        Image backgroundImage = Gui.loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
+        Image backgroundImage = Gui.loadImage(Gui.loginBackgroundImagePath);
 
         Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
 
@@ -58,16 +58,14 @@ public class ConnectionScene implements MyScene {
         connectionLayout.setPadding( new Insets(30));
 
         Label connectionLabel = new Label("Choose the type of connection:");
-        connectionLabel.setStyle("-fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
+        connectionLabel.getStyleClass().add("labelWithBackground");
         connectionLabel.setAlignment(Pos.TOP_CENTER);
 
         HBox HboxConnections = new HBox();
         HboxConnections.setAlignment(Pos.CENTER);
         HboxConnections.setSpacing(30);
         Button socketButton = new Button("Socket");
-        socketButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         Button RMIButton = new Button("RMI");
-        RMIButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
 
 
         HboxConnections.getChildren().addAll(socketButton, RMIButton);

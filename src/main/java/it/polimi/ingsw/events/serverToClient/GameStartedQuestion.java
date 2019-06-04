@@ -1,5 +1,6 @@
 package it.polimi.ingsw.events.serverToClient;
 
+import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.model.Player;
@@ -12,14 +13,17 @@ public class GameStartedQuestion implements QuestionEvent, Serializable {
 
     public ArrayList<String> playerNames;
 
+    public ArrayList<PlayerColor> playerColors;
+
     public String firstPlayer;
 
     public MapName mapName;
 
     public int votedSkulls;
 
-    public GameStartedQuestion(ArrayList<String> playerNames, String firstPlayer, MapName mapName, int votedSkulls) {
+    public GameStartedQuestion(ArrayList<String> playerNames, ArrayList<PlayerColor> playerColors, String firstPlayer, MapName mapName, int votedSkulls) {
         this.playerNames = playerNames;
+        this.playerColors = playerColors;
         this.firstPlayer = firstPlayer;
         this.mapName = mapName;
         this.votedSkulls = votedSkulls;

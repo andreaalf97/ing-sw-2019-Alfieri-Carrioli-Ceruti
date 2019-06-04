@@ -1,13 +1,32 @@
-@font-face {
-    font-family: "COD";
-    src: url('/fonts/Exo2-BlackItalic.ttf');
+*{
+    -fx-font-family: monospace;
+    -fx-border: 1px solid black;
 }
 
-.label {
-    -fx-padding: 200;
-    -fx-font-family: "COD";
+.label{
+    -fx-text-fill: #3C0A0A;
+
 }
 
-.button {
-    -fx-font-family: "COD";
+.labelWithBackground{
+
+    -fx-background-color: #E94B2B;
+
+}
+
+.button{
+    -fx-background-color: #3C0A0A;
+    -fx-text-fill: #E94B2B;
+}
+
+.text-field{
+    -fx-background-color: #E94B2B;
+    -fx-text-fill: #3C0A0A;
+    -fx-font-size: 18px;
+}
+
+.choice-box {
+    -fx-background-color: #E94B2B;
+    -fx-font-size: 18px;
+    -fx-text-fill: #3C0A0A;
 }

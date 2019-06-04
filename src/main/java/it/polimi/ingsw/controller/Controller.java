@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
@@ -112,8 +113,10 @@ public class Controller implements Observer, AnswerEventHandler {
 
         Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
+        ArrayList<PlayerColor> playerColors = PlayerColor.getRandomArray(gameModel.getPlayerNames().size());
+
         virtualView.sendAllQuestionEvent(
-                new GameStartedQuestion(playerNames, firstPlayer.getNickname(), votedMap, votedSkulls)
+                new GameStartedQuestion(playerNames, playerColors, firstPlayer.getNickname(), votedMap, votedSkulls)
         );
 
         firstPlayer.playerStatus.isActive = true;

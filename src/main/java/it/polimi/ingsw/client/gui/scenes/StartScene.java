@@ -30,23 +30,22 @@ public class StartScene implements MyScene {
         startLayout.setAlignment(Pos.CENTER);
 
         Label welcomeLabel = new Label(labelValue);
-        welcomeLabel.setStyle("-fx-font: 25px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
+        welcomeLabel.setStyle("-fx-font-size: 25px");
 
         Button startGameButton = new Button("Start game");
-        startGameButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
 
         this.scene = new Scene(startLayout, 750, 500);
+        scene.getStylesheets().add(getClass().getResource(Gui.loginCssPath).toExternalForm());
 
-        //startGameScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 
 
         //background image
-        Image backgroundImage = Gui.loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
+        Image backgroundImage = Gui.loadImage(Gui.loginBackgroundImagePath);
 
         //Setting up the image as background
         Background Background = new Background(
                 new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                        new BackgroundSize(scene.getHeight(), scene.getWidth(),
+                        new BackgroundSize(scene.getWidth(), scene.getHeight(),
                                 true, true, true, true)));
 
         startLayout.getChildren().addAll(welcomeLabel, startGameButton);

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.cli;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
@@ -92,6 +93,9 @@ public class Cli implements QuestionEventHandler {
     private ArrayList<String> otherPlayers;
 
 
+    private ArrayList<PlayerColor> playerColors;
+
+
     /**
      * Constructor
      */
@@ -105,6 +109,7 @@ public class Cli implements QuestionEventHandler {
         this.lastSnapshotReceived = new JsonObject();
         this.playerInfo = null;
         this.otherPlayers = new ArrayList<>();
+        this.playerColors = null;
     }
 
     /**
@@ -465,6 +470,8 @@ public class Cli implements QuestionEventHandler {
         System.out.println("We are playing with " + event.votedSkulls + " skulls");
 
         System.out.println("****************************************");
+
+        this.playerColors = event.playerColors;
 
     }
 
