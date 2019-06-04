@@ -18,7 +18,6 @@ public class StartScene implements MyScene {
     private Stage window;
 
     private final String labelValue = "Welcome to Adrenalina";
-    private final String buttonValue = "Start game";
 
 
 
@@ -31,11 +30,10 @@ public class StartScene implements MyScene {
         startLayout.setAlignment(Pos.CENTER);
 
         Label welcomeLabel = new Label(labelValue);
-        welcomeLabel.setFont(Font.font("Summit", FontWeight.NORMAL, 20));
-        welcomeLabel.setTextFill(Color.WHITE);
+        welcomeLabel.setStyle("-fx-font: 25px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
 
-        Button startGameButton = new Button(buttonValue);
-        startGameButton.setTextFill(Color.BLACK);
+        Button startGameButton = new Button("Start game");
+        startGameButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
 
         this.scene = new Scene(startLayout, 750, 500);
 

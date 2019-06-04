@@ -23,13 +23,13 @@ public class ClosingBox {
 
         Button yesButton = new Button("Yes");
         yesButton.setMaxSize(40, 30);
-        yesButton.setStyle("-fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        yesButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
         Button noButton = new Button("No");
         noButton.setMaxSize(40, 30);
-        noButton.setStyle("-fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        noButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
 
         Label label = new Label("Are you sure you want to exit Adrenalina?");
-        label.setStyle("-fx-text-fill: #E94B2B;");
+        label.setStyle("-fx-font: 20px 'Stencil', 'Impact'; -fx-text-fill: #E94B2B");
 
 
         yesButton.setOnAction(e ->{

@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class GameScene extends Gui implements MyScene {
+public class GameScene implements MyScene {
 
     private MapName mapName;
 
@@ -30,10 +30,6 @@ public class GameScene extends Gui implements MyScene {
     private Image planciaGiocatoreImage;
 
     public GameScene(String username, GameStartedQuestion event) {
-        super();
-    }
-
-    void setInitialScene(GameStartedQuestion event) {
 
         mapName = event.mapName;
 
@@ -205,6 +201,8 @@ public class GameScene extends Gui implements MyScene {
         gameBorderPane.setTop(planciaPlayerGridPane);
         gameBorderPane.setRight(Plance_altri_giocatori);
     }
+
+
 
     @Override
     public Scene getScene() {
