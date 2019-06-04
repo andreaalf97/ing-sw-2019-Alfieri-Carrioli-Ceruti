@@ -36,7 +36,7 @@ public class LoginScene implements MyScene {
 
         //close button
         Button closeButton = new Button("Exit");
-        closeButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+        closeButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
         Image backgroundImage = Gui.loadImage("src/main/resources/Grafica/Images/Adrenalina_front_image.jpg");
@@ -87,7 +87,7 @@ public class LoginScene implements MyScene {
         GridPane.setConstraints(skullsChoiceBox, 2, 10);
 
         Button loginButton = new Button("Login");
-        loginButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+        loginButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         loginButton.setTextFill(Color.BLACK);
         GridPane.setConstraints(loginButton, 2, 15);
         GridPane.setConstraints(closeButton, 1, 15);

@@ -17,11 +17,13 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -108,7 +110,7 @@ public class Gui extends Application implements QuestionEventHandler {
         //First window
         window.setTitle("Adrenalina");
 
-        /*
+
         //Questi sono per settare la grandezza della scena a screen size!
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         //set Stage boundaries to visible bounds of the main screen
@@ -116,7 +118,7 @@ public class Gui extends Application implements QuestionEventHandler {
         window.setY(primaryScreenBounds.getMinY());
         window.setWidth(primaryScreenBounds.getWidth());
         window.setHeight(primaryScreenBounds.getHeight());
-        */
+
 
         //Sets the Start Scene and shows it
         MyScene next = new StartScene(this, this.window);

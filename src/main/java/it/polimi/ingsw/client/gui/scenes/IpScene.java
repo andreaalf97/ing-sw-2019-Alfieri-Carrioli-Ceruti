@@ -41,7 +41,7 @@ public class IpScene implements MyScene {
 
         //close button
         Button closeButton = new Button("Exit");
-        closeButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+        closeButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
         //background image
@@ -62,10 +62,11 @@ public class IpScene implements MyScene {
         GridPane.setConstraints(IP_address_label, 1, 11);
         //insert the input
         TextField IP_address_input = new TextField();
+        IP_address_input.setStyle("-fx-background-color: #E94B2B; -fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
         GridPane.setConstraints(IP_address_input, 2, 11);
 
         Button nextButton = new Button("Next");
-        nextButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+        nextButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         GridPane.setConstraints(nextButton, 2, 13);
         GridPane.setConstraints(closeButton, 2, 17);
         port_and_IP_Layout.getChildren().addAll( IP_address_label, IP_address_input, nextButton, closeButton);

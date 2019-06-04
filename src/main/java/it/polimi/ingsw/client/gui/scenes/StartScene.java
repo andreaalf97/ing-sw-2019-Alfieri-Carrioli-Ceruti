@@ -33,7 +33,7 @@ public class StartScene implements MyScene {
         welcomeLabel.setStyle("-fx-font: 25px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
 
         Button startGameButton = new Button("Start game");
-        startGameButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+        startGameButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
 
         this.scene = new Scene(startLayout, 750, 500);
 

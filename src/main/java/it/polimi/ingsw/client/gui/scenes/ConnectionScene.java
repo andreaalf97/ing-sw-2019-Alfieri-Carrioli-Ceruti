@@ -37,6 +37,7 @@ public class ConnectionScene implements MyScene {
     private String chosenIp;
 
     public ConnectionScene(Gui gui, Stage window, String username, MapName votedMap, int votedSkulls, String chosenIp) {
+
         this.window = window;
         this.username = username;
         this.votedMap = votedMap;
@@ -50,11 +51,11 @@ public class ConnectionScene implements MyScene {
 
         //connection scene: sockets or rmi?
         VBox connectionLayout = new VBox();
+        connectionLayout.setAlignment(Pos.CENTER);
 
         connectionLayout.setBackground(Background);
         connectionLayout.setSpacing(20);
         connectionLayout.setPadding( new Insets(30));
-        connectionLayout.setAlignment(Pos.CENTER);
 
         Label connectionLabel = new Label("Choose the type of connection:");
         connectionLabel.setStyle("-fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #3C0A0A");
@@ -64,9 +65,9 @@ public class ConnectionScene implements MyScene {
         HboxConnections.setAlignment(Pos.CENTER);
         HboxConnections.setSpacing(30);
         Button socketButton = new Button("Socket");
-        socketButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+        socketButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
         Button RMIButton = new Button("RMI");
-        RMIButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
+        RMIButton.setStyle("-fx-background-color: #3C0A0A; -fx-text-fill: #E94B2B;");
 
 
         HboxConnections.getChildren().addAll(socketButton, RMIButton);
