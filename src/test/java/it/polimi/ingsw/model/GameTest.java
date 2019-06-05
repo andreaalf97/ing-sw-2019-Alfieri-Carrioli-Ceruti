@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
@@ -410,7 +411,7 @@ public class GameTest {
     public void verifyDeserialization(){
         String jsonModelSnapshot = gameTest.modelSnapshot();
 
-        Game newGame = new Game(jsonModelSnapshot);
+        Game newGame = MyJsonParser.createNewGameDeserializingModelSnapshot(jsonModelSnapshot);
 
         Assert.assertTrue(true);
     }

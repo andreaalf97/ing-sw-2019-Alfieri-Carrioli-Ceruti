@@ -154,7 +154,6 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         }
         jsonPlayers += "]";
 
-        //FIXME
         return jsonPlayers;
     }
 

@@ -53,7 +53,7 @@ public class Cli implements QuestionEventHandler {
     private String username;
 
     /**
-     * Initially, this attribute contains the chosen map, then it conains the actual map the game is played on
+     * Initially, this attribute contains the chosen map, then it contains the actual map the game is played on
      */
     private MapName currentMap;
 
@@ -356,9 +356,6 @@ public class Cli implements QuestionEventHandler {
 
     }
 
-    public void buildCliMap(){
-        MapPrinting.fillMap(currentMap);
-    }
 
     public void showGameMap(){}
 

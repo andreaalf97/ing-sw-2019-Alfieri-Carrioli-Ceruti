@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.MyJsonParser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class WeaponDeckTest {
 
     @Test
     public void verifyJson(){
-        WeaponDeck weaponDeckTest = new WeaponDeck();
+        WeaponDeck weaponDeckTest = MyJsonParser.createWeaponDeckFromJson();
 
         Assert.assertTrue(weaponDeckTest.getWeaponList().size() == 21);
     }

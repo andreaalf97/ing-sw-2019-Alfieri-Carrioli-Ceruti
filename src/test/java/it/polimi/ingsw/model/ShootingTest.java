@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.MapName;
 import org.junit.Assert;
@@ -34,14 +35,9 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("LockRifle", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -96,14 +92,8 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("LockRifle", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -151,14 +141,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("LockRifle", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -210,14 +193,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("LockRifle", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -265,14 +241,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("LockRifle", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -332,14 +301,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("MachineGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -406,14 +368,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("MachineGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -493,14 +448,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("MachineGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -553,14 +501,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("MachineGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -637,14 +578,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("MachineGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -686,7 +620,8 @@ public class ShootingTest {
     }
 
     //TODO come faccio a sparare a solo uno dei giocatori in playersHit???
-    /*@Test
+    /*
+    @Test
     public void shootPlayerMachineGunThreeDamageToAPlayerException() {
 
         ArrayList<String > players = new ArrayList<>();
@@ -701,14 +636,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("MachineGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -754,14 +682,8 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Thor", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -816,14 +738,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Thor", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -897,14 +812,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Thor", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -973,14 +881,8 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Thor", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1049,14 +951,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Thor", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1117,14 +1012,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1178,14 +1066,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1243,14 +1124,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1304,14 +1178,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1371,14 +1238,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1436,14 +1296,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1501,14 +1354,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PlasmaGun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1566,14 +1412,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Whisper", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1631,14 +1470,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Whisper", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1690,14 +1522,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Whisper", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1749,14 +1574,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Whisper", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1814,14 +1632,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Whisper", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1879,14 +1690,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Whisper", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1936,14 +1740,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Electroscythe", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1994,14 +1791,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Electroscythe", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2049,14 +1839,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Electroscythe", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2108,14 +1891,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Electroscythe", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2164,14 +1940,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Electroscythe", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2222,14 +1991,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("TractorBeam", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2287,14 +2049,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("TractorBeam", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2352,14 +2107,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("TractorBeam", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2416,14 +2164,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("TractorBeam", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2483,14 +2224,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("TractorBeam", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2545,14 +2279,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("TractorBeam", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2616,14 +2343,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2702,14 +2422,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2761,14 +2474,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2828,14 +2534,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2920,14 +2619,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2998,14 +2690,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3079,14 +2764,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3170,14 +2848,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("VortexCannon", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3261,14 +2932,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Furnace", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3323,14 +2987,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Furnace", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3384,14 +3041,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Furnace", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3451,14 +3101,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Furnace", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3517,14 +3160,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Furnace", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3583,14 +3219,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Furnace", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3642,14 +3271,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Heatseeker", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Heatseeker");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3697,14 +3319,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Heatseeker", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Heatseeker");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3736,14 +3351,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Heatseeker", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Heatseeker");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3788,14 +3396,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Hellion", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3854,14 +3455,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Hellion", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3918,14 +3512,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Hellion", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3989,14 +3576,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Hellion", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4054,14 +3634,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Hellion", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4118,14 +3691,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Hellion", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4173,14 +3739,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4221,14 +3780,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4277,14 +3829,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4338,14 +3883,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4395,14 +3933,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4453,14 +3984,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4545,14 +4069,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4630,14 +4147,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Flamethrower", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4705,14 +4215,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4770,14 +4273,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4835,14 +4331,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4908,14 +4397,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("GrenadeLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4980,14 +4462,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("RocketLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5035,14 +4510,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("RocketLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5119,14 +4587,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("RocketLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5187,14 +4648,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("RocketLauncher", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5278,14 +4732,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Railgun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5331,14 +4778,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Railgun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5384,14 +4824,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Railgun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5434,14 +4867,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Railgun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5491,14 +4917,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Railgun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5542,14 +4961,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Cyberblade", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Cyberblade");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5612,14 +5024,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Cyberblade", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Cyberblade");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5682,14 +5087,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Cyberblade", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Cyberblade");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5752,14 +5150,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("ZX-2", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("ZX-2");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5814,14 +5205,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("ZX-2", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("ZX-2");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5879,14 +5263,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Shotgun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shotgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5939,14 +5316,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Shotgun", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shotgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5985,14 +5355,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PowerGlove", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6034,14 +5397,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PowerGlove", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6095,14 +5451,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PowerGlove", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6161,14 +5510,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PowerGlove", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6231,14 +5573,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("PowerGlove", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6306,14 +5641,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Shockwave", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shockwave");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6366,7 +5694,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shockwave");
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
@@ -6433,7 +5761,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shockwave");
         try {
             JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
             weaponTest = new Weapon("Shockwave", weaponsJSON);
@@ -6509,14 +5837,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Sledgehammer", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6554,14 +5875,8 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Sledgehammer", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6597,14 +5912,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Sledgehammer", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6644,14 +5952,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Sledgehammer", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6710,14 +6011,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Sledgehammer", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6772,14 +6066,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Sledgehammer", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6834,14 +6121,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest;
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Sledgehammer", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");

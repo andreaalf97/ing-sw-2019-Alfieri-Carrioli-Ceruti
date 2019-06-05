@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.Color;
 
@@ -64,16 +65,7 @@ public class PowerUp {
     }
 
     public static PowerUp getPowerUp(String powerUpName) {
-        try {
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
-            JsonObject jsonPowerUpsDeck = jsonDecks.get("Powerups").getAsJsonObject();
-
-            return new PowerUp(powerUpName, jsonPowerUpsDeck);
-        }
-        catch (IOException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while reading JSON");
-            return null;
-        }
+         return MyJsonParser.getPowerUpByName(powerUpName);
     }
 
     /**

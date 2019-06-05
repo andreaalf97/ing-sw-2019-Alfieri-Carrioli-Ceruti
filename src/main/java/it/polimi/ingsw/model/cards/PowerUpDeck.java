@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.MyLogger;
 
 import java.io.FileNotFoundException;
@@ -31,35 +32,6 @@ public class PowerUpDeck {
         for(int i = 0; i < jsonPowerUpList.size(); i++){
             PowerUp p = new PowerUp(jsonPowerUpList.get(i).getAsJsonObject());
             this.powerUpList.add(p);
-        }
-    }
-
-    /**
-     * Automatically generates the power up deck from the effects.json file
-     *
-     */
-    public PowerUpDeck()
-    {
-        this.powerUpList = new ArrayList<>();
-
-        try{
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
-            JsonObject jsonPowerupsDeck = jsonDecks.get("Powerups").getAsJsonObject();
-            Set<String> keys = jsonPowerupsDeck.keySet();
-
-            for(int i = 0; i < 6; i++) {
-                Iterator<String> iterator = keys.iterator();
-                while (iterator.hasNext()) {
-                    String powerupName = iterator.next();
-                    this.powerUpList.add(new PowerUp(powerupName, jsonPowerupsDeck));
-
-                }
-            }
-
-        }
-        catch(FileNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
         }
     }
 

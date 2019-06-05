@@ -2,19 +2,17 @@ package it.polimi.ingsw.model;
 
 
 import com.google.gson.*;
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.GameMap;
-import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import java.util.logging.Level;
@@ -77,66 +75,39 @@ public class Game extends Observable {
         this.players = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
         this.playerNames = playerNames;
-        this.powerupDeck = new PowerUpDeck();
-        this.weaponDeck = new WeaponDeck();
+        this.powerupDeck = MyJsonParser.createPowerUpDeckFromJson();
+        this.weaponDeck = MyJsonParser.createWeaponDeckFromJson();
 
         for(String name : this.playerNames)
             this.players.add(new Player(name));
 
-        this.gameMap = MapBuilder.generateMap(chosenMap, weaponDeck, powerupDeck);
+        this.gameMap = MyJsonParser.createGameMapfromJson(chosenMap, weaponDeck, powerupDeck);
         this.kst = new KillShotTrack(nSkulls);
     }
 
     /**
-     * creates a new game by deserializing it from parametere modelSnapshot
-     * @param modelSnapshot the json in which we have all the model
+     * constructor used by MyJsonParser for persistence
+     * @param playerNames the names of the players
+     * @param players the player objects
+     * @param weaponDeck the weaponDeck
+     * @param powerUpDeck the powerUpDeck
+     * @param kst the killshot track
+     * @param gameMap the map of the game
      */
-    public Game(String modelSnapshot){
-        JsonObject jsonRoot = new JsonParser().parse(modelSnapshot).getAsJsonObject();
-
-        this.players = deserializePlayerObject(jsonRoot.get("player").getAsJsonArray());
-
-        this.playerNames = deserializePlayerNamesObject(jsonRoot.get("playerNames").getAsJsonArray());
-
-        this.weaponDeck = new WeaponDeck(jsonRoot.get("weaponDeck").getAsJsonObject());
-
-        this.powerupDeck = new PowerUpDeck(jsonRoot.get("powerUpDeck").getAsJsonObject());
-
-        this.kst = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
-
-        this.gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
-
+    public Game(ArrayList<String> playerNames, ArrayList<Player> players, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck, KillShotTrack kst, GameMap gameMap){
+        this.playerNames = playerNames;
+        this.players = players;
+        this.weaponDeck = weaponDeck;
+        this.powerupDeck = powerUpDeck;
+        this.kst = kst;
+        this.gameMap = gameMap;
     }
 
     /**
-     * this method deserialize Player Names objects
-     * @param jsonPlayerNames the json of the players
-     * @return the Players ArrayList
+     * persistence game builder
      */
-    private ArrayList<String> deserializePlayerNamesObject(JsonArray jsonPlayerNames) {
-
-        ArrayList<String> playerNames = new ArrayList<>();
-
-        for(int i = 0; i < jsonPlayerNames.size(); i++)
-            playerNames.add(jsonPlayerNames.get(i).getAsString());
-
-        return playerNames;
-    }
-
-    /**
-     * this method deserialize Players
-     * @param jsonPlayers the json that represents the players
-     * @return the corrresponding ArrayList
-     */
-    private ArrayList<Player> deserializePlayerObject(JsonArray jsonPlayers) {
-        ArrayList<Player> players = new ArrayList<>();
-
-        for (int i = 0; i < jsonPlayers.size(); i++) {
-            Player p = new Player(jsonPlayers.get(i).getAsJsonObject());
-            players.add(p);
-        }
-
-        return players;
+    public Game(){
+        MyJsonParser.createNewGameDeserializingModelSnapshot(modelSnapshot());
     }
 
     //TESTED
@@ -264,7 +235,7 @@ public class Game extends Observable {
             //if deck is empty i reload it from json instead shuffle the old one
 
             MyLogger.LOGGER.log(Level.INFO, "deck is empty, reloading it from json");
-            this.powerupDeck = new PowerUpDeck();
+            this.powerupDeck = MyJsonParser.createPowerUpDeckFromJson();
             p.givePowerUp(this.powerupDeck.drawCard());
         }
     }
@@ -1613,7 +1584,7 @@ public class Game extends Observable {
         String jsonGameMap = gameMapSnapshot(gson);
 
         //create a json that stores all the information of the game in a string with json format
-        String modelSnapshot = "{ \"player\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + "," + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"kst\":" + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "}" ;
+        String modelSnapshot = "{ \"players\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + "," + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"kst\":" + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "}" ;
 
         return modelSnapshot;
     }

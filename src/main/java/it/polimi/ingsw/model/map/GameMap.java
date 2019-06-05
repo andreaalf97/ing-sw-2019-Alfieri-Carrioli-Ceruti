@@ -57,7 +57,7 @@ public class GameMap {
      * Only constructor
      * @param spotMatrix the matrix corresponding to gameMap.map
      */
-    protected GameMap(Spot[][] spotMatrix){
+    public GameMap(Spot[][] spotMatrix){
         this.map = spotMatrix;
         this.rand = new Random();
     }
