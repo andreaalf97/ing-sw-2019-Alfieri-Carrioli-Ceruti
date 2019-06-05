@@ -35,6 +35,7 @@ public class GameScene implements MyScene {
 
     private final String mapPath;
     private final String cssPath = "/style/gameStyle.css";
+    private final String myPlanciaPath = "/Grafica/Plance_giocatori/Blue/Blue_front.png";
 
     private final double screenRatioMin = 0.5500; // Screen ration of 16:9 is 0.5625
     private final double screenRatioMax = 0.5700;
@@ -55,12 +56,87 @@ public class GameScene implements MyScene {
         //this.mapPath = this.mapName.getPath();
         this.mapPath = "/Grafica/Boards/EARTH.png";
 
-        GridPane externalGridPane = new GridPane();
-        externalGridPane.setGridLinesVisible(true);
 
-        setGrid(externalGridPane, externalCols, externalRows);
+        //------------ Reading screen size ------------------------
+        Rectangle2D screenVisibleBounds = Screen.getPrimary().getBounds();
+        double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
+
+        System.err.println("Width --> " + screenVisibleBounds.getWidth());
+        System.err.println("Height --> " + screenVisibleBounds.getHeight());
+        System.err.println(aspectRatio);
+
+
+
+        //Setting up the external grid
+        GridPane externalGridPane = setUpExternalGridPane(externalCols, externalRows);
+
+        //Setting up the map grid
+        GridPane mapGridPane = setUpMapGridPane();
+
+        //Adding the map grid to the main pane
+        externalGridPane.add(mapGridPane,
+                0,
+                6,
+                28,
+                22
+        );
+
+        //Setting up the player's plancia
+        HBox myPlancia = setUpMyPlanciaHBox();
+
+        //Adduing the plancia to the main pane
+        externalGridPane.add(myPlancia, 1, 1, 30, 4);
+
+
+        //Setting up CSS for main pane
+        externalGridPane.getStylesheets().add(cssPath);
+
+
+        //Loading the pane into the scene
+        this.scene = new Scene(externalGridPane, 1120, 630);
+
+        //Deciding to use full screen or not resizable window
+        if(aspectRatio < screenRatioMax && aspectRatio > screenRatioMin){
+            window.setFullScreen(true);
+
+            window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        }
+        else {
+            window.setResizable(false);
+        }
+
+
+    }
+
+    private HBox setUpMyPlanciaHBox() {
+
+        HBox myPlancia = new HBox();
+
+        Image myPlanciaImage = new Image(
+                myPlanciaPath,
+                0, 0,
+                true, false
+        );
+
+
+        BackgroundImage myPlanciaBackground = new BackgroundImage(
+                myPlanciaImage,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(1, 1, true, true, true, false)
+        );
+
+        myPlancia.setBackground(new Background(myPlanciaBackground));
+
+        return myPlancia;
+
+    }
+
+    private GridPane setUpMapGridPane() {
 
         GridPane mapGridPane = new GridPane();
+
         mapGridPane.setGridLinesVisible(false);
 
         setGrid(mapGridPane, 4, 3);
@@ -77,35 +153,18 @@ public class GameScene implements MyScene {
 
         mapGridPane.setBackground(new Background(mapBackgroundImage));
 
-        mapGridPane.getStylesheets().add(cssPath);
 
-        externalGridPane.add(mapGridPane,
-                0,
-                0,
-                36,
-                27
-        );
+        return mapGridPane;
+    }
 
-        Rectangle2D screenVisibleBounds = Screen.getPrimary().getBounds();
-        double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
+    private GridPane setUpExternalGridPane(int nCols, int nRows) {
 
-        System.err.println("Width --> " + screenVisibleBounds.getWidth());
-        System.err.println("Height --> " + screenVisibleBounds.getHeight());
-        System.err.println(aspectRatio);
+        GridPane externalGridPane = new GridPane();
+        externalGridPane.setGridLinesVisible(true);
 
+        setGrid(externalGridPane, nCols, nRows);
 
-        this.scene = new Scene(externalGridPane, 1120, 630);
-
-        if(aspectRatio < screenRatioMax && aspectRatio > screenRatioMin){
-            window.setFullScreen(true);
-
-            window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        }
-        else {
-            window.setResizable(false);
-        }
-
-
+        return  externalGridPane;
     }
 
     /**
