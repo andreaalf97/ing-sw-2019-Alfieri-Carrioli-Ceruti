@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import com.google.gson.*;
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.model.Color;
 
@@ -111,18 +112,7 @@ public class Weapon {
      * @param weaponName The name of the weapon to read from the JSON file
      */
     public static Weapon getWeapon(String weaponName){
-
-        try {
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
-            JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
-
-            return new Weapon(weaponName, jsonWeaponsDeck);
-        }
-        catch (IOException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while reading JSON");
-            return null;
-        }
-
+        return MyJsonParser.getWeaponByName(weaponName);
     }
 
     /**
