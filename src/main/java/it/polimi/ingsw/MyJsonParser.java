@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.model.Game;
@@ -10,12 +11,17 @@ import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.cards.WeaponDeck;
-import it.polimi.ingsw.model.map.GameMap;
+import it.polimi.ingsw.model.map.*;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MyJsonParser {
 
@@ -103,6 +109,164 @@ public class MyJsonParser {
         }
     }
 
+    /**
+     * create the powerUp deck
+     * @return the powerUpDeck of the game
+     */
+    public static PowerUpDeck createPowerUpDeckFromJson() {
+        ArrayList<PowerUp> powerUpList = new ArrayList<>();
+
+        try{
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
+            JsonObject jsonPowerupsDeck = jsonDecks.get("Powerups").getAsJsonObject();
+            Set<String> keys = jsonPowerupsDeck.keySet();
+
+            for(int i = 0; i < 6; i++) {
+                Iterator<String> iterator = keys.iterator();
+                while (iterator.hasNext()) {
+                    String powerupName = iterator.next();
+                    powerUpList.add(new PowerUp(powerupName, jsonPowerupsDeck));
+
+                }
+            }
+
+        }
+        catch(FileNotFoundException e){
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
+        }
+
+        return new PowerUpDeck(powerUpList);
+    }
+
+    /**
+     * create the weapon deck
+     * @return the weapon deck of the game
+     */
+    public static WeaponDeck createWeaponDeckFromJson(){
+
+        ArrayList<Weapon> weaponList = new ArrayList<>();
+
+        try {
+            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
+            JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
+            Set<String> keys = jsonWeaponsDeck.keySet();
+
+            Iterator<String> iterator = keys.iterator();
+            while(iterator.hasNext()){
+                String weaponName = iterator.next();
+                Weapon weaponTemp = new Weapon(weaponName, jsonWeaponsDeck);
+
+                weaponList.add(weaponTemp);
+            }
+
+        }
+        catch(FileNotFoundException e){
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
+        }
+
+        return new WeaponDeck(weaponList);
+    }
+
+    /**
+     * This static method reads the necessary values from a JSON file and constructs the new map selected
+     * @param mapName the name of the chosen map
+     * @return the map
+     */
+    public static GameMap createGameMapfromJson(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck){
+
+        //The Spot matrix I will work on
+        Spot[][] tempSpotMatrix = new Spot[3][4];
+        Random rand = new Random();
+
+        try {
+            JsonElement jsonElement = new JsonParser().parse(new FileReader("src/main/resources/maps.json"));
+
+            JsonObject jsonObjectMyMap = jsonElement.getAsJsonObject().get(mapName.toString()).getAsJsonObject(); //the map selected is saved in jsonObjectMymap
+
+            //these two nested for cycles load the information of the single spot in the matrix map
+            for(int i = 0; i < tempSpotMatrix.length; i++) {
+
+                JsonObject jsonRow = jsonObjectMyMap.get("row"+ i).getAsJsonObject();
+                for (int j = 0; j < tempSpotMatrix[i].length; j++){
+
+                    //FOR EACH SPOT IN THE JSON FILE
+
+                    JsonObject jsonCol = jsonRow.get("col" + j).getAsJsonObject(); // <== jsonSpot
+
+                    if (!jsonCol.toString().equals("{}")) {
+
+                        //Reading isSpawnSpot & isAmmoSpot
+                        boolean isSpawnSpot = jsonCol.get("isSpawnSpot").getAsBoolean();
+                        boolean isAmmoSpot = jsonCol.get("isAmmoSpot").getAsBoolean();
+
+                        //Reading all rooms
+                        Room room = Room.valueOf(jsonCol.get("room").getAsString());
+
+                        //Creating a Java ArrayList from a JsonArray object
+                        ArrayList<Boolean>doors = new ArrayList<>();
+                        JsonArray jsonDoors = jsonCol.get("doors").getAsJsonArray();
+                        for (int k = 0; k <= 3 ; k++) {
+                            doors.add(jsonDoors.get(k).getAsBoolean());
+                        }
+
+                        //Constructing a new SpawnSpot
+                        if(isSpawnSpot) { //If this is a Spawn spot I add all the weapons
+                            tempSpotMatrix[i][j] = new SpawnSpot(doors, room);
+
+                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                        }
+
+                        //Constructing a new AmmoSpot
+                        if(isAmmoSpot) {
+                            //If this is an ammo spot I randomly add (or don't) a power up and some ammo
+                            tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
+
+                            if(rand.nextBoolean()){
+                                tempSpotMatrix[i][j].refill(powerUpDeck.drawCard()); //Refills with a powerup
+                            }
+                            else{
+                                tempSpotMatrix[i][j].refill(null); //Refills only ammos
+                            }
+                        }
+
+                    }
+                    else
+                        tempSpotMatrix[i][j] = null;
+                }
+            }
+        }
+        catch (FileNotFoundException e){
+            //If the file does not exist || we have problems with the file
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
+        }
+
+        //The map is created with its PROTECTED constructor
+        return new GameMap(tempSpotMatrix);
+    }
 
 
+    /**
+     * this method loads weapon from effects.json
+     * @param weaponName the name of the weapon to load
+     * @return the weapon
+     */
+    public static Weapon createWeaponForTesting(String weaponName){
+        Weapon weaponTest;
+
+        try {
+            JsonObject weaponsJSON = new JsonParser().parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get("Weapons").getAsJsonObject();
+            weaponTest = new Weapon(weaponName, weaponsJSON);
+        } catch (FileNotFoundException e) {
+            weaponTest = null;
+        }
+
+        return weaponTest;
+    }
+
+    //TODO FINIRE STA MERDA DI PARSE + COLLEGGARE MAPPRINTING + NOTIFY IN MODEL + CORREGGERE METODO MACHINE GUN
 }

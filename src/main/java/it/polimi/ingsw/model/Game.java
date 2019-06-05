@@ -5,17 +5,14 @@ import com.google.gson.*;
 import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.GameMap;
-import it.polimi.ingsw.model.map.MapBuilder;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import java.util.logging.Level;
@@ -78,13 +75,13 @@ public class Game extends Observable {
         this.players = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
         this.playerNames = playerNames;
-        this.powerupDeck = new PowerUpDeck();
-        this.weaponDeck = new WeaponDeck();
+        this.powerupDeck = MyJsonParser.createPowerUpDeckFromJson();
+        this.weaponDeck = MyJsonParser.createWeaponDeckFromJson();
 
         for(String name : this.playerNames)
             this.players.add(new Player(name));
 
-        this.gameMap = MapBuilder.generateMap(chosenMap, weaponDeck, powerupDeck);
+        this.gameMap = MyJsonParser.createGameMapfromJson(chosenMap, weaponDeck, powerupDeck);
         this.kst = new KillShotTrack(nSkulls);
     }
 
@@ -238,7 +235,7 @@ public class Game extends Observable {
             //if deck is empty i reload it from json instead shuffle the old one
 
             MyLogger.LOGGER.log(Level.INFO, "deck is empty, reloading it from json");
-            this.powerupDeck = new PowerUpDeck();
+            this.powerupDeck = MyJsonParser.createPowerUpDeckFromJson();
             p.givePowerUp(this.powerupDeck.drawCard());
         }
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.PowerUp;
@@ -17,7 +18,7 @@ public class GameMapTest {
 
     @Before
     public void setUp() throws Exception {
-        gameMapTestFire = MapBuilder.generateMap(MapName.FIRE, new WeaponDeck(), new PowerUpDeck());
+        gameMapTestFire = MyJsonParser.createGameMapfromJson(MapName.FIRE, MyJsonParser.createWeaponDeckFromJson(), MyJsonParser.createPowerUpDeckFromJson());
     }
 
     @Test
@@ -263,7 +264,7 @@ public class GameMapTest {
         gameMapTestFire.grabSomething(0,1, playerTest, -1);
         gameMapTestFire.grabSomething(2,1, playerTest, -1);
 
-        PowerUpDeck powerUpDeckTest = new PowerUpDeck();
+        PowerUpDeck powerUpDeckTest = MyJsonParser.createPowerUpDeckFromJson();
         gameMapTestFire.refillAllAmmo(powerUpDeckTest);
         for (int i = 0; i < gameMapTestFire.map.length ; i++)
             for (int j = 0; j < gameMapTestFire.map[i].length; j++)
@@ -282,7 +283,7 @@ public class GameMapTest {
 
         Assert.assertEquals(3, playerTest.getWeaponList().size());
 
-        WeaponDeck weaponDeckTest = new WeaponDeck();
+        WeaponDeck weaponDeckTest = MyJsonParser.createWeaponDeckFromJson();
         gameMapTestFire.refillAllSpawns(weaponDeckTest);
         for (int i = 0; i < gameMapTestFire.map.length ; i++)
             for (int j = 0; j < gameMapTestFire.map[i].length; j++)

@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import com.google.gson.*;
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.MyLogger;
 
 public class WeaponDeck{
@@ -27,37 +28,6 @@ public class WeaponDeck{
             Weapon w = new Weapon(jsonWeaponList.get(i).getAsJsonObject());
             this.weaponList.add(w);
         }
-    }
-
-    /**
-     * This constructor build the complete weapon deck
-     */
-    public WeaponDeck(){
-
-        this.weaponList = new ArrayList<>();
-
-        try {
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
-            JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
-            Set<String> keys = jsonWeaponsDeck.keySet();
-
-            Iterator<String> iterator = keys.iterator();
-            while(iterator.hasNext()){
-                String weaponName = iterator.next();
-                Weapon weaponTemp = new Weapon(weaponName, jsonWeaponsDeck);
-
-                this.weaponList.add(weaponTemp);
-            }
-
-            //Collections.shuffle(this.weaponList);
-
-        }
-        catch(FileNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
-        }
-
-
     }
 
     /**

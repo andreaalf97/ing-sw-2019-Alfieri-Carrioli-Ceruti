@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.MyJsonParser;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -472,17 +473,7 @@ public class PlayerTest {
     public void reloadWeapon(){
         Player playerTest = new Player("gino");
 
-        Weapon weaponTest = null;
-
-        //copy from gameTest.Java see there for explanations
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("LockRifle", weaponsJSON);
-        }
-        catch (FileNotFoundException e){
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
 
         weaponTest.unload();
 
