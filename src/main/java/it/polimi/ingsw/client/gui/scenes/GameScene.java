@@ -3,14 +3,19 @@ package it.polimi.ingsw.client.gui.scenes;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.events.serverToClient.GameStartedQuestion;
 import it.polimi.ingsw.model.map.MapName;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
 public class GameScene implements MyScene {
 
+    private Stage window;
 
     private Scene scene;
 
@@ -31,15 +36,15 @@ public class GameScene implements MyScene {
     private final String mapPath;
     private final String cssPath = "/style/gameStyle.css";
 
-    private final int windowWidth = 750;
-    private final int windowHeight = 500;
+    private final double screenRatioMin = 0.5500; // Screen ration of 16:9 is 0.5625
+    private final double screenRatioMax = 0.5700;
 
+    private final int externalRows = 27;
+    private final int externalCols = 48;
 
-    private final int externalRows = windowHeight / 20;
-    private final int externalCols = windowWidth / 20;
+    public GameScene(Stage window, String username, GameStartedQuestion event) {
 
-    public GameScene(String username, GameStartedQuestion event) {
-
+        this.window = window;
         this.username = username;
         this.playerNames = event.playerNames;
         this.playerColors = event.playerColors;
@@ -47,27 +52,23 @@ public class GameScene implements MyScene {
         this.mapName = event.mapName;
         this.votedSkulls = event.votedSkulls;
 
-        this.mapPath = this.mapName.getPath();
+        //this.mapPath = this.mapName.getPath();
+        this.mapPath = "/Grafica/Boards/EARTH.png";
 
         GridPane externalGridPane = new GridPane();
         externalGridPane.setGridLinesVisible(true);
 
         setGrid(externalGridPane, externalCols, externalRows);
 
-
-
-
         GridPane mapGridPane = new GridPane();
         mapGridPane.setGridLinesVisible(false);
 
-        setGrid(mapGridPane, 10, 10);
+        setGrid(mapGridPane, 4, 3);
 
         mapGridPane.getStyleClass().add("mapGridPane");
 
-        System.err.println(mapPath);
-
         BackgroundImage mapBackgroundImage= new BackgroundImage(
-                new Image(mapPath),
+                new Image(mapPath, 0, 0, true, false) ,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
@@ -78,17 +79,32 @@ public class GameScene implements MyScene {
 
         mapGridPane.getStylesheets().add(cssPath);
 
-        externalGridPane.add(
-                mapGridPane,
-                0,    //Column Index
-                7,    //Row Index
-                20,     //colspan
-                18      //rowspan
-                );
+        externalGridPane.add(mapGridPane,
+                0,
+                0,
+                36,
+                27
+        );
+
+        Rectangle2D screenVisibleBounds = Screen.getPrimary().getBounds();
+        double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
+
+        System.err.println("Width --> " + screenVisibleBounds.getWidth());
+        System.err.println("Height --> " + screenVisibleBounds.getHeight());
+        System.err.println(aspectRatio);
 
 
+        this.scene = new Scene(externalGridPane, 1120, 630);
 
-        this.scene = new Scene(externalGridPane, windowWidth, windowHeight);
+        if(aspectRatio < screenRatioMax && aspectRatio > screenRatioMin){
+            window.setFullScreen(true);
+
+            window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        }
+        else {
+            window.setResizable(false);
+        }
+
 
     }
 

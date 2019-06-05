@@ -9,35 +9,16 @@ import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.map.MapName;
-import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.RemoteView;
-import it.polimi.ingsw.view.client.RemoteViewInterface;
-import it.polimi.ingsw.view.client.RemoteViewRmiImpl;
-import it.polimi.ingsw.view.client.RemoteViewSocket;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.Socket;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 
 public class Gui extends Application implements QuestionEventHandler {
@@ -132,7 +113,7 @@ public class Gui extends Application implements QuestionEventHandler {
         GameStartedQuestion event = fakeGameStartedEvent();
 
         //Sets the Start Scene and shows it
-        MyScene next = new GameScene("meme", event);
+        MyScene next = new GameScene(window, "meme", event);
         Scene nextScene = next.getScene();
 
         window.setScene(
@@ -141,8 +122,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
 
         window.show();
-
-        window.setFullScreen(true);
     }
 
     private GameStartedQuestion fakeGameStartedEvent() {
@@ -261,7 +240,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
         waitingRoomGui.close();
 
-        MyScene next = new GameScene(username, event);
+        MyScene next = new GameScene(window, username, event);
         Scene nextScene = next.getScene();
         window.setScene(nextScene);
 

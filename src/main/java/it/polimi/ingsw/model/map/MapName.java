@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.map;
 
 public enum MapName {
-    FIRE("src/main/resources/Grafica/Mappe/FIRE.png"),
+    FIRE("/Grafica/Mappe/FIRE.png"),
     EARTH("/Grafica/Mappe/EARTH.png"),
-    WIND("src/main/resources/Grafica/Mappe/WIND.png"),
-    WATER("src/main/resources/Grafica/Mappe/WATER.png");
+    WIND("/Grafica/Mappe/WIND.png"),
+    WATER("/Grafica/Mappe/WATER.png");
 
     private final String path;
 
