@@ -4,9 +4,8 @@ import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.events.serverToClient.GameStartedQuestion;
 import it.polimi.ingsw.model.map.MapName;
 import javafx.scene.Scene;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 
@@ -29,16 +28,15 @@ public class GameScene implements MyScene {
 
 
 
-    private final String mapPath = "src/main/resources/Grafica/Mappe/Parti/Part_1.png";
+    private final String mapPath;
     private final String cssPath = "/style/gameStyle.css";
 
     private final int windowWidth = 750;
     private final int windowHeight = 500;
 
 
-
-    private final int externalRows = windowHeight / 15;
-    private final int externalCols = windowWidth / 15;
+    private final int externalRows = windowHeight / 20;
+    private final int externalCols = windowWidth / 20;
 
     public GameScene(String username, GameStartedQuestion event) {
 
@@ -49,25 +47,48 @@ public class GameScene implements MyScene {
         this.mapName = event.mapName;
         this.votedSkulls = event.votedSkulls;
 
+        this.mapPath = this.mapName.getPath();
+
         GridPane externalGridPane = new GridPane();
-        externalGridPane.setGridLinesVisible(false);
+        externalGridPane.setGridLinesVisible(true);
 
         setGrid(externalGridPane, externalCols, externalRows);
 
-        this.scene = new Scene(externalGridPane, windowWidth, windowHeight);
 
 
 
         GridPane mapGridPane = new GridPane();
-        mapGridPane.setGridLinesVisible(true);
+        mapGridPane.setGridLinesVisible(false);
 
         setGrid(mapGridPane, 10, 10);
 
         mapGridPane.getStyleClass().add("mapGridPane");
-        mapGridPane.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
 
-        externalGridPane.add(mapGridPane, 5, 10, 20, 40);
+        System.err.println(mapPath);
 
+        BackgroundImage mapBackgroundImage= new BackgroundImage(
+                new Image(mapPath),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(1, 1, true, true, true, false)
+        );
+
+        mapGridPane.setBackground(new Background(mapBackgroundImage));
+
+        mapGridPane.getStylesheets().add(cssPath);
+
+        externalGridPane.add(
+                mapGridPane,
+                0,    //Column Index
+                7,    //Row Index
+                20,     //colspan
+                18      //rowspan
+                );
+
+
+
+        this.scene = new Scene(externalGridPane, windowWidth, windowHeight);
 
     }
 
