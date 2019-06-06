@@ -3,11 +3,15 @@ package it.polimi.ingsw.client.gui.scenes;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.events.serverToClient.GameStartedQuestion;
 import it.polimi.ingsw.model.map.MapName;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -35,7 +39,6 @@ public class GameScene implements MyScene {
 
     private final String mapPath;
     private final String cssPath = "/style/gameStyle.css";
-    private final String myPlanciaPath = "/Grafica/Plance_giocatori/Blue/Blue_front.png";
 
     private final double screenRatioMin = 0.5500; // Screen ration of 16:9 is 0.5625
     private final double screenRatioMax = 0.5700;
@@ -76,20 +79,48 @@ public class GameScene implements MyScene {
         //Adding the map grid to the main pane
         externalGridPane.add(mapGridPane,
                 0,
-                6,
-                28,
-                22
+                5,
+                30,
+                24
         );
 
         //Setting up the player's plancia
         HBox myPlancia = setUpMyPlanciaHBox();
 
-        //Adduing the plancia to the main pane
-        externalGridPane.add(myPlancia, 1, 1, 30, 4);
+        int col = 30;
+        int row = 5;
 
+        int offset = 5;
+
+        ArrayList<PlayerColor> tempColors = new ArrayList<>(playerColors);
+
+        int indexOfThisPlayer = playerNames.indexOf(username);
+
+        tempColors.remove(indexOfThisPlayer);
+
+        for(int i = 0; i < tempColors.size(); i++){
+
+            HBox newBox= setUpOtherPlayerPlancia(tempColors.get(i));
+            externalGridPane.add(newBox, col, row + (i * offset), 20, 5);
+
+        }
+
+
+
+        //Adduing the plancia to the main pane
+        externalGridPane.add(myPlancia, 0, 0, 24, 5);
+
+        Label messages = new Label("THIS IS ADRENALINA");
+        messages.getStyleClass().add("messages");
+        messages.setTextAlignment(TextAlignment.CENTER);
+
+
+        externalGridPane.add(messages, 24, 0, 21, 5);
 
         //Setting up CSS for main pane
         externalGridPane.getStylesheets().add(cssPath);
+
+        externalGridPane.setBackground(new Background(new BackgroundFill(Color.ORANGERED, CornerRadii.EMPTY, Insets.EMPTY)));
 
 
         //Loading the pane into the scene
@@ -108,12 +139,41 @@ public class GameScene implements MyScene {
 
     }
 
+    private HBox setUpOtherPlayerPlancia(PlayerColor playerColor) {
+
+        HBox hBox = new HBox();
+
+        System.err.println(playerColor.getPath());
+
+        Image image = new Image(
+                playerColor.getPath(),
+                0, 0,
+                true, false
+        );
+
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(1, 1, true, true, true, false)
+        );
+
+        hBox.setBackground(new Background(backgroundImage));
+
+        return hBox;
+
+    }
+
     private HBox setUpMyPlanciaHBox() {
 
         HBox myPlancia = new HBox();
 
+        int indexOfThisPlayer = playerNames.indexOf(username);
+        PlayerColor thisPlayerColor = playerColors.get(indexOfThisPlayer);
+
         Image myPlanciaImage = new Image(
-                myPlanciaPath,
+                thisPlayerColor.getPath(),
                 0, 0,
                 true, false
         );
@@ -160,7 +220,7 @@ public class GameScene implements MyScene {
     private GridPane setUpExternalGridPane(int nCols, int nRows) {
 
         GridPane externalGridPane = new GridPane();
-        externalGridPane.setGridLinesVisible(true);
+        externalGridPane.setGridLinesVisible(false);
 
         setGrid(externalGridPane, nCols, nRows);
 

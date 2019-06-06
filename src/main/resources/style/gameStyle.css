@@ -1,5 +1,9 @@
-* {
+/* * {
     -fx-border: 1px;
     -fx-border-color: red;
 
+}*/
+
+.messages {
+    -fx-font-size: 4em;
 }
