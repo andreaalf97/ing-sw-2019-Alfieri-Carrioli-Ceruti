@@ -76,16 +76,34 @@ public class GameScene implements MyScene {
         //Adding the map grid to the main pane
         externalGridPane.add(mapGridPane,
                 0,
-                6,
-                28,
-                22
+                5,
+                30,
+                24
         );
 
         //Setting up the player's plancia
         HBox myPlancia = setUpMyPlanciaHBox();
 
+        int col = 30;
+        int row = 5;
+
+        int offset = 5;
+
+        ArrayList<PlayerColor> tempColors = new ArrayList<>(playerColors);
+
+        int indexOfThisPlayer = playerNames.indexOf(username);
+
+        tempColors.remove(indexOfThisPlayer);
+
+        for(int i = 0; i < tempColors.size(); i++){
+
+            HBox newBox= setUpOtherPlayerPlancia(tempColors.get(i));
+            externalGridPane.add(newBox, col, row + (i * offset), 20, 5);
+
+        }
+
         //Adduing the plancia to the main pane
-        externalGridPane.add(myPlancia, 1, 1, 30, 4);
+        externalGridPane.add(myPlancia, 0, 0, 21, 5);
 
 
         //Setting up CSS for main pane
@@ -105,6 +123,32 @@ public class GameScene implements MyScene {
             window.setResizable(false);
         }
 
+
+    }
+
+    private HBox setUpOtherPlayerPlancia(PlayerColor playerColor) {
+
+        HBox hBox = new HBox();
+
+        System.err.println(playerColor.getPath());
+
+        Image image = new Image(
+                playerColor.getPath(),
+                0, 0,
+                true, false
+        );
+
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(1, 1, true, true, true, false)
+        );
+
+        hBox.setBackground(new Background(backgroundImage));
+
+        return hBox;
 
     }
 
