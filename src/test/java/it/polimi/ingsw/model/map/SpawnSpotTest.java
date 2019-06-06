@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.ShootingTest;
 import it.polimi.ingsw.model.cards.Weapon;
 import org.junit.Assert;
 import org.junit.Test;
@@ -106,7 +107,7 @@ public class SpawnSpotTest {
 
         SpawnSpot spawnSpotTest = new SpawnSpot(weaponListTest);
 
-        Player playerTest = new Player("gino", 1, 0);
+        Player playerTest = new Player(ShootingTest.playerGino, 1, 0);
         spawnSpotTest.grabSomething(playerTest, 0);
 
         Assert.assertTrue(playerTest.getWeaponList().contains(w1));

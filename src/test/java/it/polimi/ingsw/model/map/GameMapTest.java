@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.map;
 import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.ShootingTest;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -52,12 +53,12 @@ public class GameMapTest {
 
     @Test
     public void getPlayerCoord(){
-        Player playerTest = new Player("gino", 0, 0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0, 0);
 
-        gameMapTestFire.map[0][0].addPlayer("gino");
+        gameMapTestFire.map[0][0].addPlayer(ShootingTest.playerGino);
 
         int[] coordinates = new int[2];
-        coordinates = gameMapTestFire.getPlayerSpotCoord("gino");
+        coordinates = gameMapTestFire.getPlayerSpotCoord(ShootingTest.playerGino);
         Assert.assertEquals(0, coordinates[0]);
         Assert.assertEquals(0, coordinates[1]);
 
@@ -66,20 +67,20 @@ public class GameMapTest {
 
     @Test
     public void movePlayer(){
-        Player playerTest = new Player("gino", 0, 0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0, 0);
 
-        gameMapTestFire.map[0][0].addPlayer("gino");
+        gameMapTestFire.map[0][0].addPlayer(ShootingTest.playerGino);
 
-        gameMapTestFire.movePlayer("gino",2,2);
+        gameMapTestFire.movePlayer(ShootingTest.playerGino,2,2);
 
         int[] coordinates = new int[2];
-        coordinates = gameMapTestFire.getPlayerSpotCoord("gino");
+        coordinates = gameMapTestFire.getPlayerSpotCoord(ShootingTest.playerGino);
         Assert.assertEquals(2, coordinates[0]);
         Assert.assertEquals(2, coordinates[1]);
 
         try
         {
-            gameMapTestFire.movePlayer("gino", -1 , 3);
+            gameMapTestFire.movePlayer(ShootingTest.playerGino, -1 , 3);
         }
         catch (IllegalArgumentException e){
             Assert.assertTrue(true);
@@ -90,7 +91,7 @@ public class GameMapTest {
     public void grabSomething(){
         Player player = new Player("gino, 0, 0");
 
-        gameMapTestFire.map[0][0].addPlayer("gino");
+        gameMapTestFire.map[0][0].addPlayer(ShootingTest.playerGino);
         gameMapTestFire.map[0][0].refill(null);
         gameMapTestFire.grabSomething(0, 0, player, -1);
 
@@ -113,7 +114,7 @@ public class GameMapTest {
             Assert.assertTrue(true);
         }
 
-        gameMapTestFire.movePlayer("gino", 1,0);
+        gameMapTestFire.movePlayer(ShootingTest.playerGino, 1,0);
         gameMapTestFire.grabSomething(1, 0, player, 0);
 
         //check player has taken the weapon
@@ -125,11 +126,11 @@ public class GameMapTest {
 
     @Test
     public void wherePlayerCanMove(){
-        Player playerTest = new Player("gino", 0, 0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0, 0);
 
-        gameMapTestFire.map[0][0].addPlayer("gino");
+        gameMapTestFire.map[0][0].addPlayer(ShootingTest.playerGino);
 
-        boolean[][] tempMap = gameMapTestFire.wherePlayerCanMove("gino", 2);
+        boolean[][] tempMap = gameMapTestFire.wherePlayerCanMove(ShootingTest.playerGino, 2);
 
         Assert.assertTrue(tempMap[0][0]);
         Assert.assertTrue(tempMap[0][1]);
@@ -137,7 +138,7 @@ public class GameMapTest {
         Assert.assertTrue(tempMap[1][1]);
         Assert.assertTrue(tempMap[0][2]);
 
-        boolean[][] tempMap2 = gameMapTestFire.wherePlayerCanMove("gino", 10);
+        boolean[][] tempMap2 = gameMapTestFire.wherePlayerCanMove(ShootingTest.playerGino, 10);
 
         //check all true
         for (int i = 0; i < tempMap2.length ; i++)
@@ -199,8 +200,8 @@ public class GameMapTest {
     @Test
     public void wherePlayerCanMoveAndGrab(){
 
-        gameMapTestFire.map[0][0].addPlayer("gino");
-        boolean[][] tempMap = gameMapTestFire.wherePlayerCanMoveAndGrab("gino", 2);
+        gameMapTestFire.map[0][0].addPlayer(ShootingTest.playerGino);
+        boolean[][] tempMap = gameMapTestFire.wherePlayerCanMoveAndGrab(ShootingTest.playerGino, 2);
 
         //normal check
         Assert.assertTrue(tempMap[0][0]);
@@ -230,17 +231,17 @@ public class GameMapTest {
     @Test
     public void respawnPlayer(){
         //ROOM RUBY
-        gameMapTestFire.movePlayerToColorSpawn("gino", Color.RED);
-        Assert.assertTrue(gameMapTestFire.map[1][0].getPlayersHere().contains("gino"));
+        gameMapTestFire.movePlayerToColorSpawn(ShootingTest.playerGino, Color.RED);
+        Assert.assertTrue(gameMapTestFire.map[1][0].getPlayersHere().contains(ShootingTest.playerGino));
 
         //ROOM SAPPHIRE
-        gameMapTestFire.movePlayerToColorSpawn("gino", Color.BLUE);
-        Assert.assertTrue(gameMapTestFire.map[0][2].getPlayersHere().contains("gino"));
+        gameMapTestFire.movePlayerToColorSpawn(ShootingTest.playerGino, Color.BLUE);
+        Assert.assertTrue(gameMapTestFire.map[0][2].getPlayersHere().contains(ShootingTest.playerGino));
     }
 
     @Test
     public void refill(){
-        Player playerTest = new Player("gino", 0 , 0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0 , 0);
         gameMapTestFire.grabSomething(0,0, playerTest, -1);
 
         PowerUp p = new PowerUp(Color.RED);
@@ -258,7 +259,7 @@ public class GameMapTest {
 
     @Test
     public void refillAllAmmo(){
-        Player playerTest = new Player ("gino", 0 ,0);
+        Player playerTest = new Player (ShootingTest.playerGino, 0 ,0);
 
         gameMapTestFire.grabSomething(0,0, playerTest, -1);
         gameMapTestFire.grabSomething(0,1, playerTest, -1);
@@ -275,7 +276,7 @@ public class GameMapTest {
 
     @Test
     public void refillAllSpawns(){
-        Player playerTest = new Player("gino", 1, 0);
+        Player playerTest = new Player(ShootingTest.playerGino, 1, 0);
 
         gameMapTestFire.grabSomething(1, 0 , playerTest, 0);
         gameMapTestFire.grabSomething(0, 2 , playerTest, 0);
@@ -301,10 +302,10 @@ public class GameMapTest {
 
     @Test
     public void getPlayerRoom(){
-        Player playerTest = new Player("gino", 0 , 0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0 , 0);
 
-        gameMapTestFire.map[0][0].addPlayer("gino");
-        Assert.assertEquals(Room.SAPPHIRE, gameMapTestFire.getPlayerRoom("gino"));
+        gameMapTestFire.map[0][0].addPlayer(ShootingTest.playerGino);
+        Assert.assertEquals(Room.SAPPHIRE, gameMapTestFire.getPlayerRoom(ShootingTest.playerGino));
 
         Assert.assertEquals(null, gameMapTestFire.getPlayerRoom("ingg"));
     }

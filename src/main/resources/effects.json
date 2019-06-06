@@ -1,5 +1,5 @@
 {
-  jsonWeaponKey: {
+  "Weapons": {
     "LockRifle": {
       "Effects": {
         "Effect1": {

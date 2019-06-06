@@ -10,11 +10,11 @@ public class KillShotTrackTest {
     @Test
     public void addKillTrue() {
         KillShotTrack kstTest = new KillShotTrack(5);
-        kstTest.addKill("gino", true);
-        kstTest.addKill("gino", true);
-        kstTest.addKill("gino", true);
-        kstTest.addKill("gino", true);
-        kstTest.addKill("gino", true);
+        kstTest.addKill(ShootingTest.playerGino, true);
+        kstTest.addKill(ShootingTest.playerGino, true);
+        kstTest.addKill(ShootingTest.playerGino, true);
+        kstTest.addKill(ShootingTest.playerGino, true);
+        kstTest.addKill(ShootingTest.playerGino, true);
 
         Assert.assertFalse(kstTest.getSkullList().contains("SKULL"));
         Assert.assertFalse(kstTest.getIsOverkill().contains(false));
@@ -29,16 +29,16 @@ public class KillShotTrackTest {
     @Test
     public void getRanking() {
         KillShotTrack kstTest = new KillShotTrack(6);
-        kstTest.addKill("gino", false);
-        kstTest.addKill("gino", true);
-        kstTest.addKill("gino", true);
+        kstTest.addKill(ShootingTest.playerGino, false);
+        kstTest.addKill(ShootingTest.playerGino, true);
+        kstTest.addKill(ShootingTest.playerGino, true);
         kstTest.addKill("nogi", true);
         kstTest.addKill("nogi", false);
         kstTest.addKill("nogi", false); //this cover all the first if block inside the first for block, the while block is always covered
 
         ArrayList<String> ranking = new ArrayList<>(kstTest.getRanking());
 
-        Assert.assertEquals("gino", ranking.get(0));
+        Assert.assertEquals(ShootingTest.playerGino, ranking.get(0));
         Assert.assertEquals("nogi", ranking.get(1));
         Assert.assertEquals(2,ranking.size());
 
@@ -49,17 +49,17 @@ public class KillShotTrackTest {
 
 
         KillShotTrack kstTest3 = new KillShotTrack(6);
-        kstTest3.addKill("meme", true);
-        kstTest3.addKill("meme", false);
-        kstTest3.addKill("andreaalf", false);
-        kstTest3.addKill("andreaalf", false);
-        kstTest3.addKill("gino", true);
-        kstTest3.addKill("gino", true);
+        kstTest3.addKill(ShootingTest.playerMeme, true);
+        kstTest3.addKill(ShootingTest.playerMeme, false);
+        kstTest3.addKill(ShootingTest.playerAndreaalf, false);
+        kstTest3.addKill(ShootingTest.playerAndreaalf, false);
+        kstTest3.addKill(ShootingTest.playerGino, true);
+        kstTest3.addKill(ShootingTest.playerGino, true);
         ArrayList<String> ranking3 = new ArrayList<>(kstTest3.getRanking());
 
-        Assert.assertEquals("gino", ranking3.get(0));
-        Assert.assertEquals("meme", ranking3.get(1));
-        Assert.assertEquals("andreaalf", ranking3.get(2));
+        Assert.assertEquals(ShootingTest.playerGino, ranking3.get(0));
+        Assert.assertEquals(ShootingTest.playerMeme, ranking3.get(1));
+        Assert.assertEquals(ShootingTest.playerAndreaalf, ranking3.get(2));
     }
 
     @Test
@@ -82,11 +82,11 @@ public class KillShotTrackTest {
     public void noMoreSkullsTrue(){
 
         ArrayList<String> skullListTest = new ArrayList<>();
-        skullListTest.add("andreaalf");
+        skullListTest.add(ShootingTest.playerAndreaalf);
         skullListTest.add("ginogino");
         skullListTest.add("mememe");
-        skullListTest.add("andreaalf");
-        skullListTest.add("andreaalf");
+        skullListTest.add(ShootingTest.playerAndreaalf);
+        skullListTest.add(ShootingTest.playerAndreaalf);
 
         KillShotTrack kstTest = new KillShotTrack(skullListTest);
 
@@ -98,11 +98,11 @@ public class KillShotTrackTest {
     public void noMoreSkullsException(){
 
         ArrayList<String> skullListTest = new ArrayList<>();
-        skullListTest.add("andreaalf");
+        skullListTest.add(ShootingTest.playerAndreaalf);
         skullListTest.add("SKULL");
         skullListTest.add("mememe");
-        skullListTest.add("andreaalf");
-        skullListTest.add("andreaalf");
+        skullListTest.add(ShootingTest.playerAndreaalf);
+        skullListTest.add(ShootingTest.playerAndreaalf);
 
         KillShotTrack kstTest = new KillShotTrack(skullListTest);
 

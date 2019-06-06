@@ -29,12 +29,14 @@ public class JsonDeserializer {
      */
     public static final String jsonEffectsFileNamePath = "src/main/resources/effects.json";
 
+    public static final String jsonMapsFileNamePath = "src/main/resources/maps.json";
+
     /**
      * constant for reading "Weapons" key in json files
      */
     public static final String jsonWeaponsKey = "Weapons";
     
-    public static final String jsonPowerUpsKey = "PowerUps";
+    public static final String jsonPowerUpsKey = "Powerups";
 
     public static JsonParser myJsonParser = new JsonParser();
 
@@ -188,7 +190,7 @@ public class JsonDeserializer {
         Random rand = new Random();
 
         try {
-            JsonElement jsonElement = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath));
+            JsonElement jsonElement = myJsonParser.parse(new FileReader(jsonMapsFileNamePath));
 
             JsonObject jsonObjectMyMap = jsonElement.getAsJsonObject().get(mapName.toString()).getAsJsonObject(); //the map selected is saved in jsonObjectMymap
 
