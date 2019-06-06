@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.MyJsonParser;
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.map.MapName;
@@ -10,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.zip.CheckedOutputStream;
 
 public class GameTest {
 
@@ -411,7 +409,7 @@ public class GameTest {
     public void verifyDeserialization(){
         String jsonModelSnapshot = gameTest.modelSnapshot();
 
-        Game newGame = MyJsonParser.createNewGameDeserializingModelSnapshot(jsonModelSnapshot);
+        Game newGame = JsonDeserializer.deserializeModelSnapshot(jsonModelSnapshot);
 
         Assert.assertTrue(true);
     }

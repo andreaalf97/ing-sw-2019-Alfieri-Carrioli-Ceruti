@@ -1,14 +1,8 @@
 package it.polimi.ingsw.model.cards;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import it.polimi.ingsw.MyJsonParser;
-import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.Color;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.logging.Level;
 
 
 public class PowerUp {
@@ -65,7 +59,7 @@ public class PowerUp {
     }
 
     public static PowerUp getPowerUp(String powerUpName) {
-         return MyJsonParser.getPowerUpByName(powerUpName);
+         return JsonDeserializer.getPowerUpByName(powerUpName);
     }
 
     /**

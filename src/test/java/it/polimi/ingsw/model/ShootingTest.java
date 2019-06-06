@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.MyJsonParser;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.MapName;
 import org.junit.Assert;
@@ -36,7 +36,7 @@ public class ShootingTest {
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
 
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("LockRifle");
 
 
         //Players are dead by default so I need to revive them
@@ -92,7 +92,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("LockRifle");
 
 
         //Players are dead by default so I need to revive them
@@ -141,7 +141,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("LockRifle");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -193,7 +193,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("LockRifle");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -241,7 +241,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("LockRifle");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -301,7 +301,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -368,7 +368,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -448,7 +448,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -501,7 +501,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -578,7 +578,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -636,7 +636,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("MachineGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("MachineGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -682,7 +682,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Thor");
 
 
         //Players are dead by default so I need to revive them
@@ -738,7 +738,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Thor");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -812,7 +812,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Thor");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -881,7 +881,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Thor");
 
 
         //Players are dead by default so I need to revive them
@@ -951,7 +951,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Thor");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Thor");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1012,7 +1012,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1066,7 +1066,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1124,7 +1124,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1178,7 +1178,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1238,7 +1238,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1296,7 +1296,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1354,7 +1354,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PlasmaGun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PlasmaGun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1412,7 +1412,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1470,7 +1470,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1522,7 +1522,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1574,7 +1574,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1632,7 +1632,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1690,7 +1690,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Whisper");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Whisper");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1740,7 +1740,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1791,7 +1791,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1839,7 +1839,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1891,7 +1891,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1940,7 +1940,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Electroscythe");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Electroscythe");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -1991,7 +1991,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2049,7 +2049,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2107,7 +2107,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2164,7 +2164,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2224,7 +2224,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2279,7 +2279,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("TractorBeam");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("TractorBeam");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2343,7 +2343,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2422,7 +2422,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2474,7 +2474,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2534,7 +2534,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2619,7 +2619,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2690,7 +2690,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2764,7 +2764,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2848,7 +2848,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("VortexCannon");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("VortexCannon");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2932,7 +2932,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -2987,7 +2987,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3041,7 +3041,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3101,7 +3101,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3160,7 +3160,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3219,7 +3219,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Furnace");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Furnace");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3271,7 +3271,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Heatseeker");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Heatseeker");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3319,7 +3319,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Heatseeker");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Heatseeker");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3351,7 +3351,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Heatseeker");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Heatseeker");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3396,7 +3396,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3455,7 +3455,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3512,7 +3512,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3576,7 +3576,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3634,7 +3634,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3691,7 +3691,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Hellion");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Hellion");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3739,7 +3739,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3780,7 +3780,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3829,7 +3829,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3883,7 +3883,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3933,7 +3933,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -3984,7 +3984,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4069,7 +4069,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4147,7 +4147,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Flamethrower");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Flamethrower");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4215,7 +4215,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4273,7 +4273,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4331,7 +4331,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4397,7 +4397,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("GrenadeLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("GrenadeLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4462,7 +4462,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4510,7 +4510,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4587,7 +4587,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4648,7 +4648,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("RocketLauncher");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("RocketLauncher");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4732,7 +4732,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4778,7 +4778,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4824,7 +4824,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4867,7 +4867,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4917,7 +4917,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Railgun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Railgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -4961,7 +4961,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Cyberblade");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Cyberblade");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5024,7 +5024,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Cyberblade");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Cyberblade");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5087,7 +5087,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Cyberblade");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Cyberblade");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5150,7 +5150,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("ZX-2");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("ZX-2");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5205,7 +5205,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("ZX-2");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("ZX-2");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5263,7 +5263,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shotgun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Shotgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5316,7 +5316,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shotgun");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Shotgun");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5355,7 +5355,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5397,7 +5397,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5451,7 +5451,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5510,7 +5510,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5573,7 +5573,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("PowerGlove");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("PowerGlove");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5641,7 +5641,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shockwave");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Shockwave");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5694,14 +5694,8 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shockwave");
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Shockwave", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Shockwave");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5761,14 +5755,8 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Shockwave");
-        try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Weapons").getAsJsonObject();
-            weaponTest = new Weapon("Shockwave", weaponsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Shockwave");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5837,7 +5825,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5875,7 +5863,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Sledgehammer");
 
 
         //Players are dead by default so I need to revive them
@@ -5912,7 +5900,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -5952,7 +5940,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6011,7 +5999,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6066,7 +6054,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -6121,7 +6109,7 @@ public class ShootingTest {
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("Sledgehammer");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("Sledgehammer");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");

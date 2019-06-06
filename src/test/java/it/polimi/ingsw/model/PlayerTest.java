@@ -1,16 +1,11 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import it.polimi.ingsw.MyJsonParser;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.cards.PowerUp;
-import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.Weapon;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 public class PlayerTest {
@@ -473,7 +468,7 @@ public class PlayerTest {
     public void reloadWeapon(){
         Player playerTest = new Player("gino");
 
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("LockRifle");
 
         weaponTest.unload();
 

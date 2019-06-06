@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
@@ -30,14 +31,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void shootWithTargetingScope(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("TargetingScope", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("TargetingScope");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -62,14 +57,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void shootWithTargetingScopeToMyself(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("TargetingScope", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("TargetingScope");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -94,14 +83,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void shootWithTagbackGrenade(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("TagbackGrenade", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("TagbackGrenade");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -127,14 +110,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void shootWithTagbackGrenadeCantSeeOffender(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("TagbackGrenade", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("TagbackGrenade");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("andreaalf");
@@ -160,14 +137,7 @@ public class PowerUpShootingTest {
 
     @Test
     public void moveWithTeleporter(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("Teleporter", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Teleporter");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("gino");
@@ -191,14 +161,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void moveAnotherPlayerWithTeleporter(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("Teleporter", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Teleporter");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("gino");
@@ -226,14 +190,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void moveWithTeleporterInInvalidSpot(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("Teleporter", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Teleporter");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("gino");
@@ -257,14 +215,7 @@ public class PowerUpShootingTest {
 
     @Test
     public void moveMyselfWithNewton(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("Newton", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Newton");
 
         //Players are dead by default so I need to revive them
         gameTest.revive("gino");
@@ -288,14 +239,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void moveWithNewton(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("Newton", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Newton");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("gino");
@@ -321,14 +266,8 @@ public class PowerUpShootingTest {
 
     @Test
     public void moveWithNewtonMoreThan2nMoves(){
-        PowerUp powerUpTest;
-        try {
-            JsonObject powerupsJSON = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject().get("Powerups").getAsJsonObject();
-            powerUpTest = new PowerUp("Newton", powerupsJSON);
-        } catch (FileNotFoundException e) {
-            Assert.fail();
-            return;
-        }
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Newton");
+
 
         //Players are dead by default so I need to revive them
         gameTest.revive("gino");

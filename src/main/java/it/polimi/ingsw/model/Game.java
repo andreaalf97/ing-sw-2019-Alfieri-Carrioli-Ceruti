@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 
 import com.google.gson.*;
-import it.polimi.ingsw.MyJsonParser;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.model.cards.*;
@@ -75,18 +75,18 @@ public class Game extends Observable {
         this.players = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
         this.playerNames = playerNames;
-        this.powerupDeck = MyJsonParser.createPowerUpDeckFromJson();
-        this.weaponDeck = MyJsonParser.createWeaponDeckFromJson();
+        this.powerupDeck = JsonDeserializer.deserializePowerUpDeck();
+        this.weaponDeck = JsonDeserializer.deserializeWeaponDeck();
 
         for(String name : this.playerNames)
             this.players.add(new Player(name));
 
-        this.gameMap = MyJsonParser.createGameMapfromJson(chosenMap, weaponDeck, powerupDeck);
+        this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck);
         this.kst = new KillShotTrack(nSkulls);
     }
 
     /**
-     * constructor used by MyJsonParser for persistence
+     * constructor used by JsonDeserializer for persistence
      * @param playerNames the names of the players
      * @param players the player objects
      * @param weaponDeck the weaponDeck
@@ -107,7 +107,7 @@ public class Game extends Observable {
      * persistence game builder
      */
     public Game(){
-        MyJsonParser.createNewGameDeserializingModelSnapshot(modelSnapshot());
+        JsonDeserializer.deserializeModelSnapshot(modelSnapshot());
     }
 
     //TESTED
@@ -235,7 +235,7 @@ public class Game extends Observable {
             //if deck is empty i reload it from json instead shuffle the old one
 
             MyLogger.LOGGER.log(Level.INFO, "deck is empty, reloading it from json");
-            this.powerupDeck = MyJsonParser.createPowerUpDeckFromJson();
+            this.powerupDeck = JsonDeserializer.deserializePowerUpDeck();
             p.givePowerUp(this.powerupDeck.drawCard());
         }
     }

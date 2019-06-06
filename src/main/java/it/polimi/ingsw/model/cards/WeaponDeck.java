@@ -1,13 +1,8 @@
 package it.polimi.ingsw.model.cards;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
-import java.util.logging.Level;
 
 import com.google.gson.*;
-import it.polimi.ingsw.MyJsonParser;
-import it.polimi.ingsw.MyLogger;
 
 public class WeaponDeck{
 
