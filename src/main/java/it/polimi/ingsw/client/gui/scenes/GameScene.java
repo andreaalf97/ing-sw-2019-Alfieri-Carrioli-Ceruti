@@ -1,10 +1,12 @@
 package it.polimi.ingsw.client.gui.scenes;
 
 import it.polimi.ingsw.client.PlayerColor;
+import it.polimi.ingsw.client.gui.ClosingBox;
 import it.polimi.ingsw.events.serverToClient.GameStartedQuestion;
 import it.polimi.ingsw.model.map.MapName;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
@@ -68,7 +70,6 @@ public class GameScene implements MyScene {
                 120
         );
 
-
         //------------ Reading screen size ------------------------
         Rectangle2D screenVisibleBounds = Screen.getPrimary().getBounds();
         double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
@@ -82,6 +83,7 @@ public class GameScene implements MyScene {
 
 
         //Adding the map grid to the main pane
+        //Starting from column 0, row 5, colspan 30, rowspan 24
         externalGridPane.add(mapGridPane,0,5,30,24);
 
         //Setting up the player's plancia
@@ -112,7 +114,7 @@ public class GameScene implements MyScene {
 
         setUpLogo(externalGridPane, 44, 0, 4, 4);
 
-
+        setUpExit(externalGridPane, 44, 24, 4, 3);
 
 
         //Loading the pane into the scene
@@ -129,6 +131,15 @@ public class GameScene implements MyScene {
         }
 
 
+    }
+
+    private void setUpExit(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
+
+        Button exitButton = new Button("Exit");
+        exitButton.setMinSize(100, 50);
+        externalGridPane.add(exitButton, col, row, colspan, rowspan);
+
+        exitButton.setOnAction(event -> ClosingBox.display(window));
     }
 
     private void setUpLogo(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {

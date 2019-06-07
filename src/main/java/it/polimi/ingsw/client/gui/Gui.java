@@ -34,9 +34,6 @@ public class Gui extends Application implements QuestionEventHandler {
     public static final String loginCssPath = "/style/style.css";
 
 
-
-
-
     private int rmiPort = 5432;
 
     private int socketPort = 2345;

@@ -10,6 +10,11 @@
 
 }
 
+.button{
+    -fx-background-color: #3C0A0A;
+    -fx-text-fill: #E94B2B;
+}
+
 .mainBackground {
     -fx-background-color: linear-gradient(to bottom, #ff9b08, #f64a02);
 }
