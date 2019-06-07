@@ -473,7 +473,7 @@ public class Game extends Observable {
         // quanti giocatori ci sono effettivamente dentro questo spot, così so fin dove
         // scorrere la lista dei defenders per applicare l'effetto
         if (effect.mustBeSameSpots() && (effect.getnPlayersAttackable() == 50 || effect.getnPlayersMarkable() == 50))
-            return hit_players_same_spot(defenders, offender, effect, defenders_temp, playersHit);
+            return hit_players_same_spot(defenders, offender, effect, defenders_temp,  playersHit);
 
         if (effect.getVisibleByWho() == Visibility.NONE) {
             for (int i = 0; i < defenders.size() && (i < effect.getnPlayersAttackable() || i < effect.getnPlayersMarkable()); i++) {
@@ -563,23 +563,17 @@ public class Game extends Observable {
             for (int i = 0; i < defenders.size(); i++) {
                 // se sia x che y sono diverse il defender è sicuramente non allineato
                 if (defenders.get(i).getxPosition() != offender.getxPosition() && defenders.get(i).getyPosition() != offender.getyPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_1");
-                // controllo se offender e defender.get(i) non siano nello stesso spot, se così
-                // fosse andrebbe bene ma non sarebbe ancora decisa la direzione che devono
-                // rispettare i defenders successivi
+                // controllo se offender e defender.get(i) non siano nello stesso spot, se così fosse andrebbe bene ma non sarebbe ancora decisa la direzione che devono rispettare i defenders successivi
                 if (defenders.get(i).getxPosition() != offender.getxPosition() || defenders.get(i).getyPosition() != offender.getyPosition()) {
                     if (defenders.get(i).getxPosition() == offender.getxPosition()) { // offender e defender sono sulla stessa riga
                         if (defenders.get(i).getyPosition() > offender.getyPosition()) {
-                            // il defender è a EAST rispetto all'offender
-                            // controllo se anche gli altri defenders sono a EAST rispetto all'offender, se
-                            // almeno uno non rispetta, lancio l'eccezione
+                            // il defender è a EAST rispetto all'offender, controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for (int j = i; j < defenders.size() && (j < effect.getnPlayersAttackable() || j < effect.getnPlayersMarkable()); j++) {
                                 if (defenders.get(j).getxPosition() != offender.getxPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_2");
                                 if (defenders.get(j).getyPosition() < offender.getyPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_3");
                             }
                         } else if (defenders.get(i).getyPosition() < offender.getyPosition()) {
-                            // il primo defender è a WEST rispetto all'offender
-                            // controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se
-                            // almeno uno non rispetta, lancio l'eccezione
+                            // il primo defender è a WEST rispetto all'offender, controllo se anche gli altri defenders sono a WEAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for (int j = i; j < defenders.size() && (j < effect.getnPlayersAttackable() || j < effect.getnPlayersMarkable()); j++) {
                                 if (defenders.get(j).getxPosition() != offender.getxPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_4");
                                 if (defenders.get(j).getyPosition() > offender.getyPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_5");
@@ -588,17 +582,13 @@ public class Game extends Observable {
                     }
                     if (defenders.get(i).getyPosition() == offender.getyPosition()) { // offender e il defender sono sulla stessa colonna
                         if (defenders.get(i).getxPosition() > offender.getxPosition()) {
-                            // il defender è a SOUTH rispetto all'offender
-                            // controllo se anche gli altri defenders sono a SOUTH rispetto all'offender, se
-                            // almeno uno non rispetta, lancio l'eccezione
+                            // il defender è a SOUTH rispetto all'offender, controllo se anche gli altri defenders sono a SOUTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for (int j = i; j < defenders.size() && (j < effect.getnPlayersAttackable() || j < effect.getnPlayersMarkable()); j++) {
                                 if (defenders.get(j).getyPosition() != offender.getyPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_6");
                                 if (defenders.get(j).getxPosition() < offender.getxPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_7");
                             }
                         } else if (defenders.get(0).getxPosition() < offender.getxPosition()) {
-                            // il defender è a NORTH rispetto all'offender
-                            // controllo se anche gli altri defenders sono a NORTH rispetto all'offender, se
-                            // almeno uno non rispetta, lancio l'eccezione
+                            // il defender è a NORTH rispetto all'offender, controllo se anche gli altri defenders sono a NORTH rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
                             for (int j = i; j < defenders.size() && (j < effect.getnPlayersAttackable() || j < effect.getnPlayersMarkable()); j++) {
                                 if (defenders.get(j).getyPosition() != offender.getyPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_8");
                                 if (defenders.get(j).getxPosition() > offender.getxPosition()) throw new InvalidChoiceException("defenders are not in the right spots -ISLINEAR_9");
