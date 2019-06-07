@@ -51,7 +51,7 @@ public enum Color {
      * @return a random Color object
      */
     public static Color randomColor(){
-        return VALUES.get(RANDOM.nextInt(SIZE - 1));
+        return VALUES.get(RANDOM.nextInt(3));
     }
 
     //https://stackoverflow.com/questions/1972392/pick-a-random-value-from-an-enum

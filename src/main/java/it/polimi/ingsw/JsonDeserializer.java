@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.cli.MapPrinting;
+import it.polimi.ingsw.events.serverToClient.ModelUpdate;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.KillShotTrack;
 import it.polimi.ingsw.model.Player;
@@ -13,6 +15,7 @@ import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.cards.WeaponDeck;
 import it.polimi.ingsw.model.map.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -258,6 +261,46 @@ public class JsonDeserializer {
         return new GameMap(tempSpotMatrix);
     }
 
+    /**
+     * serialize the string received in json
+     * @param stringToParse the string that i have to incapsuled in a JsonObject
+     * @return the jsonObject corresponding to event
+     */
+    public static JsonObject stringToJsonObject(String stringToParse){
+        return myJsonParser.parse(stringToParse).getAsJsonObject();
+    }
+
+    /**
+     * this method reads the cli map from the Json
+     * @param votedMap the map chosen
+     * @return the cliMap
+     */
+    public static String[][] deserializeCliMap(MapName votedMap){
+        String [][] cliMap = new String[MapPrinting.maxVerticalLength][MapPrinting.maxHorizontalLength];
+
+        //TODO TEST DESERIALIZATION
+        try {
+            JsonArray chosenMap = myJsonParser.parse(new FileReader("src/main/resources/cliMaps.json")).getAsJsonObject().get(votedMap.toString()).getAsJsonArray();
+
+            for(int r = 0; r < MapPrinting.maxVerticalLength; r++){
+
+                JsonArray jsonCol = chosenMap.get(r).getAsJsonArray();
+
+                for(int c = 0; c < MapPrinting.maxHorizontalLength; c++){
+                    cliMap[r][c] = jsonCol.get(c).getAsString();
+                }
+            }
+
+        }
+        catch(FileNotFoundException e){
+            cliMap = null;
+        }
+
+        return cliMap;
+
+    }
+
+
 
     /**
      * this method loads weapon from effects.json
@@ -287,7 +330,7 @@ public class JsonDeserializer {
 
         try {
             JsonObject powerupsJSON = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get(jsonPowerUpsKey).getAsJsonObject();
-            powerUpTest = new PowerUp("TargetingScope", powerupsJSON);
+            powerUpTest = new PowerUp(powerUpName, powerupsJSON);
         } catch (FileNotFoundException e) {
            powerUpTest = null;
         }
