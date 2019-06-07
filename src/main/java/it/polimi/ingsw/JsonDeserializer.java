@@ -21,18 +21,29 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class MyJsonParser {
+public class JsonDeserializer {
 
+    /**
+     * constant for json file path
+     */
     public static final String jsonEffectsFileNamePath = "src/main/resources/effects.json";
+
+    public static final String jsonMapsFileNamePath = "src/main/resources/maps.json";
+
+    /**
+     * constant for reading "Weapons" key in json files
+     */
+    public static final String jsonWeaponsKey = "Weapons";
+    
+    public static final String jsonPowerUpsKey = "Powerups";
 
     public static JsonParser myJsonParser = new JsonParser();
 
 //***********************************************************************************************************************************************
 
  //Game deserialization, it receives a model Snapshot for persistence and it creates a new Game
-    public static Game createNewGameDeserializingModelSnapshot(String modelSnapshot){
+    public static Game deserializeModelSnapshot(String modelSnapshot){
         JsonObject jsonRoot = myJsonParser.parse(modelSnapshot).getAsJsonObject();
 
         ArrayList<Player> players = deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
@@ -85,8 +96,8 @@ public class MyJsonParser {
 
     public static PowerUp getPowerUpByName(String powerUpName){
         try {
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
-            JsonObject jsonPowerUpsDeck = jsonDecks.get("Powerups").getAsJsonObject();
+            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
+            JsonObject jsonPowerUpsDeck = jsonDecks.get(jsonPowerUpsKey).getAsJsonObject();
 
             return new PowerUp(powerUpName, jsonPowerUpsDeck);
         }
@@ -98,8 +109,8 @@ public class MyJsonParser {
 
     public static Weapon getWeaponByName(String weaponName){
         try {
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
-            JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
+            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
+            JsonObject jsonWeaponsDeck = jsonDecks.get(jsonWeaponsKey).getAsJsonObject();
 
             return new Weapon(weaponName, jsonWeaponsDeck);
         }
@@ -113,12 +124,12 @@ public class MyJsonParser {
      * create the powerUp deck
      * @return the powerUpDeck of the game
      */
-    public static PowerUpDeck createPowerUpDeckFromJson() {
+    public static PowerUpDeck deserializePowerUpDeck() {
         ArrayList<PowerUp> powerUpList = new ArrayList<>();
 
         try{
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
-            JsonObject jsonPowerupsDeck = jsonDecks.get("Powerups").getAsJsonObject();
+            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
+            JsonObject jsonPowerupsDeck = jsonDecks.get(jsonPowerUpsKey).getAsJsonObject();
             Set<String> keys = jsonPowerupsDeck.keySet();
 
             for(int i = 0; i < 6; i++) {
@@ -133,23 +144,22 @@ public class MyJsonParser {
         }
         catch(FileNotFoundException e){
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
         }
 
         return new PowerUpDeck(powerUpList);
     }
 
     /**
-     * create the weapon deck
+     * create the weapon deck reading it from json
      * @return the weapon deck of the game
      */
-    public static WeaponDeck createWeaponDeckFromJson(){
+    public static WeaponDeck deserializeWeaponDeck(){
 
         ArrayList<Weapon> weaponList = new ArrayList<>();
 
         try {
-            JsonObject jsonDecks = new JsonParser().parse(new FileReader("src/main/resources/effects.json")).getAsJsonObject();
-            JsonObject jsonWeaponsDeck = jsonDecks.get("Weapons").getAsJsonObject();
+            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
+            JsonObject jsonWeaponsDeck = jsonDecks.get(jsonWeaponsKey).getAsJsonObject();
             Set<String> keys = jsonWeaponsDeck.keySet();
 
             Iterator<String> iterator = keys.iterator();
@@ -163,7 +173,6 @@ public class MyJsonParser {
         }
         catch(FileNotFoundException e){
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
         }
 
         return new WeaponDeck(weaponList);
@@ -174,14 +183,14 @@ public class MyJsonParser {
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static GameMap createGameMapfromJson(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck){
+    public static GameMap deserializeGameMap(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck){
 
         //The Spot matrix I will work on
         Spot[][] tempSpotMatrix = new Spot[3][4];
         Random rand = new Random();
 
         try {
-            JsonElement jsonElement = new JsonParser().parse(new FileReader("src/main/resources/maps.json"));
+            JsonElement jsonElement = myJsonParser.parse(new FileReader(jsonMapsFileNamePath));
 
             JsonObject jsonObjectMyMap = jsonElement.getAsJsonObject().get(mapName.toString()).getAsJsonObject(); //the map selected is saved in jsonObjectMymap
 
@@ -259,7 +268,7 @@ public class MyJsonParser {
         Weapon weaponTest;
 
         try {
-            JsonObject weaponsJSON = new JsonParser().parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get("Weapons").getAsJsonObject();
+            JsonObject weaponsJSON = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get(jsonWeaponsKey).getAsJsonObject();
             weaponTest = new Weapon(weaponName, weaponsJSON);
         } catch (FileNotFoundException e) {
             weaponTest = null;
@@ -268,5 +277,22 @@ public class MyJsonParser {
         return weaponTest;
     }
 
-    //TODO FINIRE STA MERDA DI PARSE + COLLEGGARE MAPPRINTING + NOTIFY IN MODEL + CORREGGERE METODO MACHINE GUN
+    /**
+     * this method load powerUps from effects,json file
+     * @param powerUpName the name of the powerUp to load
+     * @return the powerUp
+     */
+    public static PowerUp createPowerUpFromJson(String powerUpName){
+        PowerUp powerUpTest;
+
+        try {
+            JsonObject powerupsJSON = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get(jsonPowerUpsKey).getAsJsonObject();
+            powerUpTest = new PowerUp("TargetingScope", powerupsJSON);
+        } catch (FileNotFoundException e) {
+           powerUpTest = null;
+        }
+
+        return powerUpTest;
+    }
+
 }

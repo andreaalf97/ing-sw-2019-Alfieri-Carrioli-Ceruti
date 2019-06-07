@@ -4,11 +4,17 @@ import java.util.ArrayList;
 
 public enum PlayerColor {
 
-    YELLOW,
-    GREEN,
-    GREY,
-    BLUE,
-    PURPLE;
+    YELLOW ("/graphics/plance/yellow/Yellow_front.png"),
+    GREEN ("/graphics/plance/green/Green_front.png"),
+    GREY ("/graphics/plance/grey/Grey_front.png"),
+    BLUE ("/graphics/plance/blue/Blue_front.png"),
+    PURPLE ("/graphics/plance/purple/Purple_front.png");
+
+    private String path;
+
+    PlayerColor(String path){
+        this.path = path;
+    }
 
     public static ArrayList<PlayerColor> getRandomArray(int size){
 
@@ -21,8 +27,11 @@ public enum PlayerColor {
         for(int i = 0; i < allColorsTemp.length && i < size; i++)
             allColors.add(allColorsTemp[i]);
 
-        return new ArrayList<>();
+        return allColors;
     }
 
 
+    public String getPath() {
+        return this.path;
+    }
 }

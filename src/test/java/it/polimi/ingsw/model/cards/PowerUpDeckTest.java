@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.MyJsonParser;
+import it.polimi.ingsw.JsonDeserializer;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,7 +10,7 @@ public class PowerUpDeckTest {
 
     @Test
     public void verifyjson(){
-        PowerUpDeck powerUpDeckTest = MyJsonParser.createPowerUpDeckFromJson();
+        PowerUpDeck powerUpDeckTest = JsonDeserializer.deserializePowerUpDeck();
 
         Assert.assertTrue(powerUpDeckTest.getPowerUpList().size() == 24);
     }

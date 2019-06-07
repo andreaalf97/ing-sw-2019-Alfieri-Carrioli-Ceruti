@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.model.ShootingTest;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -103,9 +104,9 @@ public class SpotTest {
     @Test
     public void removePlayer(){
         Spot spotTest = new Spot();
-        spotTest.addPlayer("gino");
+        spotTest.addPlayer(ShootingTest.playerGino);
 
-        spotTest.removePlayer("gino");
+        spotTest.removePlayer(ShootingTest.playerGino);
         Assert.assertEquals(0, spotTest.getPlayersHere().size());
 
     }

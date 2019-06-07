@@ -1,16 +1,11 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import it.polimi.ingsw.MyJsonParser;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.cards.PowerUp;
-import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.Weapon;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 public class PlayerTest {
@@ -22,7 +17,7 @@ public class PlayerTest {
 
     @Test
     public void getOffendersRankingOneOfEach() {
-        Player playerTest = new Player("andreaalf");
+        Player playerTest = new Player(ShootingTest.playerAndreaalf);
         ArrayList<String> offenders = new ArrayList<>();
 
         offenders.add("player1");
@@ -49,7 +44,7 @@ public class PlayerTest {
 
     @Test
     public void getOffendersRankingOnlyOnePlayer(){
-        Player playerTest = new Player("andreaalf");
+        Player playerTest = new Player(ShootingTest.playerAndreaalf);
         ArrayList<String> offenders = new ArrayList<>();
 
         offenders.add("player1");
@@ -66,7 +61,7 @@ public class PlayerTest {
 
     @Test
     public void getOffendersRankingNoDamages(){
-        Player playerTest = new Player("andreaalf");
+        Player playerTest = new Player(ShootingTest.playerAndreaalf);
         ArrayList<String> offenders = new ArrayList<>();
 
         playerTest.setDamages(offenders);
@@ -76,7 +71,7 @@ public class PlayerTest {
 
     @Test
     public void giveDamageHalfFull() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.giveDamage("player1", 2);
         testPlayer.giveDamage("player2", 2);
@@ -95,7 +90,7 @@ public class PlayerTest {
 
     @Test
     public void giveDamageOneOffender(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.giveDamage("player1", 2);
 
@@ -110,7 +105,7 @@ public class PlayerTest {
 
     @Test
     public void giveDamageFull(){
-        Player playerTest = new Player("gino");
+        Player playerTest = new Player(ShootingTest.playerGino);
         playerTest.giveDamage("tammazzo", 11);
         Assert.assertTrue(playerTest.isDead());
 
@@ -123,7 +118,7 @@ public class PlayerTest {
 
     @Test
     public void giveMarks() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.giveMarks("player1", 1);
         testPlayer.giveMarks("player2", 1);
@@ -140,7 +135,7 @@ public class PlayerTest {
         Assert.assertEquals(testPlayer.getMarks(), results);
 
         try{
-            testPlayer.giveMarks("andreaalf", 13);
+            testPlayer.giveMarks(ShootingTest.playerAndreaalf, 13);
         }
         catch(RuntimeException e){
             Assert.assertTrue(true);
@@ -149,7 +144,7 @@ public class PlayerTest {
 
     @Test
     public void givePointsRegular() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
         testPlayer.setPoints(5);
 
         testPlayer.givePoints(3);
@@ -159,7 +154,7 @@ public class PlayerTest {
 
     @Test
     public void givePointsFromZero() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
         testPlayer.setPoints(0);
 
         testPlayer.givePoints(3);
@@ -176,7 +171,7 @@ public class PlayerTest {
 
     @Test
     public void canGiveMarksNO() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         ArrayList<String> markers = new ArrayList<>();
         markers.add("Player1");
@@ -191,7 +186,7 @@ public class PlayerTest {
 
     @Test
     public void canGiveMarksYES() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         ArrayList<String> markers = new ArrayList<>();
         markers.add("Player1");
@@ -205,7 +200,7 @@ public class PlayerTest {
 
     @Test
     public void canGiveMarksYESempty() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         ArrayList<String> markers = new ArrayList<>();
         testPlayer.setMarks(markers);
@@ -217,7 +212,7 @@ public class PlayerTest {
 
     @Test
     public void canGiveMarksNOempty() {
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         ArrayList<String> markers = new ArrayList<>();
         testPlayer.setMarks(markers);
@@ -229,7 +224,7 @@ public class PlayerTest {
 
     @Test
     public void isDead(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
         testPlayer.setIsDead(true);
 
         Assert.assertTrue(testPlayer.isDead());
@@ -237,7 +232,7 @@ public class PlayerTest {
 
     @Test
     public void kill(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.setIsDead(false);
 
@@ -255,7 +250,7 @@ public class PlayerTest {
 
     @Test
     public void killException(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         try{
             testPlayer.kill();
@@ -270,7 +265,7 @@ public class PlayerTest {
 
     @Test
     public void giveWeapon() {
-        Player playerTest = new Player("gino", 0,0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0,0);
         playerTest.giveWeapon(new Weapon("a"));
 
         Assert.assertEquals(1,playerTest.getWeaponList().size());
@@ -289,7 +284,7 @@ public class PlayerTest {
 
     @Test
     public void giveAmmosRegular(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.setnBlueAmmo(0);
         testPlayer.setnRedAmmo(0);
@@ -307,7 +302,7 @@ public class PlayerTest {
 
     @Test
     public void giveAmmosUntilFull(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.setnBlueAmmo(0);
         testPlayer.setnRedAmmo(0);
@@ -325,7 +320,7 @@ public class PlayerTest {
 
     @Test
     public void giveAmmosOverflow(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.setnBlueAmmo(2);
         testPlayer.setnRedAmmo(0);
@@ -343,7 +338,7 @@ public class PlayerTest {
 
     @Test
     public void giveAmmosException(){
-        Player testPlayer = new Player("gino");
+        Player testPlayer = new Player(ShootingTest.playerGino);
 
         testPlayer.setnBlueAmmo(2);
         testPlayer.setnRedAmmo(0);
@@ -364,7 +359,7 @@ public class PlayerTest {
 
     @Test
     public void givePowerUpToEmptyWallet(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         PowerUp testPowerUp = new PowerUp();
 
@@ -381,7 +376,7 @@ public class PlayerTest {
 
     @Test
     public void givePowerUpToFullWallet(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         PowerUp testPowerUp = new PowerUp();
 
@@ -402,7 +397,7 @@ public class PlayerTest {
 
     @Test
     public void discardPowerUpByIndex(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         PowerUp testPowerUpRed = new PowerUp(Color.RED);
         PowerUp testPowerUp = new PowerUp();
@@ -423,7 +418,7 @@ public class PlayerTest {
 
     @Test
     public void discardPowerUpByIndexException(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         PowerUp testPowerUp = new PowerUp();
 
@@ -443,7 +438,7 @@ public class PlayerTest {
 
     @Test
     public void reviveRegular(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.setIsDead(true);
 
@@ -454,7 +449,7 @@ public class PlayerTest {
 
     @Test
     public void reviveException(){
-        Player testPlayer = new Player("andreaalf");
+        Player testPlayer = new Player(ShootingTest.playerAndreaalf);
 
         testPlayer.setIsDead(false);
 
@@ -471,9 +466,9 @@ public class PlayerTest {
 
     @Test
     public void reloadWeapon(){
-        Player playerTest = new Player("gino");
+        Player playerTest = new Player(ShootingTest.playerGino);
 
-        Weapon weaponTest = MyJsonParser.createWeaponForTesting("LockRifle");
+        Weapon weaponTest = JsonDeserializer.createWeaponForTesting("LockRifle");
 
         weaponTest.unload();
 
@@ -486,7 +481,7 @@ public class PlayerTest {
 
     @Test
     public void moveTo(){
-        Player playerTest = new Player("gino", 1,2);
+        Player playerTest = new Player(ShootingTest.playerGino, 1,2);
 
         playerTest.moveTo(2,2);
         Assert.assertEquals(2, playerTest.getxPosition());
@@ -510,7 +505,7 @@ public class PlayerTest {
 
     @Test
     public void removeAmmo(){
-        Player playerTest = new Player("gino", 0,0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0,0);
 
         ArrayList<Color> ammosTest = new ArrayList<>();
         ammosTest.add(Color.RED);
@@ -536,7 +531,7 @@ public class PlayerTest {
 
     @Test
     public void removeWeaponByIndex(){
-        Player playerTest = new Player("gino", 0,0);
+        Player playerTest = new Player(ShootingTest.playerGino, 0,0);
 
         Weapon weaponTest = new Weapon("ginogino");
 

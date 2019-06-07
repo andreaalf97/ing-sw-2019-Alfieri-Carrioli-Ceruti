@@ -2,14 +2,8 @@ package it.polimi.ingsw.model.cards;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import it.polimi.ingsw.MyJsonParser;
-import it.polimi.ingsw.MyLogger;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
-import java.util.logging.Level;
 
 public class PowerUpDeck {
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.model.ShootingTest;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
@@ -100,7 +101,7 @@ public class AmmoSpotTest {
     @Test
     public void grabSomethingWithPowerup(){
         AmmoSpot ammoSpotTest = new AmmoSpot();
-        Player playerTest = new Player("gino");
+        Player playerTest = new Player(ShootingTest.playerGino);
         PowerUp p1 = new PowerUp();
         ammoSpotTest.refill(p1);
 

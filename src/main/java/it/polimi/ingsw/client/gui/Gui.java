@@ -29,7 +29,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     private WaitingRoomGui waitingRoomGui;
 
-    public static final String loginBackgroundImagePath = "src/main/resources/Grafica/Images/Adrenalina_front_image.jpg";
+    public static final String loginBackgroundImagePath = "src/main/resources/graphics/images/Adrenalina_front_image.jpg";
 
     public static final String loginCssPath = "/style/style.css";
 
@@ -136,6 +136,7 @@ public class Gui extends Application implements QuestionEventHandler {
         String firstPlayer = "meme";
 
         ArrayList<PlayerColor> playerColors = PlayerColor.getRandomArray(5);
+
 
         MapName mapName = MapName.EARTH;
 

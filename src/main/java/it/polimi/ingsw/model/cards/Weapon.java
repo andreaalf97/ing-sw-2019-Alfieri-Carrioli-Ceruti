@@ -1,14 +1,10 @@
 package it.polimi.ingsw.model.cards;
 
 import com.google.gson.*;
-import it.polimi.ingsw.MyJsonParser;
-import it.polimi.ingsw.MyLogger;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.Color;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class Weapon {
 
@@ -112,7 +108,7 @@ public class Weapon {
      * @param weaponName The name of the weapon to read from the JSON file
      */
     public static Weapon getWeapon(String weaponName){
-        return MyJsonParser.getWeaponByName(weaponName);
+        return JsonDeserializer.getWeaponByName(weaponName);
     }
 
     /**
