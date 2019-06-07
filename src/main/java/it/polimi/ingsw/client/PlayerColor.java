@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public enum PlayerColor {
 
-    YELLOW ("/Grafica/Plance_giocatori/Yellow/Yellow_front.png"),
-    GREEN ("/Grafica/Plance_giocatori/Green/Green_front.png"),
-    GREY ("/Grafica/Plance_giocatori/Grey/Grey_front.png"),
-    BLUE ("/Grafica/Plance_giocatori/Blue/Blue_front.png"),
-    PURPLE ("/Grafica/Plance_giocatori/Purple/Purple_front.png");
+    YELLOW ("/graphics/plance/yellow/Yellow_front.png"),
+    GREEN ("/graphics/plance/green/Green_front.png"),
+    GREY ("/graphics/plance/grey/Grey_front.png"),
+    BLUE ("/graphics/plance/blue/Blue_front.png"),
+    PURPLE ("/graphics/plance/purple/Purple_front.png");
 
     private String path;
 

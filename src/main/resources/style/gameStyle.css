@@ -1,9 +1,23 @@
 /* * {
     -fx-border: 1px;
     -fx-border-color: red;
-
 }*/
 
 .messages {
-    -fx-font-size: 4em;
+    -fx-font-size: 2.2em;
+    -fx-text-fill: black;
+    -fx-font-family: 'ZCOOL KuaiLe', cursive;
+
+}
+
+.mainBackground {
+    -fx-background-color: linear-gradient(to bottom, #ff9b08, #f64a02);
+}
+
+.shadow {
+    -fx-effect: dropshadow(two-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 3, 3);
+}
+
+.rightShadow{
+    -fx-effect: dropshadow(two-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 3, 0);
 }
