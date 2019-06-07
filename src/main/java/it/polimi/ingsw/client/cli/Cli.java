@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.cli;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
@@ -205,6 +206,9 @@ public class Cli implements QuestionEventHandler {
 
         this.username = username;
         this.currentMap = votedMap;
+
+        buildCliMapRepresentation(votedMap);
+
         this.currentSkulls = nSkulls;
 
         try {
@@ -327,6 +331,14 @@ public class Cli implements QuestionEventHandler {
         System.out.flush();
     }
 
+    public void buildCliMapRepresentation(MapName votedMap){
+        MapPrinting.buildCliMap(votedMap);
+    }
+
+    public void fillMapWithSnapshot(){
+        MapPrinting.fillMapWithAmmoAndCoord(lastSnapshotReceived);
+    }
+
 //********************************** PRINTING ********************************************
 
     public void showAll(){
@@ -357,7 +369,10 @@ public class Cli implements QuestionEventHandler {
     }
 
 
-    public void showGameMap(){}
+    public void showGameMap(){
+        fillMapWithSnapshot();
+        MapPrinting.printMap();
+    }
 
     public void showPlayers(){}
 
@@ -832,7 +847,7 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ModelUpdate event) {
 
-        this.lastSnapshotReceived = new JsonParser().parse(event.json).getAsJsonObject();
+        this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
 
         System.out.println("[!] NOTIFY : New JSON received");
 

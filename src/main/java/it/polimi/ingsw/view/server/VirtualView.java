@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.server;
 
 import com.google.gson.*;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.events.AnswerEvent;
@@ -103,7 +104,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         String players = "{" + allClientSnapshot;  //"playersNicknames : {all json playersNicknames}"
 
         //here i have all the jsonObject that represents playersNicknames
-        JsonArray jsonplayers = new JsonParser().parse(players).getAsJsonObject().get("playersNicknames").getAsJsonArray();
+        JsonArray jsonplayers = JsonDeserializer.stringToJsonObject(players).get("playersNicknames").getAsJsonArray();
 
         //in jsonPlayers i have the array of the information of the playersNicknames
 
