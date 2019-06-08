@@ -1,7 +1,8 @@
-package it.polimi.ingsw.client.gui.scenes;
+package it.polimi.ingsw.client.gui.scenes.gameScene;
 
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.gui.ClosingBox;
+import it.polimi.ingsw.client.gui.scenes.MyScene;
 import it.polimi.ingsw.events.serverToClient.GameStartedQuestion;
 import it.polimi.ingsw.model.map.MapName;
 import javafx.geometry.Rectangle2D;
@@ -20,9 +21,48 @@ import java.util.ArrayList;
 
 public class GameScene implements MyScene {
 
+    /**
+     * The stage where this scene is located
+     */
     private Stage window;
 
+    /**
+     * This scene
+     */
     private Scene scene;
+
+    /**
+     * The map grid pane
+     */
+    private GameMapGrid gameMapGrid;
+
+    /**
+     * The pane to put all weapons in the player's hand
+     */
+    private ArrayList<CardBox> weaponBoxes;
+
+    /**
+     * The pane to put all weapons in the player's hand
+     */
+    private ArrayList<CardBox> powerUpBoxes;
+
+    /**
+     * The pane where the player's plancia is
+     */
+    private PlanciaPane myPlancia;
+
+    /**
+     * The list of all other plancias
+     */
+    private ArrayList<PlanciaPane> otherPlancias;
+
+    /**
+     * The label that prompts all the messages
+     */
+    private Label messageBox;
+
+
+
 
     private final String username;
 
@@ -38,7 +78,6 @@ public class GameScene implements MyScene {
 
 
 
-    private final String mapPath;
     private final String cssPath = "/style/gameStyle.css";
 
     private final double screenRatioMin = 0.5500; // Screen ration of 16:9 is 0.5625
@@ -51,7 +90,13 @@ public class GameScene implements MyScene {
     private final int otherPlanciasRow = 5;
     private final int otherPlanciasOffset = 5;
 
-
+    /**
+     * This constructor builds the scene by using a gridpane and positioning all elements
+     * int the correct spot
+     * @param window the window
+     * @param username the username of this player
+     * @param event the game started event
+     */
     public GameScene(Stage window, String username, GameStartedQuestion event) {
 
         this.window = window;
@@ -62,8 +107,9 @@ public class GameScene implements MyScene {
         this.mapName = event.mapName;
         this.votedSkulls = event.votedSkulls;
 
-        //this.mapPath = this.mapName.getPath();
-        this.mapPath = mapName.getPath();
+        this.weaponBoxes = new ArrayList<>();
+        this.powerUpBoxes = new ArrayList<>();
+        this.otherPlancias = new ArrayList<>();
 
         Font.loadFont(
                 GameScene.class.getResource("/fonts/ZCOOLKuaiLe-Regular.ttf").toExternalForm(),
@@ -77,35 +123,62 @@ public class GameScene implements MyScene {
         //Setting up the external grid
         GridPane externalGridPane = setUpExternalGridPane(externalCols, externalRows);
 
-        //Setting up the map grid
-        GridPane mapGridPane = setUpMapGridPane();
-        mapGridPane.getStyleClass().add("rightShadow");
 
+
+        //Setting up the map grid
+        this.gameMapGrid = new GameMapGrid(this.mapName.getPath());
 
         //Adding the map grid to the main pane
         //Starting from column 0, row 5, colspan 30, rowspan 24
-        externalGridPane.add(mapGridPane,0,5,30,24);
+        externalGridPane.add(gameMapGrid.getGridPane(),0,5,30,24);
+
+
 
         //Setting up the player's plancia
         PlayerColor myColor = playerColors.get(playerNames.indexOf(username));
-        HBox myPlancia = setUpPlanciaByPlayerColor(myColor);
-        myPlancia.getStyleClass().add("rightShadow");
 
-
-        //Setting up all other players' plancias
-        setUpOtherPlancias(externalGridPane, otherPlanciasCol, otherPlanciasRow, otherPlanciasOffset);
+        this.myPlancia = new PlanciaPane(myColor, "rightShadow");
 
         //Adding the plancia to the main pane
-        externalGridPane.add(myPlancia, 0, 0, 22, 5);
+        externalGridPane.add(myPlancia.gethBox(), 0, 0, 22, 5);
+
+
+
+        //Setting up all other plancias
+
+        ArrayList<PlayerColor> tempColors = new ArrayList<>(playerColors);
+
+        int indexOfThisPlayer = playerNames.indexOf(username);
+
+        tempColors.remove(indexOfThisPlayer);
+
+        for(int i = 0; i < tempColors.size(); i++){
+
+            PlanciaPane newPlancia = new PlanciaPane(tempColors.get(i), "shadow");
+            this.otherPlancias.add(newPlancia);
+
+            externalGridPane.add(newPlancia.gethBox(), otherPlanciasCol, otherPlanciasRow + (i * otherPlanciasOffset), 19, 4);
+
+        }
+
+
+
+
+
 
         //The message viewer
-        Label messages = new Label("This is Adrenalina bitches");
-        messages.getStyleClass().add("messages");
-        messages.setTextAlignment(TextAlignment.CENTER);
+        this.messageBox = new Label("This is Adrenalina bitches");
+        messageBox.getStyleClass().add("messages");
+        messageBox.setTextAlignment(TextAlignment.CENTER);
 
-        System.err.println("Font --> " + messages.getFont());
+        System.err.println("Font --> " + messageBox.getFont());
 
-        externalGridPane.add(messages, 30, 24, 18, 3);
+        externalGridPane.add(messageBox, 30, 24, 14, 3);
+
+
+
+
+
 
 
         setUpPlayerPowerUps(externalGridPane, 23, 1, 3, 3);
@@ -133,6 +206,14 @@ public class GameScene implements MyScene {
 
     }
 
+    /**
+     * Sets up the exit button
+     * @param externalGridPane the external pane
+     * @param col the col for the button
+     * @param row the row for the button
+     * @param colspan the colspan
+     * @param rowspan the rowspan
+     */
     private void setUpExit(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
         Button exitButton = new Button("Exit");
@@ -142,6 +223,14 @@ public class GameScene implements MyScene {
         exitButton.setOnAction(event -> ClosingBox.display(window));
     }
 
+    /**
+     * Sets up the top right logo
+     * @param externalGridPane the external pane
+     * @param col the col
+     * @param row the row
+     * @param colspan the colspan
+     * @param rowspan the rowspan
+     */
     private void setUpLogo(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
         HBox logo = new HBox();
@@ -166,144 +255,63 @@ public class GameScene implements MyScene {
 
     }
 
+    /**
+     * Sets up the player weapons
+     * @param externalGridPane the external pane
+     * @param col the col
+     * @param row the row
+     * @param colspan the colspan
+     * @param rowspan the rowspan
+     */
     private void setUpPlayerWeapons(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
-        ArrayList<String> tempPaths = new ArrayList<>();
-        tempPaths.add("/graphics/cards/AD_weapons_IT_0220.png");
-        tempPaths.add("/graphics/cards/AD_weapons_IT_0217.png");
-        tempPaths.add("/graphics/cards/AD_weapons_IT_028.png");
+        ArrayList<String> weaponPaths = new ArrayList<>();
+        weaponPaths.add("/graphics/cards/AD_weapons_IT_0217.png");
+        weaponPaths.add("/graphics/cards/AD_weapons_IT_0215.png");
+        weaponPaths.add("/graphics/cards/AD_weapons_IT_0218.png");
 
-        for(int i = 0; i < tempPaths.size(); i++){
+        for(int i = 0; i < 3; i++){
 
-            HBox newCard = new HBox();
+            CardBox newCard = new CardBox(weaponPaths.get(i));
 
-            Image image = new Image(
-                    tempPaths.get(i),
-                    0, 0,
-                    true, false
-            );
 
-            BackgroundImage backgroundImage = new BackgroundImage(
-                    image,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundPosition.DEFAULT,
-                    new BackgroundSize(1, 1, true, true, true, false)
-            );
-
-            newCard.setBackground(new Background(backgroundImage));
-
-            newCard.getStyleClass().add("shadow");
-
-            externalGridPane.add(newCard, col + (i*colspan), row, colspan, rowspan);
+            externalGridPane.add(newCard.gethBox(), col + (i*colspan), row, colspan, rowspan);
 
         }
 
     }
 
+    /**
+     * Sets up the player power ups
+     * @param externalGridPane the external pane
+     * @param col the col
+     * @param row the row
+     * @param colspan the colspan
+     * @param rowspan the rowspan
+     */
     private void setUpPlayerPowerUps(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
         for(int i = 0; i < 3; i++){
 
-            HBox newCard = new HBox();
+            CardBox newCard = new CardBox("/graphics/cards/AD_powerups_IT_02.png");
 
-            Image image = new Image(
-                    "/graphics/cards/AD_powerups_IT_02.png",
-                    0, 0,
-                    true, false
-            );
 
-            BackgroundImage backgroundImage = new BackgroundImage(
-                    image,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundPosition.DEFAULT,
-                    new BackgroundSize(1, 1, true, true, true, false)
-            );
-
-            newCard.setBackground(new Background(backgroundImage));
-
-            newCard.getStyleClass().add("shadow");
-
-            externalGridPane.add(newCard, col + (i*colspan), row, colspan, rowspan);
+            externalGridPane.add(newCard.gethBox(), col + (i*colspan), row, colspan, rowspan);
 
         }
 
 
     }
 
-    private void setUpOtherPlancias(GridPane externalGridPane, int col, int row, int offset) {
-
-        ArrayList<PlayerColor> tempColors = new ArrayList<>(playerColors);
-
-        int indexOfThisPlayer = playerNames.indexOf(username);
-
-        tempColors.remove(indexOfThisPlayer);
-
-        for(int i = 0; i < tempColors.size(); i++){
-
-            HBox newBox= setUpPlanciaByPlayerColor(tempColors.get(i));
-
-            newBox.getStyleClass().add("shadow");
-
-            externalGridPane.add(newBox, col, row + (i * offset), 19, 4);
-
-        }
-
-    }
-
-    private HBox setUpPlanciaByPlayerColor(PlayerColor playerColor) {
-
-        HBox hBox = new HBox();
-
-        Image image = new Image(
-                playerColor.getPath(),
-                0, 0,
-                true, false
-        );
-
-        BackgroundImage backgroundImage = new BackgroundImage(
-                image,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(1, 1, true, true, true, false)
-        );
-
-        hBox.setBackground(new Background(backgroundImage));
-
-        return hBox;
-
-    }
-
-    private GridPane setUpMapGridPane() {
-
-        GridPane mapGridPane = new GridPane();
-
-        mapGridPane.setGridLinesVisible(false);
-
-        setGrid(mapGridPane, 4, 3);
-
-        mapGridPane.getStyleClass().add("mapGridPane");
-
-        BackgroundImage mapBackgroundImage= new BackgroundImage(
-                new Image(mapPath, 0, 0, true, false) ,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(1, 1, true, true, true, false)
-        );
-
-        mapGridPane.setBackground(new Background(mapBackgroundImage));
-
-
-        return mapGridPane;
-    }
-
+    /**
+     * Sets up the external grid pane
+     * @param nCols the amount of cols
+     * @param nRows the amount of rows
+     * @return the gridpane
+     */
     private GridPane setUpExternalGridPane(int nCols, int nRows) {
 
         GridPane externalGridPane = new GridPane();
-        externalGridPane.setGridLinesVisible(false);
 
         setGrid(externalGridPane, nCols, nRows);
 
@@ -319,22 +327,23 @@ public class GameScene implements MyScene {
 
     /**
      * This method sets up the GridPane and splits it into cols and rows
-     * @param externalGridPane the pane to split
+     * It's static because it is used by other grid panes too
+     * @param pane the pane to split
      * @param externalCols the amount of cols
      * @param externalRows the amount of rows
      */
-    private void setGrid(GridPane externalGridPane, int externalCols, int externalRows) {
+    private void setGrid(GridPane pane, int externalCols, int externalRows) {
+
 
         for(int i = 0; i < externalCols; i++){
             ColumnConstraints colConstrains = new ColumnConstraints();
             colConstrains.setPercentWidth(100.0 / externalCols);
-            externalGridPane.getColumnConstraints().add(colConstrains);
+            pane.getColumnConstraints().add(colConstrains);
         }
-
         for(int i = 0; i < externalRows; i++){
             RowConstraints rowConstraints = new RowConstraints();
             rowConstraints.setPercentHeight(100.0 / externalRows);
-            externalGridPane.getRowConstraints().add(rowConstraints);
+            pane.getRowConstraints().add(rowConstraints);
         }
 
     }

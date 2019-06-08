@@ -30,3 +30,9 @@
     -fx-font-size: 18px;
     -fx-text-fill: #3C0A0A;
 }
+
+.closingBoxButton {
+    -fx-font-family: 'Stencil', 'Impact';
+    -fx-background-color: #E94B2B;
+    -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);
+}

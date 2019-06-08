@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.client.gui.scenes.*;
+import it.polimi.ingsw.client.gui.scenes.gameScene.GameScene;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.serverToClient.*;

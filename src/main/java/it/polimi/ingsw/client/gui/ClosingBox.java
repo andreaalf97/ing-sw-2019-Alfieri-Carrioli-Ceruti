@@ -22,14 +22,14 @@ public class ClosingBox {
         window.setMinHeight(200);
 
         Button yesButton = new Button("Yes");
-        yesButton.setMaxSize(40, 30);
-        yesButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        yesButton.setMaxSize(50, 30);
+        yesButton.getStyleClass().add("closingBoxButton");
         Button noButton = new Button("No");
-        noButton.setMaxSize(40, 30);
-        noButton.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        noButton.setMaxSize(50, 30);
+        noButton.getStyleClass().add("closingBoxButton");
 
         Label label = new Label("Are you sure you want to exit Adrenalina?");
-        label.setStyle("-fx-font: 20px 'Stencil', 'Impact'; -fx-text-fill: #E94B2B");
+        label.setStyle("-fx-font: 20px; -fx-font-family: 'Stencil', 'Impact'; -fx-text-fill: #E94B2B; -fx-padding: 0px 10px 0px 10px");
 
 
         yesButton.setOnAction(e ->{
@@ -47,6 +47,9 @@ public class ClosingBox {
         vBox.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBox);
+
+        scene.getStylesheets().add("/style/style.css");
+
         window.setScene(scene);
         window.showAndWait();
 

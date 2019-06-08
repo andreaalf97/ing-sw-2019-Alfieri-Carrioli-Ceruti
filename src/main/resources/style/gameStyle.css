@@ -26,3 +26,7 @@
 .rightShadow{
     -fx-effect: dropshadow(two-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 3, 0);
 }
+
+.mapGridPane Line {
+    -fx-stroke   : white;
+}
