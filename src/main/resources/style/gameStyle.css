@@ -3,6 +3,11 @@
     -fx-border-color: red;
 }*/
 
+.visibleBorder {
+    -fx-border: 2px;
+    -fx-border-color: white;
+}
+
 .messages {
     -fx-font-size: 2.2em;
     -fx-text-fill: black;
