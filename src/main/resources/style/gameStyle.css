@@ -33,5 +33,5 @@
 }
 
 .mapGridPane Line {
-    -fx-stroke   : white;
+    -fx-stroke : yellow;
 }

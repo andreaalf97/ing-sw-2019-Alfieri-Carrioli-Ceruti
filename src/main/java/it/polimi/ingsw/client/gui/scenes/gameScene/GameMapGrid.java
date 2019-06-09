@@ -10,15 +10,15 @@ public class GameMapGrid {
 
     private GridPane gridPane;
 
-    private HBox kstBox;
+    private GridPane kstBox;
 
-    private VBox pointsBox;
+    private GridPane pointsBox;
 
-    private VBox leftSpawnWeaponBox;
+    private GridPane leftSpawnWeaponBox;
 
-    private HBox topSpawnWeaponBox;
+    private GridPane topSpawnWeaponBox;
 
-    private VBox rightSpawnWeaponBox;
+    private GridPane rightSpawnWeaponBox;
 
     private GridPane mapBox;
 
@@ -33,7 +33,36 @@ public class GameMapGrid {
 
         gridPane.setGridLinesVisible(false);
 
-        setGrid(gridPane);
+        ArrayList<Double> colPercentages = new ArrayList<>();
+        colPercentages.add(1.6400);
+        colPercentages.add(2.5500);
+        colPercentages.add(2.6000);
+        colPercentages.add(4.0000);
+        colPercentages.add(3.5000);
+        colPercentages.add(1.4035);
+        colPercentages.add(29.560);
+        colPercentages.add(6.4327);
+        colPercentages.add(30.760);
+        colPercentages.add(1.9000);
+        colPercentages.add(13.550);
+        colPercentages.add(2.1038);
+
+        ArrayList<Double> rowPercentages = new ArrayList<>();
+        rowPercentages.add(2.1000);
+        rowPercentages.add(2.6000);
+        rowPercentages.add(7.5200);
+        rowPercentages.add(6.6500);
+        rowPercentages.add(1.7600);
+        rowPercentages.add(1.4000);
+        rowPercentages.add(6.0000);
+        rowPercentages.add(8.4000);
+        rowPercentages.add(20.400);
+        rowPercentages.add(21.400);
+        rowPercentages.add(10.900);
+        rowPercentages.add(9.4400);
+        rowPercentages.add(1.4300);
+
+        setGrid(gridPane, colPercentages, rowPercentages);
 
         gridPane.getStyleClass().add("mapGridPane");
 
@@ -49,13 +78,123 @@ public class GameMapGrid {
 
         gridPane.getStyleClass().add("rightShadow");
 
-        this.pointsBox = new VBox();
-        this.kstBox = new HBox();
-        this.leftSpawnWeaponBox = new VBox();
-        this.topSpawnWeaponBox = new HBox();
-        this.rightSpawnWeaponBox = new VBox();
+
+
+
+        //***************************++ POINTS BOX ++******************
+
+
+        this.pointsBox = new GridPane();
+
+        colPercentages = new ArrayList<>();
+        colPercentages.add(100.00);
+
+        rowPercentages = new ArrayList<>();
+        rowPercentages.add(16.666);
+        rowPercentages.add(16.666);
+        rowPercentages.add(16.666);
+        rowPercentages.add(16.666);
+        rowPercentages.add(16.666);
+        rowPercentages.add(16.666);
+
+        setGrid(pointsBox, colPercentages, rowPercentages);
+        pointsBox.setGridLinesVisible(true);
+
+
+        //***************************++ KST ++***********************************
+
+        this.kstBox = new GridPane();
+
+        colPercentages = new ArrayList<>();
+        colPercentages.add(10.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(10.000);
+        colPercentages.add(14.000);
+
+        rowPercentages = new ArrayList<>();
+        rowPercentages.add(100.00);
+
+        setGrid(kstBox, colPercentages, rowPercentages);
+        kstBox.setGridLinesVisible(true);
+
+        //***************************++ LEFT SPAWN WEAPON BOX ++******************
+
+        this.leftSpawnWeaponBox = new GridPane();
+
+        colPercentages = new ArrayList<>();
+        colPercentages.add(100.00);
+
+        rowPercentages = new ArrayList<>();
+        rowPercentages.add(33.333);
+        rowPercentages.add(33.333);
+        rowPercentages.add(33.333);
+
+        setGrid(leftSpawnWeaponBox, colPercentages, rowPercentages);
+        leftSpawnWeaponBox.setGridLinesVisible(true);
+
+        //***************************++ TOP SPAWN WEAPON BOX ++*******************
+
+
+        this.topSpawnWeaponBox = new GridPane();
+
+        colPercentages = new ArrayList<>();
+        colPercentages.add(33.333);
+        colPercentages.add(33.333);
+        colPercentages.add(33.333);
+
+        rowPercentages = new ArrayList<>();
+        rowPercentages.add(100.00);
+
+        setGrid(topSpawnWeaponBox, colPercentages, rowPercentages);
+        topSpawnWeaponBox.setGridLinesVisible(true);
+
+        //***************************++ RIGHT SPAWN WEAPON BOX ++*****************
+
+        this.rightSpawnWeaponBox = new GridPane();
+
+        colPercentages = new ArrayList<>();
+        colPercentages.add(100.00);
+
+        rowPercentages = new ArrayList<>();
+        rowPercentages.add(33.333);
+        rowPercentages.add(33.333);
+        rowPercentages.add(33.333);
+
+        setGrid(rightSpawnWeaponBox, colPercentages, rowPercentages);
+        rightSpawnWeaponBox.setGridLinesVisible(true);
+
+
+        //***************************++ MAP BOX ++********************************
+
         this.mapBox = new GridPane();
+
+        colPercentages = new ArrayList<>();
+        colPercentages.add(25.000);
+        colPercentages.add(25.000);
+        colPercentages.add(27.000);
+        colPercentages.add(23.000);
+
+        rowPercentages = new ArrayList<>();
+        rowPercentages.add(33.333);
+        rowPercentages.add(33.333);
+        rowPercentages.add(33.333);
+
+        setGrid(mapBox, colPercentages, rowPercentages);
+        mapBox.setGridLinesVisible(true);
+
+        //***************************++ DOUBLE KILL BOX ++******************
+
         this.doubleKillBox = new HBox();
+
+
+
+
+
 
         gridPane.add(pointsBox, 1, 1, 1, 5);
         gridPane.add(kstBox, 3, 2, 4, 1);
@@ -78,52 +217,13 @@ public class GameMapGrid {
 
 
 
-    private void setGrid(GridPane pane) {
-
-        ArrayList<Double> colPercentages = new ArrayList<>();
-        colPercentages.add(1.6400);
-        colPercentages.add(2.5500);
-        colPercentages.add(2.6000);
-        colPercentages.add(4.0000);
-        colPercentages.add(3.5000);
-        colPercentages.add(1.4035);
-        colPercentages.add(29.560);
-        colPercentages.add(6.4327);
-        colPercentages.add(30.760);
-        colPercentages.add(1.9000);
-        colPercentages.add(13.684);
-
-        Double lastCol = 100.0;
-        for(Double p : colPercentages)
-            lastCol -= p;
-
-        colPercentages.add(lastCol);
+    private void setGrid(GridPane pane, ArrayList<Double> colPercentages, ArrayList<Double> rowPercentages) {
 
         for(Double percentage : colPercentages){
             ColumnConstraints colConstrains = new ColumnConstraints();
             colConstrains.setPercentWidth(percentage);
             pane.getColumnConstraints().add(colConstrains);
         }
-
-        ArrayList<Double> rowPercentages = new ArrayList<>();
-        rowPercentages.add(2.1000);
-        rowPercentages.add(2.6000);
-        rowPercentages.add(7.5200);
-        rowPercentages.add(6.6500);
-        rowPercentages.add(1.7600);
-        rowPercentages.add(1.4000);
-        rowPercentages.add(6.0000);
-        rowPercentages.add(8.4000);
-        rowPercentages.add(20.400);
-        rowPercentages.add(21.400);
-        rowPercentages.add(10.900);
-        rowPercentages.add(9.4400);
-
-        Double lastRow = 100.0;
-        for(Double p : rowPercentages)
-            lastRow -= p;
-
-        rowPercentages.add(lastRow);
 
 
         for(Double percentage : rowPercentages){

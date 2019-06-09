@@ -136,7 +136,7 @@ public class Gui extends Application implements QuestionEventHandler {
         ArrayList<PlayerColor> playerColors = PlayerColor.getRandomArray(5);
 
 
-        MapName mapName = MapName.EARTH;
+        MapName mapName = MapName.WIND;
 
         int votedSkulls = 7;
 
