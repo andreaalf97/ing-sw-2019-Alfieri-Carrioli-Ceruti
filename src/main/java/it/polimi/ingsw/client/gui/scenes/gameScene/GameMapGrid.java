@@ -63,8 +63,9 @@ public class GameMapGrid {
         rowPercentages.add(1.4300);
 
         setGrid(gridPane, colPercentages, rowPercentages);
+        gridPane.setGridLinesVisible(true);
 
-        gridPane.getStyleClass().add("mapGridPane");
+        gridPane.getStyleClass().add("yellowLines");
 
         BackgroundImage mapBackgroundImage= new BackgroundImage(
                 new Image(mapPath, 0, 0, true, false) ,

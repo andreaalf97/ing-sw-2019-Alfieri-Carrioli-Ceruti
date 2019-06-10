@@ -32,6 +32,14 @@
     -fx-effect: dropshadow(two-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 3, 0);
 }
 
-.mapGridPane Line {
+.yellowLines Line {
     -fx-stroke : yellow;
+}
+
+.purpleLines Line {
+    -fx-stroke : purple;
+}
+
+.whiteLines Line {
+    -fx-stroke : white;
 }

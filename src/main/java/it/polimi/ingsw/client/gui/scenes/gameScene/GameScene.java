@@ -17,6 +17,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.ArrayList;
 
 public class GameScene implements MyScene {
@@ -49,12 +50,11 @@ public class GameScene implements MyScene {
     /**
      * The pane where the player's plancia is
      */
-    private PlanciaPane myPlancia;
-
+    private MyPlancia myPlancia;
     /**
-     * The list of all other plancias
+     * The pane where other players's plancia is
      */
-    private ArrayList<PlanciaPane> otherPlancias;
+    private OtherPlayersPlancias otherPlayersPlancias;
 
     /**
      * The label that prompts all the messages
@@ -109,7 +109,6 @@ public class GameScene implements MyScene {
 
         this.weaponBoxes = new ArrayList<>();
         this.powerUpBoxes = new ArrayList<>();
-        this.otherPlancias = new ArrayList<>();
 
         Font.loadFont(
                 GameScene.class.getResource("/fonts/ZCOOLKuaiLe-Regular.ttf").toExternalForm(),
@@ -137,10 +136,10 @@ public class GameScene implements MyScene {
         //Setting up the player's plancia
         PlayerColor myColor = playerColors.get(playerNames.indexOf(username));
 
-        this.myPlancia = new PlanciaPane(myColor, "rightShadow");
+        this.myPlancia = new MyPlancia(myColor, "rightShadow");
 
         //Adding the plancia to the main pane
-        externalGridPane.add(myPlancia.gethBox(), 0, 0, 22, 5);
+        externalGridPane.add(myPlancia.getplanciaGridPane(), 0, 0, 22, 5);
 
 
 
@@ -152,16 +151,20 @@ public class GameScene implements MyScene {
 
         tempColors.remove(indexOfThisPlayer);
 
-        for(int i = 0; i < tempColors.size(); i++){
+        ArrayList<String> otherPlayers = new ArrayList<>();
 
-            PlanciaPane newPlancia = new PlanciaPane(tempColors.get(i), "shadow");
-            this.otherPlancias.add(newPlancia);
-
-            externalGridPane.add(newPlancia.gethBox(), otherPlanciasCol, otherPlanciasRow + (i * otherPlanciasOffset), 19, 4);
-
+        for(String p : playerNames){
+            if( !p.equals(username) )
+                otherPlayers.add(p);
         }
 
+        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors);
 
+        int i = 0;
+        for (GridPane g : otherPlayersPlancias.getGridPanes()){
+            externalGridPane.add(g, otherPlanciasCol, otherPlanciasRow + (i * otherPlanciasOffset), 19, 4);
+            i++;
+        }
 
 
 
