@@ -4,8 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.polimi.ingsw.client.cli.MapPrinting;
-import it.polimi.ingsw.events.serverToClient.ModelUpdate;
+import it.polimi.ingsw.client.cli.MapGrid;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.KillShotTrack;
 import it.polimi.ingsw.model.Player;
@@ -15,7 +14,6 @@ import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.cards.WeaponDeck;
 import it.polimi.ingsw.model.map.*;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -276,19 +274,22 @@ public class JsonDeserializer {
      * @return the cliMap
      */
     public static String[][] deserializeCliMap(MapName votedMap){
-        String [][] cliMap = new String[MapPrinting.maxVerticalLength][MapPrinting.maxHorizontalLength];
+        String [][] cliMap = new String[MapGrid.maxVerticalMapLength][MapGrid.maxHorizLength];
 
         //TODO TEST DESERIALIZATION
         try {
             JsonArray chosenMap = myJsonParser.parse(new FileReader("src/main/resources/cliMaps.json")).getAsJsonObject().get(votedMap.toString()).getAsJsonArray();
 
-            for(int r = 0; r < MapPrinting.maxVerticalLength; r++){
+            for(int r = 0; r < MapGrid.maxVerticalMapLength; r++){
 
                 JsonArray jsonCol = chosenMap.get(r).getAsJsonArray();
 
-                for(int c = 0; c < MapPrinting.maxHorizontalLength; c++){
+                for(int c = 0; c < MapGrid.maxHorizontalMapLength; c++){
                     cliMap[r][c] = jsonCol.get(c).getAsString();
                 }
+
+                for (int c = MapGrid.maxHorizontalMapLength; c < MapGrid.maxHorizLength; c++)
+                    cliMap[r][c] = " ";
             }
 
         }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.cli;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
@@ -93,7 +92,9 @@ public class Cli implements QuestionEventHandler {
      */
     private ArrayList<String> otherPlayers;
 
-
+    /**
+     * the players board colors
+     */
     private ArrayList<PlayerColor> playerColors;
 
 
@@ -332,11 +333,16 @@ public class Cli implements QuestionEventHandler {
     }
 
     public void buildCliMapRepresentation(MapName votedMap){
-        MapPrinting.buildCliMap(votedMap);
+        MapGrid.buildCliMap(votedMap);
     }
 
     public void fillMapWithSnapshot(){
-        MapPrinting.fillMapWithAmmoAndCoord(lastSnapshotReceived);
+        MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived);
+    }
+
+    public void showGameMap(){
+        fillMapWithSnapshot();
+        MapGrid.printMap();
     }
 
 //********************************** PRINTING ********************************************
@@ -369,10 +375,6 @@ public class Cli implements QuestionEventHandler {
     }
 
 
-    public void showGameMap(){
-        fillMapWithSnapshot();
-        MapPrinting.printMap();
-    }
 
     public void showPlayers(){}
 
