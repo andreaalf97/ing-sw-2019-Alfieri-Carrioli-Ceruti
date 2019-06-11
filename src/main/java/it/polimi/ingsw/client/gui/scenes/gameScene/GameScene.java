@@ -17,7 +17,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.ArrayList;
 
 public class GameScene implements MyScene {
@@ -35,7 +34,7 @@ public class GameScene implements MyScene {
     /**
      * The map grid pane
      */
-    private GameMapGrid gameMapGrid;
+    private BoardGrid boardGrid;
 
     /**
      * The pane to put all weapons in the player's hand
@@ -122,16 +121,18 @@ public class GameScene implements MyScene {
         //Setting up the external grid
         GridPane externalGridPane = setUpExternalGridPane(externalCols, externalRows);
 
-
+        //************************************* + Board Grid + *********************************************
 
         //Setting up the map grid
-        this.gameMapGrid = new GameMapGrid(this.mapName.getPath());
+        this.boardGrid = new BoardGrid(this.mapName.getPath());
 
         //Adding the map grid to the main pane
         //Starting from column 0, row 5, colspan 30, rowspan 24
-        externalGridPane.add(gameMapGrid.getGridPane(),0,5,30,24);
+        externalGridPane.add(boardGrid.getGridPane(),0,5,30,24);
 
 
+
+        //************************************* + MY PLANCIA + *********************************************
 
         //Setting up the player's plancia
         PlayerColor myColor = playerColors.get(playerNames.indexOf(username));
@@ -143,21 +144,22 @@ public class GameScene implements MyScene {
 
 
 
-        //Setting up all other plancias
+        //************************************* + OTHER PLANCIAS + *********************************************
 
+        //Copies the player color array
         ArrayList<PlayerColor> tempColors = new ArrayList<>(playerColors);
 
+        //Gets the index of this player
         int indexOfThisPlayer = playerNames.indexOf(username);
 
+        //Removes this player's color from the array
         tempColors.remove(indexOfThisPlayer);
 
-        ArrayList<String> otherPlayers = new ArrayList<>();
+        //Creates the array of other player's usernames
+        ArrayList<String> otherPlayers = new ArrayList<>(playerNames);
+        otherPlayers.remove(username);
 
-        for(String p : playerNames){
-            if( !p.equals(username) )
-                otherPlayers.add(p);
-        }
-
+        //Creates the list of other plancias
         this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors);
 
         int i = 0;
@@ -168,8 +170,8 @@ public class GameScene implements MyScene {
 
 
 
+        //************************************* + MESSAGE VIEWER + *********************************************
 
-        //The message viewer
         this.messageBox = new Label("This is Adrenalina bitches");
         messageBox.getStyleClass().add("messages");
         messageBox.setTextAlignment(TextAlignment.CENTER);
@@ -181,16 +183,25 @@ public class GameScene implements MyScene {
 
 
 
-
+        //************************************* + POWER UPS AND WEAPONS + *********************************************
 
 
         setUpPlayerPowerUps(externalGridPane, 23, 1, 3, 3);
         setUpPlayerWeapons(externalGridPane, 33, 1, 3, 3);
 
 
+        //************************************* + LOGO + *********************************************
+
         setUpLogo(externalGridPane, 44, 0, 4, 4);
 
+
+
+        //************************************* + EXIT BUTTON + *********************************************
+
         setUpExit(externalGridPane, 44, 24, 4, 3);
+
+
+
 
 
         //Loading the pane into the scene
@@ -316,14 +327,11 @@ public class GameScene implements MyScene {
 
         GridPane externalGridPane = new GridPane();
 
-        setGrid(externalGridPane, nCols, nRows);
+        setMainGrid(externalGridPane, nCols, nRows);
 
         //Setting up CSS for main pane
         externalGridPane.getStylesheets().add(cssPath);
         externalGridPane.getStyleClass().add("mainBackground");
-
-
-        //externalGridPane.setBackground(new Background(new BackgroundFill(Color.ORANGERED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         return  externalGridPane;
     }
@@ -335,7 +343,7 @@ public class GameScene implements MyScene {
      * @param externalCols the amount of cols
      * @param externalRows the amount of rows
      */
-    private void setGrid(GridPane pane, int externalCols, int externalRows) {
+    private void setMainGrid(GridPane pane, int externalCols, int externalRows) {
 
 
         for(int i = 0; i < externalCols; i++){
