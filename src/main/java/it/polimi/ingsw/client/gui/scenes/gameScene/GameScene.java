@@ -61,8 +61,6 @@ public class GameScene implements MyScene {
     private Label messageBox;
 
 
-
-
     private final String username;
 
     public ArrayList<String> playerNames;
@@ -74,7 +72,6 @@ public class GameScene implements MyScene {
     public MapName mapName;
 
     public int votedSkulls;
-
 
 
     private final String cssPath = "/style/gameStyle.css";

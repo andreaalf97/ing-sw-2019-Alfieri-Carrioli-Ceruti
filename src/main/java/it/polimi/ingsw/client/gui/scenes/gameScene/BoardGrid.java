@@ -1,12 +1,12 @@
 package it.polimi.ingsw.client.gui.scenes.gameScene;
 
+
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 
 public class BoardGrid {
-
 
     private GridPane gridPane;
 
@@ -23,8 +23,6 @@ public class BoardGrid {
     private GridPane mapBox;
 
     private HBox doubleKillBox;
-
-
 
 
     protected BoardGrid(String mapPath){
@@ -45,8 +43,6 @@ public class BoardGrid {
 
         this.doubleKillBox = new HBox();
 
-
-
         gridPane.add(pointsBox, 1, 1, 1, 5);
         gridPane.add(kstBox, 3, 2, 4, 1);
         gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
@@ -62,18 +58,36 @@ public class BoardGrid {
         GridPane gridPane = new GridPane();
 
         ArrayList<Double> colPercentages = new ArrayList<>();
-        colPercentages.add(25.000);
+        colPercentages.add(6.000);
+        colPercentages.add(6.000);
+        colPercentages.add(13.000);
         colPercentages.add(25.000);
         colPercentages.add(27.000);
         colPercentages.add(23.000);
 
         ArrayList<Double> rowPercentages = new ArrayList<>();
-        rowPercentages.add(33.333);
-        rowPercentages.add(33.333);
-        rowPercentages.add(33.333);
+        rowPercentages.add(6.000);
+        rowPercentages.add(26.000);
+        rowPercentages.add(35.000);
+        rowPercentages.add(33.000);
 
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(true);
+
+        Pane ammocardPane = new Pane();
+
+        BackgroundImage mapBackgroundImage= new BackgroundImage(
+                new Image("/graphics/ammo/AD_ammo_043.png", 0, 0, true, false) ,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(1, 1, true, true, true, false)
+        );
+
+        ammocardPane.setBackground(new Background(mapBackgroundImage));
+
+        gridPane.add(ammocardPane, 1, 1, 1, 1);
+
 
         gridPane.getStyleClass().add("visibleBorder");
 
