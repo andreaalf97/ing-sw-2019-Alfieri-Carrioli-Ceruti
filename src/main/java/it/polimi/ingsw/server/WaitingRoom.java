@@ -149,15 +149,19 @@ class WaitingRoom {
      * @return the most voted amount of skulls
      */
     protected int getVotedSkulls(){
-        int maxSkulls = (int)skullVotes.get(5);
+
+        int maxVotedSkulls = 5;
+        int maxVotes = (int)skullVotes.get(5);
 
         for(int i = 6; i <= 8; i++){
-            if((int)skullVotes.get(i) > maxSkulls){
-                maxSkulls = (int)skullVotes.get(i);
+            if((int)skullVotes.get(i) > maxVotes){
+                maxVotes = (int)skullVotes.get(i);
+                maxVotedSkulls = i;
             }
         }
 
-        return maxSkulls;
+        return maxVotedSkulls;
+
     }
 
     /**

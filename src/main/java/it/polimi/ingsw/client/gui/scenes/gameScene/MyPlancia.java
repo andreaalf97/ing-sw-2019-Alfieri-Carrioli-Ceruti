@@ -14,7 +14,6 @@ public class MyPlancia {
 
         this.planciaGridPane = new GridPane();
 
-        planciaGridPane.setGridLinesVisible(true);
 
         ArrayList<Double> colPercentages = new ArrayList<>();
         colPercentages.add(8.1500);
@@ -33,7 +32,8 @@ public class MyPlancia {
         colPercentages.add(27.76);
 
         ArrayList<Double> rowPercentages = new ArrayList<>();
-        rowPercentages.add(35.0000);
+        rowPercentages.add(23.0000);
+        rowPercentages.add(12.0000);
         rowPercentages.add(31.0000);
         rowPercentages.add(9.0000);
         rowPercentages.add(22.0000);
@@ -41,6 +41,8 @@ public class MyPlancia {
 
         setGrid(planciaGridPane, colPercentages, rowPercentages);
         planciaGridPane.setGridLinesVisible(true);
+        //planciaGridPane.getStyleClass().add("visibleBorder");
+
 
         Image image = new Image(
                 playerColor.getPath(),

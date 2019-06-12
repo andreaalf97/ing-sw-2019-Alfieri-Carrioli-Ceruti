@@ -20,19 +20,19 @@ public class OtherPlayersPlancias {
             getGridPanes().add(gridpane);
 
             ArrayList<Double> colPercentages = new ArrayList<>();
-            colPercentages.add(8.1500);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
-            colPercentages.add(5.2700);
+            colPercentages.add(8.150);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
+            colPercentages.add(5.100);
             colPercentages.add(27.76);
 
             ArrayList<Double> rowPercentages = new ArrayList<>();
@@ -44,6 +44,8 @@ public class OtherPlayersPlancias {
 
             setGrid(gridPanes.get(i), colPercentages, rowPercentages);
             gridPanes.get(i).setGridLinesVisible(true);
+            //gridPanes.get(i).getStyleClass().add("visibleBorder");
+
 
             Image image = new Image(
                     tempColors.get(i).getPath(),

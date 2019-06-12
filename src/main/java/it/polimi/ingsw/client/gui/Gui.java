@@ -34,7 +34,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
     public static final String loginCssPath = "/style/style.css";
 
-
     private int rmiPort = 5432;
 
     private int socketPort = 2345;
@@ -130,6 +129,8 @@ public class Gui extends Application implements QuestionEventHandler {
         playerNames.add("gino");
         playerNames.add("ingConti");
         playerNames.add("keni");
+
+
 
         String firstPlayer = "meme";
 
@@ -235,7 +236,6 @@ public class Gui extends Application implements QuestionEventHandler {
     public void handleEvent(GameStartedQuestion event) {
 
         System.out.println("RECEIVED GameStartedQuestion EVENT");
-
 
         waitingRoomGui.close();
 
