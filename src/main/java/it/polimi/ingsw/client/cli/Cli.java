@@ -10,6 +10,7 @@ import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.*;
@@ -90,7 +91,7 @@ public class Cli implements QuestionEventHandler {
     /**
      * The list of all players in the game
      */
-    private ArrayList<String> otherPlayers;
+    private ArrayList<String> allPlayers;
 
     /**
      * the players board colors
@@ -110,7 +111,7 @@ public class Cli implements QuestionEventHandler {
         this.sysin = new Scanner(System.in);
         this.lastSnapshotReceived = new JsonObject();
         this.playerInfo = null;
-        this.otherPlayers = new ArrayList<>();
+        this.allPlayers = new ArrayList<>();
         this.playerColors = null;
     }
 
@@ -337,7 +338,7 @@ public class Cli implements QuestionEventHandler {
     }
 
     public void fillMapWithSnapshot(){
-        MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived);
+        MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived, playerColors, allPlayers);
     }
 
     public void showGameMap(){
@@ -464,14 +465,12 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("GAME STARTED");
 
-        System.out.println("The payers are:");
+        System.out.println("The players are:");
 
         //adds all the other players to the list
-        for(String player : event.playerNames)
-            if( ! player.equals(this.username))
-                this.otherPlayers.add(player);
+        this.allPlayers = event.playerNames;
 
-        for(String player : event.playerNames)
+        for(String player : this.allPlayers)
             System.out.println(player);
 
         System.out.println("****************************************");
@@ -649,7 +648,7 @@ public class Cli implements QuestionEventHandler {
         ArrayList<String> defenders = new ArrayList<>();
 
         //The possible choices is the list of other players + the STOP choice
-        ArrayList<String> possibleChoices = new ArrayList<>(this.otherPlayers);
+        ArrayList<String> possibleChoices = new ArrayList<>(this.allPlayers);
         possibleChoices.add("STOP");
 
         //The index of the STOP choice

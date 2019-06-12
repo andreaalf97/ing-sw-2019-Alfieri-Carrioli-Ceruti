@@ -47,7 +47,7 @@ public enum Color {
     private static final Random RANDOM = new Random();
 
     /**
-     * Picks a random color out of the 3 values
+     * Picks a random color out of the 3 values RED/BLUR/YELLOW
      * @return a random Color object
      */
     public static Color randomColor(){
