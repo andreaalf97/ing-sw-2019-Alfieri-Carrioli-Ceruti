@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.cli.MapGrid;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.KillShotTrack;
@@ -43,6 +44,19 @@ public class JsonDeserializer {
 
 //***********************************************************************************************************************************************
 
+    public static GameInfo deserializedSnapshot(JsonObject lastSnapshotReceived){
+
+        ArrayList<String> playersNames = deserializePlayerNamesObject(lastSnapshotReceived.get("playerNames").getAsJsonArray());
+
+        ArrayList<Player> playersInfo = deserializePlayerObject(lastSnapshotReceived.get("players").getAsJsonArray());
+
+        KillShotTrack killShotTrack = new KillShotTrack(lastSnapshotReceived.get("kst").getAsJsonObject());
+
+        GameMap gameMap = new GameMap(lastSnapshotReceived.get("gameMap").getAsJsonObject());
+
+        return new GameInfo(playersNames, killShotTrack, gameMap, playersInfo);
+    }
+
  //Game deserialization, it receives a model Snapshot for persistence and it creates a new Game
     public static Game deserializeModelSnapshot(String modelSnapshot){
         JsonObject jsonRoot = myJsonParser.parse(modelSnapshot).getAsJsonObject();
@@ -61,6 +75,7 @@ public class JsonDeserializer {
 
         return new Game(playerNames, players, weaponDeck, powerUpDeck, kst, gameMap);
     }
+
 
     /**
      * this method deserialize Players
