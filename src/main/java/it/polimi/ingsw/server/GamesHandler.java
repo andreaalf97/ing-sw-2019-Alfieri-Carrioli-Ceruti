@@ -4,10 +4,7 @@ import it.polimi.ingsw.controller.AnswerEventHandler;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.clientToServer.*;
-import it.polimi.ingsw.events.serverToClient.AddedToWaitingRoomQuestion;
-import it.polimi.ingsw.events.serverToClient.DisconnectedQuestion;
-import it.polimi.ingsw.events.serverToClient.InvalidUsernameQuestion;
-import it.polimi.ingsw.events.serverToClient.TextMessage;
+import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.server.AnswerEventReceiver;
@@ -304,5 +301,10 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
     public void handleEvent(WhereToMoveAnswer event) {
         throw new RuntimeException("The GamesHandler received an unexpected event during connection");
 
+    }
+
+    @Override
+    public void handleEvent(ActionShowMapAnswer event){
+        throw new RuntimeException("The GamesHandler received an unexpected event during connection");
     }
 }

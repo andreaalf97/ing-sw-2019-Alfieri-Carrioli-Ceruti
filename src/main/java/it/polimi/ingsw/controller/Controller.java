@@ -919,4 +919,7 @@ public class Controller implements Observer, AnswerEventHandler {
 
     }
 
+    public void handleEvent(ActionShowMapAnswer event){
+        sendQuestionEvent(event.nickname, new ShowMapToClientQuestion(event.nickname));
+    }
 }

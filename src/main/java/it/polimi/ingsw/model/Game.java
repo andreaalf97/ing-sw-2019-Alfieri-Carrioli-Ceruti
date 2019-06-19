@@ -83,6 +83,8 @@ public class Game extends Observable {
 
         this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck);
         this.kst = new KillShotTrack(nSkulls);
+
+        notifyObservers(modelSnapshot());
     }
 
     /**
@@ -102,6 +104,8 @@ public class Game extends Observable {
         this.powerupDeck = powerUpDeck;
         this.kst = kst;
         this.gameMap = gameMap;
+
+        notifyObservers(modelSnapshot());
     }
 
     /**
@@ -109,6 +113,7 @@ public class Game extends Observable {
      */
     public Game(){
         JsonDeserializer.deserializeModelSnapshot(modelSnapshot());
+        notifyObservers(modelSnapshot());
     }
 
     // TESTED
@@ -240,6 +245,8 @@ public class Game extends Observable {
             this.powerupDeck = JsonDeserializer.deserializePowerUpDeck();
             p.givePowerUp(this.powerupDeck.drawCard());
         }
+
+        notifyObservers(clientSnapshot());
     }
 
     // USED IN TESTS
@@ -252,6 +259,8 @@ public class Game extends Observable {
     public void giveWeaponToPlayer(String player, Weapon weapon) {
         Player p = getPlayerByNickname(player);
         p.giveWeapon(weapon);
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -310,6 +319,8 @@ public class Game extends Observable {
 
         player.resetDamages();
         player.addKill();
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -385,6 +396,8 @@ public class Game extends Observable {
         // set player alive and move player to spawnspot
         p.revive();
         movePlayerToSpawnColor(player, discardedColor);
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED - PRIVATE METHOD
@@ -401,6 +414,8 @@ public class Game extends Observable {
         Player p = getPlayerByNickname(player);
         // last Action is modifing the player coordinates
         p.moveTo(coord[0], coord[1]);
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -409,6 +424,7 @@ public class Game extends Observable {
      */
     public void refillAllAmmoSpots() {
         this.gameMap.refillAllAmmo(this.powerupDeck);
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -417,6 +433,7 @@ public class Game extends Observable {
      */
     public void refillAllSpawnSpots() {
         this.gameMap.refillAllSpawns(this.weaponDeck);
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -435,6 +452,8 @@ public class Game extends Observable {
             p.moveTo(x, y);
             gameMap.movePlayer(player, x, y);
         }
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -454,6 +473,8 @@ public class Game extends Observable {
             gameMap.movePlayer(player, x, y);
             gameMap.grabSomething(x, y, p, index);
         }
+
+        notifyObservers(clientSnapshot());
     }
 
     /**
@@ -964,6 +985,9 @@ public class Game extends Observable {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
             weapon.setLoaded(false);
+            //TODO è giusto qua??
+            notifyObservers(clientSnapshot());
+
             return true;
         } catch (InvalidChoiceException e) {
             // resetto mappa
@@ -1060,6 +1084,9 @@ public class Game extends Observable {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
             weapon.setLoaded(false);
+
+            notifyObservers(clientSnapshot());
+
             return true;
         } catch (InvalidChoiceException e) {
             // resetto mappa
@@ -1102,6 +1129,8 @@ public class Game extends Observable {
         defenders.add(defender);
 
         makeDamageEffect(currentPlayerName, defenders, effect);
+
+        notifyObservers(clientSnapshot());
     }
 
     /**
@@ -1141,6 +1170,8 @@ public class Game extends Observable {
                     throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
             }
         }
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -1192,6 +1223,8 @@ public class Game extends Observable {
         Player currentPlayer = getPlayerByNickname(player);
 
         currentPlayer.reloadWeapon(index);
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -1225,6 +1258,7 @@ public class Game extends Observable {
 
         p.revive();
 
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -1283,6 +1317,8 @@ public class Game extends Observable {
 
             p.removeAmmo(i);
         }
+
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -1303,6 +1339,9 @@ public class Game extends Observable {
             throw new RuntimeException("This is not an ammo spot");
 
         gameMap.grabSomething(x, y, p, -1);
+
+        notifyObservers(clientSnapshot());
+
     }
 
     // TESTED
@@ -1338,6 +1377,7 @@ public class Game extends Observable {
 
         gameMap.grabSomething(x, y, p, index);
 
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -1359,6 +1399,8 @@ public class Game extends Observable {
             throw new RuntimeException("this is not a spawn spot");
 
         gameMap.grabSomething(x, y, p, index);
+
+        notifyObservers(clientSnapshot());
 
     }
 
@@ -1388,6 +1430,7 @@ public class Game extends Observable {
 
         gameMap.refill(x, y, toDiscard);
 
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -1405,6 +1448,8 @@ public class Game extends Observable {
         current.endTurnCurrent();
 
         getPlayerByNickname(next).startTurn();
+
+        notifyObservers(clientSnapshot());
 
         return getPlayerByNickname(next);
     }
@@ -1476,6 +1521,8 @@ public class Game extends Observable {
 
         Player player = getPlayerByNickname(nickname);
         ArrayList<String> actions = new ArrayList<>();
+
+        actions.add("ShowMap");
 
         if (player.isDead()) {
             actions.add("Respawn");

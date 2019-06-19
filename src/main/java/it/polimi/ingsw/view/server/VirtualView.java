@@ -101,6 +101,10 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
      * @return the string with all the fields to hide of the other playersNicknames to the single client
      */
     private String elaborateJsonPlayersForClient(String clientNickname, String allClientSnapshot) {
+
+        if(allClientSnapshot.equals(""))
+            return "";
+
         String players = "{" + allClientSnapshot;  //"playersNicknames : {all json playersNicknames}"
 
         //here i have all the jsonObject that represents playersNicknames

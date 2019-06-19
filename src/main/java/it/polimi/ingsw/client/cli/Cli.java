@@ -543,6 +543,9 @@ public class Cli implements QuestionEventHandler {
                 remoteView.sendAnswerEvent(new ActionUseTurnPowerUpAnswer(username));
                 break;
 
+            case "ShowMap":
+                remoteView.sendAnswerEvent(new ActionShowMapAnswer(username));
+
             default:
                 throw new RuntimeException("No such action --> " + stringAnswer);
 
@@ -925,7 +928,10 @@ public class Cli implements QuestionEventHandler {
 
     }
 
-
+    @Override
+    public void handleEvent(ShowMapToClientQuestion event){
+        MapGrid.printMap();
+    }
 
 
 

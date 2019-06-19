@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
@@ -319,7 +320,8 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ModelUpdate event) {
-
+        this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
+        this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
     }
 
     @Override
@@ -338,7 +340,10 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
 
+    @Override
+    public void handleEvent(ShowMapToClientQuestion event){
 
+    }
 
 
     @Override
