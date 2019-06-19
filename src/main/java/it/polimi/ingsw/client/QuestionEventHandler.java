@@ -32,6 +32,6 @@ public interface QuestionEventHandler {
     void handleEvent(ModelUpdate event);
     void handleEvent(TextMessage event);
     void handleEvent(WhereToMoveAndGrabQuestion event);
-
+    void handleEvent(ShowMapToClientQuestion event);
     void handleEvent(WhereToMoveQuestion event);
 }
