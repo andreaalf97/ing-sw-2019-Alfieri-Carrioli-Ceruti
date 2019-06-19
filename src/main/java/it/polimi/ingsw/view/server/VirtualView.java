@@ -105,19 +105,21 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         if(allClientSnapshot.equals(""))
             return "";
 
-        String players = "{" + allClientSnapshot;  //"playersNicknames : {all json playersNicknames}"
+        String players = "{" + allClientSnapshot;  //"players : {all json players}"
 
-        //here i have all the jsonObject that represents playersNicknames
-        JsonArray jsonplayers = JsonDeserializer.stringToJsonObject(players).get("playersNicknames").getAsJsonArray();
+        //here i have all the jsonObject that represents players
+        JsonArray jsonplayers = JsonDeserializer.stringToJsonObject(players).get("players").getAsJsonArray();
 
-        //in jsonPlayers i have the array of the information of the playersNicknames
+        //in jsonPlayers i have the array of the information of the players
 
 
-        String customMessage = "\"playersNicknames\": [";
+        String customMessage = "\"players\": [";
 
         //for every player in the list, the json will have a different construction based on the name of the player i am looking
         for(int i = 0; i < jsonplayers.size(); i++){
             customMessage += elaborateSingleJsonObjectForClient(jsonplayers.get(i).getAsJsonObject(), clientNickname);
+            if(i != jsonplayers.size() - 1)
+                customMessage += ",";
         }
 
         customMessage += "]}";
@@ -128,7 +130,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
     private String elaborateSingleJsonObjectForClient(JsonObject jsonPlayer, String clientNickname) {
 
-        String jsonPlayers = "{\"nickname\":" + jsonPlayer.get("nickname").getAsString() + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
+        String jsonPlayers = "{\"nickname\":" + "\"" + jsonPlayer.get("nickname").getAsString() + "\"" + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
 
 
         //****************************************************************************************************
@@ -143,7 +145,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
                     jsonPlayers += ",";
             }
         }
-        jsonPlayers += "]";
+        jsonPlayers += "],";
 
         //*************************************************************************************************
         //adding marks manually
@@ -159,6 +161,8 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         }
         jsonPlayers += "]";
 
+
+        jsonPlayers += "}";
         return jsonPlayers;
     }
 

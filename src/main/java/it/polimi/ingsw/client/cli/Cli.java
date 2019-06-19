@@ -545,6 +545,7 @@ public class Cli implements QuestionEventHandler {
 
             case "ShowMap":
                 remoteView.sendAnswerEvent(new ActionShowMapAnswer(username));
+                break;
 
             default:
                 throw new RuntimeException("No such action --> " + stringAnswer);
