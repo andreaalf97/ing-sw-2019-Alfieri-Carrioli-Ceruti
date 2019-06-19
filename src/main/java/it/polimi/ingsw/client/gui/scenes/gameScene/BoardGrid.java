@@ -77,7 +77,7 @@ public class BoardGrid {
         Pane ammocardPane = new Pane();
 
         BackgroundImage mapBackgroundImage= new BackgroundImage(
-                new Image("/graphics/ammo/AD_ammo_043.png", 0, 0, true, false) ,
+                new Image("/graphics/ammo/ammo_2.png", 0, 0, true, false) ,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
