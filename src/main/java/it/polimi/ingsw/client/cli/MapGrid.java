@@ -88,7 +88,8 @@ public class MapGrid {
     }
 
     private static void addPlayerInMap(int row, int column, PlayerColor playerColor, int indexOfPlayerInSpot) {
-        map[row*verticalSpotStandard +  verticalPlayerStandard][column*horizontalSpotStandard + horizontalPlayerStandard + 2*indexOfPlayerInSpot] = playerColor.escape() + "█" + Color.RESET; //fixme
+        map[row*verticalSpotStandard +  verticalPlayerStandard][column*horizontalSpotStandard + horizontalPlayerStandard + 3*indexOfPlayerInSpot] = playerColor.escape() + "╬" + Color.RESET;
+
     }
 
     private static void fillCoord(int r, int c) {
