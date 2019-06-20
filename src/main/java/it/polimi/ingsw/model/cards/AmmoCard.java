@@ -15,6 +15,4 @@ public class AmmoCard {
         this.colors = colors;
         this.hasPowerUp = hasPowerUp;
     }
-
-
 }

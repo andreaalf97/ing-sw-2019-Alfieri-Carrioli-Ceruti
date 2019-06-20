@@ -333,14 +333,24 @@ public class Cli implements QuestionEventHandler {
         System.out.flush();
     }
 
+    /**
+     * builds the correct representation of the cli
+     * @param votedMap the map to build
+     */
     public void buildCliMapRepresentation(MapName votedMap){
         MapGrid.buildCliMap(votedMap);
     }
 
-    public void fillMapWithSnapshot(){
+    /**
+     * fill the map with the last snapshot received so player can see it
+     */
+    private void fillMapWithSnapshot(){
         MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived, playerColors, allPlayers);
     }
 
+    /**
+     * show game map to player
+     */
     public void showGameMap(){
         fillMapWithSnapshot();
         MapGrid.printMap();
@@ -505,53 +515,52 @@ public class Cli implements QuestionEventHandler {
             System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
 
         String nextLine = sysin.nextLine();
-        int answer = Integer.parseInt(nextLine);
+        if(nextLine == "showMap")
+            showGameMap();
+        else {
+            int answer = Integer.parseInt(nextLine);
 
-        String stringAnswer = event.possibleAction.get(answer);
+            String stringAnswer = event.possibleAction.get(answer);
 
-        switch (stringAnswer){
+            switch (stringAnswer) {
 
-            case "Attack":
-                remoteView.sendAnswerEvent(new ActionAttackAnswer(username));
-                break;
+                case "Attack":
+                    remoteView.sendAnswerEvent(new ActionAttackAnswer(username));
+                    break;
 
-            case "EndTurn":
-                remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
-                break;
+                case "EndTurn":
+                    remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
+                    break;
 
-            case "MoveAndGrab":
-                remoteView.sendAnswerEvent(new ActionMoveAndGrabAnswer(username));
-                break;
+                case "MoveAndGrab":
+                    remoteView.sendAnswerEvent(new ActionMoveAndGrabAnswer(username));
+                    break;
 
-            case "Move":
-                remoteView.sendAnswerEvent(new ActionMoveAnswer(username));
-                break;
+                case "Move":
+                    remoteView.sendAnswerEvent(new ActionMoveAnswer(username));
+                    break;
 
-            case "PickWeapon":
-                remoteView.sendAnswerEvent(new ActionPickWeaponAnswer(username));
-                break;
+                case "PickWeapon":
+                    remoteView.sendAnswerEvent(new ActionPickWeaponAnswer(username));
+                    break;
 
-            case "Reload":
-                remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
-                break;
+                case "Reload":
+                    remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
+                    break;
 
-            case "Respawn":
-                remoteView.sendAnswerEvent(new ActionRespawnAnswer(username));
-                break;
+                case "Respawn":
+                    remoteView.sendAnswerEvent(new ActionRespawnAnswer(username));
+                    break;
 
-            case "UseTurnPowerUp":
-                remoteView.sendAnswerEvent(new ActionUseTurnPowerUpAnswer(username));
-                break;
+                case "UseTurnPowerUp":
+                    remoteView.sendAnswerEvent(new ActionUseTurnPowerUpAnswer(username));
+                    break;
 
-            case "ShowMap":
-                remoteView.sendAnswerEvent(new ActionShowMapAnswer(username));
-                break;
+                default:
+                    throw new RuntimeException("No such action --> " + stringAnswer);
 
-            default:
-                throw new RuntimeException("No such action --> " + stringAnswer);
-
+            }
         }
-
 
     }
 
@@ -928,12 +937,6 @@ public class Cli implements QuestionEventHandler {
         return possibleCoords.get(answer);
 
     }
-
-    @Override
-    public void handleEvent(ShowMapToClientQuestion event){
-        MapGrid.printMap();
-    }
-
 
 
     @Override

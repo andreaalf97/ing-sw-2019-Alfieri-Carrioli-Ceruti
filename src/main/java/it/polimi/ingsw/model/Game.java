@@ -985,7 +985,7 @@ public class Game extends Observable {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
             weapon.setLoaded(false);
-            //TODO è giusto qua??
+
             notifyObservers(clientSnapshot());
 
             return true;
@@ -1521,8 +1521,6 @@ public class Game extends Observable {
 
         Player player = getPlayerByNickname(nickname);
         ArrayList<String> actions = new ArrayList<>();
-
-        actions.add("ShowMap");
 
         if (player.isDead()) {
             actions.add("Respawn");

@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 import java.util.*;
 
-public class PowerUpDeck {
+public class PowerUpDeck{
 
     /**
      * The list of powerups in this deck

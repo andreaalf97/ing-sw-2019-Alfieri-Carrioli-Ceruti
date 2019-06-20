@@ -303,8 +303,4 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     }
 
-    @Override
-    public void handleEvent(ActionShowMapAnswer event){
-        throw new RuntimeException("The GamesHandler received an unexpected event during connection");
-    }
 }
