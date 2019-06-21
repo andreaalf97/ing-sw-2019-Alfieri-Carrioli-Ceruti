@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui;
 
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.JsonDeserializer;
+import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.client.gui.scenes.gameScene.GameScene;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.serverToClient.*;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.client.RemoteView;
 import javafx.application.Application;
@@ -77,6 +79,8 @@ public class Gui extends Application implements QuestionEventHandler {
      */
     private JsonObject lastSnapshotReceived;
 
+    private GameInfo gameInfo;
+
     /**
      * All of this player's info
      */
@@ -111,7 +115,7 @@ public class Gui extends Application implements QuestionEventHandler {
         GameStartedQuestion event = fakeGameStartedEvent();
 
         //Sets the Start Scene and shows it
-        MyScene next = new GameScene(window, "meme", event);
+        MyScene next = new GameScene(window, "meme", event, gameInfo);
         Scene nextScene = next.getScene();
 
         window.setScene(
@@ -240,7 +244,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
         waitingRoomGui.close();
 
-        MyScene next = new GameScene(window, username, event);
+        MyScene next = new GameScene(window, username, event, gameInfo);
         Scene nextScene = next.getScene();
         window.setScene(nextScene);
 
@@ -322,6 +326,9 @@ public class Gui extends Application implements QuestionEventHandler {
     public void handleEvent(ModelUpdate event) {
         this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
         this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
+        this.gameInfo = JsonDeserializer.deserializedSnapshot(JsonDeserializer.stringToJsonObject(event.json));
+        gameScene.setGameInfo(this.gameInfo);
+        gameScene.setPlayerInfo(this.playerInfo);
     }
 
     @Override

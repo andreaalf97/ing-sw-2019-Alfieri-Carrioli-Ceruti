@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.gui.scenes.gameScene;
 
 
+import it.polimi.ingsw.client.GameInfo;
+import it.polimi.ingsw.model.Game;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
@@ -24,8 +26,12 @@ public class BoardGrid {
 
     private HBox doubleKillBox;
 
+    private GameInfo gameInfo;
 
-    protected BoardGrid(String mapPath){
+
+    protected BoardGrid(String mapPath, GameInfo gameInfo){
+
+        this.gameInfo = gameInfo;
 
         this.gridPane = setUpBackgroundGrid(mapPath);
 
@@ -42,6 +48,8 @@ public class BoardGrid {
         this.mapBox = setUpMapBox();
 
         this.doubleKillBox = new HBox();
+
+
 
         gridPane.add(pointsBox, 1, 1, 1, 5);
         gridPane.add(kstBox, 3, 2, 4, 1);
