@@ -510,56 +510,63 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ActionQuestion event) {
 
+        event.possibleAction.add("ShowMap");
+
         System.out.println("Choose action:");
         for(String action : event.possibleAction)
             System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
 
+
         String nextLine = sysin.nextLine();
-        if(nextLine == "showMap")
-            showGameMap();
-        else {
-            int answer = Integer.parseInt(nextLine);
 
-            String stringAnswer = event.possibleAction.get(answer);
 
-            switch (stringAnswer) {
+        int answer = Integer.parseInt(nextLine);
 
-                case "Attack":
-                    remoteView.sendAnswerEvent(new ActionAttackAnswer(username));
-                    break;
+        String stringAnswer = event.possibleAction.get(answer);
 
-                case "EndTurn":
-                    remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
-                    break;
+        switch (stringAnswer) {
 
-                case "MoveAndGrab":
-                    remoteView.sendAnswerEvent(new ActionMoveAndGrabAnswer(username));
-                    break;
+            case "Attack":
+                remoteView.sendAnswerEvent(new ActionAttackAnswer(username));
+                break;
 
-                case "Move":
-                    remoteView.sendAnswerEvent(new ActionMoveAnswer(username));
-                    break;
+            case "EndTurn":
+                remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
+                break;
 
-                case "PickWeapon":
-                    remoteView.sendAnswerEvent(new ActionPickWeaponAnswer(username));
-                    break;
+            case "MoveAndGrab":
+                remoteView.sendAnswerEvent(new ActionMoveAndGrabAnswer(username));
+                break;
 
-                case "Reload":
-                    remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
-                    break;
+            case "Move":
+                remoteView.sendAnswerEvent(new ActionMoveAnswer(username));
+                break;
 
-                case "Respawn":
-                    remoteView.sendAnswerEvent(new ActionRespawnAnswer(username));
-                    break;
+            case "PickWeapon":
+                remoteView.sendAnswerEvent(new ActionPickWeaponAnswer(username));
+                break;
 
-                case "UseTurnPowerUp":
-                    remoteView.sendAnswerEvent(new ActionUseTurnPowerUpAnswer(username));
-                    break;
+            case "Reload":
+                remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
+                break;
 
-                default:
-                    throw new RuntimeException("No such action --> " + stringAnswer);
+            case "Respawn":
+                remoteView.sendAnswerEvent(new ActionRespawnAnswer(username));
+                break;
 
-            }
+            case "UseTurnPowerUp":
+                remoteView.sendAnswerEvent(new ActionUseTurnPowerUpAnswer(username));
+                break;
+
+            case "ShowMap":
+                remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+                showGameMap(); //TODO USE EXISTENT QUESTION
+                break;
+
+            default:
+                throw new RuntimeException("No such action --> " + stringAnswer);
+
+
         }
 
     }

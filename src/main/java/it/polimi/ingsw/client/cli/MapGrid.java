@@ -50,23 +50,25 @@ public class MapGrid {
 
     public static void fillMapWithAmmoAndCoord(JsonObject lastSnapshotReceived, ArrayList<PlayerColor> playerColors, ArrayList<String> allPlayersNames){
 
-        JsonObject jsonGameMap = lastSnapshotReceived.get("gameMap").getAsJsonObject();
+        if (lastSnapshotReceived.get("gameMap") != null){
+            JsonObject jsonGameMap = lastSnapshotReceived.get("gameMap").getAsJsonObject();
 
-        for(int r = 0; r < 3; r++){
+            for(int r = 0; r < 3; r++) {
 
-            JsonObject jsonRow = jsonGameMap.get("row" + r).getAsJsonObject();
+                JsonObject jsonRow = jsonGameMap.get("row" + r).getAsJsonObject();
 
-            for(int c = 0; c < 4; c++){
+                for (int c = 0; c < 4; c++) {
 
-                JsonObject jsonSpot = jsonRow.get("col" + c).getAsJsonObject().get("spot").getAsJsonObject(); // <== jsonSpot
+                    JsonObject jsonSpot = jsonRow.get("col" + c).getAsJsonObject().get("spot").getAsJsonObject(); // <== jsonSpot
 
-                if(!jsonSpot.toString().equals("{}")) { //appena sono sicuro di avere uno spot valido nel json posso istanziare uno spawnspot o un ammo spot
+                    if (!jsonSpot.toString().equals("{}")) { //appena sono sicuro di avere uno spot valido nel json posso istanziare uno spawnspot o un ammo spot
 
-                    fillCliSpot(r, c, jsonSpot);
-                    fillCoord(r, c);
+                        fillCliSpot(r, c, jsonSpot);
+                        fillCoord(r, c);
 
-                    JsonArray jsonPlayersHere = jsonSpot.get("playersHere").getAsJsonArray();
-                    addPlayersInMap(r, c, jsonPlayersHere, playerColors, allPlayersNames);
+                        JsonArray jsonPlayersHere = jsonSpot.get("playersHere").getAsJsonArray();
+                        addPlayersInMap(r, c, jsonPlayersHere, playerColors, allPlayersNames);
+                    }
                 }
             }
         }

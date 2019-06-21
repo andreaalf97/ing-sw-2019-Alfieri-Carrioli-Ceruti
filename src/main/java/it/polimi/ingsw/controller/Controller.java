@@ -918,4 +918,10 @@ public class Controller implements Observer, AnswerEventHandler {
         sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
 
     }
+
+    @Override
+    public void handleEvent(RefreshPossibleActionsAnswer event){
+        List<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname , new ActionQuestion(possibleActions));
+    }
 }

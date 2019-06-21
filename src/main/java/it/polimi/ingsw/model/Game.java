@@ -1449,8 +1449,6 @@ public class Game extends Observable {
 
         getPlayerByNickname(next).startTurn();
 
-        notifyObservers(clientSnapshot());
-
         return getPlayerByNickname(next);
     }
 
