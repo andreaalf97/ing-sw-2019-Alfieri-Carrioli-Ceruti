@@ -68,11 +68,13 @@ public class JsonDeserializer {
 
         PowerUpDeck powerUpDeck = new PowerUpDeck(jsonRoot.get("powerUpDeck").getAsJsonObject());
 
+        AmmoCardDeck ammoCardDeck = new AmmoCardDeck(jsonRoot.get("ammoCardDeck").getAsJsonObject()); //FIXME
+
         KillShotTrack kst = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
 
         GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
 
-        return new Game(playerNames, players, weaponDeck, powerUpDeck, kst, gameMap);
+        return new Game(playerNames, players, weaponDeck, powerUpDeck,ammoCardDeck, kst, gameMap);
     }
 
 
@@ -193,7 +195,7 @@ public class JsonDeserializer {
         return new WeaponDeck(weaponList);
     }
 
-    public AmmoCardDeck deserializeAmmoCardDeck(){
+    public static AmmoCardDeck deserializeAmmoCardDeck(){
         ArrayList<AmmoCard> ammoCards = new ArrayList<>();
 
         try{
@@ -210,7 +212,7 @@ public class JsonDeserializer {
         return new AmmoCardDeck(ammoCards);
     }
 
-    private AmmoCard deserializeAmmoCard(JsonObject jsonAmmoCard) {
+    private static AmmoCard deserializeAmmoCard(JsonObject jsonAmmoCard) {
         boolean hasPowerUp = jsonAmmoCard.get("hasPowerUp").getAsBoolean();
         String imagePath = jsonAmmoCard.get("ammoCardImagePath").getAsString();
         JsonArray jsonColors = jsonAmmoCard.get("colors").getAsJsonArray();
@@ -229,7 +231,7 @@ public class JsonDeserializer {
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static GameMap deserializeGameMap(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck){
+    public static GameMap deserializeGameMap(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck){
 
         //The Spot matrix I will work on
         Spot[][] tempSpotMatrix = new Spot[3][4];
@@ -276,16 +278,14 @@ public class JsonDeserializer {
                         }
 
                         //Constructing a new AmmoSpot
-                        if(isAmmoSpot) {
-                            //If this is an ammo spot I randomly add (or don't) a power up and some ammo
-                            tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
+                        if(isAmmoSpot) { //FIXME WITH AMMOCARD
 
-                            if(rand.nextBoolean()){
-                                tempSpotMatrix[i][j].refill(powerUpDeck.drawCard()); //Refills with a powerup
-                            }
-                            else{
-                                tempSpotMatrix[i][j].refill(null); //Refills only ammos
-                            }
+                            tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
+                            AmmoCard ammoCard = ammoCardDeck.drawCard();
+                            tempSpotMatrix[i][j].refill(ammoCard);
+
+                            if(ammoCard.hasPowerUp())
+                                tempSpotMatrix[i][j].setPowerUp(powerUpDeck.drawCard());
                         }
 
                     }

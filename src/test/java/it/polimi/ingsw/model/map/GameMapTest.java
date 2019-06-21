@@ -4,10 +4,7 @@ import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.ShootingTest;
-import it.polimi.ingsw.model.cards.PowerUp;
-import it.polimi.ingsw.model.cards.PowerUpDeck;
-import it.polimi.ingsw.model.cards.Weapon;
-import it.polimi.ingsw.model.cards.WeaponDeck;
+import it.polimi.ingsw.model.cards.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +16,7 @@ public class GameMapTest {
 
     @Before
     public void setUp() throws Exception {
-        gameMapTestFire = JsonDeserializer.deserializeGameMap(MapName.FIRE, JsonDeserializer.deserializeWeaponDeck(), JsonDeserializer.deserializePowerUpDeck());
+        gameMapTestFire = JsonDeserializer.deserializeGameMap(MapName.FIRE, JsonDeserializer.deserializeWeaponDeck(), JsonDeserializer.deserializePowerUpDeck(), JsonDeserializer.deserializeAmmoCardDeck());
     }
 
     @Test
@@ -92,19 +89,27 @@ public class GameMapTest {
         Player player = new Player("gino, 0, 0");
 
         gameMapTestFire.map[0][0].addPlayer(ShootingTest.playerGino);
-        gameMapTestFire.map[0][0].refill(null);
+        boolean hasPowerUp = false;
+        String imagePath = "";
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+
+        AmmoCard ammoCardDrawn = new AmmoCard(imagePath, colors, hasPowerUp);
+        gameMapTestFire.refill(0,0, ammoCardDrawn);
         gameMapTestFire.grabSomething(0, 0, player, -1);
 
         //check player gino grab only ammo
         Assert.assertTrue(player.getnRedAmmo() + player.getnYellowAmmo() + player.getnBlueAmmo() > 3);
 
-        gameMapTestFire.map[0][0].refill(new PowerUp());
+        gameMapTestFire.map[0][0].setPowerUp(new PowerUp());
         gameMapTestFire.grabSomething(0,0, player,-1);
 
         //check player has grab the powerup
         Assert.assertTrue(player.getPowerUpList().size() != 0);
 
-        gameMapTestFire.map[0][0].refill(new PowerUp());
+        gameMapTestFire.map[0][0].setPowerUp(new PowerUp());
 
         //check runtime exception index != -1 for ammospot
         try {
@@ -244,8 +249,15 @@ public class GameMapTest {
         Player playerTest = new Player(ShootingTest.playerGino, 0 , 0);
         gameMapTestFire.grabSomething(0,0, playerTest, -1);
 
-        PowerUp p = new PowerUp(Color.RED);
-        gameMapTestFire.refill(0,0, p);
+        boolean hasPowerUp = false;
+        String imagePath = "";
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+
+        AmmoCard ammoCardDrawn = new AmmoCard(imagePath, colors, hasPowerUp);
+        gameMapTestFire.refill(0,0, ammoCardDrawn);
         Assert.assertTrue(gameMapTestFire.map[0][0].isFull());
 
         gameMapTestFire.grabSomething(1, 0, playerTest, 0);
@@ -266,7 +278,8 @@ public class GameMapTest {
         gameMapTestFire.grabSomething(2,1, playerTest, -1);
 
         PowerUpDeck powerUpDeckTest = JsonDeserializer.deserializePowerUpDeck();
-        gameMapTestFire.refillAllAmmo(powerUpDeckTest);
+        AmmoCardDeck ammoCardDeckTest = JsonDeserializer.deserializeAmmoCardDeck();
+        gameMapTestFire.refillAllAmmo(powerUpDeckTest,ammoCardDeckTest);
         for (int i = 0; i < gameMapTestFire.map.length ; i++)
             for (int j = 0; j < gameMapTestFire.map[i].length; j++)
                 if (gameMapTestFire.map[i][j]  != null && gameMapTestFire.map[i][j].isAmmoSpot())

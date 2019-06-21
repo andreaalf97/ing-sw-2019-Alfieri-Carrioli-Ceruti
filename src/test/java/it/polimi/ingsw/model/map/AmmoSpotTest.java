@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.ShootingTest;
+import it.polimi.ingsw.model.cards.AmmoCard;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
@@ -20,7 +21,15 @@ public class AmmoSpotTest {
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.refill(null);
+        boolean hasPowerUp = false;
+        String imagePath = "";
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(Color.RED);
+        colors.add(Color.YELLOW);
+        colors.add(Color.BLUE);
+
+        AmmoCard ammoCardDrawn = new AmmoCard(imagePath, colors, hasPowerUp);
+        ammoSpotTest.refill(ammoCardDrawn);
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().isEmpty());
     }
 
@@ -34,21 +43,31 @@ public class AmmoSpotTest {
 
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColorListTest, powerup);
 
-        ammoSpotTest.refill(powerup);
+        ammoSpotTest.setPowerUp(powerup);
         Assert.assertEquals(ammoColorListTest,ammoSpotTest.getAmmoColorList());
     }
 
     @Test
     public void refillAmmoWhenSpotIsAlreadyLoaded(){
         ArrayList<Color> ammoColoListTest = new ArrayList<>();
-        PowerUp powerup = new PowerUp();
+        PowerUp powerup = null;
 
         ammoColoListTest.add(Color.RED);
         ammoColoListTest.add(Color.RED);
         ammoColoListTest.add(Color.RED);
         AmmoSpot ammoSpotTest = new AmmoSpot(ammoColoListTest, powerup);
 
-        ammoSpotTest.refill(null);
+        boolean hasPowerUp = false;
+        String imagePath = "";
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+
+        AmmoCard ammoCardDrawn = new AmmoCard(imagePath, colors, hasPowerUp);
+        ammoSpotTest.refill(ammoCardDrawn);
+
+
         Assert.assertEquals(ammoColoListTest,ammoSpotTest.getAmmoColorList());
     }
 
@@ -85,14 +104,27 @@ public class AmmoSpotTest {
     @Test
     public void refillGeneric(){
         AmmoSpot ammoSpotTest = new AmmoSpot();
-        ammoSpotTest.refill(null);
+
+        boolean hasPowerUp = false;
+        String imagePath = "";
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+        colors.add(Color.BLUE);
+
+        AmmoCard ammoCardDrawn = new AmmoCard(imagePath, colors, hasPowerUp);
+        ammoSpotTest.refill(ammoCardDrawn);
 
         Assert.assertEquals(3,ammoSpotTest.getAmmoColorList().size());
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().contains(Color.ANY));
 
         AmmoSpot ammoSpotTestWithPowerup = new AmmoSpot();
+
         PowerUp p1 = new PowerUp();
-        ammoSpotTestWithPowerup.refill(p1);
+        colors.remove(0);
+        ammoCardDrawn = new AmmoCard(imagePath, colors, hasPowerUp);
+        ammoSpotTestWithPowerup.setPowerUp(p1);
+        ammoSpotTestWithPowerup.refill(ammoCardDrawn);
 
         Assert.assertEquals(2,ammoSpotTestWithPowerup.getAmmoColorList().size());
         Assert.assertFalse(ammoSpotTest.getAmmoColorList().contains(Color.ANY));
@@ -103,8 +135,16 @@ public class AmmoSpotTest {
         AmmoSpot ammoSpotTest = new AmmoSpot();
         Player playerTest = new Player(ShootingTest.playerGino);
         PowerUp p1 = new PowerUp();
-        ammoSpotTest.refill(p1);
+        ammoSpotTest.setPowerUp(p1);
 
+        boolean hasPowerUp = false;
+        String imagePath = "";
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(Color.RED);
+        colors.add(Color.BLUE);
+
+        AmmoCard ammoCardDrawn = new AmmoCard(imagePath, colors, hasPowerUp);
+        ammoSpotTest.refill(ammoCardDrawn);
         ammoSpotTest.grabSomething(playerTest, -1);
 
         Assert.assertEquals(1, playerTest.getPowerUpList().size());
