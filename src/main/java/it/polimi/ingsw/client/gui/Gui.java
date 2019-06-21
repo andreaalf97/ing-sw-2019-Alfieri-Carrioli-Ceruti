@@ -328,6 +328,7 @@ public class Gui extends Application implements QuestionEventHandler {
         this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
         this.gameInfo = JsonDeserializer.deserializedSnapshot(JsonDeserializer.stringToJsonObject(event.json));
         gameScene.setGameInfo(this.gameInfo);
+        gameScene.setPlayerInfo(this.playerInfo);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-import com.google.gson.JsonObject;
-import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.model.KillShotTrack;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.GameMap;
@@ -24,16 +22,6 @@ public class GameInfo {
         this.killShotTrack = killShotTrack;
         this.gameMap = gameMap;
         this.playersInfo = playersInfo;
-    }
-
-    public GameInfo(JsonObject lastSnapshotReceived){
-
-        GameInfo gameInfo = JsonDeserializer.deserializedSnapshot(lastSnapshotReceived);
-
-        this.playersNames = gameInfo.playersNames;
-        this.killShotTrack = gameInfo.killShotTrack;
-        this.gameMap = gameInfo.gameMap;
-        this.playersInfo = gameInfo.playersInfo;
     }
 
 }

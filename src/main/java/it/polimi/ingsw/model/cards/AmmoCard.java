@@ -16,5 +16,4 @@ public class AmmoCard {
         this.hasPowerUp = hasPowerUp;
     }
 
-
 }

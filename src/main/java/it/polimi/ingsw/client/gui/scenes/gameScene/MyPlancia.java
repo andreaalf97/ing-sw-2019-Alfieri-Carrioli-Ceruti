@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.scenes.gameScene;
 
 import it.polimi.ingsw.client.PlayerColor;
+import it.polimi.ingsw.client.PlayerInfo;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
@@ -10,9 +11,14 @@ public class MyPlancia {
 
     private GridPane planciaGridPane;
 
-    protected MyPlancia(PlayerColor playerColor, String cssClass){
+    private PlayerInfo playerInfo;
+
+    protected MyPlancia(PlayerColor playerColor, String cssClass,PlayerInfo playerInfo ){
 
         this.planciaGridPane = new GridPane();
+
+
+        this.playerInfo = playerInfo;
 
 
         ArrayList<Double> colPercentages = new ArrayList<>();

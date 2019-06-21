@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.scenes.gameScene;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
+import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.gui.ClosingBox;
 import it.polimi.ingsw.client.gui.scenes.MyScene;
 import it.polimi.ingsw.events.serverToClient.GameStartedQuestion;
@@ -79,6 +80,12 @@ public class GameScene implements MyScene {
         this.gameInfo = gameInfo;
     }
 
+    public void setPlayerInfo(PlayerInfo playerInfo) {
+        this.playerInfo = playerInfo;
+    }
+
+    public PlayerInfo playerInfo;
+
     public GameInfo gameInfo;
 
     private final String cssPath = "/style/gameStyle.css";
@@ -129,7 +136,7 @@ public class GameScene implements MyScene {
         //************************************* + Board Grid + *********************************************
 
         //Setting up the map grid
-        this.boardGrid = new BoardGrid(this.mapName.getPath());
+        this.boardGrid = new BoardGrid(this.mapName.getPath(), this.gameInfo);
 
         //Adding the map grid to the main pane
         //Starting from column 0, row 5, colspan 30, rowspan 24
@@ -142,7 +149,7 @@ public class GameScene implements MyScene {
         //Setting up the player's plancia
         PlayerColor myColor = playerColors.get(playerNames.indexOf(username));
 
-        this.myPlancia = new MyPlancia(myColor, "rightShadow");
+        this.myPlancia = new MyPlancia(myColor, "rightShadow", playerInfo);
 
         //Adding the plancia to the main pane
         externalGridPane.add(myPlancia.getplanciaGridPane(), 0, 0, 22, 5);
