@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.scenes.gameScene;
 
-import com.google.gson.JsonObject;
 import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
@@ -107,7 +106,7 @@ public class GameScene implements MyScene {
      * @param username the username of this player
      * @param event the game started event
      */
-    public GameScene(Stage window, String username, GameStartedQuestion event, GameInfo gameInfo) {
+    public GameScene(Stage window, String username, GameStartedQuestion event, GameInfo gameInfo, PlayerInfo playerInfo) {
 
         this.window = window;
         this.username = username;
@@ -117,6 +116,7 @@ public class GameScene implements MyScene {
         this.mapName = event.mapName;
         this.votedSkulls = event.votedSkulls;
         this.gameInfo = gameInfo;
+        this.playerInfo = playerInfo;
 
         this.weaponBoxes = new ArrayList<>();
         this.powerUpBoxes = new ArrayList<>();
@@ -136,7 +136,7 @@ public class GameScene implements MyScene {
         //************************************* + Board Grid + *********************************************
 
         //Setting up the map grid
-        this.boardGrid = new BoardGrid(this.mapName.getPath(), this.gameInfo);
+        this.boardGrid = new BoardGrid(this.mapName.getPath(), this.gameInfo, this.votedSkulls, this.playerNames, this.playerColors, this.username);
 
         //Adding the map grid to the main pane
         //Starting from column 0, row 5, colspan 30, rowspan 24
@@ -292,9 +292,9 @@ public class GameScene implements MyScene {
     private void setUpPlayerWeapons(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
         ArrayList<String> weaponPaths = new ArrayList<>();
-        weaponPaths.add("/graphics/cards/AD_weapons_IT_0217.png");
-        weaponPaths.add("/graphics/cards/AD_weapons_IT_0215.png");
-        weaponPaths.add("/graphics/cards/AD_weapons_IT_0218.png");
+        weaponPaths.add("/graphics/cards/TractorBeam.png");
+        weaponPaths.add("/graphics/cards/Hellion.png");
+        weaponPaths.add("/graphics/cards/Whisper.png");
 
         for(int i = 0; i < 3; i++){
 
@@ -319,7 +319,7 @@ public class GameScene implements MyScene {
 
         for(int i = 0; i < 3; i++){
 
-            CardBox newCard = new CardBox("/graphics/cards/AD_powerups_IT_02.png");
+            CardBox newCard = new CardBox("/graphics/cards/powerup_back.png");
 
 
             externalGridPane.add(newCard.gethBox(), col + (i*colspan), row, colspan, rowspan);

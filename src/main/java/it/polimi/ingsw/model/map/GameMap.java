@@ -10,10 +10,14 @@ import java.util.Random;
 
 public class GameMap {
 
+    public Spot[][] getMap() {
+        return map;
+    }
+
     /**
      * The matrix representing the map
      */
-    protected  Spot[][] map;
+    public Spot[][] map;
 
     private static Random rand;
 
