@@ -14,6 +14,10 @@ import java.util.Random;
 
 public class AmmoSpot extends Spot {
 
+    public AmmoCard getAmmoCard() {
+        return ammoCard;
+    }
+
     /**
      * the ammocard in the spot
      */

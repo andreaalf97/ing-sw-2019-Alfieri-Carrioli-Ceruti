@@ -292,9 +292,9 @@ public class GameScene implements MyScene {
     private void setUpPlayerWeapons(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
         ArrayList<String> weaponPaths = new ArrayList<>();
-        weaponPaths.add("/graphics/cards/TRACTORBEAM.png");
-        weaponPaths.add("/graphics/cards/HELLION.png");
-        weaponPaths.add("/graphics/cards/WHISPER.png");
+        weaponPaths.add("/graphics/cards/TractorBeam.png");
+        weaponPaths.add("/graphics/cards/Hellion.png");
+        weaponPaths.add("/graphics/cards/Whisper.png");
 
         for(int i = 0; i < 3; i++){
 

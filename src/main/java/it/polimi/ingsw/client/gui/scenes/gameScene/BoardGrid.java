@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.Weapon;
+import it.polimi.ingsw.model.map.AmmoSpot;
+import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.Spot;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -65,22 +67,25 @@ public class BoardGrid {
 
         this.kstBox = setUpKstBox(votedSkulls);
 
-        this.leftSpawnWeaponBox = setUpLeftSpawnWeaponBox(gameInfo.gameMap.map[1][0]);
+        Spot[][] gameMap = gameInfo.gameMap.getMap();
 
-        this.topSpawnWeaponBox = setUpTopSpawnWeaponBox(gameInfo.gameMap.map[0][2]);
+        /*this.leftSpawnWeaponBox = setUpLeftSpawnWeaponBox(gameMap[1][0]);
 
-        this.rightSpawnWeaponBox = setUpRightSpawnWeaponBox(gameInfo.gameMap.map[2][3]);
+        this.topSpawnWeaponBox = setUpTopSpawnWeaponBox(gameMap[0][2]);
+
+        this.rightSpawnWeaponBox = setUpRightSpawnWeaponBox(gameMap[2][3]);*/
+
+        this.stuffInEverySpot = new ArrayList<>(12);
 
         this.mapBox = setUpMapBox();
 
         this.doubleKillBox = new HBox();
 
-
         gridPane.add(pointsBox, 1, 1, 1, 5);
         gridPane.add(kstBox, 3, 2, 4, 1);
-        gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
-        gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
-        gridPane.add(rightSpawnWeaponBox, 10, 9, 1, 3);
+        //gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
+        //gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
+        //gridPane.add(rightSpawnWeaponBox, 10, 9, 1, 3);
         gridPane.add(mapBox, 6, 5, 3, 6);
         gridPane.add(doubleKillBox, 3, 5, 1, 2);
 
@@ -104,40 +109,36 @@ public class BoardGrid {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(true);
 
-        Pane ammocardPane = new Pane();
 
         for(int i = 0; i < gameInfo.gameMap.map.length; i++) {
             for(int j = 0; j < gameInfo.gameMap.map[i].length; j++) {
-                VBox playersAndAmmoCardVBox = new VBox();
-                HBox playersHbox = new HBox();
-                this.stuffInEverySpot.add(playersAndAmmoCardVBox);
-                /*if ( gameInfo.gameMap.map[i][j].getAmmoCard ){
+                if (gameInfo.gameMap.map[i][j] != null) {
+                    HBox playersHbox = new HBox();
+                    VBox vBox = new VBox();
+                    this.stuffInEverySpot.add(vBox);
                     //has a ammocard, then show the ammocard on the map in the right position
-                }*/
-                //if there are players in the spot I have to show them on the map
-                if (!gameInfo.gameMap.map[i][j].getPlayersHere().isEmpty()){
-                    for (String playerName : gameInfo.gameMap.map[i][j].getPlayersHere()){
-                        PlayerColor color = playerColors.get(playerNames.indexOf(playerName));
+                    if (gameInfo.gameMap.map[i][j].isAmmoSpot()) {
+                        Pane pane = new Pane();
+                        AmmoSpot ammoSpot = (AmmoSpot) gameInfo.gameMap.map[i][j];
+                        String imgePath = ammoSpot.getAmmoCard().getAmmoCardImagePath();
+                        Image ammoCardImage = new Image(imgePath, 0, 0, true, false);
+                        pane.getChildren().add(new ImageView(ammoCardImage));
+                        addToVboxes(pane, i, j);
+                    }
+                    //if there are players in the spot I have to show them on the map
+                    if (!gameInfo.gameMap.map[i][j].getPlayersHere().isEmpty()) {
+                        for (String playerName : gameInfo.gameMap.map[i][j].getPlayersHere()) {
+                            PlayerColor color = playerColors.get(playerNames.indexOf(playerName));
                         /*Label label = new Label(▇);
                         label.setStyle("-fx-background-color:color");*/
-                        playersHbox.getChildren().add(new Label(color.escape()+"▇"+ Color.RESET));
+                            playersHbox.getChildren().add(new Label(color.escape() + "▇" + Color.RESET));
+                            addToVboxes(playersHbox, i, j);
+                        }
                     }
                 }
+                //gridPane.add(this.stuffInEverySpot.get(i+j), i, j);
             }
         }
-
-        BackgroundImage mapBackgroundImage= new BackgroundImage(
-                new Image("/graphics/ammo/ammo_2.png", 0, 0, true, false) ,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(1, 1, true, true, true, false)
-        );
-
-        ammocardPane.setBackground(new Background(mapBackgroundImage));
-
-        gridPane.add(ammocardPane, 1, 1, 1, 1);
-
 
         gridPane.getStyleClass().add("visibleBorder");
 
@@ -145,7 +146,11 @@ public class BoardGrid {
 
     }
 
-    private GridPane setUpTopSpawnWeaponBox(Spot spot) {
+    private void addToVboxes(Node node, int i, int j) {
+        this.stuffInEverySpot.get(i+j).getChildren().add(node);
+    }
+
+    /*private GridPane setUpTopSpawnWeaponBox(Spot spot) {
 
         GridPane gridPane = new GridPane();
 
@@ -194,7 +199,6 @@ public class BoardGrid {
         gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
-
     }
 
     private GridPane setUpRightSpawnWeaponBox(Spot spot) {
@@ -221,7 +225,7 @@ public class BoardGrid {
 
         return gridPane;
 
-    }
+    }*/
 
     private GridPane setUpKstBox(int votedSkulls) {
 
@@ -315,7 +319,7 @@ public class BoardGrid {
         rowPercentages.add(1.4300);
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(false);
+        gridPane.setGridLinesVisible(true);
 
         gridPane.getStyleClass().add("yellowLines");
 

@@ -8,6 +8,11 @@ public class AmmoCard {
 
     private ArrayList<Color> ammoColorList;
     private boolean hasPowerUp;
+
+    public String getAmmoCardImagePath() {
+        return ammoCardImagePath;
+    }
+
     private String ammoCardImagePath;
 
     public AmmoCard ( String ammoCardImagePath, ArrayList<Color> colors, boolean hasPowerUp){

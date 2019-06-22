@@ -10,6 +10,10 @@ import java.util.Random;
 
 public class GameMap {
 
+    public Spot[][] getMap() {
+        return map;
+    }
+
     /**
      * The matrix representing the map
      */

@@ -29,7 +29,10 @@ public class GameInfo {
     }
 
     public GameInfo(){
-        JsonDeserializer.deserializedSnapshot(fakeSnapshot);
+        this.playersNames = JsonDeserializer.deserializeplayersNames(fakeSnapshot);
+        this.playersInfo = JsonDeserializer.deserializeplays(fakeSnapshot);
+        this.killShotTrack = JsonDeserializer.deserializekst(fakeSnapshot);
+        this.gameMap = JsonDeserializer.deserializeGameMap(fakeSnapshot);
     }
 
 }

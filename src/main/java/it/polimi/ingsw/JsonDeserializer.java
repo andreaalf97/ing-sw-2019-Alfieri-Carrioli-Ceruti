@@ -44,20 +44,39 @@ public class JsonDeserializer {
 //***********************************************************************************************************************************************
 
     //Used to create a fake GameInfo class for Gui
-    public static GameInfo deserializedSnapshot(String snapshot){
+    public static ArrayList<String> deserializeplayersNames(String snapshot){
 
         JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
 
         ArrayList<String> playersNames = deserializePlayerNamesObject(jsonRoot.get("playerNames").getAsJsonArray());
 
+       return playersNames;
+    }
+    public static ArrayList<Player> deserializeplays(String snapshot){
+
+        JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
+
         ArrayList<Player> playersInfo = deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
 
-        KillShotTrack killShotTrack = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
+        return playersInfo;
+    }
+    public static GameMap deserializeGameMap(String snapshot){
+
+        JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
 
         GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
 
-        return new GameInfo(playersNames, killShotTrack, gameMap, playersInfo);
+        return gameMap;
     }
+    public static KillShotTrack deserializekst(String snapshot){
+
+        JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
+
+        KillShotTrack killShotTrack = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
+
+        return killShotTrack;
+    }
+
 
     public static GameInfo deserializedSnapshot(JsonObject lastSnapshotReceived){
 
@@ -99,7 +118,7 @@ public class JsonDeserializer {
      * @param jsonPlayers the json that represents the players
      * @return the corrresponding ArrayList
      */
-    private static ArrayList<Player> deserializePlayerObject(JsonArray jsonPlayers) {
+    public static ArrayList<Player> deserializePlayerObject(JsonArray jsonPlayers) {
         ArrayList<Player> players = new ArrayList<>();
 
         for (int i = 0; i < jsonPlayers.size(); i++) {
@@ -115,7 +134,7 @@ public class JsonDeserializer {
      * @param jsonPlayerNames the json of the players
      * @return the Players ArrayList
      */
-    private static ArrayList<String> deserializePlayerNamesObject(JsonArray jsonPlayerNames) {
+    public static ArrayList<String> deserializePlayerNamesObject(JsonArray jsonPlayerNames) {
 
         ArrayList<String> playerNames = new ArrayList<>();
 
