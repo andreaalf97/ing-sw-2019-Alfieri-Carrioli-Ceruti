@@ -9,9 +9,9 @@ import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.client.gui.scenes.*;
 import it.polimi.ingsw.client.gui.scenes.gameScene.GameScene;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.clientToServer.AskOrderAttackAnswer;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.serverToClient.*;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.client.RemoteView;
 import javafx.application.Application;
@@ -348,6 +348,8 @@ public class Gui extends Application implements QuestionEventHandler {
 
     }
 
+    @Override
+    public void handleEvent(AskOrderAttackQuestion event){}
 
     @Override
     public void receiveEvent(QuestionEvent questionEvent) {

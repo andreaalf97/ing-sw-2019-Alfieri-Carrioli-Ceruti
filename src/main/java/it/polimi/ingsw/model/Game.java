@@ -848,7 +848,7 @@ public class Game extends Observable {
      * @param offenderName        is the player who uses the weapon
      * @param defendersNames      are the players who receive the effects
      * @param weapon              is the weapon being used to shoot
-     * @param orderNumber         is the order of the effect chose by the user
+     * @param chosenOrder         is the order of the effect chose by the user
      * @param xPosition           is the new x position of the player being moved
      * @param yPosition           is the new y position of the player being moved
      * @param playersWhoMoveNames is the player who moves
@@ -857,7 +857,7 @@ public class Game extends Observable {
      * @throws InvalidChoiceException
      */
     public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon,
-            int orderNumber, ArrayList<Integer> xPosition, ArrayList<Integer> yPosition,
+            Integer[] chosenOrder, ArrayList<Integer> xPosition, ArrayList<Integer> yPosition,
             ArrayList<String> playersWhoMoveNames) {
 
         ArrayList<Player> defenders = new ArrayList<>();
@@ -882,10 +882,10 @@ public class Game extends Observable {
             if (!weapon.isLoaded())
                 throw new InvalidChoiceException("This weapon is not loaded");
 
-            for (int i : weapon.getOrder().get(orderNumber)) { // scorro gli effetti di quest'arma nell'ordine scelto
+            for (int indexOfEffect = 0; indexOfEffect < chosenOrder.length; indexOfEffect++) { // scorro gli effetti di quest'arma nell'ordine scelto
                                                                // dall'utente
 
-                Effect effetto = weapon.getEffects().get(i);
+                Effect effetto = weapon.getEffects().get(chosenOrder[indexOfEffect]);
 
                 if (typeOfEffect(effetto) == 0) { // Movement effect
 
@@ -1030,7 +1030,7 @@ public class Game extends Observable {
      *         way
      */
     public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon,
-            int orderNumber) {
+            Integer[] orderNumber) {
 
         ArrayList<Player> defenders = new ArrayList<>();
 
@@ -1055,10 +1055,10 @@ public class Game extends Observable {
             if (!weapon.isLoaded())
                 throw new InvalidChoiceException("This weapon is not loaded");
 
-            for (int i : weapon.getOrder().get(orderNumber)) { // scorro gli effetti di quest'arma nell'ordine scelto
+            for (int indexOfEffect = 0; indexOfEffect < orderNumber.length; indexOfEffect++) { // scorro gli effetti di quest'arma nell'ordine scelto
                                                                // dall'utente
 
-                Effect effetto = weapon.getEffects().get(i);
+                Effect effetto = weapon.getEffects().get(orderNumber[indexOfEffect]);
 
                 if (typeOfEffect(effetto) == 1) { // Damage effect
 
