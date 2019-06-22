@@ -23,7 +23,7 @@ public class MapGrid {
     public static final int verticalAmmoStandard = 1;
 
     //attributes for player box in each spot
-    public static final int horizontalPlayerStandard = 2;
+    public static final int horizontalPlayerStandard = 3;
     public static final int verticalPlayerStandard = 3;
 
     //attributes for coord label
@@ -106,46 +106,52 @@ public class MapGrid {
     }
 
     private static void fillCliSpot(int r, int c, JsonObject jsonSpot) {
+        if(!jsonSpot.toString().equals("{}")) {
+            if (jsonSpot.get("ammoCard") != null) {
 
-        if (jsonSpot.get("ammoColorList") != null){
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard] = "A";
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 1] = "M";
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 2] = "M";
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 3] = "O";
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 4] = ":";
 
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard] = "A";
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 1] = "M";
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 2] = "M";
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 3] = "O";
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 4] = ":";
+                JsonObject jsonAmmoCard = jsonSpot.get("ammoCard").getAsJsonObject();
+                JsonArray jsonAmmoColorList = jsonAmmoCard.get("ammoColorList").getAsJsonArray();
+                for (int i = 0; i < jsonAmmoColorList.size(); i++) {
+                    Color ammoColor = Color.valueOf(jsonAmmoColorList.get(i).getAsString().toUpperCase());
+                    fillAmmoColorList(r * verticalSpotStandard + verticalAmmoStandard, c * horizontalSpotStandard + horizontalAmmoStandard + 6 + 2 * i, ammoColor);
+                }
 
-            JsonArray jsonAmmoColorList = jsonSpot.get("ammoColorList").getAsJsonArray();
-            for(int i = 0; i < jsonAmmoColorList.size(); i++){
-                Color ammoColor = Color.valueOf(jsonAmmoColorList.get(i).getAsString().toUpperCase());
-                fillAmmoColorList(r*verticalSpotStandard + verticalAmmoStandard, c*horizontalSpotStandard + horizontalAmmoStandard + 6 + 2*i, ammoColor);
+                if (jsonAmmoCard.get("hasPowerUp").getAsBoolean())
+                    fillAmmoWithPowerUp(r * verticalSpotStandard + verticalAmmoStandard, c * horizontalSpotStandard + horizontalAmmoStandard + 10);
+            } else {
+
+                addSpawnStore(jsonSpot);
+
+                Room room = Room.valueOf(jsonSpot.get("room").getAsString().toUpperCase());
+
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard] = room.escape() + "S" + Color.RESET;
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 1] = room.escape() + "P" + Color.RESET;
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 2] = room.escape() + "A" + Color.RESET;
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 3] = room.escape() + "W" + Color.RESET;
+                map[r * verticalSpotStandard + verticalAmmoStandard][c * horizontalSpotStandard + horizontalAmmoStandard + 4] = room.escape() + "N" + Color.RESET;
+
+                map[r * verticalSpotStandard + verticalAmmoStandard + 1][c * horizontalSpotStandard + horizontalAmmoStandard] = room.escape() + "S" + Color.RESET;
+                map[r * verticalSpotStandard + verticalAmmoStandard + 1][c * horizontalSpotStandard + horizontalAmmoStandard + 1] = room.escape() + "P" + Color.RESET;
+                map[r * verticalSpotStandard + verticalAmmoStandard + 1][c * horizontalSpotStandard + horizontalAmmoStandard + 2] = room.escape() + "O" + Color.RESET;
+                map[r * verticalSpotStandard + verticalAmmoStandard + 1][c * horizontalSpotStandard + horizontalAmmoStandard + 3] = room.escape() + "T" + Color.RESET;
+
             }
-
-            if(jsonSpot.get("powerup") != null)
-                fillAmmoWithPowerUp(r*verticalSpotStandard + verticalAmmoStandard,c*horizontalSpotStandard + horizontalAmmoStandard + 10);
-        }
-        else{
-
-            addSpawnStore(jsonSpot);
-
-            Room room = Room.valueOf(jsonSpot.get("room").getAsString().toUpperCase());
-
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard] = room.escape() + "S" + Color.RESET;
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 1] = room.escape() + "P" + Color.RESET;
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 2] = room.escape() + "A" + Color.RESET;
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 3] = room.escape() + "W" + Color.RESET;
-            map[r*verticalSpotStandard + verticalAmmoStandard][c*horizontalSpotStandard + horizontalAmmoStandard + 4] = room.escape() + "N" + Color.RESET;
-
-            map[r*verticalSpotStandard + verticalAmmoStandard + 1][c*horizontalSpotStandard + horizontalAmmoStandard] = room.escape() + "S" + Color.RESET;
-            map[r*verticalSpotStandard + verticalAmmoStandard + 1][c*horizontalSpotStandard + horizontalAmmoStandard + 1] = room.escape() + "P" + Color.RESET;
-            map[r*verticalSpotStandard + verticalAmmoStandard + 1][c*horizontalSpotStandard + horizontalAmmoStandard + 2] = room.escape() + "O" + Color.RESET;
-            map[r*verticalSpotStandard + verticalAmmoStandard + 1][c*horizontalSpotStandard + horizontalAmmoStandard + 3] = room.escape() + "T" + Color.RESET;
-
         }
     }
 
+    public static void removeAmmoLabel(int x, int y) {
+        for(int c = y * horizontalSpotStandard + horizontalAmmoStandard + 6; c < y * horizontalSpotStandard + horizontalAmmoStandard + 11; c++)
+            map[x * verticalSpotStandard + verticalAmmoStandard][c] = " ";
+    }
+
     private static void fillAmmoWithPowerUp(int r, int c) {
-        map[r][c] = "P";
+        map[r][c] = Color.WHITE.escape() + "P" + Color.RESET;
     }
 
     private static void fillAmmoColorList(int r, int c, Color ammoColor) {
@@ -186,6 +192,8 @@ public class MapGrid {
         insertWeapon(jsonSpot.get("weaponList").getAsJsonArray(), spawnRoom.escape());
 
         cont++;
+        if(cont == 3)
+            cont = 0;
     }
 
     private static void insertWeapon(JsonArray weaponList, String spawnRoomEscape) {
@@ -215,4 +223,6 @@ public class MapGrid {
 
         printMap();
     }
+
+
 }

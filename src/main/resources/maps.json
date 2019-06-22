@@ -213,7 +213,17 @@
       }
     },
     "row2": {
-      "col0": {},
+      "col0": {
+        "isSpawnSpot" : false,
+        "isAmmoSpot" : true,
+        "room" : "DIAMOND",
+        "doors" : [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
       "col1": {
         "isSpawnSpot": false,
         "isAmmoSpot": true,

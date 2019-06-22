@@ -8,7 +8,6 @@ import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.Effect;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -18,7 +17,6 @@ import it.polimi.ingsw.view.server.ServerProxy;
 import it.polimi.ingsw.view.server.VirtualView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -243,7 +241,7 @@ public class Controller implements Observer, AnswerEventHandler {
             //This means I'm paying with a power up
             if(s.contains(SPLITTER)){
                 String chosenPowerUpToPay = s.split(SPLITTER)[0];
-                player.removePowerUpByName(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
+                player.removePowerUpByNameAndColor(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
             }
             else {
                 Color chosenColorToPay = Color.valueOf(s);
@@ -653,7 +651,7 @@ public class Controller implements Observer, AnswerEventHandler {
             //This means I'm paying with a power up
             if(s.contains(SPLITTER)){
                 String chosenPowerUpToPay = s.split(SPLITTER)[0];
-                playerObject.removePowerUpByName(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
+                playerObject.removePowerUpByNameAndColor(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
             }
             else {
                 Color chosenColorToPay = Color.valueOf(s);
@@ -759,7 +757,11 @@ public class Controller implements Observer, AnswerEventHandler {
 
         Player player = gameModel.getPlayerByNickname(event.nickname);
 
-        PowerUp powerUpToUse = gameModel.getPowerUpByName(event.powerUpToUse); //this is the powerup to use
+        String powerUpName = event.powerUpToUse;
+
+        Color powerUpColor = event.powerUpColor;
+
+        PowerUp playerPowerUp = player.getPlayerPowerUpByNameAndColor(powerUpName, powerUpColor);
 
         String offenderName = event.nickname;
 
@@ -767,12 +769,16 @@ public class Controller implements Observer, AnswerEventHandler {
 
         int y = event.y;
 
-        try {
-            gameModel.useMovementPowerUp(event.nickname, offenderName, powerUpToUse.getEffect(), x, y);
-            player.removePowerUpByName(powerUpToUse.getPowerUpName(), powerUpToUse.getColor());
-        }
-        catch(InvalidChoiceException e){
-            sendMessage(event.nickname,"you can't use this powerUp like this bro");
+        if(gameModel.validSpot(x,y)) {
+            try {
+                player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+                gameModel.useMovementPowerUp(event.nickname, offenderName, playerPowerUp.getEffect(), x, y);
+            } catch (InvalidChoiceException e) {
+                sendMessage(event.nickname, "you can't use this powerUp like this bro, you have waste it");
+            }
+        }else{
+            player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+            sendMessage(event.nickname, "not valid spot, you have wasted your powerUp");
         }
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
@@ -820,9 +826,7 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(ChoosePowerUpToUseAnswer event) {
 
-        Player player = gameModel.getPlayerByNickname(event.nickname);
-
-        sendQuestionEvent(event.nickname, new ChooseHowToUseTurnPowerUpQuestion(event.powerUpToUse));
+        sendQuestionEvent(event.nickname, new ChooseHowToUseTurnPowerUpQuestion(event.powerUpToUse, event.color));
 
     }
 

@@ -209,8 +209,6 @@ public class Cli implements QuestionEventHandler {
         this.username = username;
         this.currentMap = votedMap;
 
-        buildCliMapRepresentation(votedMap);
-
         this.currentSkulls = nSkulls;
 
         try {
@@ -345,6 +343,7 @@ public class Cli implements QuestionEventHandler {
      * fill the map with the last snapshot received so player can see it
      */
     private void fillMapWithSnapshot(){
+        System.out.println(lastSnapshotReceived.toString());
         MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived, playerColors, allPlayers);
     }
 
@@ -495,7 +494,12 @@ public class Cli implements QuestionEventHandler {
         System.out.println("****************************************");
 
         this.playerColors = event.playerColors;
+        this.currentMap = event.mapName;
+        this.currentSkulls = event.votedSkulls;
+        this.playerColors = event.playerColors;
 
+
+        buildCliMapRepresentation(currentMap);
     }
 
     @Override
@@ -757,6 +761,37 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToUseTurnPowerUpQuestion event) {
+        System.out.println("Choose the name of the player to move:");
+        for (String playerName : allPlayers) {
+            int index = allPlayers.indexOf(playerName);
+
+            String printing = "[" + index + "]";
+            printing += ":" + playerName;
+            System.out.println(printing);
+        }
+
+        String nextLine = sysin.nextLine();
+        int answer = Integer.parseInt(nextLine);
+
+
+        String playerTarget = allPlayers.get(answer);
+
+        System.out.println("insert the coordinates in this format: x,y");
+
+        nextLine = sysin.nextLine();
+
+        while (!nextLine.contains(",")) {
+            nextLine = sysin.nextLine();
+        }
+
+        String[] coords = nextLine.split(",");
+        int x = Integer.parseInt(coords[0]);
+        int y = Integer.parseInt(coords[1]);
+
+        remoteView.sendAnswerEvent(
+                 new ChooseHowToUseTurnPowerUpAnswer(username, event.powerUpToUseName,event.powerUpToUseColor, playerTarget, x, y)
+         );
+
 
     }
 
@@ -797,7 +832,6 @@ public class Cli implements QuestionEventHandler {
             printing += powerUp + " " + event.colors.get(index).toString();
 
             System.out.println(printing);
-
         }
 
         String line = sysin.nextLine();
@@ -889,6 +923,8 @@ public class Cli implements QuestionEventHandler {
         System.out.println("Choose where to move and grab:");
 
         int[] coords = askForCoords(event.possibleSpots);
+
+        MapGrid.removeAmmoLabel(coords[0],coords[1]);
 
         remoteView.sendAnswerEvent(
                 new WhereToMoveAndGrabAnswer(username, coords[0], coords[1])
