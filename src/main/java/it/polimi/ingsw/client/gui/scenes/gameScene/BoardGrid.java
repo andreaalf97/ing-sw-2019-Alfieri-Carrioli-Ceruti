@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.AmmoSpot;
 import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.Spot;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 public class BoardGrid {
 
+    private final static String skullPath = "/graphics/Skull.png";
     private final String username;
 
     public ArrayList<String> playerNames;
@@ -98,8 +100,8 @@ public class BoardGrid {
         ArrayList<Double> colPercentages = new ArrayList<>();
         colPercentages.add(25.000);
         colPercentages.add(25.000);
-        colPercentages.add(27.000);
-        colPercentages.add(23.000);
+        colPercentages.add(25.000);
+        colPercentages.add(25.000);
 
         ArrayList<Double> rowPercentages = new ArrayList<>();
         rowPercentages.add(32.000);
@@ -115,6 +117,7 @@ public class BoardGrid {
                 if (gameInfo.gameMap.map[i][j] != null) {
                     HBox playersHbox = new HBox();
                     VBox vBox = new VBox();
+                    vBox.setPadding(new Insets(25));
                     this.stuffInEverySpot.add(vBox);
                     //has a ammocard, then show the ammocard on the map in the right position
                     if (gameInfo.gameMap.map[i][j].isAmmoSpot()) {
@@ -122,8 +125,11 @@ public class BoardGrid {
                         AmmoSpot ammoSpot = (AmmoSpot) gameInfo.gameMap.map[i][j];
                         String imgePath = ammoSpot.getAmmoCard().getAmmoCardImagePath();
                         Image ammoCardImage = new Image(imgePath, 0, 0, true, false);
-                        pane.getChildren().add(new ImageView(ammoCardImage));
-                        addToVboxes(pane, i, j);
+                        ImageView ammoCardImageView = new ImageView(ammoCardImage);
+                        ammoCardImageView.setFitWidth(50);
+                        ammoCardImageView.setFitHeight(50);
+                        pane.getChildren().add(ammoCardImageView);
+                        addToVboxes(vBox, pane);
                     }
                     //if there are players in the spot I have to show them on the map
                     if (!gameInfo.gameMap.map[i][j].getPlayersHere().isEmpty()) {
@@ -132,11 +138,12 @@ public class BoardGrid {
                         /*Label label = new Label(▇);
                         label.setStyle("-fx-background-color:color");*/
                             playersHbox.getChildren().add(new Label(color.escape() + "▇" + Color.RESET));
-                            addToVboxes(playersHbox, i, j);
+                            addToVboxes(vBox, playersHbox);
                         }
                     }
+                    this.stuffInEverySpot.add(vBox);
+                    gridPane.add(vBox, j, i, 1, 1);
                 }
-                //gridPane.add(this.stuffInEverySpot.get(i+j), i, j);
             }
         }
 
@@ -146,8 +153,8 @@ public class BoardGrid {
 
     }
 
-    private void addToVboxes(Node node, int i, int j) {
-        this.stuffInEverySpot.get(i+j).getChildren().add(node);
+    private void addToVboxes(VBox vBox, Node node) {
+        vBox.getChildren().add(node);
     }
 
     /*private GridPane setUpTopSpawnWeaponBox(Spot spot) {
@@ -231,7 +238,6 @@ public class BoardGrid {
 
         GridPane gridPane = new GridPane();
 
-
         ArrayList<Double> colPercentages = new ArrayList<>();
         colPercentages.add(10.000);
         colPercentages.add(11.000);
@@ -247,9 +253,11 @@ public class BoardGrid {
         rowPercentages.add(100.00);
 
         for ( int i = 0; i < votedSkulls; i++){
-            Label label = new Label("▇");
-            label.setStyle("-fx-color:BLACK");
-            gridPane.add(label, i, 0, 1, 1);
+            Image skullammoCardImage = new Image(skullPath, 0, 0, true, false);
+            ImageView skullammoCardImageView = new ImageView(skullammoCardImage);
+            skullammoCardImageView.setFitWidth(35);
+            skullammoCardImageView.setFitHeight(35);
+            gridPane.add(skullammoCardImageView, i, 0, 1, 1);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
@@ -319,7 +327,7 @@ public class BoardGrid {
         rowPercentages.add(1.4300);
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
         gridPane.getStyleClass().add("yellowLines");
 
