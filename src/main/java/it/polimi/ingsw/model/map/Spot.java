@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
@@ -50,6 +51,10 @@ public class Spot {
     {   this.playersHere = new ArrayList<>();
         this.doors = doors;
         this.room = room;
+    }
+
+    public void setPowerUp(PowerUp p){
+        //this method called in JsonDeserializer should call only the one in AmmoSpot object
     }
 
     //SETS AND GETS

@@ -5,11 +5,10 @@ import it.polimi.ingsw.events.AnswerEvent;
 
 import java.io.Serializable;
 
-public class ActionShowMapAnswer implements AnswerEvent, Serializable {
-
+public class RefreshPossibleActionsAnswer implements AnswerEvent, Serializable {
     public String nickname;
 
-    public ActionShowMapAnswer(String nickname){
+    public RefreshPossibleActionsAnswer(String nickname){
         this.nickname = nickname;
     }
 

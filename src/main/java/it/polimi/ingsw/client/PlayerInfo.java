@@ -74,8 +74,13 @@ public class PlayerInfo {
         this.powerUpNames = new ArrayList<>();
         this.powerUpColors = new ArrayList<>();
 
-        ArrayList<Weapon> readWeapons = jsonArrayToArrayListWeapon(thisPlayer.get("weaponList").getAsJsonArray());
-        ArrayList<PowerUp> readPowerUps = jsonArrayToArrayListPowerUp(thisPlayer.get("powerUpList").getAsJsonArray());
+        ArrayList<Weapon> readWeapons = new ArrayList<>();
+        ArrayList<PowerUp> readPowerUps = new ArrayList<>();
+
+        if(thisPlayer.get("weaponList") != null)
+             jsonArrayToArrayListWeapon(thisPlayer.get("weaponList").getAsJsonArray());
+        if(thisPlayer.get("powerUèList") != null)
+            readPowerUps = jsonArrayToArrayListPowerUp(thisPlayer.get("powerUpList").getAsJsonArray());
 
         for(Weapon w : readWeapons){
             this.weaponNames.add(w.getWeaponName());

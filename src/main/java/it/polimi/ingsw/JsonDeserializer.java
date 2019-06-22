@@ -6,15 +6,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.cli.MapGrid;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.KillShotTrack;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.PowerUp;
-import it.polimi.ingsw.model.cards.PowerUpDeck;
-import it.polimi.ingsw.model.cards.Weapon;
-import it.polimi.ingsw.model.cards.WeaponDeck;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.map.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -85,11 +84,13 @@ public class JsonDeserializer {
 
         PowerUpDeck powerUpDeck = new PowerUpDeck(jsonRoot.get("powerUpDeck").getAsJsonObject());
 
+        AmmoCardDeck ammoCardDeck = new AmmoCardDeck(jsonRoot.get("ammoCardDeck").getAsJsonObject()); //FIXME
+
         KillShotTrack kst = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
 
         GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
 
-        return new Game(playerNames, players, weaponDeck, powerUpDeck, kst, gameMap);
+        return new Game(playerNames, players, weaponDeck, powerUpDeck,ammoCardDeck, kst, gameMap);
     }
 
 
@@ -210,12 +211,43 @@ public class JsonDeserializer {
         return new WeaponDeck(weaponList);
     }
 
+    public static AmmoCardDeck deserializeAmmoCardDeck(){
+        ArrayList<AmmoCard> ammoCards = new ArrayList<>();
+
+        try{
+            JsonArray jsonAmmoCardDeck = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get("AmmoCards").getAsJsonArray();
+            for(int i = 0; i < jsonAmmoCardDeck.size(); i++){
+                AmmoCard ammoLoaded = deserializeAmmoCard(jsonAmmoCardDeck.get(i).getAsJsonObject());
+                ammoCards.add(ammoLoaded);
+            }
+        }
+        catch(FileNotFoundException e){
+            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
+        }
+
+        return new AmmoCardDeck(ammoCards);
+    }
+
+    private static AmmoCard deserializeAmmoCard(JsonObject jsonAmmoCard) {
+        boolean hasPowerUp = jsonAmmoCard.get("hasPowerUp").getAsBoolean();
+        String imagePath = jsonAmmoCard.get("ammoCardImagePath").getAsString();
+        JsonArray jsonColors = jsonAmmoCard.get("colors").getAsJsonArray();
+        ArrayList<Color> colors = new ArrayList<>();
+
+        for(int i = 0; i < jsonColors.size(); i++){
+            Color c = Color.valueOf(jsonColors.get(i).getAsString());
+            colors.add(c);
+        }
+
+        return new AmmoCard(imagePath, colors, hasPowerUp);
+    }
+
     /**
      * This static method reads the necessary values from a JSON file and constructs the new map selected
      * @param mapName the name of the chosen map
      * @return the map
      */
-    public static GameMap deserializeGameMap(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck){
+    public static GameMap deserializeGameMap(MapName mapName, WeaponDeck weaponDeck, PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck){
 
         //The Spot matrix I will work on
         Spot[][] tempSpotMatrix = new Spot[3][4];
@@ -262,16 +294,14 @@ public class JsonDeserializer {
                         }
 
                         //Constructing a new AmmoSpot
-                        if(isAmmoSpot) {
-                            //If this is an ammo spot I randomly add (or don't) a power up and some ammo
-                            tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
+                        if(isAmmoSpot) { //FIXME WITH AMMOCARD
 
-                            if(rand.nextBoolean()){
-                                tempSpotMatrix[i][j].refill(powerUpDeck.drawCard()); //Refills with a powerup
-                            }
-                            else{
-                                tempSpotMatrix[i][j].refill(null); //Refills only ammos
-                            }
+                            tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
+                            AmmoCard ammoCard = ammoCardDeck.drawCard();
+                            tempSpotMatrix[i][j].refill(ammoCard);
+
+                            if(ammoCard.hasPowerUp())
+                                tempSpotMatrix[i][j].setPowerUp(powerUpDeck.drawCard());
                         }
 
                     }

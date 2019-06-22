@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.map;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.model.cards.AmmoCard;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
@@ -14,14 +15,11 @@ import java.util.Random;
 public class AmmoSpot extends Spot {
 
     /**
-     * The list of ammos on this spot
+     * the ammocard in the spot
      */
-    private ArrayList<Color> ammoColorList;
+    private AmmoCard ammoCard;
 
-    /**
-     * The eventual powerup on this spot
-     */
-    private PowerUp powerup;
+    private PowerUp powerUp;
 
     /**
      * A random seed for refilling this spot
@@ -36,8 +34,8 @@ public class AmmoSpot extends Spot {
     public AmmoSpot(ArrayList<Boolean> doors, Room room) {
         super(doors, room);
 
-        this.ammoColorList = new ArrayList<>();
-        this.powerup = null;
+        this.ammoCard = new AmmoCard();
+        this.powerUp = null;
     }
 
     /**
@@ -45,10 +43,11 @@ public class AmmoSpot extends Spot {
      * @param ammoColorList the list of ammos in the spot
      * @param powerup the powerup in the spot
      */
-    public AmmoSpot(ArrayList<Color> ammoColorList, PowerUp powerup){
+    public AmmoSpot(ArrayList<Color> ammoColorList,PowerUp powerup){
         super();
-        this.ammoColorList = ammoColorList;
-        this.powerup = powerup;
+        this.ammoCard = new AmmoCard();
+        this.ammoCard.setAmmoColorList(ammoColorList);
+        this.powerUp = powerup;
     }
 
     /**
@@ -56,9 +55,8 @@ public class AmmoSpot extends Spot {
      */
     public AmmoSpot(){
         super();
-        this.ammoColorList = new ArrayList<>();
-        this.powerup = null;
-
+        this.ammoCard = new AmmoCard();
+        this.powerUp = new PowerUp();
     }
 
     /**
@@ -82,22 +80,31 @@ public class AmmoSpot extends Spot {
 
         this.room = Room.valueOf(jsonSpot.get("room").getAsString());
 
-        this.ammoColorList = new ArrayList<>();
-        JsonArray jsonAmmo = jsonSpot.get("ammoColorList").getAsJsonArray();
+        JsonObject jsonAmmoCard = jsonSpot.get("ammoCard").getAsJsonObject();
+
+        ArrayList<Color> ammoColorsList = new ArrayList<>();
+        JsonArray jsonAmmo = jsonAmmoCard.get("ammoColorList").getAsJsonArray();
         for (int i = 0; i < jsonAmmo.size(); i++){
             Color c = Color.valueOf(jsonAmmo.get(i).getAsString());
-            this.ammoColorList.add(c);
+            ammoColorsList.add(c);
         }
+        String ammoImagePath = jsonAmmoCard.get("ammoCardImagePath").getAsString();
+        Boolean hasPowerUp = jsonAmmoCard.get("hasPowerUp").getAsBoolean();
+        this.ammoCard = new AmmoCard(ammoImagePath, ammoColorsList, hasPowerUp);
 
         if(jsonSpot.get("powerup") != null)
-            this.powerup = new PowerUp(jsonSpot.get("powerup").getAsJsonObject());
+            this.powerUp = new PowerUp(jsonSpot.get("powerup").getAsJsonObject());
     }
 
     /**
      * getter for ammoColorList
      * @return a new copy of ammoColorList
      */
-    public List<Color> getAmmoColorList(){ return new ArrayList<>(ammoColorList);}
+    public List<Color> getAmmoColorList(){ return new ArrayList<>(ammoCard.getAmmoColorList());}
+
+    public void setPowerUp(PowerUp powerUpToAdd){
+        this.powerUp = powerUpToAdd;
+    }
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -109,11 +116,15 @@ public class AmmoSpot extends Spot {
         if (getAmmoColorList().isEmpty())
             throw new RuntimeException("This spot was empty");
         else
-            ammoColorList = new ArrayList<>();
+            ammoCard.setAmmoColorList(new ArrayList<>());
     }
 
+    /**
+     * set ammoColorListInTheSpot
+     * @param colors
+     */
     public void setAmmo(ArrayList<Color> colors){
-        this.ammoColorList = colors;
+        ammoCard.setAmmoColorList(colors);
     }
 
     //TESTED
@@ -123,28 +134,12 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public void refill(Object objToAdd){
+        if(!this.isFull()) {
+            AmmoCard ammoCardDrawn = (AmmoCard) objToAdd;
 
-        if(objToAdd != null) {
-            this.powerup = (PowerUp)objToAdd;
-
-            this.ammoColorList.clear();
-
-            //Return a random number between 0 and 2
-            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
-
-            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
+            this.ammoCard = ammoCardDrawn;
         }
-        else{
-            this.powerup = null;
 
-            this.ammoColorList.clear();
-
-            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
-
-            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
-
-            this.ammoColorList.add(Color.values()[this.rand.nextInt(3)]);
-        }
     }
 
     //TESTED
@@ -158,11 +153,12 @@ public class AmmoSpot extends Spot {
         if(index != -1)
             throw new RuntimeException("Index must be -1 when calling grabSomething in AmmoSpot");
 
-         if(powerup != null) {
-             player.givePowerUp(powerup);
-             powerup = null;
+         if(powerUp != null) {
+             player.givePowerUp(powerUp);
+             powerUp = null;
          }
-         player.giveAmmos(ammoColorList);
+         player.giveAmmos(ammoCard.getAmmoColorList());
+         ammoCard.setAmmoColorList(new ArrayList<>());
     }
 
     //TESTED
@@ -192,7 +188,7 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public boolean emptySpot() {
-        return ( this.powerup == null && this.ammoColorList.isEmpty() );
+        return ( this.powerUp == null && this.ammoCard.getAmmoColorList().isEmpty() );
     }
 
     //TESTED
@@ -202,7 +198,7 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public boolean isFull() {
-        return ((this.powerup == null && this.ammoColorList.size() == 3) || (this.powerup != null && this.ammoColorList.size() == 2));
+        return ((this.powerUp == null && this.ammoCard.getAmmoColorList().size() == 3) || (this.powerUp != null && this.ammoCard.getAmmoColorList().size() == 2));
     }
 
     //TESTED

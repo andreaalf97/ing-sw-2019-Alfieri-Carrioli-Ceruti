@@ -29,7 +29,7 @@ public interface AnswerEventHandler {
     void handleEvent(ChooseWeaponToReloadAnswer event);
     void handleEvent(ChooseWeaponToSwitchAnswer event);
     void handleEvent(WhereToMoveAndGrabAnswer event);
-    void handleEvent(ActionShowMapAnswer event);
+    void handleEvent(RefreshPossibleActionsAnswer event);
     void handleEvent(WhereToMoveAnswer event);
 
 }

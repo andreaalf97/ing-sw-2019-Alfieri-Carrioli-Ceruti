@@ -350,12 +350,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
 
     @Override
-    public void handleEvent(ShowMapToClientQuestion event){
-
-    }
-
-
-    @Override
     public void receiveEvent(QuestionEvent questionEvent) {
 
         Platform.runLater( () -> questionEvent.acceptEventHandler(this));

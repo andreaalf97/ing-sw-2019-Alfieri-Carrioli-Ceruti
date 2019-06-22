@@ -919,13 +919,9 @@ public class Controller implements Observer, AnswerEventHandler {
 
     }
 
-    public void handleEvent(ActionShowMapAnswer event){
-        sendQuestionEvent(event.nickname, new ShowMapToClientQuestion(event.nickname));
-
-        Player player = gameModel.getPlayerByNickname(event.nickname);
-
-        List<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
-
-        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
+    @Override
+    public void handleEvent(RefreshPossibleActionsAnswer event){
+        List<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname , new ActionQuestion(possibleActions));
     }
 }

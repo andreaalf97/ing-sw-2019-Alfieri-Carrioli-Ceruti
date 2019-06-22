@@ -59,6 +59,11 @@ public class Game extends Observable {
     private WeaponDeck weaponDeck;
 
     /**
+     * this object initially contains all the Ammo cards
+     */
+    private AmmoCardDeck ammoCardDeck;
+
+    /**
      * The Kill shot track of this game
      */
     private KillShotTrack kst;
@@ -77,11 +82,12 @@ public class Game extends Observable {
         this.playerNames = playerNames;
         this.powerupDeck = JsonDeserializer.deserializePowerUpDeck();
         this.weaponDeck = JsonDeserializer.deserializeWeaponDeck();
+        this.ammoCardDeck = JsonDeserializer.deserializeAmmoCardDeck();
 
         for (String name : this.playerNames)
             this.players.add(new Player(name));
 
-        this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck);
+        this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck, ammoCardDeck);
         this.kst = new KillShotTrack(nSkulls);
 
         notifyObservers(modelSnapshot());
@@ -97,11 +103,12 @@ public class Game extends Observable {
      * @param gameMap     the map of the game
      */
     public Game(ArrayList<String> playerNames, ArrayList<Player> players, WeaponDeck weaponDeck,
-            PowerUpDeck powerUpDeck, KillShotTrack kst, GameMap gameMap) {
+            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap) {
         this.playerNames = playerNames;
         this.players = players;
         this.weaponDeck = weaponDeck;
         this.powerupDeck = powerUpDeck;
+        this.ammoCardDeck = ammoCardDeck;
         this.kst = kst;
         this.gameMap = gameMap;
 
@@ -270,7 +277,7 @@ public class Game extends Observable {
      * of each turn
      */
     public void checkDeaths() {
-        // MyLogger.LOGGER.info("Checking deaths...");
+        MyLogger.LOGGER.info("Checking deaths...");
 
         for (Player i : players) {
             if (!i.playerStatus.isFirstTurn && i.isDead()) {
@@ -423,7 +430,7 @@ public class Game extends Observable {
      * Refills all the ammo spots
      */
     public void refillAllAmmoSpots() {
-        this.gameMap.refillAllAmmo(this.powerupDeck);
+        this.gameMap.refillAllAmmo(this.powerupDeck, this.ammoCardDeck);
         notifyObservers(clientSnapshot());
     }
 
@@ -985,7 +992,7 @@ public class Game extends Observable {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
             weapon.setLoaded(false);
-            //TODO è giusto qua??
+
             notifyObservers(clientSnapshot());
 
             return true;
@@ -1449,8 +1456,6 @@ public class Game extends Observable {
 
         getPlayerByNickname(next).startTurn();
 
-        notifyObservers(clientSnapshot());
-
         return getPlayerByNickname(next);
     }
 
@@ -1521,8 +1526,6 @@ public class Game extends Observable {
 
         Player player = getPlayerByNickname(nickname);
         ArrayList<String> actions = new ArrayList<>();
-
-        actions.add("ShowMap");
 
         if (player.isDead()) {
             actions.add("Respawn");
@@ -1624,13 +1627,16 @@ public class Game extends Observable {
         // saving weaponDeck
         String jsonWeaponDeck = gson.toJson(weaponDeck);
 
+        //saving ammoCardDeck
+        String jsonAmmoCardDeck = gson.toJson(ammoCardDeck);
+
         // saving GameMap
         String jsonGameMap = gameMapSnapshot(gson);
 
         // create a json that stores all the information of the game in a string with
         // json format
         String modelSnapshot = "{ \"players\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + ","
-                + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"kst\":"
+                + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"ammoCardDeck\":" + jsonAmmoCardDeck +  "," + "\"kst\":"
                 + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "}";
 
         return modelSnapshot;

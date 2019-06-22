@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.map;
 
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.model.cards.PowerUpDeck;
-import it.polimi.ingsw.model.cards.Weapon;
-import it.polimi.ingsw.model.cards.WeaponDeck;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
@@ -36,7 +34,7 @@ public class GameMap {
 
                 if(!jsonSpot.toString().equals("{}")){ //appena sono sicuro di avere uno spot valido nel json posso istanziare uno spawnspot o un ammo spot
 
-                    if(jsonSpot.get("ammoColorList") != null){
+                    if(jsonSpot.get("ammoCard") != null){
                         //devo istanziare un AmmoSpot
                         spotMatrix[i][j] = new AmmoSpot(jsonSpot);
                     }
@@ -447,7 +445,7 @@ public class GameMap {
      * This method refills all the ammo spots
      * @param powerupDeck the deck to draw a card from
      */
-    public void refillAllAmmo(PowerUpDeck powerupDeck) {
+    public void refillAllAmmo(PowerUpDeck powerupDeck, AmmoCardDeck ammoCardDeck) {
         for(int i = 0; i < this.map.length; i++)
             for(int j = 0; j < this.map[i].length; j++)
                 if(map[i][j] != null && this.map[i][j].isAmmoSpot()){
@@ -455,14 +453,12 @@ public class GameMap {
                     //If this is not full, I refill it
                     //The refill method for ammo spots automatically clear all the arrays
                     if(!this.map[i][j].isFull()) {
-                        if (rand.nextBoolean()) {
-                            //It also receives a powerup
+                        AmmoCard ammoCardDrawn = ammoCardDeck.drawCard();
+                        this.map[i][j].refill(ammoCardDrawn);
 
-                            this.map[i][j].refill(powerupDeck.drawCard());
-                        } else {
-                            //It doesn't receive a powerup
-                            this.map[i][j].refill(null);
-                        }
+                        if(ammoCardDrawn.hasPowerUp())
+                            this.map[i][j].setPowerUp(powerupDeck.drawCard());
+
                     }
 
 
