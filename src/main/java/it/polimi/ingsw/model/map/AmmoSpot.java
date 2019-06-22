@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model.map;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.cards.AmmoCard;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.PowerUpDeck;
 import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
@@ -18,8 +20,6 @@ public class AmmoSpot extends Spot {
      * the ammocard in the spot
      */
     private AmmoCard ammoCard;
-
-    private PowerUp powerUp;
 
     /**
      * A random seed for refilling this spot
@@ -35,19 +35,16 @@ public class AmmoSpot extends Spot {
         super(doors, room);
 
         this.ammoCard = new AmmoCard();
-        this.powerUp = null;
     }
 
     /**
      * Constructor used in tests
      * @param ammoColorList the list of ammos in the spot
-     * @param powerup the powerup in the spot
      */
-    public AmmoSpot(ArrayList<Color> ammoColorList,PowerUp powerup){
+    public AmmoSpot(ArrayList<Color> ammoColorList){
         super();
         this.ammoCard = new AmmoCard();
         this.ammoCard.setAmmoColorList(ammoColorList);
-        this.powerUp = powerup;
     }
 
     /**
@@ -56,7 +53,6 @@ public class AmmoSpot extends Spot {
     public AmmoSpot(){
         super();
         this.ammoCard = new AmmoCard();
-        this.powerUp = new PowerUp();
     }
 
     /**
@@ -92,8 +88,6 @@ public class AmmoSpot extends Spot {
         Boolean hasPowerUp = jsonAmmoCard.get("hasPowerUp").getAsBoolean();
         this.ammoCard = new AmmoCard(ammoImagePath, ammoColorsList, hasPowerUp);
 
-        if(jsonSpot.get("powerup") != null)
-            this.powerUp = new PowerUp(jsonSpot.get("powerup").getAsJsonObject());
     }
 
     /**
@@ -102,10 +96,8 @@ public class AmmoSpot extends Spot {
      */
     public List<Color> getAmmoColorList(){ return new ArrayList<>(ammoCard.getAmmoColorList());}
 
-    public void setPowerUp(PowerUp powerUpToAdd){
-        this.powerUp = powerUpToAdd;
-    }
 
+    public boolean hasPowerUp(){return ammoCard.hasPowerUp();}
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     //TESTED
@@ -153,10 +145,6 @@ public class AmmoSpot extends Spot {
         if(index != -1)
             throw new RuntimeException("Index must be -1 when calling grabSomething in AmmoSpot");
 
-         if(powerUp != null) {
-             player.givePowerUp(powerUp);
-             powerUp = null;
-         }
          player.giveAmmos(ammoCard.getAmmoColorList());
          ammoCard.setAmmoColorList(new ArrayList<>());
     }
@@ -188,7 +176,7 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public boolean emptySpot() {
-        return ( this.powerUp == null && this.ammoCard.getAmmoColorList().isEmpty() );
+        return (this.ammoCard.getAmmoColorList().isEmpty() );
     }
 
     //TESTED
@@ -198,7 +186,7 @@ public class AmmoSpot extends Spot {
      */
     @Override
     public boolean isFull() {
-        return ((this.powerUp == null && this.ammoCard.getAmmoColorList().size() == 3) || (this.powerUp != null && this.ammoCard.getAmmoColorList().size() == 2));
+        return ((this.ammoCard.getAmmoColorList().size() > 1));
     }
 
     //TESTED

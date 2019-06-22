@@ -106,10 +106,6 @@ public class GameMapTest {
         gameMapTestFire.map[0][0].setPowerUp(new PowerUp());
         gameMapTestFire.grabSomething(0,0, player,-1);
 
-        //check player has grab the powerup
-        Assert.assertTrue(player.getPowerUpList().size() != 0);
-
-        gameMapTestFire.map[0][0].setPowerUp(new PowerUp());
 
         //check runtime exception index != -1 for ammospot
         try {

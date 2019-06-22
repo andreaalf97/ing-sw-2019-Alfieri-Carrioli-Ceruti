@@ -6,6 +6,7 @@ import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
+import it.polimi.ingsw.model.map.AmmoSpot;
 import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
@@ -477,8 +478,17 @@ public class Game extends Observable {
 
         if (gameMap.validSpot(x, y)) {
             p.moveTo(x, y);
+
+            if(getSpotByIndex(x,y).isAmmoSpot()){
+                AmmoSpot ammoSpot = (AmmoSpot) getSpotByIndex(x,y);
+                if(ammoSpot.hasPowerUp()){
+                    getPlayerByNickname(player).givePowerUp(powerupDeck.drawCard());
+                }
+            }
             gameMap.movePlayer(player, x, y);
             gameMap.grabSomething(x, y, p, index);
+
+
         }
 
         notifyObservers(clientSnapshot());

@@ -691,17 +691,27 @@ public class Player {
 
     }
 
-    public void removePowerUpByName(String chosenPowerUpToPay, Color color) {
+    public void removePowerUpByNameAndColor(String chosenPowerUpToPay, Color color) {
 
         for(PowerUp p : powerUpList){
-            if(p.getColor() == color && p.getPowerUpName() == chosenPowerUpToPay){
+            if(p.getColor() == color && p.getPowerUpName().equals(chosenPowerUpToPay)){
                 powerUpList.remove(p);
                 return;
             }
         }
 
         throw new RuntimeException("This player doesn't have this power up");
+    }
 
+    public PowerUp getPlayerPowerUpByNameAndColor(String chosenPower, Color color) {
+
+        for(PowerUp p : powerUpList){
+            if(p.getColor() == color && p.getPowerUpName().equals(chosenPower)){
+                return p;
+            }
+        }
+
+        throw new RuntimeException("This player doesn't have this power up");
     }
 
     public ArrayList<Color> getPowerUpColors(){
