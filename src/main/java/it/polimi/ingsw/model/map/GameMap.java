@@ -15,7 +15,7 @@ public class GameMap {
     /**
      * The matrix representing the map
      */
-    protected  Spot[][] map;
+    public Spot[][] map;
 
     private static Random rand;
 

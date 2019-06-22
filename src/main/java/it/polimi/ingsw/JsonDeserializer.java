@@ -44,6 +44,22 @@ public class JsonDeserializer {
 
 //***********************************************************************************************************************************************
 
+    //Used to create a fake GameInfo class for Gui
+    public static GameInfo deserializedSnapshot(String snapshot){
+
+        JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
+
+        ArrayList<String> playersNames = deserializePlayerNamesObject(jsonRoot.get("playerNames").getAsJsonArray());
+
+        ArrayList<Player> playersInfo = deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
+
+        KillShotTrack killShotTrack = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
+
+        GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
+
+        return new GameInfo(playersNames, killShotTrack, gameMap, playersInfo);
+    }
+
     public static GameInfo deserializedSnapshot(JsonObject lastSnapshotReceived){
 
         ArrayList<String> playersNames = deserializePlayerNamesObject(lastSnapshotReceived.get("playerNames").getAsJsonArray());

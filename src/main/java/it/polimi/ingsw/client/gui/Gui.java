@@ -114,8 +114,11 @@ public class Gui extends Application implements QuestionEventHandler {
 
         GameStartedQuestion event = fakeGameStartedEvent();
 
+        GameInfo fakeGameInfo = new GameInfo();
+
         //Sets the Start Scene and shows it
-        MyScene next = new GameScene(window, "meme", event, gameInfo);
+        MyScene next = new GameScene(window, "meme", event, fakeGameInfo, playerInfo);
+        //MyScene next = new StartScene(this, window);
         Scene nextScene = next.getScene();
 
         window.setScene(
@@ -140,7 +143,6 @@ public class Gui extends Application implements QuestionEventHandler {
         String firstPlayer = "meme";
 
         ArrayList<PlayerColor> playerColors = PlayerColor.getRandomArray(5);
-
 
         MapName mapName = MapName.WIND;
 
@@ -244,7 +246,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
         waitingRoomGui.close();
 
-        MyScene next = new GameScene(window, username, event, gameInfo);
+        MyScene next = new GameScene(window, username, event, gameInfo, playerInfo);
         Scene nextScene = next.getScene();
         window.setScene(nextScene);
 
