@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.AnswerEventHandler;
 import it.polimi.ingsw.events.AnswerEvent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseHowToShootAnswer implements AnswerEvent, Serializable {
@@ -12,17 +13,17 @@ public class ChooseHowToShootAnswer implements AnswerEvent, Serializable {
 
     public String weapon;
 
-    public List<String> defenders;
+    public ArrayList<String> defenders;
 
-    public List<String> movers;
+    public ArrayList<String> movers;
 
-    public List<Integer> xCoords;
+    public ArrayList<Integer> xCoords;
 
-    public List<Integer> yCoords;
+    public ArrayList<Integer> yCoords;
 
-    public int[] chosenOrder;
+    public Integer[] chosenOrder;
 
-    public ChooseHowToShootAnswer(String nickname, int[] chosenOrder, String weapon, List<String> defenders, List<String> mover, List<Integer> xCoords, List<Integer> yCoords) {
+    public ChooseHowToShootAnswer(String nickname, Integer[] chosenOrder, String weapon, ArrayList<String> defenders, ArrayList<String> mover, ArrayList<Integer> xCoords, ArrayList<Integer> yCoords) {
         this.nickname = nickname;
         this.weapon = weapon;
         this.defenders = defenders;

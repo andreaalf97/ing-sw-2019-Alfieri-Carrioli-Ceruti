@@ -8,6 +8,7 @@ import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.Effect;
 import it.polimi.ingsw.model.exception.InvalidChoiceException;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -497,6 +498,141 @@ public class Controller implements Observer, AnswerEventHandler {
 
     }
 
+
+    @Override
+    public void handleEvent(ChooseWeaponToAttackAnswer event) {
+
+        //FIXME
+        //This needs the possible orders and a boolean to tell if it needs movement
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        Weapon weaponToUse = player.getWeaponByName(event.chosenWeapon);
+
+        ArrayList<Integer[]> possibleOrders = weaponToUse.getOrder();
+
+        sendQuestionEvent(event.nickname, new AskOrderAttackQuestion(event.chosenWeapon, possibleOrders));
+
+    }
+
+    @Override
+    public void handleEvent(AskOrderAttackAnswer event){
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        Weapon weaponToUse = player.getWeaponByName(event.chosenWeapon);
+
+        boolean shootWithMovement = false;
+
+        for(int i = 0; i < event.order.length; i++){
+
+            if(gameModel.typeOfEffect(weaponToUse.getEffects().get(i)) == 0)
+                shootWithMovement = true;
+        }
+
+        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.nickname, event.chosenWeapon, event.order, shootWithMovement));
+    }
+
+
+
+    @Override
+    public void handleEvent(ChooseHowToShootAnswer event) {
+
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        //eventuale costo che ci sarà da pagare
+        ArrayList<Color> cost = new ArrayList<>();
+
+        Weapon weapon = gameModel.getWeaponByName(event.weapon);
+
+        //TODO SI BLOCCA QUA
+        //Questo è un array di stringhe contenente i defenders
+        String[] defenders = (String[]) event.defenders.toArray();
+
+        //Questa è la variabile ausiliaria che mi permette di sapere fin dove scorrere gli effetti in base a quanti giocatori mi ha passato l'utente e quanti giocatori permettono di colpire gli effetti
+        int nPlayersInThisAttack = 0;
+
+        for (int i = 0; i < event.chosenOrder.length; i++) {  //scorro gli effetti nell'ordine scelto per vedere se c'è un costo aggiuntivc da pagare e per capire se chiamare ShootWith or ShootWithout movement
+
+            Effect effect = weapon.getEffects().get(i);
+
+            cost.addAll(effect.getCost());
+
+            nPlayersInThisAttack += effect.getnPlayersAttackable();
+            nPlayersInThisAttack += effect.getnPlayersMarkable();
+
+            //se ci sono meno defender che persone da attaccare all'effetto a cui siamo arrivati, devo fermarmi qui, esco
+            if (defenders.length <= nPlayersInThisAttack)
+                break;
+        }
+
+        //Se c'è un costo da pagare, devo chiedere all'utente come vuole pagarlo
+        if( !cost.isEmpty() ){
+
+            sendQuestionEvent(event.nickname, new ChooseHowToPayForAttackingQuestion(event, cost));
+
+        }else{
+            //Caso in cui non devo pagare più nulla, quindi sparo!
+            sendQuestionEvent(event.nickname, new ChooseHowToPayForAttackingQuestion(event, cost));
+
+           /* //Creo un arrayList<String> defenders da passare a ShootWithMovement
+            ArrayList<String> arrayListdefenders = (ArrayList<String>)event.defenders;
+
+           if (shootWithMovement) {
+
+                String[] movers = (String[]) event.movers.toArray();
+
+                //Questi sono gli arrayList di interi che devo passare a ShootWithMovement
+                ArrayList<Integer> xPositions = (ArrayList<Integer>)event.xCoords;
+                ArrayList<Integer> yPositions = (ArrayList<Integer>)event.yCoords;
+
+
+                gameModel.shootWithMovement(event.nickname, arrayListdefenders, weapon, orderNumber, xPositions, yPositions, (ArrayList<String>)Arrays.asList(movers));
+
+
+            }else {
+                gameModel.shootWithoutMovement(event.nickname, arrayListdefenders, weapon, orderNumber);
+            }
+
+            checkAsynchronousPowerUp(event.nickname, arrayListdefenders);
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+
+            sendQuestionEvent(event.nickname, new ActionQuestion(possibleActions));
+
+        }*/
+
+    }}
+
+    @Override
+    public void handleEvent(ChooseHowToPayForAttackingAnswer event){
+        Player player = gameModel.getPlayerByNickname(event.chooseHowToShootAnswer.nickname);
+
+        List<String> chosenPayment = event.paymentChosen;
+        String SPLITTER = ":";
+        Player playerObject = gameModel.getPlayerByNickname(player.getNickname());
+
+        //First, I make the player pay
+        for(String s : chosenPayment){
+
+            //This means I'm paying with a power up
+            if(s.contains(SPLITTER)){
+                String chosenPowerUpToPay = s.split(SPLITTER)[0];
+                playerObject.removePowerUpByNameAndColor(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
+            }
+            else {
+                Color chosenColorToPay = Color.valueOf(s);
+                playerObject.removeAmmo(chosenColorToPay);
+            }
+
+        }
+
+        if(event.chooseHowToShootAnswer.movers == null)
+            gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, player.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder,event.chooseHowToShootAnswer.xCoords,event.chooseHowToShootAnswer.yCoords,event.chooseHowToShootAnswer.movers);
+        else
+            gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, player.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
+    }
+
     @Override
     public void handleEvent(ActionEndTurnAnswer event) {
 
@@ -670,88 +806,6 @@ public class Controller implements Observer, AnswerEventHandler {
 
     }
 
-
-    @Override
-    public void handleEvent(ChooseHowToShootAnswer event) {
-        /*
-
-        Player player = gameModel.getPlayerByNickname(event.nickname);
-
-        //eventuale costo che ci sarà da pagare
-        ArrayList<Color> cost = new ArrayList<>();
-
-        Weapon weapon = gameModel.getWeaponByName(event.weapon);
-
-        //Questo è l'ordine scelto dall'utente
-        int orderNumber = event.orderNumber;
-
-        //Questo è un array di stringhe contenente i defenders
-        String[] defenders = (String[]) event.defenders.toArray();
-
-        //Questa è la variabile ausiliaria che mi permette di sapere fin dove scorrere gli effetti in base a quanti giocatori mi ha passato l'utente e quanti giocatori permettono di colpire gli effetti
-        int nPlayersInThisAttack = 0;
-
-        boolean shootWithMovement = false;
-
-        for (int i : weapon.getOrder().get(orderNumber)) {  //scorro gli effetti nell'ordine scelto per vedere se c'è un costo aggiuntivc da pagare e per capire se chiamare ShootWith or ShootWithout movement
-
-            Effect effect = weapon.getEffects().get(i);
-
-            if(gameModel.typeOfEffect(effect) == 0)     //movement effect
-                shootWithMovement = true;
-
-            cost.addAll(effect.getCost());
-
-            nPlayersInThisAttack += effect.getnPlayersAttackable();
-            nPlayersInThisAttack += effect.getnPlayersMarkable();
-
-            //se ci sono meno defender che persone da attaccare all'effetto a cui siamo arrivati, devo fermarmi qui, esco
-            if (defenders.length <= nPlayersInThisAttack)
-                break;
-        }
-
-        //Se c'è un costo da pagare, devo chiedere all'utente come vuole pagarlo
-        if( !cost.isEmpty() ){
-
-            ArrayList<String> messages = gameModel.generatePaymentChoice(player, cost);
-
-            sendQuestionEvent(event.nickname, new ChooseHowToPayForAttackingQuestion(event, cost));
-
-            return;
-        }else{
-            //Caso in cui non devo pagare più nulla, quindi sparo!
-
-            //Creo un arrayList<String> defenders da passare a ShootWithMovement
-            ArrayList<String> arrayListdefenders = (ArrayList<String>)event.defenders;
-
-            if (shootWithMovement) {
-
-                String[] movers = (String[]) event.movers.toArray();
-
-                //Questi sono gli arrayList di interi che devo passare a ShootWithMovement
-                ArrayList<Integer> xPositions = (ArrayList<Integer>)event.xCoords;
-                ArrayList<Integer> yPositions = (ArrayList<Integer>)event.yCoords;
-
-
-                gameModel.shootWithMovement(event.nickname, arrayListdefenders, weapon, orderNumber, xPositions, yPositions, (ArrayList<String>)Arrays.asList(movers));
-
-
-            }else {
-                gameModel.shootWithoutMovement(event.nickname, arrayListdefenders, weapon, orderNumber);
-            }
-
-            checkAsynchronousPowerUp(event.nickname, arrayListdefenders);
-
-            ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
-
-            sendQuestionEvent(event.nickname, new ActionQuestion(possibleActions));
-
-        }
-
-
-         */
-    }
-
     @Override
     public void handleEvent(ChooseHowToUseTurnPowerUpAnswer event) {
 
@@ -827,18 +881,6 @@ public class Controller implements Observer, AnswerEventHandler {
     public void handleEvent(ChoosePowerUpToUseAnswer event) {
 
         sendQuestionEvent(event.nickname, new ChooseHowToUseTurnPowerUpQuestion(event.powerUpToUse, event.color));
-
-    }
-
-    @Override
-    public void handleEvent(ChooseWeaponToAttackAnswer event) {
-
-        //FIXME
-        //This needs the possible orders and a boolean to tell if it needs movement
-
-        ArrayList<int[]> possibleOrders = new ArrayList<>();
-
-        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.chosenWeapon, possibleOrders, true));
 
     }
 

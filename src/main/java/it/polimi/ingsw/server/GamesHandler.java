@@ -45,13 +45,13 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         this.temporaryProxies = new HashMap<>();
     }
 
-    synchronized boolean isAValidTemporaryId(Integer id){
+    synchronized boolean isAValidTemporaryId(Integer id) {
 
-        return ! temporaryProxies.containsKey(id);
+        return !temporaryProxies.containsKey(id);
 
     }
 
-    void addTemporaryId(Integer id, ServerProxy proxy){
+    void addTemporaryId(Integer id, ServerProxy proxy) {
 
         temporaryProxies.put(id, proxy);
 
@@ -79,7 +79,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         for (String player : waitingRoom.players)
             nicknamesControllers.put(player, controller);
 
-        for(ServerProxy proxy : waitingRoom.serverProxies)
+        for (ServerProxy proxy : waitingRoom.serverProxies)
             proxy.setReceiver(controller.virtualView);
 
         //Deleting the waiting room
@@ -92,13 +92,14 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     /**
      * This method is called if the room has not been filled in time
+     *
      * @param waitingRoom the room to delete
      */
     static void roomNotFilledInTime(WaitingRoom waitingRoom) {
 
         System.out.println("Deleting " + waitingRoom + " due to lack of players");
 
-        for(ServerProxy p : waitingRoom.serverProxies){
+        for (ServerProxy p : waitingRoom.serverProxies) {
 
             p.sendQuestionEvent(
                     new TextMessage("You are being disconnected befause the room didn't fill in time")
@@ -138,7 +139,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         ServerProxy proxy = temporaryProxies.get(temporaryId);
 
         //This means the player was already playing in a game
-        if( nicknamesControllers.containsKey(nickname) ){
+        if (nicknamesControllers.containsKey(nickname)) {
             Controller controller = nicknamesControllers.get(nickname);
 
             proxy.setNickname(nickname);
@@ -149,8 +150,8 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         }
 
         //This means the player has chosen an username which was already connected into a waiting room, so he has to choose a new username
-        for(WaitingRoom w : waitingRooms){
-            if(w.players.contains(nickname)){
+        for (WaitingRoom w : waitingRooms) {
+            if (w.players.contains(nickname)) {
                 proxy.sendQuestionEvent(
                         new InvalidUsernameQuestion()
                 );
@@ -306,6 +307,16 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
     @Override
     public void handleEvent(RefreshPossibleActionsAnswer event) {
         throw new RuntimeException("The GamesHandler received an unexpected event during connection");
-
     }
+
+    @Override
+    public void handleEvent(AskOrderAttackAnswer event) {
+        throw new RuntimeException("The GamesHandler received an unexpected event during connection");
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayForAttackingAnswer event) {
+        throw new RuntimeException("The GamesHandler received an unexpected event during connection");
+    }
+
 }

@@ -4,20 +4,26 @@ import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
 
 import java.io.Serializable;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 
 public class ChooseHowToShootQuestion implements QuestionEvent, Serializable {
 
+    public String nickname;
+
     public String chosenWeapon;
 
-    public ArrayList<int[]> possibleOrders;
+    public Integer[] order;
 
-    public boolean needsMovement;
+    public boolean shootWithMovement;
 
-    public ChooseHowToShootQuestion(String chosenWeapon, ArrayList<int[]> possibleOrders, boolean needsMovement) {
+    public ArrayList<Integer[]> possibleOrders;
+
+    public ChooseHowToShootQuestion(String nickname, String chosenWeapon, Integer[] order, boolean shootWithMovement) {
+        this.nickname = nickname;
         this.chosenWeapon = chosenWeapon;
-        this.possibleOrders = possibleOrders;
-        this.needsMovement = needsMovement;
+        this.order = order;
+        this.shootWithMovement = shootWithMovement;
     }
 
     @Override

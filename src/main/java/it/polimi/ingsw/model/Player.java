@@ -655,6 +655,18 @@ public class Player {
 
     }
 
+    public Weapon getWeaponByName(String weaponName) {
+
+        for(Weapon w : weaponList){
+            if(w.getWeaponName().equals(weaponName)){
+                return w;
+            }
+        }
+
+        throw new RuntimeException("This weapon is not present in the weaponList");
+
+    }
+
     public boolean canPay(ArrayList<Color> tempWeaponCost) {
 
         int playerRed = nRedAmmo;
