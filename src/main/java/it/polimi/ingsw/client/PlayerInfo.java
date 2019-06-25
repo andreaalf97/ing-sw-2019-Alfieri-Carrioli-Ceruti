@@ -79,7 +79,7 @@ public class PlayerInfo {
 
         if(thisPlayer.get("weaponList") != null)
              jsonArrayToArrayListWeapon(thisPlayer.get("weaponList").getAsJsonArray());
-        if(thisPlayer.get("powerUèList") != null)
+        if(thisPlayer.get("powerUpList") != null)
             readPowerUps = jsonArrayToArrayListPowerUp(thisPlayer.get("powerUpList").getAsJsonArray());
 
         for(Weapon w : readWeapons){

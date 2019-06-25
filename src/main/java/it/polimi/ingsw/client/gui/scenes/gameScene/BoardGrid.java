@@ -71,11 +71,11 @@ public class BoardGrid {
 
         Spot[][] gameMap = gameInfo.gameMap.getMap();
 
-        /*this.leftSpawnWeaponBox = setUpLeftSpawnWeaponBox(gameMap[1][0]);
+        this.leftSpawnWeaponBox = setUpLeftSpawnWeaponBox(gameMap[1][0]);
 
         this.topSpawnWeaponBox = setUpTopSpawnWeaponBox(gameMap[0][2]);
 
-        this.rightSpawnWeaponBox = setUpRightSpawnWeaponBox(gameMap[2][3]);*/
+        this.rightSpawnWeaponBox = setUpRightSpawnWeaponBox(gameMap[2][3]);
 
         this.stuffInEverySpot = new ArrayList<>(12);
 
@@ -85,9 +85,9 @@ public class BoardGrid {
 
         gridPane.add(pointsBox, 1, 1, 1, 5);
         gridPane.add(kstBox, 3, 2, 4, 1);
-        //gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
-        //gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
-        //gridPane.add(rightSpawnWeaponBox, 10, 9, 1, 3);
+        gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
+        gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
+        gridPane.add(rightSpawnWeaponBox, 10, 9, 1, 3);
         gridPane.add(mapBox, 6, 5, 3, 6);
         gridPane.add(doubleKillBox, 3, 5, 1, 2);
 
@@ -157,22 +157,47 @@ public class BoardGrid {
         vBox.getChildren().add(node);
     }
 
-    /*private GridPane setUpTopSpawnWeaponBox(Spot spot) {
+    private GridPane setUpTopSpawnWeaponBox(Spot spot) {
 
         GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(0, 0, 0, 10));
 
         ArrayList<Double> colPercentages = new ArrayList<>();
-        colPercentages.add(33.333);
-        colPercentages.add(33.333);
-        colPercentages.add(33.333);
+        colPercentages.add(36.000);
+        colPercentages.add(32.000);
+        colPercentages.add(32.000);
 
 
         ArrayList<Double> rowPercentages = new ArrayList<>();
         rowPercentages.add(100.00);
 
-        for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
+        /*for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
             Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, true, false);
-            gridPane.add(new ImageView(weaponImage), 0, i, 1, 1);
+            ImageView weaponImageView = new ImageView(weaponImage);
+            weaponImageView.setFitWidth(90);
+            weaponImageView.setFitHeight(120);
+            gridPane.add(weaponImageView, i, 0, 1, 1);
+        }*/
+
+        for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
+            Image image = new Image(
+                    "/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png",
+                    0, 0,
+                    true, false
+            );
+
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(1, 1, true, true, true, false)
+            );
+
+            Pane pane = new Pane();
+            pane.setPadding(new Insets(0, 0, 0, 10));
+            pane.setBackground(new Background(backgroundImage));
+            gridPane.add(pane, i, 0);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
@@ -186,6 +211,7 @@ public class BoardGrid {
     private GridPane setUpLeftSpawnWeaponBox(Spot spot) {
 
         GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(5));
 
         ArrayList<Double> colPercentages = new ArrayList<>();
         colPercentages.add(100.00);
@@ -195,9 +221,33 @@ public class BoardGrid {
         rowPercentages.add(33.333);
         rowPercentages.add(33.333);
 
-        for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
-            Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, true, false);
-            gridPane.add(new ImageView(weaponImage), i, 0, 1, 1);
+        /*for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
+            Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, false, false);
+            ImageView weaponImageView = new ImageView(weaponImage);
+            weaponImageView.setFitWidth(90);
+            weaponImageView.setFitHeight(100);
+            weaponImageView.setRotate(270);
+            gridPane.add(weaponImageView, 0, i);
+        }*/
+
+        for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
+            Image image = new Image(
+                    "/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png",
+                    0, 0,
+                    true, false
+            );
+
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(1, 1, true, true, true, false)
+            );
+
+            Pane pane = new Pane();
+            pane.setBackground(new Background(backgroundImage));
+            gridPane.add(pane, 0, i);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
@@ -211,6 +261,7 @@ public class BoardGrid {
     private GridPane setUpRightSpawnWeaponBox(Spot spot) {
 
         GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(5));
 
         ArrayList<Double> colPercentages = new ArrayList<>();
         colPercentages.add(100.00);
@@ -220,9 +271,33 @@ public class BoardGrid {
         rowPercentages.add(33.333);
         rowPercentages.add(33.333);
 
-        for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
-            Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, true, false);
-            gridPane.add(new ImageView(weaponImage), i, 0, 1, 1);
+        /*for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
+            Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, false, false);
+            ImageView weaponImageView = new ImageView(weaponImage);
+            weaponImageView.setFitWidth(90);
+            weaponImageView.setFitHeight(100);
+            weaponImageView.setRotate(90);
+            gridPane.add(weaponImageView, 0, i);
+        }*/
+
+        for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
+            Image image = new Image(
+                    "/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png",
+                    0, 0,
+                    true, false
+            );
+
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(1, 1, true, true, true, false)
+            );
+
+            Pane pane = new Pane();
+            pane.setBackground(new Background(backgroundImage));
+            gridPane.add(pane, 0, i);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
@@ -232,7 +307,7 @@ public class BoardGrid {
 
         return gridPane;
 
-    }*/
+    }
 
     private GridPane setUpKstBox(int votedSkulls) {
 
@@ -252,12 +327,31 @@ public class BoardGrid {
         ArrayList<Double> rowPercentages = new ArrayList<>();
         rowPercentages.add(100.00);
 
-        for ( int i = 0; i < votedSkulls; i++){
+        /*for ( int i = 0; i < votedSkulls; i++){
             Image skullammoCardImage = new Image(skullPath, 0, 0, true, false);
             ImageView skullammoCardImageView = new ImageView(skullammoCardImage);
             skullammoCardImageView.setFitWidth(35);
             skullammoCardImageView.setFitHeight(35);
             gridPane.add(skullammoCardImageView, i, 0, 1, 1);
+        }*/
+
+        for ( int i = 0; i < votedSkulls; i++){
+            Image image = new Image(
+                    skullPath,
+                    0, 0,
+                    true, false
+            );
+
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(1, 1, true, true, true, false)
+            );
+            Pane pane = new Pane();
+            pane.setBackground(new Background(backgroundImage));
+            gridPane.add(pane, i, 0);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
