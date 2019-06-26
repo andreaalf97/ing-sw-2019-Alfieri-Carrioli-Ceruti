@@ -172,7 +172,7 @@ public class GameScene implements MyScene {
         otherPlayers.remove(username);
 
         //Creates the list of other plancias
-        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors);
+        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors, gameInfo);
 
 
         int i = 0;
@@ -214,7 +214,7 @@ public class GameScene implements MyScene {
 
         //************************************* + EXIT BUTTON + *********************************************
 
-        setUpExit(externalGridPane, 44, 24, 4, 3);
+        setUpExit(externalGridPane, 88, 50, 7, 6);
 
 
 
@@ -296,8 +296,8 @@ public class GameScene implements MyScene {
      */
     private void setUpPlayerCards(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
-        //CardBox cardBox = new CardBox(playerInfo);
-        //externalGridPane.add(cardBox.getGridPane(), col, row, colspan, rowspan);
+        CardBox cardBox = new CardBox(playerInfo);
+        externalGridPane.add(cardBox.getGridPane(), col, row, colspan, rowspan);
 
     }
 

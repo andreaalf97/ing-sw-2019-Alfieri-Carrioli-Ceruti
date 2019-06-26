@@ -116,7 +116,9 @@ public class BoardGrid {
             for(int j = 0; j < gameInfo.gameMap.map[i].length; j++) {
                 if (gameInfo.gameMap.map[i][j] != null) {
                     HBox playersHbox = new HBox();
+                    playersHbox.setSpacing(5);
                     VBox vBox = new VBox();
+                    vBox.setSpacing(30);
                     vBox.setPadding(new Insets(25));
                     this.stuffInEverySpot.add(vBox);
                     //has a ammocard, then show the ammocard on the map in the right position
@@ -137,7 +139,16 @@ public class BoardGrid {
                             PlayerColor color = playerColors.get(playerNames.indexOf(playerName));
                         /*Label label = new Label(▇);
                         label.setStyle("-fx-background-color:color");*/
-                            playersHbox.getChildren().add(new Label(color.escape() + "▇" + Color.RESET));
+                            Image image = new Image(
+                                    "/graphics/players_pawns/" +color.toString()+ ".png",
+                                    0, 0,
+                                    true, false
+                            );
+                            ImageView imageView = new ImageView(image);
+                            imageView.setFitHeight(50);
+                            imageView.setFitWidth(50);
+                            playersHbox.getChildren().add(imageView);
+
                             addToVboxes(vBox, playersHbox);
                         }
                     }

@@ -32,7 +32,7 @@ public class CardBox {
 
             Pane pane = new Pane();
             pane.setBackground(new Background(backgroundImage));
-            gridPane.add(pane, i, 1);
+            gridPane.add(pane, i+i, 1);
         }
 
         int j = 0;
@@ -53,8 +53,9 @@ public class CardBox {
 
             Pane pane = new Pane();
             pane.setBackground(new Background(backgroundImage));
-            gridPane.add(pane, j, 3);
+            gridPane.add(pane, j+j, 3);
         }
+        gridPane.getStyleClass().add("purpleLines");
 
     }
 
