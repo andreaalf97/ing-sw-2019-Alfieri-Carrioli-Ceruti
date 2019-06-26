@@ -7,6 +7,7 @@ import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.serverToClient.ModelUpdate;
+import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,7 +131,8 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
     private String elaborateSingleJsonObjectForClient(JsonObject jsonPlayer, String clientNickname) {
 
-        String jsonPlayers = "{\"nickname\":" + "\"" + jsonPlayer.get("nickname").getAsString() + "\"" + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
+        String jsonPlayerNickname =  jsonPlayer.get("nickname").getAsString();
+        String jsonPlayers = "{\"nickname\":" + "\"" + jsonPlayerNickname + "\"" + "," + "\"nRedAmmo\":" + jsonPlayer.get("nRedAmmo").getAsString() + "," + "\"nBlueAmmo\":" + jsonPlayer.get("nBlueAmmo").getAsString() + "," + "\"nYellowAmmo\":" + jsonPlayer.get("nYellowAmmo").getAsString() + "," + "\"nDeaths\":" + jsonPlayer.get("nDeaths").getAsString() + "," + "\"xPosition\" :" + jsonPlayer.get("xPosition").getAsString() + "," + "\"yPosition\" :" + jsonPlayer.get("yPosition").getAsString() + "," + "\"isDead\" :" + jsonPlayer.get("isDead").getAsString() + "," ;
 
 
         //****************************************************************************************************
@@ -160,6 +162,42 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
             }
         }
         jsonPlayers += "]";
+        //*******************************************************************************************************************
+        //ADDING WEAPONLIST AND POWERUPLIST IF I AM SENDING THE SNAPSHOT TO ClientNickname
+
+        if(jsonPlayerNickname.equals(clientNickname)) {
+            jsonPlayers += ",";
+            JsonArray jsonWeapons = jsonPlayer.get("weaponList").getAsJsonArray();
+            jsonPlayers += "\"weaponList\": [";
+
+            for (int i = 0; i < jsonWeapons.size(); i++) {
+                JsonObject jsonWeapon = jsonWeapons.get(i).getAsJsonObject();
+
+                String stringWeapon = jsonWeapon.toString();
+
+                jsonPlayers += stringWeapon;
+
+                if (i != jsonWeapons.size() - 1)
+                    jsonPlayers += ",";
+            }
+            jsonPlayers += "],";
+
+
+            JsonArray jsonPowerUps = jsonPlayer.get("powerUpList").getAsJsonArray();
+            jsonPlayers += "\"powerUpList\": [";
+
+            for (int i = 0; i < jsonPowerUps.size(); i++) {
+                JsonObject jsonPowerUp = jsonPowerUps.get(i).getAsJsonObject();
+
+                String stringPowerUp = jsonPowerUp.toString();
+
+                jsonPlayers += stringPowerUp;
+
+                if (i != jsonPowerUps.size() - 1)
+                    jsonPlayers += ",";
+            }
+            jsonPlayers += "]";
+        }
 
 
         jsonPlayers += "}";
