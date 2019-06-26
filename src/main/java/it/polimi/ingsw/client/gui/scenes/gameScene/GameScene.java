@@ -92,12 +92,12 @@ public class GameScene implements MyScene {
     private final double screenRatioMin = 0.5500; // Screen ration of 16:9 is 0.5625
     private final double screenRatioMax = 0.5700;
 
-    private final int externalRows = 27;
-    private final int externalCols = 48;
+    private final int externalRows = 54;
+    private final int externalCols = 96;
 
-    private final int otherPlanciasCol = 30;
-    private final int otherPlanciasRow = 5;
-    private final int otherPlanciasOffset = 5;
+    private final int otherPlanciasCol = 60;
+    private final int otherPlanciasRow = 12;
+    private final int otherPlanciasOffset = 10;
 
     /**
      * This constructor builds the scene by using a gridpane and positioning all elements
@@ -140,7 +140,7 @@ public class GameScene implements MyScene {
 
         //Adding the map grid to the main pane
         //Starting from column 0, row 5, colspan 30, rowspan 24
-        externalGridPane.add(boardGrid.getGridPane(),0,5,30,24);
+        externalGridPane.add(boardGrid.getGridPane(),0,10,60,48);
 
 
 
@@ -152,7 +152,7 @@ public class GameScene implements MyScene {
         this.myPlancia = new MyPlancia(myColor, "rightShadow", playerInfo);
 
         //Adding the plancia to the main pane
-        externalGridPane.add(myPlancia.getplanciaGridPane(), 0, 0, 22, 5);
+        externalGridPane.add(myPlancia.getplanciaGridPane(), 56, 0, 42, 10);
 
 
 
@@ -174,9 +174,14 @@ public class GameScene implements MyScene {
         //Creates the list of other plancias
         this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors);
 
+
         int i = 0;
         for (GridPane g : otherPlayersPlancias.getGridPanes()){
-            externalGridPane.add(g, otherPlanciasCol, otherPlanciasRow + (i * otherPlanciasOffset), 19, 4);
+            String usernameOtherPlayers = otherPlayers.get(i);
+            Label label = new Label(usernameOtherPlayers);
+            label.setStyle("-fx-font-size: 16px");
+            externalGridPane.add(label, otherPlanciasCol, (otherPlanciasRow + (i * otherPlanciasOffset))-1, 15, 1);
+            externalGridPane.add(g, otherPlanciasCol, otherPlanciasRow + (i * otherPlanciasOffset), 36, 8);
             i++;
         }
 
@@ -190,7 +195,7 @@ public class GameScene implements MyScene {
 
         System.err.println("Font --> " + messageBox.getFont());
 
-        externalGridPane.add(messageBox, 30, 24, 14, 3);
+        externalGridPane.add(messageBox, 60, 48, 28, 6);
 
 
 
@@ -198,13 +203,12 @@ public class GameScene implements MyScene {
         //************************************* + POWER UPS AND WEAPONS + *********************************************
 
 
-        setUpPlayerPowerUps(externalGridPane, 23, 1, 3, 3);
-        setUpPlayerWeapons(externalGridPane, 33, 1, 3, 3);
+        setUpPlayerCards(externalGridPane, 35, 0, 21, 10);
 
 
         //************************************* + LOGO + *********************************************
 
-        setUpLogo(externalGridPane, 44, 0, 4, 4);
+        //setUpLogo(externalGridPane, 88, 0, 8, 8);
 
 
 
@@ -281,31 +285,6 @@ public class GameScene implements MyScene {
 
     }
 
-    /**
-     * Sets up the player weapons
-     * @param externalGridPane the external pane
-     * @param col the col
-     * @param row the row
-     * @param colspan the colspan
-     * @param rowspan the rowspan
-     */
-    private void setUpPlayerWeapons(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
-
-        ArrayList<String> weaponPaths = new ArrayList<>();
-        weaponPaths.add("/graphics/cards/TractorBeam.png");
-        weaponPaths.add("/graphics/cards/Hellion.png");
-        weaponPaths.add("/graphics/cards/Whisper.png");
-
-        for(int i = 0; i < 3; i++){
-
-            CardBox newCard = new CardBox(weaponPaths.get(i));
-
-
-            externalGridPane.add(newCard.gethBox(), col + (i*colspan), row, colspan, rowspan);
-
-        }
-
-    }
 
     /**
      * Sets up the player power ups
@@ -315,17 +294,10 @@ public class GameScene implements MyScene {
      * @param colspan the colspan
      * @param rowspan the rowspan
      */
-    private void setUpPlayerPowerUps(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
+    private void setUpPlayerCards(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
 
-        for(int i = 0; i < 3; i++){
-
-            CardBox newCard = new CardBox("/graphics/cards/powerup_back.png");
-
-
-            externalGridPane.add(newCard.gethBox(), col + (i*colspan), row, colspan, rowspan);
-
-        }
-
+        //CardBox cardBox = new CardBox(playerInfo);
+        //externalGridPane.add(cardBox.getGridPane(), col, row, colspan, rowspan);
 
     }
 
@@ -344,6 +316,7 @@ public class GameScene implements MyScene {
         //Setting up CSS for main pane
         externalGridPane.getStylesheets().add(cssPath);
         externalGridPane.getStyleClass().add("mainBackground");
+        externalGridPane.setGridLinesVisible(true);
 
         return  externalGridPane;
     }
