@@ -172,7 +172,7 @@ public class GameScene implements MyScene {
         otherPlayers.remove(username);
 
         //Creates the list of other plancias
-        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors);
+        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors, gameInfo);
 
 
         int i = 0;

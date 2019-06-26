@@ -116,7 +116,9 @@ public class BoardGrid {
             for(int j = 0; j < gameInfo.gameMap.map[i].length; j++) {
                 if (gameInfo.gameMap.map[i][j] != null) {
                     HBox playersHbox = new HBox();
+                    playersHbox.setSpacing(5);
                     VBox vBox = new VBox();
+                    vBox.setSpacing(30);
                     vBox.setPadding(new Insets(25));
                     this.stuffInEverySpot.add(vBox);
                     //has a ammocard, then show the ammocard on the map in the right position
