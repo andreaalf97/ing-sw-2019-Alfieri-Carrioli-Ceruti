@@ -310,7 +310,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
     }
 
     @Override
-    public void handleEvent(AskOrderAttackAnswer event) {
+    public void handleEvent(AskOrderAndDefenderAnswer event) {
         throw new RuntimeException("The GamesHandler received an unexpected event during connection");
     }
 

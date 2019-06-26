@@ -33,5 +33,5 @@ public interface QuestionEventHandler {
     void handleEvent(TextMessage event);
     void handleEvent(WhereToMoveAndGrabQuestion event);
     void handleEvent(WhereToMoveQuestion event);
-    void handleEvent(AskOrderAttackQuestion event);
+    void handleEvent(AskOrderAndDefenderQuestion event);
 }

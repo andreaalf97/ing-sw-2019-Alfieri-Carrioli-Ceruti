@@ -17,13 +17,17 @@ public class ChooseHowToShootQuestion implements QuestionEvent, Serializable {
 
     public boolean shootWithMovement;
 
-    public ArrayList<Integer[]> possibleOrders;
+    public int indexOfLastEffect;
 
-    public ChooseHowToShootQuestion(String nickname, String chosenWeapon, Integer[] order, boolean shootWithMovement) {
+    public ArrayList<String> defenders;
+
+    public ChooseHowToShootQuestion(String nickname, String chosenWeapon, Integer[] order, boolean shootWithMovement, int indexOfLastEffect,ArrayList<String> defenders) {
         this.nickname = nickname;
         this.chosenWeapon = chosenWeapon;
         this.order = order;
         this.shootWithMovement = shootWithMovement;
+        this.indexOfLastEffect = indexOfLastEffect;
+        this.defenders = defenders;
     }
 
     @Override
