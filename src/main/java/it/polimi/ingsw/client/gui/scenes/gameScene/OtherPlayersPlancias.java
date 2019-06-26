@@ -36,7 +36,8 @@ public class OtherPlayersPlancias {
             colPercentages.add(27.76);
 
             ArrayList<Double> rowPercentages = new ArrayList<>();
-            rowPercentages.add(35.0000);
+            rowPercentages.add(23.0000);
+            rowPercentages.add(12.0000);
             rowPercentages.add(31.0000);
             rowPercentages.add(9.0000);
             rowPercentages.add(22.0000);

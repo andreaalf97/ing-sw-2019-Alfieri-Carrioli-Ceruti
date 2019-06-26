@@ -22,20 +22,20 @@ public class MyPlancia {
 
 
         ArrayList<Double> colPercentages = new ArrayList<>();
-        colPercentages.add(8.1500);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(5.2700);
-        colPercentages.add(27.76);
+        colPercentages.add(8.150);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(5.650);
+        colPercentages.add(24.05);
 
         ArrayList<Double> rowPercentages = new ArrayList<>();
         rowPercentages.add(23.0000);

@@ -78,7 +78,7 @@ public class PlayerInfo {
         ArrayList<PowerUp> readPowerUps = new ArrayList<>();
 
         if(thisPlayer.get("weaponList") != null)
-             jsonArrayToArrayListWeapon(thisPlayer.get("weaponList").getAsJsonArray());
+            readWeapons = jsonArrayToArrayListWeapon(thisPlayer.get("weaponList").getAsJsonArray());
         if(thisPlayer.get("powerUpList") != null)
             readPowerUps = jsonArrayToArrayListPowerUp(thisPlayer.get("powerUpList").getAsJsonArray());
 
