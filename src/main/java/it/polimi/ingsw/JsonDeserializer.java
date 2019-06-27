@@ -5,7 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.client.GameInfo;
+import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.cli.MapGrid;
+import it.polimi.ingsw.client.gui.OtherPlayerInfo;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.KillShotTrack;
@@ -52,14 +54,7 @@ public class JsonDeserializer {
 
        return playersNames;
     }
-    public static ArrayList<Player> deserializeplays(String snapshot){
 
-        JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
-
-        ArrayList<Player> playersInfo = deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
-
-        return playersInfo;
-    }
     public static GameMap deserializeGameMap(String snapshot){
 
         JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
@@ -68,6 +63,7 @@ public class JsonDeserializer {
 
         return gameMap;
     }
+
     public static KillShotTrack deserializekst(String snapshot){
 
         JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
@@ -78,7 +74,7 @@ public class JsonDeserializer {
     }
 
 
-    public static GameInfo deserializedSnapshot(JsonObject lastSnapshotReceived){
+    public static GameInfo deserializedSnapshot(JsonObject lastSnapshotReceived, String username){
 
         ArrayList<String> playersNames = deserializePlayerNamesObject(lastSnapshotReceived.get("playerNames").getAsJsonArray());
 
@@ -88,10 +84,31 @@ public class JsonDeserializer {
 
         GameMap gameMap = new GameMap(lastSnapshotReceived.get("gameMap").getAsJsonObject());
 
-        return new GameInfo(playersNames, killShotTrack, gameMap, playersInfo);
+        PlayerInfo playerInfo = new PlayerInfo(username, lastSnapshotReceived);
+
+        ArrayList<OtherPlayerInfo> otherPlayerInfos = deserializeOtherPlayerInfo(lastSnapshotReceived, username);
+
+        return new GameInfo(playersNames, killShotTrack, gameMap, playerInfo, otherPlayerInfos);
     }
 
- //Game deserialization, it receives a model Snapshot for persistence and it creates a new Game
+    private static ArrayList<OtherPlayerInfo> deserializeOtherPlayerInfo(JsonObject jsonRoot, String username) {
+        ArrayList<OtherPlayerInfo> otherPlayerInfos = new ArrayList<>();
+
+        JsonArray players = jsonRoot.get("players").getAsJsonArray();
+
+        for(int i = 0; i < players.size(); i++){
+            JsonObject otherPlayer = players.get(i).getAsJsonObject();
+            String otherPlayerNickname = otherPlayer.get("nickname").getAsString();
+            if(!otherPlayerNickname.equals(username)){
+                OtherPlayerInfo otherPlayerObject= new OtherPlayerInfo(otherPlayerNickname, jsonRoot);
+                otherPlayerInfos.add(otherPlayerObject);
+            }
+        }
+
+        return otherPlayerInfos;
+    }
+
+    //Game deserialization, it receives a model Snapshot for persistence and it creates a new Game
     public static Game deserializeModelSnapshot(String modelSnapshot){
         JsonObject jsonRoot = myJsonParser.parse(modelSnapshot).getAsJsonObject();
 
