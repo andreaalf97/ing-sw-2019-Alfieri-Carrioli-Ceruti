@@ -122,7 +122,7 @@ public class MapGrid {
                     fillAmmoColorList(r * verticalSpotStandard + verticalAmmoStandard, c * horizontalSpotStandard + horizontalAmmoStandard + 6 + 2 * i, ammoColor);
                 }
 
-                if (jsonAmmoCard.get("hasPowerUp").getAsBoolean())
+                if (jsonAmmoCard.get("hasPowerUp").getAsBoolean() && jsonAmmoColorList.size() != 0)
                     fillAmmoWithPowerUp(r * verticalSpotStandard + verticalAmmoStandard, c * horizontalSpotStandard + horizontalAmmoStandard + 10);
             } else {
 
@@ -158,6 +158,13 @@ public class MapGrid {
         map[r][c] = ammoColor.escape() + "A" + Color.RESET;
     }
 
+    public static void clearMap(){
+        for(int r = 0; r < maxVerticalMapLength; r++){
+            for(int c = 0; c < maxHorizLength; c++){
+                map[r][c] = " ";
+            }
+        }
+    }
 
     public static void printMap(){
         for (int r = 0; r < maxVerticalMapLength; r++) {
