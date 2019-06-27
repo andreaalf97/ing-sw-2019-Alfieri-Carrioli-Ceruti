@@ -149,7 +149,7 @@ public class GameScene implements MyScene {
         //Setting up the player's plancia
         PlayerColor myColor = playerColors.get(playerNames.indexOf(username));
 
-        this.myPlancia = new MyPlancia(myColor, "rightShadow", playerInfo);
+        this.myPlancia = new MyPlancia(myColor, "rightShadow", playerInfo,  this.playerNames, this.playerColors);
 
         //Adding the plancia to the main pane
         externalGridPane.add(myPlancia.getplanciaGridPane(), 56, 0, 42, 10);
@@ -160,6 +160,7 @@ public class GameScene implements MyScene {
 
         //Copies the player color array
         ArrayList<PlayerColor> tempColors = new ArrayList<>(playerColors);
+        ArrayList<PlayerColor> tempColors1 = new ArrayList<>(playerColors);
 
         //Gets the index of this player
         int indexOfThisPlayer = playerNames.indexOf(username);
@@ -172,7 +173,7 @@ public class GameScene implements MyScene {
         otherPlayers.remove(username);
 
         //Creates the list of other plancias
-        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayers, tempColors, gameInfo);
+        this.otherPlayersPlancias = new OtherPlayersPlancias(tempColors, gameInfo, username, otherPlayers, tempColors1, playerNames);
 
 
         int i = 0;

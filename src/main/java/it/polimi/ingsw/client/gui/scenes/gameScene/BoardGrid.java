@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.AmmoSpot;
 import it.polimi.ingsw.model.map.GameMap;
@@ -131,14 +132,13 @@ public class BoardGrid {
                         ammoCardImageView.setFitWidth(50);
                         ammoCardImageView.setFitHeight(50);
                         pane.getChildren().add(ammoCardImageView);
-                        addToVboxes(vBox, pane);
+                        vBox.getChildren().add(pane);
                     }
                     //if there are players in the spot I have to show them on the map
                     if (!gameInfo.gameMap.map[i][j].getPlayersHere().isEmpty()) {
-                        for (String playerName : gameInfo.gameMap.map[i][j].getPlayersHere()) {
-                            PlayerColor color = playerColors.get(playerNames.indexOf(playerName));
-                        /*Label label = new Label(▇);
-                        label.setStyle("-fx-background-color:color");*/
+                        for (String player : gameInfo.gameMap.map[i][j].getPlayersHere()){
+                            int indexOfPlayer = playerNames.indexOf(player);
+                            PlayerColor color = playerColors.get(indexOfPlayer);
                             Image image = new Image(
                                     "/graphics/players_pawns/" +color.toString()+ ".png",
                                     0, 0,
@@ -148,9 +148,8 @@ public class BoardGrid {
                             imageView.setFitHeight(50);
                             imageView.setFitWidth(50);
                             playersHbox.getChildren().add(imageView);
-
-                            addToVboxes(vBox, playersHbox);
                         }
+                        vBox.getChildren().add(playersHbox);
                     }
                     this.stuffInEverySpot.add(vBox);
                     gridPane.add(vBox, j, i, 1, 1);
@@ -162,10 +161,6 @@ public class BoardGrid {
 
         return gridPane;
 
-    }
-
-    private void addToVboxes(VBox vBox, Node node) {
-        vBox.getChildren().add(node);
     }
 
     private GridPane setUpTopSpawnWeaponBox(Spot spot) {

@@ -134,8 +134,8 @@ public class Gui extends Application implements QuestionEventHandler {
 
         ArrayList<String> playerNames = new ArrayList<>();
         playerNames.add("meme");
-        playerNames.add("andreaalf");
         playerNames.add("gino");
+        playerNames.add("andreaalf");
         //playerNames.add("ingConti");
         //playerNames.add("keni");
 

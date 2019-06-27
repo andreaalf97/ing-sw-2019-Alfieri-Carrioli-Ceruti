@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.scenes.gameScene;
 
 import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
+import it.polimi.ingsw.client.gui.OtherPlayerInfo;
 import it.polimi.ingsw.model.Player;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -10,6 +11,8 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 
 public class OtherPlayersPlancias {
+
+    private final static String skullPath = "/graphics/Skull.png";
 
     private ArrayList<GridPane> gridPanes;
 
@@ -23,24 +26,47 @@ public class OtherPlayersPlancias {
 
     private GameInfo gameInfo;
 
+    //infos of players WITHOUT my player
+    private ArrayList<OtherPlayerInfo> otherPlayersInfos;
+
+    //player colors WITHOUT my player's color
     private ArrayList<PlayerColor> playerColors;
 
-    protected OtherPlayersPlancias(ArrayList<String> otherPlayers, ArrayList<PlayerColor> tempColors, GameInfo gameInfo){
+    //ALL player colors WITH my player's color
+    private ArrayList<PlayerColor> allPlayersColors;
+
+    //players names WITHOUT my player's name
+    private ArrayList<String> playersNames;
+
+    //my player's name
+    private String username;
+
+    private ArrayList<String> allPlayersNames;
+
+    protected OtherPlayersPlancias( ArrayList<PlayerColor> playerColors, GameInfo gameInfo, String username, ArrayList<String> playersNames, ArrayList<PlayerColor> allPlayersColors, ArrayList<String> allPlayersNames){
 
         this.gridPanes = new ArrayList<>();
         this.damagesGridPanes = new ArrayList<>();
         this.marksGridPanes = new ArrayList<>();
         this.skullGridPanes = new ArrayList<>();
         this.ammoGridPanes = new ArrayList<>();
-
+        this.otherPlayersInfos = new ArrayList<>();
         this.gameInfo = gameInfo;
+        this.playerColors = playerColors;
+        this.playersNames = playersNames;
+        this.username = username;
+        this.allPlayersColors = allPlayersColors;
+        this.allPlayersNames = allPlayersNames;
 
-        this.playerColors = tempColors;
+        for ( OtherPlayerInfo otherPlayerInfo : gameInfo.otherPlayerInfos){
+            if( !otherPlayerInfo.nickname.equals(username))
+                this.otherPlayersInfos.add(otherPlayerInfo);
+        }
 
-        for( int i = 0; i < otherPlayers.size(); i++) {
+        for( int i = 0; i < this.otherPlayersInfos.size(); i++) {
 
             GridPane gridpane = new GridPane();
-            getGridPanes().add(gridpane);
+            this.gridPanes.add(gridpane);
 
             ArrayList<Double> colPercentages = new ArrayList<>();
             colPercentages.add(8.150);
@@ -96,22 +122,74 @@ public class OtherPlayersPlancias {
 
     }
 
-    private void setUpPlancia(int i) {
+    private void setUpPlancia(int indexOfPlayer) {
 
-        setUpAmmos(i);
-        setUpMarks(i);
-        setUpDamages(i);
-        setUpSkulls(i);
+        setUpAmmos(indexOfPlayer);
+        setUpMarks(indexOfPlayer);
+        setUpDamages(indexOfPlayer);
+        setUpSkulls(indexOfPlayer);
 
     }
 
-    private void setUpSkulls(int i) {
+    private void setUpSkulls(int indexOfPlayer) {
     }
 
-    private void setUpDamages(int i) {
+    private void setUpDamages(int indexOfPlayer) {
+
+        GridPane gridPane = new GridPane();
+        damagesGridPanes.add(gridPane);
+        damagesGridPanes.get(indexOfPlayer).setPadding(new Insets(6, 0, 0, 0));
+
+        ArrayList<Double> colPercentages = new ArrayList<>();
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+
+        ArrayList<Double> rowPercentages = new ArrayList<>();
+        rowPercentages.add(100.000);
+
+        setGrid(damagesGridPanes.get(indexOfPlayer), colPercentages, rowPercentages);
+        damagesGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
+        gridPanes.get(indexOfPlayer).add(damagesGridPanes.get(indexOfPlayer), 1, 2, 12, 1);
+
+        for (int i = 0; i < otherPlayersInfos.get(indexOfPlayer).damages.size(); i++){
+
+
+            String playerName = otherPlayersInfos.get(indexOfPlayer).damages.get(i);
+            PlayerColor colorOfThisPlayer = allPlayersColors.get(allPlayersNames.indexOf(playerName));
+
+            Image image = new Image(
+                    "/graphics/drops/" + colorOfThisPlayer.toString().toUpperCase() + ".png",
+                    0, 0,
+                    true, false
+            );
+
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(1, 1, true, true, true, false)
+            );
+
+            Pane pane = new Pane();
+            pane.setPadding(new Insets(5, 0, 0, 2));
+            pane.setBackground(new Background(backgroundImage));
+            damagesGridPanes.get(indexOfPlayer).add(pane, i, 0);
+
+        }
     }
 
-    private void setUpMarks(int i) {
+    private void setUpMarks(int indexOfPlayer) {
     }
 
     private void setUpAmmos(int indexOfPlayer) {
@@ -135,7 +213,7 @@ public class OtherPlayersPlancias {
         ammoGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
         gridPanes.get(indexOfPlayer).add(ammoGridPanes.get(indexOfPlayer), 14, 1, 1, 3);
 
-        for ( int i = 0; i < gameInfo.playerInfo.getnYellowAmmo(); i++){
+        for ( int i = 0; i < otherPlayersInfos.get(indexOfPlayer).getnYellowAmmo(); i++){
             Image image = new Image(
                     "/graphics/ammo/YELLOW.png",
                     0, 0,
@@ -155,7 +233,7 @@ public class OtherPlayersPlancias {
             pane.setBackground(new Background(backgroundImage));
             ammoGridPanes.get(indexOfPlayer).add(pane, i, 0);
         }
-        for ( int i = 0; i < gameInfo.playerInfo.getnRedAmmo(); i++){
+        for ( int i = 0; i < otherPlayersInfos.get(indexOfPlayer).getnRedAmmo(); i++){
             Image image = new Image(
                     "/graphics/ammo/RED.png",
                     0, 0,
@@ -175,7 +253,7 @@ public class OtherPlayersPlancias {
             pane.setBackground(new Background(backgroundImage));
             ammoGridPanes.get(indexOfPlayer).add(pane, i, 1);
         }
-        for ( int i = 0; i < gameInfo.playerInfo.getnBlueAmmo(); i++){
+        for ( int i = 0; i < otherPlayersInfos.get(indexOfPlayer).getnBlueAmmo(); i++){
             Image image = new Image(
                     "/graphics/ammo/BLUE.png",
                     0, 0,
