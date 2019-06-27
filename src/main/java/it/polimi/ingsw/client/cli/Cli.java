@@ -355,6 +355,8 @@ public class Cli implements QuestionEventHandler {
      * show game map to player
      */
     public void showGameMap(){
+        MapGrid.clearMap();
+        MapGrid.buildCliMap(currentMap);
         fillMapWithSnapshot();
         MapGrid.printMap();
     }
