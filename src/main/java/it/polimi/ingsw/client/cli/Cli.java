@@ -526,11 +526,23 @@ public class Cli implements QuestionEventHandler {
         for(String action : event.possibleAction)
             System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
 
-
         String nextLine = sysin.nextLine();
 
-
         int answer = Integer.parseInt(nextLine);
+
+
+
+        while (answer < 0 || answer >= event.possibleAction.size()) {
+            System.out.println("OUT OF BOUND YOU DUMBASS!");
+
+            System.out.println("Choose action:");
+            for(String action : event.possibleAction)
+                System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
+
+            nextLine = sysin.nextLine();
+            answer = Integer.parseInt(nextLine);
+
+        }
 
         String stringAnswer = event.possibleAction.get(answer);
 
