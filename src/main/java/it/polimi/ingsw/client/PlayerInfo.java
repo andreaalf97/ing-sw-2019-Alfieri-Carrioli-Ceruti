@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.client.gui.OtherPlayerInfo;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
@@ -10,15 +11,7 @@ import it.polimi.ingsw.model.cards.Weapon;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PlayerInfo {
-
-    public String nickname;
-
-    public int nRedAmmo;
-
-    public int nBlueAmmo;
-
-    public int nYellowAmmo;
+public class PlayerInfo extends OtherPlayerInfo{
 
     public ArrayList<String> weaponNames;
     public ArrayList<ArrayList<Color>> weaponCosts;
@@ -26,18 +19,10 @@ public class PlayerInfo {
     public ArrayList<String> powerUpNames;
     public ArrayList<Color> powerUpColors;
 
-    public ArrayList<String> damages;
-
-    public ArrayList<String> marks;
-
-    public int nDeaths;
-
-    public int xPosition;
-    public int yPosition;
-
-    public boolean isDead;
 
     public PlayerInfo(String nickname, JsonObject jsonObject){
+
+        super(nickname, jsonObject);
 
         JsonArray allPlayersArray = jsonObject.get("players").getAsJsonArray();
         JsonObject thisPlayer = null;
@@ -57,17 +42,6 @@ public class PlayerInfo {
 
         if(thisPlayer == null)
             throw new RuntimeException("Did not find this player in the JSON");
-
-        this.nickname = thisPlayer.get("nickname").getAsString();
-        this.nRedAmmo = thisPlayer.get("nRedAmmo").getAsInt();
-        this.nBlueAmmo = thisPlayer.get("nBlueAmmo").getAsInt();
-        this.nYellowAmmo = thisPlayer.get("nYellowAmmo").getAsInt();
-        this.nDeaths = thisPlayer.get("nDeaths").getAsInt();
-        this.xPosition = thisPlayer.get("xPosition").getAsInt();
-        this.yPosition = thisPlayer.get("yPosition").getAsInt();
-        this.isDead = thisPlayer.get("isDead").getAsBoolean();
-        this.marks = jsonArrayToArrayListString(thisPlayer.get("marks").getAsJsonArray());
-        this.damages = jsonArrayToArrayListString(thisPlayer.get("damages").getAsJsonArray());
 
         this.weaponNames = new ArrayList<>();
         this.weaponCosts = new ArrayList<>();

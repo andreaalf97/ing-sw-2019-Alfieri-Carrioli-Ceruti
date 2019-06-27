@@ -135,7 +135,7 @@ public class OtherPlayersPlancias {
         ammoGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
         gridPanes.get(indexOfPlayer).add(ammoGridPanes.get(indexOfPlayer), 14, 1, 1, 3);
 
-        for ( int i = 0; i < gameInfo.playersInfo.get(indexOfPlayer).getnYellowAmmo(); i++){
+        for ( int i = 0; i < gameInfo.playerInfo.getnYellowAmmo(); i++){
             Image image = new Image(
                     "/graphics/ammo/YELLOW.png",
                     0, 0,
@@ -155,7 +155,7 @@ public class OtherPlayersPlancias {
             pane.setBackground(new Background(backgroundImage));
             ammoGridPanes.get(indexOfPlayer).add(pane, i, 0);
         }
-        for ( int i = 0; i < gameInfo.playersInfo.get(indexOfPlayer).getnRedAmmo(); i++){
+        for ( int i = 0; i < gameInfo.playerInfo.getnRedAmmo(); i++){
             Image image = new Image(
                     "/graphics/ammo/RED.png",
                     0, 0,
@@ -175,7 +175,7 @@ public class OtherPlayersPlancias {
             pane.setBackground(new Background(backgroundImage));
             ammoGridPanes.get(indexOfPlayer).add(pane, i, 1);
         }
-        for ( int i = 0; i < gameInfo.playersInfo.get(indexOfPlayer).getnBlueAmmo(); i++){
+        for ( int i = 0; i < gameInfo.playerInfo.getnBlueAmmo(); i++){
             Image image = new Image(
                     "/graphics/ammo/BLUE.png",
                     0, 0,
