@@ -91,7 +91,7 @@ public class Game extends Observable {
         this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck, ammoCardDeck);
         this.kst = new KillShotTrack(nSkulls);
 
-        notifyObservers(modelSnapshot());
+        notifyObservers(clientSnapshot());
     }
 
     /**
@@ -113,7 +113,7 @@ public class Game extends Observable {
         this.kst = kst;
         this.gameMap = gameMap;
 
-        notifyObservers(modelSnapshot());
+        notifyObservers(clientSnapshot());
     }
 
     /**
@@ -121,7 +121,7 @@ public class Game extends Observable {
      */
     public Game(){
         JsonDeserializer.deserializeModelSnapshot(modelSnapshot());
-        notifyObservers(modelSnapshot());
+        notifyObservers(clientSnapshot());
     }
 
     // TESTED
@@ -1810,5 +1810,9 @@ public class Game extends Observable {
         players.add(reconnectedPlayer);
         reconnectedPlayer.setIsDead(true);
 
+    }
+
+    public void forceNotify() {
+        notifyObservers(clientSnapshot());
     }
 }
