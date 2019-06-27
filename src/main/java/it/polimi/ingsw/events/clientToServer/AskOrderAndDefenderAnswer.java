@@ -4,8 +4,9 @@ import it.polimi.ingsw.controller.AnswerEventHandler;
 import it.polimi.ingsw.events.AnswerEvent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-public class AskOrderAttackAnswer implements AnswerEvent, Serializable {
+public class AskOrderAndDefenderAnswer implements AnswerEvent, Serializable {
 
     public String nickname;
 
@@ -13,10 +14,13 @@ public class AskOrderAttackAnswer implements AnswerEvent, Serializable {
 
     public Integer[] order;
 
-    public AskOrderAttackAnswer(String nickname, String chosenWeapon,Integer[] chosenOrder) {
+    public ArrayList<String> defenders;
+
+    public AskOrderAndDefenderAnswer(String nickname, String chosenWeapon, Integer[] chosenOrder, ArrayList<String> defenders) {
         this.nickname = nickname;
         this.chosenWeapon = chosenWeapon;
         this.order = chosenOrder;
+        this.defenders = defenders;
     }
 
     @Override

@@ -10,8 +10,6 @@ import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.*;
@@ -603,7 +601,7 @@ public class Cli implements QuestionEventHandler {
      * @param event
      */
     @Override
-    public void handleEvent(AskOrderAttackQuestion event){
+    public void handleEvent(AskOrderAndDefenderQuestion event){
 
         System.out.println("Choose how to shoot:");
 
@@ -615,17 +613,7 @@ public class Cli implements QuestionEventHandler {
 
         Integer[] chosenOrder = event.possibleOrders.get(answer);
 
-        remoteView.sendAnswerEvent(
-                new AskOrderAttackAnswer(username, event.chosenWeapon, chosenOrder)
-        );
-    }
-
-    @Override
-    public void handleEvent(ChooseHowToShootQuestion event) {
-        int answer;
-
         System.out.println("Now the defenders");
-
         //The list of chosen defenders
         ArrayList<String> defenders = new ArrayList<>();
 
@@ -654,13 +642,24 @@ public class Cli implements QuestionEventHandler {
                 defenders.add(possibleChoices.get(answer));
         }
 
+        remoteView.sendAnswerEvent(
+                new AskOrderAndDefenderAnswer(username, event.chosenWeapon, chosenOrder, defenders)
+        );
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToShootQuestion event) {
+        int answer;
+
+        //The possible choices is the list of other players + the STOP choice
+        ArrayList<String> possibleChoices = new ArrayList<>(this.allPlayers);
+        possibleChoices.add("STOP");
+
+        //The index of the STOP choice
+        int indexOfStopAnswer;
 
         //now i can call the gameModel methods with all the info
         if(event.shootWithMovement){
-
-            possibleChoices.remove("STOP");
-            possibleChoices.add(this.username);
-            possibleChoices.add("STOP");
 
             ArrayList<String> movers = new ArrayList<>();
             ArrayList<Integer> xCoords = new ArrayList<>();
@@ -688,12 +687,12 @@ public class Cli implements QuestionEventHandler {
             }
 
             remoteView.sendAnswerEvent(
-                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, defenders, movers, xCoords, yCoords)
+                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect)
             );
         }
         else{
             remoteView.sendAnswerEvent(
-                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, defenders, null, null, null));
+                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect));
         }
     }
 
