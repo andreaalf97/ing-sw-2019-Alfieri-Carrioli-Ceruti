@@ -682,10 +682,14 @@ public class Player {
                 }
                 case BLUE: {
                     playerBlue++;
+                    break;
                 }
                 case YELLOW:{
                     playerYellow++;
+                    break;
                 }
+                default:
+                    throw new RuntimeException("NO color");
             }
 
         }
@@ -699,7 +703,7 @@ public class Player {
                 playerYellow--;
         }
 
-        return playerRed >= 0 && playerBlue >= 0 && playerYellow >= 0;
+        return ((playerRed >= 0) && (playerBlue >= 0) && (playerYellow >= 0));
 
     }
 

@@ -354,7 +354,7 @@ public class Cli implements QuestionEventHandler {
     /**
      * show game map to player
      */
-    public void showGameMap(){
+    public synchronized void showGameMap(){
         MapGrid.clearMap();
         MapGrid.buildCliMap(currentMap);
         fillMapWithSnapshot();
@@ -569,8 +569,8 @@ public class Cli implements QuestionEventHandler {
                 break;
 
             case "ShowMap":
+                showGameMap();
                 remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
-                showGameMap(); //TODO USE EXISTENT QUESTION
                 break;
 
             default:

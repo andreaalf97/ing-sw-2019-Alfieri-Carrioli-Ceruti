@@ -119,7 +119,7 @@
       }
     }
   },
-  "EARTH": {
+  "WIND": {
     "row0": {
       "col0": {
         "isSpawnSpot": false,
@@ -213,17 +213,7 @@
       }
     },
     "row2": {
-      "col0": {
-        "isSpawnSpot" : false,
-        "isAmmoSpot" : true,
-        "room" : "DIAMOND",
-        "doors" : [
-          true,
-          false,
-          false,
-          false
-        ]
-      },
+      "col0": {},
       "col1": {
         "isSpawnSpot": false,
         "isAmmoSpot": true,
@@ -259,7 +249,7 @@
       }
     }
   },
-  "WIND": {
+  "EARTH": {
     "row0": {
       "col0": {
         "isSpawnSpot": false,
