@@ -132,6 +132,52 @@ public class OtherPlayersPlancias {
     }
 
     private void setUpSkulls(int indexOfPlayer) {
+
+        GridPane gridPane = new GridPane();
+        skullGridPanes.add(gridPane);
+        skullGridPanes.get(indexOfPlayer).setPadding(new Insets(6, 0, 0, 0));
+        skullGridPanes.get(indexOfPlayer).setHgap(5);
+
+        ArrayList<Double> colPercentages = new ArrayList<>();
+        colPercentages.add(12.500);
+        colPercentages.add(12.500);
+        colPercentages.add(12.500);
+        colPercentages.add(12.500);
+        colPercentages.add(12.500);
+        colPercentages.add(12.500);
+        colPercentages.add(12.500);
+        colPercentages.add(12.500);
+
+        ArrayList<Double> rowPercentages = new ArrayList<>();
+        rowPercentages.add(100.000);
+
+        setGrid(skullGridPanes.get(indexOfPlayer), colPercentages, rowPercentages);
+        skullGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
+        gridPanes.get(indexOfPlayer).add(skullGridPanes.get(indexOfPlayer), 3, 4, 8, 1);
+
+        for (int i = 0; i < otherPlayersInfos.get(indexOfPlayer).nDeaths; i++){
+
+            Image image = new Image(
+                    skullPath,
+                    0, 0,
+                    true, false
+            );
+
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(1, 1, true, true, true, false)
+            );
+
+            Pane pane = new Pane();
+            pane.setBackground(new Background(backgroundImage));
+            skullGridPanes.get(indexOfPlayer).add(pane, i, 0);
+            GridPane.setMargin(pane, new Insets(0, 0, 0, 8));
+
+        }
+
     }
 
     private void setUpDamages(int indexOfPlayer) {
@@ -185,11 +231,62 @@ public class OtherPlayersPlancias {
             pane.setPadding(new Insets(5, 0, 0, 2));
             pane.setBackground(new Background(backgroundImage));
             damagesGridPanes.get(indexOfPlayer).add(pane, i, 0);
-
         }
     }
 
     private void setUpMarks(int indexOfPlayer) {
+
+        GridPane gridPane = new GridPane();
+        marksGridPanes.add(gridPane);
+        marksGridPanes.get(indexOfPlayer).setPadding(new Insets(6, 0, 0, 0));
+
+        ArrayList<Double> colPercentages = new ArrayList<>();
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+        colPercentages.add(8.333);
+
+        ArrayList<Double> rowPercentages = new ArrayList<>();
+        rowPercentages.add(100.000);
+
+        setGrid(marksGridPanes.get(indexOfPlayer), colPercentages, rowPercentages);
+        marksGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
+        gridPanes.get(indexOfPlayer).add(marksGridPanes.get(indexOfPlayer), 1, 0, 12, 1);
+
+        for (int i = 0; i < otherPlayersInfos.get(indexOfPlayer).marks.size(); i++){
+
+
+            String playerName = otherPlayersInfos.get(indexOfPlayer).marks.get(i);
+            PlayerColor colorOfThisPlayer = allPlayersColors.get(allPlayersNames.indexOf(playerName));
+
+            Image image = new Image(
+                    "/graphics/drops/" + colorOfThisPlayer.toString().toUpperCase() + ".png",
+                    0, 0,
+                    true, false
+            );
+
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    image,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    new BackgroundSize(1, 1, true, true, true, false)
+            );
+            int position = 11 - i;
+            Pane pane = new Pane();
+            pane.setPadding(new Insets(5, 0, 0, 2));
+            pane.setBackground(new Background(backgroundImage));
+            marksGridPanes.get(indexOfPlayer).add(pane, position, 0);
+
+        }
     }
 
     private void setUpAmmos(int indexOfPlayer) {

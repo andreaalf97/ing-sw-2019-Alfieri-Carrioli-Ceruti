@@ -119,8 +119,6 @@ public class MyPlancia {
         skullGridPane.setGridLinesVisible(true);
         planciaGridPane.add(skullGridPane, 3, 4, 8, 1);
 
-
-
         for (int i = 0; i < playerInfo.nDeaths; i++) {
 
             Image image = new Image(
