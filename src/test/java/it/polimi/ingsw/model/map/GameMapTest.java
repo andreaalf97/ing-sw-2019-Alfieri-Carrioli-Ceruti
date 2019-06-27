@@ -15,7 +15,7 @@ public class GameMapTest {
     GameMap gameMapTestFire;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         gameMapTestFire = JsonDeserializer.deserializeGameMap(MapName.FIRE, JsonDeserializer.deserializeWeaponDeck(), JsonDeserializer.deserializePowerUpDeck(), JsonDeserializer.deserializeAmmoCardDeck());
     }
 

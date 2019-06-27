@@ -688,6 +688,20 @@ public class Controller implements Observer, AnswerEventHandler {
 
         }
 
+
+        if(weaponsToPick.isEmpty()){
+            sendMessage(event.nickname, "You don't have enough ammo for any of these weapons");
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
+
+
+
         //If the player has to choose which weapon to discard
         if(playerWeapons.size() > 2){
 
