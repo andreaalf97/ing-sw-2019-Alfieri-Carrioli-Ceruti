@@ -312,13 +312,31 @@ public class Cli implements QuestionEventHandler {
      */
     private int chooseAnswer(List<String> possibleAnswers){
 
+        possibleAnswers.add("Reset");
+
         for(String possibleAnswer : possibleAnswers)
             System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
 
         String nextLine = sysin.nextLine();
 
         try {
-             return Integer.parseInt(nextLine);
+             int answer = Integer.parseInt(nextLine);
+
+             while (answer < 0 || answer >= possibleAnswers.size()){
+
+                 for(String possibleAnswer : possibleAnswers)
+                     System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
+
+                 nextLine = sysin.nextLine();
+
+                 answer = Integer.parseInt(nextLine);
+
+             }
+
+             if(answer == possibleAnswers.indexOf("Reset"))
+                 return -1;
+
+             return answer;
         }
         catch (NumberFormatException e){
             System.out.println("WRONG FORMAT, PLEASE ENTER AGAIN");
@@ -604,6 +622,11 @@ public class Cli implements QuestionEventHandler {
 
         int answer = chooseAnswer(event.weaponsLoaded);
 
+        if(answer == -1) {
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
         remoteView.sendAnswerEvent(
                 new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
         );
@@ -625,6 +648,11 @@ public class Cli implements QuestionEventHandler {
 
         int answer = chooseAnswer(stringOrders);
 
+        if(answer == -1){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
         Integer[] chosenOrder = event.possibleOrders.get(answer);
 
         System.out.println("Now the defenders");
@@ -642,6 +670,11 @@ public class Cli implements QuestionEventHandler {
 
         answer = chooseAnswer(possibleChoices);
 
+        if(answer == -1){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
         //Adding the first defender
         if(answer != indexOfStopAnswer)
             defenders.add(possibleChoices.get(answer));
@@ -651,6 +684,11 @@ public class Cli implements QuestionEventHandler {
 
             System.out.println("Next:");
             answer = chooseAnswer(possibleChoices);
+
+            if(answer == -1){
+                remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+                return;
+            }
 
             if(answer != indexOfStopAnswer)
                 defenders.add(possibleChoices.get(answer));
@@ -685,6 +723,11 @@ public class Cli implements QuestionEventHandler {
 
             answer = chooseAnswer(possibleChoices);
 
+            if(answer == -1){
+                remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+                return;
+            }
+
             while (answer != indexOfStopAnswer) {
 
                 System.out.println("Insert X for this player");
@@ -697,6 +740,11 @@ public class Cli implements QuestionEventHandler {
 
                 System.out.println("Next mover:");
                 answer = chooseAnswer(possibleChoices);
+
+                if(answer == -1){
+                    remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+                    return;
+                }
 
             }
 
@@ -738,6 +786,11 @@ public class Cli implements QuestionEventHandler {
         System.out.println("Choose how to pay to pick " + event.weaponName);
 
         ArrayList<String> paymentChosen = handlePayment(event.cost);
+
+        if(paymentChosen == null){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
 
         //TODO REMOVE WEAPON PICKED FROM SPAWN SPOT AND MAKE SURE THAT PLAYER TAKES ONLY WEAPONS THAT CAN PAY
         remoteView.sendAnswerEvent(
@@ -805,6 +858,10 @@ public class Cli implements QuestionEventHandler {
             }
 
             int answer = chooseAnswer(possibleChoice);
+
+            if(answer == -1){
+                return null;
+            }
 
             paymentChosen.add(possibleChoice.get(answer));
 
@@ -950,6 +1007,11 @@ public class Cli implements QuestionEventHandler {
 
         int answer = chooseAnswer(event.weaponsToPick);
 
+        if(answer == -1){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
         remoteView.sendAnswerEvent(
                 new ChooseWeaponToPickAnswer(username, event.weaponsToPick.get(answer))
         );
@@ -960,6 +1022,11 @@ public class Cli implements QuestionEventHandler {
     public void handleEvent(ChooseWeaponToReloadQuestion event) {
 
         int answer = chooseAnswer(event.weaponsToReload);
+
+        if(answer == -1){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
 
         remoteView.sendAnswerEvent(
                 new ChooseWeaponToReloadAnswer(username, event.weaponsToReload.get(answer))
@@ -997,6 +1064,12 @@ public class Cli implements QuestionEventHandler {
 
         int[] coords = askForCoords(event.possibleSpots);
 
+        if(coords == null){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
+
         MapGrid.removeAmmoLabel(coords[0],coords[1]);
 
         remoteView.sendAnswerEvent(
@@ -1010,6 +1083,11 @@ public class Cli implements QuestionEventHandler {
         System.out.println("Choose where to move:");
 
         int[] coords = askForCoords(event.possibleSpots);
+
+        if (coords == null){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
 
         remoteView.sendAnswerEvent(
                 new WhereToMoveAnswer(username, coords[0], coords[1])
@@ -1049,6 +1127,9 @@ public class Cli implements QuestionEventHandler {
         }
 
         int answer = chooseAnswer(possibleCoordsString);
+
+        if(answer == -1)
+            return null;
 
         return possibleCoords.get(answer);
 
