@@ -607,13 +607,6 @@ public class Controller implements Observer, AnswerEventHandler {
             playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, player.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
         }
 
-        try {
-            gameModel.getPlayerByNickname(event.chooseHowToShootAnswer.nickname).getWeaponByName(event.chooseHowToShootAnswer.weapon).unload();
-        }
-        catch(RuntimeException e){
-            sendMessage(event.chooseHowToShootAnswer.nickname, "THIS IS WRONG");
-        }
-
         if(playerHasFinallyShoot) {
             sendMessage(event.chooseHowToShootAnswer.nickname, "YOU SHOOT!");
         }else{

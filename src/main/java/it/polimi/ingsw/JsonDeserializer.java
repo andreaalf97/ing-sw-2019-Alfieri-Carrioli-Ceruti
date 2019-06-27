@@ -330,7 +330,7 @@ public class JsonDeserializer {
                         }
 
                         //Constructing a new AmmoSpot
-                        if(isAmmoSpot) { //FIXME WITH AMMOCARD
+                        if(isAmmoSpot) {
 
                             tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
                             AmmoCard ammoCard = ammoCardDeck.drawCard();

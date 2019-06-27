@@ -75,6 +75,8 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         virtualView.addObserver(controller);
         game.addObserver(virtualView);
 
+        game.forceNotify();
+
         //Adding each player to the PLAYER - CONTROLLER map
         for (String player : waitingRoom.players)
             nicknamesControllers.put(player, controller);
