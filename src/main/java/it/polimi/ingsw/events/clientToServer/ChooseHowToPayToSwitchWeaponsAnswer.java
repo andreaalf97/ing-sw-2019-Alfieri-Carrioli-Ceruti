@@ -4,19 +4,23 @@ import it.polimi.ingsw.controller.AnswerEventHandler;
 import it.polimi.ingsw.events.AnswerEvent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-public class ChooseWeaponToSwitchAnswer implements AnswerEvent, Serializable {
+public class ChooseHowToPayToSwitchWeaponsAnswer implements AnswerEvent, Serializable {
 
     public String nickname;
 
-    public String weaponToDiscard;
-
     public String weaponToPick;
 
-    public ChooseWeaponToSwitchAnswer(String nickname, String weaponToDiscard, String weaponToPick) {
+    public ArrayList<String> paymentChoice;
+
+    public String weaponToDiscard;
+
+    public ChooseHowToPayToSwitchWeaponsAnswer(String nickname, String weaponToPick, ArrayList<String> paymentChoice, String weaponToDiscard) {
         this.nickname = nickname;
-        this.weaponToDiscard = weaponToDiscard;
         this.weaponToPick = weaponToPick;
+        this.paymentChoice = paymentChoice;
+        this.weaponToDiscard = weaponToDiscard;
     }
 
     @Override

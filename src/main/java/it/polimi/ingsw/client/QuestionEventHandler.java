@@ -18,6 +18,7 @@ public interface QuestionEventHandler {
 
     void handleEvent(ActionQuestion event);
     void handleEvent(ChooseHowToPayForAttackingQuestion event);
+    void handleEvent(ChooseHowToPayToSwitchWeaponsQuestion event);
     void handleEvent(ChooseHowToPayToPickWeaponQuestion event);
     void handleEvent(ChooseHowToPayToReloadQuestion event);
     void handleEvent(ChooseHowToShootQuestion event);

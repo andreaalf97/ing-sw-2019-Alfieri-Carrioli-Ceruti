@@ -781,6 +781,25 @@ public class Cli implements QuestionEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseHowToPayToSwitchWeaponsQuestion event) {
+
+        System.out.println("You chose to discard " + event.weaponToDiscard);
+
+        ArrayList<String> paymentChoice = handlePayment(event.weaponCost);
+
+        if(paymentChoice == null){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
+        remoteView.sendAnswerEvent(
+                new ChooseHowToPayToSwitchWeaponsAnswer(username, event.weaponToPick, paymentChoice, event.weaponToDiscard)
+        );
+
+
+    }
+
+    @Override
     public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
 
         System.out.println("Choose how to pay to pick " + event.weaponName);
@@ -792,7 +811,6 @@ public class Cli implements QuestionEventHandler {
             return;
         }
 
-        //TODO REMOVE WEAPON PICKED FROM SPAWN SPOT AND MAKE SURE THAT PLAYER TAKES ONLY WEAPONS THAT CAN PAY
         remoteView.sendAnswerEvent(
                 new ChooseHowToPayToPickWeaponAnswer(username, event.weaponName, paymentChosen)
         );
@@ -801,7 +819,7 @@ public class Cli implements QuestionEventHandler {
     }
 
     /**
-     * this method handle player payment in Cli
+     * this method handles player payment in Cli
      * @param costToPay the ammo to pay
      * @return the payment option chosen by the client
      */
@@ -1036,6 +1054,29 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseWeaponToSwitchQuestion event) {
+
+        System.out.println("Choose the weapon to discard");
+
+        int indexToDiscard = chooseAnswer(event.weaponsToRemove);
+
+        if (indexToDiscard == -1) {
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
+        System.out.println("Choose the weapon to pick");
+
+        int indexToPick = chooseAnswer(event.weaponsToPick);
+
+        if (indexToPick == -1) {
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
+        remoteView.sendAnswerEvent(
+                new ChooseWeaponToSwitchAnswer(username, event.weaponsToRemove.get(indexToDiscard), event.weaponsToPick.get(indexToPick))
+        );
+
 
     }
 
