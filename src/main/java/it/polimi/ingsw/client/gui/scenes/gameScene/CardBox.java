@@ -1,26 +1,44 @@
 package it.polimi.ingsw.client.gui.scenes.gameScene;
 
 import it.polimi.ingsw.client.PlayerInfo;
+import it.polimi.ingsw.client.gui.ImageDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.control.Button;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class CardBox {
 
     private GridPane gridPane;
 
+    private ArrayList<Button> weaponsButtons;
+
+    private ArrayList<Button> powerUpButtons;
+
+
+
     protected CardBox(PlayerInfo playerInfo){
+
+        this.weaponsButtons = new ArrayList<>();
+        this.powerUpButtons = new ArrayList<>();
 
         this.gridPane = setUpGridpane();
 
         int i = 0;
         for ( String weaponName : playerInfo.weaponNames){
+
+            Button button = new Button();
+            weaponsButtons.add(button);
+            weaponsButtons.get(i).setStyle("-fx-background-color: transparent");
+
             Image image = new Image(
                     "/graphics/cards/" +weaponName+ ".png",
                     0, 0,
                     true, false
             );
+            weaponsButtons.get(i).setOnAction(e -> ImageDisplay.display(image));
 
             BackgroundImage backgroundImage = new BackgroundImage(
                     image,
@@ -29,19 +47,29 @@ public class CardBox {
                     BackgroundPosition.DEFAULT,
                     new BackgroundSize(1, 1, true, true, true, false)
             );
-
-            Pane pane = new Pane();
-            pane.setBackground(new Background(backgroundImage));
-            gridPane.add(pane, i+i, 1);
+            Pane cardPane = new Pane();
+            cardPane.setBackground(new Background(backgroundImage));
+            gridPane.add(cardPane, i+i, 1);
+            gridPane.add(weaponsButtons.get(i), i+i, 1);
+            weaponsButtons.get(i).setMinWidth(50);
+            weaponsButtons.get(i).setMinHeight(100);
+            i++;
         }
 
         int j = 0;
         for ( String powerUpName : playerInfo.powerUpNames ){
+
+            Button button = new Button();
+            powerUpButtons.add(button);
+            powerUpButtons.get(j).setStyle("-fx-background-color: transparent");
+
             Image image = new Image(
                     "/graphics/cards/" +powerUpName.toUpperCase()+"_"+ playerInfo.powerUpColors.get(j).toString()+".png",
                     0, 0,
                     true, false
             );
+            powerUpButtons.get(j).setOnAction(e -> ImageDisplay.display(image));
+
 
             BackgroundImage backgroundImage = new BackgroundImage(
                     image,
@@ -54,6 +82,10 @@ public class CardBox {
             Pane pane = new Pane();
             pane.setBackground(new Background(backgroundImage));
             gridPane.add(pane, j+j, 3);
+            gridPane.add(powerUpButtons.get(j), j+j, 3);
+            powerUpButtons.get(j).setMinWidth(50);
+            powerUpButtons.get(j).setMinHeight(75);
+            j++;
         }
         gridPane.getStyleClass().add("purpleLines");
 

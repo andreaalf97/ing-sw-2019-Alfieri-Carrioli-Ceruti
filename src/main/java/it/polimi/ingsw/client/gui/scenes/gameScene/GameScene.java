@@ -39,6 +39,11 @@ public class GameScene implements MyScene {
     private BoardGrid boardGrid;
 
     /**
+     * The part of scene for the player to comunicate/choose things
+     */
+    private PlayersInteractingSpace playersInteractingSpace;
+
+    /**
      * The pane to put all weapons in the player's hand
      */
     private ArrayList<CardBox> weaponBoxes;
@@ -142,6 +147,10 @@ public class GameScene implements MyScene {
         //Starting from column 0, row 5, colspan 30, rowspan 24
         externalGridPane.add(boardGrid.getGridPane(),0,10,60,48);
 
+        //************************************* + PLAYERS SPACE FOR DECISIONS/THINGHS TO CHOOSE + *********************************************
+
+        this.playersInteractingSpace = new PlayersInteractingSpace();
+        externalGridPane.add(playersInteractingSpace.getGridPane(), 0, 0, 44, 10);
 
 
         //************************************* + MY PLANCIA + *********************************************
@@ -204,7 +213,7 @@ public class GameScene implements MyScene {
         //************************************* + POWER UPS AND WEAPONS + *********************************************
 
 
-        setUpPlayerCards(externalGridPane, 35, 0, 21, 10);
+        setUpPlayerCards(externalGridPane, 44, 0, 12, 10);
 
 
         //************************************* + LOGO + *********************************************
