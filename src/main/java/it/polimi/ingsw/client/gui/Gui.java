@@ -270,6 +270,11 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseHowToPayToSwitchWeaponsQuestion event) {
+
+    }
+
+    @Override
     public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
 
     }

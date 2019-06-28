@@ -617,6 +617,23 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseHowToPayToSwitchWeaponsAnswer event) {
+
+        Player playerObject = gameModel.getPlayerByNickname(event.nickname);
+
+        removeAmmoFromPlayer(playerObject, event.paymentChoice);
+
+        //I pick the weapon and give it to the player
+        gameModel.switchWeapons(event.nickname, event.weaponToPick, event.weaponToDiscard);
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname,
+                new ActionQuestion(possibleActions)
+        );
+
+    }
+
+    @Override
     public void handleEvent(ActionEndTurnAnswer event) {
 
         //Ends the turn and sends a question to the next player
@@ -910,8 +927,6 @@ public class Controller implements Observer, AnswerEventHandler {
             return;
         }
 
-        Player p = gameModel.getPlayerByNickname(event.nickname);
-
         sendQuestionEvent(event.nickname,
                 new ChooseHowToPayToPickWeaponQuestion(event.weaponToPick, weaponCost)
         );
@@ -920,6 +935,8 @@ public class Controller implements Observer, AnswerEventHandler {
 
     @Override
     public void handleEvent(ChooseWeaponToReloadAnswer event) {
+
+        //FIXME This is completely wrong
 
         Player player = gameModel.getPlayerByNickname(event.nickname);
 
@@ -931,6 +948,35 @@ public class Controller implements Observer, AnswerEventHandler {
 
     @Override
     public void handleEvent(ChooseWeaponToSwitchAnswer event) {
+
+
+        Weapon weaponToPick = gameModel.getWeaponByName(event.weaponToPick);
+
+        ArrayList<Color> weaponCost = weaponToPick.getCost();
+        weaponCost.remove(0);
+
+        if(weaponCost.isEmpty()){
+
+            gameModel.switchWeapons(event.nickname, event.weaponToPick, event.weaponToDiscard);
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
+
+        sendQuestionEvent(event.nickname,
+                new ChooseHowToPayToSwitchWeaponsQuestion(event.weaponToPick, weaponCost, event.weaponToDiscard)
+        );
+
+
+        //FIXME need to pay first!
+        //gameModel.switchWeapons(event.nickname, event.weaponToPick, event.weaponToDiscard);
+
+
+
 
     }
 

@@ -8,9 +8,9 @@ import java.util.List;
 
 public class ChooseWeaponToSwitchQuestion implements QuestionEvent, Serializable {
 
-    List<String> weaponsToPick;
+    public List<String> weaponsToPick;
 
-    List<String> weaponsToRemove;
+    public List<String> weaponsToRemove;
 
     public ChooseWeaponToSwitchQuestion(List<String> weaponsToPick, List<String> weaponsToRemove) {
         this.weaponsToPick = weaponsToPick;
