@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 
 public class ServerProxySocket implements ServerProxy, Runnable {
@@ -41,8 +43,6 @@ public class ServerProxySocket implements ServerProxy, Runnable {
      * @param socket the open socket to extract the stream from
      */
     public ServerProxySocket(String nickname, AnswerEventReceiver receiver, Socket socket){
-
-
 
         this.nickname = nickname;
         this.receiver = receiver;
@@ -93,9 +93,9 @@ public class ServerProxySocket implements ServerProxy, Runnable {
             out.writeObject(questionEvent);
             out.flush();
         }
-        catch (IOException e){
-            System.err.println("Error while sending answer to server");
-            receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+        catch (Exception e){
+            System.err.println("Exception during RMI connection --> ping should be able to handle this");
+            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
     }
@@ -117,9 +117,9 @@ public class ServerProxySocket implements ServerProxy, Runnable {
             }
 
         }
-        catch (IOException | ClassNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error on readObject server side answer object --> " + nickname);
-            receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+        catch (Exception e){
+            System.err.println("Exception during SOCKET connection --> ping should be able to handle this");
+            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
     }

@@ -650,6 +650,14 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     @Override
+    public void handleEvent(Ping event) {
+
+        //System.err.println("Received new ping from " + event.nickname);
+
+        virtualView.ping(event.nickname);
+    }
+
+    @Override
     public void handleEvent(ActionEndTurnAnswer event) {
 
         //Ends the turn and sends a question to the next player

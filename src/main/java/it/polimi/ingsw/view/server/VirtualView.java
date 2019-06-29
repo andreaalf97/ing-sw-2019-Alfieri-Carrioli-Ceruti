@@ -6,11 +6,14 @@ import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
+import it.polimi.ingsw.events.clientToServer.DisconnectedAnswer;
 import it.polimi.ingsw.events.serverToClient.ModelUpdate;
 import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 
@@ -30,6 +33,11 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
      * Player nicknames
      */
     ArrayList<String> playersNicknames;
+
+    /**
+     * Used for ping
+     */
+    boolean[] stillConnected;
 
     /**
      * last snapshot received from model for every player
@@ -53,9 +61,28 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         this.lastClientSnapshot = new String[2];
         this.serverProxies = serverProxies;
 
+        this.stillConnected = new boolean[playersNicknames.size()];
+        for(int i = 0; i < stillConnected.length; i++)
+            stillConnected[i] = true;
 
         lastClientSnapshot[0] = "";
         lastClientSnapshot[1] = "";
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+
+                for(int i = 0; i < stillConnected.length; i++) {
+                    if (!stillConnected[i]) {
+                        notifyObservers(new DisconnectedAnswer(playersNicknames.get(i)));
+                        this.cancel();
+                        return;
+                    }
+
+                    stillConnected[i] = false;
+                }
+            }
+        }, 0, 5000);
 
     }
 
@@ -254,6 +281,14 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         playersNicknames.add(nickname);
 
         serverProxies.add(proxy);
+
+    }
+
+    public void ping(String nickname) {
+
+        int index = playersNicknames.indexOf(nickname);
+
+        stillConnected[index] = true;
 
     }
 }
