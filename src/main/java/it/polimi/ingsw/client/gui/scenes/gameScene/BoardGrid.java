@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.scenes.gameScene;
 
 import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
+import it.polimi.ingsw.client.gui.ImageDisplay;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -50,7 +51,7 @@ public class BoardGrid {
     private GameInfo gameInfo;
 
     //players and ammocards for every spot has to be put inside this Vbox (one for each spot)
-    private ArrayList<VBox> stuffInEverySpot;
+    private ArrayList<GridPane> stuffInEverySpot;
 
     protected BoardGrid(String mapPath, GameInfo gameInfo, int votedSkulls, ArrayList<String> plyersNames,  ArrayList<PlayerColor> playerColors, String username){
 
@@ -116,26 +117,51 @@ public class BoardGrid {
         for(int i = 0; i < gameInfo.gameMap.map.length; i++) {
             for(int j = 0; j < gameInfo.gameMap.map[i].length; j++) {
                 if (gameInfo.gameMap.map[i][j] != null) {
-                    HBox playersHbox = new HBox();
-                    playersHbox.setSpacing(5);
-                    VBox vBox = new VBox();
-                    vBox.setSpacing(30);
-                    vBox.setPadding(new Insets(25));
-                    this.stuffInEverySpot.add(vBox);
+
+                    GridPane cellGridpane = new GridPane();
+                    stuffInEverySpot.add(cellGridpane);
+                    ArrayList<Double> colPercentages1 = new ArrayList<>();
+                    colPercentages1.add(20.000);
+                    colPercentages1.add(20.000);
+                    colPercentages1.add(20.000);
+                    colPercentages1.add(20.000);
+                    colPercentages1.add(20.000);
+
+                    ArrayList<Double> rowPercentages1 = new ArrayList<>();
+                    rowPercentages1.add(50.000);
+                    rowPercentages1.add(50.000);
+
+                    setGrid(cellGridpane, colPercentages1, rowPercentages1);
+                    cellGridpane.setGridLinesVisible(true);
+                    cellGridpane.setPadding(new Insets(20));
+
+                    gridPane.add(cellGridpane, j, i, 1, 1);
+
                     //has a ammocard, then show the ammocard on the map in the right position
                     if (gameInfo.gameMap.map[i][j].isAmmoSpot()) {
-                        Pane pane = new Pane();
                         AmmoSpot ammoSpot = (AmmoSpot) gameInfo.gameMap.map[i][j];
+
                         String imgePath = ammoSpot.getAmmoCard().getAmmoCardImagePath();
-                        Image ammoCardImage = new Image(imgePath, 0, 0, true, false);
-                        ImageView ammoCardImageView = new ImageView(ammoCardImage);
-                        ammoCardImageView.setFitWidth(50);
-                        ammoCardImageView.setFitHeight(50);
-                        pane.getChildren().add(ammoCardImageView);
-                        vBox.getChildren().add(pane);
+                        Image image = new Image(
+                                imgePath,
+                                0, 0,
+                                true, false
+                        );
+
+                        BackgroundImage backgroundImage = new BackgroundImage(
+                                image,
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundPosition.DEFAULT,
+                                new BackgroundSize(1, 1, true, true, true, false)
+                        );
+                        Pane pane = new Pane();
+                        pane.setBackground(new Background(backgroundImage));
+                        cellGridpane.add(pane, 0, 0, 2, 1);
                     }
                     //if there are players in the spot I have to show them on the map
                     if (!gameInfo.gameMap.map[i][j].getPlayersHere().isEmpty()) {
+                        int k = 0;
                         for (String player : gameInfo.gameMap.map[i][j].getPlayersHere()){
                             int indexOfPlayer = playerNames.indexOf(player);
                             PlayerColor color = playerColors.get(indexOfPlayer);
@@ -144,18 +170,33 @@ public class BoardGrid {
                                     0, 0,
                                     true, false
                             );
-                            ImageView imageView = new ImageView(image);
+                            /*ImageView imageView = new ImageView(image);
                             imageView.setFitHeight(50);
-                            imageView.setFitWidth(50);
+                            imageView.setFitWidth(25);
                             playersHbox.getChildren().add(imageView);
+                            Image image = new Image(
+                                    "/graphics/players_pawns/" +color.toString()+ ".png",
+                                    0, 0,
+                                    true, false
+                            );*/
+
+                            BackgroundImage backgroundImage = new BackgroundImage(
+                                    image,
+                                    BackgroundRepeat.NO_REPEAT,
+                                    BackgroundRepeat.NO_REPEAT,
+                                    BackgroundPosition.DEFAULT,
+                                    new BackgroundSize(1, 1, true, true, true, false)
+                            );
+                            Pane pane = new Pane();
+                            pane.setBackground(new Background(backgroundImage));
+                            cellGridpane.add(pane, k, 1, 1, 1);
+                            k++;
                         }
-                        vBox.getChildren().add(playersHbox);
                     }
-                    this.stuffInEverySpot.add(vBox);
-                    gridPane.add(vBox, j, i, 1, 1);
                 }
             }
         }
+
 
         gridPane.getStyleClass().add("visibleBorder");
 

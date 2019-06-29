@@ -51,8 +51,8 @@ public class CardBox {
             cardPane.setBackground(new Background(backgroundImage));
             gridPane.add(cardPane, i+i, 1);
             gridPane.add(weaponsButtons.get(i), i+i, 1);
-            weaponsButtons.get(i).setMinWidth(50);
-            weaponsButtons.get(i).setMinHeight(100);
+            weaponsButtons.get(i).setMinWidth(40);
+            weaponsButtons.get(i).setMinHeight(70);
             i++;
         }
 
@@ -83,8 +83,8 @@ public class CardBox {
             pane.setBackground(new Background(backgroundImage));
             gridPane.add(pane, j+j, 3);
             gridPane.add(powerUpButtons.get(j), j+j, 3);
-            powerUpButtons.get(j).setMinWidth(50);
-            powerUpButtons.get(j).setMinHeight(75);
+            powerUpButtons.get(j).setMinWidth(40);
+            powerUpButtons.get(j).setMinHeight(60);
             j++;
         }
         gridPane.getStyleClass().add("purpleLines");
