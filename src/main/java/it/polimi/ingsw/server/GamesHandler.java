@@ -104,7 +104,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         for (ServerProxy p : waitingRoom.serverProxies) {
 
             p.sendQuestionEvent(
-                    new TextMessage("You are being disconnected befause the room didn't fill in time")
+                    new TextMessage("You are being disconnected because the room didn't fill in time")
             );
 
             p.sendQuestionEvent(
@@ -328,6 +328,11 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     @Override
     public void handleEvent(ChooseHowToPayToReloadAnswer event) {
+        throw new RuntimeException("The GamesHandler received an unexpected event during connection");
+    }
+
+    @Override
+    public void handleEvent(Ping event) {
         throw new RuntimeException("The GamesHandler received an unexpected event during connection");
     }
 

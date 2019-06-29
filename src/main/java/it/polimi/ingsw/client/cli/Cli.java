@@ -18,12 +18,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
-
-import static java.lang.Thread.sleep;
 
 public class Cli implements QuestionEventHandler {
 
@@ -36,6 +32,11 @@ public class Cli implements QuestionEventHandler {
      * Regex used to validate the ip address
      */
     private final String validIpAddress = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+    /**
+     * Regex used to check if the user inserted a number -- to avoid Number Format exceptions
+     */
+    private final String validEventInput = "^[0-9]*$";
 
     /**
      * The port for the socket connections
@@ -210,14 +211,6 @@ public class Cli implements QuestionEventHandler {
 
         this.currentSkulls = nSkulls;
 
-        try {
-            sleep(20);
-        }
-        catch (InterruptedException e){
-            System.err.println("Error while sleeping");
-        }
-
-
         clearScreen();
 
         //SOCKET
@@ -319,6 +312,11 @@ public class Cli implements QuestionEventHandler {
 
         String nextLine = sysin.nextLine();
 
+        while (!Pattern.matches(validEventInput, nextLine)){
+            System.out.println("Wrong format");
+            nextLine = sysin.nextLine();
+        }
+
         try {
              int answer = Integer.parseInt(nextLine);
 
@@ -328,6 +326,10 @@ public class Cli implements QuestionEventHandler {
                      System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
 
                  nextLine = sysin.nextLine();
+                 while (!Pattern.matches(validEventInput, nextLine)){
+                     System.out.println("Wrong format");
+                     nextLine = sysin.nextLine();
+                 }
 
                  answer = Integer.parseInt(nextLine);
 
@@ -457,6 +459,16 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(GameStartedQuestion event) {
 
+
+        //Scheduling the timer to send a Ping message every 2 seconds
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                //System.err.println("Sending PING");
+                remoteView.sendAnswerEvent(new Ping(username));
+            }
+        }, 0, 2000);
+
         System.out.println("GAME STARTED");
 
         System.out.println("The players are:");
@@ -507,6 +519,11 @@ public class Cli implements QuestionEventHandler {
 
         String nextLine = sysin.nextLine();
 
+        while (!Pattern.matches(validEventInput, nextLine)){
+            System.out.println("Wrong format");
+            nextLine = sysin.nextLine();
+        }
+
         int answer = Integer.parseInt(nextLine);
 
 
@@ -519,6 +536,12 @@ public class Cli implements QuestionEventHandler {
                 System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
 
             nextLine = sysin.nextLine();
+
+            while (!Pattern.matches(validEventInput, nextLine)){
+                System.out.println("Wrong format");
+                nextLine = sysin.nextLine();
+            }
+
             answer = Integer.parseInt(nextLine);
 
         }
@@ -693,10 +716,22 @@ public class Cli implements QuestionEventHandler {
 
                 System.out.println("Insert X for this player");
                 String line = sysin.nextLine();
+
+                while (!Pattern.matches(validEventInput, line)){
+                    System.out.println("Wrong format");
+                    line = sysin.nextLine();
+                }
+
                 xCoords.add(Integer.parseInt(line));
 
                 System.out.println("Insert Y for this player");
                 line = sysin.nextLine();
+
+                while (!Pattern.matches(validEventInput, line)){
+                    System.out.println("Wrong format");
+                    line = sysin.nextLine();
+                }
+
                 yCoords.add(Integer.parseInt(line));
 
                 System.out.println("Next mover:");
@@ -904,6 +939,12 @@ public class Cli implements QuestionEventHandler {
         }
 
         String nextLine = sysin.nextLine();
+
+        while (!Pattern.matches(validEventInput, nextLine)){
+            System.out.println("Wrong format");
+            nextLine = sysin.nextLine();
+        }
+
         int answer = Integer.parseInt(nextLine);
 
 
@@ -937,6 +978,12 @@ public class Cli implements QuestionEventHandler {
         System.out.println("[1] NO");
 
         String nextLine = sysin.nextLine();
+
+        while (!Pattern.matches(validEventInput, nextLine)){
+            System.out.println("Wrong format");
+            nextLine = sysin.nextLine();
+        }
+
         int answer = Integer.parseInt(nextLine);
 
         if(answer == 0){
@@ -968,6 +1015,12 @@ public class Cli implements QuestionEventHandler {
         }
 
         String line = sysin.nextLine();
+
+        while (!Pattern.matches(validEventInput, line)){
+            System.out.println("Wrong format");
+            line = sysin.nextLine();
+        }
+
         int answer = Integer.parseInt(line);
 
         remoteView.sendAnswerEvent(
@@ -985,6 +1038,12 @@ public class Cli implements QuestionEventHandler {
             System.out.println("[" + event.powerUpNames.indexOf(powerUp) + "] " + powerUp + " " + event.colors.get(event.powerUpNames.indexOf(powerUp)));
 
         String line = sysin.nextLine();
+
+        while (!Pattern.matches(validEventInput, line)){
+            System.out.println("Wrong format");
+            line = sysin.nextLine();
+        }
+
         int answer = Integer.parseInt(line);
 
         remoteView.sendAnswerEvent(
@@ -1064,7 +1123,7 @@ public class Cli implements QuestionEventHandler {
     }
 
     @Override
-    public synchronized void handleEvent(TextMessage event) {
+    public void handleEvent(TextMessage event) {
 
         System.out.println("[*] NEW MESSAGE: " + event.message);
 

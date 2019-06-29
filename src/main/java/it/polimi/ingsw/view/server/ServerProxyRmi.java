@@ -8,6 +8,8 @@ import it.polimi.ingsw.view.client.RemoteViewInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 
 public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, ServerProxyRmiInterface {
@@ -27,6 +29,7 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
      */
     private final RemoteViewInterface remoteViewInterface;
 
+
     public ServerProxyRmi(String nickname, AnswerEventReceiver receiver, RemoteViewInterface remoteViewInterface) throws RemoteException{
         this.nickname = nickname;
         this.receiver = receiver;
@@ -40,8 +43,9 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
             try {
                 remoteViewInterface.receiveQuestionEvent(questionEvent);
             }
-            catch (RemoteException e){
-                receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+            catch (Exception e){
+                System.err.println("Exception during RMI connection --> ping should be able to handle this");
+                //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
             }
         }).start();
 
