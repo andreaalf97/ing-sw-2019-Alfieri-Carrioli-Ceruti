@@ -365,7 +365,7 @@ public class Cli implements QuestionEventHandler {
      * fill the map with the last snapshot received so player can see it
      */
     private void fillMapWithSnapshot(){
-        System.out.println(lastSnapshotReceived.toString());
+        //System.out.println(lastSnapshotReceived.toString());
         MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived, playerColors, allPlayers);
     }
 
@@ -891,6 +891,17 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void handleEvent(ChooseHowToPayToReloadQuestion event) {
 
+        System.out.println("You chose to reload " + event.weaponToReload);
+        ArrayList<String> chosenPayment = handlePayment(event.cost);
+
+        if(chosenPayment == null){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
+        remoteView.sendAnswerEvent(new ChooseHowToPayToReloadAnswer(username, event.weaponToReload, chosenPayment));
+
+
     }
 
 
@@ -1085,14 +1096,14 @@ public class Cli implements QuestionEventHandler {
 
         this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
 
-        System.out.println("[!] NOTIFY : New JSON received");
+        //System.out.println("[!] NOTIFY : New JSON received");
 
         this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
 
     }
 
     @Override
-    public void handleEvent(TextMessage event) {
+    public synchronized void handleEvent(TextMessage event) {
 
         System.out.println("[*] NEW MESSAGE: " + event.message);
 
@@ -1181,9 +1192,6 @@ public class Cli implements QuestionEventHandler {
     public void receiveEvent(QuestionEvent questionEvent) {
 
         clearScreen();
-        System.out.println();
-        System.out.println("____________________________________________");
-        System.out.println();
 
         questionEvent.acceptEventHandler(this);
 

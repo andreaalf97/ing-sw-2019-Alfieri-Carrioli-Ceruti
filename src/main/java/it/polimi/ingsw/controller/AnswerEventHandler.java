@@ -35,4 +35,6 @@ public interface AnswerEventHandler {
     void handleEvent(ChooseHowToPayForAttackingAnswer event);
 
     void handleEvent(ChooseHowToPayToSwitchWeaponsAnswer event);
+
+    void handleEvent(ChooseHowToPayToReloadAnswer event);
 }

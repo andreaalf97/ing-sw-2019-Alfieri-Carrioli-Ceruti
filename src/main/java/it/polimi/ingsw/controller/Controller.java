@@ -608,9 +608,10 @@ public class Controller implements Observer, AnswerEventHandler {
         }
 
         if(playerHasFinallyShoot) {
-            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU SHOOT!");
+            sendMessage(event.chooseHowToShootAnswer.nickname, "SHOT COMPLETED SUCCESSFULLY!");
+            player.playerStatus.nActionsDone++;
         }else{
-            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU HAVEN'T SHOOT!");
+            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU DID NOT SHOOT!");
         }
 
         sendQuestionEvent(event.chooseHowToShootAnswer.nickname, new ActionQuestion(gameModel.generatePossibleActions(event.chooseHowToShootAnswer.nickname)));
@@ -631,6 +632,21 @@ public class Controller implements Observer, AnswerEventHandler {
                 new ActionQuestion(possibleActions)
         );
 
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToReloadAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        removeAmmoFromPlayer(player, event.chosenPayment);
+
+        player.reloadWeaponByName(event.weapon);
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname,
+                new ActionQuestion(possibleActions)
+        );
     }
 
     @Override
@@ -739,6 +755,17 @@ public class Controller implements Observer, AnswerEventHandler {
 
         for(Weapon w : rechargeableWeapons)
             weapons.add(w.getWeaponName());
+
+        if(weapons.isEmpty()){
+            sendMessage(event.nickname, "You don't have enough ammo to reload any weapon");
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
 
         sendQuestionEvent(player.getNickname(), new ChooseWeaponToReloadQuestion(weapons));
 
@@ -938,11 +965,11 @@ public class Controller implements Observer, AnswerEventHandler {
 
         //FIXME This is completely wrong
 
-        Player player = gameModel.getPlayerByNickname(event.nickname);
-
         ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
 
-        sendQuestionEvent(event.nickname, new ChooseHowToPayToReloadQuestion(event.weaponToReload));
+        sendQuestionEvent(event.nickname,
+                new ChooseHowToPayToReloadQuestion(event.weaponToReload, cost)
+        );
 
     }
 
