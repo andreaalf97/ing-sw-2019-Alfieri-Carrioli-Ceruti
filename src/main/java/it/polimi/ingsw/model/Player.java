@@ -739,4 +739,13 @@ public class Player {
 
         return powerUpColors;
     }
+
+    public void reloadWeaponByName(String weaponName) {
+
+        for(Weapon w : weaponList){
+            if( w.getWeaponName().equals(weaponName))
+                w.reload();
+        }
+
+    }
 }

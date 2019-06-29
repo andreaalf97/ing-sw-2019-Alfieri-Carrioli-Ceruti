@@ -608,12 +608,45 @@ public class Controller implements Observer, AnswerEventHandler {
         }
 
         if(playerHasFinallyShoot) {
-            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU SHOOT!");
+            sendMessage(event.chooseHowToShootAnswer.nickname, "SHOT COMPLETED SUCCESSFULLY!");
+            player.playerStatus.nActionsDone++;
         }else{
-            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU HAVEN'T SHOOT!");
+            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU DID NOT SHOOT!");
         }
 
         sendQuestionEvent(event.chooseHowToShootAnswer.nickname, new ActionQuestion(gameModel.generatePossibleActions(event.chooseHowToShootAnswer.nickname)));
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToSwitchWeaponsAnswer event) {
+
+        Player playerObject = gameModel.getPlayerByNickname(event.nickname);
+
+        removeAmmoFromPlayer(playerObject, event.paymentChoice);
+
+        //I pick the weapon and give it to the player
+        gameModel.switchWeapons(event.nickname, event.weaponToPick, event.weaponToDiscard);
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname,
+                new ActionQuestion(possibleActions)
+        );
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToReloadAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        removeAmmoFromPlayer(player, event.chosenPayment);
+
+        player.reloadWeaponByName(event.weapon);
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname,
+                new ActionQuestion(possibleActions)
+        );
     }
 
     @Override
@@ -722,6 +755,17 @@ public class Controller implements Observer, AnswerEventHandler {
 
         for(Weapon w : rechargeableWeapons)
             weapons.add(w.getWeaponName());
+
+        if(weapons.isEmpty()){
+            sendMessage(event.nickname, "You don't have enough ammo to reload any weapon");
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
 
         sendQuestionEvent(player.getNickname(), new ChooseWeaponToReloadQuestion(weapons));
 
@@ -910,8 +954,6 @@ public class Controller implements Observer, AnswerEventHandler {
             return;
         }
 
-        Player p = gameModel.getPlayerByNickname(event.nickname);
-
         sendQuestionEvent(event.nickname,
                 new ChooseHowToPayToPickWeaponQuestion(event.weaponToPick, weaponCost)
         );
@@ -921,16 +963,47 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(ChooseWeaponToReloadAnswer event) {
 
-        Player player = gameModel.getPlayerByNickname(event.nickname);
+        //FIXME This is completely wrong
 
         ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
 
-        sendQuestionEvent(event.nickname, new ChooseHowToPayToReloadQuestion(event.weaponToReload));
+        sendQuestionEvent(event.nickname,
+                new ChooseHowToPayToReloadQuestion(event.weaponToReload, cost)
+        );
 
     }
 
     @Override
     public void handleEvent(ChooseWeaponToSwitchAnswer event) {
+
+
+        Weapon weaponToPick = gameModel.getWeaponByName(event.weaponToPick);
+
+        ArrayList<Color> weaponCost = weaponToPick.getCost();
+        weaponCost.remove(0);
+
+        if(weaponCost.isEmpty()){
+
+            gameModel.switchWeapons(event.nickname, event.weaponToPick, event.weaponToDiscard);
+
+            ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+            sendQuestionEvent(event.nickname,
+                    new ActionQuestion(possibleActions)
+            );
+
+            return;
+        }
+
+        sendQuestionEvent(event.nickname,
+                new ChooseHowToPayToSwitchWeaponsQuestion(event.weaponToPick, weaponCost, event.weaponToDiscard)
+        );
+
+
+        //FIXME need to pay first!
+        //gameModel.switchWeapons(event.nickname, event.weaponToPick, event.weaponToDiscard);
+
+
+
 
     }
 

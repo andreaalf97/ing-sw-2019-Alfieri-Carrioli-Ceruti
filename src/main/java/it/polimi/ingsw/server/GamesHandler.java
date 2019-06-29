@@ -321,4 +321,14 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         throw new RuntimeException("The GamesHandler received an unexpected event during connection");
     }
 
+    @Override
+    public void handleEvent(ChooseHowToPayToSwitchWeaponsAnswer event) {
+        throw new RuntimeException("The GamesHandler received an unexpected event during connection");
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToReloadAnswer event) {
+        throw new RuntimeException("The GamesHandler received an unexpected event during connection");
+    }
+
 }

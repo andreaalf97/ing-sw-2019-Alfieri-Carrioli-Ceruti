@@ -33,4 +33,8 @@ public interface AnswerEventHandler {
     void handleEvent(WhereToMoveAnswer event);
     void handleEvent(AskOrderAndDefenderAnswer event);
     void handleEvent(ChooseHowToPayForAttackingAnswer event);
+
+    void handleEvent(ChooseHowToPayToSwitchWeaponsAnswer event);
+
+    void handleEvent(ChooseHowToPayToReloadAnswer event);
 }
