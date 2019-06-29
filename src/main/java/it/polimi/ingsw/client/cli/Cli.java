@@ -369,65 +369,26 @@ public class Cli implements QuestionEventHandler {
         MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived, playerColors, allPlayers);
     }
 
+//********************************** PRINTING ********************************************
+
     /**
      * show game map to player
      */
     public synchronized void showGameMap(){
         MapGrid.clearMap();
+        CompleteGrid.clearGrid();
+        CompleteGrid.separateBoards();
+
         MapGrid.buildCliMap(currentMap);
         fillMapWithSnapshot();
-        MapGrid.printMap();
+        CompleteGrid.copyMapGrid(); //now MapGrid is contained in Grid
+
+        CompleteGrid.fillMapWithKst(lastSnapshotReceived, playerColors, allPlayers);
+        CompleteGrid.fillMapWithPlayers(lastSnapshotReceived, playerColors, allPlayers, username);
+
+        CompleteGrid.printMap();
     }
 
-//********************************** PRINTING ********************************************
-
-    public void showAll(){
-        showKst();
-        showGameMap();
-        showPlayerNames();
-        showPlayers();
-    }
-
-    public void showKst(){
-        JsonArray jsonKstKills = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
-        JsonArray jsonKstIsOverKill = lastSnapshotReceived.get("kst").getAsJsonObject().get("skullList").getAsJsonArray();
-
-        System.out.println("THIS IS THE KILLSHOT TRACK: \n");
-        for(int i = 0; i < jsonKstKills.size(); i++){
-            System.out.println("[" + i + "] : " + jsonKstKills.get(i).getAsString());
-
-            if(jsonKstIsOverKill.get(i).getAsBoolean()){
-                System.out.println("\t with Overkill");
-            }
-
-            System.out.println("\n");
-        }
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-
-    }
-
-
-
-    public void showPlayers(){}
-
-    public void showPlayerNames(){
-        JsonArray jsonPlayerNames = lastSnapshotReceived.get("playerNames").getAsJsonArray();
-
-        System.out.println("PLAYERS NAMES: \n");
-
-        for(int i = 0; i < jsonPlayerNames.size(); i++){
-            System.out.println("[" + i + "] : " + jsonPlayerNames.get(i).getAsString() + "\n");
-        }
-
-        System.out.println("\n");
-        System.out.println("\n");
-        System.out.println("\n");
-
-    }
-
-    public void showPlayer(String nickname){}
 
 //*********************** NETWORK EVENTS *************************************************
 
