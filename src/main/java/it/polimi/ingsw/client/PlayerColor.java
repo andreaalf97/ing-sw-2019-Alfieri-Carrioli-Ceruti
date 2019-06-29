@@ -20,8 +20,6 @@ public enum PlayerColor {
     }
 
     public static ArrayList<PlayerColor> getRandomArray(int size){
-
-        //TODO andreaalf
         //this returns an array of different colors with the given size
 
         PlayerColor[] allColorsTemp = PlayerColor.values();
