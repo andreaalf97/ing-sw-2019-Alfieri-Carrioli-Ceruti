@@ -41,7 +41,7 @@ public class GameScene implements MyScene {
     /**
      * The part of scene for the player to comunicate/choose things
      */
-    private PlayersInteractingSpace playersInteractingSpace;
+    public PlayersInteractingSpace playersInteractingSpace;
 
     /**
      * The pane to put all weapons in the player's hand

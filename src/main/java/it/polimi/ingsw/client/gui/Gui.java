@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.client.gui.scenes.*;
 import it.polimi.ingsw.client.gui.scenes.gameScene.GameScene;
+import it.polimi.ingsw.client.gui.scenes.gameScene.PlayersInteractingSpace;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.serverToClient.*;
@@ -256,12 +257,14 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(PlayerDisconnectedQuestion event) {
-
+        Modal.display(event.nickname + " DISCONNECTED FROM THE GAME");
     }
+
+    //*****************************************************************************************
 
     @Override
     public void handleEvent(ActionQuestion event) {
-
+        gameScene.playersInteractingSpace.choosePossibleAction(event, username, remoteView);
     }
 
     @Override
