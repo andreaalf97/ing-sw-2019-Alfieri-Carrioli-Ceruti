@@ -20,6 +20,7 @@ import javafx.scene.*;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
+import javax.print.attribute.standard.MediaSize;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -247,12 +248,12 @@ public class Gui extends Application implements QuestionEventHandler {
 
         waitingRoomGui.close();
 
-        MyScene next = new GameScene(window, username, event, gameInfo, playerInfo);
+        //This constructor creates the starting scene
+        MyScene next = new GameScene(window, username, event);
+
         Scene nextScene = next.getScene();
         window.setScene(nextScene);
 
-        //TODO andreaalf
-        //Settare game scene e iniziare la partita
     }
 
     @Override
@@ -344,6 +345,8 @@ public class Gui extends Application implements QuestionEventHandler {
         this.gameInfo = JsonDeserializer.deserializedSnapshot(JsonDeserializer.stringToJsonObject(event.json), username);
         gameScene.setGameInfo(this.gameInfo);
         gameScene.setPlayerInfo(this.playerInfo);
+
+        gameScene.update(gameInfo);
     }
 
     @Override

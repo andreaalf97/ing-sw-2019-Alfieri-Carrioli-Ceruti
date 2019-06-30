@@ -30,7 +30,7 @@ public class OtherPlayersPlancias {
     private ArrayList<OtherPlayerInfo> otherPlayersInfos;
 
     //player colors WITHOUT my player's color
-    private ArrayList<PlayerColor> playerColors;
+    private ArrayList<PlayerColor> playersColors;
 
     //ALL player colors WITH my player's color
     private ArrayList<PlayerColor> allPlayersColors;
@@ -43,27 +43,18 @@ public class OtherPlayersPlancias {
 
     private ArrayList<String> allPlayersNames;
 
-    protected OtherPlayersPlancias( ArrayList<PlayerColor> playerColors, GameInfo gameInfo, String username, ArrayList<String> playersNames, ArrayList<PlayerColor> allPlayersColors, ArrayList<String> allPlayersNames){
+    public OtherPlayersPlancias(ArrayList<PlayerColor> otherPlayersColors, ArrayList<String> otherPlayers) {
 
-        this.gridPanes = new ArrayList<>();
         this.damagesGridPanes = new ArrayList<>();
         this.marksGridPanes = new ArrayList<>();
         this.skullGridPanes = new ArrayList<>();
         this.ammoGridPanes = new ArrayList<>();
         this.otherPlayersInfos = new ArrayList<>();
-        this.gameInfo = gameInfo;
-        this.playerColors = playerColors;
-        this.playersNames = playersNames;
-        this.username = username;
-        this.allPlayersColors = allPlayersColors;
-        this.allPlayersNames = allPlayersNames;
+        this.gridPanes = new ArrayList<>();
+        this.playersColors = otherPlayersColors;
+        this.playersNames = otherPlayers;
 
-        for ( OtherPlayerInfo otherPlayerInfo : gameInfo.otherPlayerInfos){
-            if( !otherPlayerInfo.nickname.equals(username))
-                this.otherPlayersInfos.add(otherPlayerInfo);
-        }
-
-        for( int i = 0; i < this.otherPlayersInfos.size(); i++) {
+        for( int i = 0; i < this.playersNames.size(); i++) {
 
             GridPane gridpane = new GridPane();
             this.gridPanes.add(gridpane);
@@ -101,7 +92,7 @@ public class OtherPlayersPlancias {
 
 
             Image image = new Image(
-                    playerColors.get(i).getPath(),
+                    playersColors.get(i).getPath(),
                     0, 0,
                     true, false
             );
@@ -113,14 +104,30 @@ public class OtherPlayersPlancias {
                     BackgroundPosition.DEFAULT,
                     new BackgroundSize(1, 1, true, true, true, false)
             );
-            setUpPlancia(i);
+
             gridPanes.get(i).setBackground(new Background(backgroundImage));
 
             gridPanes.get(i).getStyleClass().add("whiteLines");
         }
-
-
     }
+
+    public void update(GameInfo gameInfo, String username, ArrayList<PlayerColor> allPlayersColors, ArrayList<String> allPlayersNames) {
+
+        this.gameInfo = gameInfo;
+        this.username = username;
+        this.allPlayersColors = allPlayersColors;
+        this.allPlayersNames = allPlayersNames;
+
+        for ( OtherPlayerInfo otherPlayerInfo : gameInfo.otherPlayerInfos){
+            if( !otherPlayerInfo.nickname.equals(username))
+                this.otherPlayersInfos.add(otherPlayerInfo);
+        }
+
+        for( int i = 0; i < this.otherPlayersInfos.size(); i++) {
+            setUpPlancia(i);
+        }
+    }
+
 
     private void setUpPlancia(int indexOfPlayer) {
 
@@ -392,4 +399,5 @@ public class OtherPlayersPlancias {
     protected ArrayList<GridPane> getGridPanes(){
         return this.gridPanes;
     }
+
 }

@@ -17,14 +17,15 @@ public class CardBox {
 
     private ArrayList<Button> powerUpButtons;
 
-
-
-    protected CardBox(PlayerInfo playerInfo){
+    public CardBox() {
 
         this.weaponsButtons = new ArrayList<>();
         this.powerUpButtons = new ArrayList<>();
-
         this.gridPane = setUpGridpane();
+    }
+
+
+    protected void update(PlayerInfo playerInfo){
 
         int i = 0;
         for ( String weaponName : playerInfo.weaponNames){
@@ -90,6 +91,7 @@ public class CardBox {
         gridPane.getStyleClass().add("purpleLines");
 
     }
+
 
     private GridPane setUpGridpane() {
 

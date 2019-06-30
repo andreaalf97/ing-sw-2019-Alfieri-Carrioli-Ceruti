@@ -62,6 +62,8 @@ public class GameScene implements MyScene {
      */
     private OtherPlayersPlancias otherPlayersPlancias;
 
+    private CardBox cardBox;
+
     /**
      * The label that prompts all the messages
      */
@@ -78,7 +80,6 @@ public class GameScene implements MyScene {
     public MapName mapName;
 
     public int votedSkulls;
-
 
     public void setGameInfo(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
@@ -104,6 +105,7 @@ public class GameScene implements MyScene {
     private final int otherPlanciasRow = 12;
     private final int otherPlanciasOffset = 10;
 
+
     /**
      * This constructor builds the scene by using a gridpane and positioning all elements
      * int the correct spot
@@ -111,7 +113,7 @@ public class GameScene implements MyScene {
      * @param username the username of this player
      * @param event the game started event
      */
-    public GameScene(Stage window, String username, GameStartedQuestion event, GameInfo gameInfo, PlayerInfo playerInfo) {
+    public GameScene(Stage window, String username, GameStartedQuestion event) {
 
         this.window = window;
         this.username = username;
@@ -120,8 +122,7 @@ public class GameScene implements MyScene {
         this.firstPlayer = event.firstPlayer;
         this.mapName = event.mapName;
         this.votedSkulls = event.votedSkulls;
-        this.gameInfo = gameInfo;
-        this.playerInfo = playerInfo;
+
 
         this.weaponBoxes = new ArrayList<>();
         this.powerUpBoxes = new ArrayList<>();
@@ -141,7 +142,7 @@ public class GameScene implements MyScene {
         //************************************* + Board Grid + *********************************************
 
         //Setting up the map grid
-        this.boardGrid = new BoardGrid(this.mapName.getPath(), this.gameInfo, this.votedSkulls, this.playerNames, this.playerColors, this.username);
+        this.boardGrid = new BoardGrid(this.mapName.getPath(), this.votedSkulls, this.playerNames, this.playerColors, this.username);
 
         //Adding the map grid to the main pane
         //Starting from column 0, row 5, colspan 30, rowspan 24
@@ -152,37 +153,37 @@ public class GameScene implements MyScene {
         this.playersInteractingSpace = new PlayersInteractingSpace();
         externalGridPane.add(playersInteractingSpace.getGridPane(), 0, 0, 44, 10);
 
-
         //************************************* + MY PLANCIA + *********************************************
 
         //Setting up the player's plancia
         PlayerColor myColor = playerColors.get(playerNames.indexOf(username));
 
-        this.myPlancia = new MyPlancia(myColor, "rightShadow", playerInfo,  this.playerNames, this.playerColors);
+        //this.myPlancia = new MyPlancia(myColor, "rightShadow", playerInfo,  this.playerNames, this.playerColors);
+        this.myPlancia = new MyPlancia(myColor, playerColors, playerNames);
 
         //Adding the plancia to the main pane
         externalGridPane.add(myPlancia.getplanciaGridPane(), 56, 0, 42, 10);
 
-
-
         //************************************* + OTHER PLANCIAS + *********************************************
 
         //Copies the player color array
-        ArrayList<PlayerColor> tempColors = new ArrayList<>(playerColors);
-        ArrayList<PlayerColor> tempColors1 = new ArrayList<>(playerColors);
+        ArrayList<PlayerColor> otherPlayersColors = new ArrayList<>(playerColors);
+        ArrayList<PlayerColor> allPlayersColors = new ArrayList<>(playerColors);
 
         //Gets the index of this player
         int indexOfThisPlayer = playerNames.indexOf(username);
 
         //Removes this player's color from the array
-        tempColors.remove(indexOfThisPlayer);
+        otherPlayersColors.remove(indexOfThisPlayer);
 
         //Creates the array of other player's usernames
         ArrayList<String> otherPlayers = new ArrayList<>(playerNames);
         otherPlayers.remove(username);
 
         //Creates the list of other plancias
-        this.otherPlayersPlancias = new OtherPlayersPlancias(tempColors, gameInfo, username, otherPlayers, tempColors1, playerNames);
+        //this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayersColors, gameInfo, username, otherPlayers, allPlayersColors, playerNames);
+
+        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayersColors, otherPlayers);
 
 
         int i = 0;
@@ -194,9 +195,6 @@ public class GameScene implements MyScene {
             externalGridPane.add(g, otherPlanciasCol, otherPlanciasRow + (i * otherPlanciasOffset), 36, 8);
             i++;
         }
-
-
-
         //************************************* + MESSAGE VIEWER + *********************************************
 
         this.messageBox = new Label("This is Adrenalina bitches");
@@ -207,28 +205,16 @@ public class GameScene implements MyScene {
 
         externalGridPane.add(messageBox, 60, 48, 28, 6);
 
-
-
-
         //************************************* + POWER UPS AND WEAPONS + *********************************************
 
-
-        setUpPlayerCards(externalGridPane, 44, 0, 12, 10);
-
+        this.cardBox = new CardBox();
+        externalGridPane.add(cardBox.getGridPane(), 44, 0, 12, 10);
 
         //************************************* + LOGO + *********************************************
-
         //setUpLogo(externalGridPane, 88, 0, 8, 8);
-
-
-
         //************************************* + EXIT BUTTON + *********************************************
 
         setUpExit(externalGridPane, 88, 50, 7, 6);
-
-
-
-
 
         //Loading the pane into the scene
         this.scene = new Scene(externalGridPane, 1120, 630);
@@ -242,7 +228,21 @@ public class GameScene implements MyScene {
         else {
             window.setResizable(false);
         }
+    }
 
+    public void update(GameInfo gameInfo) {
+
+        //Updating BoardGrid
+        boardGrid.update(gameInfo);
+
+        //Updating my Plancia
+        myPlancia.update(playerInfo);
+
+        //Updating other players plancias
+        otherPlayersPlancias.update(gameInfo, username, playerColors, playerNames);
+
+        //Updating my cards and power ups
+        cardBox.update(playerInfo);
 
     }
 
@@ -297,21 +297,6 @@ public class GameScene implements MyScene {
 
 
     /**
-     * Sets up the player power ups
-     * @param externalGridPane the external pane
-     * @param col the col
-     * @param row the row
-     * @param colspan the colspan
-     * @param rowspan the rowspan
-     */
-    private void setUpPlayerCards(GridPane externalGridPane, int col, int row, int colspan, int rowspan) {
-
-        CardBox cardBox = new CardBox(playerInfo);
-        externalGridPane.add(cardBox.getGridPane(), col, row, colspan, rowspan);
-
-    }
-
-    /**
      * Sets up the external grid pane
      * @param nCols the amount of cols
      * @param nRows the amount of rows
@@ -358,4 +343,5 @@ public class GameScene implements MyScene {
     public Scene getScene() {
         return this.scene;
     }
+
 }

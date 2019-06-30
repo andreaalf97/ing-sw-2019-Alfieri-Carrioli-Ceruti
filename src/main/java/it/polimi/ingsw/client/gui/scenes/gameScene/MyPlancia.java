@@ -26,14 +26,16 @@ public class MyPlancia {
 
     private ArrayList<String> playersNames;
 
-    private ArrayList<PlayerColor> playerColors;
+    private ArrayList<PlayerColor> playersColors;
 
-    protected MyPlancia(PlayerColor playerColor, String cssClass, PlayerInfo playerInfo, ArrayList<String> playersNames, ArrayList<PlayerColor> playerColors){
+    private PlayerColor myColor;
+
+    protected MyPlancia(PlayerColor playerColor, ArrayList<PlayerColor> playersColors, ArrayList<String> playersNames){
 
         this.planciaGridPane = new GridPane();
-        this.playerColors = playerColors;
+        this.myColor = playerColor;
+        this.playersColors = playersColors;
         this.playersNames = playersNames;
-        this.playerInfo = playerInfo;
 
         ArrayList<Double> colPercentages = new ArrayList<>();
         colPercentages.add(8.150);
@@ -81,13 +83,16 @@ public class MyPlancia {
                 new BackgroundSize(1, 1, true, true, true, false)
         );
 
-        setUpPlancia();
-
         planciaGridPane.setBackground(new Background(backgroundImage));
-
-        planciaGridPane.getStyleClass().add("whiteLines");
-
     }
+
+    public void update(PlayerInfo playerInfo) {
+
+        this.playerInfo = playerInfo;
+
+        setUpPlancia();
+    }
+
 
     private void setUpPlancia() {
 
@@ -173,7 +178,7 @@ public class MyPlancia {
         for (int i = 0; i < playerInfo.damages.size(); i++){
 
             String playerName = playerInfo.damages.get(i);
-            PlayerColor colorOfThisPlayer = playerColors.get(playersNames.indexOf(playerName));
+            PlayerColor colorOfThisPlayer = playersColors.get(playersNames.indexOf(playerName));
 
             Image image = new Image(
                     "/graphics/drops/"+ colorOfThisPlayer.toString().toUpperCase()+".png",
@@ -226,7 +231,7 @@ public class MyPlancia {
         for (int i = 0; i < playerInfo.marks.size(); i++){
 
             String playerName = playerInfo.marks.get(i);
-            PlayerColor colorOfThisPlayer = playerColors.get(playersNames.indexOf(playerName));
+            PlayerColor colorOfThisPlayer = playersColors.get(playersNames.indexOf(playerName));
 
             Image image = new Image(
                     "/graphics/drops/"+ colorOfThisPlayer.toString().toUpperCase()+".png",
@@ -352,4 +357,5 @@ public class MyPlancia {
     protected Pane getplanciaGridPane(){
         return this.planciaGridPane;
     }
+
 }
