@@ -268,6 +268,21 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseWeaponToAttackQuestion event) {
+        gameScene.playersInteractingSpace.chooseWeaponToAttack(event, username, remoteView);
+    }
+
+    @Override
+    public void handleEvent(AskOrderAndDefenderQuestion event){
+        gameScene.playersInteractingSpace.askOrderAndDefender(event, username, remoteView, gameInfo.playersNames);
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToShootQuestion event) {
+        gameScene.playersInteractingSpace.askChooseHowToShoot(event, username, remoteView, gameInfo.playersNames);
+    }
+
+    @Override
     public void handleEvent(ChooseHowToPayForAttackingQuestion event) {
 
     }
@@ -288,11 +303,6 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
     @Override
-    public void handleEvent(ChooseHowToShootQuestion event) {
-
-    }
-
-    @Override
     public void handleEvent(ChooseHowToUseTurnPowerUpQuestion event) {
 
     }
@@ -309,11 +319,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChoosePowerUpToUseQuestion event) {
-
-    }
-
-    @Override
-    public void handleEvent(ChooseWeaponToAttackQuestion event) {
 
     }
 
@@ -355,9 +360,6 @@ public class Gui extends Application implements QuestionEventHandler {
     public void handleEvent(WhereToMoveQuestion event) {
 
     }
-
-    @Override
-    public void handleEvent(AskOrderAndDefenderQuestion event){}
 
     @Override
     public void receiveEvent(QuestionEvent questionEvent) {
