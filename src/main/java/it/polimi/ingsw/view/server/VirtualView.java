@@ -68,6 +68,8 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         lastClientSnapshot[0] = "";
         lastClientSnapshot[1] = "";
 
+        //TODO andreaalf    put this back && check for disconnection and reconnections!!
+        /*
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -83,6 +85,8 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
                 }
             }
         }, 0, 5000);
+
+         */
 
     }
 
