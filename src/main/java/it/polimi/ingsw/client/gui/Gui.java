@@ -112,14 +112,14 @@ public class Gui extends Application implements QuestionEventHandler {
 
 
 
-        GameStartedQuestion event = fakeGameStartedEvent();
+        //GameStartedQuestion event = fakeGameStartedEvent();
 
-        GameInfo fakeGameInfo = new GameInfo("meme"); //mi serve l'username per sapere chi ha le armi e i powerup nel Json
+        //GameInfo fakeGameInfo = new GameInfo("meme"); //mi serve l'username per sapere chi ha le armi e i powerup nel Json
 
 
         //Sets the Start Scene and shows it
-        MyScene next = new GameScene(window, "meme", event, fakeGameInfo, fakeGameInfo.playerInfo);
-        //MyScene next = new StartScene(this, window);
+        //MyScene next = new GameScene(window, "meme", event, fakeGameInfo, fakeGameInfo.playerInfo);
+        MyScene next = new StartScene(this, window);
         Scene nextScene = next.getScene();
 
         window.setScene(
