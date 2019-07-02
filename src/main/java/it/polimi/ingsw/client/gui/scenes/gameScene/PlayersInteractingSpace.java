@@ -53,7 +53,6 @@ public class PlayersInteractingSpace {
         //Clean the gridpane
         gridPane.getChildren().clear();
 
-
         Label label = new Label("Choose action: ");
         label.setStyle("-fx-font-size: 20; -fx-color: black");
 
@@ -62,7 +61,7 @@ public class PlayersInteractingSpace {
         for ( int i = 0; i < event.possibleAction.size(); i++){
             Button button = new Button(event.possibleAction.get(i));
             String action = event.possibleAction.get(i);
-            gridPane.add(button, i, 0);
+            gridPane.add(button, i, 1, 1, 1);
             button.setOnAction(e -> {
                 switch (action){
 

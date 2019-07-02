@@ -32,23 +32,23 @@ public class BoardGrid {
 
     public int votedSkulls;
 
-    private GridPane gridPane;
+    public GridPane gridPane;
 
-    private GridPane kstBox;
+    public GridPane kstBox;
 
-    private GridPane pointsBox;
+    public GridPane pointsBox;
 
-    private GridPane leftSpawnWeaponBox;
+    public GridPane leftSpawnWeaponBox;
 
-    private GridPane topSpawnWeaponBox;
+    public GridPane topSpawnWeaponBox;
 
-    private GridPane rightSpawnWeaponBox;
+    public GridPane rightSpawnWeaponBox;
 
-    private GridPane mapBox;
+    public GridPane mapBox;
 
-    private HBox doubleKillBox;
+    public HBox doubleKillBox;
 
-    private GameInfo gameInfo;
+    public GameInfo gameInfo;
 
     //players and ammocards for every spot has to be put inside this Vbox (one for each spot)
     private ArrayList<GridPane> stuffInEverySpot;
@@ -79,7 +79,7 @@ public class BoardGrid {
 
         this.doubleKillBox = new HBox();
 
-        gridPane.add(pointsBox, 1, 1, 1, 5);
+        //gridPane.add(pointsBox, 1, 1, 1, 5);
         gridPane.add(kstBox, 3, 2, 4, 1);
         gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
         gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
@@ -91,21 +91,47 @@ public class BoardGrid {
 
     public void update(GameInfo gameInfo) {
 
+        if (kstBox != null)
+            gridPane.getChildren().remove(kstBox);
         this.kstBox = setUpKstBox(gameInfo.killShotTrack.getSkullList().size());
+        gridPane.add(kstBox, 3, 2, 4, 1);
 
+        if (pointsBox != null)
+            gridPane.getChildren().remove(pointsBox);
         this.pointsBox = setUpPointsBox();
+        gridPane.add(pointsBox, 1, 1, 1, 5);
 
         Spot[][] gameMap = gameInfo.gameMap.getMap();
 
+        if (leftSpawnWeaponBox != null)
+            gridPane.getChildren().remove(leftSpawnWeaponBox);
         this.leftSpawnWeaponBox = setUpLeftSpawnWeaponBox(gameMap[1][0]);
+        gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
 
+        if (topSpawnWeaponBox != null)
+            gridPane.getChildren().remove(topSpawnWeaponBox);
         this.topSpawnWeaponBox = setUpTopSpawnWeaponBox(gameMap[0][2]);
+        gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
 
+        if (rightSpawnWeaponBox != null)
+            gridPane.getChildren().remove(rightSpawnWeaponBox);
         this.rightSpawnWeaponBox = setUpRightSpawnWeaponBox(gameMap[2][3]);
+        gridPane.add(rightSpawnWeaponBox, 10, 9, 1, 3);
 
+        if (stuffInEverySpot != null) {
+            for ( GridPane g : stuffInEverySpot)
+            stuffInEverySpot.remove(g);
+        }
         this.stuffInEverySpot = new ArrayList<>(12);
 
+        if (mapBox != null)
+            gridPane.getChildren().remove(mapBox);
         this.mapBox = setUpMapBox(gameInfo);
+        gridPane.add(mapBox, 6, 5, 3, 6);
+
+        if (doubleKillBox != null)
+            gridPane.getChildren().remove(doubleKillBox);
+        gridPane.add(doubleKillBox, 3, 5, 1, 2);
 
     }
 

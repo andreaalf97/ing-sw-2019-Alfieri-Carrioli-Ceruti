@@ -96,6 +96,18 @@ public class MyPlancia {
 
     private void setUpPlancia() {
 
+        if (damagesGridPane != null)
+            planciaGridPane.getChildren().remove(damagesGridPane);
+
+        if (marksGridPane != null)
+            planciaGridPane.getChildren().remove(marksGridPane);
+
+        if (ammoGridPane != null)
+            planciaGridPane.getChildren().remove(ammoGridPane);
+
+        if (skullGridPane != null)
+            planciaGridPane.getChildren().remove(skullGridPane);
+
         setUpAmmos();
         setUpMarks();
         setUpDamages();
