@@ -140,6 +140,8 @@ public class OtherPlayersPlancias {
 
     private void setUpSkulls(int indexOfPlayer) {
 
+        skullGridPanes.clear();
+
         GridPane gridPane = new GridPane();
         skullGridPanes.add(gridPane);
         skullGridPanes.get(indexOfPlayer).setPadding(new Insets(6, 0, 0, 0));
@@ -188,6 +190,8 @@ public class OtherPlayersPlancias {
     }
 
     private void setUpDamages(int indexOfPlayer) {
+
+        damagesGridPanes.clear();
 
         GridPane gridPane = new GridPane();
         damagesGridPanes.add(gridPane);
@@ -243,6 +247,8 @@ public class OtherPlayersPlancias {
 
     private void setUpMarks(int indexOfPlayer) {
 
+        marksGridPanes.clear();
+
         GridPane gridPane = new GridPane();
         marksGridPanes.add(gridPane);
         marksGridPanes.get(indexOfPlayer).setPadding(new Insets(6, 0, 0, 0));
@@ -297,6 +303,8 @@ public class OtherPlayersPlancias {
     }
 
     private void setUpAmmos(int indexOfPlayer) {
+
+        ammoGridPanes.clear();
 
         GridPane gridPane = new GridPane();
         ammoGridPanes.add(gridPane);

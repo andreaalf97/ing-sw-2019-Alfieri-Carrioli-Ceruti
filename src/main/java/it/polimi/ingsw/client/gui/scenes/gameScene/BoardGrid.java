@@ -105,19 +105,12 @@ public class BoardGrid {
 
         this.stuffInEverySpot = new ArrayList<>(12);
 
-        this.mapBox = setUpMapBox();
+        this.mapBox = setUpMapBox(gameInfo);
 
-        gridPane.add(pointsBox, 1, 1, 1, 5);
-        gridPane.add(kstBox, 3, 2, 4, 1);
-        gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
-        gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
-        gridPane.add(rightSpawnWeaponBox, 10, 9, 1, 3);
-        gridPane.add(mapBox, 6, 5, 3, 6);
-        gridPane.add(doubleKillBox, 3, 5, 1, 2);
     }
 
 
-    private GridPane setUpMapBox() {
+    private GridPane setUpMapBox(GameInfo gameInfo) {
 
         GridPane gridPane = new GridPane();
 

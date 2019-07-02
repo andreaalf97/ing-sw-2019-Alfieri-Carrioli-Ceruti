@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.client.gui.scenes.*;
 import it.polimi.ingsw.client.gui.scenes.gameScene.GameScene;
-import it.polimi.ingsw.client.gui.scenes.gameScene.PlayersInteractingSpace;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.serverToClient.*;
@@ -23,7 +22,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
-import javax.print.attribute.standard.MediaSize;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -243,7 +241,8 @@ public class Gui extends Application implements QuestionEventHandler {
         waitingRoomGui.close();
 
         //This constructor creates the starting scene
-        MyScene next = new GameScene(window, username, event);
+        MyScene next = new GameScene(window, username, event, gameInfo);
+        this.gameScene = (GameScene) next;
 
         Scene nextScene = next.getScene();
 
@@ -362,11 +361,12 @@ public class Gui extends Application implements QuestionEventHandler {
 
         this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
         this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
-        this.gameInfo = JsonDeserializer.deserializedSnapshot(JsonDeserializer.stringToJsonObject(event.json), username);
-        gameScene.setGameInfo(this.gameInfo);
-        gameScene.setPlayerInfo(this.playerInfo);
+        this.gameInfo = JsonDeserializer.deserializedSnapshot(this.lastSnapshotReceived, username);
 
-        gameScene.update(gameInfo);
+        if(gameScene != null) {
+            gameScene.setGameInfo(this.gameInfo);
+            gameScene.update();
+        }
     }
 
     @Override

@@ -81,16 +81,6 @@ public class GameScene extends ClickHandler implements MyScene {
 
     public int votedSkulls;
 
-    public void setGameInfo(GameInfo gameInfo) {
-        this.gameInfo = gameInfo;
-    }
-
-    public void setPlayerInfo(PlayerInfo playerInfo) {
-        this.playerInfo = playerInfo;
-    }
-
-    public PlayerInfo playerInfo;
-
     public GameInfo gameInfo;
 
     private final String cssPath = "/style/gameStyle.css";
@@ -103,6 +93,7 @@ public class GameScene extends ClickHandler implements MyScene {
     private final int otherPlanciasOffset = 10;
 
 
+
     /**
      * This constructor builds the scene by using a gridpane and positioning all elements
      * int the correct spot
@@ -110,9 +101,11 @@ public class GameScene extends ClickHandler implements MyScene {
      * @param username the username of this player
      * @param event the game started event
      */
-    public GameScene(Stage window, String username, GameStartedQuestion event) {
+    public GameScene(Stage window, String username, GameStartedQuestion event, GameInfo gameInfo) {
 
         super(new ArrayList<>());
+
+        this.gameInfo = gameInfo;
 
         this.window = window;
         this.username = username;
@@ -211,25 +204,27 @@ public class GameScene extends ClickHandler implements MyScene {
 
         setUpExit(externalGridPane, 88, 50, 7, 6);
 
+        update();
+
         //Loading the pane into the scene
         this.scene = new Scene(externalGridPane, 1120, 630);
 
 
     }
 
-    public void update(GameInfo gameInfo) {
+    public void update() {
 
         //Updating BoardGrid
-        boardGrid.update(gameInfo);
+        boardGrid.update(this.gameInfo);
 
         //Updating my Plancia
-        myPlancia.update(playerInfo);
+        myPlancia.update(this.gameInfo.playerInfo);
 
         //Updating other players plancias
         otherPlayersPlancias.update(gameInfo, username, playerColors, playerNames);
 
         //Updating my cards and power ups
-        cardBox.update(playerInfo);
+        cardBox.update(this.gameInfo.playerInfo);
 
     }
 
@@ -334,5 +329,9 @@ public class GameScene extends ClickHandler implements MyScene {
     @Override
     void newClick(String id) {
         System.err.println("CLICKED ON " + id);
+    }
+
+    public void setGameInfo(GameInfo gameInfo) {
+        this.gameInfo = gameInfo;
     }
 }

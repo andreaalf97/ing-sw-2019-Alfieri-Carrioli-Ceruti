@@ -78,8 +78,6 @@ public class JsonDeserializer {
 
         ArrayList<String> playersNames = deserializePlayerNamesObject(lastSnapshotReceived.get("playerNames").getAsJsonArray());
 
-        ArrayList<Player> playersInfo = deserializePlayerObject(lastSnapshotReceived.get("players").getAsJsonArray());
-
         KillShotTrack killShotTrack = new KillShotTrack(lastSnapshotReceived.get("kst").getAsJsonObject());
 
         GameMap gameMap = new GameMap(lastSnapshotReceived.get("gameMap").getAsJsonObject());
