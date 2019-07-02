@@ -14,17 +14,17 @@ public class ChooseHowToUseTurnPowerUpAnswer implements AnswerEvent, Serializabl
 
     public Color powerUpColor;
 
-    public String movers;
+    public String mover;
 
     public int x;
 
     public int y;
 
-    public ChooseHowToUseTurnPowerUpAnswer(String nickname, String powerUpToUse,Color color, String movers, int x, int y) {
+    public ChooseHowToUseTurnPowerUpAnswer(String nickname, String powerUpToUse,Color color, String mover, int x, int y) {
         this.nickname = nickname;
         this.powerUpToUse = powerUpToUse;
         this.powerUpColor = color;
-        this.movers = movers;
+        this.mover = mover;
         this.x = x;
         this.y = y;
     }

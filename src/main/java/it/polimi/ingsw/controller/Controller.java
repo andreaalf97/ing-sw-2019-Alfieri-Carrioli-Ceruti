@@ -593,23 +593,33 @@ public class Controller implements Observer, AnswerEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToPayForAttackingAnswer event){
-        Player player = gameModel.getPlayerByNickname(event.chooseHowToShootAnswer.nickname);
+        Player offender = gameModel.getPlayerByNickname(event.chooseHowToShootAnswer.nickname);
 
         List<String> chosenPayment = event.paymentChosen;
 
-        removeAmmoFromPlayer(player, chosenPayment);
+        removeAmmoFromPlayer(offender, chosenPayment);
 
         boolean playerHasFinallyShoot = false;
 
         if(event.chooseHowToShootAnswer.movers != null) {
-            playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, player.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers);
+            playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers);
         }else {
-            playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, player.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
+            playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
         }
 
         if(playerHasFinallyShoot) {
             sendMessage(event.chooseHowToShootAnswer.nickname, "SHOT COMPLETED SUCCESSFULLY!");
-            player.playerStatus.nActionsDone++;
+            offender.playerStatus.nActionsDone++;
+
+            for(String defender : event.chooseHowToShootAnswer.defenders){
+
+                Player p = gameModel.getPlayerByNickname(defender);
+
+                if(p.hasGrenade() && gameModel.p1SeeP2(p.getxPosition(), p.getyPosition(), offender.getxPosition(), offender.getyPosition()))
+                    sendQuestionEvent(defender, new UseGrenadeQuestion(event.chooseHowToShootAnswer.nickname));
+
+            }
+
         }else{
             sendMessage(event.chooseHowToShootAnswer.nickname, "YOU DID NOT SHOOT!");
         }
@@ -655,6 +665,21 @@ public class Controller implements Observer, AnswerEventHandler {
         //System.err.println("Received new ping from " + event.nickname);
 
         virtualView.ping(event.nickname);
+    }
+
+    @Override
+    public void handleEvent(UseGrenadeAnswer event) {
+
+        Player offender = gameModel.getPlayerByNickname(event.offender);
+
+        if( ! offender.playerStatus.isActive){
+            sendMessage(event.nickname, "You took too long to decide, it's no longer the offender's turn");
+            return;
+        }
+
+        offender.giveMarks(event.nickname, 1);
+
+
     }
 
     @Override
@@ -824,6 +849,41 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseHowToUseTurnPowerUpAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        String powerUpName = event.powerUpToUse;
+
+        Color powerUpColor = event.powerUpColor;
+
+        PowerUp playerPowerUp = player.getPlayerPowerUpByNameAndColor(powerUpName, powerUpColor);
+
+        String offenderName = event.nickname;
+
+        int x = event.x;
+
+        int y = event.y;
+
+        if(gameModel.validSpot(x,y)) {
+            try {
+                player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+                gameModel.useMovementPowerUp(offenderName, event.mover, playerPowerUp.getEffect(), x, y);
+            } catch (InvalidChoiceException e) {
+                sendMessage(event.nickname, "you can't use this powerUp like this bro, you have waste it");
+            }
+        }else{
+            player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+            sendMessage(event.nickname, "not valid spot, you have wasted your powerUp");
+        }
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
+
+    }
+
+
+    @Override
     public void handleEvent(ChooseHowToPayToPickWeaponAnswer event){
 
         List<String> chosenPayment = event.chosenPayment;
@@ -862,40 +922,6 @@ public class Controller implements Observer, AnswerEventHandler {
             }
 
         }
-    }
-
-    @Override
-    public void handleEvent(ChooseHowToUseTurnPowerUpAnswer event) {
-
-        Player player = gameModel.getPlayerByNickname(event.nickname);
-
-        String powerUpName = event.powerUpToUse;
-
-        Color powerUpColor = event.powerUpColor;
-
-        PowerUp playerPowerUp = player.getPlayerPowerUpByNameAndColor(powerUpName, powerUpColor);
-
-        String offenderName = event.nickname;
-
-        int x = event.x;
-
-        int y = event.y;
-
-        if(gameModel.validSpot(x,y)) {
-            try {
-                player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
-                gameModel.useMovementPowerUp(event.nickname, offenderName, playerPowerUp.getEffect(), x, y);
-            } catch (InvalidChoiceException e) {
-                sendMessage(event.nickname, "you can't use this powerUp like this bro, you have waste it");
-            }
-        }else{
-            player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
-            sendMessage(event.nickname, "not valid spot, you have wasted your powerUp");
-        }
-
-        ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
-        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
-
     }
 
     @Override

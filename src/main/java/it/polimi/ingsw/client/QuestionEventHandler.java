@@ -35,4 +35,6 @@ public interface QuestionEventHandler {
     void handleEvent(WhereToMoveAndGrabQuestion event);
     void handleEvent(WhereToMoveQuestion event);
     void handleEvent(AskOrderAndDefenderQuestion event);
+
+    void handleEvent(UseGrenadeQuestion event);
 }

@@ -35,6 +35,11 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
     ArrayList<String> playersNicknames;
 
     /**
+     * Locks
+     */
+    Object lock;
+
+    /**
      * Used for ping
      */
     boolean[] stillConnected;
@@ -61,6 +66,8 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         this.lastClientSnapshot = new String[2];
         this.serverProxies = serverProxies;
 
+        this.lock = new Object();
+
         this.stillConnected = new boolean[playersNicknames.size()];
         for(int i = 0; i < stillConnected.length; i++)
             stillConnected[i] = true;
@@ -68,25 +75,23 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         lastClientSnapshot[0] = "";
         lastClientSnapshot[1] = "";
 
-        //TODO andreaalf    put this back && check for disconnection and reconnections!!
-        /*
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
 
-                for(int i = 0; i < stillConnected.length; i++) {
-                    if (!stillConnected[i]) {
-                        notifyObservers(new DisconnectedAnswer(playersNicknames.get(i)));
-                        this.cancel();
-                        return;
-                    }
+                synchronized (lock) {
+                    for (int i = 0; i < stillConnected.length; i++) {
+                        if (!stillConnected[i]) {
+                            notifyObservers(new DisconnectedAnswer(playersNicknames.get(i)));
+                            this.cancel();
+                            return;
+                        }
 
-                    stillConnected[i] = false;
+                        stillConnected[i] = false;
+                    }
                 }
             }
         }, 0, 5000);
-
-         */
 
     }
 
@@ -290,9 +295,11 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
     public void ping(String nickname) {
 
-        int index = playersNicknames.indexOf(nickname);
+        synchronized (lock) {
+            int index = playersNicknames.indexOf(nickname);
 
-        stillConnected[index] = true;
+            stillConnected[index] = true;
+        }
 
     }
 }

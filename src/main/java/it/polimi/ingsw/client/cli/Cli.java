@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.cli;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.client.PlayerColor;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.*;
@@ -693,6 +691,24 @@ public class Cli implements QuestionEventHandler {
         remoteView.sendAnswerEvent(
                 new AskOrderAndDefenderAnswer(username, event.chosenWeapon, chosenOrder, defenders)
         );
+    }
+
+    @Override
+    public void handleEvent(UseGrenadeQuestion event) {
+
+
+        System.out.println("Do you want to use your grenade against " +  event.offender + " ?");
+
+        ArrayList<String> possibleAnswers = new ArrayList<>();
+        possibleAnswers.add("YES");
+        possibleAnswers.add("NO");
+
+        int answer = chooseAnswer(possibleAnswers);
+
+        if(answer == 0){
+            remoteView.sendAnswerEvent(new UseGrenadeAnswer(username, event.offender));
+        }
+
     }
 
     @Override

@@ -489,6 +489,14 @@ public class Player {
         return false;
     }
 
+    public boolean hasGrenade(){
+        for(PowerUp i : powerUpList)
+            if(i.getPowerUpName().equals("TagbackGrenade"))
+                return true;
+
+        return false;
+    }
+
     //TESTED
     /**
      * this method reload a weapon that i am sure i can reload, see reloadWeapons in controller.java
