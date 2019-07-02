@@ -348,6 +348,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
+        gameScene.playersInteractingSpace.askChoosePowerUpToRespawnQuestion(event, username, remoteView);
 
     }
 
@@ -393,12 +394,12 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(WhereToMoveAndGrabQuestion event) {
-
+        gameScene.playersInteractingSpace.askWhereToMoveAndGrabQuestion(event, username, remoteView);
     }
 
     @Override
     public void handleEvent(WhereToMoveQuestion event) {
-
+        gameScene.playersInteractingSpace.askWhereToMoveQuestion(event, username, remoteView);
     }
 
     @Override
