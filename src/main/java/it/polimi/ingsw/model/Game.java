@@ -1833,4 +1833,12 @@ public class Game extends Observable {
     public void forceNotify() {
         notifyObservers(clientSnapshot());
     }
+
+    public void giveMarks(String offender, String defender, int nMarks){
+        Player def = getPlayerByNickname(defender);
+
+        def.giveMarks(offender, nMarks);
+
+        notifyObservers(clientSnapshot());
+    }
 }

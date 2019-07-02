@@ -677,8 +677,7 @@ public class Controller implements Observer, AnswerEventHandler {
             return;
         }
 
-        offender.giveMarks(event.nickname, 1);
-
+        gameModel.giveMarks(event.nickname, event.offender, 1);
 
     }
 

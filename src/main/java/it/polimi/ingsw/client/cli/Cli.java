@@ -1140,7 +1140,7 @@ public class Cli implements QuestionEventHandler {
     }
 
     @Override
-    public void handleEvent(ModelUpdate event) {
+    public synchronized void handleEvent(ModelUpdate event) {
 
         this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
 
