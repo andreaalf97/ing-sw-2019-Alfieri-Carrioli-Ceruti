@@ -2,10 +2,8 @@ package it.polimi.ingsw.client.cli;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.map.MapName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,7 +174,7 @@ public class CompleteGrid {
     public static void fillMapWithPlayers(JsonObject jsonSnapshot, ArrayList<PlayerColor> playerColors, ArrayList<String> playerNames, String username){
         JsonArray jsonPlayers = jsonSnapshot.get("players").getAsJsonArray();
 
-        removePlayerFromArray(jsonPlayers, username);
+        JsonObject playerRemoved = removePlayerFromArray(jsonPlayers, username);
 
         for(int i = 0; i < jsonPlayers.size(); i++){
                 JsonObject jsonPlayer = jsonPlayers.get(i).getAsJsonObject();
@@ -188,7 +186,7 @@ public class CompleteGrid {
                 grid[i * otherPlayersVerticalStandard + otherPlayersVerticalStart][otherPlayersHorizontalStandard + 2] = playerColor.escape() + playerName + Color.RESET;
 
                 JsonArray jsonDamages = jsonPlayer.get("damages").getAsJsonArray();
-                insertDamages(i * otherPlayersVerticalStandard + 1 + otherPlayersVerticalStart, jsonDamages, playerColors, playerNames);
+                insertDamages(otherPlayersHorizontalStandard, i * otherPlayersVerticalStandard + 1 + otherPlayersVerticalStart, jsonDamages, playerColors, playerNames);
 
                 JsonArray jsonMarks = jsonPlayer.get("marks").getAsJsonArray();
                 insertMarks(i * otherPlayersVerticalStandard + 2 + otherPlayersVerticalStart, jsonMarks, playerColors, playerNames);
@@ -197,6 +195,10 @@ public class CompleteGrid {
                 insertNdeaths(i  * otherPlayersVerticalStandard + 3 + otherPlayersVerticalStart, Ndeaths);
 
         }
+
+        jsonPlayers.add(playerRemoved);
+
+
     }
 
     private static void insertNdeaths(int row, int ndeaths) {
@@ -221,33 +223,40 @@ public class CompleteGrid {
         grid[row][otherPlayersHorizontalStandard] += "]";
     }
 
-    private static void insertDamages(int row, JsonArray jsonDamages, ArrayList<PlayerColor> playerColors, ArrayList<String> playerNames){
+    public static void insertDamages(int column, int row, JsonArray jsonDamages, ArrayList<PlayerColor> playerColors, ArrayList<String> playerNames){
 
-        grid[row][otherPlayersHorizontalStandard] = "-Damages: [";
+        grid[row][column] = "-Damages: [";
 
         for(int i = 0; i < jsonDamages.size(); i++){
             String damagerName = jsonDamages.get(i).getAsString();
             PlayerColor damagerColor = getColorOfPlayer(damagerName, playerColors, playerNames);
 
-            grid[row][otherPlayersHorizontalStandard] += " ";
-            grid[row][otherPlayersHorizontalStandard] += damagerColor.escape() + playerSymbol + Color.RESET;
-            grid[row][otherPlayersHorizontalStandard] += " ";
+            grid[row][column] += " ";
+            grid[row][column] += damagerColor.escape() + playerSymbol + Color.RESET;
+            grid[row][column] += " ";
 
             if(i != jsonDamages.size() - 1)
-                grid[row][otherPlayersHorizontalStandard] += ",";
+                grid[row][column] += ",";
         }
 
-        grid[row][otherPlayersHorizontalStandard] += "]";
+        grid[row][column] += "]";
     }
 
-    private static void removePlayerFromArray(JsonArray jsonPlayers, String username) {
-        for(int i = 0; i < jsonPlayers.size(); i++){
-            if(jsonPlayers.get(i).getAsJsonObject().get("nickname").getAsString().equals(username))
+    private static JsonObject removePlayerFromArray(JsonArray jsonPlayers, String username) {
+        JsonObject jsonPlayer;
+        for (int i = 0; i < jsonPlayers.size(); i++) {
+            jsonPlayer = jsonPlayers.get(i).getAsJsonObject();
+            if (jsonPlayer.get("nickname").getAsString().equals(username)) {
                 jsonPlayers.remove(i);
+                return jsonPlayer;
+            }
+
         }
+
+        return null;
     }
 
-    private static PlayerColor getColorOfPlayer(String username, ArrayList<PlayerColor> playerColors, ArrayList<String> playerNames) {
+    public static PlayerColor getColorOfPlayer(String username, ArrayList<PlayerColor> playerColors, ArrayList<String> playerNames) {
         int i;
 
         for(i = 0; i < playerNames.size(); i++){

@@ -10,6 +10,7 @@ import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.server.ServerInterface;
 import it.polimi.ingsw.view.client.*;
@@ -367,7 +368,6 @@ public class Cli implements QuestionEventHandler {
      * fill the map with the last snapshot received so player can see it
      */
     private void fillMapWithSnapshot(){
-        //System.out.println(lastSnapshotReceived.toString());
         MapGrid.fillMapWithAmmoAndCoord(lastSnapshotReceived, playerColors, allPlayers);
     }
 
@@ -391,6 +391,12 @@ public class Cli implements QuestionEventHandler {
         CompleteGrid.printMap();
     }
 
+
+    public synchronized void showMyBoard(){
+        PlayerGrid.clearGrid();
+        PlayerGrid.fillPlayerGrid(lastSnapshotReceived,username,playerColors,allPlayers);
+        PlayerGrid.printMap();
+    }
 
 //*********************** NETWORK EVENTS *************************************************
 
@@ -512,6 +518,7 @@ public class Cli implements QuestionEventHandler {
     public void handleEvent(ActionQuestion event) {
 
         event.possibleAction.add("ShowMap");
+        event.possibleAction.add("ShowMyBoard");
 
         System.out.println("Choose action:");
         for(String action : event.possibleAction)
@@ -584,6 +591,11 @@ public class Cli implements QuestionEventHandler {
 
             case "ShowMap":
                 showGameMap();
+                remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+                break;
+
+            case "ShowMyBoard":
+                showMyBoard();
                 remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
                 break;
 
