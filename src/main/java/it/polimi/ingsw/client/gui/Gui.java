@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.gui.scenes.*;
 import it.polimi.ingsw.client.gui.scenes.gameScene.GameScene;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
+import it.polimi.ingsw.events.clientToServer.Ping;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.client.RemoteView;
@@ -25,6 +26,8 @@ import javafx.scene.image.Image;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Gui extends Application implements QuestionEventHandler {
@@ -239,6 +242,15 @@ public class Gui extends Application implements QuestionEventHandler {
         System.err.println("RECEIVED GameStartedQuestion EVENT");
 
         waitingRoomGui.close();
+
+        //Scheduling the timer to send a Ping message every 2 seconds
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                //System.err.println("Sending PING");
+                remoteView.sendAnswerEvent(new Ping(username));
+            }
+        }, 0, 2000);
 
         //This constructor creates the starting scene
         MyScene next = new GameScene(window, username, event, gameInfo);

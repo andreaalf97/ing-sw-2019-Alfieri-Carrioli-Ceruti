@@ -652,7 +652,7 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(Ping event) {
 
-        //System.err.println("Received new ping from " + event.nickname);
+        System.err.println("Received new ping from " + event.nickname);
 
         virtualView.ping(event.nickname);
     }
