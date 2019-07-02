@@ -39,15 +39,14 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
     @Override
     public void sendQuestionEvent(QuestionEvent questionEvent) {
 
-        new Thread( () -> {
-            try {
-                remoteViewInterface.receiveQuestionEvent(questionEvent);
-            }
-            catch (Exception e){
-                System.err.println("Exception during RMI connection --> ping should be able to handle this");
-                //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
-            }
-        }).start();
+        try {
+            remoteViewInterface.receiveQuestionEvent(questionEvent);
+        }
+        catch (RemoteException e){
+            System.err.println("Exception during RMI connection --> ping should be able to handle this");
+            e.printStackTrace();
+            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+        }
 
     }
 

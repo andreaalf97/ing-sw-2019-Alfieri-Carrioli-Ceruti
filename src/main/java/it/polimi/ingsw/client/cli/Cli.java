@@ -97,6 +97,11 @@ public class Cli implements QuestionEventHandler {
      */
     private ArrayList<PlayerColor> playerColors;
 
+    /**
+     * Lock
+     */
+    private Object lock;
+
 
     /**
      * Constructor
@@ -112,6 +117,7 @@ public class Cli implements QuestionEventHandler {
         this.playerInfo = null;
         this.allPlayers = new ArrayList<>();
         this.playerColors = null;
+        this.lock = new Object();
     }
 
     /**
@@ -374,26 +380,35 @@ public class Cli implements QuestionEventHandler {
     /**
      * show game map to player
      */
-    public synchronized void showGameMap(){
-        MapGrid.clearMap();
-        CompleteGrid.clearGrid();
-        CompleteGrid.separateBoards();
+    public void showGameMap(){
 
-        MapGrid.buildCliMap(currentMap);
-        fillMapWithSnapshot();
-        CompleteGrid.copyMapGrid(); //now MapGrid is contained in Grid
+        synchronized (lock) {
 
-        CompleteGrid.fillMapWithKst(lastSnapshotReceived, playerColors, allPlayers);
-        CompleteGrid.fillMapWithPlayers(lastSnapshotReceived, playerColors, allPlayers, username);
+            MapGrid.clearMap();
+            CompleteGrid.clearGrid();
+            CompleteGrid.separateBoards();
 
-        CompleteGrid.printMap();
+            MapGrid.buildCliMap(currentMap);
+            fillMapWithSnapshot();
+            CompleteGrid.copyMapGrid(); //now MapGrid is contained in Grid
+
+            CompleteGrid.fillMapWithKst(lastSnapshotReceived, playerColors, allPlayers);
+            CompleteGrid.fillMapWithPlayers(lastSnapshotReceived, playerColors, allPlayers, username);
+
+            CompleteGrid.printMap();
+        }
+
     }
 
 
-    public synchronized void showMyBoard(){
-        PlayerGrid.clearGrid();
-        PlayerGrid.fillPlayerGrid(lastSnapshotReceived,username,playerColors,allPlayers);
-        PlayerGrid.printMap();
+    public void showMyBoard(){
+
+        synchronized (lock) {
+            PlayerGrid.clearGrid();
+            PlayerGrid.fillPlayerGrid(lastSnapshotReceived, username, playerColors, allPlayers);
+            PlayerGrid.printMap();
+        }
+
     }
 
 //*********************** NETWORK EVENTS *************************************************
@@ -1140,7 +1155,7 @@ public class Cli implements QuestionEventHandler {
     }
 
     @Override
-    public synchronized void handleEvent(ModelUpdate event) {
+    public void handleEvent(ModelUpdate event) {
 
         this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
 

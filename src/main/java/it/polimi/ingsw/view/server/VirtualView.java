@@ -192,9 +192,11 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
         if(jsonMarks != null) {
             for (int i = 0; i < jsonMarks.size(); i++) {
-                jsonPlayers += jsonMarks.get(i).getAsString();
-                if( i != jsonMarks.size() - 1)
-                    jsonPlayers += ",";
+                if(jsonMarks.get(i) != null) {
+                    jsonPlayers += jsonMarks.get(i).getAsString();
+                    if (i != jsonMarks.size() - 1)
+                        jsonPlayers += ",";
+                }
             }
         }
         jsonPlayers += "]";
