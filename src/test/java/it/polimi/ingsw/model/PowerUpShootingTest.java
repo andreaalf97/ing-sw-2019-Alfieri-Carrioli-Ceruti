@@ -238,7 +238,7 @@ public class PowerUpShootingTest {
     }
 
     @Test
-    public void moveWithNewton(){
+    public void moveWithNewtonCheckNotLinear(){
         PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Newton");
 
 
@@ -259,8 +259,8 @@ public class PowerUpShootingTest {
             Assert.assertTrue(true);
         }
 
-        Assert.assertEquals(0 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getxPosition());
-        Assert.assertEquals(0 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getyPosition());
+        Assert.assertEquals(1 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getxPosition());
+        Assert.assertEquals(1 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getyPosition());
 
     }
 
@@ -277,18 +277,45 @@ public class PowerUpShootingTest {
 
         //Moving these players to the testing spots
         gameTest.movePlayer(ShootingTest.playerGino, 0, 0);
-        gameTest.movePlayer(ShootingTest.playerAndreaalf, 0, 0);
+        gameTest.movePlayer(ShootingTest.playerAndreaalf, 1, 3);
 
         try {
-            gameTest.useMovementPowerUp(ShootingTest.playerGino, ShootingTest.playerAndreaalf, gameTest.getPlayerByNickname(ShootingTest.playerGino).getPowerUpList().get(0).getEffect(), 2 , 2);
+            gameTest.useMovementPowerUp(ShootingTest.playerGino, ShootingTest.playerAndreaalf, gameTest.getPlayerByNickname(ShootingTest.playerGino).getPowerUpList().get(0).getEffect(), 1 , 0);
         }
         catch(InvalidChoiceException e){
             Assert.assertTrue(true);
         }
 
-        Assert.assertEquals(0 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getxPosition());
-        Assert.assertEquals(0 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getyPosition());
+        Assert.assertEquals(1 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getxPosition());
+        Assert.assertEquals(3 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getyPosition());
 
     }
 
+
+    @Test
+    public void moveWithNewtonRight(){
+        PowerUp powerUpTest = JsonDeserializer.createPowerUpFromJson("Newton");
+
+
+        //Players are dead by default so I need to revive them
+        gameTest.revive(ShootingTest.playerGino);
+        gameTest.revive(ShootingTest.playerAndreaalf);
+
+        gameTest.getPlayerByNickname(ShootingTest.playerGino).givePowerUp(powerUpTest);
+
+        //Moving these players to the testing spots
+        gameTest.movePlayer(ShootingTest.playerGino, 0, 0);
+        gameTest.movePlayer(ShootingTest.playerAndreaalf, 1, 0);
+
+        try {
+            gameTest.useMovementPowerUp(ShootingTest.playerGino, ShootingTest.playerAndreaalf, gameTest.getPlayerByNickname(ShootingTest.playerGino).getPowerUpList().get(0).getEffect(), 1 , 1);
+        }
+        catch(InvalidChoiceException e){
+            Assert.assertTrue(true);
+        }
+
+        Assert.assertEquals(1 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getxPosition());
+        Assert.assertEquals(1 , gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getyPosition());
+
+    }
 }
