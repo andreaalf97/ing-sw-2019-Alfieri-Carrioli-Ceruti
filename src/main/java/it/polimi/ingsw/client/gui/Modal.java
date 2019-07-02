@@ -22,12 +22,12 @@ public class Modal {
         window.setMinHeight(200);
 
         Label label = new Label(message);
-        label.setStyle("-fx-font: 20px 'Stencil', 'Impact'; -fx-text-fill: #E94B2B");
+        label.setStyle("-fx-font: 20px 'Stencil', 'Impact', monospace; -fx-text-fill: #E94B2B");
 
         VBox vBox = new VBox(10);
 
         Button button = new Button("OK");
-        button.setStyle("-fx-font: 'Stencil', 'Impact'; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        button.setStyle("-fx-font: 'Stencil', 'Impact', monospace; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
         button.setMaxSize(40, 30);
 
         button.setOnAction(e -> window.close());

@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class GameScene implements MyScene {
+public class GameScene extends ClickHandler implements MyScene {
 
     /**
      * The stage where this scene is located
@@ -95,9 +95,6 @@ public class GameScene implements MyScene {
 
     private final String cssPath = "/style/gameStyle.css";
 
-    private final double screenRatioMin = 0.5500; // Screen ration of 16:9 is 0.5625
-    private final double screenRatioMax = 0.5700;
-
     private final int externalRows = 54;
     private final int externalCols = 96;
 
@@ -115,6 +112,8 @@ public class GameScene implements MyScene {
      */
     public GameScene(Stage window, String username, GameStartedQuestion event) {
 
+        super(new ArrayList<>());
+
         this.window = window;
         this.username = username;
         this.playerNames = event.playerNames;
@@ -131,10 +130,6 @@ public class GameScene implements MyScene {
                 GameScene.class.getResource("/fonts/ZCOOLKuaiLe-Regular.ttf").toExternalForm(),
                 120
         );
-
-        //------------ Reading screen size ------------------------
-        Rectangle2D screenVisibleBounds = Screen.getPrimary().getBounds();
-        double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
 
         //Setting up the external grid
         GridPane externalGridPane = setUpExternalGridPane(externalCols, externalRows);
@@ -197,11 +192,11 @@ public class GameScene implements MyScene {
         }
         //************************************* + MESSAGE VIEWER + *********************************************
 
-        this.messageBox = new Label("This is Adrenalina bitches");
+        this.messageBox = new Label("ADRENALINA");
         messageBox.getStyleClass().add("messages");
         messageBox.setTextAlignment(TextAlignment.CENTER);
 
-        System.err.println("Font --> " + messageBox.getFont());
+        //System.err.println("Font --> " + messageBox.getFont());
 
         externalGridPane.add(messageBox, 60, 48, 28, 6);
 
@@ -219,15 +214,7 @@ public class GameScene implements MyScene {
         //Loading the pane into the scene
         this.scene = new Scene(externalGridPane, 1120, 630);
 
-        //Deciding to use full screen or not resizable window
-        if(aspectRatio < screenRatioMax && aspectRatio > screenRatioMin){
-            window.setFullScreen(true);
 
-            window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        }
-        else {
-            window.setResizable(false);
-        }
     }
 
     public void update(GameInfo gameInfo) {
@@ -311,7 +298,7 @@ public class GameScene implements MyScene {
         //Setting up CSS for main pane
         externalGridPane.getStylesheets().add(cssPath);
         externalGridPane.getStyleClass().add("mainBackground");
-        externalGridPane.setGridLinesVisible(true);
+        externalGridPane.setGridLinesVisible(false);
 
         return  externalGridPane;
     }
@@ -344,4 +331,8 @@ public class GameScene implements MyScene {
         return this.scene;
     }
 
+    @Override
+    void newClick(String id) {
+        System.err.println("CLICKED ON " + id);
+    }
 }

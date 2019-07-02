@@ -16,7 +16,10 @@ import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.client.RemoteView;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
@@ -37,6 +40,9 @@ public class Gui extends Application implements QuestionEventHandler {
     public static final String loginBackgroundImagePath = "src/main/resources/graphics/images/Adrenalina_front_image.jpg";
 
     public static final String loginCssPath = "/style/style.css";
+
+    private final double screenRatioMin = 0.5500; // Screen ration of 16:9 is 0.5625
+    private final double screenRatioMax = 0.5700;
 
     private int rmiPort = 5432;
 
@@ -100,18 +106,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
         //First window
         window.setTitle("Adrenalina");
-
-        /*
-        //Questi sono per settare la grandezza della scena a screen size!
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        //set Stage boundaries to visible bounds of the main screen
-        window.setX(primaryScreenBounds.getMinX());
-        window.setY(primaryScreenBounds.getMinY());
-        window.setWidth(primaryScreenBounds.getWidth());
-        window.setHeight(primaryScreenBounds.getHeight());
-         */
-
-
 
         //GameStartedQuestion event = fakeGameStartedEvent();
 
@@ -244,7 +238,7 @@ public class Gui extends Application implements QuestionEventHandler {
     @Override
     public void handleEvent(GameStartedQuestion event) {
 
-        System.out.println("RECEIVED GameStartedQuestion EVENT");
+        System.err.println("RECEIVED GameStartedQuestion EVENT");
 
         waitingRoomGui.close();
 
@@ -252,7 +246,30 @@ public class Gui extends Application implements QuestionEventHandler {
         MyScene next = new GameScene(window, username, event);
 
         Scene nextScene = next.getScene();
+
+        window.close();
+
+        window = new Stage();
+
+
+        //------------ Reading screen size ------------------------
+        Rectangle2D screenVisibleBounds = Screen.getPrimary().getBounds();
+        double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
+
+        //Deciding to use full screen or not resizable window
+        if(aspectRatio < screenRatioMax && aspectRatio > screenRatioMin){
+            window.setFullScreen(true);
+
+            window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        }
+        else {
+            window.setResizable(false);
+        }
+
+
         window.setScene(nextScene);
+
+        window.show();
 
     }
 
@@ -340,6 +357,9 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ModelUpdate event) {
+
+        System.err.println("Model Update Received");
+
         this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
         this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
         this.gameInfo = JsonDeserializer.deserializedSnapshot(JsonDeserializer.stringToJsonObject(event.json), username);
