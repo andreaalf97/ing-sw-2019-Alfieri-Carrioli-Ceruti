@@ -59,6 +59,9 @@ public class ServerProxySocket implements ServerProxy, Runnable {
             MyLogger.LOGGER.log(Level.SEVERE, "Error while creating a new ServerProxySocket object");
             e.printStackTrace();
         }
+        catch (Exception e){
+            System.out.println("OTHER EXCEPTION");
+        }
 
         this.in = tempIn;
         this.out = tempOut;
@@ -92,9 +95,9 @@ public class ServerProxySocket implements ServerProxy, Runnable {
         try {
             out.writeObject(questionEvent);
             out.flush();
-        }
-        catch (Exception e){
+        } catch (IOException e) {
             System.err.println("Exception during RMI connection --> ping should be able to handle this");
+            e.printStackTrace();
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
@@ -119,6 +122,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
         }
         catch (Exception e){
             System.err.println("Exception during SOCKET connection --> ping should be able to handle this");
+            e.printStackTrace();
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
