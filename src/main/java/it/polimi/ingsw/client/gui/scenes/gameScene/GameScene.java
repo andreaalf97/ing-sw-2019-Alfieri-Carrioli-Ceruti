@@ -171,7 +171,7 @@ public class GameScene extends ClickHandler implements MyScene {
         //Creates the list of other plancias
         //this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayersColors, gameInfo, username, otherPlayers, allPlayersColors, playerNames);
 
-        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayersColors, otherPlayers);
+        this.otherPlayersPlancias = new OtherPlayersPlancias(otherPlayersColors, otherPlayers, allPlayersColors, playerNames, username);
 
 
         int i = 0;
