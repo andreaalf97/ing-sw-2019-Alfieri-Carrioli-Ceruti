@@ -89,14 +89,15 @@ public class ServerProxySocket implements ServerProxy, Runnable {
     @Override
     public void sendQuestionEvent(QuestionEvent questionEvent) {
 
-        try {
-            out.writeObject(questionEvent);
-            out.flush();
-        }
-        catch (Exception e){
-            System.err.println("Exception during RMI connection --> ping should be able to handle this");
-            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
-        }
+        new Thread( () -> {
+            try {
+                out.writeObject(questionEvent);
+                out.flush();
+            } catch (Exception e) {
+                System.err.println("Exception during RMI connection --> ping should be able to handle this");
+                //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+            }
+        }).start();
 
     }
 
