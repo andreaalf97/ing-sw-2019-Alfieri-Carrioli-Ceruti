@@ -39,4 +39,6 @@ public interface AnswerEventHandler {
     void handleEvent(ChooseHowToPayToReloadAnswer event);
 
     void handleEvent(Ping event);
+
+    void handleEvent(UseGrenadeAnswer event);
 }

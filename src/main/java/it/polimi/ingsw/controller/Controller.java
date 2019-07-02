@@ -593,23 +593,33 @@ public class Controller implements Observer, AnswerEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToPayForAttackingAnswer event){
-        Player player = gameModel.getPlayerByNickname(event.chooseHowToShootAnswer.nickname);
+        Player offender = gameModel.getPlayerByNickname(event.chooseHowToShootAnswer.nickname);
 
         List<String> chosenPayment = event.paymentChosen;
 
-        removeAmmoFromPlayer(player, chosenPayment);
+        removeAmmoFromPlayer(offender, chosenPayment);
 
         boolean playerHasFinallyShoot = false;
 
         if(event.chooseHowToShootAnswer.movers != null) {
-            playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, player.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers);
+            playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers);
         }else {
-            playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, player.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
+            playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
         }
 
         if(playerHasFinallyShoot) {
             sendMessage(event.chooseHowToShootAnswer.nickname, "SHOT COMPLETED SUCCESSFULLY!");
-            player.playerStatus.nActionsDone++;
+            offender.playerStatus.nActionsDone++;
+
+            for(String defender : event.chooseHowToShootAnswer.defenders){
+
+                Player p = gameModel.getPlayerByNickname(defender);
+
+                if(p.hasGrenade() && gameModel.p1SeeP2(p.getxPosition(), p.getyPosition(), offender.getxPosition(), offender.getyPosition()))
+                    sendQuestionEvent(defender, new UseGrenadeQuestion(event.chooseHowToShootAnswer.nickname));
+
+            }
+
         }else{
             sendMessage(event.chooseHowToShootAnswer.nickname, "YOU DID NOT SHOOT!");
         }
@@ -652,9 +662,24 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(Ping event) {
 
-        System.err.println("Received new ping from " + event.nickname);
+        //System.err.println("Received new ping from " + event.nickname);
 
         virtualView.ping(event.nickname);
+    }
+
+    @Override
+    public void handleEvent(UseGrenadeAnswer event) {
+
+        Player offender = gameModel.getPlayerByNickname(event.offender);
+
+        if( ! offender.playerStatus.isActive){
+            sendMessage(event.nickname, "You took too long to decide, it's no longer the offender's turn");
+            return;
+        }
+
+        offender.giveMarks(event.nickname, 1);
+
+
     }
 
     @Override
