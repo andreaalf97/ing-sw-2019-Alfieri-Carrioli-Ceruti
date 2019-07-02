@@ -43,7 +43,7 @@ public class OtherPlayersPlancias {
 
     private ArrayList<String> allPlayersNames;
 
-    public OtherPlayersPlancias(ArrayList<PlayerColor> otherPlayersColors, ArrayList<String> otherPlayers) {
+    public OtherPlayersPlancias(ArrayList<PlayerColor> otherPlayersColors, ArrayList<String> otherPlayers, ArrayList<PlayerColor> allPlayersColors, ArrayList<String> allPlayersNames, String username) {
 
         this.damagesGridPanes = new ArrayList<>();
         this.marksGridPanes = new ArrayList<>();
@@ -53,6 +53,9 @@ public class OtherPlayersPlancias {
         this.gridPanes = new ArrayList<>();
         this.playersColors = otherPlayersColors;
         this.playersNames = otherPlayers;
+        this.allPlayersColors = allPlayersColors;
+        this.allPlayersNames = allPlayersNames;
+        this.username = username;
 
         for( int i = 0; i < this.playersNames.size(); i++) {
 
@@ -118,6 +121,10 @@ public class OtherPlayersPlancias {
         this.allPlayersColors = allPlayersColors;
         this.allPlayersNames = allPlayersNames;
 
+        if (this.otherPlayersInfos != null) {
+            for (OtherPlayerInfo otherPlayerInfo : this.otherPlayersInfos)
+            this.otherPlayersInfos.remove(otherPlayerInfo);
+        }
         for ( OtherPlayerInfo otherPlayerInfo : gameInfo.otherPlayerInfos){
             if( !otherPlayerInfo.nickname.equals(username))
                 this.otherPlayersInfos.add(otherPlayerInfo);
@@ -131,6 +138,23 @@ public class OtherPlayersPlancias {
 
     private void setUpPlancia(int indexOfPlayer) {
 
+        if (damagesGridPanes.size() > indexOfPlayer) {
+            if (damagesGridPanes.get(indexOfPlayer) != null)
+                gridPanes.get(indexOfPlayer).getChildren().remove(damagesGridPanes.get(indexOfPlayer));
+        }
+        if (marksGridPanes.size() > indexOfPlayer) {
+            if (marksGridPanes.get(indexOfPlayer) != null)
+                gridPanes.get(indexOfPlayer).getChildren().remove(marksGridPanes.get(indexOfPlayer));
+        }
+        if (ammoGridPanes.size() > indexOfPlayer) {
+            if (ammoGridPanes.get(indexOfPlayer) != null)
+                gridPanes.get(indexOfPlayer).getChildren().remove(ammoGridPanes.get(indexOfPlayer));
+        }
+        if (ammoGridPanes.size() > indexOfPlayer) {
+            if (skullGridPanes.get(indexOfPlayer) != null)
+                gridPanes.get(indexOfPlayer).getChildren().remove(skullGridPanes.get(indexOfPlayer));
+        }
+
         setUpAmmos(indexOfPlayer);
         setUpMarks(indexOfPlayer);
         setUpDamages(indexOfPlayer);
@@ -139,8 +163,6 @@ public class OtherPlayersPlancias {
     }
 
     private void setUpSkulls(int indexOfPlayer) {
-
-        skullGridPanes.clear();
 
         GridPane gridPane = new GridPane();
         skullGridPanes.add(gridPane);
@@ -190,8 +212,6 @@ public class OtherPlayersPlancias {
     }
 
     private void setUpDamages(int indexOfPlayer) {
-
-        damagesGridPanes.clear();
 
         GridPane gridPane = new GridPane();
         damagesGridPanes.add(gridPane);
@@ -247,8 +267,6 @@ public class OtherPlayersPlancias {
 
     private void setUpMarks(int indexOfPlayer) {
 
-        marksGridPanes.clear();
-
         GridPane gridPane = new GridPane();
         marksGridPanes.add(gridPane);
         marksGridPanes.get(indexOfPlayer).setPadding(new Insets(6, 0, 0, 0));
@@ -303,8 +321,6 @@ public class OtherPlayersPlancias {
     }
 
     private void setUpAmmos(int indexOfPlayer) {
-
-        ammoGridPanes.clear();
 
         GridPane gridPane = new GridPane();
         ammoGridPanes.add(gridPane);
