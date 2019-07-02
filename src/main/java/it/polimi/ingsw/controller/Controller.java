@@ -849,6 +849,41 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseHowToUseTurnPowerUpAnswer event) {
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        String powerUpName = event.powerUpToUse;
+
+        Color powerUpColor = event.powerUpColor;
+
+        PowerUp playerPowerUp = player.getPlayerPowerUpByNameAndColor(powerUpName, powerUpColor);
+
+        String offenderName = event.nickname;
+
+        int x = event.x;
+
+        int y = event.y;
+
+        if(gameModel.validSpot(x,y)) {
+            try {
+                player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+                gameModel.useMovementPowerUp(offenderName, event.mover, playerPowerUp.getEffect(), x, y);
+            } catch (InvalidChoiceException e) {
+                sendMessage(event.nickname, "you can't use this powerUp like this bro, you have waste it");
+            }
+        }else{
+            player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+            sendMessage(event.nickname, "not valid spot, you have wasted your powerUp");
+        }
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
+        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
+
+    }
+
+
+    @Override
     public void handleEvent(ChooseHowToPayToPickWeaponAnswer event){
 
         List<String> chosenPayment = event.chosenPayment;
@@ -887,40 +922,6 @@ public class Controller implements Observer, AnswerEventHandler {
             }
 
         }
-    }
-
-    @Override
-    public void handleEvent(ChooseHowToUseTurnPowerUpAnswer event) {
-
-        Player player = gameModel.getPlayerByNickname(event.nickname);
-
-        String powerUpName = event.powerUpToUse;
-
-        Color powerUpColor = event.powerUpColor;
-
-        PowerUp playerPowerUp = player.getPlayerPowerUpByNameAndColor(powerUpName, powerUpColor);
-
-        String offenderName = event.nickname;
-
-        int x = event.x;
-
-        int y = event.y;
-
-        if(gameModel.validSpot(x,y)) {
-            try {
-                player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
-                gameModel.useMovementPowerUp(event.nickname, offenderName, playerPowerUp.getEffect(), x, y);
-            } catch (InvalidChoiceException e) {
-                sendMessage(event.nickname, "you can't use this powerUp like this bro, you have waste it");
-            }
-        }else{
-            player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
-            sendMessage(event.nickname, "not valid spot, you have wasted your powerUp");
-        }
-
-        ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
-        sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
-
     }
 
     @Override
