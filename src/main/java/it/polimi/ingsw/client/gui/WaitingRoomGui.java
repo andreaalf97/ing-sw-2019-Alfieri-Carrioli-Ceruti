@@ -36,7 +36,7 @@ public class WaitingRoomGui {
         window.setMinHeight(200);
 
         Label label = new Label("Waiting Room");
-        label.setStyle("-fx-font: 25px 'Stencil', 'Impact'; -fx-text-fill: #E94B2B");
+        label.setStyle("-fx-font: 25px 'Stencil', 'Impact', monospace; -fx-text-fill: #E94B2B");
 
 
         vBox = new VBox(15);
@@ -46,7 +46,7 @@ public class WaitingRoomGui {
         for(String player : connectedPlayers){
 
             Label newLabel = new Label(player);
-            label.setStyle("-fx-font: 18px 'Stencil', 'Impact'; -fx-text-fill: #E94B2B");
+            label.setStyle("-fx-font: 18px 'Stencil', 'Impact', monospace; -fx-text-fill: #E94B2B");
 
             vBox.getChildren().add(newLabel);
         }

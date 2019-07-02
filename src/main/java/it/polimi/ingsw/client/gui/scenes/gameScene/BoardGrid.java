@@ -133,8 +133,6 @@ public class BoardGrid {
         rowPercentages.add(33.000);
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
-
 
         for(int i = 0; i < gameInfo.gameMap.map.length; i++) {
             for(int j = 0; j < gameInfo.gameMap.map[i].length; j++) {
@@ -154,7 +152,7 @@ public class BoardGrid {
                     rowPercentages1.add(50.000);
 
                     setGrid(cellGridpane, colPercentages1, rowPercentages1);
-                    cellGridpane.setGridLinesVisible(true);
+                    cellGridpane.setGridLinesVisible(false);
                     cellGridpane.setPadding(new Insets(20));
 
                     gridPane.add(cellGridpane, j, i, 1, 1);
@@ -320,7 +318,7 @@ public class BoardGrid {
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
         gridPane.getStyleClass().add("visibleBorder");
 
@@ -370,7 +368,7 @@ public class BoardGrid {
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
         gridPane.getStyleClass().add("visibleBorder");
 
@@ -424,9 +422,9 @@ public class BoardGrid {
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
-        gridPane.getStyleClass().add("visibleBorder");
+        //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
 
@@ -448,7 +446,7 @@ public class BoardGrid {
         rowPercentages.add(16.666);
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
         gridPane.getStyleClass().add("visibleBorder");
 

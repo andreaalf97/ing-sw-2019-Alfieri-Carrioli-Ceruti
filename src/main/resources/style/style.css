@@ -1,6 +1,5 @@
 *{
     -fx-font-family: monospace;
-    -fx-border: 1px solid black;
 }
 
 .label{
@@ -32,7 +31,7 @@
 }
 
 .closingBoxButton {
-    -fx-font-family: 'Stencil', 'Impact';
+    -fx-font-family: 'Stencil', 'Impact', monospace;
     -fx-background-color: #E94B2B;
     -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);
 }

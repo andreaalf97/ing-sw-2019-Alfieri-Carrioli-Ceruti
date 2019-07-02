@@ -29,7 +29,7 @@ public class ClosingBox {
         noButton.getStyleClass().add("closingBoxButton");
 
         Label label = new Label("Are you sure you want to exit Adrenalina?");
-        label.setStyle("-fx-font: 20px; -fx-font-family: 'Stencil', 'Impact'; -fx-text-fill: #E94B2B; -fx-padding: 0px 10px 0px 10px");
+        label.setStyle("-fx-font: 20px; -fx-font-family: 'Stencil', 'Impact', monospace; -fx-text-fill: #E94B2B; -fx-padding: 0px 10px 0px 10px");
 
 
         yesButton.setOnAction(e ->{
