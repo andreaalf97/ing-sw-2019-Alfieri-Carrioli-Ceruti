@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.Color;
 
 import java.util.ArrayList;
@@ -25,6 +27,19 @@ public class AmmoCard {
         this.ammoColorList = new ArrayList<>();
         this.hasPowerUp = false;
         this.ammoCardImagePath = "";
+    }
+
+    public AmmoCard(JsonObject jsonAmmoCard){
+        this.ammoColorList = new ArrayList<>();
+        JsonArray jsonAmmoColorList = jsonAmmoCard.get("ammoColorList").getAsJsonArray();
+        for(int i = 0; i < jsonAmmoColorList.size(); i++){
+            Color color = Color.valueOf(jsonAmmoColorList.get(i).getAsString());
+            this.ammoColorList.add(color);
+        }
+
+
+        this.hasPowerUp = jsonAmmoCard.get("hasPowerUp").getAsBoolean();
+        this.ammoCardImagePath = jsonAmmoCard.get("ammoCardImagePath").getAsString();
     }
 
     public void setAmmoColorList(ArrayList<Color> ammoColorList) {
