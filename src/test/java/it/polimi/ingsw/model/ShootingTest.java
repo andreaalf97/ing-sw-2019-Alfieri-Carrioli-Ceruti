@@ -66,10 +66,6 @@ public class ShootingTest {
 
         gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
 
-
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
-
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
         testArray.add(playerAndreaalf);
@@ -335,9 +331,6 @@ public class ShootingTest {
         gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
 
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -402,11 +395,6 @@ public class ShootingTest {
 
         gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
 
-
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -534,11 +522,6 @@ public class ShootingTest {
 
         gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(4));
 
-
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -711,8 +694,6 @@ public class ShootingTest {
 
         gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -1048,8 +1029,6 @@ public class ShootingTest {
         boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
         Assert.assertTrue(b);
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -1869,10 +1848,6 @@ public class ShootingTest {
         boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
         Assert.assertTrue(b);
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -2200,10 +2175,6 @@ public class ShootingTest {
         boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers);
         Assert.assertTrue(b);
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -2393,11 +2364,6 @@ public class ShootingTest {
         boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
         Assert.assertTrue(b);
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
-
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
         testArray.add(playerAndreaalf);
@@ -2579,10 +2545,6 @@ public class ShootingTest {
         boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
         Assert.assertTrue(b);
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -4053,9 +4015,6 @@ public class ShootingTest {
         //Testing if I added the correct damages to keny
         Assert.assertEquals(testArray3, gameTest.getPlayerByNickname(playerKeny).getDamages());
 
-        //checking ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-
     }
 
     @Test
@@ -4372,10 +4331,6 @@ public class ShootingTest {
         boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers);
         Assert.assertTrue(b);
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -4436,11 +4391,6 @@ public class ShootingTest {
 
         boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(2), xArray, yArray, movers);
         Assert.assertTrue(b);
-
-        //Testing if I removed the right ammos
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -5020,9 +4970,6 @@ public class ShootingTest {
         //Testing if I added the correct damages to meme
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getDamages());
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
-
     }
 
     @Test
@@ -5083,8 +5030,6 @@ public class ShootingTest {
         //Testing if I added the correct damages to meme
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getDamages());
 
-        //Testing if I removed the right ammos
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
 
     }
 
@@ -5822,7 +5767,6 @@ public class ShootingTest {
         //Testing if I added the correct damages to gino
         Assert.assertEquals(testArray3, gameTest.getPlayerByNickname(playerKeny).getDamages());
 
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnYellowAmmo());
 
     }
 
@@ -5997,7 +5941,7 @@ public class ShootingTest {
         Assert.assertEquals(0, gameTest.getPlayerByNickname(playerGino).getxPosition());
         Assert.assertEquals(2, gameTest.getPlayerByNickname(playerGino).getyPosition());
 
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
+
     }
 
     @Test
@@ -6107,7 +6051,6 @@ public class ShootingTest {
         Assert.assertEquals(0, gameTest.getPlayerByNickname(playerGino).getxPosition());
         Assert.assertEquals(0, gameTest.getPlayerByNickname(playerGino).getyPosition());
 
-        Assert.assertEquals(0, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
     }
 
     @Test
