@@ -114,8 +114,6 @@ public class Game extends Observable {
         this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck, ammoCardDeck);
         this.kst = new KillShotTrack(nSkulls);
 
-        notifyObservers(clientSnapshot());
-
         new Timer().scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -163,7 +161,7 @@ public class Game extends Observable {
      * @param gameMap     the map of the game
      */
     public Game(ArrayList<String> playerNames, ArrayList<Player> players, WeaponDeck weaponDeck,
-            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap, int gameId) {
+            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap, int gameId, ArrayList<Player> disconnectedPlayers) {
         this.playerNames = playerNames;
         this.players = players;
         this.weaponDeck = weaponDeck;
@@ -172,10 +170,9 @@ public class Game extends Observable {
         this.kst = kst;
         this.gameMap = gameMap;
         this.gameId = gameId;
+        this.disconnectedPlayers = disconnectedPlayers;
 
         this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
-
-        notifyObservers(clientSnapshot());
 
     }
 
@@ -184,14 +181,38 @@ public class Game extends Observable {
      */
     public Game(String jsonPath){
 
-        this.gameId = 0;
+        JsonObject jsonRoot = JsonDeserializer.myJsonParser.parse(jsonPath).getAsJsonObject();
+
+        this.players = JsonDeserializer.deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
+
+        this.playerNames = JsonDeserializer.deserializePlayerNamesObject(jsonRoot.get("playerNames").getAsJsonArray());
+
+        this.weaponDeck = new WeaponDeck(jsonRoot.get("weaponDeck").getAsJsonObject());
+
+        this.powerupDeck = new PowerUpDeck(jsonRoot.get("powerUpDeck").getAsJsonObject());
+
+        this.ammoCardDeck = new AmmoCardDeck(jsonRoot.get("ammoCardDeck").getAsJsonObject()); //FIXME
+
+        this.kst = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
+
+        this.gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
+
+        this.gameId = jsonRoot.get("gameId").getAsInt();
+
+        this.disconnectedPlayers = JsonDeserializer.deserializePlayerObject(jsonRoot.get("disconnectedPlayers").getAsJsonArray());
+
+
         this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
 
-        //TODO andreaalf
-        //Load snapshot from file
+        new Timer().scheduleAtFixedRate(new TimerTask() {
 
-        JsonDeserializer.deserializeModelSnapshot(modelSnapshot());
-        notifyObservers(clientSnapshot());
+            @Override
+            public void run() {
+                System.err.println("Calling saveCompleteSnapshot()");
+                saveCompleteSnapshot();
+            }
+
+        }, 0, 10000);
     }
 
     // TESTED
@@ -979,63 +1000,11 @@ public class Game extends Observable {
                     // se l'effetto è linear devo fare un controllo sulla direzione cardinale in cui
                     // voglio sparare
                     if (effetto.isLinear) {
-
-                        Direction cardinalDirection = Direction.NONE;
-
-                        // di seguito calcolo la direzione cardinale confrontando il primo player che
-                        // voglio spostare in playersWhoMoveNames e dove voglio spostarlo
-                        // successivamente guardando xPos e yPos
-                        if (xPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
-                                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
-
-                            if (yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
-                                cardinalDirection = Direction.EAST;
-                            else if (yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
-                                cardinalDirection = Direction.WEST;
-
-                        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
-                                && yPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
-
-                            if (xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
-                                cardinalDirection = Direction.SOUTH;
-                            else if (xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
-                                cardinalDirection = Direction.NORTH;
-
-                        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
-                                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
-                            throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------NON LINEAR");
-
-                        // una volta calcolata la direzione cardinale controllo che tutti i movers
-                        // rispettino questa direzione
-                        for (int cont = 0; cont < playersWhoMoveNames.size(); cont++) {
-                            if (cardinalDirection == Direction.NORTH) {
-                                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getyPosition()
-                                        || xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getxPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------1");
-                            }
-                            if (cardinalDirection == Direction.SOUTH) {
-                                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getyPosition()
-                                        || xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getxPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------2");
-                            }
-                            if (cardinalDirection == Direction.EAST) {
-                                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getxPosition()
-                                        || yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getyPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------3");
-                            }
-                            if (cardinalDirection == Direction.WEST) {
-                                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getxPosition()
-                                        || yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getyPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------4");
-                            }
+                        try{
+                            checkIfLinearityIsrespected(playersWhoMoveNames, xPosition, yPosition);
+                        }
+                        catch (InvalidChoiceException e){
+                            throw new InvalidChoiceException("Linearity not respected");
                         }
                     }
 
@@ -1097,6 +1066,66 @@ public class Game extends Observable {
             notifyObservers(clientSnapshot());
 
             return false;
+        }
+    }
+
+    public void checkIfLinearityIsrespected(ArrayList<String> playersWhoMoveNames, ArrayList<Integer> xPosition, ArrayList<Integer> yPosition) throws  InvalidChoiceException{
+        Direction cardinalDirection = Direction.NONE;
+
+        // di seguito calcolo la direzione cardinale confrontando il primo player che
+        // voglio spostare in playersWhoMoveNames e dove voglio spostarlo
+        // successivamente guardando xPos e yPos
+        if (xPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
+                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
+
+            if (yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+                cardinalDirection = Direction.EAST;
+            else if (yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+                cardinalDirection = Direction.WEST;
+
+        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
+                && yPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
+
+            if (xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
+                cardinalDirection = Direction.SOUTH;
+            else if (xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
+                cardinalDirection = Direction.NORTH;
+
+        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
+                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+            throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------NON LINEAR");
+
+        // una volta calcolata la direzione cardinale controllo che tutti i movers
+        // rispettino questa direzione
+        for (int cont = 0; cont < playersWhoMoveNames.size(); cont++) {
+            if (cardinalDirection == Direction.NORTH) {
+                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition()
+                        || xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------1");
+            }
+            if (cardinalDirection == Direction.SOUTH) {
+                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition()
+                        || xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------2");
+            }
+            if (cardinalDirection == Direction.EAST) {
+                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition()
+                        || yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------3");
+            }
+            if (cardinalDirection == Direction.WEST) {
+                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition()
+                        || yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------4");
+            }
         }
     }
 
@@ -1264,11 +1293,25 @@ public class Game extends Observable {
             if (currentPlayerName.equals(playerWhoReceiveEffectName))
                 throw new InvalidChoiceException("you can't move yourself");
             else {
-                ArrayList<Player> movers = new ArrayList<>();
-                movers.add(getPlayerByNickname(playerWhoReceiveEffectName));
+                ArrayList<String> movers = new ArrayList<>();
+                movers.add(playerWhoReceiveEffectName);
 
+                ArrayList<Integer> xPosition = new ArrayList<>();
+                xPosition.add(xPos);
 
-                boolean checkIsLinear = check_isLinear(movers, getPlayerByNickname(currentPlayerName) , effect);
+                ArrayList<Integer> yPosition = new ArrayList<>();
+                yPosition.add(yPos);
+
+                boolean checkIsLinear;
+
+                try{
+                    checkIfLinearityIsrespected(movers, xPosition, yPosition);
+                    checkIsLinear = true;
+                }
+                catch(InvalidChoiceException e){
+                    checkIsLinear = false;
+                }
+
                 if (this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(),playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer())
                         && checkIsLinear){
                     movePlayer(playerWhoReceiveEffectName, xPos, yPos);
@@ -1732,11 +1775,18 @@ public class Game extends Observable {
         // saving GameMap
         String jsonGameMap = gameMapSnapshot(gson);
 
+        //saving disconnectedPlayers
+        String jsonDisconnectedPlayers = gson.toJson(disconnectedPlayers);
+
+        //saving gameId
+        String jsonGameId = "" + gameId;
+
         // create a json that stores all the information of the game in a string with
         // json format
         String modelSnapshot = "{ \"players\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + ","
                 + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"ammoCardDeck\":" + jsonAmmoCardDeck +  "," + "\"kst\":"
-                + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "}";
+                + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "," +
+                   "\"disconnectedPlayers\":" + jsonDisconnectedPlayers + "," + "\"gameId\":" + gameId + "}";
 
         return modelSnapshot;
     }

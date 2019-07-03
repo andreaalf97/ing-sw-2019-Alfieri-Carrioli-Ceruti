@@ -3583,7 +3583,6 @@ public class ShootingTest {
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getMarks());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerIngConti).getMarks());
 
-        Assert.assertTrue(gameTest.getPlayerByNickname(playerAndreaalf).getWeaponList().get(0).isLoaded());
     }
 
     @Test
@@ -3640,7 +3639,6 @@ public class ShootingTest {
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getMarks());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerIngConti).getMarks());
 
-        Assert.assertTrue(gameTest.getPlayerByNickname(playerAndreaalf).getWeaponList().get(0).isLoaded());
     }
 
     @Test
@@ -3697,7 +3695,6 @@ public class ShootingTest {
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getMarks());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerIngConti).getMarks());
 
-        Assert.assertTrue(gameTest.getPlayerByNickname(playerAndreaalf).getWeaponList().get(0).isLoaded());
     }
 
     @Test
@@ -3778,7 +3775,6 @@ public class ShootingTest {
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerGino).getDamages());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getDamages());
 
-        Assert.assertTrue(gameTest.getPlayerByNickname(playerAndreaalf).getWeaponList().get(0).isLoaded());
     }
 
     @Test
@@ -3832,7 +3828,6 @@ public class ShootingTest {
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getDamages());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerIngConti).getDamages());
 
-        Assert.assertTrue(gameTest.getPlayerByNickname(playerAndreaalf).getWeaponList().get(0).isLoaded());
     }
 
     @Test
@@ -3882,7 +3877,6 @@ public class ShootingTest {
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerGino).getDamages());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getDamages());
 
-        Assert.assertTrue(gameTest.getPlayerByNickname(playerAndreaalf).getWeaponList().get(0).isLoaded());
     }
 
     @Test
@@ -3932,7 +3926,6 @@ public class ShootingTest {
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerGino).getDamages());
         Assert.assertEquals(testArray, gameTest.getPlayerByNickname(playerMeme).getDamages());
 
-        Assert.assertTrue(gameTest.getPlayerByNickname(playerAndreaalf).getWeaponList().get(0).isLoaded());
     }
 
     @Test

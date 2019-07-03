@@ -249,7 +249,7 @@ public class PowerUpShootingTest {
         gameTest.getPlayerByNickname(ShootingTest.playerGino).givePowerUp(powerUpTest);
 
         //Moving these players to the testing spots
-        gameTest.movePlayer(ShootingTest.playerGino, 0, 0);
+        gameTest.movePlayer(ShootingTest.playerGino, 1, 1);
         gameTest.movePlayer(ShootingTest.playerAndreaalf, 1, 1);
 
         try {
