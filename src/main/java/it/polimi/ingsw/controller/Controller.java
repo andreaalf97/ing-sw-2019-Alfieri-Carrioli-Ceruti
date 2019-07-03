@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.cards.PowerUp;
 import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.map.MapName;
+import it.polimi.ingsw.server.GamesHandler;
 import it.polimi.ingsw.view.server.ServerProxy;
 import it.polimi.ingsw.view.server.VirtualView;
 
@@ -96,20 +97,6 @@ public class Controller implements Observer, AnswerEventHandler {
 
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
-        /*
-        for(String i : playerNames){
-
-            Player tempPlayer = gameModel.getPlayerByNickname(i);
-
-            tempPlayer.playerStatus.isActive = false;
-            tempPlayer.playerStatus.waitingForAnswerToThisQuestion = null;
-            tempPlayer.playerStatus.isFirstTurn = true;
-            tempPlayer.playerStatus.nActionsDone = 0;
-            tempPlayer.playerStatus.nActions = 2;
-            tempPlayer.playerStatus.isFrenzyTurn = false;
-        }
-        */
-
         Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
         ArrayList<PlayerColor> playerColors = PlayerColor.getRandomArray(gameModel.getPlayerNames().size());
@@ -126,6 +113,25 @@ public class Controller implements Observer, AnswerEventHandler {
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(firstPlayer.getNickname());
         sendQuestionEvent(firstPlayer.getNickname(), new ActionQuestion(possibleActions));
+
+    }
+
+    public void restartGame() {
+
+        ArrayList<String> playerNames = gameModel.getPlayerNames();
+
+        for(String nickname : playerNames){
+
+            Player p = gameModel.getPlayerByNickname(nickname);
+
+            sendMessage(nickname, "GAME RELOADED");
+
+            if(p.playerStatus.isActive){
+                ArrayList<String> possibleActions = gameModel.generatePossibleActions(nickname);
+                sendQuestionEvent(nickname, new ActionQuestion(possibleActions));
+                break;
+            }
+        }
 
     }
 
@@ -157,6 +163,7 @@ public class Controller implements Observer, AnswerEventHandler {
     }
 
     //NETWORK EVENTS ************************************************************************************
+
     @Override
     public void receiveEvent(AnswerEvent answerEvent) {
         answerEvent.acceptEventHandler(this);
@@ -182,9 +189,17 @@ public class Controller implements Observer, AnswerEventHandler {
         virtualView.sendAllQuestionEvent(
                 new PlayerDisconnectedQuestion(event.nickname)
         );
-    }
 
- //*************************************************************************************************************
+        if(gameModel.getPlayerNames().size() < 3){
+
+            String jsonPath = gameModel.getSnapshotPath();
+
+            GamesHandler.pauseGame(gameModel.getAllPlayers(), jsonPath);
+
+        }
+    }
+    //*************************************************************************************************************
+
     @Override
     public void handleEvent(ActionAttackAnswer event) {
 

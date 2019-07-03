@@ -31,7 +31,7 @@ public class ShootingTest {
         playersNamesTest.add(playerAndreaalf);
         playersNamesTest.add(playerMeme);
 
-        gameTest = new Game(playersNamesTest, MapName.FIRE, 6);
+        gameTest = new Game(playersNamesTest, MapName.FIRE, 6, 0);
     }
 
     @Test
@@ -297,7 +297,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -361,7 +361,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -436,7 +436,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -489,7 +489,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -561,7 +561,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -619,7 +619,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -719,7 +719,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -793,7 +793,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -862,7 +862,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -932,7 +932,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -2316,7 +2316,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2502,7 +2502,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2583,7 +2583,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2654,7 +2654,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2728,7 +2728,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2812,7 +2812,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2896,7 +2896,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -2951,7 +2951,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -3005,7 +3005,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -3065,7 +3065,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -3124,7 +3124,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -3183,7 +3183,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Creates a new weapon by reading from the JSON file
         //The weapon I'm giving to the player is a duplicate!
@@ -3358,7 +3358,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Hellion works as expected
 
@@ -3417,7 +3417,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Hellion works as expected
 
@@ -3474,7 +3474,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Hellion works as expected
 
@@ -3538,7 +3538,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Hellion works as expected
 
@@ -3596,7 +3596,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Hellion works as expected
 
@@ -3653,7 +3653,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Hellion works as expected
 
@@ -3791,7 +3791,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Flamethrower works as expected
 
@@ -3845,7 +3845,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Flamethrower works as expected
 
@@ -3895,7 +3895,7 @@ public class ShootingTest {
         players.add(playerIngConti);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Flamethrower works as expected
 
@@ -3946,7 +3946,7 @@ public class ShootingTest {
         players.add(playerKeny);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Flamethrower works as expected
 
@@ -4028,7 +4028,7 @@ public class ShootingTest {
         players.add(playerKeny);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Flamethrower works as expected
 
@@ -4106,7 +4106,7 @@ public class ShootingTest {
         players.add(playerKeny);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Flamethrower works as expected
 
@@ -4537,7 +4537,7 @@ public class ShootingTest {
         players.add(playerKeny);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with RocketLauncher works as expected
 
@@ -4598,7 +4598,7 @@ public class ShootingTest {
         players.add(playerKeny);
 
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with RocketLauncher works as expected
 
@@ -5150,7 +5150,7 @@ public class ShootingTest {
         players.add(playerMeme);
         players.add(playerIngConti);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -5586,7 +5586,7 @@ public class ShootingTest {
         players.add(playerIngConti);
         players.add(playerKeny);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -5639,7 +5639,7 @@ public class ShootingTest {
         players.add(playerIngConti);
         players.add(playerKeny);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 
@@ -5700,7 +5700,7 @@ public class ShootingTest {
         players.add(playerIngConti);
         players.add(playerKeny);
 
-        gameTest = new Game(players, MapName.FIRE, 6);
+        gameTest = new Game(players, MapName.FIRE, 6, 0);
 
         //Testing if attacking with Thor works as expected
 

@@ -124,7 +124,10 @@ public class JsonDeserializer {
 
         GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
 
-        return new Game(playerNames, players, weaponDeck, powerUpDeck,ammoCardDeck, kst, gameMap);
+        //FIXME andreaalf
+        int id = 0;
+
+        return new Game(playerNames, players, weaponDeck, powerUpDeck,ammoCardDeck, kst, gameMap, id);
     }
 
 

@@ -21,7 +21,7 @@ public class GameTest {
         playersNamesTest.add(ShootingTest.playerAndreaalf);
         playersNamesTest.add(ShootingTest.playerMeme);
 
-        gameTest = new Game(playersNamesTest, MapName.FIRE, 6);
+        gameTest = new Game(playersNamesTest, MapName.FIRE, 6, 0);
     }
 
     @Test
