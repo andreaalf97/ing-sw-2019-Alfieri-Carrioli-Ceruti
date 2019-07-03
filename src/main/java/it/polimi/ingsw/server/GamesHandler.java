@@ -54,7 +54,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
      */
     private static int nextId;
 
-    private static final String JSONfolder = "src/main/resources/JSONsnapshots";
+    private static final String JSONfolder = "/JSONsnapshots";
 
 
     GamesHandler() {
@@ -66,7 +66,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         this.pgWaitingRoom = null;
         this.nextId = 0;
 
-        File dir = new File(JSONfolder);
+        File dir = new File(getClass().getResource(JSONfolder).getPath());
 
         for(File file: dir.listFiles())
             if (!file.isDirectory())

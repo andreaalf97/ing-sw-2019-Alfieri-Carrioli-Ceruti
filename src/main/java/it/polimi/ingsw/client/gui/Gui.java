@@ -38,7 +38,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     private WaitingRoomGui waitingRoomGui;
 
-    public static final String loginBackgroundImagePath = "src/main/resources/graphics/images/Adrenalina_front_image.jpg";
+    public static final String loginBackgroundImagePath = "/graphics/images/Adrenalina_front_image.jpg";
 
     public static final String loginCssPath = "/style/style.css";
 

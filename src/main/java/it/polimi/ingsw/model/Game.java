@@ -101,7 +101,7 @@ public class Game extends Observable {
         this.gameId = gameId;
         this.disconnectedPlayerNames = new ArrayList<>();
 
-        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+        this.JsonSnapshotPath = getClass().getResource("/JSONsnapshots/").getPath() + "/" + this.gameId + ".json";
 
         this.timer = new Timer();
 
@@ -174,7 +174,7 @@ public class Game extends Observable {
         this.gameId = gameId;
         this.disconnectedPlayers = disconnectedPlayers;
 
-        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+        this.JsonSnapshotPath = "/JSONsnapshots/" + this.gameId + ".json";
 
     }
 
@@ -214,7 +214,7 @@ public class Game extends Observable {
         this.disconnectedPlayerNames = JsonDeserializer.deserializePlayerNamesObject((jsonRoot.get("disconnectedPlayerNames")).getAsJsonArray());
 
 
-        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+        this.JsonSnapshotPath = "/JSONsnapshots/" + this.gameId + ".json";
 
         this.timer = new Timer();
 

@@ -38,7 +38,7 @@ public class LoginScene implements MyScene {
         Button closeButton = new Button("Exit");
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
-        Image backgroundImage = Gui.loadImage(Gui.loginBackgroundImagePath);
+        Image backgroundImage = Gui.loadImage(getClass().getResource(Gui.loginBackgroundImagePath).getPath());
 
         Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
 
