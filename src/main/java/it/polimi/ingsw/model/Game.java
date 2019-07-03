@@ -12,11 +12,11 @@ import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 
 /*
@@ -76,6 +76,8 @@ public class Game extends Observable {
      */
     private final int gameId;
 
+    private final String JsonSnapshotPath;
+
     // ##########################################################################################################
 
     /**
@@ -93,6 +95,17 @@ public class Game extends Observable {
         this.ammoCardDeck = JsonDeserializer.deserializeAmmoCardDeck();
         this.gameId = gameId;
 
+        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+
+        File firstJson = new File(JsonSnapshotPath);
+
+        try {
+            firstJson.createNewFile();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
 
 
         for (String name : this.playerNames)
@@ -107,6 +120,7 @@ public class Game extends Observable {
 
             @Override
             public void run() {
+                System.err.println("Calling saveCompleteSnapshot()");
                 saveCompleteSnapshot();
             }
 
@@ -114,6 +128,26 @@ public class Game extends Observable {
     }
 
     private void saveCompleteSnapshot() {
+
+        FileWriter snapshotFile;
+
+        try {
+            snapshotFile = new FileWriter(JsonSnapshotPath);
+
+            String completeSnapshot = modelSnapshot();
+
+            snapshotFile.write("MADONNA");
+
+            System.err.println("Printing MADONNA");
+
+            snapshotFile.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return;
+        }
+
+
 
         //TODO andreaalf
 
@@ -139,6 +173,8 @@ public class Game extends Observable {
         this.gameMap = gameMap;
         this.gameId = gameId;
 
+        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+
         notifyObservers(clientSnapshot());
 
     }
@@ -149,6 +185,7 @@ public class Game extends Observable {
     public Game(String jsonPath){
 
         this.gameId = 0;
+        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
 
         //TODO andreaalf
         //Load snapshot from file

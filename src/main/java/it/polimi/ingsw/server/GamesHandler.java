@@ -68,11 +68,11 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         File dir = new File(JSONfolder);
 
-        /*for(File file: dir.listFiles())
+        for(File file: dir.listFiles())
             if (!file.isDirectory())
                 file.delete();
 
-         */
+
 
     }
 
