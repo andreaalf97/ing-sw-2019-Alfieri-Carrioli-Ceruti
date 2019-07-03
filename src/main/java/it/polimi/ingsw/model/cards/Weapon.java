@@ -16,7 +16,7 @@ public class Weapon {
     /**
      * The cost of this weapon
      */
-    private final ArrayList<Color> cost;
+    private ArrayList<Color> cost;
 
     /**
      * The list of the weapon's effects
@@ -215,5 +215,9 @@ public class Weapon {
             throw new RuntimeException("This weapon should be loaded");
 
         this.isLoaded = false;
+    }
+
+    public void setCost(ArrayList<Color> newWeaponCost){
+        this.cost = newWeaponCost;
     }
 }
