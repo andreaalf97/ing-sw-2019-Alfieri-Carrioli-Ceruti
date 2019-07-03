@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.Color;
 
@@ -25,7 +26,13 @@ public class AmmoCardDeck {
 
 
     public AmmoCardDeck(JsonObject jsonAmmoCardDeck){
-        //todo per persistenza, guarda PU deck
+        JsonArray jsonAmmocardList = jsonAmmoCardDeck.get("ammoCardList").getAsJsonArray();
+
+        this.ammoCardList = new ArrayList<>();
+        for(int i = 0; i < jsonAmmocardList.size(); i++){
+            AmmoCard ammoCard = new AmmoCard(jsonAmmocardList.get(i).getAsJsonObject());
+            this.ammoCardList.add(ammoCard);
+        }
     }
 
 
