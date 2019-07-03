@@ -1834,4 +1834,10 @@ public class Game extends Observable {
 
         notifyObservers(clientSnapshot());
     }
+
+    public void removePowerUpByNameAndColor(Player player, String powerUpName, Color powerUpColor){
+        player.removePowerUpByNameAndColor(powerUpName, powerUpColor);
+
+        notifyObservers(clientSnapshot());
+    }
 }
