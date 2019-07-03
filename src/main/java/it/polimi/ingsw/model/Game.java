@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -46,6 +47,8 @@ public class Game extends Observable {
      */
     private ArrayList<String> playerNames;
 
+    private ArrayList<String> disconnectedPlayerNames;
+
     /**
      * The game map
      */
@@ -78,6 +81,8 @@ public class Game extends Observable {
 
     private final String JsonSnapshotPath;
 
+    private Timer timer;
+
     // ##########################################################################################################
 
     /**
@@ -94,8 +99,11 @@ public class Game extends Observable {
         this.weaponDeck = JsonDeserializer.deserializeWeaponDeck();
         this.ammoCardDeck = JsonDeserializer.deserializeAmmoCardDeck();
         this.gameId = gameId;
+        this.disconnectedPlayerNames = new ArrayList<>();
 
         this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+
+        this.timer = new Timer();
 
         File firstJson = new File(JsonSnapshotPath);
 
@@ -114,7 +122,7 @@ public class Game extends Observable {
         this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck, ammoCardDeck);
         this.kst = new KillShotTrack(nSkulls);
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        this.timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
@@ -130,13 +138,11 @@ public class Game extends Observable {
         FileWriter snapshotFile;
 
         try {
-            snapshotFile = new FileWriter(JsonSnapshotPath);
+            snapshotFile = new FileWriter(JsonSnapshotPath, false);
 
             String completeSnapshot = modelSnapshot();
 
-            snapshotFile.write("MADONNA");
-
-            System.err.println("Printing MADONNA");
+            snapshotFile.write(completeSnapshot);
 
             snapshotFile.close();
         }
@@ -144,10 +150,6 @@ public class Game extends Observable {
             e.printStackTrace();
             return;
         }
-
-
-
-        //TODO andreaalf
 
     }
 
@@ -181,7 +183,15 @@ public class Game extends Observable {
      */
     public Game(String jsonPath){
 
-        JsonObject jsonRoot = JsonDeserializer.myJsonParser.parse(jsonPath).getAsJsonObject();
+
+        JsonObject jsonRoot = null;
+
+        try {
+            jsonRoot = JsonDeserializer.myJsonParser.parse(new FileReader(jsonPath)).getAsJsonObject();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
 
         this.players = JsonDeserializer.deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
 
@@ -201,10 +211,14 @@ public class Game extends Observable {
 
         this.disconnectedPlayers = JsonDeserializer.deserializePlayerObject(jsonRoot.get("disconnectedPlayers").getAsJsonArray());
 
+        this.disconnectedPlayerNames = JsonDeserializer.deserializePlayerNamesObject((jsonRoot.get("disconnectedPlayerNames")).getAsJsonArray());
+
 
         this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        this.timer = new Timer();
+
+        this.timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
             public void run() {
@@ -1781,12 +1795,14 @@ public class Game extends Observable {
         //saving gameId
         String jsonGameId = "" + gameId;
 
+        String jsonDisconnectedPlayerNames = gson.toJson(disconnectedPlayerNames);
+
         // create a json that stores all the information of the game in a string with
         // json format
         String modelSnapshot = "{ \"players\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + ","
                 + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"ammoCardDeck\":" + jsonAmmoCardDeck +  "," + "\"kst\":"
                 + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "," +
-                   "\"disconnectedPlayers\":" + jsonDisconnectedPlayers + "," + "\"gameId\":" + gameId + "}";
+                   "\"disconnectedPlayers\":" + jsonDisconnectedPlayers + "," + "\"disconnectedPlayerNames\":" + jsonDisconnectedPlayerNames + "," + "\"gameId\":" + gameId + "}";
 
         return modelSnapshot;
     }
@@ -1971,16 +1987,23 @@ public class Game extends Observable {
 
     public String getSnapshotPath() {
 
-        //TODO andreaalf
-        //Return path to json snapshot
-
-        return null;
+        return this.JsonSnapshotPath;
 
     }
 
     public ArrayList<String> getAllPlayers() {
 
         ArrayList<String> allPlayers = new ArrayList<>();
+
+        System.out.println("All players in this game:");
+
+        System.out.println("PLAYERS:");
+        for(Player p : players)
+            System.out.println(p.getNickname());
+
+        System.out.println("DISCONNECTED PLAYERS:");
+        for(Player p : disconnectedPlayers)
+            System.out.println(p.getNickname());
 
         for(Player i : players)
             allPlayers.add(i.getNickname());
@@ -1990,5 +2013,9 @@ public class Game extends Observable {
 
         return allPlayers;
 
+    }
+
+    public void stopTimer() {
+        this.timer.cancel();
     }
 }

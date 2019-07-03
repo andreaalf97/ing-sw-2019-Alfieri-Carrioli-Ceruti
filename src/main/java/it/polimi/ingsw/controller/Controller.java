@@ -192,11 +192,25 @@ public class Controller implements Observer, AnswerEventHandler {
 
         if(gameModel.getPlayerNames().size() < 3){
 
+            System.out.println("Closing game because " + event.nickname + " disconnected");
+
             String jsonPath = gameModel.getSnapshotPath();
 
             GamesHandler.pauseGame(gameModel.getAllPlayers(), jsonPath);
 
+            close();
+
         }
+    }
+
+    private void close() {
+
+        virtualView.sendAllQuestionEvent(new DisconnectedQuestion());
+
+        gameModel.stopTimer();
+
+        virtualView.disconnectAllPlayers();
+
     }
     //*************************************************************************************************************
 

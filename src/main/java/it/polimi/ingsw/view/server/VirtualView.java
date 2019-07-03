@@ -56,6 +56,8 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
     final String CLIENTSNAPSHOTSPLITTER = "PORCODUE";
 
+    private Timer timer;
+
     /**
      * Only constructor
      * @param playersNicknames playersNicknames nicknames
@@ -75,7 +77,9 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         lastClientSnapshot[0] = "";
         lastClientSnapshot[1] = "";
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        this.timer = new Timer();
+
+        this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
 
@@ -304,6 +308,15 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
             stillConnected[index] = true;
         }
+
+    }
+
+    public void disconnectAllPlayers() {
+
+        for(int i = 0; i < playersNicknames.size(); i++)
+            serverProxies.get(i).setReceiver(null);
+
+        this.timer.cancel();
 
     }
 }
