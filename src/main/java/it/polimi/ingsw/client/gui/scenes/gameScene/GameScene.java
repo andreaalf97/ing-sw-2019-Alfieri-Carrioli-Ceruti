@@ -4,9 +4,11 @@ import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.gui.ClosingBox;
+import it.polimi.ingsw.client.gui.OtherPlayerInfo;
 import it.polimi.ingsw.client.gui.scenes.MyScene;
 import it.polimi.ingsw.events.serverToClient.GameStartedQuestion;
 import it.polimi.ingsw.model.map.MapName;
+import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,7 +38,7 @@ public class GameScene extends ClickHandler implements MyScene {
     /**
      * The map grid pane
      */
-    private BoardGrid boardGrid;
+    public BoardGrid boardGrid;
 
     /**
      * The part of scene for the player to comunicate/choose things
@@ -204,15 +206,19 @@ public class GameScene extends ClickHandler implements MyScene {
 
         setUpExit(externalGridPane, 88, 50, 7, 6);
 
-        update();
+        Platform.runLater( () -> update());
+        //update();
 
         //Loading the pane into the scene
-        this.scene = new Scene(externalGridPane, 1120, 630);
+        this.scene = new Scene(externalGridPane, 1385, 779);
 
 
     }
 
     public void update() {
+
+        if (playersInteractingSpace != null)
+            playersInteractingSpace.setBoardGrid(this.boardGrid);
 
         //Updating BoardGrid
         boardGrid.update(this.gameInfo);
@@ -220,7 +226,6 @@ public class GameScene extends ClickHandler implements MyScene {
         //Updating my Plancia
         myPlancia.update(this.gameInfo.playerInfo);
 
-        //Updating other players plancias
         otherPlayersPlancias.update(gameInfo, username, playerColors, playerNames);
 
         //Updating my cards and power ups

@@ -50,6 +50,8 @@ public class BoardGrid {
 
     public GameInfo gameInfo;
 
+    private Spot[][] gameMap;
+
     //players and ammocards for every spot has to be put inside this Vbox (one for each spot)
     private ArrayList<GridPane> stuffInEverySpot;
 
@@ -79,7 +81,9 @@ public class BoardGrid {
 
         this.doubleKillBox = new HBox();
 
-        //gridPane.add(pointsBox, 1, 1, 1, 5);
+        this.stuffInEverySpot = new ArrayList<>();
+
+        gridPane.add(pointsBox, 1, 1, 1, 5);
         gridPane.add(kstBox, 3, 2, 4, 1);
         gridPane.add(leftSpawnWeaponBox, 0, 8, 5, 2);
         gridPane.add(topSpawnWeaponBox, 8, 0, 1, 4);
@@ -101,7 +105,7 @@ public class BoardGrid {
         this.pointsBox = setUpPointsBox();
         gridPane.add(pointsBox, 1, 1, 1, 5);
 
-        Spot[][] gameMap = gameInfo.gameMap.getMap();
+        gameMap = gameInfo.gameMap.getMap();
 
         if (leftSpawnWeaponBox != null)
             gridPane.getChildren().remove(leftSpawnWeaponBox);
@@ -119,8 +123,7 @@ public class BoardGrid {
         gridPane.add(rightSpawnWeaponBox, 10, 9, 1, 3);
 
         if (stuffInEverySpot != null) {
-            for ( GridPane g : stuffInEverySpot)
-            stuffInEverySpot.remove(g);
+            gridPane.getChildren().remove(stuffInEverySpot);
         }
         this.stuffInEverySpot = new ArrayList<>(12);
 
