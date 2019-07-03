@@ -308,7 +308,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(UseGrenadeQuestion event) {
-
+        gameScene.playersInteractingSpace.askUseGrenadeQuestion(event, username, remoteView);
     }
 
     @Override
@@ -318,27 +318,27 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToPayForAttackingQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseHowToPayForAttackingQuestion(event, remoteView, playerInfo);
     }
 
     @Override
     public void handleEvent(ChooseHowToPayToSwitchWeaponsQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseHowToPayToSwitchWeaponsQuestion(event, remoteView, playerInfo, username);
     }
 
     @Override
     public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseHowToPayToPickWeaponQuestion(event, remoteView, playerInfo, username);
     }
 
     @Override
     public void handleEvent(ChooseHowToPayToReloadQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseHowToPayToReloadQuestion(event, remoteView, playerInfo, username);
     }
 
     @Override
     public void handleEvent(ChooseHowToUseTurnPowerUpQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseHowToUseTurnPowerUpQuestion(event, remoteView, playerInfo, username, gameInfo.playersNames);
     }
 
     @Override
@@ -348,27 +348,28 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
+        gameScene.playersInteractingSpace.askChoosePowerUpToRespawnQuestion(event, username, remoteView);
 
     }
 
     @Override
     public void handleEvent(ChoosePowerUpToUseQuestion event) {
-
+        gameScene.playersInteractingSpace.askChoosePowerUpToUseQuestion(event, username, remoteView);
     }
 
     @Override
     public void handleEvent(ChooseWeaponToPickQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseWeaponToPickQuestion(event, username, remoteView);
     }
 
     @Override
     public void handleEvent(ChooseWeaponToReloadQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseWeaponToReloadQuestion(event, username, remoteView);
     }
 
     @Override
     public void handleEvent(ChooseWeaponToSwitchQuestion event) {
-
+        gameScene.playersInteractingSpace.askChooseWeaponToSwitchQuestion(event, username, remoteView);
     }
 
     @Override
@@ -388,17 +389,17 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(TextMessage event) {
-
+        gameScene.playersInteractingSpace.textMessage(event);
     }
 
     @Override
     public void handleEvent(WhereToMoveAndGrabQuestion event) {
-
+        gameScene.playersInteractingSpace.askWhereToMoveAndGrabQuestion(event, username, remoteView);
     }
 
     @Override
     public void handleEvent(WhereToMoveQuestion event) {
-
+        gameScene.playersInteractingSpace.askWhereToMoveQuestion(event, username, remoteView);
     }
 
     @Override

@@ -139,7 +139,7 @@ public class GameScene extends ClickHandler implements MyScene {
         //************************************* + PLAYERS SPACE FOR DECISIONS/THINGHS TO CHOOSE + *********************************************
 
         this.playersInteractingSpace = new PlayersInteractingSpace();
-        externalGridPane.add(playersInteractingSpace.getGridPane(), 0, 0, 44, 10);
+        externalGridPane.add(playersInteractingSpace.getGridPane(), 0, 0, 43, 10);
 
         //************************************* + MY PLANCIA + *********************************************
 

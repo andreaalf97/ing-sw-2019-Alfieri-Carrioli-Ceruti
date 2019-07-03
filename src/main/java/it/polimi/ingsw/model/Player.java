@@ -715,6 +715,61 @@ public class Player {
 
     }
 
+    public boolean canPayWithString(ArrayList<String> cost){
+        int playerRed = nRedAmmo;
+        int playerBlue = nBlueAmmo;
+        int playerYellow = nYellowAmmo;
+
+        for(PowerUp p : powerUpList){
+
+            switch (p.getColor()){
+                case RED: {
+                    playerRed++;
+                    break;
+                }
+                case BLUE: {
+                    playerBlue++;
+                    break;
+                }
+                case YELLOW:{
+                    playerYellow++;
+                    break;
+                }
+                default:
+                    throw new RuntimeException("NO color");
+            }
+
+        }
+
+        for(String singleCost : cost){
+            String splitter = ":";
+            String color;
+
+            if(singleCost.contains(splitter)){
+                color = singleCost.split(splitter)[1];
+            }
+            else{
+                color = singleCost;
+            }
+
+            Color colorToPay = Color.valueOf(color);
+
+            switch(colorToPay){
+                case RED:
+                    playerRed--;
+                    break;
+                case YELLOW:
+                    playerYellow--;
+                    break;
+                case BLUE:
+                    playerBlue--;
+                    break;
+            }
+        }
+
+        return( (playerBlue>=0 && playerRed >= 0 && playerYellow >= 0) );
+    }
+
     public void removePowerUpByNameAndColor(String chosenPowerUpToPay, Color color) {
 
         for(PowerUp p : powerUpList){
@@ -723,6 +778,7 @@ public class Player {
                 return;
             }
         }
+
 
         throw new RuntimeException("This player doesn't have this power up");
     }

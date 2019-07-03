@@ -162,299 +162,6 @@ public class Controller implements Observer, AnswerEventHandler {
 
     }
 
-    /*
-
-    private void checkAsynchronousPowerUp(String nickname, ArrayList<String> arrayListdefenders) {
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        for(PowerUp p : player.getPowerUpList())
-            if(p.getPowerUpName().equals("TargetingScope")){
-                ArrayList<String> message = new ArrayList<>();
-                message.add("You have a targeting Scope, write the nickname of the player you want to add a damage or write NONE");
-                sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
-                player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
-            }
-
-        for( String s : arrayListdefenders)
-            for(PowerUp p : gameModel.getPlayerByNickname(s).getPowerUpList())
-                if(p.getPowerUpName().equals("TagbackGrenade") && gameModel.p1SeeP2(gameModel.getPlayerByNickname(s).getxPosition(), gameModel.getPlayerByNickname(s).getyPosition(), player.getxPosition(), player.getyPosition())){
-                    ArrayList<String> message = new ArrayList<>();
-                    message.add("You have a tagback grenade, write the nickname of the player you want to add a damage or write NONE");
-                    sendQuestionEvent(s, new ServerQuestion(QuestionType.UseAsyncPowerUp, message));
-                    gameModel.getPlayerByNickname(s).playerStatus.waitingForAnswerToThisQuestion = QuestionType.UseAsyncPowerUp;
-                }
-    }
-     */
-
-    /*
-    private void handleChooseWeaponToSwitch(String nickname, String answer) {
-
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        Weapon weaponToPick;
-
-        if(answer.contains(SPLITTER))
-            weaponToPick = gameModel.getWeaponByName(answer.split(SPLITTER)[0]);
-        else
-            weaponToPick = gameModel.getWeaponByName(answer);
-
-        ArrayList<Color> weaponCost = weaponToPick.getCost();
-        weaponCost.remove(0);
-
-        if(weaponCost.isEmpty()){
-
-            //This means the player is also telling which weapon he wants to discard
-            if(answer.contains(SPLITTER)){
-
-                String[] weapons = parseWeaponToSwitch(answer);
-                gameModel.switchWeapons(player.getNickname(), weapons[0], weapons[1]);
-
-            }
-            else {
-
-                gameModel.pickWeaponFromSpawn(player.getNickname(), answer);
-
-            }
-
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-            return;
-
-        }
-
-        ArrayList<String> messages = gameModel.generatePaymentChoice(player, weaponCost);
-        sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.PayWith, messages));
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.PayWith;
-
-        player.playerStatus.lastQuestion = QuestionType.ChooseWeaponToSwitch;
-        player.playerStatus.lastAnswer = answer;
-
-        return;
-
-    }
-     */
-
-    /*
-    private void handlePayWith(String nickname, String answer) {
-
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        String[] paymentChosen = answer.split(DOUBLESPLITTER);
-
-        for(String s : paymentChosen){
-
-            //This means I'm paying with a power up
-            if(s.contains(SPLITTER)){
-                String chosenPowerUpToPay = s.split(SPLITTER)[0];
-                player.removePowerUpByNameAndColor(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
-            }
-            else {
-                Color chosenColorToPay = Color.valueOf(s);
-                player.removeAmmo(chosenColorToPay);
-            }
-
-        }
-
-        //If I'm waiting on how to pay for the weapon he wants to grab from the ground
-        if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToSwitch){
-
-
-            //This means the player is also telling which weapon he wants to discard
-            if(player.playerStatus.lastAnswer.contains(SPLITTER)){
-
-                String[] weapons = parseWeaponToSwitch(player.playerStatus.lastAnswer);
-                gameModel.switchWeapons(player.getNickname(), weapons[0], weapons[1]);
-
-            }
-            else {
-
-                gameModel.pickWeaponFromSpawn(player.getNickname(), player.playerStatus.lastAnswer);
-
-            }
-
-            player.playerStatus.lastAnswer = null;
-            player.playerStatus.lastQuestion = null;
-
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-            return;
-        }
-
-        if ( player.playerStatus.lastQuestion == QuestionType.Shoot ){
-
-            //Ora last answer è così:        weaponName :: OrderNumber :: Defenders :: Movers :: coordinates
-            String[] info = player.playerStatus.lastAnswer.split(DOUBLESPLITTER);
-
-            Weapon weapon = gameModel.getWeaponByName(info[0]);
-
-            String defender = info[2];
-
-            //Questo è l'ordine scelto dall'utente
-            int orderNumber = Integer.parseInt(info[1]);
-
-            //Questo è un array di stringhe contenente i defenders
-            String[] defenders = defender.split(SPLITTER);
-
-            //Questa è la variabile ausiliaria che mi permette di sapere fin dove scorrere gli effetti in base a quanti giocatori mi ha passato l'utente e quanti giocatori permettono di colpire gli effetti
-            int nPlayersInThisAttack = 0;
-
-            boolean shootWithMovement = false;
-
-            for (int i : weapon.getOrder().get(orderNumber)) {  //scorro gli effetti nell'ordine scelto per capire se chiamare ShootWith or ShootWithout movement
-
-                Effect effect = weapon.getEffects().get(i);
-
-                if(gameModel.typeOfEffect(effect) == 0)     //movement effect
-                    shootWithMovement = true;
-
-                nPlayersInThisAttack += effect.getnPlayersAttackable();
-                nPlayersInThisAttack += effect.getnPlayersMarkable();
-
-                //se ci sono meno defender che persone da attaccare all'effetto a cui siamo arrivati, devo fermarmi qui, esco
-                if (defenders.length <= nPlayersInThisAttack)
-                    break;
-            }
-
-            //Creo un arrayList<String> defenders da passare a ShootWith or Without Movement
-            ArrayList<String> arrayListdefenders = new ArrayList<>();
-            for(String d : defenders )
-                arrayListdefenders.add(d);
-
-            if (shootWithMovement) {
-
-                //Creo un arrayList<String> di movers da passare a ShootWithMovement
-                ArrayList<String> arrayListMovers = new ArrayList<>();
-                //Stringa in cui ho tutti i movers:       mover0 : mover1 : mover2
-                String mov = info[3];
-                //Ho diviso la stringa mov in piccole stringhe ognuna contenente un movers
-                String[] movers = mov.split(SPLITTER);
-
-                for( String string : movers)
-                    arrayListMovers.add(string);
-
-                //Questa è la stringa contenente tutte le coordinate:        x0,y0 : x1,y1
-                String coord = info[4];
-
-                //Ho diviso la stringa coord in piccole stringhe ognuna contenente una posizione es: coordinates[0] = x0,y0  coordinates[1] = x1,y1
-                String[] coordinates = coord.split(SPLITTER);
-
-                //Questi sono gli arrayList di interi che devo passare a ShootWithMovement
-                ArrayList<Integer> xPositions = new ArrayList<>();
-                ArrayList<Integer> yPositions = new ArrayList<>();
-
-                String[] position;
-
-                int xPos, yPos;
-
-                for (String s : coordinates ){
-                    //divido la posizione (inizialmente divisa da una virgola) in due stringhe, la prima contenente la x e la seconda la y
-                    position = s.split(COMMA);
-                    //trasformo la x e y in interi
-                    xPos = Integer.parseInt(position[0]);
-                    yPos = Integer.parseInt(position[1]);
-                    //aggiungo la x e y agli arrayList da passare a ShootWithMovement
-                    xPositions.add(xPos);
-                    yPositions.add(yPos);
-                }
-
-                gameModel.shootWithMovement(nickname, arrayListdefenders, weapon, orderNumber, xPositions, yPositions, arrayListMovers);
-            }else {
-                gameModel.shootWithoutMovement(nickname, arrayListdefenders, weapon, orderNumber);
-            }
-
-            checkAsynchronousPowerUp(nickname, arrayListdefenders);
-
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-            return;
-        }
-
-        if(player.playerStatus.lastQuestion == QuestionType.ChooseWeaponToReload){
-
-           for(int i = 0; i < player.getWeaponList().size(); i++)
-               if(player.playerStatus.lastAnswer.equals(player.getWeaponList().get(i).getWeaponName()))
-                   gameModel.reloadWeapon(nickname, i);
-
-            player.playerStatus.lastAnswer = null;
-            player.playerStatus.lastQuestion = null;
-
-            ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-            sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-            player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-            return;
-        }
-
-
-    }
-    */
-
-    /*
-    private void handleWhereToMoveAndGrab(String nickname, String answer) {
-
-
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        //Reads what spot the player decided to move to
-        int xCoord;
-        int yCoord;
-
-        try {
-            int[] coords = parseSpot(answer);
-            xCoord = coords[0];
-            yCoord = coords[1];
-        }
-        catch (IllegalArgumentException e){
-            String message = "Invalid spot response";
-            virtualView.sendMessage(player.getNickname(),  message);
-            return;
-        }
-
-        gameModel.moveAndGrab(player.getNickname(), xCoord, yCoord, -1);
-
-        player.playerStatus.nActionsDone += 1;
-
-
-        ArrayList<String> messages = gameModel.generatePossibleActions(player.getNickname());
-        sendQuestionEvent(player.getNickname(), new ServerQuestion(QuestionType.Action, messages));
-        player.playerStatus.waitingForAnswerToThisQuestion = QuestionType.Action;
-
-
-        return;
-
-    }
-    */
-
-    /*
-    private void handleAction(String nickname, String answer) {
-
-        Player player = gameModel.getPlayerByNickname(nickname);
-
-        //Reads what Action the player decided to do
-        Actions action = null;
-        try {
-            action = Actions.valueOf(answer);
-        }
-        catch (IllegalArgumentException e){
-            String message = "Invalid Action response";
-            virtualView.sendMessage(player.getNickname(),  message);
-            return;
-        }
-
-
-        if(action == Actions.UseAsyncPowerUp){
-            //TODO
-        }
-
-
-    }
-    */
     //NETWORK EVENTS ************************************************************************************
 
     @Override
@@ -576,8 +283,15 @@ public class Controller implements Observer, AnswerEventHandler {
      */
     private void removeDefendersThatPlayerCanAttackWithThisEffect(Effect effect, ArrayList<String> defenders) {
         int nPlayersAttackable = effect.getnPlayersAttackable();
+        int nPlayersMarkable = effect.getnPlayersMarkable();
 
         for(int i = 0; i < nPlayersAttackable; i++) {
+            if (!defenders.isEmpty())
+                defenders.remove(0);
+        }
+
+        if( !(nPlayersAttackable == 1 && nPlayersMarkable == 1))
+        for(int i = 0; i < nPlayersMarkable; i++) {
             if (!defenders.isEmpty())
                 defenders.remove(0);
         }
@@ -593,8 +307,9 @@ public class Controller implements Observer, AnswerEventHandler {
 
 
         for (int i = 0; i < event.indexOfLastEffectUsed; i++) {  //scorro gli effetti nell'ordine scelto per vedere se c'è un costo aggiuntivc da pagare e per capire se chiamare ShootWith or ShootWithout movement
+            int numberOfEffect = event.chosenOrder[i];
 
-            Effect effect = weapon.getEffects().get(i);
+            Effect effect = weapon.getEffects().get(numberOfEffect);
 
             cost.addAll(effect.getCost());
 
@@ -611,33 +326,39 @@ public class Controller implements Observer, AnswerEventHandler {
 
         List<String> chosenPayment = event.paymentChosen;
 
-        removeAmmoFromPlayer(offender, chosenPayment);
+        if(offender.canPayWithString(event.paymentChosen)) {
+            removeAmmoFromPlayer(offender, chosenPayment);
 
-        boolean playerHasFinallyShoot = false;
+            boolean playerHasFinallyShoot = false;
 
-        if(event.chooseHowToShootAnswer.movers != null) {
-            playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers);
-        }else {
-            playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
-        }
-
-        if(playerHasFinallyShoot) {
-            sendMessage(event.chooseHowToShootAnswer.nickname, "SHOT COMPLETED SUCCESSFULLY!");
-            offender.playerStatus.nActionsDone++;
-
-            for(String defender : event.chooseHowToShootAnswer.defenders){
-
-                Player p = gameModel.getPlayerByNickname(defender);
-
-                if(p.hasGrenade() && gameModel.p1SeeP2(p.getxPosition(), p.getyPosition(), offender.getxPosition(), offender.getyPosition()))
-                    sendQuestionEvent(defender, new UseGrenadeQuestion(event.chooseHowToShootAnswer.nickname));
-
+            if (event.chooseHowToShootAnswer.movers != null) {
+                playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers);
+            } else {
+                playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
             }
 
-        }else{
-            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU DID NOT SHOOT!");
+            if (playerHasFinallyShoot) {
+                sendMessage(event.chooseHowToShootAnswer.nickname, "SHOT COMPLETED SUCCESSFULLY!");
+                offender.playerStatus.nActionsDone++;
+
+                for (String defender : event.chooseHowToShootAnswer.defenders) {
+
+                    Player p = gameModel.getPlayerByNickname(defender);
+
+                    if (p.hasGrenade() && gameModel.p1SeeP2(p.getxPosition(), p.getyPosition(), offender.getxPosition(), offender.getyPosition()))
+                        sendQuestionEvent(defender, new UseGrenadeQuestion(event.chooseHowToShootAnswer.nickname));
+
+                }
+
+            } else {
+                sendMessage(event.chooseHowToShootAnswer.nickname, "YOU DID NOT SHOOT!");
+            }
+        }
+        else{
+            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU CAN'T PAY FOR ALL THESE EFFECTS, PLEASE CHECK THE WEAPON RULES ANN MAYBE INSERT LESS DEFENDER");
         }
 
+        //alla fine posso rigenerare le azioni all'utente
         sendQuestionEvent(event.chooseHowToShootAnswer.nickname, new ActionQuestion(gameModel.generatePossibleActions(event.chooseHowToShootAnswer.nickname)));
     }
 
@@ -880,15 +601,16 @@ public class Controller implements Observer, AnswerEventHandler {
 
         if(gameModel.validSpot(x,y)) {
             try {
-                player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+                gameModel.removePowerUpByNameAndColor(player, playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
                 gameModel.useMovementPowerUp(offenderName, event.mover, playerPowerUp.getEffect(), x, y);
             } catch (InvalidChoiceException e) {
                 sendMessage(event.nickname, "you can't use this powerUp like this bro, you have waste it");
             }
         }else{
-            player.removePowerUpByNameAndColor(playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
+            gameModel.removePowerUpByNameAndColor(player, playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
             sendMessage(event.nickname, "not valid spot, you have wasted your powerUp");
         }
+
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(player.getNickname());
         sendQuestionEvent(player.getNickname(), new ActionQuestion(possibleActions));
@@ -927,7 +649,7 @@ public class Controller implements Observer, AnswerEventHandler {
             //This means I'm paying with a power up
             if(s.contains(SPLITTER)){
                 String chosenPowerUpToPay = s.split(SPLITTER)[0];
-                playerObject.removePowerUpByNameAndColor(chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
+                gameModel.removePowerUpByNameAndColor(playerObject, chosenPowerUpToPay, Color.valueOf(s.split(SPLITTER)[1]));
             }
             else {
                 Color chosenColorToPay = Color.valueOf(s);

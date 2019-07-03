@@ -647,6 +647,7 @@ public class Game extends Observable {
                 if (defenders.get(i).getxPosition() != offender.getxPosition() && defenders.get(i).getyPosition() != offender.getyPosition()) return false;
                 // controllo se offender e defender.get(i) non siano nello stesso spot, se così fosse andrebbe bene ma non sarebbe ancora decisa la direzione che devono rispettare i defenders successivi
                 if (defenders.get(i).getxPosition() != offender.getxPosition() || defenders.get(i).getyPosition() != offender.getyPosition()) {
+
                     if (defenders.get(i).getxPosition() == offender.getxPosition()) { // offender e defender sono sulla stessa riga
                         if (defenders.get(i).getyPosition() > offender.getyPosition()) {
                             // il defender è a EAST rispetto all'offender, controllo se anche gli altri defenders sono a EAST rispetto all'offender, se almeno uno non rispetta, lancio l'eccezione
@@ -1003,9 +1004,6 @@ public class Game extends Observable {
 
                     makeMovementEffect(playersWhoMoveNames, effetto, xPosition, yPosition, playersHit, offenderName);
 
-                    if (!payCostEffect(effetto, offenderName)) { // if the effect has a cost, the player pays it
-                        throw new InvalidChoiceException("Cannot pay");
-                    }
                 }
 
                 if (typeOfEffect(effetto) == 1) { // Damage effect
@@ -1021,11 +1019,8 @@ public class Game extends Observable {
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
 
                     if (defenders_temp.isEmpty())
-                        return true;
+                    return true;
 
-                    if (!payCostEffect(effetto, offenderName)) { // if the effect has a cost, the player pays it
-                        throw new InvalidChoiceException("Cannot pay");
-                    }
 
                     /*
                      * rimuovo da defendesNames i giocatori che ho colpito nell'effetto appena
@@ -1119,10 +1114,6 @@ public class Game extends Observable {
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
                     if (defenders_temp.isEmpty()) {
                         return true;
-                    }
-
-                    if (!payCostEffect(effetto, offenderName)) { // if the effect has a cost, the player pays it
-                        throw new InvalidChoiceException("Cannot pay");
                     }
 
                     /*
@@ -1231,8 +1222,10 @@ public class Game extends Observable {
                 ArrayList<Player> movers = new ArrayList<>();
                 movers.add(getPlayerByNickname(playerWhoReceiveEffectName));
 
-                if (this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(),playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer()) &&
-                check_isLinear(movers, getPlayerByNickname(currentPlayerName), effect )) {
+
+                boolean checkIsLinear = check_isLinear(movers, getPlayerByNickname(currentPlayerName) , effect);
+                if (this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(),playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer())
+                        && checkIsLinear){
                     movePlayer(playerWhoReceiveEffectName, xPos, yPos);
                 } else
                     throw new InvalidChoiceException("giocatore spostato di number of spots != nMovesOtherPlayer");
@@ -1871,6 +1864,12 @@ public class Game extends Observable {
         Player def = getPlayerByNickname(defender);
 
         def.giveMarks(offender, nMarks);
+
+        notifyObservers(clientSnapshot());
+    }
+
+    public void removePowerUpByNameAndColor(Player player, String powerUpName, Color powerUpColor){
+        player.removePowerUpByNameAndColor(powerUpName, powerUpColor);
 
         notifyObservers(clientSnapshot());
     }
