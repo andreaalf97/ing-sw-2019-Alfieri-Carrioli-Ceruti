@@ -479,7 +479,6 @@ public class Player {
         this.isDead = true;
     }
 
-    //TODO test
     /**
      * Tells if the player has a turn power up in his hand
      */
@@ -595,6 +594,14 @@ public class Player {
      * this method sets player status active for start turn
      */
     public void startTurn() {
+        nMovesBeforeGrabbing = 1;
+        nMovesBeforeShooting = 0;
+
+        if(damages.size()>2)
+            nMovesBeforeGrabbing = 2;
+
+        if(damages.size() > 5)
+            nMovesBeforeShooting = 1;
         playerStatus.isActive = true;
     }
 

@@ -405,8 +405,9 @@ public class Controller implements Observer, AnswerEventHandler {
         ArrayList<String> possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
 
         sendQuestionEvent(event.nickname,
-                new ActionQuestion(possibleActions)
+                new ActionAfterReloadingQuestion(possibleActions)
         );
+
     }
 
     @Override
@@ -829,6 +830,12 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(RefreshPossibleActionsAnswer event){
         List<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        sendQuestionEvent(event.nickname , new ActionQuestion(possibleActions));
+    }
+
+    @Override
+    public void handleEvent(RefreshPossibleActionsAfterReloadingAnswer event){
+        List<String> possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
         sendQuestionEvent(event.nickname , new ActionQuestion(possibleActions));
     }
 }

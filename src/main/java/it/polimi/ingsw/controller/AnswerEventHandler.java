@@ -41,4 +41,5 @@ public interface AnswerEventHandler {
     void handleEvent(Ping event);
 
     void handleEvent(UseGrenadeAnswer event);
+    void handleEvent(RefreshPossibleActionsAfterReloadingAnswer event);
 }

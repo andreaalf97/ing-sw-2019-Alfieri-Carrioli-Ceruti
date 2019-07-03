@@ -402,6 +402,11 @@ public class Gui extends Application implements QuestionEventHandler {
         gameScene.playersInteractingSpace.askWhereToMoveQuestion(event, username, remoteView);
     }
 
+
+    @Override
+    public void handleEvent(ActionAfterReloadingQuestion event){
+    }
+
     @Override
     public void receiveEvent(QuestionEvent questionEvent) {
 
@@ -409,5 +414,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
 
     }
+
 }
 

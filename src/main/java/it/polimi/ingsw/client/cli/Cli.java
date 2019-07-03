@@ -532,6 +532,69 @@ public class Cli implements QuestionEventHandler {
 //*****************************************************************************************
 
     @Override
+    public void handleEvent(ActionAfterReloadingQuestion event){
+        event.possibleAction.add("ShowMap");
+        event.possibleAction.add("ShowMyBoard");
+
+        System.out.println("Choose action:");
+        for(String action : event.possibleAction)
+            System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
+
+        String nextLine = sysin.nextLine();
+
+        while (!Pattern.matches(validEventInput, nextLine)){
+            System.out.println("Wrong format");
+            nextLine = sysin.nextLine();
+        }
+
+        int answer = Integer.parseInt(nextLine);
+
+
+
+        while (answer < 0 || answer >= event.possibleAction.size()) {
+            System.out.println("OUT OF BOUND YOU DUMBASS!");
+
+            System.out.println("Choose action:");
+            for(String action : event.possibleAction)
+                System.out.println("[" + event.possibleAction.indexOf(action) + "] " + action);
+
+            nextLine = sysin.nextLine();
+
+            while (!Pattern.matches(validEventInput, nextLine)){
+                System.out.println("Wrong format");
+                nextLine = sysin.nextLine();
+            }
+
+            answer = Integer.parseInt(nextLine);
+
+        }
+
+        String stringAnswer = event.possibleAction.get(answer);
+
+        switch (stringAnswer){
+            case "Reload":
+                remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
+                break;
+            case "EndTurn":
+                remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
+                break;
+
+            case "ShowMap":
+                showGameMap();
+                remoteView.sendAnswerEvent(new RefreshPossibleActionsAfterReloadingAnswer(username));
+                break;
+
+            case "ShowMyBoard":
+                showMyBoard();
+                remoteView.sendAnswerEvent(new RefreshPossibleActionsAfterReloadingAnswer(username));
+                break;
+
+            default:
+                throw new RuntimeException("No such action --> " + stringAnswer);
+        }
+    }
+
+    @Override
     public void handleEvent(ActionQuestion event) {
 
         event.possibleAction.add("ShowMap");

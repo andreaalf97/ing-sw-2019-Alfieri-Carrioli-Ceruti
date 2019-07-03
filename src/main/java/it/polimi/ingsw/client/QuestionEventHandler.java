@@ -37,4 +37,5 @@ public interface QuestionEventHandler {
     void handleEvent(AskOrderAndDefenderQuestion event);
 
     void handleEvent(UseGrenadeQuestion event);
+    void handleEvent(ActionAfterReloadingQuestion event);
 }

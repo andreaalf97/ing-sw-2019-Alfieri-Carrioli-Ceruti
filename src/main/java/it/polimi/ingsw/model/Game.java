@@ -951,7 +951,9 @@ public class Game extends Observable {
 
                 actualDefender.giveDamage(offendername, effect.getnDamages());
 
-                bringDownOffenderMarks(offendername, actualDefender);
+                if(actualDefender.getMarks().contains(offendername)) {
+                    bringDownOffenderMarks(offendername, actualDefender);
+                }
 
                 if(actualDefender.isDead() && actualDefender.getDamages().size() == 12){
                     offender.giveMarks(actualDefender.getNickname(), 1);
@@ -1629,7 +1631,7 @@ public class Game extends Observable {
 
     // TESTED
     /**
-     * notify status of current and next player
+     * modify status of current and next player
      *
      * @return the next player
      */
