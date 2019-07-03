@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.gui.OtherPlayerInfo;
 import it.polimi.ingsw.model.Player;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -27,7 +28,7 @@ public class OtherPlayersPlancias {
     private GameInfo gameInfo;
 
     //infos of players WITHOUT my player
-    private ArrayList<OtherPlayerInfo> otherPlayersInfos;
+    public ArrayList<OtherPlayerInfo> otherPlayersInfos;
 
     //player colors WITHOUT my player's color
     private ArrayList<PlayerColor> playersColors;
@@ -121,16 +122,14 @@ public class OtherPlayersPlancias {
         this.allPlayersColors = allPlayersColors;
         this.allPlayersNames = allPlayersNames;
 
-        if (this.otherPlayersInfos != null) {
-            for (OtherPlayerInfo otherPlayerInfo : this.otherPlayersInfos)
-            this.otherPlayersInfos.remove(otherPlayerInfo);
-        }
+        otherPlayersInfos = new ArrayList<>();
+
         for ( OtherPlayerInfo otherPlayerInfo : gameInfo.otherPlayerInfos){
             if( !otherPlayerInfo.nickname.equals(username))
                 this.otherPlayersInfos.add(otherPlayerInfo);
         }
 
-        for( int i = 0; i < this.otherPlayersInfos.size(); i++) {
+        for( int i = 0; i < playersNames.size(); i++) {
             setUpPlancia(i);
         }
     }
@@ -139,26 +138,36 @@ public class OtherPlayersPlancias {
     private void setUpPlancia(int indexOfPlayer) {
 
         if (damagesGridPanes.size() > indexOfPlayer) {
-            if (damagesGridPanes.get(indexOfPlayer) != null)
+            if (damagesGridPanes.get(indexOfPlayer) != null){
                 gridPanes.get(indexOfPlayer).getChildren().remove(damagesGridPanes.get(indexOfPlayer));
+                damagesGridPanes.remove(damagesGridPanes.get(indexOfPlayer));
+                setUpDamages(indexOfPlayer);
+            }
         }
         if (marksGridPanes.size() > indexOfPlayer) {
-            if (marksGridPanes.get(indexOfPlayer) != null)
+            if (marksGridPanes.get(indexOfPlayer) != null) {
                 gridPanes.get(indexOfPlayer).getChildren().remove(marksGridPanes.get(indexOfPlayer));
+                marksGridPanes.remove(marksGridPanes.get(indexOfPlayer));
+                setUpMarks(indexOfPlayer);
+            }
+
         }
         if (ammoGridPanes.size() > indexOfPlayer) {
-            if (ammoGridPanes.get(indexOfPlayer) != null)
+            if (ammoGridPanes.get(indexOfPlayer) != null) {
                 gridPanes.get(indexOfPlayer).getChildren().remove(ammoGridPanes.get(indexOfPlayer));
+                ammoGridPanes.remove(ammoGridPanes.get(indexOfPlayer));
+                setUpAmmos(indexOfPlayer);
+            }
         }
-        if (ammoGridPanes.size() > indexOfPlayer) {
-            if (skullGridPanes.get(indexOfPlayer) != null)
+        if (skullGridPanes.size() > indexOfPlayer) {
+            if (skullGridPanes.get(indexOfPlayer) != null) {
                 gridPanes.get(indexOfPlayer).getChildren().remove(skullGridPanes.get(indexOfPlayer));
+                skullGridPanes.remove(skullGridPanes.get(indexOfPlayer));
+                setUpSkulls(indexOfPlayer);
+            }
         }
 
-        setUpAmmos(indexOfPlayer);
-        setUpMarks(indexOfPlayer);
-        setUpDamages(indexOfPlayer);
-        setUpSkulls(indexOfPlayer);
+
 
     }
 

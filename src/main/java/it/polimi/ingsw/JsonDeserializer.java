@@ -15,10 +15,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.map.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -30,9 +27,9 @@ public class JsonDeserializer {
     /**
      * constant for json file path
      */
-    public static final String jsonEffectsFileNamePath = "src/main/resources/effects.json";
+    public static final String jsonEffectsFileNamePath = "/effects.json";
 
-    public static final String jsonMapsFileNamePath = "src/main/resources/maps.json";
+    public static final String jsonMapsFileNamePath = "/maps.json";
 
     /**
      * constant for reading "Weapons" key in json files
@@ -167,7 +164,7 @@ public class JsonDeserializer {
 
     public static PowerUp getPowerUpByName(String powerUpName){
         try {
-            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
+            JsonObject jsonDecks = myJsonParser.parse(new FileReader(JsonDeserializer.class.getClass().getResource(jsonEffectsFileNamePath).getPath())).getAsJsonObject();
             JsonObject jsonPowerUpsDeck = jsonDecks.get(jsonPowerUpsKey).getAsJsonObject();
 
             return new PowerUp(powerUpName, jsonPowerUpsDeck);
@@ -180,7 +177,7 @@ public class JsonDeserializer {
 
     public static Weapon getWeaponByName(String weaponName){
         try {
-            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
+            JsonObject jsonDecks = myJsonParser.parse(new FileReader(JsonDeserializer.class.getClass().getResource(jsonEffectsFileNamePath).getPath())).getAsJsonObject();
             JsonObject jsonWeaponsDeck = jsonDecks.get(jsonWeaponsKey).getAsJsonObject();
 
             return new Weapon(weaponName, jsonWeaponsDeck);
@@ -198,23 +195,17 @@ public class JsonDeserializer {
     public static PowerUpDeck deserializePowerUpDeck() {
         ArrayList<PowerUp> powerUpList = new ArrayList<>();
 
-        try{
-            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
-            JsonObject jsonPowerupsDeck = jsonDecks.get(jsonPowerUpsKey).getAsJsonObject();
-            Set<String> keys = jsonPowerupsDeck.keySet();
+        JsonObject jsonDecks = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonEffectsFileNamePath)))).getAsJsonObject();
+        JsonObject jsonPowerupsDeck = jsonDecks.get(jsonPowerUpsKey).getAsJsonObject();
+        Set<String> keys = jsonPowerupsDeck.keySet();
 
-            for(int i = 0; i < 6; i++) {
-                Iterator<String> iterator = keys.iterator();
-                while (iterator.hasNext()) {
-                    String powerupName = iterator.next();
-                    powerUpList.add(new PowerUp(powerupName, jsonPowerupsDeck));
+        for(int i = 0; i < 6; i++) {
+            Iterator<String> iterator = keys.iterator();
+            while (iterator.hasNext()) {
+                String powerupName = iterator.next();
+                powerUpList.add(new PowerUp(powerupName, jsonPowerupsDeck));
 
-                }
             }
-
-        }
-        catch(FileNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
         }
 
         return new PowerUpDeck(powerUpList);
@@ -228,22 +219,16 @@ public class JsonDeserializer {
 
         ArrayList<Weapon> weaponList = new ArrayList<>();
 
-        try {
-            JsonObject jsonDecks = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject();
-            JsonObject jsonWeaponsDeck = jsonDecks.get(jsonWeaponsKey).getAsJsonObject();
-            Set<String> keys = jsonWeaponsDeck.keySet();
+        JsonObject jsonDecks = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonEffectsFileNamePath)))).getAsJsonObject();
+        JsonObject jsonWeaponsDeck = jsonDecks.get(jsonWeaponsKey).getAsJsonObject();
+        Set<String> keys = jsonWeaponsDeck.keySet();
 
-            Iterator<String> iterator = keys.iterator();
-            while(iterator.hasNext()){
-                String weaponName = iterator.next();
-                Weapon weaponTemp = new Weapon(weaponName, jsonWeaponsDeck);
+        Iterator<String> iterator = keys.iterator();
+        while(iterator.hasNext()){
+            String weaponName = iterator.next();
+            Weapon weaponTemp = new Weapon(weaponName, jsonWeaponsDeck);
 
-                weaponList.add(weaponTemp);
-            }
-
-        }
-        catch(FileNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
+            weaponList.add(weaponTemp);
         }
 
         return new WeaponDeck(weaponList);
@@ -252,15 +237,10 @@ public class JsonDeserializer {
     public static AmmoCardDeck deserializeAmmoCardDeck(){
         ArrayList<AmmoCard> ammoCards = new ArrayList<>();
 
-        try{
-            JsonArray jsonAmmoCardDeck = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get("AmmoCards").getAsJsonArray();
-            for(int i = 0; i < jsonAmmoCardDeck.size(); i++){
-                AmmoCard ammoLoaded = deserializeAmmoCard(jsonAmmoCardDeck.get(i).getAsJsonObject());
-                ammoCards.add(ammoLoaded);
-            }
-        }
-        catch(FileNotFoundException e){
-            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
+        JsonArray jsonAmmoCardDeck = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonEffectsFileNamePath)))).getAsJsonObject().get("AmmoCards").getAsJsonArray();
+        for(int i = 0; i < jsonAmmoCardDeck.size(); i++){
+            AmmoCard ammoLoaded = deserializeAmmoCard(jsonAmmoCardDeck.get(i).getAsJsonObject());
+            ammoCards.add(ammoLoaded);
         }
 
         return new AmmoCardDeck(ammoCards);
@@ -291,67 +271,60 @@ public class JsonDeserializer {
         Spot[][] tempSpotMatrix = new Spot[3][4];
         Random rand = new Random();
 
-        try {
-            JsonElement jsonElement = myJsonParser.parse(new FileReader(jsonMapsFileNamePath));
+        JsonElement jsonElement = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonMapsFileNamePath))));
 
-            JsonObject jsonObjectMyMap = jsonElement.getAsJsonObject().get(mapName.toString()).getAsJsonObject(); //the map selected is saved in jsonObjectMymap
+        JsonObject jsonObjectMyMap = jsonElement.getAsJsonObject().get(mapName.toString()).getAsJsonObject(); //the map selected is saved in jsonObjectMymap
 
-            //these two nested for cycles load the information of the single spot in the matrix map
-            for(int i = 0; i < tempSpotMatrix.length; i++) {
+        //these two nested for cycles load the information of the single spot in the matrix map
+        for(int i = 0; i < tempSpotMatrix.length; i++) {
 
-                JsonObject jsonRow = jsonObjectMyMap.get("row"+ i).getAsJsonObject();
-                for (int j = 0; j < tempSpotMatrix[i].length; j++){
+            JsonObject jsonRow = jsonObjectMyMap.get("row"+ i).getAsJsonObject();
+            for (int j = 0; j < tempSpotMatrix[i].length; j++){
 
-                    //FOR EACH SPOT IN THE JSON FILE
+                //FOR EACH SPOT IN THE JSON FILE
 
-                    JsonObject jsonCol = jsonRow.get("col" + j).getAsJsonObject(); // <== jsonSpot
+                JsonObject jsonCol = jsonRow.get("col" + j).getAsJsonObject(); // <== jsonSpot
 
-                    if (!jsonCol.toString().equals("{}")) {
+                if (!jsonCol.toString().equals("{}")) {
 
-                        //Reading isSpawnSpot & isAmmoSpot
-                        boolean isSpawnSpot = jsonCol.get("isSpawnSpot").getAsBoolean();
-                        boolean isAmmoSpot = jsonCol.get("isAmmoSpot").getAsBoolean();
+                    //Reading isSpawnSpot & isAmmoSpot
+                    boolean isSpawnSpot = jsonCol.get("isSpawnSpot").getAsBoolean();
+                    boolean isAmmoSpot = jsonCol.get("isAmmoSpot").getAsBoolean();
 
-                        //Reading all rooms
-                        Room room = Room.valueOf(jsonCol.get("room").getAsString());
+                    //Reading all rooms
+                    Room room = Room.valueOf(jsonCol.get("room").getAsString());
 
-                        //Creating a Java ArrayList from a JsonArray object
-                        ArrayList<Boolean>doors = new ArrayList<>();
-                        JsonArray jsonDoors = jsonCol.get("doors").getAsJsonArray();
-                        for (int k = 0; k <= 3 ; k++) {
-                            doors.add(jsonDoors.get(k).getAsBoolean());
-                        }
-
-                        //Constructing a new SpawnSpot
-                        if(isSpawnSpot) { //If this is a Spawn spot I add all the weapons
-                            tempSpotMatrix[i][j] = new SpawnSpot(doors, room);
-
-                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
-                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
-                            tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
-                        }
-
-                        //Constructing a new AmmoSpot
-                        if(isAmmoSpot) {
-
-                            tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
-                            AmmoCard ammoCard = ammoCardDeck.drawCard();
-                            tempSpotMatrix[i][j].refill(ammoCard);
-
-                            if(ammoCard.hasPowerUp())
-                                tempSpotMatrix[i][j].setPowerUp(powerUpDeck.drawCard());
-                        }
-
+                    //Creating a Java ArrayList from a JsonArray object
+                    ArrayList<Boolean>doors = new ArrayList<>();
+                    JsonArray jsonDoors = jsonCol.get("doors").getAsJsonArray();
+                    for (int k = 0; k <= 3 ; k++) {
+                        doors.add(jsonDoors.get(k).getAsBoolean());
                     }
-                    else
-                        tempSpotMatrix[i][j] = null;
+
+                    //Constructing a new SpawnSpot
+                    if(isSpawnSpot) { //If this is a Spawn spot I add all the weapons
+                        tempSpotMatrix[i][j] = new SpawnSpot(doors, room);
+
+                        tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                        tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                        tempSpotMatrix[i][j].refill(weaponDeck.drawCard());
+                    }
+
+                    //Constructing a new AmmoSpot
+                    if(isAmmoSpot) {
+
+                        tempSpotMatrix[i][j] = new AmmoSpot(doors, room);
+                        AmmoCard ammoCard = ammoCardDeck.drawCard();
+                        tempSpotMatrix[i][j].refill(ammoCard);
+
+                        if(ammoCard.hasPowerUp())
+                            tempSpotMatrix[i][j].setPowerUp(powerUpDeck.drawCard());
+                    }
+
                 }
+                else
+                    tempSpotMatrix[i][j] = null;
             }
-        }
-        catch (FileNotFoundException e){
-            //If the file does not exist || we have problems with the file
-            MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
         }
 
         //The map is created with its PROTECTED constructor
@@ -376,24 +349,19 @@ public class JsonDeserializer {
         String [][] cliMap = new String[MapGrid.maxVerticalMapLength][MapGrid.maxHorizLength];
 
         //TODO TEST DESERIALIZATION
-        try {
-            JsonArray chosenMap = myJsonParser.parse(new FileReader("src/main/resources/cliMaps.json")).getAsJsonObject().get(votedMap.toString()).getAsJsonArray();
 
-            for(int r = 0; r < MapGrid.maxVerticalMapLength; r++){
+        JsonArray chosenMap = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream("/cliMaps.json")))).getAsJsonObject().get(votedMap.toString()).getAsJsonArray();
 
-                JsonArray jsonCol = chosenMap.get(r).getAsJsonArray();
+        for(int r = 0; r < MapGrid.maxVerticalMapLength; r++){
 
-                for(int c = 0; c < MapGrid.maxHorizontalMapLength; c++){
-                    cliMap[r][c] = jsonCol.get(c).getAsString();
-                }
+            JsonArray jsonCol = chosenMap.get(r).getAsJsonArray();
 
-                for (int c = MapGrid.maxHorizontalMapLength; c < MapGrid.maxHorizLength; c++)
-                    cliMap[r][c] = " ";
+            for(int c = 0; c < MapGrid.maxHorizontalMapLength; c++){
+                cliMap[r][c] = jsonCol.get(c).getAsString();
             }
 
-        }
-        catch(FileNotFoundException e){
-            cliMap = null;
+            for (int c = MapGrid.maxHorizontalMapLength; c < MapGrid.maxHorizLength; c++)
+                cliMap[r][c] = " ";
         }
 
         return cliMap;
@@ -410,12 +378,10 @@ public class JsonDeserializer {
     public static Weapon createWeaponForTesting(String weaponName){
         Weapon weaponTest;
 
-        try {
-            JsonObject weaponsJSON = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get(jsonWeaponsKey).getAsJsonObject();
-            weaponTest = new Weapon(weaponName, weaponsJSON);
-        } catch (FileNotFoundException e) {
-            weaponTest = null;
-        }
+
+        JsonObject weaponsJSON = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonEffectsFileNamePath)))).getAsJsonObject().get(jsonWeaponsKey).getAsJsonObject();
+        weaponTest = new Weapon(weaponName, weaponsJSON);
+
 
         return weaponTest;
     }
@@ -428,12 +394,8 @@ public class JsonDeserializer {
     public static PowerUp createPowerUpFromJson(String powerUpName){
         PowerUp powerUpTest;
 
-        try {
-            JsonObject powerupsJSON = myJsonParser.parse(new FileReader(jsonEffectsFileNamePath)).getAsJsonObject().get(jsonPowerUpsKey).getAsJsonObject();
-            powerUpTest = new PowerUp(powerUpName, powerupsJSON);
-        } catch (FileNotFoundException e) {
-           powerUpTest = null;
-        }
+        JsonObject powerupsJSON = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonEffectsFileNamePath)))).getAsJsonObject().get(jsonPowerUpsKey).getAsJsonObject();
+        powerUpTest = new PowerUp(powerUpName, powerupsJSON);
 
         return powerUpTest;
     }

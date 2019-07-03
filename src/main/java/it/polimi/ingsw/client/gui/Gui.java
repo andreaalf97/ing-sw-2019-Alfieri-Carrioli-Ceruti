@@ -38,7 +38,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     private WaitingRoomGui waitingRoomGui;
 
-    public static final String loginBackgroundImagePath = "src/main/resources/graphics/images/Adrenalina_front_image.jpg";
+    public static final String loginBackgroundImagePath = "/graphics/images/Adrenalina_front_image.jpg";
 
     public static final String loginCssPath = "/style/style.css";
 
@@ -175,6 +175,9 @@ public class Gui extends Application implements QuestionEventHandler {
      text2.setStyle("-fx-font: normal bold 20px 'serif' ");
      gridPane.setStyle("-fx-background-color: BEIGE;"); */
 
+
+    //*********************** NETWORK EVENTS *************************************************
+
     @Override
     public void handleEvent(TemporaryIdQuestion event) {
 
@@ -268,7 +271,7 @@ public class Gui extends Application implements QuestionEventHandler {
         double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
 
         //Deciding to use full screen or not resizable window
-        if(aspectRatio < screenRatioMax && aspectRatio > screenRatioMin){
+        if( ! (aspectRatio < screenRatioMax && aspectRatio > screenRatioMin)){
             window.setFullScreen(true);
 
             window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -293,27 +296,27 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ActionQuestion event) {
-        gameScene.playersInteractingSpace.choosePossibleAction(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.choosePossibleAction(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(ChooseWeaponToAttackQuestion event) {
-        gameScene.playersInteractingSpace.chooseWeaponToAttack(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.chooseWeaponToAttack(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(AskOrderAndDefenderQuestion event){
-        gameScene.playersInteractingSpace.askOrderAndDefender(event, username, remoteView, gameInfo.playersNames);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askOrderAndDefender(event, username, remoteView, gameInfo.playersNames));
     }
 
     @Override
     public void handleEvent(UseGrenadeQuestion event) {
-        gameScene.playersInteractingSpace.askUseGrenadeQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askUseGrenadeQuestion(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(ChooseHowToShootQuestion event) {
-        gameScene.playersInteractingSpace.askChooseHowToShoot(event, username, remoteView, gameInfo.playersNames);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToShoot(event, username, remoteView, gameInfo.playersNames));
     }
 
     @Override
@@ -323,22 +326,22 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToPayToSwitchWeaponsQuestion event) {
-        gameScene.playersInteractingSpace.askChooseHowToPayToSwitchWeaponsQuestion(event, remoteView, playerInfo, username);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToPayToSwitchWeaponsQuestion(event, remoteView, playerInfo, username));
     }
 
     @Override
     public void handleEvent(ChooseHowToPayToPickWeaponQuestion event) {
-        gameScene.playersInteractingSpace.askChooseHowToPayToPickWeaponQuestion(event, remoteView, playerInfo, username);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToPayToPickWeaponQuestion(event, remoteView, playerInfo, username));
     }
 
     @Override
     public void handleEvent(ChooseHowToPayToReloadQuestion event) {
-        gameScene.playersInteractingSpace.askChooseHowToPayToReloadQuestion(event, remoteView, playerInfo, username);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToPayToReloadQuestion(event, remoteView, playerInfo, username));
     }
 
     @Override
     public void handleEvent(ChooseHowToUseTurnPowerUpQuestion event) {
-        gameScene.playersInteractingSpace.askChooseHowToUseTurnPowerUpQuestion(event, remoteView, playerInfo, username, gameInfo.playersNames);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToUseTurnPowerUpQuestion(event, remoteView, playerInfo, username, gameInfo.playersNames));
     }
 
     @Override
@@ -348,58 +351,63 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
-        gameScene.playersInteractingSpace.askChoosePowerUpToRespawnQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChoosePowerUpToRespawnQuestion(event, username, remoteView));
 
     }
 
     @Override
     public void handleEvent(ChoosePowerUpToUseQuestion event) {
-        gameScene.playersInteractingSpace.askChoosePowerUpToUseQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChoosePowerUpToUseQuestion(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(ChooseWeaponToPickQuestion event) {
-        gameScene.playersInteractingSpace.askChooseWeaponToPickQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseWeaponToPickQuestion(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(ChooseWeaponToReloadQuestion event) {
-        gameScene.playersInteractingSpace.askChooseWeaponToReloadQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseWeaponToReloadQuestion(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(ChooseWeaponToSwitchQuestion event) {
-        gameScene.playersInteractingSpace.askChooseWeaponToSwitchQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseWeaponToSwitchQuestion(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(ModelUpdate event) {
 
-        System.err.println("Model Update Received");
+        Platform.runLater( () -> {
 
-        this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
-        this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
-        this.gameInfo = JsonDeserializer.deserializedSnapshot(this.lastSnapshotReceived, username);
+            System.err.println("Model Update Received");
 
-        if(gameScene != null) {
-            gameScene.setGameInfo(this.gameInfo);
-            gameScene.update();
-        }
+
+            this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
+            this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
+            this.gameInfo = JsonDeserializer.deserializedSnapshot(this.lastSnapshotReceived, username);
+
+            if (gameScene != null) {
+                gameScene.setGameInfo(this.gameInfo);
+                gameScene.update();
+                //gameScene.update();
+            }
+        });
     }
 
     @Override
     public void handleEvent(TextMessage event) {
-        gameScene.playersInteractingSpace.textMessage(event);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.textMessage(event));
     }
 
     @Override
     public void handleEvent(WhereToMoveAndGrabQuestion event) {
-        gameScene.playersInteractingSpace.askWhereToMoveAndGrabQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askWhereToMoveAndGrabQuestion(event, username, remoteView));
     }
 
     @Override
     public void handleEvent(WhereToMoveQuestion event) {
-        gameScene.playersInteractingSpace.askWhereToMoveQuestion(event, username, remoteView);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askWhereToMoveQuestion(event, username, remoteView));
     }
 
 
@@ -411,8 +419,6 @@ public class Gui extends Application implements QuestionEventHandler {
     public void receiveEvent(QuestionEvent questionEvent) {
 
         Platform.runLater( () -> questionEvent.acceptEventHandler(this));
-
-
     }
 
 }
