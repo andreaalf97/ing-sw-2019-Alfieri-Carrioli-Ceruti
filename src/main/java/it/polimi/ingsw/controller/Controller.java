@@ -402,7 +402,8 @@ public class Controller implements Observer, AnswerEventHandler {
 
         player.reloadWeaponByName(event.weapon);
 
-        ArrayList<String> possibleActions = gameModel.generatePossibleActions(event.nickname);
+        ArrayList<String> possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
+
         sendQuestionEvent(event.nickname,
                 new ActionQuestion(possibleActions)
         );

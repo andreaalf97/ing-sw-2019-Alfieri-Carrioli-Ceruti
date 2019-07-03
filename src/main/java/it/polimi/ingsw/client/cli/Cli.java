@@ -490,6 +490,7 @@ public class Cli implements QuestionEventHandler {
                 remoteView.sendAnswerEvent(new Ping(username));
             }
         }, 0, 2000);
+        
 
         System.out.println("GAME STARTED");
 
@@ -1124,7 +1125,7 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseWeaponToReloadQuestion event) {
-
+        System.out.println("Attention! if you reload a weapon you will end the turn!!!!\n");
         System.out.println("Choose the weapon you want to reload:");
 
         int answer = chooseAnswer(event.weaponsToReload);

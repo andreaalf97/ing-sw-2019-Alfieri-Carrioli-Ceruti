@@ -408,7 +408,6 @@ public class Game extends Observable {
         // mark to the last player
         if (player.getDamages().size() == 12) {
             this.kst.addKill(player.getDamages().get(11), true);
-            getPlayerByNickname(player.getDamages().get(11)).giveMarks(player.getNickname(), 1);
         } else if (player.getDamages().size() == 11)
             this.kst.addKill(player.getDamages().get(10), false);
 
@@ -948,7 +947,15 @@ public class Game extends Observable {
         if (effect.getnPlayersAttackable() != 0) { // per ogni giocatore a cui bisogna dare danni presente nella lista
                                                    // dei defenders, assegno nDamages dell'effetto
             for (int i = 0; i < defenders_temp.size() && i < effect.getnPlayersAttackable(); i++) {
-                defenders_temp.get(i).giveDamage(offendername, effect.getnDamages());
+                Player actualDefender = defenders_temp.get(i);
+
+                actualDefender.giveDamage(offendername, effect.getnDamages());
+
+                bringDownOffenderMarks(offendername, actualDefender);
+
+                if(actualDefender.isDead() && actualDefender.getDamages().size() == 12){
+                    offender.giveMarks(actualDefender.getNickname(), 1);
+                }
             }
         }
 
@@ -958,6 +965,17 @@ public class Game extends Observable {
                 defenders_temp.get(i).giveMarks(offendername, effect.getnMarks());
             }
         }
+
+
+    }
+
+    /**
+     * this method it's called only by makeDamageEffectMethod, foreach mark of the offender in the defender board we have to transform it in a damage
+     * @param offendername the player that attack
+     * @param defender the player to check marks
+     */
+    private void bringDownOffenderMarks(String offendername, Player defender) {
+        defender.transformMarksInDamages(offendername);
     }
 
     /**
@@ -1008,8 +1026,11 @@ public class Game extends Observable {
 
                 if (typeOfEffect(effetto) == 0) { // Movement effect
 
-                    if (playersWhoMoveNames.isEmpty())
+                    if (playersWhoMoveNames.isEmpty()){
+                        System.out.println("se l'arma è ancora carica mancs uns notify + una setLoaded(false) in questa riga:998" );
                         return true;
+                    }
+
 
                     // se l'effetto è linear devo fare un controllo sulla direzione cardinale in cui
                     // voglio sparare
@@ -1038,8 +1059,10 @@ public class Game extends Observable {
 
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
 
-                    if (defenders_temp.isEmpty())
-                    return true;
+                    if (defenders_temp.isEmpty()) {
+                        System.out.println("se l'arma è ancora carica mancs uns notify + una setLoaded(false) in questa riga:1031" );
+                        return true;
+                    }
 
 
                     /*
@@ -1062,6 +1085,8 @@ public class Game extends Observable {
             if (defenders.size() != 0) {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
+
+
             weapon.setLoaded(false);
 
             notifyObservers(clientSnapshot());
@@ -1197,6 +1222,10 @@ public class Game extends Observable {
 
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
                     if (defenders_temp.isEmpty()) {
+                        weapon.setLoaded(false);
+
+                        notifyObservers(clientSnapshot());
+
                         return true;
                     }
 
@@ -1221,6 +1250,7 @@ public class Game extends Observable {
             if (defenders.size() != 0) {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
+
             weapon.setLoaded(false);
 
             notifyObservers(clientSnapshot());
@@ -1363,10 +1393,11 @@ public class Game extends Observable {
                 int nYellowAmmoWeapon = Collections.frequency(weaponCost, Color.YELLOW);
 
                 // add in the list the weapons that the player can reload with his ammo
-                if ((nRedAmmoWeapon < currentPlayer.getnRedAmmo() + nRedPowerUp)
-                        && (nYellowAmmoWeapon < currentPlayer.getnYellowAmmo() + nYellowPowerUp)
-                        && (nBlueAmmoWeapon < currentPlayer.getnBlueAmmo() + nBluePowerUp))
+                if ((nRedAmmoWeapon <= currentPlayer.getnRedAmmo() + nRedPowerUp)
+                        && (nYellowAmmoWeapon <= currentPlayer.getnYellowAmmo() + nYellowPowerUp)
+                        && (nBlueAmmoWeapon <= currentPlayer.getnBlueAmmo() + nBluePowerUp)) {
                     rechargeableWeapons.add(currentPlayer.getWeaponList().get(i));
+                }
             }
         }
 
@@ -1711,6 +1742,22 @@ public class Game extends Observable {
         actions.add("EndTurn");
 
         return actions;
+    }
+
+    public ArrayList<String> generateActionsAfterReloading(String nickname){
+        ArrayList<String> possibleActions = new ArrayList<>();
+
+        Player player = getPlayerByNickname(nickname);
+
+        for (Weapon w : player.getWeaponList()) {
+            if (!w.isLoaded()) {
+                possibleActions.add("Reload");
+                break;
+            }
+        }
+        possibleActions.add("EndTurn");
+
+        return possibleActions;
     }
 
     // TESTED

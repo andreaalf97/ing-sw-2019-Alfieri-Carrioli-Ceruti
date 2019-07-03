@@ -320,11 +320,11 @@ public class Player {
      */
     public void giveDamage(String player,int nDamages){
         for(int j = 0; j < nDamages; j++){
-            if (damages.size() <= 12)
+            if (damages.size() < 12)
                  damages.add(player);
         }
 
-        if(damages.size() >= 11)
+        if(damages.size() > 10)
             isDead = true;
         else
             isDead = false;
@@ -364,8 +364,11 @@ public class Player {
         if(nMarks <= 0 || nMarks > 12) {
             throw new RuntimeException("i can only be > 0 && < 12");
         }
-        for(int j = 0; j < nMarks; j++)
-            marks.add(player);
+        for(int j = 0; j < nMarks; j++) {
+            if (marks.size() < 12) {
+                marks.add(player);
+            }
+        }
     }
 
     //TESTED
@@ -716,6 +719,11 @@ public class Player {
     }
 
     public boolean canPayWithString(ArrayList<String> cost){
+
+        if(cost.isEmpty())
+            return true;
+
+
         int playerRed = nRedAmmo;
         int playerBlue = nBlueAmmo;
         int playerYellow = nYellowAmmo;
@@ -811,5 +819,18 @@ public class Player {
                 w.reload();
         }
 
+    }
+
+    /**
+     * bring down the damages
+     * @param offendername the name to bring down
+     */
+    public void transformMarksInDamages(String offendername) {
+        for(String offenderMark : marks){
+            if(offenderMark.equals(offendername)){
+                giveDamage(nickname, 1);
+            }
+            marks.remove(offenderMark);
+        }
     }
 }
