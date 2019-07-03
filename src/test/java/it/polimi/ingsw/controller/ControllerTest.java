@@ -21,7 +21,7 @@ public class ControllerTest {
         playerNicknames.add(ShootingTest.playerGino);
         playerNicknames.add(ShootingTest.playerMeme);
 
-        Game game = new Game(playerNicknames, MapName.FIRE, 5);
+        Game game = new Game(playerNicknames, MapName.FIRE, 5, 0);
         //VirtualView virtualView = new VirtualView();
 
         //Controller controller = new Controller();

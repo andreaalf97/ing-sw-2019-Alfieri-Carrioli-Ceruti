@@ -43,8 +43,8 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
             remoteViewInterface.receiveQuestionEvent(questionEvent);
         }
         catch (RemoteException e){
-            System.err.println("Exception during RMI connection --> ping should be able to handle this");
-            e.printStackTrace();
+            System.err.println("Closed connection " + nickname);
+            return;
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 

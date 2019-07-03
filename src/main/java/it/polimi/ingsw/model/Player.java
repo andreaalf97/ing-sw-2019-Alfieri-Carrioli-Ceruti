@@ -320,11 +320,11 @@ public class Player {
      */
     public void giveDamage(String player,int nDamages){
         for(int j = 0; j < nDamages; j++){
-            if (damages.size() <= 12)
+            if (damages.size() < 12)
                  damages.add(player);
         }
 
-        if(damages.size() >= 11)
+        if(damages.size() > 10)
             isDead = true;
         else
             isDead = false;
@@ -364,8 +364,11 @@ public class Player {
         if(nMarks <= 0 || nMarks > 12) {
             throw new RuntimeException("i can only be > 0 && < 12");
         }
-        for(int j = 0; j < nMarks; j++)
-            marks.add(player);
+        for(int j = 0; j < nMarks; j++) {
+            if (marks.size() < 12) {
+                marks.add(player);
+            }
+        }
     }
 
     //TESTED
@@ -715,6 +718,66 @@ public class Player {
 
     }
 
+    public boolean canPayWithString(ArrayList<String> cost){
+
+        if(cost.isEmpty())
+            return true;
+
+
+        int playerRed = nRedAmmo;
+        int playerBlue = nBlueAmmo;
+        int playerYellow = nYellowAmmo;
+
+        for(PowerUp p : powerUpList){
+
+            switch (p.getColor()){
+                case RED: {
+                    playerRed++;
+                    break;
+                }
+                case BLUE: {
+                    playerBlue++;
+                    break;
+                }
+                case YELLOW:{
+                    playerYellow++;
+                    break;
+                }
+                default:
+                    throw new RuntimeException("NO color");
+            }
+
+        }
+
+        for(String singleCost : cost){
+            String splitter = ":";
+            String color;
+
+            if(singleCost.contains(splitter)){
+                color = singleCost.split(splitter)[1];
+            }
+            else{
+                color = singleCost;
+            }
+
+            Color colorToPay = Color.valueOf(color);
+
+            switch(colorToPay){
+                case RED:
+                    playerRed--;
+                    break;
+                case YELLOW:
+                    playerYellow--;
+                    break;
+                case BLUE:
+                    playerBlue--;
+                    break;
+            }
+        }
+
+        return( (playerBlue>=0 && playerRed >= 0 && playerYellow >= 0) );
+    }
+
     public void removePowerUpByNameAndColor(String chosenPowerUpToPay, Color color) {
 
         for(PowerUp p : powerUpList){
@@ -723,6 +786,7 @@ public class Player {
                 return;
             }
         }
+
 
         throw new RuntimeException("This player doesn't have this power up");
     }
@@ -755,5 +819,18 @@ public class Player {
                 w.reload();
         }
 
+    }
+
+    /**
+     * bring down the damages
+     * @param offendername the name to bring down
+     */
+    public void transformMarksInDamages(String offendername) {
+        for(String offenderMark : marks){
+            if(offenderMark.equals(offendername)){
+                giveDamage(nickname, 1);
+            }
+            marks.remove(offenderMark);
+        }
     }
 }

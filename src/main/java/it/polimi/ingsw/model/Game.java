@@ -12,8 +12,11 @@ import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.model.cards.Visibility;
 import it.polimi.ingsw.model.map.Spot;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 import java.util.logging.Level;
 
@@ -44,6 +47,8 @@ public class Game extends Observable {
      */
     private ArrayList<String> playerNames;
 
+    private ArrayList<String> disconnectedPlayerNames;
+
     /**
      * The game map
      */
@@ -69,6 +74,15 @@ public class Game extends Observable {
      */
     private KillShotTrack kst;
 
+    /**
+     * This ID provides a name for the JSON file
+     */
+    private final int gameId;
+
+    private final String JsonSnapshotPath;
+
+    private Timer timer;
+
     // ##########################################################################################################
 
     /**
@@ -77,13 +91,30 @@ public class Game extends Observable {
      * @param playerNames ArrayList of all the players names
      *
      */
-    public Game(ArrayList<String> playerNames, MapName chosenMap, int nSkulls) {
+    public Game(ArrayList<String> playerNames, MapName chosenMap, int nSkulls, int gameId) {
         this.players = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
         this.playerNames = playerNames;
         this.powerupDeck = JsonDeserializer.deserializePowerUpDeck();
         this.weaponDeck = JsonDeserializer.deserializeWeaponDeck();
         this.ammoCardDeck = JsonDeserializer.deserializeAmmoCardDeck();
+        this.gameId = gameId;
+        this.disconnectedPlayerNames = new ArrayList<>();
+
+        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+
+        this.timer = new Timer();
+
+        File firstJson = new File(JsonSnapshotPath);
+
+        try {
+            firstJson.createNewFile();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+
 
         for (String name : this.playerNames)
             this.players.add(new Player(name));
@@ -91,7 +122,35 @@ public class Game extends Observable {
         this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck, ammoCardDeck);
         this.kst = new KillShotTrack(nSkulls);
 
-        notifyObservers(clientSnapshot());
+        this.timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                System.err.println("Calling saveCompleteSnapshot()");
+                saveCompleteSnapshot();
+            }
+
+        }, 0, 10000);
+    }
+
+    private void saveCompleteSnapshot() {
+
+        FileWriter snapshotFile;
+
+        try {
+            snapshotFile = new FileWriter(JsonSnapshotPath, false);
+
+            String completeSnapshot = modelSnapshot();
+
+            snapshotFile.write(completeSnapshot);
+
+            snapshotFile.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return;
+        }
+
     }
 
     /**
@@ -104,7 +163,7 @@ public class Game extends Observable {
      * @param gameMap     the map of the game
      */
     public Game(ArrayList<String> playerNames, ArrayList<Player> players, WeaponDeck weaponDeck,
-            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap) {
+            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap, int gameId, ArrayList<Player> disconnectedPlayers) {
         this.playerNames = playerNames;
         this.players = players;
         this.weaponDeck = weaponDeck;
@@ -112,16 +171,62 @@ public class Game extends Observable {
         this.ammoCardDeck = ammoCardDeck;
         this.kst = kst;
         this.gameMap = gameMap;
+        this.gameId = gameId;
+        this.disconnectedPlayers = disconnectedPlayers;
 
-        notifyObservers(clientSnapshot());
+        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+
     }
 
     /**
      * persistence game builder
      */
-    public Game(){
-        JsonDeserializer.deserializeModelSnapshot(modelSnapshot());
-        notifyObservers(clientSnapshot());
+    public Game(String jsonPath){
+
+
+        JsonObject jsonRoot = null;
+
+        try {
+            jsonRoot = JsonDeserializer.myJsonParser.parse(new FileReader(jsonPath)).getAsJsonObject();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        this.players = JsonDeserializer.deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
+
+        this.playerNames = JsonDeserializer.deserializePlayerNamesObject(jsonRoot.get("playerNames").getAsJsonArray());
+
+        this.weaponDeck = new WeaponDeck(jsonRoot.get("weaponDeck").getAsJsonObject());
+
+        this.powerupDeck = new PowerUpDeck(jsonRoot.get("powerUpDeck").getAsJsonObject());
+
+        this.ammoCardDeck = new AmmoCardDeck(jsonRoot.get("ammoCardDeck").getAsJsonObject()); //FIXME
+
+        this.kst = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
+
+        this.gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
+
+        this.gameId = jsonRoot.get("gameId").getAsInt();
+
+        this.disconnectedPlayers = JsonDeserializer.deserializePlayerObject(jsonRoot.get("disconnectedPlayers").getAsJsonArray());
+
+        this.disconnectedPlayerNames = JsonDeserializer.deserializePlayerNamesObject((jsonRoot.get("disconnectedPlayerNames")).getAsJsonArray());
+
+
+        this.JsonSnapshotPath = "src/main/resources/JSONsnapshots/" + this.gameId + ".json";
+
+        this.timer = new Timer();
+
+        this.timer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                System.err.println("Calling saveCompleteSnapshot()");
+                saveCompleteSnapshot();
+            }
+
+        }, 0, 10000);
     }
 
     // TESTED
@@ -303,7 +408,6 @@ public class Game extends Observable {
         // mark to the last player
         if (player.getDamages().size() == 12) {
             this.kst.addKill(player.getDamages().get(11), true);
-            getPlayerByNickname(player.getDamages().get(11)).giveMarks(player.getNickname(), 1);
         } else if (player.getDamages().size() == 11)
             this.kst.addKill(player.getDamages().get(10), false);
 
@@ -843,7 +947,15 @@ public class Game extends Observable {
         if (effect.getnPlayersAttackable() != 0) { // per ogni giocatore a cui bisogna dare danni presente nella lista
                                                    // dei defenders, assegno nDamages dell'effetto
             for (int i = 0; i < defenders_temp.size() && i < effect.getnPlayersAttackable(); i++) {
-                defenders_temp.get(i).giveDamage(offendername, effect.getnDamages());
+                Player actualDefender = defenders_temp.get(i);
+
+                actualDefender.giveDamage(offendername, effect.getnDamages());
+
+                bringDownOffenderMarks(offendername, actualDefender);
+
+                if(actualDefender.isDead() && actualDefender.getDamages().size() == 12){
+                    offender.giveMarks(actualDefender.getNickname(), 1);
+                }
             }
         }
 
@@ -853,6 +965,17 @@ public class Game extends Observable {
                 defenders_temp.get(i).giveMarks(offendername, effect.getnMarks());
             }
         }
+
+
+    }
+
+    /**
+     * this method it's called only by makeDamageEffectMethod, foreach mark of the offender in the defender board we have to transform it in a damage
+     * @param offendername the player that attack
+     * @param defender the player to check marks
+     */
+    private void bringDownOffenderMarks(String offendername, Player defender) {
+        defender.transformMarksInDamages(offendername);
     }
 
     /**
@@ -903,69 +1026,20 @@ public class Game extends Observable {
 
                 if (typeOfEffect(effetto) == 0) { // Movement effect
 
-                    if (playersWhoMoveNames.isEmpty())
+                    if (playersWhoMoveNames.isEmpty()){
+                        System.out.println("se l'arma è ancora carica mancs uns notify + una setLoaded(false) in questa riga:998" );
                         return true;
+                    }
+
 
                     // se l'effetto è linear devo fare un controllo sulla direzione cardinale in cui
                     // voglio sparare
                     if (effetto.isLinear) {
-
-                        Direction cardinalDirection = Direction.NONE;
-
-                        // di seguito calcolo la direzione cardinale confrontando il primo player che
-                        // voglio spostare in playersWhoMoveNames e dove voglio spostarlo
-                        // successivamente guardando xPos e yPos
-                        if (xPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
-                                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
-
-                            if (yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
-                                cardinalDirection = Direction.EAST;
-                            else if (yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
-                                cardinalDirection = Direction.WEST;
-
-                        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
-                                && yPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
-
-                            if (xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
-                                cardinalDirection = Direction.SOUTH;
-                            else if (xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
-                                cardinalDirection = Direction.NORTH;
-
-                        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
-                                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
-                            throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------NON LINEAR");
-
-                        // una volta calcolata la direzione cardinale controllo che tutti i movers
-                        // rispettino questa direzione
-                        for (int cont = 0; cont < playersWhoMoveNames.size(); cont++) {
-                            if (cardinalDirection == Direction.NORTH) {
-                                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getyPosition()
-                                        || xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getxPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------1");
-                            }
-                            if (cardinalDirection == Direction.SOUTH) {
-                                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getyPosition()
-                                        || xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getxPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------2");
-                            }
-                            if (cardinalDirection == Direction.EAST) {
-                                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getxPosition()
-                                        || yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getyPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------3");
-                            }
-                            if (cardinalDirection == Direction.WEST) {
-                                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                        .getxPosition()
-                                        || yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
-                                                .getyPosition())
-                                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------4");
-                            }
+                        try{
+                            checkIfLinearityIsrespected(playersWhoMoveNames, xPosition, yPosition);
+                        }
+                        catch (InvalidChoiceException e){
+                            throw new InvalidChoiceException("Linearity not respected");
                         }
                     }
 
@@ -985,8 +1059,10 @@ public class Game extends Observable {
 
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
 
-                    if (defenders_temp.isEmpty())
-                    return true;
+                    if (defenders_temp.isEmpty()) {
+                        System.out.println("se l'arma è ancora carica mancs uns notify + una setLoaded(false) in questa riga:1031" );
+                        return true;
+                    }
 
 
                     /*
@@ -1009,6 +1085,8 @@ public class Game extends Observable {
             if (defenders.size() != 0) {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
+
+
             weapon.setLoaded(false);
 
             notifyObservers(clientSnapshot());
@@ -1022,7 +1100,71 @@ public class Game extends Observable {
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
 
+            weapon.setLoaded(false);
+
+            notifyObservers(clientSnapshot());
+
             return false;
+        }
+    }
+
+    public void checkIfLinearityIsrespected(ArrayList<String> playersWhoMoveNames, ArrayList<Integer> xPosition, ArrayList<Integer> yPosition) throws  InvalidChoiceException{
+        Direction cardinalDirection = Direction.NONE;
+
+        // di seguito calcolo la direzione cardinale confrontando il primo player che
+        // voglio spostare in playersWhoMoveNames e dove voglio spostarlo
+        // successivamente guardando xPos e yPos
+        if (xPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
+                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
+
+            if (yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+                cardinalDirection = Direction.EAST;
+            else if (yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+                cardinalDirection = Direction.WEST;
+
+        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
+                && yPosition.get(0) == getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition()) {
+
+            if (xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
+                cardinalDirection = Direction.SOUTH;
+            else if (xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition())
+                cardinalDirection = Direction.NORTH;
+
+        } else if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getxPosition()
+                && yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(0)).getyPosition())
+            throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------NON LINEAR");
+
+        // una volta calcolata la direzione cardinale controllo che tutti i movers
+        // rispettino questa direzione
+        for (int cont = 0; cont < playersWhoMoveNames.size(); cont++) {
+            if (cardinalDirection == Direction.NORTH) {
+                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition()
+                        || xPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------1");
+            }
+            if (cardinalDirection == Direction.SOUTH) {
+                if (yPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition()
+                        || xPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------2");
+            }
+            if (cardinalDirection == Direction.EAST) {
+                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition()
+                        || yPosition.get(0) < getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------3");
+            }
+            if (cardinalDirection == Direction.WEST) {
+                if (xPosition.get(0) != getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getxPosition()
+                        || yPosition.get(0) > getPlayerByNickname(playersWhoMoveNames.get(cont))
+                        .getyPosition())
+                    throw new InvalidChoiceException("HAI SBAGLIATO DIREZIONE-------4");
+            }
         }
     }
 
@@ -1080,6 +1222,10 @@ public class Game extends Observable {
 
                     defenders_temp = whoP1CanShootInThisEffect(offenderName, defenders, effetto, playersHit);
                     if (defenders_temp.isEmpty()) {
+                        weapon.setLoaded(false);
+
+                        notifyObservers(clientSnapshot());
+
                         return true;
                     }
 
@@ -1104,6 +1250,7 @@ public class Game extends Observable {
             if (defenders.size() != 0) {
                 throw new InvalidChoiceException("Too many players for this weapon");
             }
+
             weapon.setLoaded(false);
 
             notifyObservers(clientSnapshot());
@@ -1116,6 +1263,10 @@ public class Game extends Observable {
             this.players = new ArrayList<>(backUpPlayers);
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
+
+            weapon.setLoaded(false);
+
+            notifyObservers(clientSnapshot());
 
             return false;
         }
@@ -1186,11 +1337,25 @@ public class Game extends Observable {
             if (currentPlayerName.equals(playerWhoReceiveEffectName))
                 throw new InvalidChoiceException("you can't move yourself");
             else {
-                ArrayList<Player> movers = new ArrayList<>();
-                movers.add(getPlayerByNickname(playerWhoReceiveEffectName));
+                ArrayList<String> movers = new ArrayList<>();
+                movers.add(playerWhoReceiveEffectName);
 
+                ArrayList<Integer> xPosition = new ArrayList<>();
+                xPosition.add(xPos);
 
-                boolean checkIsLinear = check_isLinear(movers, getPlayerByNickname(currentPlayerName) , effect);
+                ArrayList<Integer> yPosition = new ArrayList<>();
+                yPosition.add(yPos);
+
+                boolean checkIsLinear;
+
+                try{
+                    checkIfLinearityIsrespected(movers, xPosition, yPosition);
+                    checkIsLinear = true;
+                }
+                catch(InvalidChoiceException e){
+                    checkIsLinear = false;
+                }
+
                 if (this.gameMap.canMoveFromTo(playerWhoReceiveEffect.getxPosition(),playerWhoReceiveEffect.getyPosition(), xPos, yPos, effect.getnMovesOtherPlayer())
                         && checkIsLinear){
                     movePlayer(playerWhoReceiveEffectName, xPos, yPos);
@@ -1228,10 +1393,11 @@ public class Game extends Observable {
                 int nYellowAmmoWeapon = Collections.frequency(weaponCost, Color.YELLOW);
 
                 // add in the list the weapons that the player can reload with his ammo
-                if ((nRedAmmoWeapon < currentPlayer.getnRedAmmo() + nRedPowerUp)
-                        && (nYellowAmmoWeapon < currentPlayer.getnYellowAmmo() + nYellowPowerUp)
-                        && (nBlueAmmoWeapon < currentPlayer.getnBlueAmmo() + nBluePowerUp))
+                if ((nRedAmmoWeapon <= currentPlayer.getnRedAmmo() + nRedPowerUp)
+                        && (nYellowAmmoWeapon <= currentPlayer.getnYellowAmmo() + nYellowPowerUp)
+                        && (nBlueAmmoWeapon <= currentPlayer.getnBlueAmmo() + nBluePowerUp)) {
                     rechargeableWeapons.add(currentPlayer.getWeaponList().get(i));
+                }
             }
         }
 
@@ -1578,6 +1744,22 @@ public class Game extends Observable {
         return actions;
     }
 
+    public ArrayList<String> generateActionsAfterReloading(String nickname){
+        ArrayList<String> possibleActions = new ArrayList<>();
+
+        Player player = getPlayerByNickname(nickname);
+
+        for (Weapon w : player.getWeaponList()) {
+            if (!w.isLoaded()) {
+                possibleActions.add("Reload");
+                break;
+            }
+        }
+        possibleActions.add("EndTurn");
+
+        return possibleActions;
+    }
+
     // TESTED
     /**
      * tells if player is on a spawnspot
@@ -1654,11 +1836,20 @@ public class Game extends Observable {
         // saving GameMap
         String jsonGameMap = gameMapSnapshot(gson);
 
+        //saving disconnectedPlayers
+        String jsonDisconnectedPlayers = gson.toJson(disconnectedPlayers);
+
+        //saving gameId
+        String jsonGameId = "" + gameId;
+
+        String jsonDisconnectedPlayerNames = gson.toJson(disconnectedPlayerNames);
+
         // create a json that stores all the information of the game in a string with
         // json format
         String modelSnapshot = "{ \"players\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + ","
                 + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"ammoCardDeck\":" + jsonAmmoCardDeck +  "," + "\"kst\":"
-                + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "}";
+                + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "," +
+                   "\"disconnectedPlayers\":" + jsonDisconnectedPlayers + "," + "\"disconnectedPlayerNames\":" + jsonDisconnectedPlayerNames + "," + "\"gameId\":" + gameId + "}";
 
         return modelSnapshot;
     }
@@ -1833,5 +2024,45 @@ public class Game extends Observable {
         def.giveMarks(offender, nMarks);
 
         notifyObservers(clientSnapshot());
+    }
+
+    public void removePowerUpByNameAndColor(Player player, String powerUpName, Color powerUpColor){
+        player.removePowerUpByNameAndColor(powerUpName, powerUpColor);
+
+        notifyObservers(clientSnapshot());
+    }
+
+    public String getSnapshotPath() {
+
+        return this.JsonSnapshotPath;
+
+    }
+
+    public ArrayList<String> getAllPlayers() {
+
+        ArrayList<String> allPlayers = new ArrayList<>();
+
+        System.out.println("All players in this game:");
+
+        System.out.println("PLAYERS:");
+        for(Player p : players)
+            System.out.println(p.getNickname());
+
+        System.out.println("DISCONNECTED PLAYERS:");
+        for(Player p : disconnectedPlayers)
+            System.out.println(p.getNickname());
+
+        for(Player i : players)
+            allPlayers.add(i.getNickname());
+
+        for(Player i : disconnectedPlayers)
+            allPlayers.add(i.getNickname());
+
+        return allPlayers;
+
+    }
+
+    public void stopTimer() {
+        this.timer.cancel();
     }
 }

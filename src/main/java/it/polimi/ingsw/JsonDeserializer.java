@@ -106,7 +106,7 @@ public class JsonDeserializer {
         return otherPlayerInfos;
     }
 
-    //Game deserialization, it receives a model Snapshot for persistence and it creates a new Game
+    //Game deserialization, it receives a model Snapshot for persistence and it creates a new Game. USELESSSSSSSSSSSS
     public static Game deserializeModelSnapshot(String modelSnapshot){
         JsonObject jsonRoot = myJsonParser.parse(modelSnapshot).getAsJsonObject();
 
@@ -124,7 +124,11 @@ public class JsonDeserializer {
 
         GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
 
-        return new Game(playerNames, players, weaponDeck, powerUpDeck,ammoCardDeck, kst, gameMap);
+        int id = jsonRoot.get("gameId").getAsInt();
+
+        ArrayList<Player> disconnectedPlayers = deserializePlayerObject(jsonRoot.get("disconnectedPlayers").getAsJsonArray());
+
+        return new Game(playerNames, players, weaponDeck, powerUpDeck,ammoCardDeck, kst, gameMap, id, disconnectedPlayers);
     }
 
 

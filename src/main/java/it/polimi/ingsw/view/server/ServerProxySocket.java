@@ -96,8 +96,8 @@ public class ServerProxySocket implements ServerProxy, Runnable {
             out.writeObject(questionEvent);
             out.flush();
         } catch (IOException e) {
-            System.err.println("Exception during RMI connection --> ping should be able to handle this");
-            e.printStackTrace();
+            System.err.println("Closed connection " + nickname);
+            return;
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
@@ -121,8 +121,8 @@ public class ServerProxySocket implements ServerProxy, Runnable {
 
         }
         catch (Exception e){
-            System.err.println("Exception during SOCKET connection --> ping should be able to handle this");
-            e.printStackTrace();
+            System.err.println("Closed connection " + nickname);
+            return;
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 

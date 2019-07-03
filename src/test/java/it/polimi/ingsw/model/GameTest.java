@@ -21,7 +21,7 @@ public class GameTest {
         playersNamesTest.add(ShootingTest.playerAndreaalf);
         playersNamesTest.add(ShootingTest.playerMeme);
 
-        gameTest = new Game(playersNamesTest, MapName.FIRE, 6);
+        gameTest = new Game(playersNamesTest, MapName.FIRE, 6, 0);
     }
 
     @Test
@@ -75,7 +75,6 @@ public class GameTest {
         Assert.assertTrue(gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).isDead());
 
         Assert.assertEquals(9, gameTest.getPlayerByNickname(ShootingTest.playerGino).getPoints());
-        Assert.assertEquals(1, gameTest.getPlayerByNickname(ShootingTest.playerGino).getMarks().size());
 
         Assert.assertEquals(0, gameTest.getPlayerByNickname(ShootingTest.playerAndreaalf).getPoints());
         Assert.assertFalse(gameTest.getPlayerByNickname(ShootingTest.playerMeme).isDead());
@@ -300,12 +299,20 @@ public class GameTest {
         Assert.assertEquals(3, gameTest.getPlayerByNickname(ShootingTest.playerGino).getWeaponList().size());
 
         w1.unload();
+        ArrayList<Color> weapon1cost = new ArrayList<>();
+        weapon1cost.add(Color.BLUE);
+        w1.setCost(weapon1cost);
+
         w2.unload();
+        ArrayList<Color> weapon2cost = new ArrayList<>();
+        weapon2cost.add(Color.BLUE);
+        weapon2cost.add(Color.BLUE);
+        w2.setCost(weapon2cost);
 
         ArrayList<Weapon> weaponstest = gameTest.checkRechargeableWeapons(ShootingTest.playerGino);
-        Assert.assertEquals(2, weaponstest.size());
+
+        Assert.assertEquals(1, weaponstest.size());
         Assert.assertTrue(weaponstest.contains(w1));
-        Assert.assertTrue(weaponstest.contains(w2));
 
 
     }

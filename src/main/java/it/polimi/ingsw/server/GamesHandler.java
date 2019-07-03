@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.server.AnswerEventReceiver;
 import it.polimi.ingsw.view.server.ServerProxy;
 import it.polimi.ingsw.view.server.VirtualView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,11 +39,76 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
      */
     private static Map<Integer, ServerProxy> temporaryProxies;
 
+    /**
+     * This hashmap contains all the usernames that belong to a paused game
+     */
+    private static Map<String, String> pausedUsernames;
+
+    /**
+     * The waiting room for players who are trying to restart a game
+     */
+    private static PGWaitingRoom pgWaitingRoom;
+
+    /**
+     * The id we are giving to every game
+     */
+    private static int nextId;
+
+    private static final String JSONfolder = "src/main/resources/JSONsnapshots";
+
+
     GamesHandler() {
 
         this.waitingRooms = new ArrayList<>();
         this.nicknamesControllers = new HashMap<>();
         this.temporaryProxies = new HashMap<>();
+        this.pausedUsernames = new HashMap<>();
+        this.pgWaitingRoom = null;
+        this.nextId = 0;
+
+        File dir = new File(JSONfolder);
+
+        for(File file: dir.listFiles())
+            if (!file.isDirectory())
+                file.delete();
+
+
+
+    }
+
+    public static void reloadGame(String jsonPath, ArrayList<String> reconnectingPlayers, ArrayList<ServerProxy> proxies) {
+
+        Game game = new Game(jsonPath);
+
+        VirtualView virtualView = new VirtualView(reconnectingPlayers, proxies);
+
+        Controller controller = new Controller(game, virtualView);
+
+        virtualView.addObserver(controller);
+        game.addObserver(virtualView);
+
+        game.forceNotify();
+
+        //Adding each player to the PLAYER - CONTROLLER map
+        for (String player : reconnectingPlayers)
+            nicknamesControllers.put(player, controller);
+
+        for (ServerProxy proxy : proxies)
+            proxy.setReceiver(controller.virtualView);
+
+        pgWaitingRoom = null;
+
+        controller.restartGame();
+
+    }
+
+    public static void pauseGame(ArrayList<String> nicknames, String jsonPath) {
+
+        for(String i : nicknames) {
+            nicknamesControllers.remove(i);
+            pausedUsernames.put(i, jsonPath);
+        }
+
     }
 
     synchronized boolean isAValidTemporaryId(Integer id) {
@@ -63,7 +129,8 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         int votedSkulls = waitingRoom.getVotedSkulls();
 
         //Creates a new Game
-        Game game = new Game(waitingRoom.players, votedMap, votedSkulls);
+        Game game = new Game(waitingRoom.players, votedMap, votedSkulls, nextId);
+        nextId++;
 
         //Creates a new virtual view
         VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.serverProxies);
@@ -130,6 +197,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
     @Override
     public void handleEvent(NewConnectionAnswer event) {
 
+        //Reading all info from the event
         Integer temporaryId = event.temporaryId;
 
         String nickname = event.nickname;
@@ -140,12 +208,17 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         ServerProxy proxy = temporaryProxies.get(temporaryId);
 
+
+
         //This means the player was already playing in a game
+        //Reinserting player in an active game
         if (nicknamesControllers.containsKey(nickname)) {
             Controller controller = nicknamesControllers.get(nickname);
 
             proxy.setNickname(nickname);
             proxy.setReceiver(controller.virtualView);
+
+            proxy.sendQuestionEvent(new TextMessage("You have been inserted back into your game"));
 
             controller.reinsert(nickname, proxy);
             return;
@@ -163,8 +236,14 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         temporaryProxies.remove(proxy);
 
-
         proxy.setNickname(nickname);
+
+        if(pausedUsernames.containsKey(nickname)){
+
+            newPausedGameConnection(nickname, pausedUsernames.get(nickname), proxy);
+            return;
+
+        }
 
         if (waitingRooms.isEmpty())
             waitingRooms.add(new WaitingRoom());
@@ -175,6 +254,23 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         proxy.sendQuestionEvent(new AddedToWaitingRoomQuestion(waitingRoom.players));
 
+
+    }
+
+    private void newPausedGameConnection(String nickname, String jsonPath, ServerProxy proxy) {
+
+        System.err.println("" + nickname + " is trying to restart a game --> " + jsonPath);
+
+        if(this.pgWaitingRoom == null){
+            this.pgWaitingRoom = new PGWaitingRoom(jsonPath);
+        }
+
+        boolean added = pgWaitingRoom.addPlayer(nickname, jsonPath, proxy);
+
+        if(!added){
+            proxy.sendQuestionEvent(new TextMessage("Other players are trying to reload their game, try again later"));
+            return;
+        }
 
     }
 
