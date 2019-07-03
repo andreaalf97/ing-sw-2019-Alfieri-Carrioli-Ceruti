@@ -717,8 +717,6 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(ChooseWeaponToReloadAnswer event) {
 
-        //FIXME This is completely wrong
-
         ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
 
         sendQuestionEvent(event.nickname,

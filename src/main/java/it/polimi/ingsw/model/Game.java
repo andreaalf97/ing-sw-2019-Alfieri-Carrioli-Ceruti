@@ -1022,6 +1022,10 @@ public class Game extends Observable {
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
 
+            weapon.setLoaded(false);
+
+            notifyObservers(clientSnapshot());
+
             return false;
         }
     }
@@ -1116,6 +1120,10 @@ public class Game extends Observable {
             this.players = new ArrayList<>(backUpPlayers);
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
+
+            weapon.setLoaded(false);
+
+            notifyObservers(clientSnapshot());
 
             return false;
         }

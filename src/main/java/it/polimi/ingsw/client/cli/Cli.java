@@ -25,7 +25,7 @@ public class Cli implements QuestionEventHandler {
     /**
      * Regex used to check on player's nickname
      */
-    private final String validUsername = "^[a-zA-Z0-9]*$";
+    private final String validUsername = "^[a-zA-Z0-9][a-zA-Z0-9]*$";
 
     /**
      * Regex used to validate the ip address
@@ -35,7 +35,7 @@ public class Cli implements QuestionEventHandler {
     /**
      * Regex used to check if the user inserted a number -- to avoid Number Format exceptions
      */
-    private final String validEventInput = "^[0-9]*$";
+    private final String validEventInput = "^[0-9][0-9]*$";
 
     /**
      * The port for the socket connections
@@ -310,7 +310,9 @@ public class Cli implements QuestionEventHandler {
      */
     private int chooseAnswer(List<String> possibleAnswers){
 
-        possibleAnswers.add("Reset");
+        if(!possibleAnswers.contains("Reset")) {
+            possibleAnswers.add("Reset");
+        }
 
         for(String possibleAnswer : possibleAnswers)
             System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
@@ -755,7 +757,13 @@ public class Cli implements QuestionEventHandler {
                 return;
             }
 
+            //adding the first mover
+            if(answer != indexOfStopAnswer){
+                movers.add(possibleChoices.get(answer));
+            }
+
             while (answer != indexOfStopAnswer) {
+
 
                 System.out.println("Insert X for this player");
                 String line = sysin.nextLine();
@@ -785,6 +793,10 @@ public class Cli implements QuestionEventHandler {
                     return;
                 }
 
+                if(answer != indexOfStopAnswer){
+                    movers.add(possibleChoices.get(answer));
+                }
+
             }
 
             remoteView.sendAnswerEvent(
@@ -806,8 +818,6 @@ public class Cli implements QuestionEventHandler {
         if(!event.cost.isEmpty()) {
             for (Color c : event.cost)
                 cost += c.toString() + " ";
-
-            System.out.println("You have to pay --> " + cost);
 
             paymentChosen = handlePayment(event.cost);
         }
@@ -931,6 +941,7 @@ public class Cli implements QuestionEventHandler {
     public void handleEvent(ChooseHowToPayToReloadQuestion event) {
 
         System.out.println("You chose to reload " + event.weaponToReload);
+
         ArrayList<String> chosenPayment = handlePayment(event.cost);
 
         if(chosenPayment == null){
@@ -1112,6 +1123,8 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseWeaponToReloadQuestion event) {
+
+        System.out.println("Choose the weapon you want to reload:");
 
         int answer = chooseAnswer(event.weaponsToReload);
 
