@@ -75,7 +75,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         lastClientSnapshot[0] = "";
         lastClientSnapshot[1] = "";
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        /*new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
 
@@ -92,6 +92,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
                 }
             }
         }, 0, 5000);
+        */
 
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.scenes.gameScene;
 
 import it.polimi.ingsw.client.PlayerInfo;
 import it.polimi.ingsw.client.gui.ImageDisplay;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
@@ -26,6 +27,8 @@ public class CardBox {
 
 
     protected void update(PlayerInfo playerInfo){
+
+        gridPane.getChildren().clear();
 
         int i = 0;
         for ( String weaponName : playerInfo.weaponNames){
