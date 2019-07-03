@@ -15,6 +15,8 @@ import it.polimi.ingsw.model.map.Spot;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 
 /*
@@ -69,6 +71,11 @@ public class Game extends Observable {
      */
     private KillShotTrack kst;
 
+    /**
+     * This ID provides a name for the JSON file
+     */
+    private final int gameId;
+
     // ##########################################################################################################
 
     /**
@@ -77,13 +84,16 @@ public class Game extends Observable {
      * @param playerNames ArrayList of all the players names
      *
      */
-    public Game(ArrayList<String> playerNames, MapName chosenMap, int nSkulls) {
+    public Game(ArrayList<String> playerNames, MapName chosenMap, int nSkulls, int gameId) {
         this.players = new ArrayList<>();
         this.disconnectedPlayers = new ArrayList<>();
         this.playerNames = playerNames;
         this.powerupDeck = JsonDeserializer.deserializePowerUpDeck();
         this.weaponDeck = JsonDeserializer.deserializeWeaponDeck();
         this.ammoCardDeck = JsonDeserializer.deserializeAmmoCardDeck();
+        this.gameId = gameId;
+
+
 
         for (String name : this.playerNames)
             this.players.add(new Player(name));
@@ -92,6 +102,21 @@ public class Game extends Observable {
         this.kst = new KillShotTrack(nSkulls);
 
         notifyObservers(clientSnapshot());
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
+                saveCompleteSnapshot();
+            }
+
+        }, 0, 10000);
+    }
+
+    private void saveCompleteSnapshot() {
+
+        //TODO andreaalf
+
     }
 
     /**
@@ -104,7 +129,7 @@ public class Game extends Observable {
      * @param gameMap     the map of the game
      */
     public Game(ArrayList<String> playerNames, ArrayList<Player> players, WeaponDeck weaponDeck,
-            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap) {
+            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap, int gameId) {
         this.playerNames = playerNames;
         this.players = players;
         this.weaponDeck = weaponDeck;
@@ -112,14 +137,22 @@ public class Game extends Observable {
         this.ammoCardDeck = ammoCardDeck;
         this.kst = kst;
         this.gameMap = gameMap;
+        this.gameId = gameId;
 
         notifyObservers(clientSnapshot());
+
     }
 
     /**
      * persistence game builder
      */
-    public Game(){
+    public Game(String jsonPath){
+
+        this.gameId = 0;
+
+        //TODO andreaalf
+        //Load snapshot from file
+
         JsonDeserializer.deserializeModelSnapshot(modelSnapshot());
         notifyObservers(clientSnapshot());
     }
@@ -1840,5 +1873,28 @@ public class Game extends Observable {
         def.giveMarks(offender, nMarks);
 
         notifyObservers(clientSnapshot());
+    }
+
+    public String getSnapshotPath() {
+
+        //TODO andreaalf
+        //Return path to json snapshot
+
+        return null;
+
+    }
+
+    public ArrayList<String> getAllPlayers() {
+
+        ArrayList<String> allPlayers = new ArrayList<>();
+
+        for(Player i : players)
+            allPlayers.add(i.getNickname());
+
+        for(Player i : disconnectedPlayers)
+            allPlayers.add(i.getNickname());
+
+        return allPlayers;
+
     }
 }
