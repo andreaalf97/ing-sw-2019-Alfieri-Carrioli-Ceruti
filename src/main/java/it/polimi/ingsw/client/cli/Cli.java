@@ -483,7 +483,7 @@ public class Cli implements QuestionEventHandler {
 
 
         //Scheduling the timer to send a Ping message every 2 seconds
-        /*new Timer().scheduleAtFixedRate(new TimerTask() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 //System.err.println("Sending PING");
@@ -492,7 +492,7 @@ public class Cli implements QuestionEventHandler {
         }, 0, 2000);
         
 
-       */
+
 
         System.out.println("GAME STARTED");
 
