@@ -1,7 +1,11 @@
 package it.polimi.ingsw.server;
 
+import com.google.gson.JsonObject;
+import it.polimi.ingsw.JsonDeserializer;
 import it.polimi.ingsw.view.server.ServerProxy;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 /**
@@ -51,10 +55,25 @@ public class PGWaitingRoom {
      */
     private ArrayList<String> getInGamePlayers(String jsonPath) {
 
-        //TODO andreaalf
-        //This has to read all the players who are supposed to reconnect
+        System.out.println("Trying to open JSON at " + jsonPath);
 
-        return new ArrayList<>();
+        try {
+
+            JsonObject root = JsonDeserializer.myJsonParser.parse(new FileReader(jsonPath)).getAsJsonObject();
+
+            ArrayList<String> connectedPlayers = JsonDeserializer.deserializePlayerNamesObject(root.get("playerNames").getAsJsonArray());
+            ArrayList<String> disconnectedPlayers = JsonDeserializer.deserializePlayerNamesObject(root.get("disconnectedPlayerNames").getAsJsonArray());
+
+            for (String i : disconnectedPlayers)
+                connectedPlayers.add(i);
+
+            return connectedPlayers;
+        }
+        catch (FileNotFoundException e){
+            System.out.println("FILE NOT FOUND");
+        }
+
+        return null;
     }
 
     /**

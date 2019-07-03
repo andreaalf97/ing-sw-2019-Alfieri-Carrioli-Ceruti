@@ -104,8 +104,6 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     public static void pauseGame(ArrayList<String> nicknames, String jsonPath) {
 
-        //TODO andreaalf
-
         for(String i : nicknames) {
             nicknamesControllers.remove(i);
             pausedUsernames.put(i, jsonPath);

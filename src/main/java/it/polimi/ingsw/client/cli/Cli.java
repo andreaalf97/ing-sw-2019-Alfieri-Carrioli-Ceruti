@@ -474,6 +474,7 @@ public class Cli implements QuestionEventHandler {
 
         System.err.println("DISCONNECTED FROM SERVER");
         remoteView = null;
+        System.exit(0);
 
     }
 
