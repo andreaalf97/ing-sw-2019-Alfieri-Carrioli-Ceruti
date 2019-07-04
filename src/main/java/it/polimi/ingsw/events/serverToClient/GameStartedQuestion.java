@@ -29,6 +29,16 @@ public class GameStartedQuestion implements QuestionEvent, Serializable {
         this.votedSkulls = votedSkulls;
     }
 
+    public GameStartedQuestion(GameRestartedQuestion event) {
+
+        this.playerNames = event.playerNames;
+        this.playerColors = event.colors;
+        this.firstPlayer = event.playerNames.get(0);
+        this.mapName = event.mapName;
+        this.votedSkulls = event.kstSkulls;
+
+    }
+
     @Override
     public void acceptEventHandler(QuestionEventHandler handler) {
         handler.handleEvent(this);

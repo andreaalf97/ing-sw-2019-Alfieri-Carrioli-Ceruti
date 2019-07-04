@@ -26,6 +26,7 @@ public class PlayersInteractingSpace {
     public ArrayList<String> movers;
     public ArrayList<Integer> xCoords;
     public ArrayList<Integer> yCoords;
+    private String defenderChosen;
 
     public GridPane getGridPane() {
         return gridPane;
@@ -40,6 +41,7 @@ public class PlayersInteractingSpace {
     private ArrayList<String> defenders;
 
     private int indexToDiscard;
+    private int indexToPick;
 
     private String playerTarget;
 
@@ -97,7 +99,7 @@ public class PlayersInteractingSpace {
         rowPercentages.add(19.250);
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
         return gridPane;
     }
 
@@ -138,42 +140,34 @@ public class PlayersInteractingSpace {
 
                     case "Attack":
                         remoteView.sendAnswerEvent(new ActionAttackAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                     case "EndTurn":
                         remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                     case "MoveAndGrab":
                         remoteView.sendAnswerEvent(new ActionMoveAndGrabAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                     case "Move":
                         remoteView.sendAnswerEvent(new ActionMoveAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                     case "PickWeapon":
                         remoteView.sendAnswerEvent(new ActionPickWeaponAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                     case "Reload":
                         remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                     case "Respawn":
                         remoteView.sendAnswerEvent(new ActionRespawnAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                     case "UseTurnPowerUp":
                         remoteView.sendAnswerEvent(new ActionUseTurnPowerUpAnswer(username));
-                        gridPane.getChildren().clear();
                         break;
 
                 }
@@ -200,12 +194,14 @@ public class PlayersInteractingSpace {
                 remoteView.sendAnswerEvent(
                         new ChooseWeaponToAttackAnswer(username, weaponName)
                 );
-                gridPane.getChildren().clear();
             });
         }
     }
 
     public void askOrderAndDefender(AskOrderAndDefenderQuestion event, String username, RemoteView remoteView, ArrayList<String> playersNames) {
+
+        defenders = new ArrayList<>();
+        chosenOrder = new Integer[0];
 
         gridPane.getChildren().clear();
 
@@ -213,15 +209,15 @@ public class PlayersInteractingSpace {
         label.setStyle("-fx-font-size: 20; -fx-color: black");
         gridPane.add(label, 0, 0, 10, 1);
         Label label1 = new Label("Choose order: ");
-        label1.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label1, 0, 1, 5, 1);
+        label1.setStyle("-fx-font-size: 15; -fx-color: black");
+        gridPane.add(label1, 0, 1, 7, 1);
 
         ArrayList<String> stringOrders = toStringArray(event.possibleOrders);
 
         for ( int i = 0; i < stringOrders.size(); i++){
             Button button = new Button(stringOrders.get(i));
             int index = i;
-            gridPane.add(button, (i*2)+5, 1, 2, 1);
+            gridPane.add(button, (i*3)+7, 1, 3, 1);
 
             button.setOnAction(e -> {
                 Integer[] chosenOrder = event.possibleOrders.get(index);
@@ -231,19 +227,18 @@ public class PlayersInteractingSpace {
         }
 
         Label label2 = new Label("Choose defenders: ");
-        label2.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label2, 0, 2, 4, 1);
-
+        label2.setStyle("-fx-font-size: 15; -fx-color: black");
+        gridPane.add(label2, 0, 2, 7, 1);
 
         playersNames.remove(username);
 
         for ( int i = 0; i < playersNames.size(); i++){
             Button playerNameButton = new Button(playersNames.get(i));
             int index = i;
-            gridPane.add(playerNameButton, (i*3)+4, 2, 3, 1);
+            gridPane.add(playerNameButton, (i*3)+7, 2, 3, 1);
 
             playerNameButton.setOnAction(e -> {
-                Modal.display(playersNames.get(index)+"added to defenders");
+                Modal.display(playersNames.get(index)+" added to defenders");
                 defenders.add(playersNames.get(index));
                 playerNameButton.setStyle("-fx-background-color: red");
             });
@@ -256,12 +251,40 @@ public class PlayersInteractingSpace {
                     new AskOrderAndDefenderAnswer(username, event.chosenWeapon, chosenOrder, defenders)
             );
         });
+    }
 
-        //have to clean defenders and chosen order for the next attack
-        defenders.clear();
-        chosenOrder = new Integer[0];
+    public void askChooseIfUseATargetingScopeQuestion(ChooseIfUseATargetingScopeQuestion event, RemoteView remoteView, ArrayList<String> playersNames) {
 
         gridPane.getChildren().clear();
+
+        Label label = new Label("Choose the player you want to use targeting scope on:");
+        label.setStyle("-fx-font-size: 15; -fx-color: black");
+        gridPane.add(label, 0, 0, 20, 1);
+
+        for ( int i = 0; i < event.defenders.size(); i++){
+            Button playerNameButton = new Button(event.defenders.get(i));
+            int index = i;
+            gridPane.add(playerNameButton, i*3, 1, 3, 1);
+
+            playerNameButton.setOnAction(e -> {
+                defenderChosen = playersNames.get(index);
+                playerNameButton.setStyle("-fx-background-color: red");
+            });
+        }
+
+        Button noneButton = new Button("Don't want to use targeting scope");
+        gridPane.add(noneButton, 0, 2, 20, 1);
+        noneButton.setOnAction(e -> {
+            defenderChosen = null;
+            noneButton.setStyle("-fx-background-color: red");
+        });
+
+        Button next = new Button("next");
+        gridPane.add(next, 0, 3, 20, 1);
+        next.setOnAction(e -> {
+            remoteView.sendAnswerEvent(new ChooseIfUseATargetingScopeAnswer(event.nickname, event.chosenWeapon, event.order, event.shootWithMovement, event.indexOfLastEffect, event.defenders, defenderChosen));
+
+        });
     }
 
     public void askChooseHowToShootQuestion(ChooseHowToShootQuestion event, String username, RemoteView remoteView, ArrayList<String> playersNames) {
@@ -279,7 +302,7 @@ public class PlayersInteractingSpace {
             gridPane.add(label, 0, 0, 5, 1);
 
             Button next = new Button("next");
-            gridPane.add(next, 0, 2, 4, 1);
+            gridPane.add(next, 0, 3, 4, 1);
 
             for ( int i = 0; i < playersNames.size(); i++){
                 Button playerNameButton = new Button(playersNames.get(i));
@@ -295,12 +318,12 @@ public class PlayersInteractingSpace {
 
             next.setOnAction(actionEvent -> {
                 remoteView.sendAnswerEvent(
-                        new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect, "" )
+                        new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect, event.defenderChosen )
                 );
             });
         }else {
             remoteView.sendAnswerEvent(
-                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect, ""));
+                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect, event.defenderChosen));
         }
     }
 
@@ -348,7 +371,6 @@ public class PlayersInteractingSpace {
                 remoteView.sendAnswerEvent(
                         new ChoosePowerUpToRespawnAnswer(username, event.powerUpToRespawn.get(index), event.colors.get(index))
                 );
-                gridPane.getChildren().clear();
             });
         }
 
@@ -393,7 +415,6 @@ public class PlayersInteractingSpace {
                 remoteView.sendAnswerEvent(
                         new WhereToMoveAndGrabAnswer(username, possibleCoords.get(index)[0], possibleCoords.get(index)[1])
                 );
-                gridPane.getChildren().clear();
             });
         }
 
@@ -439,7 +460,6 @@ public class PlayersInteractingSpace {
                 remoteView.sendAnswerEvent(
                         new WhereToMoveAnswer(username, possibleCoords.get(index)[0], possibleCoords.get(index)[1])
                 );
-                gridPane.getChildren().clear();
             });
         }
 
@@ -461,7 +481,6 @@ public class PlayersInteractingSpace {
                 remoteView.sendAnswerEvent(
                         new ChooseWeaponToPickAnswer(username, event.weaponsToPick.get(index))
                 );
-                gridPane.getChildren().clear();
             });
         }
 
@@ -483,16 +502,16 @@ public class PlayersInteractingSpace {
                 remoteView.sendAnswerEvent(
                         new ChooseWeaponToReloadAnswer(username, event.weaponsToReload.get(index))
                 );
-                gridPane.getChildren().clear();
             });
         }
     }
 
     public void askChooseWeaponToSwitchQuestion(ChooseWeaponToSwitchQuestion event, String username, RemoteView remoteView) {
+
         gridPane.getChildren().clear();
         Label label = new Label("Choose the weapon you want to discard: ");
         label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 10, 1);
+        gridPane.add(label, 0, 0, 20, 1);
 
         for (int i = 0; i < event.weaponsToRemove.size(); i++){
 
@@ -501,25 +520,30 @@ public class PlayersInteractingSpace {
             int index = i;
             button.setOnAction(e -> {
                 indexToDiscard = index;
-                gridPane.getChildren().clear();
+                button.setStyle("-fx-background-color: red");
             });
         }
         Label label1 = new Label("Choose the weapon you want to pick: ");
         label1.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label1, 0, 0, 10, 1);
+        gridPane.add(label1, 0, 2, 20, 1);
 
         for (int i = 0; i < event.weaponsToPick.size(); i++){
 
             Button button = new Button(event.weaponsToPick.get(i));
-            gridPane.add(button, i*4, 1, 4, 1);
+            gridPane.add(button, i*4, 3, 4, 1);
             int index = i;
             button.setOnAction(e -> {
-                remoteView.sendAnswerEvent(
-                        new ChooseWeaponToSwitchAnswer(username, event.weaponsToRemove.get(indexToDiscard), event.weaponsToPick.get(index))
-                );
-                gridPane.getChildren().clear();
+                indexToPick = index;
+                button.setStyle("-fx-background-color: red");
             });
         }
+        Button next = new Button("next");
+        gridPane.add(next, 0, 4, 5, 1);
+        next.setOnAction(actionEvent -> {
+            remoteView.sendAnswerEvent(
+                    new ChooseWeaponToSwitchAnswer(username, event.weaponsToRemove.get(indexToDiscard), event.weaponsToPick.get(indexToPick))
+            );
+        });
     }
 
     public void textMessage(TextMessage event) {
@@ -540,7 +564,6 @@ public class PlayersInteractingSpace {
 
         yesButton.setOnAction(e -> {
             remoteView.sendAnswerEvent(new UseGrenadeAnswer(username, event.offender));
-            gridPane.getChildren().clear();
         });
     }
 
@@ -560,7 +583,6 @@ public class PlayersInteractingSpace {
                 remoteView.sendAnswerEvent(
                         new ChoosePowerUpToUseAnswer(username, event.powerUpNames.get(index), event.colors.get(index))
                 );
-                gridPane.getChildren().clear();
             });
         }
     }
@@ -570,8 +592,7 @@ public class PlayersInteractingSpace {
         gridPane.getChildren().clear();
         Label label = new Label("Choose the name of the player to move:");
         label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 10, 1);
-
+        gridPane.add(label, 0, 0, 20, 1);
 
         for (int i = 0; i < playersNames.size(); i++){
 
@@ -580,19 +601,18 @@ public class PlayersInteractingSpace {
             int index = i;
             button.setOnAction(e -> {
                 playerTarget = playersNames.get(index);
-                gridPane.getChildren().clear();
+                button.setStyle("-fx-background-color: red");
             });
         }
-        gridPane.getChildren().clear();
 
         Label label1 = new Label("insert the coordinates in this format: x,y");
         label1.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label1, 0, 0, 20, 1);
+        gridPane.add(label1, 0, 2, 14, 1);
 
         TextField coordsTextField = new TextField();
         Button okButton = new Button("next");
-        gridPane.add(coordsTextField, 0, 1, 5, 1);
-        gridPane.add(okButton, 6, 1, 5, 1);
+        gridPane.add(coordsTextField, 15, 2, 5, 1);
+        gridPane.add(okButton, 0, 3, 5, 1);
 
         okButton.setOnAction(e -> {
             String[] coords = coordsTextField.getText().split(",");
@@ -601,79 +621,92 @@ public class PlayersInteractingSpace {
             remoteView.sendAnswerEvent(
                     new ChooseHowToUseTurnPowerUpAnswer(username, event.powerUpToUseName,event.powerUpToUseColor, playerTarget, x, y)
             );
-            gridPane.getChildren().clear();
         });
-
     }
 
     public void askChooseHowToPayForAttackingQuestion(ChooseHowToPayForAttackingQuestion event, RemoteView remoteView, PlayerInfo playerInfo) {
 
         gridPane.getChildren().clear();
+        paymentChosen = new ArrayList<>();
         this.chooseHowToPayForAttackingQuestionEvent = event;
-        Label label = new Label("Choose how to pay the cost for shooting: ");
-        label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 10, 1);
+        if ( event.cost.size() != 0) {
+            Label label = new Label("Choose how to pay the cost for shooting: ");
+            label.setStyle("-fx-font-size: 20; -fx-color: black");
+            gridPane.add(label, 0, 0, 10, 1);
 
-        String payForWhat = "HowToPayForAttacking";
-        handlePayment(event.cost, playerInfo, payForWhat, remoteView, null);
-
-        gridPane.getChildren().clear();
-
+            String payForWhat = "HowToPayForAttacking";
+            handlePayment(event.cost, playerInfo, payForWhat, remoteView, null);
+        }else {
+            remoteView.sendAnswerEvent(new ChooseHowToPayForAttackingAnswer(this.chooseHowToPayForAttackingQuestionEvent.chooseHowToShootAnswer, paymentChosen));
+        }
     }
 
     public void askChooseHowToPayToSwitchWeaponsQuestion(ChooseHowToPayToSwitchWeaponsQuestion event, RemoteView remoteView, PlayerInfo playerInfo, String username) {
 
         gridPane.getChildren().clear();
+        paymentChosen = new ArrayList<>();
         this.chooseHowToPayToSwitchWeaponsQuestionEvent = event;
-        Label label = new Label("You chose to discard " + event.weaponToDiscard);
-        label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 10, 1);
+        if ( event.weaponCost.size() != 0) {
+            Label label = new Label("You chose to discard " + event.weaponToDiscard);
+            label.setStyle("-fx-font-size: 20; -fx-color: black");
+            gridPane.add(label, 0, 0, 10, 1);
 
-        String payForWhat = "HowToPayToSwitchWeapons";
-        handlePayment(event.weaponCost, playerInfo, payForWhat, remoteView, username);
-
-        gridPane.getChildren().clear();
+            String payForWhat = "HowToPayToSwitchWeapons";
+            handlePayment(event.weaponCost, playerInfo, payForWhat, remoteView, username);
+        }else {
+            remoteView.sendAnswerEvent(new ChooseHowToPayToSwitchWeaponsAnswer(username, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToPick, paymentChosen, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToDiscard));
+        }
     }
 
     public void askChooseHowToPayToPickWeaponQuestion(ChooseHowToPayToPickWeaponQuestion event, RemoteView remoteView, PlayerInfo playerInfo, String username) {
 
         gridPane.getChildren().clear();
+        paymentChosen = new ArrayList<>();
         this.chooseHowToPayToPickWeaponQuestionEvent = event;
-        Label label = new Label("Choose how to pay to pick " + event.weaponName);
-        label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 20, 1);
+        if ( event.cost.size() != 0) {
+            Label label = new Label("Choose how to pay to pick " + event.weaponName);
+            label.setStyle("-fx-font-size: 20; -fx-color: black");
+            gridPane.add(label, 0, 0, 20, 1);
 
-        String payForWhat = "HowToPayToPickWeapon";
-        handlePayment(event.cost, playerInfo, payForWhat, remoteView, username);
+            String payForWhat = "HowToPayToPickWeapon";
+            handlePayment(event.cost, playerInfo, payForWhat, remoteView, username);
+        }else {
+            remoteView.sendAnswerEvent(new ChooseHowToPayToPickWeaponAnswer(username, this.chooseHowToPayToPickWeaponQuestionEvent.weaponName, paymentChosen));
+        }
     }
 
     public void askChooseHowToPayToReloadQuestion(ChooseHowToPayToReloadQuestion event, RemoteView remoteView, PlayerInfo playerInfo, String username) {
 
         gridPane.getChildren().clear();
+        paymentChosen = new ArrayList<>();
         this.chooseHowToPayToReloadQuestionevent = event;
-        Label label = new Label("You chose to reload " + event.weaponToReload);
-        label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 10, 1);
+        if ( event.cost.size() != 0) {
+            Label label = new Label("You chose to reload " + event.weaponToReload);
+            label.setStyle("-fx-font-size: 20; -fx-color: black");
+            gridPane.add(label, 0, 0, 10, 1);
 
-        String payForWhat = "HowToPayToReload";
-        handlePayment(event.cost, playerInfo, payForWhat, remoteView, username);
-
-        gridPane.getChildren().clear();
+            String payForWhat = "HowToPayToReload";
+            handlePayment(event.cost, playerInfo, payForWhat, remoteView, username);
+        }else {
+            remoteView.sendAnswerEvent(new ChooseHowToPayToReloadAnswer(username, this.chooseHowToPayToReloadQuestionevent.weaponToReload, paymentChosen));
+        }
     }
 
     private void handlePayment(List<Color> costToPay, PlayerInfo playerInfo, String payForWhat, RemoteView remoteView, String username) {
 
         gridPane.getChildren().clear();
-        String cost = "";
-
-        for(Color c : costToPay)
-            cost += c.toString() + " ";
-
-        Label label = new Label("You have to pay --> " + cost);
-        label.setStyle("-fx-font-size: 15; -fx-color: black");
-        gridPane.add(label, 0, 0, 20, 1);
-
         paymentChosen = new ArrayList<>();
+
+        if ( costToPay.size() != 0) {
+            String cost = "";
+
+            for (Color c : costToPay)
+                cost += c.toString() + " ";
+
+            Label label = new Label("You have to pay --> " + cost);
+            label.setStyle("-fx-font-size: 15; -fx-color: black");
+            gridPane.add(label, 0, 0, 20, 1);
+        }
 
         for(int i = 0; i < costToPay.size(); i++){
             Label label1 = new Label("Choose for "+ costToPay.get(i)+":");
@@ -726,28 +759,37 @@ public class PlayersInteractingSpace {
                 nextButton.setOnAction(e -> {
 
                     switch (payForWhat){
-
                         case "HowToPayToReload":
                             remoteView.sendAnswerEvent(new ChooseHowToPayToReloadAnswer(username, this.chooseHowToPayToReloadQuestionevent.weaponToReload, paymentChosen));
-                            gridPane.getChildren().clear();
                             break;
-
                         case "HowToPayToPickWeapon":
                             remoteView.sendAnswerEvent(new ChooseHowToPayToPickWeaponAnswer(username, this.chooseHowToPayToPickWeaponQuestionEvent.weaponName, paymentChosen));
-                            gridPane.getChildren().clear();
                             break;
-
                         case "HowToPayToSwitchWeapons":
                             remoteView.sendAnswerEvent(new ChooseHowToPayToSwitchWeaponsAnswer(username, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToPick, paymentChosen, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToDiscard));
-                            gridPane.getChildren().clear();
                             break;
-
                         case "HowToPayForAttacking":
                             remoteView.sendAnswerEvent(new ChooseHowToPayForAttackingAnswer(this.chooseHowToPayForAttackingQuestionEvent.chooseHowToShootAnswer, paymentChosen));
-                            gridPane.getChildren().clear();
                             break;
                     }
                 });
+            }
+        }
+        if (costToPay.size() == 0) {
+            System.out.println("costToPay.size() == 0");
+            switch (payForWhat) {
+                case "HowToPayToReload":
+                    remoteView.sendAnswerEvent(new ChooseHowToPayToReloadAnswer(username, this.chooseHowToPayToReloadQuestionevent.weaponToReload, paymentChosen));
+                    break;
+                case "HowToPayToPickWeapon":
+                    remoteView.sendAnswerEvent(new ChooseHowToPayToPickWeaponAnswer(username, this.chooseHowToPayToPickWeaponQuestionEvent.weaponName, paymentChosen));
+                    break;
+                case "HowToPayToSwitchWeapons":
+                    remoteView.sendAnswerEvent(new ChooseHowToPayToSwitchWeaponsAnswer(username, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToPick, paymentChosen, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToDiscard));
+                    break;
+                case "HowToPayForAttacking":
+                    remoteView.sendAnswerEvent(new ChooseHowToPayForAttackingAnswer(this.chooseHowToPayForAttackingQuestionEvent.chooseHowToShootAnswer, paymentChosen));
+                    break;
             }
         }
     }
@@ -755,4 +797,5 @@ public class PlayersInteractingSpace {
     public void setBoardGrid(BoardGrid boardGrid) {
         this.boardGrid = boardGrid;
     }
+
 }

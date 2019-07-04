@@ -292,6 +292,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         playersNicknames.remove(index);
 
         //Removes the player's proxy from the list
+        //TODO andreaalf close proxy
         serverProxies.remove(index);
 
     }
@@ -301,6 +302,14 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
         playersNicknames.add(nickname);
 
         serverProxies.add(proxy);
+
+        boolean[] newStillConnected = new boolean[stillConnected.length + 1];
+        for(int i = 0; i < newStillConnected.length; i++)
+            newStillConnected[i] = true;
+
+        synchronized (lock){
+            this.stillConnected = newStillConnected;
+        }
 
     }
 
@@ -315,6 +324,8 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
     }
 
     public void disconnectAllPlayers() {
+
+        //TODO andreaalf close proxies
 
         for(int i = 0; i < playersNicknames.size(); i++)
             serverProxies.get(i).setReceiver(null);

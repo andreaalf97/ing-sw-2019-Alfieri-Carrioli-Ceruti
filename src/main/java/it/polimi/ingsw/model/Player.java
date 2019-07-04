@@ -208,7 +208,7 @@ public class Player {
 
     //SETS AND GETS
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    protected void setIsDead(boolean isDead){ this.isDead = isDead; }
+    public void setIsDead(boolean isDead){ this.isDead = isDead; }
     protected void setDamages(ArrayList<String> damages){ this.damages = damages; }
     public ArrayList<String> getDamages(){ return this.damages; }
     protected void setMarks(ArrayList<String> marks){ this.marks = marks; }

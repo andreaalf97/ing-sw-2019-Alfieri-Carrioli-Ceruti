@@ -103,32 +103,6 @@ public class JsonDeserializer {
         return otherPlayerInfos;
     }
 
-    //Game deserialization, it receives a model Snapshot for persistence and it creates a new Game. USELESSSSSSSSSSSS
-    public static Game deserializeModelSnapshot(String modelSnapshot){
-        JsonObject jsonRoot = myJsonParser.parse(modelSnapshot).getAsJsonObject();
-
-        ArrayList<Player> players = deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
-
-        ArrayList<String> playerNames = deserializePlayerNamesObject(jsonRoot.get("playerNames").getAsJsonArray());
-
-        WeaponDeck weaponDeck = new WeaponDeck(jsonRoot.get("weaponDeck").getAsJsonObject());
-
-        PowerUpDeck powerUpDeck = new PowerUpDeck(jsonRoot.get("powerUpDeck").getAsJsonObject());
-
-        AmmoCardDeck ammoCardDeck = new AmmoCardDeck(jsonRoot.get("ammoCardDeck").getAsJsonObject()); //FIXME
-
-        KillShotTrack kst = new KillShotTrack(jsonRoot.get("kst").getAsJsonObject());
-
-        GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
-
-        int id = jsonRoot.get("gameId").getAsInt();
-
-        ArrayList<Player> disconnectedPlayers = deserializePlayerObject(jsonRoot.get("disconnectedPlayers").getAsJsonArray());
-
-        return new Game(playerNames, players, weaponDeck, powerUpDeck,ammoCardDeck, kst, gameMap, id, disconnectedPlayers);
-    }
-
-
     /**
      * this method deserialize Players
      * @param jsonPlayers the json that represents the players

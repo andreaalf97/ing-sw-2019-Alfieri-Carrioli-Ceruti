@@ -170,6 +170,7 @@ public class Gui extends Application implements QuestionEventHandler {
         this.currentSkulls = votedSkulls;
     }
 
+
     /*CSS examples
     *button2.setStyle("-fx-background-color: darkslateblue; -fx-text-fill: white;");
      text2.setStyle("-fx-font: normal bold 20px 'serif' ");
@@ -177,7 +178,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
 
     //*********************** NETWORK EVENTS *************************************************
-
     @Override
     public void handleEvent(TemporaryIdQuestion event) {
 
@@ -288,6 +288,56 @@ public class Gui extends Application implements QuestionEventHandler {
     }
 
     @Override
+    public void handleEvent(GameRestartedQuestion event) {
+
+        System.err.println("RECEIVED GameRestartedQuestion EVENT");
+
+        waitingRoomGui.close();
+
+        //Scheduling the timer to send a Ping message every 2 seconds
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                //System.err.println("Sending PING");
+                remoteView.sendAnswerEvent(new Ping(username));
+            }
+        }, 0, 2000);
+
+        //This constructor creates the starting scene
+
+        GameStartedQuestion fake = new GameStartedQuestion(event);
+
+        MyScene next = new GameScene(window, username, fake, gameInfo);
+        this.gameScene = (GameScene) next;
+
+        Scene nextScene = next.getScene();
+
+        window.close();
+
+        window = new Stage();
+
+
+        //------------ Reading screen size ------------------------
+        Rectangle2D screenVisibleBounds = Screen.getPrimary().getBounds();
+        double aspectRatio = screenVisibleBounds.getHeight() / screenVisibleBounds.getWidth();
+
+        //Deciding to use full screen or not resizable window
+        if( ! (aspectRatio < screenRatioMax && aspectRatio > screenRatioMin)){
+            window.setFullScreen(true);
+
+            window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        }
+        else {
+            window.setResizable(false);
+        }
+
+
+        window.setScene(nextScene);
+
+        window.show();
+    }
+
+    @Override
     public void handleEvent(PlayerDisconnectedQuestion event) {
         Modal.display(event.nickname + " DISCONNECTED FROM THE GAME");
     }
@@ -346,7 +396,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseIfToUseAsyncPowerUpQuestion event) {
-
     }
 
     @Override
@@ -382,7 +431,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
             System.err.println("Model Update Received");
 
-
             this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
             this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
             this.gameInfo = JsonDeserializer.deserializedSnapshot(this.lastSnapshotReceived, username);
@@ -390,7 +438,6 @@ public class Gui extends Application implements QuestionEventHandler {
             if (gameScene != null) {
                 gameScene.setGameInfo(this.gameInfo);
                 gameScene.update();
-                //gameScene.update();
             }
         });
     }
@@ -424,6 +471,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseIfUseATargetingScopeQuestion event){
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseIfUseATargetingScopeQuestion(event, remoteView, gameInfo.playersNames));
 
     }
 }

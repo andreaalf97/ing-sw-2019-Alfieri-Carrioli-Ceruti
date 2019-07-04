@@ -524,7 +524,30 @@ public class Cli implements QuestionEventHandler {
         this.playerColors = event.playerColors;
         this.currentMap = event.mapName;
         this.currentSkulls = event.votedSkulls;
-        this.playerColors = event.playerColors;
+
+
+        buildCliMapRepresentation(currentMap);
+    }
+
+    @Override
+    public void handleEvent(GameRestartedQuestion event) {
+
+        //Scheduling the timer to send a Ping message every 2 seconds
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                //System.err.println("Sending PING");
+                remoteView.sendAnswerEvent(new Ping(username));
+            }
+        }, 0, 2000);
+
+
+        System.out.println("THE GAME HAS RESTARTED");
+
+        this.allPlayers = event.playerNames;
+        this.playerColors = event.colors;
+        this.currentMap = event.mapName;
+        this.currentSkulls = event.kstSkulls;
 
 
         buildCliMapRepresentation(currentMap);
@@ -621,7 +644,6 @@ public class Cli implements QuestionEventHandler {
         }
 
         int answer = Integer.parseInt(nextLine);
-
 
 
         while (answer < 0 || answer >= event.possibleAction.size()) {
@@ -786,7 +808,6 @@ public class Cli implements QuestionEventHandler {
     public void handleEvent(ChooseIfUseATargetingScopeQuestion event){
 
         String defenderChosen;
-
 
         System.out.println("Do you want to use your targeting scope against someone?:");
 

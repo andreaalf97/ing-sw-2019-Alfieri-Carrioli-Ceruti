@@ -137,22 +137,26 @@ public class Controller implements Observer, AnswerEventHandler {
 
     }
 
-    public void restartGame() {
+    public void restartGame(MapName mapName) {
 
         ArrayList<String> playerNames = gameModel.getPlayerNames();
 
-        for(String nickname : playerNames){
+        ArrayList<PlayerColor> playerColors = PlayerColor.getRandomArray(playerNames.size());
 
-            Player p = gameModel.getPlayerByNickname(nickname);
+        int skulls = gameModel.getKSTsize();
 
-            sendMessage(nickname, "GAME RELOADED");
+        Player firstPlayer = gameModel.getPlayerByNickname(playerNames.get(0));
 
-            if(p.playerStatus.isActive){
-                ArrayList<String> possibleActions = gameModel.generatePossibleActions(nickname);
-                sendQuestionEvent(nickname, new ActionQuestion(possibleActions));
-                break;
-            }
-        }
+        if( ! firstPlayer.playerStatus.isActive )
+            throw new RuntimeException( firstPlayer.getNickname() + " is not active");
+
+
+        for(String nickname : playerNames)
+            sendQuestionEvent(nickname, new GameRestartedQuestion(playerNames, playerColors, skulls, mapName));
+
+        ArrayList<String> possibleActions = gameModel.generatePossibleActions(firstPlayer.getNickname());
+        sendQuestionEvent(firstPlayer.getNickname(), new ActionQuestion(possibleActions));
+
 
     }
 
@@ -198,37 +202,44 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public synchronized void handleEvent(DisconnectedAnswer event) {
 
-        Player p = gameModel.getPlayerByNickname(event.nickname);
+        if(gameModel.getPlayerNames().size() > 3){
 
-        if(p.playerStatus.isActive)
-            endTurn();
+            Player p = gameModel.getPlayerByNickname(event.nickname);
 
-        gameModel.disconnectPlayer(event.nickname);
+            p.setIsDead(true);
 
-        virtualView.disconnectPlayer(event.nickname);
+            if(p.playerStatus.isActive)
+                endTurn();
 
-        virtualView.sendAllQuestionEvent(
-                new PlayerDisconnectedQuestion(event.nickname)
-        );
+            gameModel.disconnectPlayer(event.nickname);
 
-        if(gameModel.getPlayerNames().size() < 3){
+            virtualView.disconnectPlayer(event.nickname);
+
+            virtualView.sendAllQuestionEvent(
+                    new PlayerDisconnectedQuestion(event.nickname)
+            );
+
+        }
+        else{
 
             System.out.println("Closing game because " + event.nickname + " disconnected");
 
             int gameId = gameModel.getGameId();
+
+            gameModel.pause();
 
             GamesHandler.pauseGame(gameModel.getAllPlayers(), gameId);
 
             close();
 
         }
+
+
     }
 
     private void close() {
 
         virtualView.sendAllQuestionEvent(new DisconnectedQuestion());
-
-        gameModel.stopTimer();
 
         virtualView.disconnectAllPlayers();
 

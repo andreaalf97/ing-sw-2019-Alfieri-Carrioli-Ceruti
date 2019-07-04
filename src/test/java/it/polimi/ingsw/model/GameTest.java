@@ -412,15 +412,6 @@ public class GameTest {
     }
 
     @Test
-    public void verifyDeserialization(){
-        String jsonModelSnapshot = gameTest.modelSnapshot();
-
-        Game newGame = JsonDeserializer.deserializeModelSnapshot(jsonModelSnapshot);
-
-        Assert.assertTrue(true);
-    }
-
-    @Test
     public void verifySerializationClientSnapshot(){
         String clientSnapshot = gameTest.clientSnapshot();
 
