@@ -42,4 +42,6 @@ public interface AnswerEventHandler {
 
     void handleEvent(UseGrenadeAnswer event);
     void handleEvent(RefreshPossibleActionsAfterReloadingAnswer event);
+
+    void handleEvent(ChooseIfUseATargetingScopeAnswer event);
 }

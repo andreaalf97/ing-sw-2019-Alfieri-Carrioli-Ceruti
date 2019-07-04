@@ -724,7 +724,7 @@ public class Player {
         return ((playerRed >= 0) && (playerBlue >= 0) && (playerYellow >= 0));
 
     }
-
+    //TODO CONTROL ANY OPTION, MA SE LA INSERISCO COME ULTIMA COSA DA PAGARE SONO SICURO CHE QUELLA MERDA DEL CLIENT LA PAGA
     public boolean canPayWithString(ArrayList<String> cost){
 
         if(cost.isEmpty())
@@ -786,6 +786,9 @@ public class Player {
     }
 
     public void removePowerUpByNameAndColor(String chosenPowerUpToPay, Color color) {
+        if(color == null){
+            throw new RuntimeException("this color can't be null----Player.java row 790");
+        }
 
         for(PowerUp p : powerUpList){
             if(p.getColor() == color && p.getPowerUpName().equals(chosenPowerUpToPay)){
@@ -833,11 +836,19 @@ public class Player {
      * @param offendername the name to bring down
      */
     public void transformMarksInDamages(String offendername) {
-        for(String offenderMark : marks){
-            if(offenderMark.equals(offendername)){
-                giveDamage(nickname, 1);
+
+        while(marks.contains(offendername)) {
+
+            for (Iterator<String> iterator = marks.iterator(); iterator.hasNext(); ) {
+
+                String occurence = iterator.next();
+
+                if (occurence.equals(offendername)) {
+                    giveDamage(offendername, 1);
+
+                    iterator.remove();
+                }
             }
-            marks.remove(offenderMark);
         }
     }
 }

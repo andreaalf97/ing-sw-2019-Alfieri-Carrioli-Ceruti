@@ -29,6 +29,8 @@ public class CardBox {
     protected void update(PlayerInfo playerInfo){
 
         gridPane.getChildren().clear();
+        weaponsButtons = new ArrayList<>();
+        powerUpButtons = new ArrayList<>();
 
         int i = 0;
         for ( String weaponName : playerInfo.weaponNames){

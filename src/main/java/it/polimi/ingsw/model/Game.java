@@ -872,7 +872,7 @@ public class Game extends Observable {
      * @param defenders_temp are the players who receive damage
      * @param effect         is the effect we have to look at
      */
-    public void makeDamageEffect(String offendername, ArrayList<Player> defenders_temp, Effect effect) {
+    public void makeDamageEffect(String offendername, ArrayList<Player> defenders_temp, Effect effect, String defenderToApplyTargeting, boolean targetingFinallyApplied) {
 
         Player offender = getPlayerByNickname(offendername);
 
@@ -890,6 +890,12 @@ public class Game extends Observable {
                 if(actualDefender.isDead() && actualDefender.getDamages().size() == 12){
                     offender.giveMarks(actualDefender.getNickname(), 1);
                 }
+
+                if(actualDefender.getNickname().equals(defenderToApplyTargeting) && (!targetingFinallyApplied) ){
+                    actualDefender.giveDamage(offendername, 1);
+                    targetingFinallyApplied = true;
+                }
+
             }
         }
 
@@ -929,7 +935,9 @@ public class Game extends Observable {
      */
     public boolean shootWithMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon,
             Integer[] chosenOrder, ArrayList<Integer> xPosition, ArrayList<Integer> yPosition,
-            ArrayList<String> playersWhoMoveNames) {
+            ArrayList<String> playersWhoMoveNames, String defenderToApplyTargeting) {
+
+        boolean targetingFinallyApplied = false;
 
         ArrayList<Player> defenders = new ArrayList<>();
 
@@ -1013,7 +1021,7 @@ public class Game extends Observable {
                         playersHit.add(p);
                         defenders.remove(p);
                     }
-                    makeDamageEffect(offenderName, defenders_temp, effetto);
+                    makeDamageEffect(offenderName, defenders_temp, effetto, defenderToApplyTargeting , targetingFinallyApplied);
                 }
             }
             if (defenders.size() != 0) {
@@ -1114,7 +1122,9 @@ public class Game extends Observable {
      *         way
      */
     public boolean shootWithoutMovement(String offenderName, ArrayList<String> defendersNames, Weapon weapon,
-            Integer[] orderNumber) {
+            Integer[] orderNumber, String defenderToApplyTargeting) {
+
+        boolean targetingScopeFinallyApplied = false;
 
         ArrayList<Player> defenders = new ArrayList<>();
 
@@ -1178,7 +1188,8 @@ public class Game extends Observable {
                         defenders.remove(p);
                         // defendersNames.remove(p.getNickname());
                     }
-                    makeDamageEffect(offenderName, defenders_temp, effetto);
+                    makeDamageEffect(offenderName, defenders_temp, effetto, defenderToApplyTargeting, targetingScopeFinallyApplied);
+
                 }
             }
             if (defenders.size() != 0) {
@@ -1206,6 +1217,8 @@ public class Game extends Observable {
         }
     }
 
+
+    //TODO FIX THIS IF IT'S WRONG
     /**
      * This method uses a power with damage effect
      *
@@ -1234,7 +1247,7 @@ public class Game extends Observable {
         ArrayList<Player> defenders = new ArrayList<>();
         defenders.add(defender);
 
-        makeDamageEffect(currentPlayerName, defenders, effect);
+        makeDamageEffect(currentPlayerName, defenders, effect, "", false);
 
         notifyObservers(clientSnapshot());
     }

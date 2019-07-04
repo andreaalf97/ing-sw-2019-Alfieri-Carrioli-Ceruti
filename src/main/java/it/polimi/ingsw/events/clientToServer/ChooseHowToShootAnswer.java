@@ -25,7 +25,9 @@ public class ChooseHowToShootAnswer implements AnswerEvent, Serializable {
 
     public int indexOfLastEffectUsed;
 
-    public ChooseHowToShootAnswer(String nickname, Integer[] chosenOrder, String weapon, ArrayList<String> defenders, ArrayList<String> mover, ArrayList<Integer> xCoords, ArrayList<Integer> yCoords, int indexOfLastEffectUsed) {
+    public String defenderToApplyTargeting;
+
+    public ChooseHowToShootAnswer(String nickname, Integer[] chosenOrder, String weapon, ArrayList<String> defenders, ArrayList<String> mover, ArrayList<Integer> xCoords, ArrayList<Integer> yCoords, int indexOfLastEffectUsed, String defenderToApplyTargeting) {
         this.nickname = nickname;
         this.weapon = weapon;
         this.defenders = defenders;
@@ -34,6 +36,7 @@ public class ChooseHowToShootAnswer implements AnswerEvent, Serializable {
         this.yCoords = yCoords;
         this.chosenOrder = chosenOrder;
         this.indexOfLastEffectUsed = indexOfLastEffectUsed;
+        this.defenderToApplyTargeting = defenderToApplyTargeting;
     }
 
     @Override
