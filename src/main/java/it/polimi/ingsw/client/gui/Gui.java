@@ -421,5 +421,10 @@ public class Gui extends Application implements QuestionEventHandler {
         Platform.runLater( () -> questionEvent.acceptEventHandler(this));
     }
 
+
+    @Override
+    public void handleEvent(ChooseIfUseATargetingScopeQuestion event){
+
+    }
 }
 

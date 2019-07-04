@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.FieldAttributes;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.JsonDeserializer;
@@ -64,7 +65,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "");
 
         ArrayList<String> testArray = new ArrayList<>();
         testArray.add(playerAndreaalf);
@@ -116,7 +117,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerGino);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "");
 
         Assert.assertFalse(result);
 
@@ -163,7 +164,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "");
 
         //Testing if I removed the right ammos
         Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnRedAmmo());
@@ -216,7 +217,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "");
 
 
         //Testing if I removed the right ammos
@@ -264,7 +265,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
 
         //in this case, we make andreaalf pay 1 RED even if the attack was wrong
@@ -328,7 +329,7 @@ public class ShootingTest {
         defenders.add(playerGino);
 
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
 
 
@@ -393,7 +394,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -466,7 +467,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -520,7 +521,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerIngConti);
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(4));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(4), "" );
 
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -592,7 +593,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(4));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(4), "" );
 
         Assert.assertFalse(result);
 
@@ -650,7 +651,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerGino);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -692,7 +693,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -757,7 +758,7 @@ public class ShootingTest {
         defenders.add(playerIngConti);
 
 
-        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         //Testing if I removed the right ammos
         //Assert.assertEquals(1, gameTest.getPlayerByNickname(playerAndreaalf).getnBlueAmmo());
@@ -833,7 +834,7 @@ public class ShootingTest {
         defenders.add(playerIngConti);
 
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -903,7 +904,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
 
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -972,7 +973,7 @@ public class ShootingTest {
         defenders.add(playerGino);
 
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1026,7 +1027,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerAndreaalf);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers, "");
         Assert.assertTrue(b);
 
 
@@ -1079,7 +1080,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerAndreaalf);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -1137,7 +1138,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerAndreaalf);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1193,7 +1194,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(2), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(2), xArray, yArray, movingPlayers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1251,7 +1252,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerAndreaalf);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -1309,7 +1310,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerAndreaalf);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -1368,7 +1369,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerAndreaalf);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers, "");
 
         Assert.assertFalse(b);
 
@@ -1417,7 +1418,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -1475,7 +1476,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1527,7 +1528,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1579,7 +1580,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -1637,7 +1638,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -1695,7 +1696,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1746,7 +1747,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -1797,7 +1798,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1845,7 +1846,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertTrue(b);
 
 
@@ -1893,7 +1894,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1941,7 +1942,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -1999,7 +2000,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -2059,7 +2060,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerMeme);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -2115,7 +2116,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -2172,7 +2173,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
 
@@ -2228,7 +2229,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -2285,7 +2286,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -2361,7 +2362,7 @@ public class ShootingTest {
         movers.add(playerMeme);
         movers.add(playerIngConti);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -2421,7 +2422,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -2473,7 +2474,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -2542,7 +2543,7 @@ public class ShootingTest {
         movers.add(playerGino);
         movers.add(playerMeme);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
 
@@ -2616,7 +2617,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -2692,7 +2693,7 @@ public class ShootingTest {
         movers.add(playerGino);
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -2773,7 +2774,7 @@ public class ShootingTest {
         movers.add(playerMeme);
         movers.add(playerIngConti);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -2857,7 +2858,7 @@ public class ShootingTest {
         movers.add(playerMeme);
         movers.add(playerIngConti);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -2924,7 +2925,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -2979,7 +2980,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -3033,7 +3034,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -3093,7 +3094,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -3152,7 +3153,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -3210,7 +3211,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -3260,7 +3261,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertTrue(result);
 
@@ -3308,7 +3309,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -3343,7 +3344,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
     }
@@ -3387,7 +3388,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertTrue(result);
 
@@ -3444,7 +3445,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertTrue(result);
 
@@ -3503,7 +3504,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertTrue(result);
 
@@ -3567,7 +3568,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -3623,7 +3624,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -3679,7 +3680,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertFalse(result);
 
@@ -3724,7 +3725,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertTrue(result);
 
@@ -3765,7 +3766,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -3817,7 +3818,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -3867,7 +3868,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -3916,7 +3917,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -3976,7 +3977,7 @@ public class ShootingTest {
         defenders.add(playerIngConti);
         defenders.add(playerKeny);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertTrue(result);
 
@@ -4058,7 +4059,7 @@ public class ShootingTest {
         defenders.add(playerIngConti);
         defenders.add(playerKeny);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertFalse(result);
 
@@ -4136,7 +4137,7 @@ public class ShootingTest {
         defenders.add(playerIngConti);
         defenders.add(playerKeny);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertFalse(result);
 
@@ -4200,7 +4201,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -4258,7 +4259,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -4321,7 +4322,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerMeme);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
 
@@ -4382,7 +4383,7 @@ public class ShootingTest {
         ArrayList<String> movers = new ArrayList<>();
         movers.add(playerMeme);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(2), xArray, yArray, movers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(2), xArray, yArray, movers, "");
         Assert.assertTrue(b);
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -4437,7 +4438,7 @@ public class ShootingTest {
         ArrayList<String> movingPlayers = new ArrayList<>();
         movingPlayers.add(playerGino);
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xArray, yArray, movingPlayers, "");
         Assert.assertTrue(b);
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -4492,7 +4493,7 @@ public class ShootingTest {
         movingPlayers.add(playerAndreaalf);
 
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movingPlayers, "");
         Assert.assertTrue(b);
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -4575,7 +4576,7 @@ public class ShootingTest {
         movingPlayers.add(playerAndreaalf);
 
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movingPlayers, "");
         Assert.assertFalse(b);
 
     }
@@ -4636,7 +4637,7 @@ public class ShootingTest {
         movingPlayers.add(playerAndreaalf);
 
 
-        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movingPlayers);
+        boolean b = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xArray, yArray, movingPlayers, "");
         Assert.assertTrue(b);
 
         ArrayList<String> testArray = new ArrayList<>();
@@ -4699,7 +4700,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -4745,7 +4746,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -4791,7 +4792,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -4837,7 +4838,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertTrue(b);
 
         //Testing if I removed the right ammos
@@ -4887,7 +4888,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean b = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
         Assert.assertFalse(b);
 
         //Testing if I removed the right ammos
@@ -4947,7 +4948,7 @@ public class ShootingTest {
         ArrayList<String> playerWhoMove = new ArrayList<>();
         playerWhoMove.add(playerAndreaalf);
 
-        gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove);
+        gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove, "");
         //gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, 0, 0, 1, playerAndreaalf);
 
         //Testing if I removed the right ammos
@@ -5007,7 +5008,7 @@ public class ShootingTest {
         ArrayList<String> playerWhoMove = new ArrayList<>();
         playerWhoMove.add(playerAndreaalf);
 
-        gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
         //gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, 0, 0, 1, playerAndreaalf);
 
         //Testing if I removed the right ammos
@@ -5067,7 +5068,7 @@ public class ShootingTest {
         ArrayList<String> playerWhoMove = new ArrayList<>();
         playerWhoMove.add(playerAndreaalf);
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertFalse(result);
 
@@ -5115,7 +5116,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertTrue(result);
 
@@ -5178,7 +5179,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
         defenders.add(playerIngConti);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertTrue(result);
 
@@ -5238,7 +5239,7 @@ public class ShootingTest {
         ArrayList<String> playerWhoMove = new ArrayList<>();
         playerWhoMove.add(playerGino);
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove, "");
 
         Assert.assertTrue(result);
 
@@ -5281,7 +5282,7 @@ public class ShootingTest {
         ArrayList<String> defenders = new ArrayList<>();
         defenders.add(playerGino);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertTrue(result);
 
@@ -5330,7 +5331,7 @@ public class ShootingTest {
         ArrayList<String> playerWhoMove = new ArrayList<>();
         playerWhoMove.add(playerAndreaalf);
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove, "");
 
         Assert.assertFalse(result);
 
@@ -5372,7 +5373,7 @@ public class ShootingTest {
         ArrayList<String> playerWhoMove = new ArrayList<>();
         playerWhoMove.add(playerAndreaalf);
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), xPos, yPos, playerWhoMove, "");
 
         Assert.assertTrue(result);
 
@@ -5433,7 +5434,7 @@ public class ShootingTest {
         playerWhoMove.add(playerAndreaalf);
         playerWhoMove.add(playerAndreaalf);
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertFalse(result);
 
@@ -5493,7 +5494,7 @@ public class ShootingTest {
         playerWhoMove.add(playerAndreaalf);
 
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertTrue(result);
 
@@ -5556,7 +5557,7 @@ public class ShootingTest {
         playerWhoMove.add(playerAndreaalf);
 
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertFalse(result);
 
@@ -5617,7 +5618,7 @@ public class ShootingTest {
         defenders.add(playerIngConti);
         defenders.add(playerKeny);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
     }
@@ -5665,7 +5666,7 @@ public class ShootingTest {
         defenders.add(playerGino);
         defenders.add(playerMeme);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertTrue(result);
 
@@ -5732,7 +5733,7 @@ public class ShootingTest {
         defenders.add(playerIngConti);
         defenders.add(playerKeny);
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), "" );
 
         Assert.assertTrue(result);
 
@@ -5788,7 +5789,7 @@ public class ShootingTest {
         defenders.add(playerGino);
 
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertTrue(result);
 
@@ -5827,7 +5828,7 @@ public class ShootingTest {
         defenders.add(playerGino);
 
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -5867,7 +5868,7 @@ public class ShootingTest {
         defenders.add(playerMeme);
 
 
-        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0));
+        boolean result = gameTest.shootWithoutMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(0), "" );
 
         Assert.assertFalse(result);
 
@@ -5916,7 +5917,7 @@ public class ShootingTest {
         playerWhoMove.add(playerGino);
 
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertTrue(result);
 
@@ -5975,7 +5976,7 @@ public class ShootingTest {
         playerWhoMove.add(playerGino);
 
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertFalse(result);
 
@@ -6026,7 +6027,7 @@ public class ShootingTest {
 
         ArrayList<String> playerWhoMove = new ArrayList<>();
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertTrue(result);
 
@@ -6083,7 +6084,7 @@ public class ShootingTest {
         ArrayList<String> playerWhoMove = new ArrayList<>();
         playerWhoMove.add(playerGino);
 
-        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove);
+        boolean result = gameTest.shootWithMovement(playerAndreaalf, defenders, weaponTest, weaponTest.getOrder().get(1), xPos, yPos, playerWhoMove, "");
 
         Assert.assertFalse(result);
 

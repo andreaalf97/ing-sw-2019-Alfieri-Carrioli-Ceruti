@@ -490,7 +490,7 @@ public class Cli implements QuestionEventHandler {
                 remoteView.sendAnswerEvent(new Ping(username));
             }
         }, 0, 2000);
-        
+
 
 
 
@@ -531,7 +531,7 @@ public class Cli implements QuestionEventHandler {
 
     }
 
-//*****************************************************************************************
+//***************************************************************************************** END NETWORK EVENTS
 
     @Override
     public void handleEvent(ActionAfterReloadingQuestion event){
@@ -577,6 +577,7 @@ public class Cli implements QuestionEventHandler {
             case "Reload":
                 remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
                 break;
+
             case "EndTurn":
                 remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
                 break;
@@ -778,6 +779,50 @@ public class Cli implements QuestionEventHandler {
     }
 
     @Override
+    public void handleEvent(ChooseIfUseATargetingScopeQuestion event){
+
+        String defenderChosen;
+
+
+        System.out.println("Do you want to use your targeting scope against someone?:");
+
+        ArrayList<String> possibleAnswers = new ArrayList<>();
+        possibleAnswers.add("YES");
+        possibleAnswers.add("NO");
+
+        int answer = chooseAnswer(possibleAnswers);
+
+        if(answer == -1){
+            remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+            return;
+        }
+
+        if(answer == 0) {
+            System.out.println("Choose the player you want to apply the targetingScope on:");
+            possibleAnswers = new ArrayList<>();
+
+            for (String playerdefender : event.defenders) {
+                possibleAnswers.add(playerdefender);
+            }
+
+            answer = chooseAnswer((possibleAnswers));
+
+            if (answer == -1) {
+                remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
+                return;
+            }
+
+            defenderChosen = possibleAnswers.get(answer);
+        }
+        else{
+            defenderChosen = null;
+        }
+
+            remoteView.sendAnswerEvent(new ChooseIfUseATargetingScopeAnswer(event.nickname, event.chosenWeapon, event.order, event.shootWithMovement, event.indexOfLastEffect, event.defenders, defenderChosen));
+
+    }
+
+    @Override
     public void handleEvent(UseGrenadeQuestion event) {
 
 
@@ -867,12 +912,12 @@ public class Cli implements QuestionEventHandler {
             }
 
             remoteView.sendAnswerEvent(
-                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect)
+                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect, event.defenderChosen)
             );
         }
         else{
             remoteView.sendAnswerEvent(
-                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect));
+                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect, event.defenderChosen));
         }
     }
 
@@ -984,7 +1029,7 @@ public class Cli implements QuestionEventHandler {
 
             for(Color powerUpColor : playerInfo.powerUpColors){
 
-                if(powerUpColor.equals(colorToPay)){
+                if(powerUpColor.equals(colorToPay) || colorToPay.equals(Color.ANY)){
                     int index = playerInfo.powerUpColors.indexOf(powerUpColor);
                     possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
                 }
@@ -1333,11 +1378,7 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void receiveEvent(QuestionEvent questionEvent) {
 
-        clearScreen();
-
-        questionEvent.acceptEventHandler(this);
-
-        System.out.println();
+        new Thread( () -> questionEvent.acceptEventHandler(this)).start();
 
     }
 }
