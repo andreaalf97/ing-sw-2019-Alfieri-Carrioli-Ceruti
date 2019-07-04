@@ -163,29 +163,17 @@ public class JsonDeserializer {
 
 
     public static PowerUp getPowerUpByName(String powerUpName){
-        try {
-            JsonObject jsonDecks = myJsonParser.parse(new FileReader(JsonDeserializer.class.getClass().getResource(jsonEffectsFileNamePath).getPath())).getAsJsonObject();
+            JsonObject jsonDecks = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonEffectsFileNamePath)))).getAsJsonObject();
             JsonObject jsonPowerUpsDeck = jsonDecks.get(jsonPowerUpsKey).getAsJsonObject();
 
             return new PowerUp(powerUpName, jsonPowerUpsDeck);
-        }
-        catch (IOException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while reading JSON");
-            return null;
-        }
     }
 
     public static Weapon getWeaponByName(String weaponName){
-        try {
-            JsonObject jsonDecks = myJsonParser.parse(new FileReader(JsonDeserializer.class.getClass().getResource(jsonEffectsFileNamePath).getPath())).getAsJsonObject();
-            JsonObject jsonWeaponsDeck = jsonDecks.get(jsonWeaponsKey).getAsJsonObject();
+        JsonObject jsonDecks = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream(jsonEffectsFileNamePath)))).getAsJsonObject();
+        JsonObject jsonWeaponsDeck = jsonDecks.get(jsonWeaponsKey).getAsJsonObject();
 
-            return new Weapon(weaponName, jsonWeaponsDeck);
-        }
-        catch (IOException e){
-            MyLogger.LOGGER.log(Level.SEVERE, "Error while reading JSON");
-            return null;
-        }
+        return new Weapon(weaponName, jsonWeaponsDeck);
     }
 
     /**
