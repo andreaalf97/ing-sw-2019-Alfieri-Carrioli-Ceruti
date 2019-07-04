@@ -38,4 +38,6 @@ public interface QuestionEventHandler {
 
     void handleEvent(UseGrenadeQuestion event);
     void handleEvent(ActionAfterReloadingQuestion event);
+
+    void handleEvent(GameRestartedQuestion event);
 }

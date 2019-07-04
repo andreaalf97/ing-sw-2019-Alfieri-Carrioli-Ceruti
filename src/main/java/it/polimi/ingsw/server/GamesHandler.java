@@ -6,6 +6,7 @@ import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.clientToServer.*;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.server.AnswerEventReceiver;
 import it.polimi.ingsw.view.server.ServerProxy;
@@ -68,13 +69,10 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     }
 
-    public static void reloadGame(int gameId, ArrayList<String> reconnectingPlayers, ArrayList<ServerProxy> proxies) {
+    public static void reloadGame(int gameId, ArrayList<String> reconnectingPlayers, ArrayList<ServerProxy> proxies, MapName votedMap) {
 
         for(String nickname : reconnectingPlayers)
             pausedUsernames.remove(nickname);
-
-        //TODO andreaalf
-        //TODO add to nicknameControllers the others
 
         Game game = new Game(jsonSnapshots.get(gameId));
 
@@ -85,39 +83,23 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         virtualView.addObserver(controller);
         game.addObserver(virtualView);
 
+        game.restartPersistence(reconnectingPlayers);
+
         game.forceNotify();
 
         //Adding each player to the PLAYER - CONTROLLER map
         for (String player : reconnectingPlayers)
             nicknamesControllers.put(player, controller);
 
+        for(Player p : game.getDisconnectedPlayers())
+            nicknamesControllers.put(p.getNickname(), controller);
+
         for (ServerProxy proxy : proxies)
             proxy.setReceiver(controller.virtualView);
 
         pgWaitingRoom = null;
 
-        controller.restartGame();
-
-    }
-
-    public static void pauseGame(ArrayList<String> nicknames, int gameId) {
-
-        for(String i : nicknames) {
-            nicknamesControllers.remove(i);
-            pausedUsernames.put(i, gameId);
-        }
-
-    }
-
-    synchronized boolean isAValidTemporaryId(Integer id) {
-
-        return !temporaryProxies.containsKey(id);
-
-    }
-
-    void addTemporaryId(Integer id, ServerProxy proxy) {
-
-        temporaryProxies.put(id, proxy);
+        controller.restartGame(votedMap);
 
     }
 
@@ -161,6 +143,27 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         //Starting the game
         controller.startGame(votedMap, votedSkulls);
+
+    }
+
+    public static void pauseGame(ArrayList<String> nicknames, int gameId) {
+
+        for(String i : nicknames) {
+            nicknamesControllers.remove(i);
+            pausedUsernames.put(i, gameId);
+        }
+
+    }
+
+    synchronized boolean isAValidTemporaryId(Integer id) {
+
+        return !temporaryProxies.containsKey(id);
+
+    }
+
+    void addTemporaryId(Integer id, ServerProxy proxy) {
+
+        temporaryProxies.put(id, proxy);
 
     }
 
@@ -254,7 +257,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         if(pausedUsernames.containsKey(nickname)){
 
-            newPausedGameConnection(nickname, proxy);
+            newPausedGameConnection(nickname, proxy, votedMap);
             return;
 
         }
@@ -271,12 +274,12 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     }
 
-    private void newPausedGameConnection(String nickname, ServerProxy proxy) {
+    private void newPausedGameConnection(String nickname, ServerProxy proxy, MapName mapName) {
 
         System.err.println("" + nickname + " is trying to restart a game --> game id = " + pausedUsernames.get(nickname));
 
         if(this.pgWaitingRoom == null){
-            this.pgWaitingRoom = new PGWaitingRoom(pausedUsernames.get(nickname));
+            this.pgWaitingRoom = new PGWaitingRoom(pausedUsernames.get(nickname), mapName);
         }
 
         if(pgWaitingRoom.getGameId() != pausedUsernames.get(nickname)){

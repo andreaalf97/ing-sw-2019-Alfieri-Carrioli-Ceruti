@@ -48,8 +48,6 @@ public class Game extends Observable {
      */
     private ArrayList<String> playerNames;
 
-    private ArrayList<String> disconnectedPlayerNames;
-
     /**
      * The game map
      */
@@ -98,7 +96,6 @@ public class Game extends Observable {
         this.weaponDeck = JsonDeserializer.deserializeWeaponDeck();
         this.ammoCardDeck = JsonDeserializer.deserializeAmmoCardDeck();
         this.gameId = gameId;
-        this.disconnectedPlayerNames = new ArrayList<>();
 
         this.timer = new Timer();
 
@@ -126,28 +123,6 @@ public class Game extends Observable {
 
     }
 
-    /**
-     * constructor used by JsonDeserializer for persistence
-     * @param playerNames the names of the players
-     * @param players     the player objects
-     * @param weaponDeck  the weaponDeck
-     * @param powerUpDeck the powerUpDeck
-     * @param kst         the killshot track
-     * @param gameMap     the map of the game
-     */
-    public Game(ArrayList<String> playerNames, ArrayList<Player> players, WeaponDeck weaponDeck,
-            PowerUpDeck powerUpDeck, AmmoCardDeck ammoCardDeck, KillShotTrack kst, GameMap gameMap, int gameId, ArrayList<Player> disconnectedPlayers) {
-        this.playerNames = playerNames;
-        this.players = players;
-        this.weaponDeck = weaponDeck;
-        this.powerupDeck = powerUpDeck;
-        this.ammoCardDeck = ammoCardDeck;
-        this.kst = kst;
-        this.gameMap = gameMap;
-        this.gameId = gameId;
-        this.disconnectedPlayers = disconnectedPlayers;
-
-    }
 
     /**
      * persistence game builder
@@ -158,7 +133,7 @@ public class Game extends Observable {
 
         this.players = JsonDeserializer.deserializePlayerObject(jsonRoot.get("players").getAsJsonArray());
 
-        this.playerNames = JsonDeserializer.deserializePlayerNamesObject(jsonRoot.get("playerNames").getAsJsonArray());
+        this.playerNames = new ArrayList<>();
 
         this.weaponDeck = new WeaponDeck(jsonRoot.get("weaponDeck").getAsJsonObject());
 
@@ -173,9 +148,6 @@ public class Game extends Observable {
         this.gameId = jsonRoot.get("gameId").getAsInt();
 
         this.disconnectedPlayers = JsonDeserializer.deserializePlayerObject(jsonRoot.get("disconnectedPlayers").getAsJsonArray());
-
-        this.disconnectedPlayerNames = JsonDeserializer.deserializePlayerNamesObject((jsonRoot.get("disconnectedPlayerNames")).getAsJsonArray());
-
 
         this.timer = new Timer();
 
@@ -1801,17 +1773,12 @@ public class Game extends Observable {
         //saving disconnectedPlayers
         String jsonDisconnectedPlayers = gson.toJson(disconnectedPlayers);
 
-        //saving gameId
-        String jsonGameId = "" + gameId;
-
-        String jsonDisconnectedPlayerNames = gson.toJson(disconnectedPlayerNames);
-
         // create a json that stores all the information of the game in a string with
         // json format
         String modelSnapshot = "{ \"players\":" + jsonPlayers + "," + "\"playerNames\":" + jsonPlayerNames + ","
                 + "\"powerUpDeck\":" + jsonPowerUpDeck + "," + "\"weaponDeck\":" + jsonWeaponDeck + "," + "\"ammoCardDeck\":" + jsonAmmoCardDeck +  "," + "\"kst\":"
                 + jsonKST + "," + "\"gameMap\":" + jsonGameMap + "," +
-                   "\"disconnectedPlayers\":" + jsonDisconnectedPlayers + "," + "\"disconnectedPlayerNames\":" + jsonDisconnectedPlayerNames + "," + "\"gameId\":" + gameId + "}";
+                   "\"disconnectedPlayers\":" + jsonDisconnectedPlayers + "," + "\"gameId\":" + gameId + "}";
 
         return modelSnapshot;
     }
@@ -1935,11 +1902,6 @@ public class Game extends Observable {
 
     /**
      * tells if p1 on spot(x1,y1) can see p2 on (x2,y2)
-     *
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
      * @return true if p1 can see p2
      */
     public boolean p1SeeP2(int x1, int y1, int x2, int y2) {
@@ -1953,7 +1915,11 @@ public class Game extends Observable {
         players.remove(p);
         disconnectedPlayers.add(p);
 
+        playerNames.remove(p.getNickname());
+
         gameMap.removePlayer(nickname);
+
+        notifyObservers(clientSnapshot());
 
     }
 
@@ -1964,14 +1930,18 @@ public class Game extends Observable {
         for (Player p : disconnectedPlayers)
             if (p.getNickname().equals(nickname)) {
                 reconnectedPlayer = p;
-                disconnectedPlayers.remove(p);
                 break;
             }
 
         if (reconnectedPlayer == null)
             throw new RuntimeException("This player was not found in the disconnectedPlayer array");
 
+        disconnectedPlayers.remove(reconnectedPlayer);
+
         players.add(reconnectedPlayer);
+
+        playerNames.add(reconnectedPlayer.getNickname());
+
         reconnectedPlayer.setIsDead(true);
 
     }
@@ -2024,7 +1994,48 @@ public class Game extends Observable {
 
     }
 
-    public void stopTimer() {
-        this.timer.cancel();
+    public void pause() {
+
+        for(Player p : players)
+            disconnectedPlayers.add(p);
+
+        players = new ArrayList<>();
+
+        timer.cancel();
+
+        saveCompleteSnapshot();
+
+    }
+
+    public void restartPersistence(ArrayList<String> reconnectingPlayers) {
+
+        //Moving all connecting players to players array
+        for(Player p : disconnectedPlayers)
+            if(reconnectingPlayers.contains(p.getNickname()))
+                players.add(p);
+
+        //Removing connecting players from disconnected array
+        for(Player p : players)
+            if(disconnectedPlayers.contains(p))
+                disconnectedPlayers.remove(p);
+
+        //Setting the first player as active
+        players.get(0).playerStatus.isActive = true;
+        for(int i = 1; i < players.size(); i++)
+            players.get(i).playerStatus.isActive = false;
+
+        for(Player p : players)
+            playerNames.add(p.getNickname());
+
+    }
+
+    public ArrayList<Player> getDisconnectedPlayers() {
+        return new ArrayList<>(disconnectedPlayers);
+    }
+
+    public int getKSTsize() {
+
+        return kst.getSize();
+
     }
 }
