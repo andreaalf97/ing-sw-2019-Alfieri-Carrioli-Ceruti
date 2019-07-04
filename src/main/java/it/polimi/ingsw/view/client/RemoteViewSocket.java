@@ -76,8 +76,7 @@ public class RemoteViewSocket implements Runnable, RemoteView {
         try {
             out.writeObject(event);
             out.flush();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error while trying writeObject on client side");
             e.printStackTrace();
             userInterface.receiveEvent(new DisconnectedQuestion());

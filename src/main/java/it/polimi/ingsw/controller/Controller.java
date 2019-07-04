@@ -166,7 +166,7 @@ public class Controller implements Observer, AnswerEventHandler {
 
     @Override
     public void receiveEvent(AnswerEvent answerEvent) {
-        answerEvent.acceptEventHandler(this);
+        new Thread( () -> answerEvent.acceptEventHandler(this)).start();
     }
 
     @Override
@@ -194,9 +194,9 @@ public class Controller implements Observer, AnswerEventHandler {
 
             System.out.println("Closing game because " + event.nickname + " disconnected");
 
-            String jsonPath = gameModel.getSnapshotPath();
+            int gameId = gameModel.getGameId();
 
-            GamesHandler.pauseGame(gameModel.getAllPlayers(), jsonPath);
+            GamesHandler.pauseGame(gameModel.getAllPlayers(), gameId);
 
             close();
 
