@@ -54,7 +54,7 @@ public class RemoteViewSocket implements Runnable, RemoteView {
 
                 QuestionEvent event = (QuestionEvent) in.readObject();
 
-                userInterface.receiveEvent(event);
+                new Thread( () -> userInterface.receiveEvent(event)).start();
             }
 
         }
@@ -73,15 +73,16 @@ public class RemoteViewSocket implements Runnable, RemoteView {
      */
     public void sendAnswerEvent(AnswerEvent event){
 
-        try {
-            out.writeObject(event);
-            out.flush();
-        }
-        catch (IOException e){
-            System.err.println("Error while trying writeObject on client side");
-            e.printStackTrace();
-            userInterface.receiveEvent(new DisconnectedQuestion());
-        }
+        new Thread( () -> {
+            try {
+                out.writeObject(event);
+                out.flush();
+            } catch (IOException e) {
+                System.err.println("Error while trying writeObject on client side");
+                e.printStackTrace();
+                userInterface.receiveEvent(new DisconnectedQuestion());
+            }
+        }).start();
 
     }
 }

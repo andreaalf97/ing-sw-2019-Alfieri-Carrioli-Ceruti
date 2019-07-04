@@ -92,15 +92,19 @@ public class ServerProxySocket implements ServerProxy, Runnable {
     @Override
     public void sendQuestionEvent(QuestionEvent questionEvent) {
 
-        try {
-            out.writeObject(questionEvent);
-            out.flush();
-        } catch (IOException e) {
-            System.err.println("Closed connection " + nickname);
-            e.printStackTrace();
-            return;
-            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
-        }
+        new Thread( () -> {
+
+            try {
+                out.writeObject(questionEvent);
+                out.flush();
+            } catch (IOException e) {
+                System.err.println("Closed connection " + nickname);
+                e.printStackTrace();
+                return;
+                //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+            }
+
+        }).start();
 
     }
 
@@ -116,7 +120,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
 
                 AnswerEvent event = (AnswerEvent)in.readObject();
 
-                receiver.receiveAnswer(event);
+                new Thread( () -> receiver.receiveAnswer(event)).start();
 
             }
 
