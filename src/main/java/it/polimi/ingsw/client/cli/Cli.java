@@ -1019,11 +1019,11 @@ public class Cli implements QuestionEventHandler {
 
                 case ANY:
                     if(playerInfo.nRedAmmo > 0)
-                        possibleChoice.add(colorToPay.toString());
+                        possibleChoice.add("RED");
                     if(playerInfo.nBlueAmmo > 0)
-                        possibleChoice.add(colorToPay.toString());
+                        possibleChoice.add("BLUE");
                     if(playerInfo.nYellowAmmo > 0)
-                        possibleChoice.add(colorToPay.toString());
+                        possibleChoice.add("YELLOW");
                     break;
             }
 
@@ -1031,7 +1031,9 @@ public class Cli implements QuestionEventHandler {
 
                 if(powerUpColor.equals(colorToPay) || colorToPay.equals(Color.ANY)){
                     int index = playerInfo.powerUpColors.indexOf(powerUpColor);
-                    possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
+
+                    if(!playerInfo.powerUpNames.get(index).equals("TargetingScope") && colorToPay.equals(Color.ANY))
+                        possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
                 }
 
             }

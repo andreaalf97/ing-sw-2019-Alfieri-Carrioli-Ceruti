@@ -341,8 +341,20 @@ public class Controller implements Observer, AnswerEventHandler {
 
         }
 
-        //se un utente ha deciso di usare il targeting scope deve pagare
+        Player offenderPlayer = gameModel.getPlayerByNickname(event.nickname);
+
+        //se l'utente ha deciso di usare il targeting scope deve pagare un Color.Any
         if(event.defenderToApplyTargeting != null){
+
+            Color targetingScopeColor = null;
+
+            for(PowerUp p : offenderPlayer.getPowerUpList()){
+                if(p.getPowerUpName().equals("TargetingScope")){
+                    targetingScopeColor = p.getColor();
+                }
+            }
+
+            offenderPlayer.removePowerUpByNameAndColor("TargetingScope", targetingScopeColor);
             cost.add(Color.ANY);
         }
 
@@ -864,6 +876,6 @@ public class Controller implements Observer, AnswerEventHandler {
             }
         }
 
-        return true;
+        return false;
     }
 }
