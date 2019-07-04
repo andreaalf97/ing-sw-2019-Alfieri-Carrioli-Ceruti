@@ -23,6 +23,10 @@ public class PlayersInteractingSpace {
     private ChooseHowToPayToSwitchWeaponsQuestion chooseHowToPayToSwitchWeaponsQuestionEvent;
     private ChooseHowToPayForAttackingQuestion chooseHowToPayForAttackingQuestionEvent;
 
+    public ArrayList<String> movers;
+    public ArrayList<Integer> xCoords;
+    public ArrayList<Integer> yCoords;
+
     public GridPane getGridPane() {
         return gridPane;
     }
@@ -207,64 +211,96 @@ public class PlayersInteractingSpace {
         Label label = new Label("Choose how to shoot: ");
         label.setStyle("-fx-font-size: 20; -fx-color: black");
         gridPane.add(label, 0, 0, 10, 1);
-        Label label1 = new Label("Let's start with the order: ");
+        Label label1 = new Label("Choose order: ");
         label1.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label1, 0, 1, 10, 1);
+        gridPane.add(label1, 0, 1, 5, 1);
 
         ArrayList<String> stringOrders = toStringArray(event.possibleOrders);
 
         for ( int i = 0; i < stringOrders.size(); i++){
             Button button = new Button(stringOrders.get(i));
             int index = i;
-            gridPane.add(button, i*4, 2, 3, 1);
+            gridPane.add(button, (i*2)+5, 1, 2, 1);
 
             button.setOnAction(e -> {
                 Integer[] chosenOrder = event.possibleOrders.get(index);
-                setChoseOrder(chosenOrder);
-                gridPane.getChildren().clear();
+                this.chosenOrder = chosenOrder;
+                button.setStyle("-fx-background-color: red");
             });
         }
 
-        //cleaning the board before asking for the defenders
-        gridPane.getChildren().clear();
-
-        Label label2 = new Label("Now the defenders: ");
+        Label label2 = new Label("Choose defenders: ");
         label2.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label2, 0, 0, 10, 1);
+        gridPane.add(label2, 0, 2, 4, 1);
 
-
-        Button button = new Button("STOP");
-        gridPane.add(button, 0, 2, 4, 1);
-        button.setOnAction(actionEvent -> {
-            remoteView.sendAnswerEvent(
-                    new AskOrderAndDefenderAnswer(username, event.chosenWeapon, chosenOrder, defenders)
-            );
-            gridPane.getChildren().clear();
-        });
 
         playersNames.remove(username);
 
         for ( int i = 0; i < playersNames.size(); i++){
             Button playerNameButton = new Button(playersNames.get(i));
             int index = i;
-            gridPane.add(playerNameButton, i*4, 1, 3, 1);
+            gridPane.add(playerNameButton, (i*3)+4, 2, 3, 1);
 
             playerNameButton.setOnAction(e -> {
                 Modal.display(playersNames.get(index)+"added to defenders");
                 defenders.add(playersNames.get(index));
+                playerNameButton.setStyle("-fx-background-color: red");
             });
         }
+
+        Button button = new Button("next");
+        gridPane.add(button, 0, 3, 4, 1);
+        button.setOnAction(actionEvent -> {
+            remoteView.sendAnswerEvent(
+                    new AskOrderAndDefenderAnswer(username, event.chosenWeapon, chosenOrder, defenders)
+            );
+        });
 
         //have to clean defenders and chosen order for the next attack
         defenders.clear();
         chosenOrder = new Integer[0];
 
         gridPane.getChildren().clear();
-
     }
 
-    private void setChoseOrder(Integer[] chosenOrder) {
-        this.chosenOrder = chosenOrder;
+    public void askChooseHowToShootQuestion(ChooseHowToShootQuestion event, String username, RemoteView remoteView, ArrayList<String> playersNames) {
+
+        gridPane.getChildren().clear();
+
+        movers = new ArrayList<>();
+        xCoords = new ArrayList<>();
+        yCoords = new ArrayList<>();
+
+        if (event.shootWithMovement){
+
+            Label label = new Label("Choose movers: ");
+            label.setStyle("-fx-font-size: 20; -fx-color: black");
+            gridPane.add(label, 0, 0, 5, 1);
+
+            Button next = new Button("next");
+            gridPane.add(next, 0, 2, 4, 1);
+
+            for ( int i = 0; i < playersNames.size(); i++){
+                Button playerNameButton = new Button(playersNames.get(i));
+                int index = i;
+                gridPane.add(playerNameButton, i*3, 1, 3, 1);
+
+                playerNameButton.setOnAction(e -> {
+                    Modal.display(playersNames.get(index)+"added to movers", this);
+                    movers.add(playersNames.get(index));
+                    playerNameButton.setStyle("-fx-background-color: red");
+                });
+            }
+
+            next.setOnAction(actionEvent -> {
+                remoteView.sendAnswerEvent(
+                        new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect)
+                );
+            });
+        }else {
+            remoteView.sendAnswerEvent(
+                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect));
+        }
     }
 
     /**
@@ -291,10 +327,6 @@ public class PlayersInteractingSpace {
 
         return returnValue;
 
-    }
-
-    public void askChooseHowToShoot(ChooseHowToShootQuestion event, String username, RemoteView remoteView, ArrayList<String> playersNames) {
-        //TODO
     }
 
     public void askChoosePowerUpToRespawnQuestion(ChoosePowerUpToRespawnQuestion event, String username, RemoteView remoteView) {

@@ -316,7 +316,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToShootQuestion event) {
-        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToShoot(event, username, remoteView, gameInfo.playersNames));
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToShootQuestion(event, username, remoteView, gameInfo.playersNames));
     }
 
     @Override
