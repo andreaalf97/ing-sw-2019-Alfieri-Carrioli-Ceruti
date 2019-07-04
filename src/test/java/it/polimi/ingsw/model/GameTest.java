@@ -29,7 +29,6 @@ public class GameTest {
         gameTest.givePowerUp(ShootingTest.playerGino);
         Assert.assertEquals(1, gameTest.getPlayerByNickname(ShootingTest.playerGino).getPowerUpList().size());
 
-        //todo test when weapondeck is empty
     }
 
     @Test

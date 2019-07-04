@@ -69,13 +69,13 @@ public class MapGrid {
         }
     }
 
-    private static void addPlayersInMap(int row, int column, JsonArray jsonPlayersHere, ArrayList<PlayerColor> playerColors, ArrayList<String> allPlayersNames) {
+    private static void addPlayersInMap(int row, int column, JsonArray jsonPlayersHere, ArrayList<PlayerColor> playerColors, ArrayList<String> allPlayersNames){
 
         if(jsonPlayersHere.size() != 0) {
 
             for (int i = 0; i < jsonPlayersHere.size(); i++) {
                 for (int playerColorIndex = 0; playerColorIndex < allPlayersNames.size(); playerColorIndex++) {
-                    if (jsonPlayersHere.get(i).getAsString().equals(allPlayersNames.get(playerColorIndex))) {
+                    if (jsonPlayersHere.get(i).getAsString().equals(allPlayersNames.get(playerColorIndex))){
                         addPlayerInMap(row, column, playerColors.get(playerColorIndex), i);
                     }
                 }

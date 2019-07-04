@@ -251,11 +251,16 @@ public class Game extends Observable {
 
     // ##########################################################################################################
 
-    // TODO DO THIS
     /**
      * This method sets up all player for the final frenzy turn
      */
     public void setupForFrenzy() {
+
+        for(Player p : players){
+            p.playerStatus.nActionsDone = 0;
+            p.playerStatus.isFirstTurn = false;
+            p.playerStatus.isFrenzyTurn = true;
+        }
 
         ArrayList<String> fromKillerOn = new ArrayList<>();
         ArrayList<String> fromStartPlayerOn = new ArrayList<>();
@@ -263,19 +268,36 @@ public class Game extends Observable {
         ArrayList<String> skullList = kst.getSkullList();
 
         String killer = skullList.get(skullList.size() - 1);
+        String firstPlayer = playerNames.get(0);
 
-        fromKillerOn.add(killer);
 
-        String nextPlayer = getNextPlayer(killer);
-        while (!(players.get(0).equals(nextPlayer))) {
-            fromKillerOn.add(nextPlayer);
-            nextPlayer = getNextPlayer(nextPlayer);
+
+        if(firstPlayer.equals(killer)){
+            fromStartPlayerOn.add(firstPlayer);
+
+            String nextPlayer = getNextPlayer(firstPlayer);
+
+            while(!nextPlayer.equals(firstPlayer)){
+                fromStartPlayerOn.add(nextPlayer);
+                nextPlayer = getNextPlayer(fromStartPlayerOn.get(fromStartPlayerOn.size() - 1));
+            }
+        }else{
+            fromStartPlayerOn.add(firstPlayer);
+
+            String nextPlayer = getNextPlayer(firstPlayer);
+
+            while(!nextPlayer.equals(killer)){
+                fromStartPlayerOn.add(nextPlayer);
+                nextPlayer = getNextPlayer(fromStartPlayerOn.get(fromStartPlayerOn.size() - 1));
+            }
+
+            while(!nextPlayer.equals(firstPlayer)){
+                fromKillerOn.add(nextPlayer);
+                nextPlayer = getNextPlayer(fromKillerOn.get(fromKillerOn.size() - 1));
+            }
+
         }
 
-        while (!(fromStartPlayerOn.equals(killer))) {
-            fromStartPlayerOn.add(nextPlayer);
-            nextPlayer = getNextPlayer(nextPlayer);
-        }
 
         for (String i : fromKillerOn) {
 
@@ -284,8 +306,7 @@ public class Game extends Observable {
             p.setNMovesBeforeGrabbing(2);
             p.setCanReloadBeforeShooting(true);
             p.setNMovesBeforeShooting(1);
-            p.getPlayerStatus().nActionsDone = 0;
-
+            p.playerStatus.nActionsDone = 0;
         }
 
         for (String i : fromStartPlayerOn) {
@@ -295,7 +316,7 @@ public class Game extends Observable {
             p.setNMovesBeforeGrabbing(3);
             p.setCanReloadBeforeShooting(true);
             p.setNMovesBeforeShooting(2);
-            p.getPlayerStatus().nActionsDone = 1;
+            p.playerStatus.nActionsDone = 1;
         }
 
     }
@@ -347,8 +368,14 @@ public class Game extends Observable {
 
         for (Player i : players) {
             if (!i.playerStatus.isFirstTurn && i.isDead()) {
+                gameMap.removePlayer(i.getNickname());
                 giveBoardPointsAndModifyKST(i);
             }
+        }
+
+        //if kst is full it means that i have to start frenzy turn!!!
+        if(!kst.getSkullList().contains("SKULL") && !players.get(0).playerStatus.isFrenzyTurn){
+            setupForFrenzy();
         }
     }
 
@@ -1645,7 +1672,7 @@ public class Game extends Observable {
      *
      * @return the current player
      */
-    private Player getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         for (Player i : players) {
             if (i.isCurrentPlayer())
                 return i;
@@ -2039,5 +2066,11 @@ public class Game extends Observable {
 
     public void stopTimer() {
         this.timer.cancel();
+    }
+
+    public boolean kstIsFull() {
+        if(!kst.getSkullList().contains("SKULL"))
+            return true;
+        return false;
     }
 }

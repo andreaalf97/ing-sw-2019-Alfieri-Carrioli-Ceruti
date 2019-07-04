@@ -602,6 +602,7 @@ public class Player {
 
         if(damages.size() > 5)
             nMovesBeforeShooting = 1;
+
         playerStatus.isActive = true;
     }
 
@@ -850,5 +851,9 @@ public class Player {
                 }
             }
         }
+    }
+
+    public boolean canreloadBeforeShooting(){
+        return this.canReloadBeforeShooting;
     }
 }

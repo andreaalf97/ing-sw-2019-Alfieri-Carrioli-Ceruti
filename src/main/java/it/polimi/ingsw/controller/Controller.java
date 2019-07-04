@@ -43,6 +43,10 @@ public class Controller implements Observer, AnswerEventHandler {
      */
     public VirtualView virtualView;
 
+    public String lastPlayer;
+
+    public boolean isFrenzyTurn;
+
     /**
      * Constructor
      * @param gameModel
@@ -51,6 +55,8 @@ public class Controller implements Observer, AnswerEventHandler {
     public Controller(Game gameModel, VirtualView virtualView){
         this.gameModel = gameModel;
         this.virtualView = virtualView;
+        this.isFrenzyTurn = false;
+        this.lastPlayer = "";
     }
 
     /**
@@ -68,6 +74,21 @@ public class Controller implements Observer, AnswerEventHandler {
         gameModel.refillAllAmmoSpots();
 
         gameModel.refillAllSpawnSpots();
+
+        if(gameModel.kstIsFull() && !isFrenzyTurn){
+
+            isFrenzyTurn = true;
+
+            lastPlayer = gameModel.getCurrentPlayer().getNickname();
+
+            virtualView.sendAllQuestionEvent(
+                    new TextMessage("***********************FRENZY TURN IS STARTED*************************")
+            );
+        }
+
+        if(isFrenzyTurn && gameModel.getCurrentPlayer().getNickname().equals(lastPlayer)){
+            //TODO CALCOLA ULTIMI PUNTI AND STOP THIS SHIT
+        }
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(nextPlayer.getNickname());
         sendQuestionEvent(nextPlayer.getNickname(), new ActionQuestion(possibleActions));
@@ -260,6 +281,8 @@ public class Controller implements Observer, AnswerEventHandler {
         Weapon weaponToUse = player.getWeaponByName(event.chosenWeapon);
 
         boolean shootWithMovement = false;
+
+        shootWithMovement = checkFreeEffectOfMoving(weaponToUse);
 
         //uso una copia di defenders così potrò eliminare quello che voglio
         ArrayList<String> defendersTemp = new ArrayList<>(event.defenders);
@@ -864,7 +887,15 @@ public class Controller implements Observer, AnswerEventHandler {
 
     @Override
     public void handleEvent(RefreshPossibleActionsAfterReloadingAnswer event){
-        List<String> possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+        List<String> possibleActions;
+
+        if(player.canreloadBeforeShooting()) {
+            possibleActions = gameModel.generatePossibleActions(event.nickname);
+        }else {
+            possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
+        }
+
         sendQuestionEvent(event.nickname , new ActionQuestion(possibleActions));
     }
 
@@ -875,6 +906,14 @@ public class Controller implements Observer, AnswerEventHandler {
                 return true;
             }
         }
+
+        return false;
+    }
+
+    private boolean checkFreeEffectOfMoving(Weapon weaponToCheck){
+        for(Effect effect: weaponToCheck.getEffects())
+            if(effect.getnMoves() != 0)
+                return true;
 
         return false;
     }

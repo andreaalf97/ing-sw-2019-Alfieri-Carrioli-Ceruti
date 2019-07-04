@@ -23,7 +23,7 @@ public class PlayerGrid {
 
     private static int horizontalRightColumn = 32;
 
-    private static int horizontalSeparator = 30;
+    private static int horizontalSeparator = 31;
 
 
 
@@ -36,9 +36,9 @@ public class PlayerGrid {
     public static void fillPlayerGrid(JsonObject lastSnapshot, String username, ArrayList<PlayerColor> playerColors, ArrayList<String> playerNames){
         PlayerColor myColor = CompleteGrid.getColorOfPlayer(username, playerColors, playerNames);
 
-        playerGrid[0][0] = myColor.escape() + CompleteGrid.playerSymbol + Color.RESET;
-        playerGrid[0][1] = ":";
-        playerGrid[0][2] = myColor.escape() + username + Color.RESET;
+        playerGrid[2][0] = myColor.escape() + CompleteGrid.playerSymbol + Color.RESET;
+        playerGrid[2][1] = ":";
+        playerGrid[2][2] = myColor.escape() + username + Color.RESET;
 
         JsonArray jsonPlayers = lastSnapshot.get("players").getAsJsonArray();
         JsonObject jsonPlayer = getThisPlayer(jsonPlayers, username);

@@ -79,7 +79,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
         this.timer = new Timer();
 
-        this.timer.scheduleAtFixedRate(new TimerTask() {
+      this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
 

@@ -133,9 +133,15 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         jsonSnapshots.put(nextId, "");
 
-        //Creates a new Game
-        Game game = new Game(waitingRoom.players, votedMap, votedSkulls, nextId);
 
+        Game game;
+        //Creates a new Game
+        if(!waitingRoom.players.contains("oneSkullGame")) {
+            game = new Game(waitingRoom.players, votedMap, votedSkulls, nextId);
+        }
+        else{
+            game = new Game(waitingRoom.players, votedMap, 1, nextId);
+        }
 
         //Creates a new virtual view
         VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.serverProxies);
@@ -160,7 +166,12 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         waitingRooms.remove(waitingRoom);
 
         //Starting the game
-        controller.startGame(votedMap, votedSkulls);
+        if(!waitingRoom.players.contains("oneSkullGame")) {
+            controller.startGame(votedMap, votedSkulls);
+        }
+        else{
+            controller.startGame(votedMap, 1);
+        }
 
     }
 

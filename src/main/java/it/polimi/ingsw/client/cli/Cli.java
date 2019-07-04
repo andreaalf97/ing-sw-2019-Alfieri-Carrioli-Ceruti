@@ -398,6 +398,9 @@ public class Cli implements QuestionEventHandler {
             CompleteGrid.fillMapWithPlayers(lastSnapshotReceived, playerColors, allPlayers, username);
 
             CompleteGrid.printMap();
+            System.out.println();
+            System.out.println();
+
         }
 
     }
@@ -409,6 +412,9 @@ public class Cli implements QuestionEventHandler {
             PlayerGrid.clearGrid();
             PlayerGrid.fillPlayerGrid(lastSnapshotReceived, username, playerColors, allPlayers);
             PlayerGrid.printMap();
+
+            System.out.println();
+            System.out.println();
         }
 
     }
@@ -483,7 +489,7 @@ public class Cli implements QuestionEventHandler {
 
 
         //Scheduling the timer to send a Ping message every 2 seconds
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+       new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 //System.err.println("Sending PING");
@@ -684,8 +690,6 @@ public class Cli implements QuestionEventHandler {
 
             default:
                 throw new RuntimeException("No such action --> " + stringAnswer);
-
-
         }
 
     }
@@ -911,9 +915,15 @@ public class Cli implements QuestionEventHandler {
 
             }
 
-            remoteView.sendAnswerEvent(
-                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect, event.defenderChosen)
-            );
+            if(movers.isEmpty()){
+                remoteView.sendAnswerEvent(
+                        new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect, event.defenderChosen)
+                );
+            }else {
+                remoteView.sendAnswerEvent(
+                        new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect, event.defenderChosen)
+                );
+            }
         }
         else{
             remoteView.sendAnswerEvent(
@@ -1032,8 +1042,9 @@ public class Cli implements QuestionEventHandler {
                 if(powerUpColor.equals(colorToPay) || colorToPay.equals(Color.ANY)){
                     int index = playerInfo.powerUpColors.indexOf(powerUpColor);
 
-                    if(!playerInfo.powerUpNames.get(index).equals("TargetingScope") && colorToPay.equals(Color.ANY))
+                    if(!playerInfo.powerUpNames.get(index).equals("TargetingScope") && colorToPay.equals(Color.ANY)) {
                         possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
+                    }
                 }
 
             }
