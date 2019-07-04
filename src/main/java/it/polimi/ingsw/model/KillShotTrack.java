@@ -184,4 +184,8 @@ public class KillShotTrack {
 
         return (!this.skullList.contains("SKULL")); //If the skullList contains at least one skull
     }
+
+    public int getSize() {
+        return this.skullList.size();
+    }
 }

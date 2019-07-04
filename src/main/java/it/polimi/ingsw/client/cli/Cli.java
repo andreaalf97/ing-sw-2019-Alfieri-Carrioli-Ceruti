@@ -483,13 +483,13 @@ public class Cli implements QuestionEventHandler {
 
 
         //Scheduling the timer to send a Ping message every 2 seconds
-        /*new Timer().scheduleAtFixedRate(new TimerTask() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 //System.err.println("Sending PING");
                 remoteView.sendAnswerEvent(new Ping(username));
             }
-        }, 0, 2000);*/
+        }, 0, 2000);
 
 
 
@@ -518,7 +518,30 @@ public class Cli implements QuestionEventHandler {
         this.playerColors = event.playerColors;
         this.currentMap = event.mapName;
         this.currentSkulls = event.votedSkulls;
-        this.playerColors = event.playerColors;
+
+
+        buildCliMapRepresentation(currentMap);
+    }
+
+    @Override
+    public void handleEvent(GameRestartedQuestion event) {
+
+        //Scheduling the timer to send a Ping message every 2 seconds
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                //System.err.println("Sending PING");
+                remoteView.sendAnswerEvent(new Ping(username));
+            }
+        }, 0, 2000);
+
+
+        System.out.println("THE GAME HAS RESTARTED");
+
+        this.allPlayers = event.playerNames;
+        this.playerColors = event.colors;
+        this.currentMap = event.mapName;
+        this.currentSkulls = event.kstSkulls;
 
 
         buildCliMapRepresentation(currentMap);
@@ -1017,11 +1040,11 @@ public class Cli implements QuestionEventHandler {
 
                 case ANY:
                     if(playerInfo.nRedAmmo > 0)
-                        possibleChoice.add(colorToPay.toString());
+                        possibleChoice.add("RED");
                     if(playerInfo.nBlueAmmo > 0)
-                        possibleChoice.add(colorToPay.toString());
+                        possibleChoice.add("BLUE");
                     if(playerInfo.nYellowAmmo > 0)
-                        possibleChoice.add(colorToPay.toString());
+                        possibleChoice.add("YELLOW");
                     break;
             }
 
@@ -1029,7 +1052,9 @@ public class Cli implements QuestionEventHandler {
 
                 if(powerUpColor.equals(colorToPay) || colorToPay.equals(Color.ANY)){
                     int index = playerInfo.powerUpColors.indexOf(powerUpColor);
-                    possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
+
+                    if(!playerInfo.powerUpNames.get(index).equals("TargetingScope") && colorToPay.equals(Color.ANY))
+                        possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
                 }
 
             }

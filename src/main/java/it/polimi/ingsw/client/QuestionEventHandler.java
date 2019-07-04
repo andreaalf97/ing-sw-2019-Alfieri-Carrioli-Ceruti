@@ -40,4 +40,6 @@ public interface QuestionEventHandler {
     void handleEvent(ActionAfterReloadingQuestion event);
 
     void handleEvent(ChooseIfUseATargetingScopeQuestion event);
+
+    void handleEvent(GameRestartedQuestion event);
 }

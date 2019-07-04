@@ -208,7 +208,7 @@ public class Player {
 
     //SETS AND GETS
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    protected void setIsDead(boolean isDead){ this.isDead = isDead; }
+    public void setIsDead(boolean isDead){ this.isDead = isDead; }
     protected void setDamages(ArrayList<String> damages){ this.damages = damages; }
     public ArrayList<String> getDamages(){ return this.damages; }
     protected void setMarks(ArrayList<String> marks){ this.marks = marks; }
@@ -318,7 +318,7 @@ public class Player {
      * @param player The offender's nickname
      * @param nDamages The amount of damages
      */
-    public synchronized void giveDamage(String player,int nDamages){
+    public void giveDamage(String player,int nDamages){
         for(int j = 0; j < nDamages; j++){
             if (damages.size() < 12)
                  damages.add(player);
@@ -359,7 +359,7 @@ public class Player {
      * @param player the offender
      * @param nMarks the amount of marks
      */
-    public synchronized void giveMarks(String player,int nMarks) throws RuntimeException {
+    public void giveMarks(String player,int nMarks) throws RuntimeException {
         /*assign marks to this player*/
         if(nMarks <= 0 || nMarks > 12) {
             throw new RuntimeException("i can only be > 0 && < 12");
@@ -786,6 +786,9 @@ public class Player {
     }
 
     public void removePowerUpByNameAndColor(String chosenPowerUpToPay, Color color) {
+        if(color == null){
+            throw new RuntimeException("this color can't be null----Player.java row 790");
+        }
 
         for(PowerUp p : powerUpList){
             if(p.getColor() == color && p.getPowerUpName().equals(chosenPowerUpToPay)){
@@ -833,11 +836,19 @@ public class Player {
      * @param offendername the name to bring down
      */
     public void transformMarksInDamages(String offendername) {
-        for(String offenderMark : marks){
-            if(offenderMark.equals(offendername)){
-                giveDamage(nickname, 1);
+
+        while(marks.contains(offendername)) {
+
+            for (Iterator<String> iterator = marks.iterator(); iterator.hasNext(); ) {
+
+                String occurence = iterator.next();
+
+                if (occurence.equals(offendername)) {
+                    giveDamage(offendername, 1);
+
+                    iterator.remove();
+                }
             }
-            marks.remove(offenderMark);
         }
     }
 }

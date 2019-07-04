@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.server.ServerProxy;
 
 import java.util.ArrayList;
@@ -25,15 +26,22 @@ public class PGWaitingRoom {
     private ArrayList<ServerProxy> proxies;
 
     /**
+     * The map to play on
+     */
+    private MapName votedMap;
+
+    /**
      * Constructor
      */
-    public PGWaitingRoom(int gameId){
+    public PGWaitingRoom(int gameId, MapName votedMap){
 
         this.gameId = gameId;
 
         this.reconnectingPlayers = new ArrayList<>();
 
         this.proxies = new ArrayList<>();
+
+        this.votedMap = votedMap;
 
     }
 
@@ -54,7 +62,7 @@ public class PGWaitingRoom {
 
         if(reconnectingPlayers.size() > 2){
 
-            GamesHandler.reloadGame(gameId, this.reconnectingPlayers, this.proxies);
+            GamesHandler.reloadGame(gameId, this.reconnectingPlayers, this.proxies, this.votedMap);
 
         }
     }
