@@ -39,10 +39,6 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
      */
     private static Map<Integer, ServerProxy> temporaryProxies;
 
-    /**
-     * This hashmap contains all the usernames that belong to a paused game
-     */
-    private static Map<String, String> pausedUsernames;
 
     /**
      * The waiting room for players who are trying to restart a game
@@ -50,11 +46,14 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
     private static PGWaitingRoom pgWaitingRoom;
 
     /**
-     * The id we are giving to every game
+     * This hashmap contains all the usernames that belong to a paused game
      */
-    private static int nextId;
+    private static Map<String, Integer> pausedUsernames;
 
-    private static final String JSONfolder = "/JSONsnapshots";
+    /**
+     * This contains all the paused game snapshots
+     */
+    private static Map<Integer, String> jsonSnapshots;
 
 
     GamesHandler() {
@@ -64,21 +63,20 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         this.temporaryProxies = new HashMap<>();
         this.pausedUsernames = new HashMap<>();
         this.pgWaitingRoom = null;
-        this.nextId = 0;
 
-        File dir = new File(getClass().getResource(JSONfolder).getPath());
-
-        for(File file: dir.listFiles())
-            if (!file.isDirectory())
-                file.delete();
-
-
+        this.jsonSnapshots = new HashMap<>();
 
     }
 
-    public static void reloadGame(String jsonPath, ArrayList<String> reconnectingPlayers, ArrayList<ServerProxy> proxies) {
+    public static void reloadGame(int gameId, ArrayList<String> reconnectingPlayers, ArrayList<ServerProxy> proxies) {
 
-        Game game = new Game(jsonPath);
+        for(String nickname : reconnectingPlayers)
+            pausedUsernames.remove(nickname);
+
+        //TODO andreaalf
+        //TODO add to nicknameControllers the others
+
+        Game game = new Game(jsonSnapshots.get(gameId));
 
         VirtualView virtualView = new VirtualView(reconnectingPlayers, proxies);
 
@@ -102,11 +100,11 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     }
 
-    public static void pauseGame(ArrayList<String> nicknames, String jsonPath) {
+    public static void pauseGame(ArrayList<String> nicknames, int gameId) {
 
         for(String i : nicknames) {
             nicknamesControllers.remove(i);
-            pausedUsernames.put(i, jsonPath);
+            pausedUsernames.put(i, gameId);
         }
 
     }
@@ -128,9 +126,16 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         MapName votedMap = waitingRoom.getVotedMap();
         int votedSkulls = waitingRoom.getVotedSkulls();
 
+        int i = 0;
+        while(jsonSnapshots.containsKey(i))
+            i++;
+        int nextId = i;
+
+        jsonSnapshots.put(nextId, "");
+
         //Creates a new Game
         Game game = new Game(waitingRoom.players, votedMap, votedSkulls, nextId);
-        nextId++;
+
 
         //Creates a new virtual view
         VirtualView virtualView = new VirtualView(waitingRoom.players, waitingRoom.serverProxies);
@@ -181,6 +186,15 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
         }
 
         waitingRooms.remove(waitingRoom);
+
+    }
+
+    public static void updateSnapshot(int modelId, String snapshot ){
+
+        if( ! jsonSnapshots.containsKey(modelId))
+            throw new RuntimeException("The jsonSnapshot does not contain this ID");
+
+        jsonSnapshots.replace(modelId, snapshot);
 
     }
 
@@ -240,7 +254,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
         if(pausedUsernames.containsKey(nickname)){
 
-            newPausedGameConnection(nickname, pausedUsernames.get(nickname), proxy);
+            newPausedGameConnection(nickname, proxy);
             return;
 
         }
@@ -257,20 +271,21 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     }
 
-    private void newPausedGameConnection(String nickname, String jsonPath, ServerProxy proxy) {
+    private void newPausedGameConnection(String nickname, ServerProxy proxy) {
 
-        System.err.println("" + nickname + " is trying to restart a game --> " + jsonPath);
+        System.err.println("" + nickname + " is trying to restart a game --> game id = " + pausedUsernames.get(nickname));
 
         if(this.pgWaitingRoom == null){
-            this.pgWaitingRoom = new PGWaitingRoom(jsonPath);
+            this.pgWaitingRoom = new PGWaitingRoom(pausedUsernames.get(nickname));
         }
 
-        boolean added = pgWaitingRoom.addPlayer(nickname, jsonPath, proxy);
-
-        if(!added){
+        if(pgWaitingRoom.getGameId() != pausedUsernames.get(nickname)){
             proxy.sendQuestionEvent(new TextMessage("Other players are trying to reload their game, try again later"));
+            proxy.sendQuestionEvent(new DisconnectedQuestion());
             return;
         }
+
+        pgWaitingRoom.addPlayer(nickname, proxy);
 
     }
 
