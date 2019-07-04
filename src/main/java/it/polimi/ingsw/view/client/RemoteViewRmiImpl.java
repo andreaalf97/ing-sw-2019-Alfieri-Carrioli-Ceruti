@@ -41,6 +41,7 @@ public class RemoteViewRmiImpl extends UnicastRemoteObject implements RemoteView
                 server.receiveAnswerEvent(event);
             } catch (RemoteException e) {
                 System.err.println("Error while sending answer to the server");
+                e.printStackTrace();
                 clientUserInterface.receiveEvent(new DisconnectedQuestion());
             }
 

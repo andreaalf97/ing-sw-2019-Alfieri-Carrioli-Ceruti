@@ -285,7 +285,10 @@ public class Controller implements Observer, AnswerEventHandler {
                     break;
 
             }
+
         }
+
+
 
         sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.nickname, event.chosenWeapon, event.order, shootWithMovement, i + 1, event.defenders));
     }

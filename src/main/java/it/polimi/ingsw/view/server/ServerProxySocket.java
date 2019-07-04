@@ -97,6 +97,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
             out.flush();
         } catch (IOException e) {
             System.err.println("Closed connection " + nickname);
+            e.printStackTrace();
             return;
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
@@ -122,6 +123,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
         }
         catch (Exception e){
             System.err.println("Closed connection " + nickname);
+            e.printStackTrace();
             return;
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
