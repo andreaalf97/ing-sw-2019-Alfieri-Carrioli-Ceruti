@@ -318,7 +318,7 @@ public class Player {
      * @param player The offender's nickname
      * @param nDamages The amount of damages
      */
-    public void giveDamage(String player,int nDamages){
+    public synchronized void giveDamage(String player,int nDamages){
         for(int j = 0; j < nDamages; j++){
             if (damages.size() < 12)
                  damages.add(player);
@@ -359,7 +359,7 @@ public class Player {
      * @param player the offender
      * @param nMarks the amount of marks
      */
-    public void giveMarks(String player,int nMarks) throws RuntimeException {
+    public synchronized void giveMarks(String player,int nMarks) throws RuntimeException {
         /*assign marks to this player*/
         if(nMarks <= 0 || nMarks > 12) {
             throw new RuntimeException("i can only be > 0 && < 12");
@@ -724,7 +724,7 @@ public class Player {
         return ((playerRed >= 0) && (playerBlue >= 0) && (playerYellow >= 0));
 
     }
-
+    //TODO CONTROL ANY OPTION, MA SE LA INSERISCO COME ULTIMA COSA DA PAGARE SONO SICURO CHE QUELLA MERDA DEL CLIENT LA PAGA
     public boolean canPayWithString(ArrayList<String> cost){
 
         if(cost.isEmpty())

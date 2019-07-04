@@ -285,12 +285,21 @@ public class Controller implements Observer, AnswerEventHandler {
                     break;
 
             }
-
         }
 
+        boolean playerHasTargetingScope = checkIfPlayerHasTargetingScope(player);
 
+        //se il giocatore ha un mirino devo chiedergli se vuole usarlo su qualche defender
+        if(playerHasTargetingScope){
+            sendQuestionEvent(event.nickname, new ChooseIfUseATargetingScopeQuestion(event.nickname, event.chosenWeapon, event.order, shootWithMovement, i + 1, event.defenders));
+        }
+        else {
+            sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.nickname, event.chosenWeapon, event.order, shootWithMovement, i + 1, event.defenders, null));
+        }
+    }
 
-        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.nickname, event.chosenWeapon, event.order, shootWithMovement, i + 1, event.defenders));
+    public void handleEvent(ChooseIfUseATargetingScopeAnswer event){
+        sendQuestionEvent(event.nickname, new ChooseHowToShootQuestion(event.nickname, event.chosenWeapon, event.order, event.shootWithMovement, event.indexOfLastEffect, event.defenders, event.defenderToApplyTargetingScope));
     }
 
     /**
@@ -332,6 +341,11 @@ public class Controller implements Observer, AnswerEventHandler {
 
         }
 
+        //se un utente ha deciso di usare il targeting scope deve pagare
+        if(event.defenderToApplyTargeting != null){
+            cost.add(Color.ANY);
+        }
+
         //Se c'è un costo da pagare, devo chiedere all'utente come vuole pagarlo
         sendQuestionEvent(event.nickname, new ChooseHowToPayForAttackingQuestion(event, cost));
 
@@ -349,9 +363,9 @@ public class Controller implements Observer, AnswerEventHandler {
             boolean playerHasFinallyShoot = false;
 
             if (event.chooseHowToShootAnswer.movers != null) {
-                playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers);
+                playerHasFinallyShoot = gameModel.shootWithMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.xCoords, event.chooseHowToShootAnswer.yCoords, event.chooseHowToShootAnswer.movers, event.chooseHowToShootAnswer.defenderToApplyTargeting);
             } else {
-                playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder);
+                playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.defenderToApplyTargeting);
             }
 
             if (playerHasFinallyShoot) {
@@ -840,5 +854,16 @@ public class Controller implements Observer, AnswerEventHandler {
     public void handleEvent(RefreshPossibleActionsAfterReloadingAnswer event){
         List<String> possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
         sendQuestionEvent(event.nickname , new ActionQuestion(possibleActions));
+    }
+
+    private boolean checkIfPlayerHasTargetingScope(Player player){
+
+        for(PowerUp p: player.getPowerUpList()){
+            if(p.getPowerUpName().equals("TargetingScope")){
+                return true;
+            }
+        }
+
+        return true;
     }
 }

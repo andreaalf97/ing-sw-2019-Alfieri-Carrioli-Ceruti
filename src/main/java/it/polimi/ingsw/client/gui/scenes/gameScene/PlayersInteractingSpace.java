@@ -294,12 +294,12 @@ public class PlayersInteractingSpace {
 
             next.setOnAction(actionEvent -> {
                 remoteView.sendAnswerEvent(
-                        new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect)
+                        new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, movers, xCoords, yCoords, event.indexOfLastEffect, "" )
                 );
             });
         }else {
             remoteView.sendAnswerEvent(
-                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect));
+                    new ChooseHowToShootAnswer(username, event.order, event.chosenWeapon, event.defenders, null, null, null, event.indexOfLastEffect, ""));
         }
     }
 
