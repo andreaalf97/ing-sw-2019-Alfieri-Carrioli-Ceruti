@@ -91,7 +91,7 @@ public class OtherPlayersPlancias {
             rowPercentages.add(3.0000);
 
             setGrid(gridPanes.get(i), colPercentages, rowPercentages);
-            gridPanes.get(i).setGridLinesVisible(true);
+            gridPanes.get(i).setGridLinesVisible(false);
             //gridPanes.get(i).getStyleClass().add("visibleBorder");
 
 
@@ -129,6 +129,13 @@ public class OtherPlayersPlancias {
                 this.otherPlayersInfos.add(otherPlayerInfo);
         }
 
+        //cleaning all the plancias Gridpanes
+        gridPanes = new ArrayList<>();
+        damagesGridPanes = new ArrayList<>();
+        marksGridPanes = new ArrayList<>();
+        ammoGridPanes = new ArrayList<>();
+        skullGridPanes = new ArrayList<>();
+
         for( int i = 0; i < playersNames.size(); i++) {
             setUpPlancia(i);
         }
@@ -137,37 +144,10 @@ public class OtherPlayersPlancias {
 
     private void setUpPlancia(int indexOfPlayer) {
 
-        if (damagesGridPanes.size() > indexOfPlayer) {
-            if (damagesGridPanes.get(indexOfPlayer) != null){
-                gridPanes.get(indexOfPlayer).getChildren().remove(damagesGridPanes.get(indexOfPlayer));
-                damagesGridPanes.remove(damagesGridPanes.get(indexOfPlayer));
-                setUpDamages(indexOfPlayer);
-            }
-        }
-        if (marksGridPanes.size() > indexOfPlayer) {
-            if (marksGridPanes.get(indexOfPlayer) != null) {
-                gridPanes.get(indexOfPlayer).getChildren().remove(marksGridPanes.get(indexOfPlayer));
-                marksGridPanes.remove(marksGridPanes.get(indexOfPlayer));
-                setUpMarks(indexOfPlayer);
-            }
-
-        }
-        if (ammoGridPanes.size() > indexOfPlayer) {
-            if (ammoGridPanes.get(indexOfPlayer) != null) {
-                gridPanes.get(indexOfPlayer).getChildren().remove(ammoGridPanes.get(indexOfPlayer));
-                ammoGridPanes.remove(ammoGridPanes.get(indexOfPlayer));
-                setUpAmmos(indexOfPlayer);
-            }
-        }
-        if (skullGridPanes.size() > indexOfPlayer) {
-            if (skullGridPanes.get(indexOfPlayer) != null) {
-                gridPanes.get(indexOfPlayer).getChildren().remove(skullGridPanes.get(indexOfPlayer));
-                skullGridPanes.remove(skullGridPanes.get(indexOfPlayer));
-                setUpSkulls(indexOfPlayer);
-            }
-        }
-
-
+        setUpDamages(indexOfPlayer);
+        setUpMarks(indexOfPlayer);
+        setUpAmmos(indexOfPlayer);
+        setUpSkulls(indexOfPlayer);
 
     }
 
@@ -192,7 +172,7 @@ public class OtherPlayersPlancias {
         rowPercentages.add(100.000);
 
         setGrid(skullGridPanes.get(indexOfPlayer), colPercentages, rowPercentages);
-        skullGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
+        skullGridPanes.get(indexOfPlayer).setGridLinesVisible(false);
         gridPanes.get(indexOfPlayer).add(skullGridPanes.get(indexOfPlayer), 3, 4, 8, 1);
 
         for (int i = 0; i < otherPlayersInfos.get(indexOfPlayer).nDeaths; i++){
@@ -244,7 +224,7 @@ public class OtherPlayersPlancias {
         rowPercentages.add(100.000);
 
         setGrid(damagesGridPanes.get(indexOfPlayer), colPercentages, rowPercentages);
-        damagesGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
+        damagesGridPanes.get(indexOfPlayer).setGridLinesVisible(false);
         gridPanes.get(indexOfPlayer).add(damagesGridPanes.get(indexOfPlayer), 1, 2, 12, 1);
 
         for (int i = 0; i < otherPlayersInfos.get(indexOfPlayer).damages.size(); i++){
@@ -298,7 +278,7 @@ public class OtherPlayersPlancias {
         rowPercentages.add(100.000);
 
         setGrid(marksGridPanes.get(indexOfPlayer), colPercentages, rowPercentages);
-        marksGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
+        marksGridPanes.get(indexOfPlayer).setGridLinesVisible(false);
         gridPanes.get(indexOfPlayer).add(marksGridPanes.get(indexOfPlayer), 1, 0, 12, 1);
 
         for (int i = 0; i < otherPlayersInfos.get(indexOfPlayer).marks.size(); i++){
@@ -347,7 +327,7 @@ public class OtherPlayersPlancias {
 
 
         setGrid(ammoGridPanes.get(indexOfPlayer), colPercentages, rowPercentages);
-        ammoGridPanes.get(indexOfPlayer).setGridLinesVisible(true);
+        ammoGridPanes.get(indexOfPlayer).setGridLinesVisible(false);
         gridPanes.get(indexOfPlayer).add(ammoGridPanes.get(indexOfPlayer), 14, 1, 1, 3);
 
         for ( int i = 0; i < otherPlayersInfos.get(indexOfPlayer).getnYellowAmmo(); i++){

@@ -24,12 +24,12 @@ public class Modal {
         window.setMinHeight(200);
 
         Label label = new Label(message);
-        label.setStyle("-fx-font: 20px 'Stencil', 'Impact', monospace; -fx-text-fill: #E94B2B");
+        label.setStyle("-fx-text-fill: #E94B2B");
 
         VBox vBox = new VBox(10);
 
         Button button = new Button("OK");
-        button.setStyle("-fx-font: 'Stencil', 'Impact', monospace; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        button.setStyle("-fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
         button.setMaxSize(40, 30);
 
         button.setOnAction(e -> window.close());
@@ -77,7 +77,7 @@ public class Modal {
             window.close();
         });
 
-        okButton.setStyle("-fx-font: 'Stencil', 'Impact', monospace; -fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        okButton.setStyle("-fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
         okButton.setMaxSize(40, 30);
 
         vBox.setStyle("-fx-background-color: #200500");

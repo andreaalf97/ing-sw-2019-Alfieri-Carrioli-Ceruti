@@ -220,16 +220,18 @@ public class GameScene extends ClickHandler implements MyScene {
         if (playersInteractingSpace != null)
             playersInteractingSpace.setBoardGrid(this.boardGrid);
 
+        //Updating my cards and power ups
+        cardBox.update(this.gameInfo.playerInfo);
+
         //Updating BoardGrid
         boardGrid.update(this.gameInfo);
 
         //Updating my Plancia
         myPlancia.update(this.gameInfo.playerInfo);
 
+        //Updating other player's plancias
         otherPlayersPlancias.update(gameInfo, username, playerColors, playerNames);
 
-        //Updating my cards and power ups
-        cardBox.update(this.gameInfo.playerInfo);
 
     }
 

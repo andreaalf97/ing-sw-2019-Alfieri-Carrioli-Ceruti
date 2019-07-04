@@ -247,13 +247,13 @@ public class Gui extends Application implements QuestionEventHandler {
         waitingRoomGui.close();
 
         //Scheduling the timer to send a Ping message every 2 seconds
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        /*new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 //System.err.println("Sending PING");
                 remoteView.sendAnswerEvent(new Ping(username));
             }
-        }, 0, 2000);
+        }, 0, 2000);*/
 
         //This constructor creates the starting scene
         MyScene next = new GameScene(window, username, event, gameInfo);
@@ -346,7 +346,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseIfToUseAsyncPowerUpQuestion event) {
-
     }
 
     @Override
@@ -382,7 +381,6 @@ public class Gui extends Application implements QuestionEventHandler {
 
             System.err.println("Model Update Received");
 
-
             this.lastSnapshotReceived = JsonDeserializer.stringToJsonObject(event.json);
             this.playerInfo = new PlayerInfo(username, lastSnapshotReceived);
             this.gameInfo = JsonDeserializer.deserializedSnapshot(this.lastSnapshotReceived, username);
@@ -390,7 +388,6 @@ public class Gui extends Application implements QuestionEventHandler {
             if (gameScene != null) {
                 gameScene.setGameInfo(this.gameInfo);
                 gameScene.update();
-                //gameScene.update();
             }
         });
     }
@@ -424,6 +421,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseIfUseATargetingScopeQuestion event){
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseIfUseATargetingScopeQuestion(event, remoteView, gameInfo.playersNames));
 
     }
 }

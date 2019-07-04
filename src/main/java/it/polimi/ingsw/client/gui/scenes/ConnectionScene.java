@@ -58,6 +58,7 @@ public class ConnectionScene implements MyScene {
         connectionLayout.setPadding( new Insets(30));
 
         Label connectionLabel = new Label("Choose the type of connection:");
+        connectionLabel.setStyle("-fx-font-size: 15;");
         connectionLabel.getStyleClass().add("labelWithBackground");
         connectionLabel.setAlignment(Pos.TOP_CENTER);
 
@@ -72,6 +73,8 @@ public class ConnectionScene implements MyScene {
         connectionLayout.getChildren().addAll(connectionLabel, HboxConnections);
 
         this.scene = new Scene(connectionLayout, 750, 500);
+        scene.getStylesheets().add(getClass().getResource(Gui.loginCssPath).toExternalForm());
+
 
         /*
         new Timer().schedule(new TimerTask() {

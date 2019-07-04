@@ -65,7 +65,7 @@ public class MyPlancia {
         rowPercentages.add(3.0000);
 
         setGrid(planciaGridPane, colPercentages, rowPercentages);
-        planciaGridPane.setGridLinesVisible(true);
+        planciaGridPane.setGridLinesVisible(false);
         //planciaGridPane.getStyleClass().add("visibleBorder");
 
 
@@ -134,7 +134,7 @@ public class MyPlancia {
         rowPercentages.add(100.000);
 
         setGrid(skullGridPane, colPercentages, rowPercentages);
-        skullGridPane.setGridLinesVisible(true);
+        skullGridPane.setGridLinesVisible(false);
         planciaGridPane.add(skullGridPane, 3, 4, 8, 1);
 
         for (int i = 0; i < playerInfo.nDeaths; i++) {
@@ -184,7 +184,7 @@ public class MyPlancia {
         rowPercentages.add(100.000);
 
         setGrid(damagesGridPane, colPercentages, rowPercentages);
-        damagesGridPane.setGridLinesVisible(true);
+        damagesGridPane.setGridLinesVisible(false);
         planciaGridPane.add(damagesGridPane, 1, 2, 12, 1);
 
         for (int i = 0; i < playerInfo.damages.size(); i++){
@@ -236,7 +236,7 @@ public class MyPlancia {
         rowPercentages.add(100.000);
 
         setGrid(marksGridPane, colPercentages, rowPercentages);
-        marksGridPane.setGridLinesVisible(true);
+        marksGridPane.setGridLinesVisible(false);
         planciaGridPane.add(marksGridPane, 1, 0, 12, 1);
 
 
@@ -284,7 +284,7 @@ public class MyPlancia {
 
 
         setGrid(ammoGridPane, colPercentages, rowPercentages);
-        ammoGridPane.setGridLinesVisible(true);
+        ammoGridPane.setGridLinesVisible(false);
         planciaGridPane.add(ammoGridPane, 14, 1, 1, 3);
 
         for ( int i = 0; i < playerInfo.nYellowAmmo; i++){

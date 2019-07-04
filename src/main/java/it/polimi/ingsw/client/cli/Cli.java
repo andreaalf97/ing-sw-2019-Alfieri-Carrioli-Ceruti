@@ -483,13 +483,13 @@ public class Cli implements QuestionEventHandler {
 
 
         //Scheduling the timer to send a Ping message every 2 seconds
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        /*new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 //System.err.println("Sending PING");
                 remoteView.sendAnswerEvent(new Ping(username));
             }
-        }, 0, 2000);
+        }, 0, 2000);*/
 
 
 
@@ -615,7 +615,6 @@ public class Cli implements QuestionEventHandler {
         }
 
         int answer = Integer.parseInt(nextLine);
-
 
 
         while (answer < 0 || answer >= event.possibleAction.size()) {
@@ -782,7 +781,6 @@ public class Cli implements QuestionEventHandler {
     public void handleEvent(ChooseIfUseATargetingScopeQuestion event){
 
         String defenderChosen;
-
 
         System.out.println("Do you want to use your targeting scope against someone?:");
 

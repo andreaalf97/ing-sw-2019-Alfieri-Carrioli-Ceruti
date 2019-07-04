@@ -116,7 +116,7 @@ public class CardBox {
         rowPercentages.add(47.000);
 
         setGrid(gridPane, colPercentages, rowPercentages);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
 
         gridPane.getStyleClass().add("visibleBorder");
 

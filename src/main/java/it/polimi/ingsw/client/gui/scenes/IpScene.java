@@ -11,9 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.util.regex.Pattern;
@@ -29,8 +26,6 @@ public class IpScene implements MyScene {
     private int votedSkulls;
 
     private final String validIpAddress = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-
-
 
     public IpScene(Gui gui, Stage window, String username, MapName votedMap, int votedSkulls) {
 
@@ -71,8 +66,6 @@ public class IpScene implements MyScene {
 
         this.scene = new Scene(port_and_IP_Layout, 750, 500);
         scene.getStylesheets().add(getClass().getResource(Gui.loginCssPath).toExternalForm());
-
-
 
         nextButton.setOnAction(actionEvent -> {
 
