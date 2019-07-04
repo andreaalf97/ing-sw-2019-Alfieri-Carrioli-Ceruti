@@ -60,6 +60,7 @@ public class RemoteViewSocket implements Runnable, RemoteView {
         }
         catch (IOException | ClassNotFoundException e){
             System.err.println("Error while receiving new Question object through SOCKET");
+            e.printStackTrace();
             userInterface.receiveEvent(new DisconnectedQuestion());
         }
 
@@ -78,6 +79,7 @@ public class RemoteViewSocket implements Runnable, RemoteView {
         }
         catch (IOException e){
             System.err.println("Error while trying writeObject on client side");
+            e.printStackTrace();
             userInterface.receiveEvent(new DisconnectedQuestion());
         }
 

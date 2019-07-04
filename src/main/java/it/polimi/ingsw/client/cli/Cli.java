@@ -490,7 +490,7 @@ public class Cli implements QuestionEventHandler {
                 remoteView.sendAnswerEvent(new Ping(username));
             }
         }, 0, 2000);
-        
+
 
 
 
@@ -577,6 +577,7 @@ public class Cli implements QuestionEventHandler {
             case "Reload":
                 remoteView.sendAnswerEvent(new ActionReloadAnswer(username));
                 break;
+
             case "EndTurn":
                 remoteView.sendAnswerEvent(new ActionEndTurnAnswer(username));
                 break;
