@@ -183,6 +183,7 @@ public class PlayersInteractingSpace {
     }
 
     public void chooseWeaponToAttack(ChooseWeaponToAttackQuestion event, String username, RemoteView remoteView) {
+
         //Clean the gridpane
         gridPane.getChildren().clear();
 

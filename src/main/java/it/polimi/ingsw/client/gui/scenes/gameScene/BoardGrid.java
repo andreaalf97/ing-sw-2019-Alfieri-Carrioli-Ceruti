@@ -4,19 +4,12 @@ package it.polimi.ingsw.client.gui.scenes.gameScene;
 import it.polimi.ingsw.client.GameInfo;
 import it.polimi.ingsw.client.PlayerColor;
 import it.polimi.ingsw.client.gui.ImageDisplay;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.Weapon;
 import it.polimi.ingsw.model.map.AmmoSpot;
-import it.polimi.ingsw.model.map.GameMap;
 import it.polimi.ingsw.model.map.Spot;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.control.Button;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -51,6 +44,11 @@ public class BoardGrid {
     public GameInfo gameInfo;
 
     private Spot[][] gameMap;
+
+    private ArrayList<Button> topWeaponButtons;
+    private ArrayList<Button> rightWeaponButtons;
+    private ArrayList<Button> leftWeaponButtons;
+
 
     //players and ammocards for every spot has to be put inside this Vbox (one for each spot)
     private ArrayList<GridPane> stuffInEverySpot;
@@ -248,6 +246,7 @@ public class BoardGrid {
 
     private GridPane setUpTopSpawnWeaponBox(Spot spot) {
 
+        topWeaponButtons = new ArrayList<>();
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(0, 0, 0, 10));
 
@@ -269,11 +268,17 @@ public class BoardGrid {
         }*/
 
         for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
+
+            Button button = new Button();
+            topWeaponButtons.add(button);
+            topWeaponButtons.get(i).setStyle("-fx-background-color: transparent");
+
             Image image = new Image(
                     "/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png",
                     0, 0,
                     true, false
             );
+            topWeaponButtons.get(i).setOnAction(e -> ImageDisplay.display(image));
 
             BackgroundImage backgroundImage = new BackgroundImage(
                     image,
@@ -287,6 +292,9 @@ public class BoardGrid {
             pane.setPadding(new Insets(0, 0, 0, 10));
             pane.setBackground(new Background(backgroundImage));
             gridPane.add(pane, i, 0);
+            gridPane.add(topWeaponButtons.get(i), i,0);
+            topWeaponButtons.get(i).setMinWidth(70);
+            topWeaponButtons.get(i).setMinHeight(100);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
@@ -298,6 +306,8 @@ public class BoardGrid {
     }
 
     private GridPane setUpLeftSpawnWeaponBox(Spot spot) {
+
+        leftWeaponButtons = new ArrayList<>();
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(5));
@@ -320,12 +330,17 @@ public class BoardGrid {
         }*/
 
         for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
+
+            Button button = new Button();
+            leftWeaponButtons.add(button);
+            leftWeaponButtons.get(i).setStyle("-fx-background-color: transparent");
+
             Image image = new Image(
                     "/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png",
                     0, 0,
                     true, false
             );
-
+            leftWeaponButtons.get(i).setOnAction(e -> ImageDisplay.display(image));
             BackgroundImage backgroundImage = new BackgroundImage(
                     image,
                     BackgroundRepeat.NO_REPEAT,
@@ -337,6 +352,9 @@ public class BoardGrid {
             Pane pane = new Pane();
             pane.setBackground(new Background(backgroundImage));
             gridPane.add(pane, 0, i);
+            gridPane.add(leftWeaponButtons.get(i), 0,i);
+            leftWeaponButtons.get(i).setMinWidth(60);
+            leftWeaponButtons.get(i).setMinHeight(60);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
@@ -348,6 +366,8 @@ public class BoardGrid {
     }
 
     private GridPane setUpRightSpawnWeaponBox(Spot spot) {
+
+        rightWeaponButtons = new ArrayList<>();
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(5));
@@ -370,12 +390,15 @@ public class BoardGrid {
         }*/
 
         for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
+            Button button = new Button();
+            rightWeaponButtons.add(button);
+            rightWeaponButtons.get(i).setStyle("-fx-background-color: transparent");
             Image image = new Image(
                     "/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png",
                     0, 0,
                     true, false
             );
-
+            rightWeaponButtons.get(i).setOnAction(e -> ImageDisplay.display(image));
             BackgroundImage backgroundImage = new BackgroundImage(
                     image,
                     BackgroundRepeat.NO_REPEAT,
@@ -387,6 +410,9 @@ public class BoardGrid {
             Pane pane = new Pane();
             pane.setBackground(new Background(backgroundImage));
             gridPane.add(pane, 0, i);
+            gridPane.add(rightWeaponButtons.get(i), 0,i);
+            rightWeaponButtons.get(i).setMinWidth(60);
+            rightWeaponButtons.get(i).setMinHeight(60);
         }
 
         setGrid(gridPane, colPercentages, rowPercentages);
