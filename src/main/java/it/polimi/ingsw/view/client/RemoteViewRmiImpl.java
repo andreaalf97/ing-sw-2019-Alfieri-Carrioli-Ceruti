@@ -28,24 +28,21 @@ public class RemoteViewRmiImpl extends UnicastRemoteObject implements RemoteView
     @Override
     public void receiveQuestionEvent(QuestionEvent questionEvent) throws RemoteException {
 
-        new Thread( () -> clientUserInterface.receiveEvent(questionEvent)).start();
+        clientUserInterface.receiveEvent(questionEvent);
 
     }
 
     @Override
     public void sendAnswerEvent(AnswerEvent event) {
 
-        new Thread( () -> {
+        try {
+            server.receiveAnswerEvent(event);
+        } catch (RemoteException e) {
+            System.err.println("Error while sending answer to the server");
+            e.printStackTrace();
+            clientUserInterface.receiveEvent(new DisconnectedQuestion());
+        }
 
-            try {
-                server.receiveAnswerEvent(event);
-            } catch (RemoteException e) {
-                System.err.println("Error while sending answer to the server");
-                e.printStackTrace();
-                clientUserInterface.receiveEvent(new DisconnectedQuestion());
-            }
-
-        }).start();
 
     }
 }

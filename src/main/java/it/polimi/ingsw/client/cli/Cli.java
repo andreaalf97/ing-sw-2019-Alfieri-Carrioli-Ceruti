@@ -1334,11 +1334,7 @@ public class Cli implements QuestionEventHandler {
     @Override
     public void receiveEvent(QuestionEvent questionEvent) {
 
-        clearScreen();
-
-        questionEvent.acceptEventHandler(this);
-
-        System.out.println();
+        new Thread( () -> questionEvent.acceptEventHandler(this)).start();
 
     }
 }

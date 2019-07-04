@@ -205,7 +205,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     @Override
     public void receiveEvent(AnswerEvent answerEvent) {
-        answerEvent.acceptEventHandler(this);
+        new Thread( () -> answerEvent.acceptEventHandler(this)).start();
     }
 
     @Override
