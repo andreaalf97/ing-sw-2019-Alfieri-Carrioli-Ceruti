@@ -151,9 +151,8 @@ public class Cli implements QuestionEventHandler {
 
         //reads the chose map
         String nextLine = sysin.nextLine();
-        int votedMapNumber = Integer.parseInt(nextLine);
 
-        while (votedMapNumber < 0 || votedMapNumber > 3){
+        while ( ! validateNumericInput(0, 3, nextLine)){
             System.out.println("Select a number between 0 and 3");
             System.out.println("Choose Map:");
             System.out.println("0 -- FIRE");
@@ -162,8 +161,9 @@ public class Cli implements QuestionEventHandler {
             System.out.println("3 -- WATER");
 
             nextLine = sysin.nextLine();
-            votedMapNumber = Integer.parseInt(nextLine);
         }
+
+        int votedMapNumber = Integer.parseInt(nextLine);
 
         //Retrieves the enum from the index value
         MapName votedMap = MapName.values()[votedMapNumber];
@@ -172,15 +172,15 @@ public class Cli implements QuestionEventHandler {
 
         //Reads the vote for the skulls
         nextLine = sysin.nextLine();
-        int nSkulls = Integer.parseInt(nextLine);
 
-        while (nSkulls < 5 || nSkulls > 8){
+        while ( ! validateNumericInput(5, 8, nextLine)){
             System.out.println("Select a number between 5 and 8");
             System.out.println("Choose the amount of skulls you want to play with: (5 to 8)");
 
             nextLine = sysin.nextLine();
-            nSkulls = Integer.parseInt(nextLine);
         }
+
+        int nSkulls = Integer.parseInt(nextLine);
 
         System.out.println("Choose network type:");
         System.out.println("0 -- Socket");
@@ -188,16 +188,16 @@ public class Cli implements QuestionEventHandler {
 
         //reads if the player wants to use rmi or socket
         nextLine = sysin.nextLine();
-        int chosenIndex = Integer.parseInt(nextLine);
 
-        while (chosenIndex != 0 && chosenIndex != 1){
+        while ( ! validateNumericInput(0, 1, nextLine)){
             System.out.println("Choose network type:");
             System.out.println("0 -- Socket");
             System.out.println("1 -- RMI");
 
             nextLine = sysin.nextLine();
-            chosenIndex = Integer.parseInt(nextLine);
         }
+
+        int chosenIndex = Integer.parseInt(nextLine);
 
         System.out.println("Insert remote IP address");
 
@@ -319,7 +319,7 @@ public class Cli implements QuestionEventHandler {
 
         String nextLine = sysin.nextLine();
 
-        while (!Pattern.matches(validEventInput, nextLine)){
+        while ( ! validateNumericInput(0, possibleAnswers.size() - 1, nextLine)){
             System.out.println("Wrong format");
             nextLine = sysin.nextLine();
         }
@@ -333,7 +333,7 @@ public class Cli implements QuestionEventHandler {
                      System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
 
                  nextLine = sysin.nextLine();
-                 while (!Pattern.matches(validEventInput, nextLine)){
+                 while ( ! validateNumericInput(0, possibleAnswers.size() - 1, nextLine)){
                      System.out.println("Wrong format");
                      nextLine = sysin.nextLine();
                  }
@@ -575,7 +575,7 @@ public class Cli implements QuestionEventHandler {
 
         String nextLine = sysin.nextLine();
 
-        while (!Pattern.matches(validEventInput, nextLine)){
+        while ( ! validateNumericInput(0, event.possibleAction.size() - 1, nextLine)){
             System.out.println("Wrong format");
             nextLine = sysin.nextLine();
         }
@@ -655,7 +655,7 @@ public class Cli implements QuestionEventHandler {
 
             nextLine = sysin.nextLine();
 
-            while (!Pattern.matches(validEventInput, nextLine)){
+            while ( ! validateNumericInput(0, event.possibleAction.size() - 1, nextLine)){
                 System.out.println("Wrong format");
                 nextLine = sysin.nextLine();
             }
@@ -1431,6 +1431,21 @@ public class Cli implements QuestionEventHandler {
            System.out.println("Better luck next time :)");
        }
     }
+
+    private boolean validateNumericInput(int minValue, int maxValue, String input){
+
+        if (!Pattern.matches(validEventInput, input))
+            return false;
+
+        int answer = Integer.parseInt(input);
+
+        if(answer < minValue || answer > maxValue)
+            return false;
+
+        return true;
+
+    }
+
 
 }
 
