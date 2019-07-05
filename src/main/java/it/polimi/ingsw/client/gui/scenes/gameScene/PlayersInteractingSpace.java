@@ -735,7 +735,7 @@ public class PlayersInteractingSpace {
 
             String payForWhat = "HowToPayToReloadBeforeAttack";
             handlePayment(event.cost, playerInfo, payForWhat, remoteView, username);
-        }else {
+        }else{
             remoteView.sendAnswerEvent(new ChooseHowToPayToReloadBeforeAttackAnswer(username, event.weaponToReload, paymentChosen, event.weaponsLoaded));
         }
     }
@@ -934,19 +934,7 @@ public class PlayersInteractingSpace {
         noButton.setOnAction(actionEvent -> {
             noButton.setStyle("-fx-background-color: red");
 
-            Label label1 = new Label("Choose weapon:");
-            label1.setStyle("-fx-font-size: 15; -fx-color: black");
-            gridPane.add(label1, 0, 1, 6, 1);
-
-            for ( int i = 0; i < event.weaponsLoaded.size(); i++){
-                int index = i;
-                Button weaponButton = new Button(event.weaponsLoaded.get(i));
-                gridPane.add(weaponButton, i*4, 2, 4, 1);
-
-                weaponButton.setOnAction(actionEvent1 -> {
-                    remoteView.sendAnswerEvent(new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(index)));
-                });
-            }
+            remoteView.sendAnswerEvent( new SendCanReloadBeforeShootingAnswer(username,null, event.weaponsLoaded));
         });
     }
 
@@ -974,20 +962,7 @@ public class PlayersInteractingSpace {
         });
 
         noButton.setOnAction(actionEvent -> {
-
-            Label label1 = new Label("Choose weapon:");
-            label1.setStyle("-fx-font-size: 15; -fx-color: black");
-            gridPane.add(label1, 0, 2, 6, 1);
-
-            for ( int i = 0; i < event.weaponsLoaded.size(); i++){
-                int index = i;
-                Button weaponButton = new Button(event.weaponsLoaded.get(i));
-                gridPane.add(weaponButton, i*4, 3, 4, 1);
-
-                weaponButton.setOnAction(actionEvent1 -> {
-                    remoteView.sendAnswerEvent(new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(index)));
-                });
-            }
+            remoteView.sendAnswerEvent(new SendCanMoveBeforeShootingAnswer(username, -1, -1, event.weaponsLoaded));
         });
     }
 }
