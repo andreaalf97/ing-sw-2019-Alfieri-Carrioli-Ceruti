@@ -93,7 +93,7 @@ public class CardBox {
             powerUpButtons.get(j).setMinHeight(60);
             j++;
         }
-        gridPane.getStyleClass().add("purpleLines");
+        //gridPane.getStyleClass().add("purpleLines");
 
     }
 
@@ -118,7 +118,7 @@ public class CardBox {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(false);
 
-        gridPane.getStyleClass().add("visibleBorder");
+        //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
     }

@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public enum PlayerColor {
 
     YELLOW ("/graphics/plance/yellow/Yellow_front.png", "\u001B[33m"),
-    GREEN ("/graphics/plance/green/Green_front.png", "\u001b[32m"),
-    GREY ("/graphics/plance/grey/Grey_front.png", "\u001b[37;1m"),
+    PURPLE ("/graphics/plance/purple/Purple_front.png", "\u001b[35m"),
     BLUE ("/graphics/plance/blue/Blue_front.png", "\u001B[34m"),
-    PURPLE ("/graphics/plance/purple/Purple_front.png", "\u001b[35m");
+    GREEN ("/graphics/plance/green/Green_front.png", "\u001b[32m"),
+    GREY ("/graphics/plance/grey/Grey_front.png", "\u001b[37;1m");
+
+
 
     private String path;
 

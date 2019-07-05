@@ -228,7 +228,7 @@ public class BoardGrid {
                 }
             }
         }
-        gridPane.getStyleClass().add("visibleBorder");
+        //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
     }
@@ -280,7 +280,7 @@ public class BoardGrid {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(true);
 
-        gridPane.getStyleClass().add("visibleBorder");
+        //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
     }
@@ -331,7 +331,7 @@ public class BoardGrid {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(false);
 
-        gridPane.getStyleClass().add("visibleBorder");
+        //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
     }
@@ -380,7 +380,7 @@ public class BoardGrid {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(false);
 
-        gridPane.getStyleClass().add("visibleBorder");
+        //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
     }
@@ -550,7 +550,7 @@ public class BoardGrid {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(false);
 
-        gridPane.getStyleClass().add("visibleBorder");
+        //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
 
@@ -592,7 +592,7 @@ public class BoardGrid {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(false);
 
-        gridPane.getStyleClass().add("yellowLines");
+        //gridPane.getStyleClass().add("yellowLines");
 
         BackgroundImage mapBackgroundImage= new BackgroundImage(
                 new Image(mapPath, 0, 0, true, false) ,
