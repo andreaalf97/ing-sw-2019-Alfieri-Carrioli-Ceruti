@@ -54,9 +54,9 @@ public class JsonDeserializer {
 
     public static GameMap deserializeGameMap(String snapshot){
 
-        JsonObject jsonRoot = myJsonParser.parse(snapshot).getAsJsonObject();
+        JsonObject jsonGameMap= myJsonParser.parse(snapshot).getAsJsonObject();
 
-        GameMap gameMap = new GameMap(jsonRoot.get("gameMap").getAsJsonObject());
+        GameMap gameMap = new GameMap(jsonGameMap);
 
         return gameMap;
     }
@@ -310,8 +310,6 @@ public class JsonDeserializer {
     public static String[][] deserializeCliMap(MapName votedMap){
         String [][] cliMap = new String[MapGrid.maxVerticalMapLength][MapGrid.maxHorizLength];
 
-        //TODO TEST DESERIALIZATION
-
         JsonArray chosenMap = myJsonParser.parse(new BufferedReader(new InputStreamReader(JsonDeserializer.class.getResourceAsStream("/cliMaps.json")))).getAsJsonObject().get(votedMap.toString()).getAsJsonArray();
 
         for(int r = 0; r < MapGrid.maxVerticalMapLength; r++){
@@ -361,5 +359,4 @@ public class JsonDeserializer {
 
         return powerUpTest;
     }
-
 }
