@@ -799,10 +799,36 @@ public class Player {
                 playerBlue--;
             else if (c == Color.YELLOW)
                 playerYellow--;
+            else if(c == Color.ANY)
+                removeMaxAmmo(playerRed, playerBlue, playerYellow);
         }
 
         return ((playerRed >= 0) && (playerBlue >= 0) && (playerYellow >= 0));
 
+    }
+
+    private void removeMaxAmmo(int playerRed, int playerBlue, int playerYellow) {
+       ArrayList<Integer> findMax = new ArrayList<>();
+       findMax.add(playerBlue);
+       findMax.add(playerRed);
+       findMax.add(playerYellow);
+
+       int max = Collections.max(findMax);
+
+       if(max == playerBlue) {
+           playerBlue--;
+           return;
+       }
+
+       if(max == playerRed){
+           playerRed--;
+           return;
+       }
+
+       if(max == playerYellow){
+           playerYellow--;
+           return;
+       }
     }
 
 
