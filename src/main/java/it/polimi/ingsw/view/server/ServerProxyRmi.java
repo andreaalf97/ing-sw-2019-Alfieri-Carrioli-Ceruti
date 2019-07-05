@@ -40,6 +40,7 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
         }
         catch (RemoteException e){
             System.out.println("RMI exception: disconnecting " + nickname);
+            e.printStackTrace();
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname, false));
             return;
         }

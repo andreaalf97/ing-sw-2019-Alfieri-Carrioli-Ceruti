@@ -113,6 +113,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
             out.flush();
         } catch (IOException e) {
             System.err.println("SOCKET exception: disconnecting " + nickname);
+            e.printStackTrace();
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname, false));
         }
 
@@ -137,6 +138,7 @@ public class ServerProxySocket implements ServerProxy, Runnable {
         }
         catch (Exception e){
             System.err.println("SOCKET exception: disconnecting " + nickname);
+            e.printStackTrace();
             //receiver.receiveAnswer(new DisconnectedAnswer(nickname, false));
         }
 
