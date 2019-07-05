@@ -24,8 +24,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -153,14 +151,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     public static Image loadImage(String fileName) {
 
-        try {
-            return new Image(new FileInputStream(fileName));
-        }
-        catch (FileNotFoundException e){
-            System.err.println("File not found");
-            e.printStackTrace();
-            return null;
-        }
+        return new Image(Gui.class.getResourceAsStream(fileName));
 
     }
 
@@ -232,11 +223,12 @@ public class Gui extends Application implements QuestionEventHandler {
         System.out.println("RECEIVED DisconnectedQuestion EVENT");
 
 
-        waitingRoomGui.close();
+        if (waitingRoomGui != null)
+            waitingRoomGui.close();
 
         window.close();
 
-        Modal.display("YOU HAVE BEEN DISCONECTED");
+        Modal.displayAndExit("YOU HAVE BEEN DISCONECTED");
 
     }
 
@@ -293,7 +285,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
         System.err.println("RECEIVED GameRestartedQuestion EVENT");
 
-        waitingRoomGui.close();
+        //waitingRoomGui.close();
 
         //Scheduling the timer to send a Ping message every 2 seconds
         new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -331,7 +323,6 @@ public class Gui extends Application implements QuestionEventHandler {
         else {
             window.setResizable(false);
         }
-
 
         window.setScene(nextScene);
 
@@ -372,7 +363,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToPayForAttackingQuestion event) {
-        gameScene.playersInteractingSpace.askChooseHowToPayForAttackingQuestion(event, remoteView, playerInfo);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToPayForAttackingQuestion(event, remoteView, playerInfo));
     }
 
     @Override
@@ -402,7 +393,6 @@ public class Gui extends Application implements QuestionEventHandler {
     @Override
     public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
         Platform.runLater( () -> gameScene.playersInteractingSpace.askChoosePowerUpToRespawnQuestion(event, username, remoteView));
-
     }
 
     @Override
@@ -461,6 +451,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ActionAfterReloadingQuestion event){
+        Platform.runLater( () -> gameScene.playersInteractingSpace.actionAfterReloadingQuestion(event, username, remoteView));
     }
 
     @Override

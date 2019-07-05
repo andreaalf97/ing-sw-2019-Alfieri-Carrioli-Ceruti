@@ -46,7 +46,7 @@ public class Modal {
 
     }
 
-    //this is called to ask coordinates for the movers, during a attack
+    //this is called to ask coordinates for the movers, during an attack
     public static void display(String message, PlayersInteractingSpace playersInteractingSpace){
 
         Stage window = new Stage();
@@ -54,15 +54,14 @@ public class Modal {
         window.setMinWidth(300);
         window.setMinHeight(200);
         Label label = new Label(message);
-        label.setStyle("-fx-font: 20px 'Stencil', 'Impact', monospace; -fx-text-fill: #E94B2B");
+        label.setStyle("-fx-text-fill: orange; -fx-font-size: 15");
 
         VBox vBox = new VBox(10);
         vBox.setSpacing(10);
 
-        Label coordsLabel = new Label("insert the coordinates in this format: x,y");
+        Label coordsLabel = new Label("Insert the coordinates in this format: x,y");
         TextField coordsTextField = new TextField();
         Button okButton = new Button("OK");
-
 
         vBox.getChildren().add(coordsLabel);
         vBox.getChildren().add(coordsTextField);
@@ -88,4 +87,39 @@ public class Modal {
         window.showAndWait();
     }
 
+    public static void displayAndExit(String you_have_been_disconected) {
+
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+
+        //window.initStyle(StageStyle.UNDECORATED);
+
+        window.setMinWidth(300);
+        window.setMinHeight(200);
+
+        Label label = new Label(you_have_been_disconected);
+        label.setStyle("-fx-text-fill: #E94B2B");
+
+        VBox vBox = new VBox(10);
+
+        Button button = new Button("OK");
+        button.setStyle("-fx-background-color: #E94B2B; -fx-text-fill: linear-gradient(from 25% 25% to 100% 100%, #300900, #7F1600);");
+        button.setMaxSize(40, 30);
+
+        button.setOnAction(actionEvent -> {
+            window.close();
+            System.exit(0);
+        });
+
+        vBox.setStyle("-fx-background-color: #200500");
+
+        vBox.getChildren().addAll(label, button);
+
+        vBox.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(vBox);
+        window.setScene(scene);
+        window.showAndWait();
+    }
 }

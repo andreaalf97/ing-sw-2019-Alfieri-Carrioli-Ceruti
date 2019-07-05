@@ -40,7 +40,7 @@ public class StartScene implements MyScene {
 
 
         //background image
-        Image backgroundImage = Gui.loadImage(getClass().getResource(Gui.loginBackgroundImagePath).getPath());
+        Image backgroundImage = Gui.loadImage(Gui.loginBackgroundImagePath);
 
         //Setting up the image as background
         Background Background = new Background(

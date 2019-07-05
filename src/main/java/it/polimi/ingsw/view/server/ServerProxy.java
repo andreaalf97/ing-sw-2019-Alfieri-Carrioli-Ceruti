@@ -10,4 +10,6 @@ public interface ServerProxy {
 
     void setReceiver(AnswerEventReceiver receiver);
 
+    void close();
+
 }

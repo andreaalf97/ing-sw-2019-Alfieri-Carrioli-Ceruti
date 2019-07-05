@@ -8,10 +8,8 @@ import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.DisconnectedAnswer;
 import it.polimi.ingsw.events.serverToClient.ModelUpdate;
-import it.polimi.ingsw.model.cards.Weapon;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,7 +40,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
     /**
      * Used for ping
      */
-    boolean[] stillConnected;
+    ArrayList<Boolean> stillConnected;
 
     /**
      * last snapshot received from model for every player
@@ -54,7 +52,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
      */
     ArrayList<ServerProxy> serverProxies;
 
-    final String CLIENTSNAPSHOTSPLITTER = "PORCODUE";
+    final String CLIENTSNAPSHOTSPLITTER = "SNAPSPLITT";
 
     private Timer timer;
 
@@ -64,39 +62,63 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
      */
     public VirtualView(ArrayList<String> playersNicknames, ArrayList<ServerProxy> serverProxies){
 
-        this.playersNicknames = playersNicknames;
+        this.playersNicknames = new ArrayList<>(playersNicknames);
         this.lastClientSnapshot = new String[2];
         this.serverProxies = serverProxies;
 
         this.lock = new Object();
 
-        this.stillConnected = new boolean[playersNicknames.size()];
-        for(int i = 0; i < stillConnected.length; i++)
-            stillConnected[i] = true;
+        this.stillConnected = new ArrayList<>();
+        for(String p : playersNicknames)
+            stillConnected.add(true);
 
         lastClientSnapshot[0] = "";
         lastClientSnapshot[1] = "";
 
         this.timer = new Timer();
 
-      this.timer.scheduleAtFixedRate(new TimerTask() {
+        this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-
-                synchronized (lock) {
-                    for (int i = 0; i < stillConnected.length; i++) {
-                        if (!stillConnected[i]) {
-                            notifyObservers(new DisconnectedAnswer(playersNicknames.get(i)));
-                            this.cancel();
-                            return;
-                        }
-
-                        stillConnected[i] = false;
-                    }
-                }
+                timerMethod();
             }
         }, 0, 5000);
 
+    }
+
+    private void timerMethod(){
+
+        synchronized (lock) {
+
+            for (int i = 0; i < stillConnected.size(); i++) {
+
+                if (!stillConnected.get(i)) {
+
+                    String disconnectingNickname = playersNicknames.get(i);
+
+                    System.out.println(disconnectingNickname + " DID NOT PING");
+
+                    System.out.println("TIMER is disconnecing " + disconnectingNickname);
+
+
+                    //Removes the player's proxy from the list
+                    serverProxies.get(i).close();
+                    serverProxies.remove(i);
+
+                    stillConnected.remove(i);
+
+
+                    //Removes this player from the nickname list
+                    playersNicknames.remove(i);
+
+                    notifyObservers(new DisconnectedAnswer(disconnectingNickname, true));
+
+                    return;
+                }
+
+                stillConnected.set(i, false);
+            }
+        }
     }
 
     /**
@@ -274,37 +296,13 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
     }
 
-    /**
-     * Disconnects the given player by deleting all of his attributes
-     * @param nickname the name of the player
-     */
-    public void disconnectPlayer(String nickname) {
-
-        //Finds the index of this player
-        int index = playersNicknames.indexOf(nickname);
-
-        //Removes this player from the nickname list
-        playersNicknames.remove(index);
-
-        //Removes the player's proxy from the list
-        //TODO andreaalf close proxy
-        serverProxies.remove(index);
-
-    }
-
     public void reconnectPlayer(String nickname, ServerProxy proxy) {
 
         playersNicknames.add(nickname);
 
         serverProxies.add(proxy);
 
-        boolean[] newStillConnected = new boolean[stillConnected.length + 1];
-        for(int i = 0; i < newStillConnected.length; i++)
-            newStillConnected[i] = true;
-
-        synchronized (lock){
-            this.stillConnected = newStillConnected;
-        }
+        stillConnected.add(true);
 
     }
 
@@ -312,18 +310,16 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
         synchronized (lock) {
             int index = playersNicknames.indexOf(nickname);
-
-            stillConnected[index] = true;
+            stillConnected.set(index, true);
         }
 
     }
 
     public void disconnectAllPlayers() {
 
-        //TODO andreaalf close proxies
-
-        for(int i = 0; i < playersNicknames.size(); i++)
-            serverProxies.get(i).setReceiver(null);
+        for(int i = 0; i < playersNicknames.size(); i++) {
+            serverProxies.get(i).close();
+        }
 
         this.timer.cancel();
 
