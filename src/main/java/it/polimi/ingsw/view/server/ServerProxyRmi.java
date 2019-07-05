@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.server;
 
-import it.polimi.ingsw.MyLogger;
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.DisconnectedAnswer;
@@ -8,9 +7,6 @@ import it.polimi.ingsw.view.client.RemoteViewInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
 
 public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, ServerProxyRmiInterface {
 
@@ -27,7 +23,7 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
     /**
      * The remote view to send all questions to
      */
-    private final RemoteViewInterface remoteViewInterface;
+    private RemoteViewInterface remoteViewInterface;
 
 
     public ServerProxyRmi(String nickname, AnswerEventReceiver receiver, RemoteViewInterface remoteViewInterface) throws RemoteException{
@@ -43,10 +39,9 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
             remoteViewInterface.receiveQuestionEvent(questionEvent);
         }
         catch (RemoteException e){
-            System.err.println("Closed connection " + nickname);
-            e.printStackTrace();
+            System.out.println("RMI exception: disconnecting " + nickname);
+            //receiver.receiveAnswer(new DisconnectedAnswer(nickname, false));
             return;
-            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
         }
 
     }
@@ -59,6 +54,11 @@ public class ServerProxyRmi extends UnicastRemoteObject implements ServerProxy, 
     @Override
     public void setReceiver(AnswerEventReceiver receiver) {
         this.receiver = receiver;
+    }
+
+    @Override
+    public void close() {
+        remoteViewInterface = null;
     }
 
     @Override

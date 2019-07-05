@@ -227,6 +227,8 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public synchronized void handleEvent(DisconnectedAnswer event) {
 
+        System.out.println("Disconnecting " +  event.nickname + " from CONTROLLER");
+
         if(gameModel.getPlayerNames().size() > 3){
 
             Player p = gameModel.getPlayerByNickname(event.nickname);
@@ -237,8 +239,6 @@ public class Controller implements Observer, AnswerEventHandler {
                 endTurn();
 
             gameModel.disconnectPlayer(event.nickname);
-
-            virtualView.disconnectPlayer(event.nickname);
 
             virtualView.sendAllQuestionEvent(
                     new PlayerDisconnectedQuestion(event.nickname)
