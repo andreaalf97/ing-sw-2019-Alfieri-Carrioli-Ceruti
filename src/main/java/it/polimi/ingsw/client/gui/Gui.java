@@ -474,5 +474,10 @@ public class Gui extends Application implements QuestionEventHandler {
         Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseIfUseATargetingScopeQuestion(event, remoteView, gameInfo.playersNames));
 
     }
+
+    @Override
+    public void handleEvent(EndGameQuestion event){
+
+    }
 }
 

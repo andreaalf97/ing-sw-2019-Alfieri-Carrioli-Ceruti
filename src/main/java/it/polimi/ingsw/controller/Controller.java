@@ -66,14 +66,34 @@ public class Controller implements Observer, AnswerEventHandler {
      *      - refills all spots
      */
     private void endTurn(){
+        //if we are in frenzy turn and last player has ended the turn
+        if(isFrenzyTurn && gameModel.getCurrentPlayer().getNickname().equals(lastPlayer)){
 
-        Player nextPlayer = gameModel.endTurnUpdateStatus();
+            int maxPoints = 0;
+            String winner = "";
 
-        gameModel.checkDeaths();
+            //first i calculate the points
+            for(String current: gameModel.getAllPlayers()){
 
-        gameModel.refillAllAmmoSpots();
+                Player player = gameModel.getPlayerByNickname(current);
 
-        gameModel.refillAllSpawnSpots();
+                gameModel.giveFrenzyBoardPoints(player);
+
+                gameModel.giveKSTPoints();
+            }
+
+            //then i check who won
+            for(String current: gameModel.getAllPlayers()){
+                Player player = gameModel.getPlayerByNickname(current);
+
+                if(player.getPoints() > maxPoints){
+                    maxPoints = player.getPoints();
+                    winner = player.getNickname();
+                }
+            }
+
+            virtualView.sendAllQuestionEvent(new EndGameQuestion(winner, maxPoints));
+        }
 
         if(gameModel.kstIsFull() && !isFrenzyTurn){
 
@@ -86,9 +106,14 @@ public class Controller implements Observer, AnswerEventHandler {
             );
         }
 
-        if(isFrenzyTurn && gameModel.getCurrentPlayer().getNickname().equals(lastPlayer)){
-            //TODO CALCOLA ULTIMI PUNTI AND STOP THIS SHIT
-        }
+
+        Player nextPlayer = gameModel.endTurnUpdateStatus();
+
+        gameModel.checkDeaths();
+
+        gameModel.refillAllAmmoSpots();
+
+        gameModel.refillAllSpawnSpots();
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(nextPlayer.getNickname());
         sendQuestionEvent(nextPlayer.getNickname(), new ActionQuestion(possibleActions));
@@ -414,22 +439,17 @@ public class Controller implements Observer, AnswerEventHandler {
                 playerHasFinallyShoot = gameModel.shootWithoutMovement(event.chooseHowToShootAnswer.nickname, event.chooseHowToShootAnswer.defenders, offender.getWeaponByName(event.chooseHowToShootAnswer.weapon), event.chooseHowToShootAnswer.chosenOrder, event.chooseHowToShootAnswer.defenderToApplyTargeting);
             }
 
+
             if (playerHasFinallyShoot) {
                 sendMessage(event.chooseHowToShootAnswer.nickname, "SHOT COMPLETED SUCCESSFULLY!");
                 offender.playerStatus.nActionsDone++;
 
-                for (String defender : event.chooseHowToShootAnswer.defenders) {
-
-                    Player p = gameModel.getPlayerByNickname(defender);
-
-                    if (p.hasGrenade() && gameModel.p1SeeP2(p.getxPosition(), p.getyPosition(), offender.getxPosition(), offender.getyPosition()))
-                        sendQuestionEvent(defender, new UseGrenadeQuestion(event.chooseHowToShootAnswer.nickname));
-
-                }
-
             } else {
                 sendMessage(event.chooseHowToShootAnswer.nickname, "YOU DID NOT SHOOT!");
+                offender.playerStatus.nActionsDone++;
             }
+
+
         }
         else{
             sendMessage(event.chooseHowToShootAnswer.nickname, "YOU CAN'T PAY FOR ALL THESE EFFECTS, PLEASE CHECK THE WEAPON RULES AND MAYBE INSERT LESS DEFENDER");

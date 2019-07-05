@@ -103,11 +103,12 @@ public class Player {
 
     /**
      * Constructor
-     * @param nickname Player's nickname
+     *
+     * @param nickname  Player's nickname
      * @param xPosition Initial spot x
      * @param yPosition Initial spot y
      */
-    public Player(String nickname, int xPosition, int yPosition){
+    public Player(String nickname, int xPosition, int yPosition) {
         this.nickname = nickname;
         this.nRedAmmo = 1;
         this.nYellowAmmo = 1;
@@ -130,17 +131,19 @@ public class Player {
 
     /**
      * Constructs a new Player with -1 as X and Y position
+     *
      * @param nickname Player's nickname
      */
-    public Player(String nickname){
+    public Player(String nickname) {
         this(nickname, -1, -1);
     }
 
     /**
      * constructs a new player by reading its parameter in the json file
+     *
      * @param jsonPlayer the json file
      */
-    public Player(JsonObject jsonPlayer){
+    public Player(JsonObject jsonPlayer) {
         this.nickname = jsonPlayer.get("nickname").getAsString();
         this.nRedAmmo = jsonPlayer.get("nRedAmmo").getAsInt();
         this.nBlueAmmo = jsonPlayer.get("nBlueAmmo").getAsInt();
@@ -149,28 +152,28 @@ public class Player {
 
         this.weaponList = new ArrayList<>();
         JsonArray jsonWeaponList = jsonPlayer.get("weaponList").getAsJsonArray();
-        for(int i = 0; i < jsonWeaponList.size(); i++){
+        for (int i = 0; i < jsonWeaponList.size(); i++) {
             Weapon w = new Weapon(jsonWeaponList.get(i).getAsJsonObject());
             this.weaponList.add(w);
         }
 
         this.powerUpList = new ArrayList<>();
         JsonArray jsonPowerUpList = jsonPlayer.get("powerUpList").getAsJsonArray();
-        for(int i = 0; i < jsonPowerUpList.size(); i++){
+        for (int i = 0; i < jsonPowerUpList.size(); i++) {
             PowerUp p = new PowerUp(jsonPowerUpList.get(i).getAsJsonObject());
             this.powerUpList.add(p);
         }
 
         this.damages = new ArrayList<>();
         JsonArray jsonDamages = jsonPlayer.get("damages").getAsJsonArray();
-        for(int i = 0; i < jsonDamages.size(); i++){
+        for (int i = 0; i < jsonDamages.size(); i++) {
             String s = jsonDamages.get(i).getAsString();
             this.damages.add(s);
         }
 
         this.marks = new ArrayList<>();
         JsonArray jsonMarks = jsonPlayer.get("marks").getAsJsonArray();
-        for(int i = 0; i < jsonMarks.size(); i++){
+        for (int i = 0; i < jsonMarks.size(); i++) {
             String s = jsonMarks.get(i).getAsString();
             this.marks.add(s);
         }
@@ -185,7 +188,7 @@ public class Player {
         this.playerStatus = new PlayerStatus(jsonPlayer.get("playerStatus").getAsJsonObject());
     }
 
-    public Player(Player player){
+    public Player(Player player) {
         this.nickname = player.nickname;
         this.nRedAmmo = player.nRedAmmo;
         this.nYellowAmmo = player.nYellowAmmo;
@@ -208,101 +211,142 @@ public class Player {
 
     //SETS AND GETS
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    public void setIsDead(boolean isDead){ this.isDead = isDead; }
-    protected void setDamages(ArrayList<String> damages){ this.damages = damages; }
-    public ArrayList<String> getDamages(){ return this.damages; }
-    protected void setMarks(ArrayList<String> marks){ this.marks = marks; }
-    protected ArrayList<String> getMarks(){ return this.marks; }
-    protected void setPoints(int points){ this.points = points; }
-    protected int getPoints(){ return this.points; }
+    public void setIsDead(boolean isDead) {
+        this.isDead = isDead;
+    }
+
+    protected void setDamages(ArrayList<String> damages) {
+        this.damages = damages;
+    }
+
+    public ArrayList<String> getDamages() {
+        return this.damages;
+    }
+
+    protected void setMarks(ArrayList<String> marks) {
+        this.marks = marks;
+    }
+
+    protected ArrayList<String> getMarks() {
+        return this.marks;
+    }
+
+    protected void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getPoints() {
+        return this.points;
+    }
+
     public String getNickname() {
         return nickname;
     }
+
     public int getnRedAmmo() {
         return nRedAmmo;
     }
+
     protected void setnRedAmmo(int nRedAmmo) {
         this.nRedAmmo = nRedAmmo;
     }
+
     public int getnBlueAmmo() {
         return nBlueAmmo;
     }
+
     protected void setnBlueAmmo(int nBlueAmmo) {
         this.nBlueAmmo = nBlueAmmo;
     }
+
     public int getnYellowAmmo() {
         return nYellowAmmo;
     }
+
     protected void setnYellowAmmo(int nYellowAmmo) {
         this.nYellowAmmo = nYellowAmmo;
     }
+
     public ArrayList<PowerUp> getPowerUpList() {
         return new ArrayList<>(powerUpList);
     }
+
     protected int getnDeaths() {
         return nDeaths;
     }
+
     public int getxPosition() {
         return xPosition;
     }
+
     public int getyPosition() {
         return yPosition;
     }
+
     public int getnMoves() {
         return nMoves;
     }
+
     public int getnMovesBeforeGrabbing() {
         return nMovesBeforeGrabbing;
     }
+
     protected int getnMovesBeforeShooting() {
         return nMovesBeforeShooting;
     }
+
     protected boolean isCanReloadBeforeShooting() {
         return canReloadBeforeShooting;
     }
+
     protected void setCanReloadBeforeShooting(boolean canReloadBeforeShooting) {
         this.canReloadBeforeShooting = canReloadBeforeShooting;
     }
+
     public PlayerStatus getPlayerStatus() {
         return playerStatus;
     }
+
     public void setPlayerStatus(PlayerStatus playerStatus) {
         this.playerStatus = playerStatus;
     }
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
     //TESTED
+
     /**
      * getter for weaponlist
+     *
      * @return the weaponList of the player
      */
-    public ArrayList<Weapon> getWeaponList(){
+    public ArrayList<Weapon> getWeaponList() {
         return new ArrayList<>(weaponList);
     }
 
     //TESTED
+
     /**
      * Return the list of offenders nicknames ordered by the amount of damages
+     *
      * @return The list of offenders
      */
-    public ArrayList<String> getOffendersRanking(){
-        if(damages.isEmpty())
+    public ArrayList<String> getOffendersRanking() {
+        if (damages.isEmpty())
             return new ArrayList<>();
 
         ArrayList<String> tempNames = new ArrayList<>();
         int[] ricorrenze = new int[12];
         //TODO Do this with an HashMap like in KillShotTrack.getRanking()
-        for(int i = 0; i < 12; i++)
+        for (int i = 0; i < 12; i++)
             ricorrenze[i] = 0;
 
         Iterator i = damages.iterator();
 
-        while(i.hasNext()){
-            String t = (String)i.next();
-            if(tempNames.contains(t)){
+        while (i.hasNext()) {
+            String t = (String) i.next();
+            if (tempNames.contains(t)) {
                 ricorrenze[tempNames.indexOf(t)]++;
-            }
-            else{
+            } else {
                 tempNames.add(t);
                 ricorrenze[tempNames.indexOf(t)]++;
             }
@@ -313,18 +357,20 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * Gives the required amount of damages to this player
-     * @param player The offender's nickname
+     *
+     * @param player   The offender's nickname
      * @param nDamages The amount of damages
      */
-    public void giveDamage(String player,int nDamages){
-        for(int j = 0; j < nDamages; j++){
+    public void giveDamage(String player, int nDamages) {
+        for (int j = 0; j < nDamages; j++) {
             if (damages.size() < 12)
-                 damages.add(player);
+                damages.add(player);
         }
 
-        if(damages.size() > 10)
+        if (damages.size() > 10)
             isDead = true;
         else
             isDead = false;
@@ -332,21 +378,23 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * Returns true only if a player can give n marks to this player.
      * (Every player can only have 3 marks by another player)
+     *
      * @param player The offender
      * @param nMarks The amount of marks
      * @return true if player is allowed
      */
-    public boolean canGiveMarks(String player, int nMarks){
+    public boolean canGiveMarks(String player, int nMarks) {
         Iterator i = this.marks.iterator();
         String temp;
         int counter = 0;
 
-        while(i.hasNext()){
-            temp = (String)i.next();
-            if(temp.equals(player))
+        while (i.hasNext()) {
+            temp = (String) i.next();
+            if (temp.equals(player))
                 counter++;
         }
 
@@ -354,17 +402,19 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * Gives marks to this player
+     *
      * @param player the offender
      * @param nMarks the amount of marks
      */
-    public void giveMarks(String player,int nMarks) throws RuntimeException {
+    public void giveMarks(String player, int nMarks) throws RuntimeException {
         /*assign marks to this player*/
-        if(nMarks <= 0 || nMarks > 12) {
+        if (nMarks <= 0 || nMarks > 12) {
             throw new RuntimeException("i can only be > 0 && < 12");
         }
-        for(int j = 0; j < nMarks; j++) {
+        for (int j = 0; j < nMarks; j++) {
             if (marks.size() < 12) {
                 marks.add(player);
             }
@@ -372,81 +422,93 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * Gives points to this player
+     *
      * @param n The amount of points
      */
-    public void givePoints(int n) throws RuntimeException{
-        if(n < 0)
+    public void givePoints(int n) throws RuntimeException {
+        if (n < 0)
             throw new RuntimeException("n can't be negative");
         points += n;
     }
 
     //TESTED
+
     /**
      * True if this player is dead
+     *
      * @return true if this player is dead
      */
-    public boolean isDead(){return this.isDead;}
+    public boolean isDead() {
+        return this.isDead;
+    }
 
     //TESTED
+
     /**
      * Adds the weapon to the player's weaponList
+     *
      * @param weapon Weapon to add
      */
-    public void giveWeapon(Weapon weapon) throws RuntimeException{
-        if(weaponList.size() > 2)
+    public void giveWeapon(Weapon weapon) throws RuntimeException {
+        if (weaponList.size() > 2)
             throw new RuntimeException("This player can't receive any more weapons");
         weaponList.add(weapon);
     }
 
     //TESTED
+
     /**
      * Gives ammos to this player
+     *
      * @param ammos An array of Colors to be given to this player
      */
-    public void giveAmmos(ArrayList<Color> ammos) throws RuntimeException{
+    public void giveAmmos(ArrayList<Color> ammos) throws RuntimeException {
         Iterator i = ammos.iterator();
 
         if (ammos.contains(Color.ANY))
             throw new RuntimeException("ammos must not contains any");
 
-        while(i.hasNext()){
-            Color temp = (Color)i.next();
-            if(temp == Color.RED){
-                if(nRedAmmo < 3) nRedAmmo++;
-            }
-            else if(temp == Color.BLUE){
-                if(nBlueAmmo < 3) nBlueAmmo++;
-            }
-            else if(temp == Color.YELLOW){
-                if(nYellowAmmo < 3) nYellowAmmo++;
+        while (i.hasNext()) {
+            Color temp = (Color) i.next();
+            if (temp == Color.RED) {
+                if (nRedAmmo < 3) nRedAmmo++;
+            } else if (temp == Color.BLUE) {
+                if (nBlueAmmo < 3) nBlueAmmo++;
+            } else if (temp == Color.YELLOW) {
+                if (nYellowAmmo < 3) nYellowAmmo++;
             }
         }
     }
 
     //TESTED
+
     /**
      * Gives a powerup to this player
+     *
      * @param powerup the powerup to be given
      */
-    public void givePowerUp(PowerUp powerup) throws RuntimeException{
+    public void givePowerUp(PowerUp powerup) throws RuntimeException {
 
-        if(powerUpList.size() > 2)
+        if (powerUpList.size() > 2)
             throw new RuntimeException("This player already has 3 power up");
 
         powerUpList.add(powerup);
     }
 
     //TESTED
+
     /**
      * Discards a powerup by the index and return its color
+     *
      * @param powerUpIndexToDiscard the index of the powerup in the array
      * @return the color of the powerup
      */
     public Color discardPowerUpByIndex(int powerUpIndexToDiscard) throws RuntimeException {
 
-        if(powerUpIndexToDiscard < 0 || powerUpIndexToDiscard >= this.powerUpList.size())
+        if (powerUpIndexToDiscard < 0 || powerUpIndexToDiscard >= this.powerUpList.size())
             throw new RuntimeException("powerUpIndexToDiscard is out of bound");
 
         //Extracts the powerUp from the list by its index
@@ -462,19 +524,20 @@ public class Player {
     }
 
     //TESTED
-    public void revive() throws RuntimeException{
-        if(!this.isDead)
+    public void revive() throws RuntimeException {
+        if (!this.isDead)
             throw new RuntimeException("This player needs to be dead to be revived!");
 
         this.isDead = false;
     }
 
     //TESTED
+
     /**
      * Kills this player if he's not already dead
      */
-    public void kill() throws RuntimeException{
-        if(isDead == true)
+    public void kill() throws RuntimeException {
+        if (isDead == true)
             throw new RuntimeException("This player is already dead!");
         this.isDead = true;
     }
@@ -484,31 +547,33 @@ public class Player {
      */
     public boolean hasTurnPowerUp() {
 
-        for(PowerUp i : powerUpList)
-            if(i.isTurnPowerup())
+        for (PowerUp i : powerUpList)
+            if (i.isTurnPowerup())
                 return true;
 
         return false;
     }
 
-    public boolean hasGrenade(){
-        for(PowerUp i : powerUpList)
-            if(i.getPowerUpName().equals("TagbackGrenade"))
+    public boolean hasGrenade() {
+        for (PowerUp i : powerUpList)
+            if (i.getPowerUpName().equals("TagbackGrenade"))
                 return true;
 
         return false;
     }
 
     //TESTED
+
     /**
      * this method reload a weapon that i am sure i can reload, see reloadWeapons in controller.java
+     *
      * @param index is the index of the weapon to reload in the hans of the player
      */
-    public void reloadWeapon (int index){
+    public void reloadWeapon(int index) {
 
         Weapon weaponToReload = this.weaponList.get(index);
 
-        if(weaponToReload == null)
+        if (weaponToReload == null)
             throw new IllegalArgumentException("No index found");
 
         ArrayList<Color> cost = weaponToReload.getCost();
@@ -525,17 +590,19 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * this method move this player in (x,y)
+     *
      * @param x the new x
      * @param y the new y
      */
     protected void moveTo(int x, int y) {
 
-        if(x < 0 || x > 2)
+        if (x < 0 || x > 2)
             throw new IllegalArgumentException("x is out of bound");
 
-        if(y < 0 || y > 3)
+        if (y < 0 || y > 3)
             throw new IllegalArgumentException("y is out of bound");
 
         this.xPosition = x;
@@ -543,12 +610,14 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * Removes the chosen ammo color from this player's wallet
+     *
      * @param color the color of the ammo to remove
      */
-    public void removeAmmo(Color color) throws RuntimeException{
-        switch (color){
+    public void removeAmmo(Color color) throws RuntimeException {
+        switch (color) {
             case RED:
                 nRedAmmo--;
                 break;
@@ -564,8 +633,10 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * Takes the weapon from the player and returns it
+     *
      * @param indexToDiscard index of the weapon
      * @return the weapon removed from the player
      */
@@ -580,6 +651,7 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * this method sets player status for end turn
      */
@@ -590,6 +662,7 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * this method sets player status active for start turn
      */
@@ -597,18 +670,20 @@ public class Player {
         nMovesBeforeGrabbing = 1;
         nMovesBeforeShooting = 0;
 
-        if(damages.size()>2)
+        if (damages.size() > 2)
             nMovesBeforeGrabbing = 2;
 
-        if(damages.size() > 5)
+        if (damages.size() > 5)
             nMovesBeforeShooting = 1;
 
         playerStatus.isActive = true;
     }
 
     //TESTED
+
     /**
      * tells if the turn of the player is active
+     *
      * @return true if player is current player
      */
     public boolean isCurrentPlayer() {
@@ -616,6 +691,7 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * reset damages arraylist after kill
      */
@@ -624,11 +700,12 @@ public class Player {
     }
 
     //TESTED
+
     /**
      * add one kill to player kill
      */
     public void addKill() {
-        nDeaths ++;
+        nDeaths++;
     }
 
     public void setNMoves(int nMoves) {
@@ -645,6 +722,7 @@ public class Player {
 
     /**
      * Removes the given power up
+     *
      * @param index
      */
     public void removePowerUpByIndex(int index) {
@@ -658,13 +736,14 @@ public class Player {
 
     /**
      * Removes the weapon and returns it
+     *
      * @param weaponName the name of the weapon
      * @return the weapon object
      */
     public Weapon removeWeaponByName(String weaponName) {
 
-        for(Weapon w : weaponList){
-            if(w.getWeaponName().equals(weaponName)){
+        for (Weapon w : weaponList) {
+            if (w.getWeaponName().equals(weaponName)) {
                 weaponList.remove(w);
                 return w;
             }
@@ -676,8 +755,8 @@ public class Player {
 
     public Weapon getWeaponByName(String weaponName) {
 
-        for(Weapon w : weaponList){
-            if(w.getWeaponName().equals(weaponName)){
+        for (Weapon w : weaponList) {
+            if (w.getWeaponName().equals(weaponName)) {
                 return w;
             }
         }
@@ -692,9 +771,9 @@ public class Player {
         int playerBlue = nBlueAmmo;
         int playerYellow = nYellowAmmo;
 
-        for(PowerUp p : powerUpList){
+        for (PowerUp p : powerUpList) {
 
-            switch (p.getColor()){
+            switch (p.getColor()) {
                 case RED: {
                     playerRed++;
                     break;
@@ -703,7 +782,7 @@ public class Player {
                     playerBlue++;
                     break;
                 }
-                case YELLOW:{
+                case YELLOW: {
                     playerYellow++;
                     break;
                 }
@@ -713,22 +792,23 @@ public class Player {
 
         }
 
-        for(Color c : tempWeaponCost){
-            if(c == Color.RED)
+        for (Color c : tempWeaponCost) {
+            if (c == Color.RED)
                 playerRed--;
-            else if(c == Color.BLUE)
+            else if (c == Color.BLUE)
                 playerBlue--;
-            else if(c == Color.YELLOW)
+            else if (c == Color.YELLOW)
                 playerYellow--;
         }
 
         return ((playerRed >= 0) && (playerBlue >= 0) && (playerYellow >= 0));
 
     }
-    //TODO CONTROL ANY OPTION, MA SE LA INSERISCO COME ULTIMA COSA DA PAGARE SONO SICURO CHE QUELLA MERDA DEL CLIENT LA PAGA
-    public boolean canPayWithString(ArrayList<String> cost){
 
-        if(cost.isEmpty())
+    //TODO CONTROL ANY OPTION, MA SE LA INSERISCO COME ULTIMA COSA DA PAGARE SONO SICURO CHE QUELLA MERDA DEL CLIENT LA PAGA
+    public boolean canPayWithString(ArrayList<String> cost) {
+
+        if (cost.isEmpty())
             return true;
 
 
@@ -736,9 +816,9 @@ public class Player {
         int playerBlue = nBlueAmmo;
         int playerYellow = nYellowAmmo;
 
-        for(PowerUp p : powerUpList){
+        for (PowerUp p : powerUpList) {
 
-            switch (p.getColor()){
+            switch (p.getColor()) {
                 case RED: {
                     playerRed++;
                     break;
@@ -747,7 +827,7 @@ public class Player {
                     playerBlue++;
                     break;
                 }
-                case YELLOW:{
+                case YELLOW: {
                     playerYellow++;
                     break;
                 }
@@ -757,20 +837,19 @@ public class Player {
 
         }
 
-        for(String singleCost : cost){
+        for (String singleCost : cost) {
             String splitter = ":";
             String color;
 
-            if(singleCost.contains(splitter)){
+            if (singleCost.contains(splitter)) {
                 color = singleCost.split(splitter)[1];
-            }
-            else{
+            } else {
                 color = singleCost;
             }
 
             Color colorToPay = Color.valueOf(color);
 
-            switch(colorToPay){
+            switch (colorToPay) {
                 case RED:
                     playerRed--;
                     break;
@@ -783,16 +862,16 @@ public class Player {
             }
         }
 
-        return( (playerBlue>=0 && playerRed >= 0 && playerYellow >= 0) );
+        return ((playerBlue >= 0 && playerRed >= 0 && playerYellow >= 0));
     }
 
     public void removePowerUpByNameAndColor(String chosenPowerUpToPay, Color color) {
-        if(color == null){
+        if (color == null) {
             throw new RuntimeException("this color can't be null----Player.java row 790");
         }
 
-        for(PowerUp p : powerUpList){
-            if(p.getColor() == color && p.getPowerUpName().equals(chosenPowerUpToPay)){
+        for (PowerUp p : powerUpList) {
+            if (p.getColor() == color && p.getPowerUpName().equals(chosenPowerUpToPay)) {
                 powerUpList.remove(p);
                 return;
             }
@@ -804,8 +883,8 @@ public class Player {
 
     public PowerUp getPlayerPowerUpByNameAndColor(String chosenPower, Color color) {
 
-        for(PowerUp p : powerUpList){
-            if(p.getColor() == color && p.getPowerUpName().equals(chosenPower)){
+        for (PowerUp p : powerUpList) {
+            if (p.getColor() == color && p.getPowerUpName().equals(chosenPower)) {
                 return p;
             }
         }
@@ -813,10 +892,10 @@ public class Player {
         throw new RuntimeException("This player doesn't have this power up");
     }
 
-    public ArrayList<Color> getPowerUpColors(){
+    public ArrayList<Color> getPowerUpColors() {
         ArrayList<Color> powerUpColors = new ArrayList<>();
 
-        for (int i = 0; i < powerUpList.size(); i++){
+        for (int i = 0; i < powerUpList.size(); i++) {
             powerUpColors.add(powerUpList.get(i).getColor());
         }
 
@@ -825,8 +904,8 @@ public class Player {
 
     public void reloadWeaponByName(String weaponName) {
 
-        for(Weapon w : weaponList){
-            if( w.getWeaponName().equals(weaponName))
+        for (Weapon w : weaponList) {
+            if (w.getWeaponName().equals(weaponName))
                 w.reload();
         }
 
@@ -834,11 +913,12 @@ public class Player {
 
     /**
      * bring down the damages
+     *
      * @param offendername the name to bring down
      */
     public void transformMarksInDamages(String offendername) {
 
-        while(marks.contains(offendername)) {
+        while (marks.contains(offendername)) {
 
             for (Iterator<String> iterator = marks.iterator(); iterator.hasNext(); ) {
 
@@ -853,7 +933,9 @@ public class Player {
         }
     }
 
-    public boolean canreloadBeforeShooting(){
+    public boolean canreloadBeforeShooting() {
         return this.canReloadBeforeShooting;
     }
+
+
 }
