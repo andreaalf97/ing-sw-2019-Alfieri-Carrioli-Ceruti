@@ -104,6 +104,7 @@ public class Game extends Observable {
             this.players.add(new Player(name));
 
         this.gameMap = JsonDeserializer.deserializeGameMap(chosenMap, weaponDeck, powerupDeck, ammoCardDeck);
+
         this.kst = new KillShotTrack(nSkulls);
 
         this.timer.scheduleAtFixedRate(new TimerTask() {
@@ -585,7 +586,8 @@ public class Game extends Observable {
 
 
         if (effect.mustBeSameSpots() && (effect.getnPlayersAttackable() == 50 || effect.getnPlayersMarkable() == 50))
-            return hit_players_same_spot(defenders, offender, effect, defenders_temp,  playersHit);
+                return hit_players_same_spot(defenders, offender, effect, defenders_temp, playersHit);
+
 
         if (effect.getVisibleByWho() == Visibility.NONE) {
             for (int i = 0; i < defenders.size() && (i < effect.getnPlayersAttackable() || i < effect.getnPlayersMarkable()); i++) {
@@ -1234,7 +1236,6 @@ public class Game extends Observable {
             // resetto tutti i players in this game
             this.players = new ArrayList<>(backUpPlayers);
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
 
             weapon.setLoaded(false);
 
@@ -1695,6 +1696,7 @@ public class Game extends Observable {
 
         if (isOnSpawnSpot(player))
             actions.add("PickWeapon");
+
 
         if (player.playerStatus.nActionsDone < player.playerStatus.nActions) {
             actions.add("Move");

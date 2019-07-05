@@ -95,6 +95,15 @@ public class Controller implements Observer, AnswerEventHandler {
             virtualView.sendAllQuestionEvent(new EndGameQuestion(winner, maxPoints));
         }
 
+        Player nextPlayer = gameModel.endTurnUpdateStatus();
+
+        gameModel.checkDeaths();
+
+        gameModel.refillAllAmmoSpots();
+
+        gameModel.refillAllSpawnSpots();
+
+
         if(gameModel.kstIsFull() && !isFrenzyTurn){
 
             isFrenzyTurn = true;
@@ -106,14 +115,6 @@ public class Controller implements Observer, AnswerEventHandler {
             );
         }
 
-
-        Player nextPlayer = gameModel.endTurnUpdateStatus();
-
-        gameModel.checkDeaths();
-
-        gameModel.refillAllAmmoSpots();
-
-        gameModel.refillAllSpawnSpots();
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(nextPlayer.getNickname());
         sendQuestionEvent(nextPlayer.getNickname(), new ActionQuestion(possibleActions));
