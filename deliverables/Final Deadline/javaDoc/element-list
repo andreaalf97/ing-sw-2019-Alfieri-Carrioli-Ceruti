@@ -1,0 +1,17 @@
+it.polimi.ingsw
+it.polimi.ingsw.client
+it.polimi.ingsw.client.cli
+it.polimi.ingsw.client.gui
+it.polimi.ingsw.client.gui.scenes
+it.polimi.ingsw.client.gui.scenes.gameScene
+it.polimi.ingsw.controller
+it.polimi.ingsw.events
+it.polimi.ingsw.events.clientToServer
+it.polimi.ingsw.events.serverToClient
+it.polimi.ingsw.model
+it.polimi.ingsw.model.cards
+it.polimi.ingsw.model.exception
+it.polimi.ingsw.model.map
+it.polimi.ingsw.server
+it.polimi.ingsw.view.client
+it.polimi.ingsw.view.server
