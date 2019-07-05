@@ -432,7 +432,7 @@ public class Controller implements Observer, AnswerEventHandler {
             }
         }
         else{
-            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU CAN'T PAY FOR ALL THESE EFFECTS, PLEASE CHECK THE WEAPON RULES ANN MAYBE INSERT LESS DEFENDER");
+            sendMessage(event.chooseHowToShootAnswer.nickname, "YOU CAN'T PAY FOR ALL THESE EFFECTS, PLEASE CHECK THE WEAPON RULES AND MAYBE INSERT LESS DEFENDER");
         }
 
         //alla fine posso rigenerare le azioni all'utente

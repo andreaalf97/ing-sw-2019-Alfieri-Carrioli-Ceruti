@@ -547,22 +547,31 @@ public class PlayersInteractingSpace {
     }
 
     public void textMessage(TextMessage event) {
-        gridPane.getChildren().clear();
-        Label label = new Label(event.message);
-        label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 10, 1);
+
+        Modal.display(event.message);
     }
 
     public void askUseGrenadeQuestion(UseGrenadeQuestion event, String username, RemoteView remoteView) {
         gridPane.getChildren().clear();
         Label label = new Label("Do you want to use your grenade against " +  event.offender + " ?");
-        label.setStyle("-fx-font-size: 20; -fx-color: black");
-        gridPane.add(label, 0, 0, 10, 1);
+        label.setStyle("-fx-font-size: 15; -fx-color: black");
+        gridPane.add(label, 0, 0, 20, 1);
 
         Button yesButton = new Button("YES");
         Button noButton = new Button("NO");
+        Button next = new Button("next");
+
+        gridPane.add(yesButton, 0, 1, 3, 1);
+        gridPane.add(noButton, 3, 1, 3, 1);
+        gridPane.add(next, 0, 2, 3, 1);
 
         yesButton.setOnAction(e -> {
+            yesButton.setStyle("-fx-background-color: red");
+        });
+        noButton.setOnAction(e -> {
+            noButton.setStyle("-fx-background-color: red");
+        });
+        next.setOnAction(e -> {
             remoteView.sendAnswerEvent(new UseGrenadeAnswer(username, event.offender));
         });
     }

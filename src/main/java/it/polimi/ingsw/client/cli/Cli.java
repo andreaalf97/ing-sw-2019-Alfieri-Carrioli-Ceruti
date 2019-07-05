@@ -862,7 +862,6 @@ public class Cli implements QuestionEventHandler {
         if(answer == 0){
             remoteView.sendAnswerEvent(new UseGrenadeAnswer(username, event.offender));
         }
-
     }
 
     @Override

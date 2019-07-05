@@ -94,6 +94,8 @@ public class GameScene extends ClickHandler implements MyScene {
     private final int otherPlanciasRow = 12;
     private final int otherPlanciasOffset = 10;
 
+    private GridPane externalGridPane;
+
 
 
     /**
@@ -127,7 +129,7 @@ public class GameScene extends ClickHandler implements MyScene {
         );
 
         //Setting up the external grid
-        GridPane externalGridPane = setUpExternalGridPane(externalCols, externalRows);
+        externalGridPane = setUpExternalGridPane(externalCols, externalRows);
 
         //************************************* + Board Grid + *********************************************
 
@@ -220,18 +222,26 @@ public class GameScene extends ClickHandler implements MyScene {
         if (playersInteractingSpace != null)
             playersInteractingSpace.setBoardGrid(this.boardGrid);
 
-        //Updating my cards and power ups
-        cardBox.update(this.gameInfo.playerInfo);
-
-        //Updating BoardGrid
-        boardGrid.update(this.gameInfo);
-
-        //Updating my Plancia
-        myPlancia.update(this.gameInfo.playerInfo);
+        for ( GridPane g : this.otherPlayersPlancias.getGridPanes())
+            externalGridPane.getChildren().remove(g);
 
         //Updating other player's plancias
-        otherPlayersPlancias.update(gameInfo, username, playerColors, playerNames);
+        this.otherPlayersPlancias.update(gameInfo, username, playerColors, playerNames);
 
+        int i = 0;
+        for (GridPane g : otherPlayersPlancias.getGridPanes()){
+            externalGridPane.add(g, otherPlanciasCol, otherPlanciasRow + (i * otherPlanciasOffset), 36, 8);
+            i++;
+        }
+
+        //Updating my cards and power ups
+        this.cardBox.update(this.gameInfo.playerInfo);
+
+        //Updating BoardGrid
+        this.boardGrid.update(this.gameInfo);
+
+        //Updating my Plancia
+        this.myPlancia.update(this.gameInfo.playerInfo);
 
     }
 
