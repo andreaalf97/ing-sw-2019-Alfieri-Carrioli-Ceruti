@@ -1455,14 +1455,7 @@ public class Cli implements QuestionEventHandler {
             }
 
         }else{
-
-            System.out.println("Choose weapon to use:");
-
-            answer = chooseAnswerWithNoResetOption(event.weaponsLoaded);
-
-            remoteView.sendAnswerEvent(
-                    new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
-            );
+            remoteView.sendAnswerEvent(new SendCanMoveBeforeShootingAnswer(username, -1, -1, event.weaponsLoaded));
         }
     }
 
@@ -1484,13 +1477,7 @@ public class Cli implements QuestionEventHandler {
             remoteView.sendAnswerEvent( new SendCanReloadBeforeShootingAnswer(username, event.rechargeableWeaponNames.get(answer), event.weaponsLoaded));
         }
         else{
-            System.out.println("Choose weapon to use:");
-
-            answer = chooseAnswerWithNoResetOption(event.weaponsLoaded);
-
-            remoteView.sendAnswerEvent(
-                    new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
-            );
+            remoteView.sendAnswerEvent( new SendCanReloadBeforeShootingAnswer(username, null, event.weaponsLoaded));
         }
 
     }
@@ -1502,18 +1489,6 @@ public class Cli implements QuestionEventHandler {
 
         ArrayList<String> chosenPayment = handlePayment(event.cost);
 
-        if(chosenPayment == null){
-
-            System.out.println("Choose weapon to use:");
-
-            int  answer = chooseAnswerWithNoResetOption(event.weaponsLoaded);
-
-            remoteView.sendAnswerEvent(
-                    new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
-            );
-
-            return;
-        }
         remoteView.sendAnswerEvent(new ChooseHowToPayToReloadBeforeAttackAnswer(username, event.weaponToReload, chosenPayment, event.weaponsLoaded));
     }
 
