@@ -897,6 +897,7 @@ public class PlayersInteractingSpace {
         {
             Modal.display("Better luck next time :)");
         }
+        System.exit(0);
     }
 
     public void askSendCanReloadBeforeShootingQuestion(SendCanReloadBeforeShootingQuestion event, RemoteView remoteView, String username) {
