@@ -1058,14 +1058,16 @@ public class Cli implements QuestionEventHandler {
                     break;
             }
 
-            for(Color powerUpColor : playerInfo.powerUpColors){
+            for(int i = 0; i < playerInfo.powerUpNames.size(); i++){
 
-                if(powerUpColor.equals(colorToPay) || colorToPay.equals(Color.ANY)){
-                    int index = playerInfo.powerUpColors.indexOf(powerUpColor);
+                if(colorToPay.equals(Color.ANY) && ( ! playerInfo.powerUpNames.get(i).equals("TargetingScope"))){
+                    possibleChoice.add(playerInfo.powerUpNames.get(i) + ":" + playerInfo.powerUpColors.get(i));
+                }
+                else if( ! colorToPay.equals(Color.ANY)) {
 
-                    if(!playerInfo.powerUpNames.get(index).equals("TargetingScope") && colorToPay.equals(Color.ANY)) {
-                        possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
-                    }
+                    if(playerInfo.powerUpColors.get(i).equals(colorToPay))
+                        possibleChoice.add(playerInfo.powerUpNames.get(i) + ":" + playerInfo.powerUpColors.get(i));
+
                 }
 
             }

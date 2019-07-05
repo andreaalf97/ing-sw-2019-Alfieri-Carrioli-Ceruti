@@ -246,7 +246,7 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
             proxy.setNickname(nickname);
             proxy.setReceiver(controller.virtualView);
 
-            proxy.sendQuestionEvent(new TextMessage("You have been inserted back into your game"));
+            proxy.sendQuestionEvent(new GameRestartedQuestion(controller.getPlayerNames(), controller.getPlayerColors(), controller.getSkulls(), votedMap));
 
             controller.reinsert(nickname, proxy);
             return;

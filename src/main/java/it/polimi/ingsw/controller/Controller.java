@@ -948,4 +948,22 @@ public class Controller implements Observer, AnswerEventHandler {
 
         return false;
     }
+
+    public ArrayList<String> getPlayerNames() {
+
+        return gameModel.getPlayerNames();
+
+    }
+
+    public ArrayList<PlayerColor> getPlayerColors() {
+
+        return PlayerColor.getRandomArray(gameModel.getPlayerNames().size());
+
+    }
+
+    public int getSkulls() {
+        return gameModel.getKSTsize();
+    }
+
+
 }
