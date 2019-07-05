@@ -4,16 +4,16 @@ import it.polimi.ingsw.client.QuestionEventHandler;
 import it.polimi.ingsw.events.QuestionEvent;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseWeaponToAttackQuestion implements QuestionEvent, Serializable {
 
-    public List<String> weaponsLoaded;
+    public ArrayList<String> weaponsLoaded;
 
-    public ChooseWeaponToAttackQuestion(List<String> weaponsLoaded) {
+    public ChooseWeaponToAttackQuestion(ArrayList<String> weaponsLoaded) {
 
         this.weaponsLoaded = weaponsLoaded;
-
     }
 
     @Override

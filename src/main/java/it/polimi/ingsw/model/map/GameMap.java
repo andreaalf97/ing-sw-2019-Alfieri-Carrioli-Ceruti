@@ -418,7 +418,7 @@ public class GameMap {
 
     //TESTED
     /**
-     * RESPAWN METHOD!! this method is called by the game in the method respawn and it moves the player to the spawnspot of the same color as the discarded powerup
+     * RESPAWN METHOD! this method is called by the game in the method respawn and it moves the player to the spawnspot of the same color as the discarded powerup
      * @param player the player that has to respawn
      * @param discardedColor the color of the spawnspot
      */

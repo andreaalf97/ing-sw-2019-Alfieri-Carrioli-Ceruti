@@ -295,6 +295,7 @@ public class Controller implements Observer, AnswerEventHandler {
             boolean[][] allowedSpots = gameModel.wherePlayerCanMove(event.nickname, currentPlayer.getnMoves());
 
             sendQuestionEvent(event.nickname, new SendCanMoveBeforeShootingQuestion(allowedSpots, weaponsLoaded));
+            return;
         }
 
         if(currentPlayer.canreloadBeforeShooting()){
@@ -308,6 +309,7 @@ public class Controller implements Observer, AnswerEventHandler {
 
             if(!rechargeableWeapons.isEmpty()){
                 sendQuestionEvent(event.nickname, new SendCanReloadBeforeShootingQuestion(rechargeableWeaponsNames, weaponsLoaded));
+                return;
             }
 
         }
@@ -442,7 +444,12 @@ public class Controller implements Observer, AnswerEventHandler {
         }
 
         //Se c'è un costo da pagare, devo chiedere all'utente come vuole pagarlo
-        sendQuestionEvent(event.nickname, new ChooseHowToPayForAttackingQuestion(event, cost));
+        if(offenderPlayer.canPay(cost)){
+            sendQuestionEvent(event.nickname, new ChooseHowToPayForAttackingQuestion(event, cost));
+        }else{
+            sendMessage(event.nickname, "You can't pay for all these effects, move and grab something before.\n" );
+            sendQuestionEvent(event.nickname, new ActionQuestion(gameModel.generatePossibleActions(event.nickname)));
+        }
 
     }
 
@@ -477,6 +484,8 @@ public class Controller implements Observer, AnswerEventHandler {
         }
         else{
             sendMessage(event.chooseHowToShootAnswer.nickname, "YOU CAN'T PAY FOR ALL THESE EFFECTS, PLEASE CHECK THE WEAPON RULES AND MAYBE INSERT LESS DEFENDER");
+            sendQuestionEvent(event.chooseHowToShootAnswer.nickname, new ActionQuestion(gameModel.generatePossibleActions(event.chooseHowToShootAnswer.nickname)));
+            return;
         }
 
         //alla fine posso rigenerare le azioni all'utente
@@ -727,7 +736,7 @@ public class Controller implements Observer, AnswerEventHandler {
                 gameModel.removePowerUpByNameAndColor(player, playerPowerUp.getPowerUpName(), playerPowerUp.getColor());
                 gameModel.useMovementPowerUp(offenderName, event.mover, playerPowerUp.getEffect(), x, y);
             } catch (InvalidChoiceException e) {
-                sendMessage(event.nickname, "you can't use this powerUp like this bro, you have waste it");
+                sendMessage(event.nickname, "Can't use this powerUp like this, wasted it");
             }
         }else{
             gameModel.removePowerUpByNameAndColor(player, playerPowerUp.getPowerUpName(), playerPowerUp.getColor());

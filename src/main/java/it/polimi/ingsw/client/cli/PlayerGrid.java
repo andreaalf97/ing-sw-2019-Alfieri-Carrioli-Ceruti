@@ -199,7 +199,7 @@ public class PlayerGrid {
                 return jsonPlayer;
         }
 
-        throw new RuntimeException("this player should be in the json, PlayerGrid!!!!!!!!!!1");
+        throw new RuntimeException("this player should be in the json, PlayerGrid!");
 
     }
 
