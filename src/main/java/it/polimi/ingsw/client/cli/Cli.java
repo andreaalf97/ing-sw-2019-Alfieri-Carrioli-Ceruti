@@ -586,7 +586,7 @@ public class Cli implements QuestionEventHandler {
         int answer = Integer.parseInt(nextLine);
 
         while (answer < 0 || answer >= event.possibleAction.size()) {
-            System.out.println("OUT OF BOUND YOU DUMBASS!");
+            System.out.println("OUT OF BOUND! Reinsert number");
 
             System.out.println("Choose action:");
             for(String action : event.possibleAction)
@@ -650,7 +650,7 @@ public class Cli implements QuestionEventHandler {
 
 
         while (answer < 0 || answer >= event.possibleAction.size()) {
-            System.out.println("OUT OF BOUND YOU DUMBASS!");
+            System.out.println("OUT OF BOUND! reinsert the number");
 
             System.out.println("Choose action:");
             for(String action : event.possibleAction)
@@ -728,7 +728,7 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("Choose weapon to use:");
 
-        int answer = chooseAnswer(event.weaponsLoaded);
+        int answer = chooseAnswerWithNoResetOption(event.weaponsLoaded);
 
         if(answer == -1) {
             remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -754,7 +754,7 @@ public class Cli implements QuestionEventHandler {
 
         ArrayList<String> stringOrders = toStringArray(event.possibleOrders);
 
-        int answer = chooseAnswer(stringOrders);
+        int answer = chooseAnswerWithNoResetOption(stringOrders);
 
         if(answer == -1){
             remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -776,7 +776,7 @@ public class Cli implements QuestionEventHandler {
 
         System.out.println("Choose a defender");
 
-        answer = chooseAnswer(possibleChoices);
+        answer = chooseAnswerWithNoResetOption(possibleChoices);
 
         if(answer == -1){
             remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -791,7 +791,7 @@ public class Cli implements QuestionEventHandler {
         while ( answer != indexOfStopAnswer ){
 
             System.out.println("Next:");
-            answer = chooseAnswer(possibleChoices);
+            answer = chooseAnswerWithNoResetOption(possibleChoices);
 
             if(answer == -1){
                 remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -818,7 +818,7 @@ public class Cli implements QuestionEventHandler {
         possibleAnswers.add("YES");
         possibleAnswers.add("NO");
 
-        int answer = chooseAnswer(possibleAnswers);
+        int answer = chooseAnswerWithNoResetOption(possibleAnswers);
 
         if(answer == -1){
             remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -833,7 +833,7 @@ public class Cli implements QuestionEventHandler {
                 possibleAnswers.add(playerdefender);
             }
 
-            answer = chooseAnswer((possibleAnswers));
+            answer = chooseAnswerWithNoResetOption((possibleAnswers));
 
             if (answer == -1) {
                 remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -889,7 +889,7 @@ public class Cli implements QuestionEventHandler {
 
             System.out.println("Now the movers:");
 
-            answer = chooseAnswer(possibleChoices);
+            answer = chooseAnswerWithNoResetOption(possibleChoices);
 
             if(answer == -1){
                 remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -925,7 +925,7 @@ public class Cli implements QuestionEventHandler {
                 yCoords.add(Integer.parseInt(line));
 
                 System.out.println("Next mover:");
-                answer = chooseAnswer(possibleChoices);
+                answer = chooseAnswerWithNoResetOption(possibleChoices);
 
                 if(answer == -1){
                     remoteView.sendAnswerEvent(new RefreshPossibleActionsAnswer(username));
@@ -1273,7 +1273,7 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseWeaponToReloadQuestion event) {
-        System.out.println("Attention! if you reload a weapon you will end the turn!!!!\n");
+        System.out.println("Attention! You are ending your turn with this action!\n");
         System.out.println("Choose the weapon you want to reload:");
 
         int answer = chooseAnswer(event.weaponsToReload);
@@ -1427,7 +1427,7 @@ public class Cli implements QuestionEventHandler {
        System.out.println(event.winner + " won with " + event.winnerPoints + "points.");
 
        if(username.equals(event.winner)){
-           System.out.println("Congratulations, you won!!!!");
+           System.out.println("Congratulations, you won!");
        }
        else
        {
@@ -1437,6 +1437,7 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(SendCanMoveBeforeShootingQuestion event){
+        System.out.println("Do you want to move before shooting?");
         ArrayList<String> possibleAnswers = new ArrayList<>();
         possibleAnswers.add("YES");
         possibleAnswers.add("NO");
@@ -1467,6 +1468,7 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public  void handleEvent(SendCanReloadBeforeShootingQuestion event){
+        System.out.println("Do you want to reload before shooting?");
         ArrayList<String> possibleAnswers = new ArrayList<>();
         possibleAnswers.add("YES");
         possibleAnswers.add("NO");
@@ -1509,6 +1511,8 @@ public class Cli implements QuestionEventHandler {
             remoteView.sendAnswerEvent(
                     new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
             );
+
+            return;
         }
         remoteView.sendAnswerEvent(new ChooseHowToPayToReloadBeforeAttackAnswer(username, event.weaponToReload, chosenPayment, event.weaponsLoaded));
     }
