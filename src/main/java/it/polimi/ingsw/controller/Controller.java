@@ -66,8 +66,11 @@ public class Controller implements Observer, AnswerEventHandler {
      *      - refills all spots
      */
     private void endTurn(){
+
+        Player playerThatHasJustEnded = gameModel.getCurrentPlayer();
+
         //if we are in frenzy turn and last player has ended the turn
-        if(isFrenzyTurn && gameModel.getCurrentPlayer().getNickname().equals(lastPlayer)){
+        if(isFrenzyTurn && playerThatHasJustEnded.getNickname().equals(lastPlayer)){
 
             int maxPoints = 0;
             String winner = "";
@@ -78,9 +81,9 @@ public class Controller implements Observer, AnswerEventHandler {
                 Player player = gameModel.getPlayerByNickname(current);
 
                 gameModel.giveFrenzyBoardPoints(player);
-
-                gameModel.giveKSTPoints();
             }
+
+            gameModel.giveKSTPoints();
 
             //then i check who won
             for(String current: gameModel.getAllPlayers()){
@@ -99,6 +102,7 @@ public class Controller implements Observer, AnswerEventHandler {
             GamesHandler.deleteController(this, gameModel.getGameId());
         }
 
+
         Player nextPlayer = gameModel.endTurnUpdateStatus();
 
         gameModel.checkDeaths();
@@ -110,15 +114,14 @@ public class Controller implements Observer, AnswerEventHandler {
 
         if(gameModel.kstIsFull() && !isFrenzyTurn){
 
-            isFrenzyTurn = true;
+            lastPlayer = playerThatHasJustEnded.getNickname();
 
-            lastPlayer = gameModel.getCurrentPlayer().getNickname();
+            isFrenzyTurn = true;
 
             virtualView.sendAllQuestionEvent(
                     new TextMessage("***********************FRENZY TURN IS STARTED*************************")
             );
         }
-
 
         ArrayList<String> possibleActions = gameModel.generatePossibleActions(nextPlayer.getNickname());
         sendQuestionEvent(nextPlayer.getNickname(), new ActionQuestion(possibleActions));
@@ -300,22 +303,6 @@ public class Controller implements Observer, AnswerEventHandler {
 
             sendQuestionEvent(event.nickname, new SendCanMoveBeforeShootingQuestion(allowedSpots, weaponsLoaded));
             return;
-        }
-
-        if(currentPlayer.canreloadBeforeShooting()){
-
-            ArrayList<Weapon> rechargeableWeapons = gameModel.checkRechargeableWeapons(event.nickname);
-            ArrayList<String> rechargeableWeaponsNames = new ArrayList<>();
-
-            for(Weapon w : rechargeableWeapons){
-                rechargeableWeaponsNames.add(w.getWeaponName());
-            }
-
-            if(!rechargeableWeapons.isEmpty()){
-                sendQuestionEvent(event.nickname, new SendCanReloadBeforeShootingQuestion(rechargeableWeaponsNames, weaponsLoaded));
-                return;
-            }
-
         }
 
         sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(weaponsLoaded));
@@ -990,27 +977,52 @@ public class Controller implements Observer, AnswerEventHandler {
             gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
         }
 
+        Player currentPlayer = gameModel.getCurrentPlayer();
+
+        if(currentPlayer.canreloadBeforeShooting()){
+
+            ArrayList<Weapon> rechargeableWeapons = gameModel.checkRechargeableWeapons(event.nickname);
+            ArrayList<String> rechargeableWeaponsNames = new ArrayList<>();
+
+            for(Weapon w : rechargeableWeapons){
+                rechargeableWeaponsNames.add(w.getWeaponName());
+            }
+
+            if(!rechargeableWeapons.isEmpty()){
+                sendQuestionEvent(event.nickname, new SendCanReloadBeforeShootingQuestion(rechargeableWeaponsNames, event.weaponsLoaded));
+                return;
+            }
+
+        }
+
+
         sendQuestionEvent(player.getNickname(), new ChooseWeaponToAttackQuestion(event.weaponsLoaded));
     }
 
     public void handleEvent(SendCanReloadBeforeShootingAnswer event){
+        if(event.weaponToReload != null) {
+            ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
 
-        ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
-
-        sendQuestionEvent(event.nickname,
-                new ChooseHowToPayToReloadBeforeAttackQuestion(event.weaponToReload, cost, event.weaponsLoaded)
-        );
+            sendQuestionEvent(event.nickname,
+                    new ChooseHowToPayToReloadBeforeAttackQuestion(event.weaponToReload, cost, event.weaponsLoaded)
+            );
+        }else{
+            sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(event.weaponsLoaded));
+        }
     }
 
     public void handleEvent(ChooseHowToPayToReloadBeforeAttackAnswer event){
 
-        Player player = gameModel.getPlayerByNickname(event.nickname);
+        if(event.chosenPayment != null) {
+            Player player = gameModel.getPlayerByNickname(event.nickname);
 
-        removeAmmoFromPlayer(player, event.chosenPayment);
+            removeAmmoFromPlayer(player, event.chosenPayment);
 
-        player.reloadWeaponByName(event.weaponToReload);
+            player.reloadWeaponByName(event.weaponToReload);
+        }
 
-        sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(event.weaponsLoaded));
+            sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(event.weaponsLoaded));
+
 
     }
 
