@@ -482,6 +482,8 @@ public class BoardGrid {
                     rowPercentages1.add(50.000);
                     rowPercentages1.add(50.000);
 
+                    setGrid(overKillGridpane, colPercentages1, rowPercentages1);
+
                     for (int j = 0; j < 2; j++){
                         Image image = new Image(
                                 "/graphics/drops/"+ colorOfThisPlayer.toString().toUpperCase()+".png",
