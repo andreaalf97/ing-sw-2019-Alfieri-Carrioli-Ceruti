@@ -166,6 +166,23 @@ public class GamesHandler implements AnswerEventHandler, AnswerEventReceiver {
 
     }
 
+    public static void deleteController(Controller controller, int gameId) {
+
+        for(String player : nicknamesControllers.keySet()){
+            if(nicknamesControllers.get(player).equals(controller))
+                nicknamesControllers.remove(player);
+        }
+
+        for(String player : pausedUsernames.keySet())
+            if(pausedUsernames.get(player).equals(gameId))
+                pausedUsernames.remove(player);
+
+        for(int i : jsonSnapshots.keySet())
+            if(i == gameId)
+                jsonSnapshots.remove(i);
+
+    }
+
     synchronized boolean isAValidTemporaryId(Integer id) {
 
         return !temporaryProxies.containsKey(id);

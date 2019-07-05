@@ -317,11 +317,12 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
 
     public void disconnectAllPlayers() {
 
+        this.timer.cancel();
+
         for(int i = 0; i < playersNicknames.size(); i++) {
             serverProxies.get(i).close();
         }
 
-        this.timer.cancel();
 
     }
 }

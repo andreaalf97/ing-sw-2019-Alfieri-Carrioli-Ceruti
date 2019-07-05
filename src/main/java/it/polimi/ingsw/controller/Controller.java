@@ -93,6 +93,10 @@ public class Controller implements Observer, AnswerEventHandler {
             }
 
             virtualView.sendAllQuestionEvent(new EndGameQuestion(winner, maxPoints));
+            virtualView.sendAllQuestionEvent(new DisconnectedQuestion());
+
+            virtualView.disconnectAllPlayers();
+            GamesHandler.deleteController(this, gameModel.getGameId());
         }
 
         Player nextPlayer = gameModel.endTurnUpdateStatus();
