@@ -9,8 +9,11 @@ public class DisconnectedAnswer implements AnswerEvent, Serializable {
 
     public String nickname;
 
-    public DisconnectedAnswer(String nickname) {
+    public boolean comingFromPingChecker;
+
+    public DisconnectedAnswer(String nickname, boolean comingFromPingChecker) {
         this.nickname = nickname;
+        this.comingFromPingChecker = comingFromPingChecker;
     }
 
     @Override

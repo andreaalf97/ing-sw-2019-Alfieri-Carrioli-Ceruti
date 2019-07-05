@@ -23,8 +23,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -152,14 +150,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     public static Image loadImage(String fileName) {
 
-        try {
-            return new Image(new FileInputStream(fileName));
-        }
-        catch (FileNotFoundException e){
-            System.err.println("File not found");
-            e.printStackTrace();
-            return null;
-        }
+        return new Image(Gui.class.getResourceAsStream(fileName));
 
     }
 

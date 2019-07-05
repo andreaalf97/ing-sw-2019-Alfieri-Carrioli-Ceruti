@@ -29,12 +29,12 @@ public class ServerProxySocket implements ServerProxy, Runnable {
     /**
      * The input stream
      */
-    private final ObjectInputStream in;
+    private ObjectInputStream in;
 
     /**
      * The output stream
      */
-    private final ObjectOutputStream out;
+    private ObjectOutputStream out;
 
     /**
      * The only constructor
@@ -85,6 +85,22 @@ public class ServerProxySocket implements ServerProxy, Runnable {
         this.receiver = receiver;
     }
 
+    @Override
+    public void close() {
+
+        try {
+            in.close();
+            out.close();
+            System.out.println("[E] Shutting down SOCKET proxy with " + nickname);
+        }
+        catch (IOException e){
+            System.out.println("[E] Shutting down SOCKET proxy with " + nickname);
+        }
+
+        in = null;
+        out = null;
+    }
+
     /**
      * Sends a question through this socket
      * @param questionEvent
@@ -96,10 +112,8 @@ public class ServerProxySocket implements ServerProxy, Runnable {
             out.writeObject(questionEvent);
             out.flush();
         } catch (IOException e) {
-            System.err.println("Closed connection " + nickname);
-            e.printStackTrace();
-            return;
-            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+            System.err.println("SOCKET exception: disconnecting " + nickname);
+            //receiver.receiveAnswer(new DisconnectedAnswer(nickname, false));
         }
 
     }
@@ -122,10 +136,8 @@ public class ServerProxySocket implements ServerProxy, Runnable {
 
         }
         catch (Exception e){
-            System.err.println("Closed connection " + nickname);
-            e.printStackTrace();
-            return;
-            //receiver.receiveAnswer(new DisconnectedAnswer(nickname));
+            System.err.println("SOCKET exception: disconnecting " + nickname);
+            //receiver.receiveAnswer(new DisconnectedAnswer(nickname, false));
         }
 
     }

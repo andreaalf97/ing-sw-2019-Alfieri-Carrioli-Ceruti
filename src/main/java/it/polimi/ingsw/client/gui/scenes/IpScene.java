@@ -39,7 +39,7 @@ public class IpScene implements MyScene {
         closeButton.setOnAction(e -> ClosingBox.display(window));
 
         //background image
-        Image backgroundImage = Gui.loadImage(getClass().getResource(Gui.loginBackgroundImagePath).getPath());
+        Image backgroundImage = Gui.loadImage(Gui.loginBackgroundImagePath);
         Background Background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(window.getHeight(), window.getWidth(), true, true, true, true)));
 
         //Port and IP scene

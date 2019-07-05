@@ -336,7 +336,6 @@ public class Game extends Observable {
      * of each turn
      */
     public void checkDeaths() {
-        MyLogger.LOGGER.info("Checking deaths...");
 
         for (Player i : players) {
             if (!i.playerStatus.isFirstTurn && i.isDead()) {
@@ -1772,7 +1771,7 @@ public class Game extends Observable {
         String jsonGameMap = gameMapSnapshot(gson);
 
         clientSnapshot = "{ \"playerNames\":" + jsonPlayerNames + "," + "\"kst\":" + jsonKST + "," + "\"gameMap\":"
-                + jsonGameMap + "," + "PORCODUE";
+                + jsonGameMap + "," + "SNAPSPLITT";
 
         clientSnapshot += "\"players\":" + gson.toJson(players.toArray()) + "}";
 
