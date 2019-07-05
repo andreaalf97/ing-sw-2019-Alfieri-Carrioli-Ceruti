@@ -500,6 +500,7 @@ public class Cli implements QuestionEventHandler {
 
 
 
+
         System.out.println("GAME STARTED");
 
         System.out.println("The players are:");
@@ -1414,6 +1415,21 @@ public class Cli implements QuestionEventHandler {
 
         new Thread( () -> questionEvent.acceptEventHandler(this)).start();
 
+    }
+
+    //TODO STACCARE LA CONNESSIONE
+    @Override
+    public void handleEvent(EndGameQuestion event)
+    {
+       System.out.println(event.winner + " won with " + event.winnerPoints + "points.");
+
+       if(username.equals(event.winner)){
+           System.out.println("Congratulations, you won!!!!");
+       }
+       else
+       {
+           System.out.println("Better luck next time :)");
+       }
     }
 }
 

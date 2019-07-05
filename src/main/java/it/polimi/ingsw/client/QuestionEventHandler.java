@@ -42,4 +42,6 @@ public interface QuestionEventHandler {
     void handleEvent(ChooseIfUseATargetingScopeQuestion event);
 
     void handleEvent(GameRestartedQuestion event);
+
+    void handleEvent(EndGameQuestion event);
 }
