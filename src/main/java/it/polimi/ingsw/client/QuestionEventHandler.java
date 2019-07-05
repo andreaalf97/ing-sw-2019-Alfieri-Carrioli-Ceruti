@@ -44,4 +44,7 @@ public interface QuestionEventHandler {
     void handleEvent(GameRestartedQuestion event);
 
     void handleEvent(EndGameQuestion event);
+    void handleEvent(SendCanMoveBeforeShootingQuestion event);
+    void handleEvent(SendCanReloadBeforeShootingQuestion event);
+    void handleEvent(ChooseHowToPayToReloadBeforeAttackQuestion event);
 }

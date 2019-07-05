@@ -1431,5 +1431,124 @@ public class Cli implements QuestionEventHandler {
            System.out.println("Better luck next time :)");
        }
     }
+
+    @Override
+    public void handleEvent(SendCanMoveBeforeShootingQuestion event){
+        ArrayList<String> possibleAnswers = new ArrayList<>();
+        possibleAnswers.add("YES");
+        possibleAnswers.add("NO");
+
+        int answer = chooseAnswerWithNoResetOption(possibleAnswers);
+
+        if(answer == 0){
+            int coord[] = askForCoords(event.allowedSpots);
+
+            if(coord != null){
+                remoteView.sendAnswerEvent(new SendCanMoveBeforeShootingAnswer(username, coord[0], coord[1], event.weaponsLoaded));
+            }
+            else{
+                remoteView.sendAnswerEvent(new SendCanMoveBeforeShootingAnswer(username, -1, -1, event.weaponsLoaded));
+            }
+
+        }else{
+
+            System.out.println("Choose weapon to use:");
+
+            answer = chooseAnswerWithNoResetOption(event.weaponsLoaded);
+
+            remoteView.sendAnswerEvent(
+                    new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
+            );
+        }
+    }
+
+    @Override
+    public  void handleEvent(SendCanReloadBeforeShootingQuestion event){
+        ArrayList<String> possibleAnswers = new ArrayList<>();
+        possibleAnswers.add("YES");
+        possibleAnswers.add("NO");
+
+        int answer = chooseAnswerWithNoResetOption(possibleAnswers);
+
+        if(answer == 0){
+
+            System.out.println("Choose weapon you want to reload");
+
+            answer = chooseAnswerWithNoResetOption(event.rechargeableWeaponNames);
+
+            remoteView.sendAnswerEvent( new SendCanReloadBeforeShootingAnswer(username, event.rechargeableWeaponNames.get(answer), event.weaponsLoaded));
+        }
+        else{
+            System.out.println("Choose weapon to use:");
+
+            answer = chooseAnswerWithNoResetOption(event.weaponsLoaded);
+
+            remoteView.sendAnswerEvent(
+                    new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
+            );
+        }
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToReloadBeforeAttackQuestion event){
+
+        System.out.println("You chose to reload " + event.weaponToReload);
+
+        ArrayList<String> chosenPayment = handlePayment(event.cost);
+
+        if(chosenPayment == null){
+
+            System.out.println("Choose weapon to use:");
+
+            int  answer = chooseAnswerWithNoResetOption(event.weaponsLoaded);
+
+            remoteView.sendAnswerEvent(
+                    new ChooseWeaponToAttackAnswer(username, event.weaponsLoaded.get(answer))
+            );
+        }
+
+        remoteView.sendAnswerEvent(new ChooseHowToPayToReloadBeforeAttackAnswer(username, event.weaponToReload, chosenPayment, event.weaponsLoaded));
+
+
+    }
+
+    private int chooseAnswerWithNoResetOption(ArrayList<String> possibleAnswers) {
+
+        for(String possibleAnswer : possibleAnswers)
+            System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
+
+        String nextLine = sysin.nextLine();
+
+        while (!Pattern.matches(validEventInput, nextLine)){
+            System.out.println("Wrong format");
+            nextLine = sysin.nextLine();
+        }
+
+        try {
+            int answer = Integer.parseInt(nextLine);
+
+            while (answer < 0 || answer >= possibleAnswers.size()){
+
+                for(String possibleAnswer : possibleAnswers)
+                    System.out.println("[" + possibleAnswers.indexOf(possibleAnswer) + "] " + possibleAnswer);
+
+                nextLine = sysin.nextLine();
+                while (!Pattern.matches(validEventInput, nextLine)){
+                    System.out.println("Wrong format");
+                    nextLine = sysin.nextLine();
+                }
+
+                answer = Integer.parseInt(nextLine);
+
+            }
+
+            return answer;
+        }
+        catch (NumberFormatException e){
+            System.out.println("WRONG FORMAT, PLEASE ENTER AGAIN");
+            return chooseAnswer(possibleAnswers);
+        }
+    }
 }
 

@@ -2,6 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.events.AnswerEvent;
 import it.polimi.ingsw.events.clientToServer.*;
+import it.polimi.ingsw.events.serverToClient.ChooseHowToPayToReloadBeforeAttackQuestion;
+import it.polimi.ingsw.events.serverToClient.SendCanMoveBeforeShootingQuestion;
+import it.polimi.ingsw.events.serverToClient.SendCanReloadBeforeShootingQuestion;
 
 public interface AnswerEventHandler {
 
@@ -44,4 +47,8 @@ public interface AnswerEventHandler {
     void handleEvent(RefreshPossibleActionsAfterReloadingAnswer event);
 
     void handleEvent(ChooseIfUseATargetingScopeAnswer event);
+
+    void handleEvent(SendCanMoveBeforeShootingAnswer event);
+    void handleEvent(SendCanReloadBeforeShootingAnswer event);
+    void handleEvent(ChooseHowToPayToReloadBeforeAttackAnswer event);
 }

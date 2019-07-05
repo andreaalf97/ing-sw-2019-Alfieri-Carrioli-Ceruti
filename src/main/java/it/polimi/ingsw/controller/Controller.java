@@ -275,7 +275,7 @@ public class Controller implements Observer, AnswerEventHandler {
     @Override
     public void handleEvent(ActionAttackAnswer event) {
 
-        List<String> weaponsLoaded = gameModel.getLoadedWeapons(event.nickname);
+        ArrayList<String> weaponsLoaded = gameModel.getLoadedWeapons(event.nickname);
 
         if(weaponsLoaded.isEmpty()){
             sendMessage(event.nickname, "You have no loaded weapon");
@@ -287,6 +287,29 @@ public class Controller implements Observer, AnswerEventHandler {
             );
 
             return;
+        }
+
+        Player currentPlayer = gameModel.getPlayerByNickname(event.nickname);
+
+        if(currentPlayer.getnMovesBeforeShooting() > 0){
+            boolean[][] allowedSpots = gameModel.wherePlayerCanMove(event.nickname, currentPlayer.getnMoves());
+
+            sendQuestionEvent(event.nickname, new SendCanMoveBeforeShootingQuestion(allowedSpots, weaponsLoaded));
+        }
+
+        if(currentPlayer.canreloadBeforeShooting()){
+
+            ArrayList<Weapon> rechargeableWeapons = gameModel.checkRechargeableWeapons(event.nickname);
+            ArrayList<String> rechargeableWeaponsNames = new ArrayList<>();
+
+            for(Weapon w : rechargeableWeapons){
+                rechargeableWeaponsNames.add(w.getWeaponName());
+            }
+
+            if(!rechargeableWeapons.isEmpty()){
+                sendQuestionEvent(event.nickname, new SendCanReloadBeforeShootingQuestion(rechargeableWeaponsNames, weaponsLoaded));
+            }
+
         }
 
         sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(weaponsLoaded));
@@ -870,8 +893,6 @@ public class Controller implements Observer, AnswerEventHandler {
         //gameModel.switchWeapons(event.nickname, event.weaponToPick, event.weaponToDiscard);
 
 
-
-
     }
 
     @Override
@@ -922,11 +943,7 @@ public class Controller implements Observer, AnswerEventHandler {
         Player player = gameModel.getPlayerByNickname(event.nickname);
         List<String> possibleActions;
 
-        if(player.canreloadBeforeShooting()) {
-            possibleActions = gameModel.generatePossibleActions(event.nickname);
-        }else {
-            possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
-        }
+        possibleActions = gameModel.generateActionsAfterReloading(event.nickname);
 
         sendQuestionEvent(event.nickname , new ActionQuestion(possibleActions));
     }
@@ -948,5 +965,37 @@ public class Controller implements Observer, AnswerEventHandler {
                 return true;
 
         return false;
+    }
+
+    public void handleEvent(SendCanMoveBeforeShootingAnswer event){
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        int xCoord = event.x;
+        int yCoord = event.y;
+
+        gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
+
+        sendQuestionEvent(player.getNickname(), new ChooseWeaponToAttackQuestion(event.weaponsLoaded));
+    }
+
+    public void handleEvent(SendCanReloadBeforeShootingAnswer event){
+
+        ArrayList<Color> cost = gameModel.getWeaponByName(event.weaponToReload).getCost();
+
+        sendQuestionEvent(event.nickname,
+                new ChooseHowToPayToReloadBeforeAttackQuestion(event.weaponToReload, cost, event.weaponsLoaded)
+        );
+    }
+
+    public void handleEvent(ChooseHowToPayToReloadBeforeAttackAnswer event){
+
+        Player player = gameModel.getPlayerByNickname(event.nickname);
+
+        removeAmmoFromPlayer(player, event.chosenPayment);
+
+        player.reloadWeaponByName(event.weaponToReload);
+
+        sendQuestionEvent(event.nickname, new ChooseWeaponToAttackQuestion(event.weaponsLoaded));
+
     }
 }

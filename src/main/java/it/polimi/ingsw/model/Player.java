@@ -291,11 +291,11 @@ public class Player {
         return nMovesBeforeGrabbing;
     }
 
-    protected int getnMovesBeforeShooting() {
+    public int getnMovesBeforeShooting() {
         return nMovesBeforeShooting;
     }
 
-    protected boolean isCanReloadBeforeShooting() {
+    public boolean canReloadBeforeShooting() {
         return canReloadBeforeShooting;
     }
 
@@ -805,10 +805,10 @@ public class Player {
 
     }
 
-    //TODO CONTROL ANY OPTION, MA SE LA INSERISCO COME ULTIMA COSA DA PAGARE SONO SICURO CHE QUELLA MERDA DEL CLIENT LA PAGA
+
     public boolean canPayWithString(ArrayList<String> cost) {
 
-        if (cost.isEmpty())
+        if (cost.isEmpty() || cost.equals(null))
             return true;
 
 

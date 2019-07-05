@@ -11,6 +11,7 @@ import it.polimi.ingsw.client.gui.scenes.gameScene.GameScene;
 import it.polimi.ingsw.events.QuestionEvent;
 import it.polimi.ingsw.events.clientToServer.NewConnectionAnswer;
 import it.polimi.ingsw.events.clientToServer.Ping;
+import it.polimi.ingsw.events.clientToServer.SendCanReloadBeforeShootingAnswer;
 import it.polimi.ingsw.events.serverToClient.*;
 import it.polimi.ingsw.model.map.MapName;
 import it.polimi.ingsw.view.client.RemoteView;
@@ -477,6 +478,21 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(EndGameQuestion event){
+
+    }
+
+    @Override
+    public void handleEvent(SendCanReloadBeforeShootingQuestion event){
+
+    }
+
+    @Override
+    public void handleEvent(SendCanMoveBeforeShootingQuestion event){
+
+    }
+
+    @Override
+    public void handleEvent(ChooseHowToPayToReloadBeforeAttackQuestion event){
 
     }
 }

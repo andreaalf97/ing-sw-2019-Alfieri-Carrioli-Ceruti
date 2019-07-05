@@ -96,7 +96,7 @@ public class VirtualView extends Observable implements Observer, AnswerEventRece
                 }
             }
         }, 0, 5000);
-      
+
     }
 
     /**
