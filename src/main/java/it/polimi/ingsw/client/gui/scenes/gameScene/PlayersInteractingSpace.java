@@ -736,71 +736,120 @@ public class PlayersInteractingSpace {
             gridPane.add(label, 0, 0, 20, 1);
         }
 
-        for(int i = 0; i < costToPay.size(); i++){
-            Label label1 = new Label("Choose for "+ costToPay.get(i)+":");
+        for(int i = 0; i < costToPay.size(); i++) {
+            Label label1 = new Label("Choose for " + costToPay.get(i) + ":");
             label1.setStyle("-fx-font-size: 15; -fx-color: black");
-            gridPane.add(label1, 0, i+1, 6, 1);
+            gridPane.add(label1, 0, i + 1, 6, 1);
 
             ArrayList<String> possibleChoice = new ArrayList<>();
 
-            switch (costToPay.get(i)){
+            switch (costToPay.get(i)) {
                 case RED:
-                    if(playerInfo.nRedAmmo > 0)
+                    if (playerInfo.nRedAmmo > 0)
                         possibleChoice.add(costToPay.get(i).toString());
                     break;
                 case BLUE:
-                    if(playerInfo.nBlueAmmo > 0)
+                    if (playerInfo.nBlueAmmo > 0)
                         possibleChoice.add(costToPay.get(i).toString());
                     break;
                 case YELLOW:
-                    if(playerInfo.nYellowAmmo > 0)
+                    if (playerInfo.nYellowAmmo > 0)
                         possibleChoice.add(costToPay.get(i).toString());
                     break;
                 case ANY:
-                    if(playerInfo.nRedAmmo > 0)
-                        possibleChoice.add(costToPay.get(i).toString());
-                    if(playerInfo.nBlueAmmo > 0)
-                        possibleChoice.add(costToPay.get(i).toString());
-                    if(playerInfo.nYellowAmmo > 0)
-                        possibleChoice.add(costToPay.get(i).toString());
+                    if (playerInfo.nRedAmmo > 0)
+                        possibleChoice.add("RED");
+                    if (playerInfo.nBlueAmmo > 0)
+                        possibleChoice.add("BLUE");
+                    if (playerInfo.nYellowAmmo > 0)
+                        possibleChoice.add("YELLOW");
                     break;
             }
-            for(Color powerUpColor : playerInfo.powerUpColors){
+            /*for(Color powerUpColor : playerInfo.powerUpColors){
                 if(powerUpColor.equals(costToPay.get(i))){
                     int index = playerInfo.powerUpColors.indexOf(powerUpColor);
                     possibleChoice.add(playerInfo.powerUpNames.get(index) + ":" + powerUpColor);
                 }
+            }*/
+            for (int j = 0; j < playerInfo.powerUpNames.size(); j++) {
+
+                if (costToPay.get(i).equals(Color.ANY) && (!playerInfo.powerUpNames.get(j).equals("TargetingScope"))) {
+                    possibleChoice.add(playerInfo.powerUpNames.get(j) + ":" + playerInfo.powerUpColors.get(j));
+                } else if (!costToPay.get(i).equals(Color.ANY)) {
+
+                    if (playerInfo.powerUpColors.get(j).equals(costToPay.get(i)))
+                        possibleChoice.add(playerInfo.powerUpNames.get(j) + ":" + playerInfo.powerUpColors.get(j));
+
+                }
+
             }
-            for (int j = 0; j < possibleChoice.size(); j++){
+            if (costToPay.get(i) != Color.ANY){
+                for (int j = 0; j < possibleChoice.size(); j++) {
 
-                int index = j;
-                Button button = new Button(possibleChoice.get(j));
-                gridPane.add(button, j*3 + 6, i+1, 5, 1);
+                    int index = j;
+                    Button button = new Button(possibleChoice.get(j));
+                    gridPane.add(button, j * 3 + 6, i + 1, 5, 1);
 
-                button.setOnAction(actionEvent -> {
-                    paymentChosen.add(possibleChoice.get(index));
-                    button.setStyle("-fx-background-color: red");
-                });
+                    button.setOnAction(actionEvent -> {
+                        paymentChosen.add(possibleChoice.get(index));
+                        button.setStyle("-fx-background-color: red");
+                    });
 
-                Button nextButton = new Button("next");
-                gridPane.add(nextButton, 16, costToPay.size(), 3, 1);
-                nextButton.setOnAction(e -> {
+                    Button nextButton = new Button("next");
+                    gridPane.add(nextButton, 16, costToPay.size(), 3, 1);
+                    nextButton.setOnAction(e -> {
 
-                    switch (payForWhat){
-                        case "HowToPayToReload":
-                            remoteView.sendAnswerEvent(new ChooseHowToPayToReloadAnswer(username, this.chooseHowToPayToReloadQuestionevent.weaponToReload, paymentChosen));
-                            break;
-                        case "HowToPayToPickWeapon":
-                            remoteView.sendAnswerEvent(new ChooseHowToPayToPickWeaponAnswer(username, this.chooseHowToPayToPickWeaponQuestionEvent.weaponName, paymentChosen));
-                            break;
-                        case "HowToPayToSwitchWeapons":
-                            remoteView.sendAnswerEvent(new ChooseHowToPayToSwitchWeaponsAnswer(username, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToPick, paymentChosen, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToDiscard));
-                            break;
-                        case "HowToPayForAttacking":
-                            remoteView.sendAnswerEvent(new ChooseHowToPayForAttackingAnswer(this.chooseHowToPayForAttackingQuestionEvent.chooseHowToShootAnswer, paymentChosen));
-                            break;
+                        switch (payForWhat) {
+                            case "HowToPayToReload":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayToReloadAnswer(username, this.chooseHowToPayToReloadQuestionevent.weaponToReload, paymentChosen));
+                                break;
+                            case "HowToPayToPickWeapon":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayToPickWeaponAnswer(username, this.chooseHowToPayToPickWeaponQuestionEvent.weaponName, paymentChosen));
+                                break;
+                            case "HowToPayToSwitchWeapons":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayToSwitchWeaponsAnswer(username, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToPick, paymentChosen, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToDiscard));
+                                break;
+                            case "HowToPayForAttacking":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayForAttackingAnswer(this.chooseHowToPayForAttackingQuestionEvent.chooseHowToShootAnswer, paymentChosen));
+                                break;
+                        }
+                    });
+                }
+            }else{
+                for (int j = 0; j < possibleChoice.size(); j++) {
+
+                    int index = j;
+                    Button button = new Button(possibleChoice.get(j));
+                    if ( j%2 == 0) {
+                        gridPane.add(button, j * 2 + 4, i + 1, 4, 1);
+                    }else {
+                        gridPane.add(button, (j - 1) * 2 + 4, i + 2, 4, 1);
                     }
-                });
+                    button.setOnAction(actionEvent -> {
+                        paymentChosen.add(possibleChoice.get(index));
+                        button.setStyle("-fx-background-color: red");
+                    });
+
+                    Button nextButton = new Button("next");
+                    gridPane.add(nextButton, 16, costToPay.size(), 3, 1);
+                    nextButton.setOnAction(e -> {
+
+                        switch (payForWhat) {
+                            case "HowToPayToReload":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayToReloadAnswer(username, this.chooseHowToPayToReloadQuestionevent.weaponToReload, paymentChosen));
+                                break;
+                            case "HowToPayToPickWeapon":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayToPickWeaponAnswer(username, this.chooseHowToPayToPickWeaponQuestionEvent.weaponName, paymentChosen));
+                                break;
+                            case "HowToPayToSwitchWeapons":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayToSwitchWeaponsAnswer(username, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToPick, paymentChosen, this.chooseHowToPayToSwitchWeaponsQuestionEvent.weaponToDiscard));
+                                break;
+                            case "HowToPayForAttacking":
+                                remoteView.sendAnswerEvent(new ChooseHowToPayForAttackingAnswer(this.chooseHowToPayForAttackingQuestionEvent.chooseHowToShootAnswer, paymentChosen));
+                                break;
+                        }
+                    });
+                }
             }
         }
     }
