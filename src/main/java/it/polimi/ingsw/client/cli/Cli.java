@@ -297,6 +297,9 @@ public class Cli implements QuestionEventHandler {
      */
     public static void main(String[] args){
 
+        System.setProperty("java.rmi.server.hostname", args[0]);
+        System.out.println("RMI ip is set to " + args[0]);
+
         Cli cli = new Cli();
 
         cli.start();

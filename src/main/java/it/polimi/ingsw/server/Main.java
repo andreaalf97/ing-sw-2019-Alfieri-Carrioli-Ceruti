@@ -125,6 +125,10 @@ public class Main {
      */
     public static void main(String[] args) {
 
+        System.setProperty("java.rmi.server.hostname", args[0]);
+
+        System.out.println("RMI ip is set to " + args[0]);
+
         Main main = new Main();
 
         main.start();

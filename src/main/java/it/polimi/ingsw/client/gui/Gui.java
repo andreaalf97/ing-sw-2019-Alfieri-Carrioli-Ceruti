@@ -94,6 +94,9 @@ public class Gui extends Application implements QuestionEventHandler {
 
     public static void main(String[] args) {
 
+        System.setProperty("java.rmi.server.hostname", args[0]);
+        System.out.println("RMI ip is set to " + args[0]);
+
         //Loads the window and starts the gui
         launch(args);
     }
