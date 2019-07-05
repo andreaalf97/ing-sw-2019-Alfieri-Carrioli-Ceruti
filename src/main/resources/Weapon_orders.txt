@@ -1,0 +1,89 @@
+ZX-2 : 
+	0:	One damage and two marks to one defender.
+	1:	One mark for a maximum of three defenders.
+LockRifle: 
+	0:	Two damages and one mark to one defender. One mark to another defender for one red.
+
+MachineGun:
+ 	0:	One damage to two defenders, then one more damage to one of them, then one more to the other one of them, then one damage to another defender, must not be one already hit.
+	1:	One damage to two defenders, then one more damage to one of them, then one damage to another defender, must not be one already hit.
+	2:	One damage to two defenders, then one more damage to one of them, then one damage to another defender, must not be one already hit.
+	3:	One damage to two defenders, then one damage to another defender, must not be one already hit.
+4:	One damage to two defenders, then one damage to another defender, must not be one already hit, then one more damage to one of them, then one more to the other one of them.
+5:	One damage to two defenders, then one damage to another defender, must not be one already hit, then one more to the other one of them, then one more damage to one of them, then one more to the other one of them.
+
+Thor: 	
+0: 	Two damages to one defender, then one to another defender the first can see, then two damages to another defender, the second defender can see.
+
+PlasmaGun: 	
+	0:	Two damages to one defender, then offender moves maximum two spots, then one more damage to the only defender.
+	1:	The offender moves before shooting.
+	2:	The offender moves after shooting everything.
+
+Whisper: 	
+	0:	Three damages and one mark to one offender.
+
+Electroscythe: 	
+	0:	One damage to everyone in the same spot of the offender.
+	1:	Two damages to everyone in the same spot of the offender.
+
+TractorBeam: 		
+0:	The defender moves maximum two spots towards the offender, then takes one damage.
+	1:	The defender moves maximum two spots towards the offender, then takes three damage.
+
+VortexCannon: 		
+0:	Move one defender maximum one spot then give him to marks. Move two other defenders to the same spot and give them one damage.
+
+Furnace: 	
+	0:	Give one damage to everyone in one spot of another room.
+	1:	Give one mark and one damage to everyone one spot away.
+
+Heatseeker : 
+	0:	Give three damages to one defender you can’t see.
+
+Hellion :
+	0:	Give one damage and one mark to everyone in one spot at least one spot away.
+	1:	Give one damage and two marks to everyone in one spot at least one spot away.
+
+Flamethrower:
+ 	0:	Linear attack, give one damage to two people in different spots, they can’t be in your spot.
+	1:	Linear attack, give two damages to everyone in the same spot, one spot away from you and one damage to everyone two spots away from you.
+
+GrenadeLauncher:
+	0:	Give one damage to one offender, then move him maximum one spot, then give one damage to everyone in one spot.
+	1:	Move the offender first.
+	2:	Shoot to everyone in the spot first.
+
+RocketLauncher:
+ 	0: 	Give two damages to one player who’s not in yout spot, then move him maximum on spot, then you can move maximum two spots, then give one damage to everyone on one spot.
+	1:	The offender can move first.
+	2:	You move last.
+
+Railgun:
+	0:	Linear attack, give three damages to one defender.
+	1:	Linear attack, give two damages to two defenders.
+
+Cyberblade :
+ 	0:	Give two damages to on player in your spot, then you can move maximum one spot, then you can give two damages to another player in your spot.
+	1:	You move last.
+
+Shotgun:
+	0:	Give three damages to on defender in your spot, then you can move him one spot away.
+	1:	Give two damages to one defender one spot away.
+
+PowerGlove:
+	0:	Move one spot then give one damage and two marks to a defender in your spot.
+	1:	Move one spot then give to one defender in your spot two damages, then move again one spot then give another offender in your spot two damages.
+	2:	You don’t move the second time.
+
+Shockwave:
+	0:	Give one damage to one player for each spot, one spot away from you.
+	1:	Give one damage to everyone one spot away from you.
+
+Sledgehammer:
+	0:	Give two damages to one defender in your spot.
+	1:	Guve three damages to one defender in your spot then you can move him maximum two spots.
+
+
+ 
+
