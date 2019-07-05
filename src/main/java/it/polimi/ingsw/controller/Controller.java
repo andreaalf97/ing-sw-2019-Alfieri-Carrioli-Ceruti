@@ -973,7 +973,9 @@ public class Controller implements Observer, AnswerEventHandler {
         int xCoord = event.x;
         int yCoord = event.y;
 
-        gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
+        if(xCoord != -1 && yCoord != -1) {
+            gameModel.movePlayer(player.getNickname(), xCoord, yCoord);
+        }
 
         sendQuestionEvent(player.getNickname(), new ChooseWeaponToAttackQuestion(event.weaponsLoaded));
     }

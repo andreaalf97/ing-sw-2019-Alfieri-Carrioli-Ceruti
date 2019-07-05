@@ -973,7 +973,7 @@ public class Game extends Observable {
 
         ArrayList<Player> playersHit = new ArrayList<>();
 
-        GameMap backUpMap = new GameMap(this.gameMap);
+        String backUpMap = gameMapSnapshot(new Gson());
 
         ArrayList<Player> backUpPlayers = new ArrayList<>();
 
@@ -1064,7 +1064,7 @@ public class Game extends Observable {
             return true;
         } catch (InvalidChoiceException e) {
             // resetto mappa
-            this.gameMap = new GameMap(backUpMap);
+            this.gameMap = JsonDeserializer.deserializeGameMap(backUpMap);
             // resetto tutti i players in this game
             this.players = new ArrayList<>(backUpPlayers);
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());
@@ -1162,7 +1162,7 @@ public class Game extends Observable {
 
         ArrayList<Player> backUpPlayers = new ArrayList<>();
 
-        GameMap backUpMap = new GameMap(this.gameMap);
+        String backUpMap = gameMapSnapshot(new Gson());
 
         for (Player p : this.players) {
             backUpPlayers.add(new Player(p));
@@ -1231,7 +1231,7 @@ public class Game extends Observable {
             return true;
         } catch (InvalidChoiceException e) {
             // resetto mappa
-            this.gameMap = new GameMap(backUpMap);
+            this.gameMap = JsonDeserializer.deserializeGameMap(backUpMap);
             // resetto tutti i players in this game
             this.players = new ArrayList<>(backUpPlayers);
             MyLogger.LOGGER.log(Level.SEVERE, e.getMessage());

@@ -239,19 +239,7 @@ public class GameMap {
      * @return true if this is a spawn spot
      */
     public boolean isSpawnSpot(int x, int y){
-        if(x == 0 && y == 2){
-            return true;
-        }
-
-        if(x == 1 && y == 0){
-            return true;
-        }
-
-        if(x == 2 && y == 3){
-            return true;
-        }
-
-        return false;
+        return map[x][y].isSpawnSpot();
     }
 
     //TESTED
