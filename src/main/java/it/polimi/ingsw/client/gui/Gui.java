@@ -231,11 +231,12 @@ public class Gui extends Application implements QuestionEventHandler {
         System.out.println("RECEIVED DisconnectedQuestion EVENT");
 
 
-        waitingRoomGui.close();
+        if (waitingRoomGui != null)
+            waitingRoomGui.close();
 
         window.close();
 
-        Modal.display("YOU HAVE BEEN DISCONECTED");
+        Modal.displayAndExit("YOU HAVE BEEN DISCONECTED");
 
     }
 
@@ -292,7 +293,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
         System.err.println("RECEIVED GameRestartedQuestion EVENT");
 
-        waitingRoomGui.close();
+        //waitingRoomGui.close();
 
         //Scheduling the timer to send a Ping message every 2 seconds
         new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -330,7 +331,6 @@ public class Gui extends Application implements QuestionEventHandler {
         else {
             window.setResizable(false);
         }
-
 
         window.setScene(nextScene);
 
@@ -371,7 +371,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ChooseHowToPayForAttackingQuestion event) {
-        gameScene.playersInteractingSpace.askChooseHowToPayForAttackingQuestion(event, remoteView, playerInfo);
+        Platform.runLater( () -> gameScene.playersInteractingSpace.askChooseHowToPayForAttackingQuestion(event, remoteView, playerInfo));
     }
 
     @Override
@@ -401,7 +401,6 @@ public class Gui extends Application implements QuestionEventHandler {
     @Override
     public void handleEvent(ChoosePowerUpToRespawnQuestion event) {
         Platform.runLater( () -> gameScene.playersInteractingSpace.askChoosePowerUpToRespawnQuestion(event, username, remoteView));
-
     }
 
     @Override
@@ -460,6 +459,7 @@ public class Gui extends Application implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ActionAfterReloadingQuestion event){
+        Platform.runLater( () -> gameScene.playersInteractingSpace.actionAfterReloadingQuestion(event, username, remoteView));
     }
 
     @Override

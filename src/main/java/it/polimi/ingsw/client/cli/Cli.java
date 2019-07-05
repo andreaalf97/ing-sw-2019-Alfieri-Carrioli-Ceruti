@@ -565,6 +565,7 @@ public class Cli implements QuestionEventHandler {
 
     @Override
     public void handleEvent(ActionAfterReloadingQuestion event){
+
         event.possibleAction.add("ShowMap");
         event.possibleAction.add("ShowMyBoard");
 
@@ -580,8 +581,6 @@ public class Cli implements QuestionEventHandler {
         }
 
         int answer = Integer.parseInt(nextLine);
-
-
 
         while (answer < 0 || answer >= event.possibleAction.size()) {
             System.out.println("OUT OF BOUND YOU DUMBASS!");

@@ -260,6 +260,9 @@ public class GameScene extends ClickHandler implements MyScene {
         externalGridPane.add(exitButton, col, row, colspan, rowspan);
 
         exitButton.setOnAction(event -> ClosingBox.display(window));
+
+        window.close();
+
     }
 
     /**

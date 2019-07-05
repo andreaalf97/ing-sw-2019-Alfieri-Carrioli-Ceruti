@@ -67,7 +67,7 @@ public class BoardGrid {
 
         this.pointsBox = new GridPane();
 
-        this.kstBox = setUpKstBox(votedSkulls);
+        this.kstBox = setUpInitialKstBox(votedSkulls);
 
         this.leftSpawnWeaponBox = new GridPane();
 
@@ -93,6 +93,10 @@ public class BoardGrid {
 
     public void update(GameInfo gameInfo) {
 
+        this.playerNames = gameInfo.playersNames;
+        gameMap = gameInfo.gameMap.getMap();
+        this.gameInfo = gameInfo;
+
         if (kstBox != null)
             gridPane.getChildren().remove(kstBox);
         this.kstBox = setUpKstBox(gameInfo.killShotTrack.getSkullList().size());
@@ -102,8 +106,6 @@ public class BoardGrid {
             gridPane.getChildren().remove(pointsBox);
         this.pointsBox = setUpPointsBox();
         gridPane.add(pointsBox, 1, 1, 1, 5);
-
-        gameMap = gameInfo.gameMap.getMap();
 
         if (leftSpawnWeaponBox != null)
             gridPane.getChildren().remove(leftSpawnWeaponBox);
@@ -210,16 +212,6 @@ public class BoardGrid {
                                     0, 0,
                                     true, false
                             );
-                            /*ImageView imageView = new ImageView(image);
-                            imageView.setFitHeight(50);
-                            imageView.setFitWidth(25);
-                            playersHbox.getChildren().add(imageView);
-                            Image image = new Image(
-                                    "/graphics/players_pawns/" +color.toString()+ ".png",
-                                    0, 0,
-                                    true, false
-                            );*/
-
                             BackgroundImage backgroundImage = new BackgroundImage(
                                     image,
                                     BackgroundRepeat.NO_REPEAT,
@@ -236,12 +228,9 @@ public class BoardGrid {
                 }
             }
         }
-
-
         gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
-
     }
 
     private GridPane setUpTopSpawnWeaponBox(Spot spot) {
@@ -255,17 +244,8 @@ public class BoardGrid {
         colPercentages.add(32.000);
         colPercentages.add(32.000);
 
-
         ArrayList<Double> rowPercentages = new ArrayList<>();
         rowPercentages.add(100.00);
-
-        /*for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
-            Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, true, false);
-            ImageView weaponImageView = new ImageView(weaponImage);
-            weaponImageView.setFitWidth(90);
-            weaponImageView.setFitHeight(120);
-            gridPane.add(weaponImageView, i, 0, 1, 1);
-        }*/
 
         for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
 
@@ -320,15 +300,6 @@ public class BoardGrid {
         rowPercentages.add(33.333);
         rowPercentages.add(33.333);
 
-        /*for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
-            Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, false, false);
-            ImageView weaponImageView = new ImageView(weaponImage);
-            weaponImageView.setFitWidth(90);
-            weaponImageView.setFitHeight(100);
-            weaponImageView.setRotate(270);
-            gridPane.add(weaponImageView, 0, i);
-        }*/
-
         for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
 
             Button button = new Button();
@@ -380,15 +351,6 @@ public class BoardGrid {
         rowPercentages.add(33.333);
         rowPercentages.add(33.333);
 
-        /*for( int i = 0; i < spot.getSpawnWeaponNames().size(); i++) {
-            Image weaponImage = new Image("/graphics/cards/" +spot.getSpawnWeaponNames().get(i)+ ".png", 0, 0, false, false);
-            ImageView weaponImageView = new ImageView(weaponImage);
-            weaponImageView.setFitWidth(90);
-            weaponImageView.setFitHeight(100);
-            weaponImageView.setRotate(90);
-            gridPane.add(weaponImageView, 0, i);
-        }*/
-
         for ( int i = 0; i <spot.getSpawnWeaponNames().size(); i++){
             Button button = new Button();
             rightWeaponButtons.add(button);
@@ -421,10 +383,9 @@ public class BoardGrid {
         gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
-
     }
 
-    private GridPane setUpKstBox(int votedSkulls) {
+    private GridPane setUpInitialKstBox(int votedSkulls){
 
         GridPane gridPane = new GridPane();
 
@@ -441,14 +402,6 @@ public class BoardGrid {
 
         ArrayList<Double> rowPercentages = new ArrayList<>();
         rowPercentages.add(100.00);
-
-        /*for ( int i = 0; i < votedSkulls; i++){
-            Image skullammoCardImage = new Image(skullPath, 0, 0, true, false);
-            ImageView skullammoCardImageView = new ImageView(skullammoCardImage);
-            skullammoCardImageView.setFitWidth(35);
-            skullammoCardImageView.setFitHeight(35);
-            gridPane.add(skullammoCardImageView, i, 0, 1, 1);
-        }*/
 
         for ( int i = 0; i < votedSkulls; i++){
             Image image = new Image(
@@ -472,10 +425,109 @@ public class BoardGrid {
         setGrid(gridPane, colPercentages, rowPercentages);
         gridPane.setGridLinesVisible(false);
 
+        return gridPane;
+    }
+
+    private GridPane setUpKstBox(int nSkulls) {
+
+        GridPane gridPane = new GridPane();
+
+        ArrayList<Double> colPercentages = new ArrayList<>();
+        colPercentages.add(10.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(11.000);
+        colPercentages.add(10.000);
+        colPercentages.add(14.000);
+
+        ArrayList<Double> rowPercentages = new ArrayList<>();
+        rowPercentages.add(100.00);
+
+        for ( int i = 0; i < nSkulls; i++) {
+
+            if (gameInfo.killShotTrack.getSkullList().get(i).equals("SKULL")) {
+                Image image = new Image(
+                        skullPath,
+                        0, 0,
+                        true, false
+                );
+
+                BackgroundImage backgroundImage = new BackgroundImage(
+                        image,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.DEFAULT,
+                        new BackgroundSize(1, 1, true, true, true, false)
+                );
+                Pane pane = new Pane();
+                pane.setBackground(new Background(backgroundImage));
+                gridPane.add(pane, i, 0);
+            } else{
+
+                String playerName = gameInfo.killShotTrack.getSkullList().get(i);
+                PlayerColor colorOfThisPlayer = playerColors.get(playerNames.indexOf(playerName));
+
+                //This means it's an overkill, i have to put two players drops on the skull spot
+                if ( gameInfo.killShotTrack.getIsOverkill().get(i)){
+
+                    GridPane overKillGridpane = new GridPane();
+
+                    ArrayList<Double> colPercentages1 = new ArrayList<>();
+                    colPercentages1.add(100.000);
+
+                    ArrayList<Double> rowPercentages1 = new ArrayList<>();
+                    rowPercentages1.add(50.000);
+                    rowPercentages1.add(50.000);
+
+                    for (int j = 0; j < 2; j++){
+                        Image image = new Image(
+                                "/graphics/drops/"+ colorOfThisPlayer.toString().toUpperCase()+".png",
+                                0, 0,
+                                true, false
+                        );
+
+                        BackgroundImage backgroundImage = new BackgroundImage(
+                                image,
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundPosition.DEFAULT,
+                                new BackgroundSize(1, 1, true, true, true, false)
+                        );
+                        Pane pane = new Pane();
+                        pane.setBackground(new Background(backgroundImage));
+                        overKillGridpane.add(pane, 0, j, 1, 1);
+                    }
+                    gridPane.add(overKillGridpane, i, 0, 1, 1);
+                }else {
+                    Image image = new Image(
+                            "/graphics/drops/"+ colorOfThisPlayer.toString().toUpperCase()+".png",
+                            0, 0,
+                            true, false
+                    );
+
+                    BackgroundImage backgroundImage = new BackgroundImage(
+                            image,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundPosition.DEFAULT,
+                            new BackgroundSize(1, 1, true, true, true, false)
+                    );
+                    Pane pane = new Pane();
+                    pane.setBackground(new Background(backgroundImage));
+                    gridPane.add(pane, i, 0, 1, 1);
+                }
+            }
+        }
+
+        setGrid(gridPane, colPercentages, rowPercentages);
+        gridPane.setGridLinesVisible(false);
+
         //gridPane.getStyleClass().add("visibleBorder");
 
         return gridPane;
-
     }
 
     private GridPane setUpPointsBox() {
