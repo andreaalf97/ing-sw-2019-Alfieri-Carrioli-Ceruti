@@ -1514,10 +1514,7 @@ public class Cli implements QuestionEventHandler {
 
             return;
         }
-
         remoteView.sendAnswerEvent(new ChooseHowToPayToReloadBeforeAttackAnswer(username, event.weaponToReload, chosenPayment, event.weaponsLoaded));
-
-
     }
 
     private int chooseAnswerWithNoResetOption(ArrayList<String> possibleAnswers) {

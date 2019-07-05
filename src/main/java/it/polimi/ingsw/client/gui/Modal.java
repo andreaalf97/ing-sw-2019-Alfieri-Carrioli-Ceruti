@@ -46,20 +46,19 @@ public class Modal {
 
     }
 
-    //this is called to ask coordinates for the movers, during an attack
-    public static void display(String message, PlayersInteractingSpace playersInteractingSpace){
+    //this is called to ask coordinates for the movers, during an attack or if a players wants to move before shooting
+    public static void display(PlayersInteractingSpace playersInteractingSpace){
 
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setMinWidth(300);
         window.setMinHeight(200);
-        Label label = new Label(message);
-        label.setStyle("-fx-text-fill: orange; -fx-font-size: 15");
 
         VBox vBox = new VBox(10);
         vBox.setSpacing(10);
 
         Label coordsLabel = new Label("Insert the coordinates in this format: x,y");
+        coordsLabel.setStyle("-fx-font-size: 15; -fx-color: orange");
         TextField coordsTextField = new TextField();
         Button okButton = new Button("OK");
 
