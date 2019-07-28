@@ -3,6 +3,9 @@
 ## Gruppo AM29
 
 ## How to start JARs
+
+You can find them under "Deliverables/Final Deadline/JARs"
+
 ### GUI.jar
 Just download it and use
 
