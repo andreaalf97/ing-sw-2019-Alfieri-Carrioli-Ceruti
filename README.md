@@ -2,6 +2,8 @@
 # Prova Finale Ingegneria del Software 2019
 ## Gruppo AM29
 
+This final project was made between March and July 2019 as our final thesis project at Politecnico di Milano. <br> Final score was 30 cum laude / 30 ( A+ )
+
 ## How to start JARs
 
 You can find them under "Deliverables/Final Deadline/JARs"
@@ -29,9 +31,9 @@ PATHTOJAVAFX is the path to JavaFX 12 (the lib folder!!) and changes depending o
 ### Testing persistence and reconnection
 When reconnecting, remember to vote for the same map the game was being played on before disconnection!
 
-- ###   10539026    Andrea Alfieri ([@andreaalf97](https://github.com/andreaalf97))<br>andrea1.alfieri@mail.polimi.it
-- ###   10568274    Amedeo Carrioli ([@meme97](https://github.com/meme97))<br>amedeo.carrioli@mail.polimi.it
-- ###   10557963    Andrea Ceruti ([@andreaceruti](https://github.com/andreaceruti))<br>andrea3.ceruti@mail.polimi.it
+- ###       Andrea Alfieri ([@andreaalf97](https://github.com/andreaalf97))
+- ###       Amedeo Carrioli ([@meme97](https://github.com/meme97))
+- ###       Andrea Ceruti ([@andreaceruti](https://github.com/andreaceruti))
 
 | Functionality | State |
 |:-----------------------|:------------------------------------:|
